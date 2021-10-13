@@ -16,6 +16,8 @@ use App\Http\Controllers\MiscellaneousController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ChartsController;
 
+use App\Http\Controllers\Remaps\CustomerController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -239,6 +241,9 @@ Route::get('/maps/leaflet', [ChartsController::class, 'maps_leaflet'])->name('ma
 // locale Route
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 
-Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Remaps
+Auth::routes();
+Route::group(['middleware' => 'auth'], function () {
+    Route::resource('customers', CustomerController::class);
+});

@@ -23,6 +23,17 @@
     },
 
     {
+      "navheader": "Functions",
+      "slug": ""
+    },
+    {
+      "url": "customers",
+      "name": "Customers",
+      "icon": "users",
+      "slug": "customers.index"
+    },
+
+    {
       "navheader": "Apps & Pages",
       "slug": ""
     },
