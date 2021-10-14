@@ -1,7 +1,7 @@
 
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'File Services')
+@section('title', 'Customers')
 
 @section('content')
 <!-- Basic Tables start -->
@@ -18,29 +18,23 @@
         <table class="table">
           <thead>
             <tr>
-              <th width="10%">Job No.</th>
-              <th width="20%">Car</th>
-              <th width="20%">License Plate</th>
-              <th width="15%">Created At</th>
-              <th width="20%">Actions</th>
+              <th width="20%">Name</th>
+              <th width="20%">Domain Link</th>
+              <th width="20%">Total Customers</th>
+              <th width="20%">Created At</th>
+              <th width="5%">Actions</th>
             </tr>
           </thead>
           <tbody>
-            @foreach ($entries as $e)
+            @foreach ($entries as $u)
               <tr>
-                  <td>{{ $e->displayable_id }}</td>
-                  <td>{{ $e->car }}</td>
-                  <td>{{ $e->license_plate }}</td>
-                  <td>{{ $e->created_at }}</td>
+                  <td>{{ $u->name }}</td>
+                  <td>{{ $u->domain_link }}</td>
+                  <td>{{ $u->total_customers }}</td>
+                  <td>{{ $u->created_at }}</td>
                   <td>
-                    <a class="btn btn-icon btn-success">
-                      <i data-feather="message-circle"></i>
-                    </a>
                     <a class="btn btn-icon btn-primary">
                       <i data-feather="edit"></i>
-                    </a>
-                    <a class="btn btn-icon btn-danger">
-                      <i data-feather="trash"></i>
                     </a>
                   </td>
               </tr>

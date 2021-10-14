@@ -198,4 +198,15 @@ return [
     "message" => "Cake sesame snaps cupcake gingerbread danish I love gingerbread. Apple pie pie jujubes chupa chups muffin halvah lollipop. Chocolate cake oat cake tiramisu marzipan sugar plum. Donut sweet pie oat cake dragée fruitcake cotton candy lemon drops.",
 
     "Customers" => "Customers",
+    "File Services" => "File Services",
+    "Support Tickets" => "Support Tickets",
+    "Orders" => "Orders",
+    "Transactions" => "Transactions",
+    "Email Templates" => "Email Templates",
+    "Tuning Credit Prices" => "Tuning Credit Prices",
+    "Tuning Types" => "Tuning Types",
+    "Manage Companies" => "Manage Companies",
+    "Packages" => "Packages",
+    "Company Settings" => "Company Settings",
+    "Browse Tuning Specs" => "Browse Tuning Specs",
 ];

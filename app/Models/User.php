@@ -110,7 +110,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
     public function tickets()
     {
-        return $this->hasMany('App\Models\Tickets', 'receiver_id');
+        return $this->hasMany('App\Models\Ticket', 'receiver_id');
     }
     public function fileServices()
     {

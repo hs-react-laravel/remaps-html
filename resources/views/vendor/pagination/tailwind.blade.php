@@ -1,6 +1,6 @@
 @if ($paginator->hasPages())
     <nav aria-label="Page navigation">
-        <ul class="pagination mt-2" style="float: right">
+        <ul class="pagination" style="float: right">
         {{-- Previous Page Link --}}
         @if ($paginator->onFirstPage())
             <li class="page-item prev"><a class="page-link disabled" aria-disabled="true"></a></li>
@@ -12,7 +12,7 @@
         @foreach ($elements as $element)
             {{-- "Three Dots" Separator --}}
             @if (is_string($element))
-                <li class="page-item prev"><a class="page-link disabled">{{ $element }}</a></li>
+                <li class="page-item"><a class="page-link disabled">{{ $element }}</a></li>
             @endif
 
             {{-- Array Of Links --}}

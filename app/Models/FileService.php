@@ -17,75 +17,32 @@ class FileService extends Model
     ];
 
 
-    /**
-     * Get the user that owns the file service.
-     */
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Models\User');
     }
-
-    /**
-     * Get the tuningType that owns the file service.
-     */
     public function tuningType()
     {
         return $this->belongsTo('App\Models\TuningType');
     }
-
-    /**
-     * The tuning type options that belong to the file service.
-     */
     public function tuningTypeOptions()
     {
         return $this->belongsToMany('App\Models\TuningTypeOption');
     }
-
-    /**
-     * The tuning type options that belong to the file service.
-     */
     public function Tickets()
     {
-        return $this->hasOne('App\Models\Tickets','file_servcie_id');
+        return $this->hasOne('App\Models\Ticket','file_servcie_id');
     }
 
-    /**
-     * Get the status attribute.
-     *
-     * @param  string  $value
-     * @return string
-     */
     public function getStatusAttribute($value) {
         return config('site.file_service_staus')[$value];
     }
-
-    /**
-     * Get the car attribute.
-     *
-     * @param  string  $value
-     * @return string
-     */
     public function getCarAttribute($value) {
         return $this->make.' '.$this->model.' '.$this->generation;
     }
-
-
-    /**
-     * Get the created at.
-     *
-     * @param  string  $value
-     * @return string
-     */
     public function getCreatedAtAttribute($value) {
         return \Carbon\Carbon::parse($value)->format('d M Y g:i A');
     }
-
-    /**
-     * Get the updated at.
-     *
-     * @param  string  $value
-     * @return string
-     */
     public function getUpdatedAtAttribute($value) {
         return \Carbon\Carbon::parse($value)->format('d M Y g:i A');
     }

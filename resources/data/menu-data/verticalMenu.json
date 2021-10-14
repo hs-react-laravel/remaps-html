@@ -32,7 +32,72 @@
       "icon": "users",
       "slug": "customers.index"
     },
-
+    {
+        "url": "fileservices",
+        "name": "File Services",
+        "icon": "file",
+        "slug": "fileservices.index"
+    },
+    {
+        "url": "tickets",
+        "name": "Support Tickets",
+        "icon": "message-circle",
+        "slug": "tickets.index"
+    },
+    {
+        "url": "orders",
+        "name": "Orders",
+        "icon": "file-text",
+        "slug": "orders.index"
+    },
+    {
+        "url": "transactions",
+        "name": "Transactions",
+        "icon": "credit-card",
+        "slug": "transactions.index"
+    },
+    {
+        "url": "email-templates",
+        "name": "Email Templates",
+        "icon": "mail",
+        "slug": "email-templates.index"
+    },
+    {
+        "url": "tuning-credit",
+        "name": "Tuning Credit Prices",
+        "icon": "dollar-sign",
+        "slug": "tuning-credit.index"
+    },
+    {
+        "url": "tuning-type",
+        "name": "Tuning Types",
+        "icon": "columns",
+        "slug": "tuning-type.index"
+    },
+    {
+        "url": "companies",
+        "name": "Manage Companies",
+        "icon": "database",
+        "slug": "companies.index"
+    },
+    {
+        "url": "packages",
+        "name": "Packages",
+        "icon": "package",
+        "slug": "packages.index"
+    },
+    {
+        "url": "company-settings",
+        "name": "Company Settings",
+        "icon": "settings",
+        "slug": "company-settings"
+    },
+    {
+        "url": "cars",
+        "name": "Browse Tuning Specs",
+        "icon": "search",
+        "slug": "cars.index"
+    },
     {
       "navheader": "Apps & Pages",
       "slug": ""

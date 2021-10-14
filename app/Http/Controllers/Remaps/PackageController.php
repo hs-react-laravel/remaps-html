@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Remaps;
 
 use Illuminate\Http\Request;
+use App\Models\Package;
 
-class FileServiceController extends Controller
+class PackageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,6 +15,10 @@ class FileServiceController extends Controller
     public function index()
     {
         //
+        $entries = Package::orderBy('id', 'DESC')->get();
+        return view('pages.package.index', [
+            'entries' => $entries
+        ]);
     }
 
     /**

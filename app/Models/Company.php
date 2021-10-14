@@ -69,97 +69,46 @@ class Company extends Model
         'open_check'
     ];
 
-    /**
-     * Get the user that owns the company.
-    */
     public function users()
     {
-        return $this->hasMany('App\User');
+        return $this->hasMany('App\Models\User');
     }
-
-    /**
-     * Get the user that owns the company.
-    */
     public function owner()
     {
-        return $this->hasOne('App\User')->where('is_admin', 1);
+        return $this->hasOne('App\Models\User')->where('is_admin', 1);
     }
+    public function emailTemplates()
+    {
+        return $this->hasMany('App\Models\EmailTemplate');
+    }
+    public function tuningTypes()
+    {
+        return $this->hasMany('App\Models\TuningType');
+    }
+    public function tuningCreditTires()
+    {
+        return $this->hasMany('App\Models\TuningCreditTire');
+    }
+    public function tuningCreditGroups()
+    {
+        return $this->hasMany('App\Models\TuningCreditGroup');
+    }
+	public function tuningCreditGroupsSelected()
+    {
+        return $this->hasMany('App\Models\TuningCreditGroup');
+    }
+    public function getCreatedAtAttribute($value) {
+        return \Carbon\Carbon::parse($value)->format('d M Y g:i A');
+    }
+    public function getTotalCustomersAttribute($value) {
+        if(!$this->users()){
+            return 0;
+        }else{
+            return $this->users()->where('is_master', 0)->where('is_admin', 0)->count();
+        }
 
-    /**
-     * Get the email tempaltes that owns the company.
-    */
-    // public function emailTemplates()
-    // {
-    //     return $this->hasMany('App\Models\EmailTemplate');
-    // }
-
-    // /**
-    //  * Get the tuning type that owns the company.
-    // */
-    // public function tuningTypes()
-    // {
-    //     return $this->hasMany('App\Models\TuningType');
-    // }
-
-    // /**
-    //  * Get the tuning credit tire that owns the company.
-    // */
-    // public function tuningCreditTires()
-    // {
-    //     return $this->hasMany('App\Models\TuningCreditTire');
-    // }
-
-    // /**
-    //  * Get the tuning credit group that owns the company.
-    // */
-    // public function tuningCreditGroups()
-    // {
-    //     return $this->hasMany('App\Models\TuningCreditGroup');
-    // }
-
-	// public function tuningCreditGroupsSelected()
-    // {
-    //     return $this->hasMany('App\Models\TuningCreditGroup');
-    // }
-
-    // /**
-    //  * Get the created at.
-    //  *
-    //  * @param  string  $value
-    //  * @return string
-    //  */
-    // public function getCreatedAtAttribute($value) {
-    //     return \Carbon\Carbon::parse($value)->format('d M Y g:i A');
-    // }
-
-
-    // /**
-    //  * Get the total Customers.
-    //  *
-    //  * @param  string  $value
-    //  * @return string
-    //  */
-    // public function getTotalCustomersAttribute($value) {
-    //     if(!$this->users()){
-    //         return 0;
-    //     }else{
-    //         return $this->users()->where('is_master', 0)->where('is_admin', 0)->count();
-    //     }
-
-    // }
-
-    // /**
-    //  * Get the updated at.
-    //  *
-    //  * @param  string  $value
-    //  * @return string
-    //  */
-    // public function getUpdatedAtAttribute($value) {
-    //     return \Carbon\Carbon::parse($value)->format('d M Y g:i A');
-    // }
-
-    //  /**
-    //  * Check that user has domain link and email address.
-    //  */
-
+    }
+    public function getUpdatedAtAttribute($value) {
+        return \Carbon\Carbon::parse($value)->format('d M Y g:i A');
+    }
 }

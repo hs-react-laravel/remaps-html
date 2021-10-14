@@ -37,9 +37,6 @@
                   <td>{{ $u->fileServicesCount }}</td>
                   <td>{{ $u->lastLoginDiff }}</td>
                   <td>
-                    <a class="btn btn-icon btn-primary">
-                      <i data-feather="edit"></i>
-                    </a>
                     <a class="btn btn-icon btn-success">
                       <i data-feather="file-text"></i>
                     </a>
@@ -52,6 +49,9 @@
                     <a class="btn btn-icon btn-success">
                       <i data-feather="mail"></i>
                     </a>
+                    <a class="btn btn-icon btn-primary">
+                      <i data-feather="edit"></i>
+                    </a>
                     <a class="btn btn-icon btn-danger">
                       <i data-feather="trash"></i>
                     </a>
@@ -62,8 +62,8 @@
         </table>
       </div>
     </div>
+    {{ $users->links() }}
   </div>
 </div>
-{{ $users->links() }}
 <!-- Basic Tables end -->
 @endsection

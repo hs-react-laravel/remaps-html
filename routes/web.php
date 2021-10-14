@@ -17,6 +17,13 @@ use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ChartsController;
 
 use App\Http\Controllers\Remaps\CustomerController;
+use App\Http\Controllers\Remaps\FileServiceController;
+use App\Http\Controllers\Remaps\TicketController;
+use App\Http\Controllers\Remaps\OrderController;
+use App\Http\Controllers\Remaps\TransactionController;
+use App\Http\Controllers\Remaps\EmailTemplateController;
+use App\Http\Controllers\Remaps\CompanyController;
+use App\Http\Controllers\Remaps\PackageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +35,24 @@ use App\Http\Controllers\Remaps\CustomerController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+// Remaps
+Auth::routes();
+Route::group(['middleware' => 'auth'], function () {
+    Route::resource('customers', CustomerController::class);
+    Route::resource('fileservices', FileServiceController::class);
+    Route::resource('tickets', TicketController::class);
+    Route::resource('orders', OrderController::class);
+    Route::resource('transactions', TransactionController::class);
+    Route::resource('email-templates', EmailTemplateController::class);
+    Route::resource('companies', CompanyController::class);
+    Route::resource('packages', PackageController::class);
+});
+
+Route::get('/passwordtest', function () {
+    dd(Hash::make('aaa'));
+});
+
 
 // Main Page Route
 Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard-ecommerce');
@@ -240,10 +265,3 @@ Route::get('/maps/leaflet', [ChartsController::class, 'maps_leaflet'])->name('ma
 
 // locale Route
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
-
-
-// Remaps
-Auth::routes();
-Route::group(['middleware' => 'auth'], function () {
-    Route::resource('customers', CustomerController::class);
-});
