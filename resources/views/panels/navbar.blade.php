@@ -90,7 +90,7 @@
       </a>
       <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-flag">
         <a class="dropdown-item" href="{{ url('lang/en') }}" data-language="en">
-          <i class="flag-icon flag-icon-us"></i> English
+          <i class="flag-icon flag-icon-gb"></i> English
         </a>
         <a class="dropdown-item" href="{{ url('lang/fr') }}" data-language="fr">
           <i class="flag-icon flag-icon-fr"></i> French

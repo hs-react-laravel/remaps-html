@@ -21,6 +21,8 @@ class Controller extends BaseController
                 $this->company = $this->user->company;
                 $this->user->last_login = \Carbon\Carbon::now()->format('Y-m-d H:i:s');
                 $this->user->save();
+                view()->share('user', $this->user);
+                view()->share('company', $this->company);
             }
             return $next($request);
         });

@@ -1,0 +1,10 @@
+.openhours_sidebar_wrapper {
+  padding: 5px 30px;
+  font-size: 13px;
+}
+.openhours_sidebar_day {
+  margin-left: 5px;
+}
+.openhours_sidebar_time {
+  float: right;
+}

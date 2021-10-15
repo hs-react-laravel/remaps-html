@@ -23,6 +23,7 @@ use App\Http\Controllers\Remaps\OrderController;
 use App\Http\Controllers\Remaps\TransactionController;
 use App\Http\Controllers\Remaps\EmailTemplateController;
 use App\Http\Controllers\Remaps\CompanyController;
+use App\Http\Controllers\Remaps\CompanySettingController;
 use App\Http\Controllers\Remaps\PackageController;
 
 /*
@@ -47,6 +48,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('email-templates', EmailTemplateController::class);
     Route::resource('companies', CompanyController::class);
     Route::resource('packages', PackageController::class);
+
+    Route::get('company-settings', [CompanySettingController::class, 'company_setting'])->name('company.setting');
+    Route::post('company-settings-update', [CompanySettingController::class, 'store'])->name('company.setting.store');
 });
 
 Route::get('/passwordtest', function () {

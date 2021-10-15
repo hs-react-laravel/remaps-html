@@ -41,7 +41,7 @@ data-asset-path="{{ asset('/')}}">
     <div class="content-wrapper {{ $configData['layoutWidth'] === 'boxed' ? 'container-xxl p-0' : '' }}">
       {{-- Include Breadcrumb --}}
       @if($configData['pageHeader'] === true && isset($configData['pageHeader']))
-      @include('panels.breadcrumb')
+      {{-- @include('panels.breadcrumb') --}}
       @endif
 
       <div class="content-body">
@@ -56,10 +56,10 @@ data-asset-path="{{ asset('/')}}">
 
   @if($configData['blankPage'] == false && isset($configData['blankPage']))
   <!-- BEGIN: Customizer-->
-  @include('content/pages/customizer')
+  {{-- @include('content/pages/customizer') --}}
   <!-- End: Customizer-->
   <!-- Buynow Button-->
-  @include('content/pages/buy-now')
+  {{-- @include('content/pages/buy-now') --}}
   @endif
 
   <div class="sidenav-overlay"></div>
