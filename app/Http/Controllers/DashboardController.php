@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Remaps\Controller;
 
 class DashboardController extends Controller
 {
