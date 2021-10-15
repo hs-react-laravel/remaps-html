@@ -8,12 +8,12 @@
 <div class="row" id="basic-table">
   <div class="col-12">
     <div class="card">
-      {{-- <div class="card-header">
-        <h4 class="card-title">Table Basic</h4>
+      <div class="card-header">
+        <h4 class="card-title">Customers</h4>
+        <a href="{{ route('customers.create') }}" class="btn btn-icon btn-primary">
+          <i data-feather="user-plus"></i>
+        </a>
       </div>
-      <div class="card-body">
-        <p class="card-text"></p>
-      </div> --}}
       <div class="table-responsive">
         <table class="table">
           <thead>
@@ -49,7 +49,7 @@
                     <a class="btn btn-icon btn-success">
                       <i data-feather="mail"></i>
                     </a>
-                    <a class="btn btn-icon btn-primary">
+                    <a class="btn btn-icon btn-primary" href="{{ url('/customers/'.$u->id.'/edit') }}">
                       <i data-feather="edit"></i>
                     </a>
                     <a class="btn btn-icon btn-danger">
