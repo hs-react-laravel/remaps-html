@@ -9,7 +9,7 @@
 
 // Contest margin left for expanded & collapsed stats width & margin left
 // ================================================================================================
-
+@use 'sass:math';
 @import '../mixins/main-menu-mixin';
 
 html {
@@ -83,7 +83,7 @@ html {
         transition: all 0.3s ease;
         opacity: 1;
         background-color: rgba($black, 0.2);
-        border-radius: $border-radius/2;
+        border-radius: math.div($border-radius, 2);
       }
     }
     .content-wrapper {

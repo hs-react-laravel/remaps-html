@@ -10,7 +10,7 @@
 // (c) = are custom variables for vuexy template
 
 // Color system
-
+@use 'sass:math';
 $white: #fff !default;
 $gray-50: #f6f6f6 !default;
 $gray-100: #babfc7 !default; // $gray-lightest
@@ -460,7 +460,7 @@ $card-cap-bg: transparent !default;
 
 $card-img-overlay-padding: $spacer !default;
 
-$card-group-margin: $grid-gutter-width / 2 !default;
+$card-group-margin: math.div($grid-gutter-width, 2) !default;
 
 // Accordion
 $accordion-padding-x: 1rem !default;

@@ -11,8 +11,7 @@
 @section('content')
 
 <section id="basic-input">
-  <form action="{{ route('customers.store') }}" method="post">
-    @csrf
+    {{ Form::model($customer, array('route' => array('customers.update', $customer->id), 'method' => 'PUT')) }}
     <div class="row">
       <div class="col-md-12">
         <div class="card">
@@ -123,7 +122,7 @@
     <div class="col-12">
       <button type="submit" class="btn btn-primary me-1">Submit</button>
     </div>
-  </form>
+  {{ Form::close() }}
 </section>
 
 @endsection
