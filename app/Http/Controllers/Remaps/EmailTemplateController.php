@@ -62,7 +62,8 @@ class EmailTemplateController extends Controller
      */
     public function edit($id)
     {
-        //
+        $entry = EmailTemplate::find($id);
+        return view('pages.email-templates.edit', ['entry' => $entry]);
     }
 
     /**
@@ -74,7 +75,9 @@ class EmailTemplateController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $entry = EmailTemplate::find($id);
+        $entry->update($request->all());
+        return redirect(route('email-templates.index'));
     }
 
     /**

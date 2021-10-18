@@ -77,7 +77,7 @@
     {
         "url": "companies",
         "name": "Manage Companies",
-        "icon": "database",
+        "icon": "layers",
         "slug": "companies.index"
     },
     {

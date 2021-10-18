@@ -8,12 +8,9 @@
 <div class="row" id="basic-table">
   <div class="col-12">
     <div class="card">
-      {{-- <div class="card-header">
-        <h4 class="card-title">Table Basic</h4>
+      <div class="card-header">
+        <h4 class="card-title">Email Templates</h4>
       </div>
-      <div class="card-body">
-        <p class="card-text"></p>
-      </div> --}}
       <div class="table-responsive">
         <table class="table">
           <thead>
@@ -31,7 +28,7 @@
                   <td>{{ $u->subject }}</td>
                   <td>{{ $u->created_at }}</td>
                   <td>
-                    <a class="btn btn-icon btn-primary">
+                    <a class="btn btn-icon btn-primary" href="{{ url('/email-templates/'.$u->id.'/edit') }}">
                       <i data-feather="edit"></i>
                     </a>
                   </td>
