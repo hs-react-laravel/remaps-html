@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Remaps;
 
 use Illuminate\Http\Request;
 use App\Models\Order;
+use Dompdf\Dompdf;
 
 class OrderController extends Controller
 {
@@ -88,5 +89,22 @@ class OrderController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function invoice($id){
+        try{
+            $order = Order::find($id);
+            $pdf = new Dompdf;
+            $invoiceName = 'invoice_'.$order->displayable_id.'.pdf';
+
+            $pdf->loadHtml(
+                view('pdf.invoice')->with(['order'=>$order, 'company'=>$this->company])->render()
+            );
+            $pdf->setPaper('A4', 'landscape');
+            $pdf->render();
+            return $pdf->stream($invoiceName);
+        }catch(\Exception $e){
+            // \Alert::error(__('admin.opps'))->flash();
+            return redirect(url('admin/order'));
+        }
     }
 }

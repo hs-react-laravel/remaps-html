@@ -52,6 +52,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('company-settings', [CompanySettingController::class, 'company_setting'])->name('company.setting');
     Route::post('company-settings-update', [CompanySettingController::class, 'store'])->name('company.setting.store');
 
+    Route::get('/orders/{id}/invoice', [OrderController::class, 'invoice'])->name('order.invoice');
+
     // Main Page Route
     Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard-ecommerce');
 
