@@ -50,10 +50,10 @@ return [
     ],
 
     'file_service_staus'=>[
+        'P'=>'Upload Pending',
         'O'=>'Open',
         'W'=>'Waiting',
         'C'=>'Completed',
-        'P'=>'Upload Pending',
     ],
 
     'file_service_gearbox'=>[

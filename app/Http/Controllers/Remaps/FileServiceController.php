@@ -63,7 +63,8 @@ class FileServiceController extends Controller
      */
     public function edit($id)
     {
-        //
+        $fs = FileService::find($id);
+        return view('pages.fileservice.edit', ['fileService' => $fs]);
     }
 
     /**
@@ -75,7 +76,9 @@ class FileServiceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $fs = FileService::find($id);
+        $fs->update($request->all());
+        return redirect(route('fileservices.index'));
     }
 
     /**

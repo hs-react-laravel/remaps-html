@@ -35,7 +35,7 @@ class FileService extends Model
     }
 
     public function getStatusAttribute($value) {
-        return config('site.file_service_staus')[$value];
+        return config('constants.file_service_staus')[$value];
     }
     public function getCarAttribute($value) {
         return $this->make.' '.$this->model.' '.$this->generation;
