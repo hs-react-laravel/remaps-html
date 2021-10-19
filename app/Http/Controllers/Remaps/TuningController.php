@@ -132,4 +132,23 @@ class TuningController extends Controller
         ]);
         return redirect(route('tuning-credits.index'));
     }
+
+    public function delete_tire($id)
+    {
+        $tire = TuningCreditTire::find($id);
+        $tire->delete();
+        return redirect(route('tuning-credits.index'));
+    }
+
+    public function add_tire()
+    {
+        return view('pages.tuning-credits.add_tire');
+    }
+
+    public function store_tire(Request $request)
+    {
+        $request->request->add(['company_id'=> $this->company->id, 'group_type' => 'normal']);
+        TuningCreditTire::create($request->all());
+        return redirect(route('tuning-credits.index'));
+    }
 }

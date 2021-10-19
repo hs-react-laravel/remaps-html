@@ -6,6 +6,9 @@
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/animate/animate.min.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/sweetalert2.min.css')) }}">
 @endsection
+@section('page-style')
+  <link rel="stylesheet" href="{{asset(mix('css/base/plugins/extensions/ext-component-sweet-alerts.css'))}}">
+@endsection
 @section('content')
 <!-- Basic Tables start -->
 <div class="row" id="basic-table">
@@ -14,7 +17,7 @@
       <div class="card-header">
         <h4 class="card-title">Tuning Credits</h4>
         <div>
-          <a href="{{ route('tuning-credits.create') }}" class="btn btn-icon btn-primary" style="float: right">
+          <a href="{{ route('tuning-tires.create') }}" class="btn btn-icon btn-primary" style="float: right">
             <i data-feather="plus"></i> Tire
           </a>
           <a href="{{ route('tuning-credits.create') }}" class="btn btn-icon btn-primary" style="float: right; margin-right: 20px">
@@ -29,7 +32,13 @@
             <tr>
               <th>Group</th>
               @foreach ($tires as $tire)
-                <th>{{ $tire->amount }} Credits <br><a href="">remove {{ $tire->amount }} Credits</a></th>
+              <th class="th-tires">{{ $tire->amount }} Credits <br>
+                <a href="#" onclick="onDeleteTire(this)">remove {{ $tire->amount }} Credits</a>
+                <form action="{{ route('tuning-tires.destroy', $tire->id) }}" class="delete-tire-form" method="POST" style="display:none">
+                  <input type="hidden" name="_method" value="DELETE">
+                  <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                </form>
+              </th>
               @endforeach
               <th>Action</th>
             </tr>
@@ -37,18 +46,18 @@
           <tbody>
             @foreach ($entries as $entry)
               <tr>
-                <td>{{ $entry->name }}</td>
+                <td @if($entry->set_default_tier) style="font-weight: bold" @endif">{{ $entry->name }}</td>
                 @foreach ($tires as $tire)
                   @php
                     $groupCreditTire = $tire->tuningCreditGroups()->where('tuning_credit_group_id', $entry->id)->withPivot('from_credit', 'for_credit')->first();
                   @endphp
-                  <td>
+                  <td @if($entry->set_default_tier) style="font-weight: bold" @endif">
                     {{ config('constants.currency_sign') }} {{ number_format(@$groupCreditTire->pivot->from_credit, 2) }}
                     ->
                     {{ config('constants.currency_sign') }} {{ number_format(@$groupCreditTire->pivot->for_credit, 2) }}
                   </td>
                 @endforeach
-                <td class="td-actions">
+                <td class="td-actions" @if($entry->set_default_tier) style="font-weight: bold" @endif">
                   <a
                     class="btn btn-icon @if($entry->set_default_tier) btn-dark @else btn-success @endif"
                     href="{{ url('/tuning-credits/'.$entry->id.'/default') }}">
@@ -81,6 +90,25 @@
 <script>
   async function onDelete(obj) {
     var delete_form = $(obj).closest('.td-actions').children('.delete-form')
+    var swal_result = await Swal.fire({
+      title: 'Warning!',
+      text: 'Are you sure to delete?',
+      icon: 'warning',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-outline-danger ms-1'
+      },
+      showCancelButton: true,
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancel',
+      buttonsStyling: false
+    });
+    if (swal_result.isConfirmed) {
+      delete_form.submit();
+    }
+  }
+  async function onDeleteTire(obj) {
+    var delete_form = $(obj).closest('.th-tires').children('.delete-tire-form')
     var swal_result = await Swal.fire({
       title: 'Warning!',
       text: 'Are you sure to delete?',

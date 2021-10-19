@@ -61,6 +61,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('tuning-credits', TuningController::class);
     Route::get('tuning-credits/{id}/default', [TuningController::class, 'set_default']);
+    Route::delete('tuning-tires/{id}/delete', [TuningController::class, 'delete_tire'])->name('tuning-tires.destroy');
+    Route::get('tuning-tires/create', [TuningController::class, 'add_tire'])->name('tuning-tires.create');
+    Route::post('tuning-tires/store', [TuningController::class, 'store_tire'])->name('tuning-tires.store');;
 
     // Main Page Route
     Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard-ecommerce');
