@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Remaps;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\TuningCreditGroup;
+use Illuminate\Support\Facades\Auth;
 
 class CustomerController extends Controller
 {
@@ -132,5 +133,46 @@ class CustomerController extends Controller
         $customer = User::find($id);
         $customer->delete();
         return redirect(route('customers.index'));
+    }
+
+    public function fileServices($id)
+    {
+        try{
+            $user = User::find($id);
+            if($this->company->id != $user->company->id){
+                abort(403, __('admin.no_permission'));
+            }
+            $entries = $user->fileServices()->orderBy('id', 'DESC')->paginate(20);
+            return view('pages.fileservice.index', ['entries' => $entries]);
+        }catch(\Exception $e){
+            \Alert::error(__('admin.opps'))->flash();
+            return redirect(route('customers.index'));
+        }
+    }
+
+    public function switchAccount($id)
+    {
+        try{
+            $user = User::find($id);
+            Auth::login($user);
+            return redirect()->away(url('/dashboard'));
+        }catch(\Exception $e){
+            \Alert::error(__('admin.opps'))->flash();
+            return redirect(url('admin/customer'));
+        }
+    }
+
+    public function transactions($id){
+        try{
+            $user = User::find($id);
+            if($this->company->id != $user->company->id){
+                abort(403, __('admin.no_permission'));
+            }
+            $entries = $user->transactions()->orderBy('id', 'DESC')->paginate(20);
+            return view('pages.transaction.index', ['entries' => $entries]);
+        }catch(\Exception $e){
+            \Alert::error(__('admin.opps'))->flash();
+            return redirect(route('customers.index'));
+        }
     }
 }

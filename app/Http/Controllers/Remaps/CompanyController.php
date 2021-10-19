@@ -61,7 +61,10 @@ class CompanyController extends Controller
      */
     public function edit($id)
     {
-        //
+        $entry = Company::find($id);
+        return view('pages.company.edit', [
+            'entry' => $entry
+        ]);
     }
 
     /**
@@ -73,7 +76,9 @@ class CompanyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $entry = Company::find($id);
+        $entry->update($request->all());
+        return redirect(route('companies.index'));
     }
 
     /**

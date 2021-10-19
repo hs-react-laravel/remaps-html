@@ -46,13 +46,13 @@
                   <td>{{ $u->fileServicesCount }}</td>
                   <td>{{ $u->lastLoginDiff }}</td>
                   <td class="td-actions">
-                    <a class="btn btn-icon btn-success">
+                    <a class="btn btn-icon btn-success" href="{{ url('/customers/'.$u->id.'/file-services') }}">
                       <i data-feather="file-text"></i>
                     </a>
-                    <a class="btn btn-icon btn-success">
+                    <a class="btn btn-icon btn-success" href="{{ url('/customers/'.$u->id.'/switch-account') }}">
                       <i data-feather="user"></i>
                     </a>
-                    <a class="btn btn-icon btn-success">
+                    <a class="btn btn-icon btn-success" href="{{ url('/customers/'.$u->id.'/transactions') }}">
                       <i data-feather="credit-card"></i>
                     </a>
                     <a class="btn btn-icon btn-success">

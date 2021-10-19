@@ -40,10 +40,8 @@ use App\Http\Controllers\Remaps\PackageController;
 // Remaps
 Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
-    Route::resource('customers', CustomerController::class);
     Route::resource('fileservices', FileServiceController::class);
     Route::resource('tickets', TicketController::class);
-    Route::resource('orders', OrderController::class);
     Route::resource('transactions', TransactionController::class);
     Route::resource('email-templates', EmailTemplateController::class);
     Route::resource('companies', CompanyController::class);
@@ -52,7 +50,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('company-settings', [CompanySettingController::class, 'company_setting'])->name('company.setting');
     Route::post('company-settings-update', [CompanySettingController::class, 'store'])->name('company.setting.store');
 
+    Route::resource('orders', OrderController::class);
     Route::get('/orders/{id}/invoice', [OrderController::class, 'invoice'])->name('order.invoice');
+
+    Route::resource('customers', CustomerController::class);
+    Route::get('customers/{id}/file-services',[CustomerController::class, 'fileServices']);
+    Route::get('customers/{id}/transactions',[CustomerController::class, 'transactions']);
+    Route::get('customers/{id}/switch-account',[CustomerController::class, 'switchAccount']);
 
     // Main Page Route
     Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard-ecommerce');
@@ -268,6 +272,6 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::get('/passwordtest', function () {
-    dd(Hash::make('aaa'));
+    dd(Hash::make('abc'));
 });
 
