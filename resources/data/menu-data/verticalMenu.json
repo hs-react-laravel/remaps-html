@@ -63,10 +63,10 @@
         "slug": "email-templates.index"
     },
     {
-        "url": "tuning-credit",
+        "url": "tuning-credits",
         "name": "Tuning Credit Prices",
         "icon": "dollar-sign",
-        "slug": "tuning-credit.index"
+        "slug": "tuning-credits.index"
     },
     {
         "url": "tuning-type",

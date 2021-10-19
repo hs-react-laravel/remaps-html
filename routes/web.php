@@ -25,6 +25,7 @@ use App\Http\Controllers\Remaps\EmailTemplateController;
 use App\Http\Controllers\Remaps\CompanyController;
 use App\Http\Controllers\Remaps\CompanySettingController;
 use App\Http\Controllers\Remaps\PackageController;
+use App\Http\Controllers\Remaps\TuningController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,6 +58,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('customers/{id}/file-services',[CustomerController::class, 'fileServices']);
     Route::get('customers/{id}/transactions',[CustomerController::class, 'transactions']);
     Route::get('customers/{id}/switch-account',[CustomerController::class, 'switchAccount']);
+
+    Route::resource('tuning-credits', TuningController::class);
 
     // Main Page Route
     Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard-ecommerce');
