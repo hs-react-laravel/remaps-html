@@ -17,31 +17,42 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">Transactions</h4>
+        <h4 class="card-title">Tuning Types</h4>
       </div>
       <div class="table-responsive">
         <table class="table">
           <thead>
             <tr>
-              <th width="20%">Description</th>
-              <th width="10%">Credits</th>
-              <th width="10%">Status</th>
-              <th width="10%">Date</th>
-              <th width="10%">Actions</th>
+              <th>Label</th>
+              <th>Credits</th>
+              <th>Tuning Options</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            @foreach ($entries as $e)
+            @foreach ($entries as $entry)
               <tr>
-                <td>{{ $e->description }}</td>
-                <td>{{ $e->credits_with_type }}</td>
-                <td>{{ $e->status }}</td>
-                <td>{{ $e->created_at }}</td>
+                <td>{{ $entry->label }}</td>
+                <td>{{ $entry->credits }}</td>
                 <td>
+                  <a href="{{ url('/tuning-types/'.$entry->id.'/options') }}">
+                    {{ $entry->tuningTypeOptions()->count() }} tuning options
+                  </a>
+                </td>
+                <td>
+                  <a class="btn btn-icon btn-success">
+                    <i data-feather="arrow-up"></i>
+                  </a>
+                  <a class="btn btn-icon btn-success">
+                    <i data-feather="arrow-down"></i>
+                  </a>
+                  <a class="btn btn-icon btn-primary" href="{{ url('/tuning-types/'.$entry->id.'/edit') }}">
+                    <i data-feather="edit"></i>
+                  </a>
                   <a class="btn btn-icon btn-danger" onclick="onDelete(this)">
                     <i data-feather="trash-2"></i>
                   </a>
-                  <form action="{{ route('transactions.destroy', $e->id) }}" class="delete-form" method="POST" style="display:none">
+                  <form action="{{ route('transactions.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
                     <input type="hidden" name="_method" value="DELETE">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                   </form>

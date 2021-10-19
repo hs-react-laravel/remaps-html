@@ -66,7 +66,7 @@
                   <a class="btn btn-icon btn-primary" href="{{ url('/tuning-credits/'.$entry->id.'/edit') }}">
                     <i data-feather="edit"></i>
                   </a>
-                  <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}"><i data-feather="trash"></i></a>
+                  <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}"><i data-feather="trash-2"></i></a>
                   <form action="{{ route('tuning-credits.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
                     <input type="hidden" name="_method" value="DELETE">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">

@@ -51,7 +51,7 @@
                     <a class="btn btn-icon btn-primary" href="{{ url('/companies/'.$u->id.'/edit') }}">
                       <i data-feather="edit"></i>
                     </a>
-                    <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $u->id }}"><i data-feather="trash"></i></a>
+                    <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $u->id }}"><i data-feather="trash-2"></i></a>
                   </td>
               </tr>
             @endforeach

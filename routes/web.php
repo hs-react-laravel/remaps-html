@@ -26,6 +26,7 @@ use App\Http\Controllers\Remaps\CompanyController;
 use App\Http\Controllers\Remaps\CompanySettingController;
 use App\Http\Controllers\Remaps\PackageController;
 use App\Http\Controllers\Remaps\TuningController;
+use App\Http\Controllers\Remaps\TuningTypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,6 +66,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('tuning-tires/create', [TuningController::class, 'add_tire'])->name('tuning-tires.create');
     Route::post('tuning-tires/store', [TuningController::class, 'store_tire'])->name('tuning-tires.store');;
 
+    Route::resource('tuning-types', TuningTypeController::class);
     // Main Page Route
     Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard-ecommerce');
 

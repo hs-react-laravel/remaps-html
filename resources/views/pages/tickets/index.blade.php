@@ -37,7 +37,7 @@
                     <i data-feather="edit"></i>
                   </a>
                   <a class="btn btn-icon btn-danger">
-                    <i data-feather="trash"></i>
+                    <i data-feather="trash-2"></i>
                   </a>
                 </td>
               </tr>

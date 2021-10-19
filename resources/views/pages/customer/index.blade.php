@@ -61,7 +61,7 @@
                     <a class="btn btn-icon btn-primary" href="{{ url('/customers/'.$u->id.'/edit') }}">
                       <i data-feather="edit"></i>
                     </a>
-                    <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $u->id }}"><i data-feather="trash"></i></a>
+                    <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $u->id }}"><i data-feather="trash-2"></i></a>
                     <form action="{{ route('customers.destroy', $u->id) }}" class="delete-form" method="POST" style="display:none">
                       <input type="hidden" name="_method" value="DELETE">
                       <input type="hidden" name="_token" value="{{ csrf_token() }}">

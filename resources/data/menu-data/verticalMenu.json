@@ -69,10 +69,10 @@
         "slug": "tuning-credits.index"
     },
     {
-        "url": "tuning-type",
+        "url": "tuning-types",
         "name": "Tuning Types",
         "icon": "columns",
-        "slug": "tuning-type.index"
+        "slug": "tuning-types.index"
     },
     {
         "url": "companies",
