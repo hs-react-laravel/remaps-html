@@ -13,7 +13,7 @@ class TuningCreditGroup extends Model
      * @var array
      */
     protected $fillable = [
-        'company_id', 'name', 'is_default', 'group_type'
+        'company_id', 'name', 'is_default', 'group_type', 'set_default_tier'
     ];
 
 

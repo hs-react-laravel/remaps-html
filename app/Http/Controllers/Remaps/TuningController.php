@@ -36,7 +36,11 @@ class TuningController extends Controller
      */
     public function create()
     {
-        //
+        $tires = TuningCreditTire::where('company_id', $this->user->company_id)
+            ->where('group_type', 'normal')
+            ->orderBy('amount', 'ASC')
+            ->get();
+        return view('pages.tuning-credits.create', ['tires' => $tires]);
     }
 
     /**
@@ -47,7 +51,13 @@ class TuningController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->request->add(['company_id'=> $this->company->id]);
+        $request->request->add(['group_type'=> 'normal']);
+        $tuningCreditGroup = TuningCreditGroup::create($request->all());
+        if($request->has('credit_tires')){
+            $tuningCreditGroup->tuningCreditTires()->sync($request->credit_tires);
+        }
+        return redirect(route('tuning-credits.index'));
     }
 
     /**
@@ -69,7 +79,15 @@ class TuningController extends Controller
      */
     public function edit($id)
     {
-
+        $group = TuningCreditGroup::find($id);
+        $tires = TuningCreditTire::where('company_id', $this->user->company_id)
+            ->where('group_type', 'normal')
+            ->orderBy('amount', 'ASC')
+            ->get();
+        return view('pages.tuning-credits.edit', [
+            'entry' => $group,
+            'tires' => $tires,
+        ]);
     }
 
     /**
@@ -81,7 +99,12 @@ class TuningController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        $tuningCreditGroup = TuningCreditGroup::find($id);
+        $tuningCreditGroup->update($request->all());
+        if($request->has('credit_tires')){
+            $tuningCreditGroup->tuningCreditTires()->sync($request->credit_tires);
+        }
+        return redirect(route('tuning-credits.index'));
     }
 
     /**
@@ -92,6 +115,21 @@ class TuningController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $tuningCreditGroup = TuningCreditGroup::find($id);
+        $tuningCreditGroup->delete();
+        return redirect(route('tuning-credits.index'));
+    }
+
+    public function set_default($id)
+    {
+        TuningCreditGroup::where('company_id', $this->user->company_id)
+            ->where('group_type', 'normal')
+            ->update([
+                'set_default_tier' => 0
+            ]);
+        TuningCreditGroup::find($id)->update([
+            'set_default_tier' => 1
+        ]);
+        return redirect(route('tuning-credits.index'));
     }
 }

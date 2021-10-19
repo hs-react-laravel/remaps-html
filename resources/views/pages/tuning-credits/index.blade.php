@@ -2,25 +2,34 @@
 @extends('layouts/contentLayoutMaster')
 
 @section('title', 'Orders')
-
+@section('vendor-style')
+  <link rel="stylesheet" href="{{ asset(mix('vendors/css/animate/animate.min.css')) }}">
+  <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/sweetalert2.min.css')) }}">
+@endsection
 @section('content')
 <!-- Basic Tables start -->
 <div class="row" id="basic-table">
   <div class="col-12">
     <div class="card">
-      {{-- <div class="card-header">
-        <h4 class="card-title">Table Basic</h4>
+      <div class="card-header">
+        <h4 class="card-title">Tuning Credits</h4>
+        <div>
+          <a href="{{ route('tuning-credits.create') }}" class="btn btn-icon btn-primary" style="float: right">
+            <i data-feather="plus"></i> Tire
+          </a>
+          <a href="{{ route('tuning-credits.create') }}" class="btn btn-icon btn-primary" style="float: right; margin-right: 20px">
+            <i data-feather="plus"></i> Group
+          </a>
+        </div>
+
       </div>
-      <div class="card-body">
-        <p class="card-text"></p>
-      </div> --}}
       <div class="table-responsive">
         <table class="table">
           <thead>
             <tr>
               <th>Group</th>
               @foreach ($tires as $tire)
-                <th>{{ $tire->amount }} Credits</th>
+                <th>{{ $tire->amount }} Credits <br><a href="">remove {{ $tire->amount }} Credits</a></th>
               @endforeach
               <th>Action</th>
             </tr>
@@ -39,8 +48,10 @@
                     {{ config('constants.currency_sign') }} {{ number_format(@$groupCreditTire->pivot->for_credit, 2) }}
                   </td>
                 @endforeach
-                <td>
-                  <a class="btn btn-icon btn-success">
+                <td class="td-actions">
+                  <a
+                    class="btn btn-icon @if($entry->set_default_tier) btn-dark @else btn-success @endif"
+                    href="{{ url('/tuning-credits/'.$entry->id.'/default') }}">
                     <i data-feather="check-circle"></i>
                   </a>
                   <a class="btn btn-icon btn-primary" href="{{ url('/tuning-credits/'.$entry->id.'/edit') }}">
@@ -61,4 +72,31 @@
   </div>
 </div>
 <!-- Basic Tables end -->
+@endsection
+@section('vendor-script')
+  <script src="{{ asset(mix('vendors/js/extensions/sweetalert2.all.min.js')) }}"></script>
+  <script src="{{ asset(mix('vendors/js/extensions/polyfill.min.js')) }}"></script>
+@endsection
+@section('page-script')
+<script>
+  async function onDelete(obj) {
+    var delete_form = $(obj).closest('.td-actions').children('.delete-form')
+    var swal_result = await Swal.fire({
+      title: 'Warning!',
+      text: 'Are you sure to delete?',
+      icon: 'warning',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-outline-danger ms-1'
+      },
+      showCancelButton: true,
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancel',
+      buttonsStyling: false
+    });
+    if (swal_result.isConfirmed) {
+      delete_form.submit();
+    }
+  }
+</script>
 @endsection

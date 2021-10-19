@@ -60,6 +60,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('customers/{id}/switch-account',[CustomerController::class, 'switchAccount']);
 
     Route::resource('tuning-credits', TuningController::class);
+    Route::get('tuning-credits/{id}/default', [TuningController::class, 'set_default']);
 
     // Main Page Route
     Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard-ecommerce');
