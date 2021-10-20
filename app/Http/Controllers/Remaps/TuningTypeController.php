@@ -28,7 +28,7 @@ class TuningTypeController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.tuning-types.create');
     }
 
     /**
@@ -39,7 +39,9 @@ class TuningTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->request->add(['company_id'=> $this->company->id]);
+        TuningType::create($request->all());
+        return redirect(route('tuning-types.index'));
     }
 
     /**
@@ -61,7 +63,8 @@ class TuningTypeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $entry = TuningType::find($id);
+        return view('pages.tuning-types.edit', ['entry' => $entry]);
     }
 
     /**
@@ -73,7 +76,9 @@ class TuningTypeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $entry = TuningType::find($id);
+        $entry->update($request->all());
+        return redirect(route('tuning-types.index'));
     }
 
     /**
@@ -84,6 +89,34 @@ class TuningTypeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        TuningType::find($id)->delete();
+        return redirect(route('tuning-types.index'));
+    }
+
+    public function upSort($id)
+    {
+        $current = TuningType::find($id);
+        $upOne = TuningType::where('company_id', $this->company->id)->where('order_as', '<', $current->order_as)->orderBy('order_as', 'DESC')->first();
+        if ($upOne) {
+            $currentOrder = $current->order_as;
+            $current->order_as = $upOne->order_as;
+            $upOne->order_as = $currentOrder;
+            $current->save();
+            $upOne->save();
+        }
+        return redirect(route('tuning-types.index'));
+    }
+    public function downSort($id)
+    {
+        $current = TuningType::find($id);
+        $upOne = TuningType::where('company_id', $this->company->id)->where('order_as', '>', $current->order_as)->orderBy('order_as', 'ASC')->first();
+        if ($upOne) {
+            $currentOrder = $current->order_as;
+            $current->order_as = $upOne->order_as;
+            $upOne->order_as = $currentOrder;
+            $current->save();
+            $upOne->save();
+        }
+        return redirect(route('tuning-types.index'));
     }
 }

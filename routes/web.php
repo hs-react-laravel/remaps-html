@@ -27,6 +27,7 @@ use App\Http\Controllers\Remaps\CompanySettingController;
 use App\Http\Controllers\Remaps\PackageController;
 use App\Http\Controllers\Remaps\TuningController;
 use App\Http\Controllers\Remaps\TuningTypeController;
+use App\Models\TuningType;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,6 +68,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('tuning-tires/store', [TuningController::class, 'store_tire'])->name('tuning-tires.store');;
 
     Route::resource('tuning-types', TuningTypeController::class);
+    Route::get('/tuning-types/{id}/up-sort', [TuningTypeController::class, 'upSort']);
+    Route::get('/tuning-types/{id}/down-sort', [TuningTypeController::class, 'downSort']);
     // Main Page Route
     Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard-ecommerce');
 

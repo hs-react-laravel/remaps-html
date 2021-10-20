@@ -18,6 +18,9 @@
     <div class="card">
       <div class="card-header">
         <h4 class="card-title">Tuning Types</h4>
+        <a href="{{ route('tuning-types.create') }}" class="btn btn-icon btn-primary">
+          <i data-feather="plus"></i>
+        </a>
       </div>
       <div class="table-responsive">
         <table class="table">
@@ -39,11 +42,11 @@
                     {{ $entry->tuningTypeOptions()->count() }} tuning options
                   </a>
                 </td>
-                <td>
-                  <a class="btn btn-icon btn-success">
+                <td class="td-actions">
+                  <a class="btn btn-icon btn-success" href="{{ url('/tuning-types/'.$entry->id.'/up-sort') }}">
                     <i data-feather="arrow-up"></i>
                   </a>
-                  <a class="btn btn-icon btn-success">
+                  <a class="btn btn-icon btn-success" href="{{ url('/tuning-types/'.$entry->id.'/down-sort') }}">
                     <i data-feather="arrow-down"></i>
                   </a>
                   <a class="btn btn-icon btn-primary" href="{{ url('/tuning-types/'.$entry->id.'/edit') }}">
@@ -52,7 +55,7 @@
                   <a class="btn btn-icon btn-danger" onclick="onDelete(this)">
                     <i data-feather="trash-2"></i>
                   </a>
-                  <form action="{{ route('transactions.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
+                  <form action="{{ route('tuning-types.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
                     <input type="hidden" name="_method" value="DELETE">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                   </form>
