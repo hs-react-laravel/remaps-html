@@ -1,5 +1,7 @@
 <div class="tab-pane @if($tab == 'name') active @endif" id="home-fill" role="tabpanel" aria-labelledby="home-tab-fill">
-  {{ Form::model($entry, array('route' => array('companies.update', $entry->id), 'method' => 'PUT')) }}
+  {{ $entry->id
+    ? Form::model($entry, array('route' => array('companies.update', $entry->id), 'method' => 'PUT'))
+    : Form::model($entry, array('route' => array('companies.store', $entry->id), 'method' => 'POST')) }}
     <input type="hidden" name="tab" value="name" />
     @csrf
     <div class="row">

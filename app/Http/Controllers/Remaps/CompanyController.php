@@ -28,7 +28,10 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        //
+        $entry = new Company;
+        return view('pages.company.edit', [
+            'entry' => $entry
+        ]);
     }
 
     /**
@@ -39,7 +42,8 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $company = Company::create($request->all());
+        return redirect(route('companies.edit', ['company'=> $company->id]));
     }
 
     /**
@@ -78,7 +82,7 @@ class CompanyController extends Controller
     {
         $entry = Company::find($id);
         $entry->update($request->all());
-        return redirect(route('companies.index'));
+        return redirect(route('companies.edit', ['company' => $id]));
     }
 
     /**
@@ -89,6 +93,7 @@ class CompanyController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Company::find($id)->delete();
+        return redirect(route('companies.index'));
     }
 }
