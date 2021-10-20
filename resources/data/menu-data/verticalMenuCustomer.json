@@ -11,7 +11,7 @@
         "slug": "dashboard"
     },
     {
-        "url": "fileservices",
+        "url": "fs",
         "name": "File Services",
         "icon": "file",
         "slug": "fileservices.index"

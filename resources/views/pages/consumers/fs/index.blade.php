@@ -1,0 +1,59 @@
+
+@extends('layouts/contentLayoutMaster')
+
+@section('title', 'File Services')
+
+@section('content')
+<!-- Basic Tables start -->
+<div class="row" id="basic-table">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">File Services</h4>
+        <a href="{{ route('fs.create') }}" class="btn btn-icon btn-primary">
+          <i data-feather="plus"></i>
+        </a>
+      </div>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th width="10%">Job No.</th>
+              <th width="20%">Car</th>
+              <th width="20%">License Plate</th>
+              <th width="15%">Created At</th>
+              <th width="20%">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach ($entries as $e)
+              <tr>
+                  <td>{{ $e->displayable_id }}</td>
+                  <td>{{ $e->car }}</td>
+                  <td>{{ $e->license_plate }}</td>
+                  <td>{{ $e->created_at }}</td>
+                  <td>
+                    <a class="btn btn-icon btn-success">
+                      <i data-feather="message-circle"></i>
+                    </a>
+                    <a class="btn btn-icon btn-success">
+                      <i data-feather="download"></i>
+                    </a>
+                    <a class="btn btn-icon btn-success">
+                      <i data-feather="download-cloud"></i>
+                    </a>
+                    <a class="btn btn-icon btn-primary" href="{{ route('fs.edit', ['f' => $e->id]) }}">
+                      <i data-feather="edit"></i>
+                    </a>
+                  </td>
+              </tr>
+            @endforeach
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {{ $entries->links() }}
+  </div>
+</div>
+<!-- Basic Tables end -->
+@endsection
