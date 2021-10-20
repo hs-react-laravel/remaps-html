@@ -33,7 +33,7 @@
                     <a class="btn btn-icon btn-success">
                       <i data-feather="message-circle"></i>
                     </a>
-                    <a class="btn btn-icon btn-primary" href="{{ url('/fileservices/'.$e->id.'/edit') }}">
+                    <a class="btn btn-icon btn-primary" href="{{ route('fileservices.edit', ['fileservice' => $e->id]) }}">
                       <i data-feather="edit"></i>
                     </a>
                     <a class="btn btn-icon btn-danger">

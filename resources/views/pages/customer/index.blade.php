@@ -46,19 +46,19 @@
                   <td>{{ $u->fileServicesCount }}</td>
                   <td>{{ $u->lastLoginDiff }}</td>
                   <td class="td-actions">
-                    <a class="btn btn-icon btn-success" href="{{ url('/customers/'.$u->id.'/file-services') }}">
+                    <a class="btn btn-icon btn-success" href="{{ route('customer.fs', ['id' => $u->id]) }}">
                       <i data-feather="file-text"></i>
                     </a>
-                    <a class="btn btn-icon btn-success" href="{{ url('/customers/'.$u->id.'/switch-account') }}">
+                    <a class="btn btn-icon btn-success" href="{{ route('customer.sa', ['id' => $u->id]) }}">
                       <i data-feather="user"></i>
                     </a>
-                    <a class="btn btn-icon btn-success" href="{{ url('/customers/'.$u->id.'/transactions') }}">
+                    <a class="btn btn-icon btn-success" href="{{ route('customer.tr', ['id' => $u->id]) }}">
                       <i data-feather="credit-card"></i>
                     </a>
                     <a class="btn btn-icon btn-success">
                       <i data-feather="mail"></i>
                     </a>
-                    <a class="btn btn-icon btn-primary" href="{{ url('/customers/'.$u->id.'/edit') }}">
+                    <a class="btn btn-icon btn-primary" href="{{ route('customers.edit', ['customer' => $u->id]) }}">
                       <i data-feather="edit"></i>
                     </a>
                     <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $u->id }}"><i data-feather="trash-2"></i></a>

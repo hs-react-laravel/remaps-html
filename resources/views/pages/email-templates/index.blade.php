@@ -28,7 +28,7 @@
                   <td>{{ $u->subject }}</td>
                   <td>{{ $u->created_at }}</td>
                   <td>
-                    <a class="btn btn-icon btn-primary" href="{{ url('/email-templates/'.$u->id.'/edit') }}">
+                    <a class="btn btn-icon btn-primary" href="{{ route('email-templates.edit', ['email_template' => $u->id]) }}">
                       <i data-feather="edit"></i>
                     </a>
                   </td>

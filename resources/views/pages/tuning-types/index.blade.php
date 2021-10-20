@@ -38,18 +38,18 @@
                 <td>{{ $entry->label }}</td>
                 <td>{{ $entry->credits }}</td>
                 <td>
-                  <a href="{{ url('/tuning-types/'.$entry->id.'/options') }}">
+                  <a href="{{ route('options.index', ['id' => $entry->id]) }}">
                     {{ $entry->tuningTypeOptions()->count() }} tuning options
                   </a>
                 </td>
                 <td class="td-actions">
-                  <a class="btn btn-icon btn-success" href="{{ url('/tuning-types/'.$entry->id.'/up-sort') }}">
+                  <a class="btn btn-icon btn-success" href="{{ route('tuning-types.sort-up', ['id' => $entry->id]) }}">
                     <i data-feather="arrow-up"></i>
                   </a>
-                  <a class="btn btn-icon btn-success" href="{{ url('/tuning-types/'.$entry->id.'/down-sort') }}">
+                  <a class="btn btn-icon btn-success" href="{{ route('tuning-types.sort-down', ['id' => $entry->id]) }}">
                     <i data-feather="arrow-down"></i>
                   </a>
-                  <a class="btn btn-icon btn-primary" href="{{ url('/tuning-types/'.$entry->id.'/edit') }}">
+                  <a class="btn btn-icon btn-primary" href="{{ route('tuning-types.edit', ['tuning_type' => $entry->id]) }}">
                     <i data-feather="edit"></i>
                   </a>
                   <a class="btn btn-icon btn-danger" onclick="onDelete(this)">

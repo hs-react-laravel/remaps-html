@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Remaps;
+namespace App\Http\Controllers\Consumer;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -25,8 +25,8 @@ class Controller extends BaseController
                 view()->share('company', $this->company);
 
                 $verticalMenu = 'verticalMenuCustomer.json';
-                if ($this->user->is_admin) $verticalMenu = 'verticalMenuCompany.json';
                 if ($this->user->is_master) $verticalMenu = 'verticalMenu.json';
+                if ($this->user->is_admin) $verticalMenu = 'verticalMenuCompany.json';
 
                 $verticalMenuJson = file_get_contents(base_path('resources/data/menu-data/'.$verticalMenu));
                 $verticalMenuData = json_decode($verticalMenuJson);
