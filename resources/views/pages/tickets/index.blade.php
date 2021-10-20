@@ -8,12 +8,9 @@
 <div class="row" id="basic-table">
   <div class="col-12">
     <div class="card">
-      {{-- <div class="card-header">
-        <h4 class="card-title">Table Basic</h4>
+      <div class="card-header">
+        <h4 class="card-title">Support Tickets</h4>
       </div>
-      <div class="card-body">
-        <p class="card-text"></p>
-      </div> --}}
       <div class="table-responsive">
         <table class="table">
           <thead>

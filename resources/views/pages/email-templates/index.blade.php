@@ -1,7 +1,7 @@
 
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Customers')
+@section('title', 'Email Templates')
 
 @section('content')
 <!-- Basic Tables start -->

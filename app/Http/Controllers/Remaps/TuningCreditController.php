@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\TuningCreditGroup;
 use App\Models\TuningCreditTire;
 
-class TuningController extends Controller
+class TuningCreditController extends Controller
 {
     /**
      * Display a listing of the resource.

@@ -25,7 +25,7 @@ use App\Http\Controllers\Remaps\EmailTemplateController;
 use App\Http\Controllers\Remaps\CompanyController;
 use App\Http\Controllers\Remaps\CompanySettingController;
 use App\Http\Controllers\Remaps\PackageController;
-use App\Http\Controllers\Remaps\TuningController;
+use App\Http\Controllers\Remaps\TuningCreditController;
 use App\Http\Controllers\Remaps\TuningTypeController;
 use App\Http\Controllers\Remaps\TuningTypeOptionController;
 
@@ -61,11 +61,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('customers/{id}/transactions',[CustomerController::class, 'transactions']);
     Route::get('customers/{id}/switch-account',[CustomerController::class, 'switchAccount']);
 
-    Route::resource('tuning-credits', TuningController::class);
-    Route::get('tuning-credits/{id}/default', [TuningController::class, 'set_default']);
-    Route::delete('tuning-tires/{id}/delete', [TuningController::class, 'delete_tire'])->name('tuning-tires.destroy');
-    Route::get('tuning-tires/create', [TuningController::class, 'add_tire'])->name('tuning-tires.create');
-    Route::post('tuning-tires/store', [TuningController::class, 'store_tire'])->name('tuning-tires.store');;
+    Route::resource('tuning-credits', TuningCreditController::class);
+    Route::get('tuning-credits/{id}/default', [TuningCreditController::class, 'set_default']);
+    Route::delete('tuning-tires/{id}/delete', [TuningCreditController::class, 'delete_tire'])->name('tuning-tires.destroy');
+    Route::get('tuning-tires/create', [TuningCreditController::class, 'add_tire'])->name('tuning-tires.create');
+    Route::post('tuning-tires/store', [TuningCreditController::class, 'store_tire'])->name('tuning-tires.store');;
 
     Route::resource('tuning-types', TuningTypeController::class);
     Route::get('/tuning-types/{id}/up-sort', [TuningTypeController::class, 'upSort']);
