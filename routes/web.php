@@ -27,7 +27,7 @@ use App\Http\Controllers\Remaps\CompanySettingController;
 use App\Http\Controllers\Remaps\PackageController;
 use App\Http\Controllers\Remaps\TuningController;
 use App\Http\Controllers\Remaps\TuningTypeController;
-use App\Models\TuningType;
+use App\Http\Controllers\Remaps\TuningTypeOptionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,6 +70,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('tuning-types', TuningTypeController::class);
     Route::get('/tuning-types/{id}/up-sort', [TuningTypeController::class, 'upSort']);
     Route::get('/tuning-types/{id}/down-sort', [TuningTypeController::class, 'downSort']);
+
+    Route::resource('tuning-types/{id}/options', TuningTypeOptionController::class);
+    Route::get('tuning-types/{id}/options/{option}/up-sort', [TuningTypeOptionController::class, 'upSort'])->name('options.sort.up');
+    Route::get('tuning-types/{id}/options/{option}/down-sort', [TuningTypeOptionController::class, 'downSort'])->name('options.sort.down');
     // Main Page Route
     Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard-ecommerce');
 

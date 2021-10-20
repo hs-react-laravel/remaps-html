@@ -11,19 +11,25 @@
 @section('content')
 
 <section id="basic-input">
-  {{ Form::model($entry, array('route' => array('tuning-types.update', $entry->id), 'method' => 'PUT')) }}
+  {{ Form::model($entry, array('route' => array('options.update', $typeId, $entry->id), 'method' => 'PUT')) }}
     @csrf
     <div class="row">
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-            <h4 class="card-title">Edit tuning type</h4>
+            <h4 class="card-title">Edit tuning type option</h4>
           </div>
           <div class="card-body">
             <div class="row mb-1">
               <div class="col-xl-4 col-md-6 col-12">
                 <label class="form-label" for="label">Label</label>
                 <input type="text" class="form-control" id="label" name="label" value="{{ $entry->label }}" />
+              </div>
+            </div>
+            <div class="row mb-1">
+              <div class="col-xl-4 col-md-6 col-12">
+                <label class="form-label" for="tooltip">Tooltip</label>
+                <input type="text" class="form-control" id="tooltip" name="tooltip" value="{{ $entry->tooltip }}" />
               </div>
             </div>
             <div class="row mb-1">

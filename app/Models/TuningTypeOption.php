@@ -14,7 +14,7 @@ class TuningTypeOption extends Model
      * @var array
      */
     protected $fillable = [
-        'tuning_type_id', 'label', 'tooltip', 'credits'
+        'tuning_type_id', 'label', 'tooltip', 'credits', 'order_as'
     ];
 
     /**
