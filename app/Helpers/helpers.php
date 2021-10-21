@@ -141,16 +141,7 @@ class Helper
 
     public static function updatePageConfig($pageConfigs)
     {
-        $demo = 'custom';
-        $fullURL = request()->fullurl();
-        if (App()->environment() === 'production') {
-            for ($i = 1; $i < 7; $i++) {
-                $contains = Str::contains($fullURL, 'demo-' . $i);
-                if ($contains === true) {
-                    $demo = 'demo-' . $i;
-                }
-            }
-        }
+        $demo = 'demo-4';
         if (isset($pageConfigs)) {
             if (count($pageConfigs) > 0) {
                 foreach ($pageConfigs as $config => $val) {

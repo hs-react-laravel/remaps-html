@@ -76,11 +76,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('company/tuning-types/{id}/options/{option}/down-sort', [TuningTypeOptionController::class, 'downSort'])->name('options.sort.down');
 
     Route::resource('fs', \App\Http\Controllers\Consumer\FileServiceController::class);
+    Route::resource('tk', \App\Http\Controllers\Consumer\TicketController::class);
     // Main Page Route
     Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard');
 
     // locale Route
     Route::get('lang/{locale}', [LanguageController::class, 'swap']);
+
+    Route::get('chat', [AppsController::class, 'chatApp']);
 });
 
 Route::get('/passwordtest', function () {

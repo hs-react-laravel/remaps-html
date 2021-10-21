@@ -98,7 +98,7 @@
             </div>
 
             <div class="row mb-1">
-              <div class="col-xl-12 col-md-6 col-12">
+              <div class="col-xl-12 col-md-12 col-12">
                 <label class="form-label" for="note_to_engineer">Note to engineer</label>
                 <textarea
                   class="form-control"

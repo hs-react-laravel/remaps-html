@@ -8,3 +8,23 @@
 .openhours_sidebar_time {
   float: right;
 }
+
+.message-wrapper {
+    max-height: 500px;
+    overflow: auto;
+    padding: 5px;
+}
+
+.message-right {
+    text-align: right;
+}
+
+.badge-custom {
+    white-space: normal !important;
+    padding: 5px 15px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    text-align: left !important;
+    line-height: 2 !important;
+    /* max-width: calc(100% - 50px); */
+}

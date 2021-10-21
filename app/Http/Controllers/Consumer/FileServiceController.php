@@ -18,7 +18,7 @@ class FileServiceController extends Controller
      */
     public function index()
     {
-        $entries = FileService::where('user_id', $this->user->id)->orderBy('id', 'DESC')->paginate(20);
+        $entries = FileService::where('user_id', $this->user->id)->orderBy('id', 'DESC')->paginate(10);
         $tuningTypes = TuningType::where('company_id', $this->user->company_id)->orderBy('order_as', 'ASC')->pluck('label', 'id')->toArray();
         return view('pages.consumers.fs.index', [
             'entries' => $entries,

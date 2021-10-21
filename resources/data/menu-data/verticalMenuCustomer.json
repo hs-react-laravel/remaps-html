@@ -17,7 +17,7 @@
         "slug": "fileservices.index"
     },
     {
-        "url": "tickets",
+        "url": "tk",
         "name": "Support Tickets",
         "icon": "message-circle",
         "slug": "tickets.index"

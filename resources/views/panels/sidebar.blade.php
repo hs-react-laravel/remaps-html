@@ -44,6 +44,12 @@ $configData = Helper::applClasses();
   </div>
   <div class="shadow-bottom"></div>
   <div class="main-menu-content">
+    @php
+      $custom_classes = "";
+      if(isset($menu->classlist)) {
+        $custom_classes = $menu->classlist;
+      }
+    @endphp
     <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
       {{-- Foreach menu item starts --}}
       @if(isset($menuData[0]))
@@ -55,12 +61,6 @@ $configData = Helper::applClasses();
       </li>
       @else
       {{-- Add Custom Class with nav-item --}}
-      @php
-      $custom_classes = "";
-      if(isset($menu->classlist)) {
-      $custom_classes = $menu->classlist;
-      }
-      @endphp
       <li class="nav-item {{ $custom_classes }} {{Route::currentRouteName() === $menu->slug ? 'active' : ''}}">
         <a href="{{isset($menu->url)? url($menu->url):'javascript:void(0)'}}" class="d-flex align-items-center" target="{{isset($menu->newTab) ? '_blank':'_self'}}">
           <i data-feather="{{ $menu->icon }}"></i>
