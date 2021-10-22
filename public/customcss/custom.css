@@ -28,3 +28,9 @@
     line-height: 2 !important;
     /* max-width: calc(100% - 50px); */
 }
+
+.card-custom {
+    width: 32px;
+    height: 32px;
+    color: #28c76f!important
+}

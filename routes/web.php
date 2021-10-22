@@ -77,6 +77,12 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('fs', \App\Http\Controllers\Consumer\FileServiceController::class);
     Route::resource('tk', \App\Http\Controllers\Consumer\TicketController::class);
+    Route::resource('od', \App\Http\Controllers\Consumer\OrderController::class);
+    Route::resource('tr', \App\Http\Controllers\Consumer\TransactionController::class);
+    Route::get('/buy-credits', [\App\Http\Controllers\Consumer\BuyTuningCreditsController::class, 'index'])->name('consumer.buy-credits');
+    Route::get('/buy-credits/handle', [\App\Http\Controllers\Consumer\BuyTuningCreditsController::class, 'handlePayment'])->name('consumer.buy-credits.handle');
+    Route::get('/buy-credits/cancel', [\App\Http\Controllers\Consumer\BuyTuningCreditsController::class, 'paymentCancel'])->name('consumer.buy-credits.cancel');
+    Route::get('/buy-credits/success', [\App\Http\Controllers\Consumer\BuyTuningCreditsController::class, 'paymentSuccess'])->name('consumer.buy-credits.success');
     // Main Page Route
     Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard');
 

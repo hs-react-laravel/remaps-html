@@ -49,7 +49,7 @@
                     <a class="btn btn-icon btn-success" href="{{ route('customer.fs', ['id' => $u->id]) }}">
                       <i data-feather="file-text"></i>
                     </a>
-                    <a class="btn btn-icon btn-success" href="{{ route('customer.sa', ['id' => $u->id]) }}">
+                    <a class="btn btn-icon btn-success" target="_blank" href="{{ route('customer.sa', ['id' => $u->id]) }}">
                       <i data-feather="user"></i>
                     </a>
                     <a class="btn btn-icon btn-success" href="{{ route('customer.tr', ['id' => $u->id]) }}">

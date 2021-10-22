@@ -203,6 +203,7 @@ return [
     "Customers" => "Customers",
     "File Services" => "File Services",
     "Support Tickets" => "Support Tickets",
+    "Buy Tuning Credits" => "Buy Tuning Credits",
     "Orders" => "Orders",
     "Transactions" => "Transactions",
     "Email Templates" => "Email Templates",

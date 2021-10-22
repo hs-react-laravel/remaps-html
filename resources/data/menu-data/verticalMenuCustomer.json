@@ -14,25 +14,31 @@
         "url": "fs",
         "name": "File Services",
         "icon": "file",
-        "slug": "fileservices.index"
+        "slug": "fs.index"
     },
     {
         "url": "tk",
         "name": "Support Tickets",
         "icon": "message-circle",
-        "slug": "tickets.index"
+        "slug": "tk.index"
     },
     {
-        "url": "orders",
+        "url": "buy-credits",
+        "name": "Buy Tuning Credits",
+        "icon": "plus",
+        "slug": "consumer.buy-credits"
+    },
+    {
+        "url": "od",
         "name": "Orders",
         "icon": "file-text",
-        "slug": "orders.index"
+        "slug": "od.index"
     },
     {
-        "url": "transactions",
+        "url": "tr",
         "name": "Transactions",
         "icon": "credit-card",
-        "slug": "transactions.index"
+        "slug": "tr.index"
     },
     {
         "url": "cars",
