@@ -19,6 +19,7 @@ class CustomerController extends Controller
         //
         $users = User::where('company_id', $this->user->company_id)
             ->where('is_admin', 0)
+            ->where('is_staff', 0)
             ->orderBy('id', 'DESC')
             ->paginate(10);
 

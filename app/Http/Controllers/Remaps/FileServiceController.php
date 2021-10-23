@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Remaps;
 use Illuminate\Http\Request;
 use App\Models\FileService;
 use App\Models\Ticket;
+use App\Models\StaffWork;
 use File;
 
 class FileServiceController extends Controller
@@ -66,7 +67,8 @@ class FileServiceController extends Controller
     public function edit($id)
     {
         $fs = FileService::find($id);
-        return view('pages.fileservice.edit', ['fileService' => $fs]);
+        $staff = $fs->staffs->first();
+        return view('pages.fileservice.edit', ['fileService' => $fs, 'staff_id' => $staff->id]);
     }
 
     /**
@@ -91,6 +93,13 @@ class FileServiceController extends Controller
         }
         // save model
         $fs->update($request->all());
+        // relation with staff
+        if ($request->assign) {
+            StaffWork::create([
+                'user_id' => $request->assign,
+                'fileservice_id' => $id
+            ]);
+        }
         return redirect(route('fileservices.index'));
     }
 

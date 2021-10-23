@@ -59,6 +59,12 @@
         "slug": "tuning-types.index"
     },
     {
+        "url": "company/staffs",
+        "name": "Staffs",
+        "icon": "user-check",
+        "slug": "staffs.index"
+    },
+    {
         "url": "company/company-settings",
         "name": "Company Settings",
         "icon": "settings",

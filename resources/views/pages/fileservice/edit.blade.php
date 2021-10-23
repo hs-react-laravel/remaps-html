@@ -42,6 +42,17 @@
                 </div>
               </div>
               <div class="col-12">
+                <div class="mb-1">
+                  <label class="form-label" for="assign">Assign</label>
+                  <select class="form-select" id="assign" name="assign">
+                    <option value=""></option>
+                    @foreach ($company->staffs as $staff)
+                      <option value="{{ $staff->id }}" @if($staff->id == $staff_id) selected @endif>{{ $staff->fullname }}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+              <div class="col-12">
                 <button type="submit" class="btn btn-primary me-1">Save</button>
               </div>
             </div>

@@ -33,6 +33,10 @@ class FileService extends Model
     {
         return $this->hasOne('App\Models\Ticket','file_servcie_id');
     }
+    public function staffs()
+    {
+        return $this->belongsToMany(User::class, 'staff_works', 'fileservice_id', 'user_id');
+    }
 
     public function getStatusAttribute($value) {
         return config('constants.file_service_staus')[$value];

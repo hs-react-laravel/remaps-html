@@ -211,6 +211,7 @@ return [
     "Tuning Types" => "Tuning Types",
     "Manage Companies" => "Manage Companies",
     "Packages" => "Packages",
+    "Staffs" => "Staffs",
     "Company Settings" => "Company Settings",
     "Browse Tuning Specs" => "Browse Tuning Specs",
 ];

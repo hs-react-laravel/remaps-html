@@ -78,7 +78,11 @@ class Company extends Model
 
     public function users()
     {
-        return $this->hasMany('App\Models\User');
+        return $this->hasMany('App\Models\User')->where('is_staff', 0);
+    }
+    public function staffs()
+    {
+        return $this->hasMany('App\Models\User')->where('is_staff', 1);
     }
     public function owner()
     {

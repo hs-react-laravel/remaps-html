@@ -18,6 +18,8 @@ use App\Http\Controllers\Remaps\TuningTypeController;
 use App\Http\Controllers\Remaps\TuningTypeOptionController;
 use App\Http\Controllers\Consumer\FileServiceController as FSController;
 use App\Http\Controllers\Consumer\TicketController as TKController;
+use App\Http\Controllers\Remaps\StaffController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -71,6 +73,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('company/tuning-types/{id}/options', TuningTypeOptionController::class);
     Route::get('company/tuning-types/{id}/options/{option}/up-sort', [TuningTypeOptionController::class, 'upSort'])->name('options.sort.up');
     Route::get('company/tuning-types/{id}/options/{option}/down-sort', [TuningTypeOptionController::class, 'downSort'])->name('options.sort.down');
+
+    Route::resource('company/staffs', StaffController::class);
 
     Route::resource('fs', FSController::class);
     Route::get('/fs/{id}/download-original', [FSController::class, 'download_original'])->name('fs.download.original');
