@@ -44,6 +44,12 @@ use App\Http\Controllers\Remaps\TuningTypeOptionController;
 Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('company/fileservices', FileServiceController::class);
+    Route::get('/company/fileservices/{id}/download-original', [FileServiceController::class, 'download_original'])->name('fileservice.download.original');
+    Route::get('/company/fileservices/{id}/download-modified', [FileServiceController::class, 'download_modified'])->name('fileservice.download.modified');
+    Route::get('/company/fileservices/{id}/delete-modified', [FileServiceController::class, 'delete_modified_file'])->name('fileservice.delete.modified');
+    Route::get('/company/fileservices/{id}/create-ticket', [FileServiceController::class, 'create_ticket'])->name('fileservice.tickets.create');
+    Route::post('/company/fileservices/{id}/store-ticket', [FileServiceController::class, 'store_ticket'])->name('fileservice.tickets.store');
+
     Route::resource('company/tickets', TicketController::class);
     Route::resource('company/transactions', TransactionController::class);
     Route::resource('company/email-templates', EmailTemplateController::class);

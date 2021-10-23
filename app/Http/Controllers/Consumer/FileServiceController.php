@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\FileService;
 use App\Models\TuningType;
 use App\Models\Transaction;
-
 use Storage;
+use File;
 
 class FileServiceController extends Controller
 {
@@ -59,7 +59,7 @@ class FileServiceController extends Controller
         // save once
         $request->request->add([
             'user_id' => $this->user->id,
-            'original_file' => $filename,
+            'orginal_file' => $filename,
         ]);
         $fileService = FileService::create($request->all());
         $fileService->save();
@@ -141,5 +141,19 @@ class FileServiceController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function download_original($id) {
+        $fileService = FileService::find($id);
+        $file = storage_path('app/public/uploads/file-services/orginal').$fileService->orginal_file;
+        if (File::exists($file)) {
+            $fileExt = File::extension($file);
+            $fileName = $fileService->displayable_id.'-orginal.'.$fileExt;
+            return response()->download($file, $fileName);
+        }
+    }
+
+    public function download_modified($id) {
+
     }
 }

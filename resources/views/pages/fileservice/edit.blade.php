@@ -12,7 +12,7 @@
           <h4 class="card-title">Process the file service</h4>
         </div>
         <div class="card-body">
-          {{ Form::model($fileService, array('route' => array('fileservices.update', $fileService->id), 'method' => 'PUT')) }}
+          {{ Form::model($fileService, array('route' => array('fileservices.update', $fileService->id), 'method' => 'PUT', 'enctype' => 'multipart/form-data')) }}
             <div class="row">
               <div class="col-12">
                 <div class="mb-1">
@@ -27,7 +27,7 @@
               <div class="col-12">
                 <div class="mb-1">
                   <label for="modified_file" class="form-label">Modified file</label>
-                  <input class="form-control" type="file" id="modified_file" name="modified_file" />
+                  <input class="form-control" type="file" id="modified_file" name="upload_file" />
                 </div>
               </div>
               <div class="col-12">
@@ -119,15 +119,15 @@
               </tr>
               <tr>
                   <th>Original file</th>
-                  <td><a href="{{ url('file-service/'.$fileService->id.'/download-orginal') }}">download</a></td>
+                  <td><a href="{{ route('fileservice.download.original', ['id' => $fileService->id]) }}">download</a></td>
               </tr>
               @if((($fileService->status == 'Completed') || ($fileService->status == 'Waiting')) && ($fileService->modified_file != ""))
                 <tr>
                     <th>Modified file</th>
                     <td>
-                      <a href="{{ url('file-service/'.$fileService->id.'/download-modified') }}">download</a>
+                      <a href="{{ route('fileservice.download.modified', ['id' => $fileService->id]) }}">download</a>
                       @if($fileService->status == 'Waiting')
-                        &nbsp;&nbsp;<a href="{{ url('file-service/'.$fileService->id.'/delete-modified') }}">delete</a>
+                        &nbsp;&nbsp;<a href="{{ route('fileservice.delete.modified', ['id' => $fileService->id]) }}">delete</a>
                       @endif
                     </td>
                 </tr>

@@ -150,7 +150,7 @@
                 </tr>
                 <tr>
                     <th>Original file</th>
-                    <td><a href="{{ url('file-service/'.$entry->id.'/download-orginal') }}">download</a></td>
+                    <td><a href="{{ route('fileservice.download.original', ['id' => $entry->id]) }}">download</a></td>
                 </tr>
                 @if((($entry->status == 'Completed') || ($entry->status == 'Waiting')) && ($entry->modified_file != ""))
                   <tr>
@@ -158,7 +158,7 @@
                       <td>
                         <a href="{{ url('file-service/'.$entry->id.'/download-modified') }}">download</a>
                         @if($entry->status == 'Waiting')
-                          &nbsp;&nbsp;<a href="{{ url('file-service/'.$entry->id.'/delete-modified') }}">delete</a>
+                          &nbsp;&nbsp;<a href="{{ route('fileservice.download.modified', ['id' => $entry->id]) }}">delete</a>
                         @endif
                       </td>
                   </tr>

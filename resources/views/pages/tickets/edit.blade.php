@@ -9,11 +9,11 @@
     <div class="col-md-6 col-12">
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title">Contact Us</h4>
+          <h4 class="card-title">Support</h4>
         </div>
         <div class="card-body">
           <hr>
-          {{ Form::model($entry, array('route' => array('tk.update', $entry->id), 'method' => 'PUT')) }}
+          {{ Form::model($entry, array('route' => array('tickets.update', $entry->id), 'method' => 'PUT')) }}
             <div class="message-wrapper">
               <div class="message-{{ $entry->sender_id == $user->id ? 'right' : 'left' }}">
                 <div class="avatar bg-light-{{$entry->sender_id == $user->id ? 'primary' : 'danger'}}">

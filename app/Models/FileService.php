@@ -29,7 +29,7 @@ class FileService extends Model
     {
         return $this->belongsToMany('App\Models\TuningTypeOption');
     }
-    public function Tickets()
+    public function tickets()
     {
         return $this->hasOne('App\Models\Ticket','file_servcie_id');
     }
