@@ -22,7 +22,7 @@
                 <p class="badge bg-{{$entry->sender_id == $user->id ? 'primary' : 'danger'}} badge-custom">
                   {{ $entry->message }} <br>
                   @if ($entry->document)
-                    <a href=""><i data-feather="file"></i> {{ $entry->document }}</a>
+                    <a href="{{ route('tickets.download', ['id' => $entry->id]) }}"><i data-feather="file"></i> {{ $entry->document }}</a>
                   @endif
                 </p>
                 @php

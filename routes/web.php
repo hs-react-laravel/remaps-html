@@ -51,6 +51,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/company/fileservices/{id}/store-ticket', [FileServiceController::class, 'store_ticket'])->name('fileservice.tickets.store');
 
     Route::resource('company/tickets', TicketController::class);
+    Route::get('/company/tickets/{id}/download-document', [TicketController::class, 'download_document'])->name('tickets.download');
+
     Route::resource('company/transactions', TransactionController::class);
     Route::resource('company/email-templates', EmailTemplateController::class);
     Route::resource('admin/companies', CompanyController::class);

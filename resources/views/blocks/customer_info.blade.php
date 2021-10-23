@@ -1,3 +1,4 @@
+@if (isset($fileService))
 <div class="card">
   <div class="card-header">
     <h4 class="card-title">Customer information</h4>
@@ -29,3 +30,4 @@
     </table>
   </div>
 </div>
+@endif
