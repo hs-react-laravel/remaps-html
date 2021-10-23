@@ -22,7 +22,7 @@
                 <p class="badge bg-{{$entry->sender_id == $user->id ? 'primary' : 'danger'}} badge-custom">
                   {{ $entry->message }} <br>
                   @if ($entry->document)
-                    <a href=""><i data-feather="file"></i> {{ $entry->document }}</a>
+                    <a href="{{ route('tk.download', ['id' => $entry->id]) }}"><i data-feather="file"></i> {{ $entry->document }}</a>
                   @endif
                 </p>
                 @php
@@ -39,7 +39,7 @@
                   <p class="badge bg-{{$msg->sender_id == $user->id ? 'primary' : 'danger'}} badge-custom">
                     {{ $msg->message }} <br>
                     @if ($msg->document)
-                      <a href=""><i data-feather="file"></i> {{ $msg->document }}</a>
+                      <a href="{{ route('tk.download', ['id' => $msg->id]) }}"><i data-feather="file"></i> {{ $msg->document }}</a>
                     @endif
                   </p>
                 </div>

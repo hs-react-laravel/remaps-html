@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Ticket;
 use App\Models\FileService;
 
+use File;
+
 class TicketController extends Controller
 {
     /**
@@ -82,7 +84,7 @@ class TicketController extends Controller
         $entry = Ticket::find($id);
         $messages = Ticket::where('parent_chat_id', $entry->id)->get();
 
-        $fileService = [];
+        $fileService = null;
         if($entry->file_servcie_id != 0){
             $fileService = FileService::where('id', $entry->file_servcie_id)->first();
         }
@@ -132,5 +134,17 @@ class TicketController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function download_document($id)
+    {
+        $ticket = Ticket::find($id);
+        $file = storage_path('app/public/uploads/tickets/').$ticket->document;
+        if ($ticket->document && File::exists($file)) {
+            $fileExt = File::extension($file);
+            $fileName = $ticket->id.'-document.'.$fileExt;
+            return response()->download($file, $fileName);
+        }
+        return redirect(route('tickets.index'));
     }
 }

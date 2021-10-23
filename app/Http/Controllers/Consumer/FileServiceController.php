@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\FileService;
 use App\Models\TuningType;
 use App\Models\Transaction;
+use App\Models\Ticket;
 use Storage;
 use File;
 
@@ -145,7 +146,7 @@ class FileServiceController extends Controller
 
     public function download_original($id) {
         $fileService = FileService::find($id);
-        $file = storage_path('app/public/uploads/file-services/orginal').$fileService->orginal_file;
+        $file = storage_path('app/public/uploads/file-services/orginal/').$fileService->orginal_file;
         if (File::exists($file)) {
             $fileExt = File::extension($file);
             $fileName = $fileService->displayable_id.'-orginal.'.$fileExt;
@@ -154,6 +155,46 @@ class FileServiceController extends Controller
     }
 
     public function download_modified($id) {
+        $fileService = FileService::find($id);
+        $file = storage_path('app/public/uploads/file-services/modified/').$fileService->modified_file;
+        if (File::exists($file)) {
+            $fileExt = File::extension($file);
+            $fileName = $fileService->displayable_id.'-modified.'.$fileExt;
+            return response()->download($file, $fileName);
+        }
+    }
 
+    public function delete_modified_file($id) {
+        $fileService = FileService::find($id);
+        $file = storage_path('app/public/uploads/file-services/modified/').$fileService->modified_file;
+        if (File::exists($file)) {
+            File::delete($file);
+            $fileService->modified_file = "";
+            $fileService->save();
+        }
+        return redirect(route('fileservices.edit', ['fileservice' => $id]));
+    }
+
+    public function create_ticket($id) {
+        $fileService = FileService::find($id);
+        return view('pages.fileservice.create_ticket', ['fileService' => $fileService]);
+    }
+
+    public function store_ticket(Request $request, $id) {
+        $ticket = new Ticket();
+        $ticket->sender_id = $this->user->id;
+        $ticket->receiver_id = $this->user->company->owner->id;
+        $ticket->file_servcie_id = $id;
+        $ticket->message = $request->message;
+        if ($request->file('upload_file')) {
+            $file = $request->file('upload_file');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(storage_path('app/public/uploads/tickets'), $filename);
+            $ticket->document = $filename;
+        }
+        $ticket->is_closed = 0;
+        $ticket->save();
+
+        return redirect(route('tickets.index'));
     }
 }

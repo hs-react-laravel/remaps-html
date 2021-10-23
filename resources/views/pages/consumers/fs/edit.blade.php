@@ -108,6 +108,11 @@
                 > {{ $entry->note_to_engineer }}</textarea>
               </div>
             </div>
+
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary me-1">Submit</button>
+            </div>
+
           </div>
         </div>
       </div>
@@ -150,7 +155,7 @@
                 </tr>
                 <tr>
                     <th>Original file</th>
-                    <td><a href="{{ route('fileservice.download.original', ['id' => $entry->id]) }}">download</a></td>
+                    <td><a href="{{ route('fs.download.original', ['id' => $entry->id]) }}">download</a></td>
                 </tr>
                 @if((($entry->status == 'Completed') || ($entry->status == 'Waiting')) && ($entry->modified_file != ""))
                   <tr>
@@ -158,7 +163,7 @@
                       <td>
                         <a href="{{ url('file-service/'.$entry->id.'/download-modified') }}">download</a>
                         @if($entry->status == 'Waiting')
-                          &nbsp;&nbsp;<a href="{{ route('fileservice.download.modified', ['id' => $entry->id]) }}">delete</a>
+                          &nbsp;&nbsp;<a href="{{ route('fs.download.modified', ['id' => $entry->id]) }}">delete</a>
                         @endif
                       </td>
                   </tr>
@@ -172,9 +177,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="col-12">
-      <button type="submit" class="btn btn-primary me-1">Submit</button>
     </div>
   </form>
 </section>

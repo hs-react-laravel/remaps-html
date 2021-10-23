@@ -26,23 +26,23 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ($entries as $e)
+            @foreach ($entries as $entry)
               <tr>
-                  <td>{{ $e->displayable_id }}</td>
-                  <td>{{ $e->car }}</td>
-                  <td>{{ $e->license_plate }}</td>
-                  <td>{{ $e->created_at }}</td>
+                  <td>{{ $entry->displayable_id }}</td>
+                  <td>{{ $entry->car }}</td>
+                  <td>{{ $entry->license_plate }}</td>
+                  <td>{{ $entry->created_at }}</td>
                   <td>
-                    <a class="btn btn-icon btn-success">
+                    <a class="btn btn-icon btn-success" href="{{ route('fs.tickets.create', ['id' => $entry->id]) }}">
                       <i data-feather="message-circle"></i>
                     </a>
-                    <a class="btn btn-icon btn-success">
+                    <a class="btn btn-icon btn-success" href="{{ route('fs.download.original', ['id' => $entry->id]) }}">
                       <i data-feather="download"></i>
                     </a>
-                    <a class="btn btn-icon btn-success">
+                    <a class="btn btn-icon btn-success" href="{{ route('fs.download.modified', ['id' => $entry->id]) }}">
                       <i data-feather="download-cloud"></i>
                     </a>
-                    <a class="btn btn-icon btn-primary" href="{{ route('fs.edit', ['f' => $e->id]) }}">
+                    <a class="btn btn-icon btn-primary" href="{{ route('fs.edit', ['f' => $entry->id]) }}">
                       <i data-feather="edit"></i>
                     </a>
                   </td>

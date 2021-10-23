@@ -3,18 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\AppsController;
-use App\Http\Controllers\UserInterfaceController;
-use App\Http\Controllers\CardsController;
-use App\Http\Controllers\ComponentsController;
-use App\Http\Controllers\ExtensionController;
-use App\Http\Controllers\PageLayoutController;
-use App\Http\Controllers\FormsController;
-use App\Http\Controllers\TableController;
-use App\Http\Controllers\PagesController;
-use App\Http\Controllers\MiscellaneousController;
-use App\Http\Controllers\AuthenticationController;
-use App\Http\Controllers\ChartsController;
 
 use App\Http\Controllers\Remaps\CustomerController;
 use App\Http\Controllers\Remaps\FileServiceController;
@@ -28,7 +16,8 @@ use App\Http\Controllers\Remaps\PackageController;
 use App\Http\Controllers\Remaps\TuningCreditController;
 use App\Http\Controllers\Remaps\TuningTypeController;
 use App\Http\Controllers\Remaps\TuningTypeOptionController;
-
+use App\Http\Controllers\Consumer\FileServiceController as FSController;
+use App\Http\Controllers\Consumer\TicketController as TKController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -83,8 +72,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('company/tuning-types/{id}/options/{option}/up-sort', [TuningTypeOptionController::class, 'upSort'])->name('options.sort.up');
     Route::get('company/tuning-types/{id}/options/{option}/down-sort', [TuningTypeOptionController::class, 'downSort'])->name('options.sort.down');
 
-    Route::resource('fs', \App\Http\Controllers\Consumer\FileServiceController::class);
-    Route::resource('tk', \App\Http\Controllers\Consumer\TicketController::class);
+    Route::resource('fs', FSController::class);
+    Route::get('/fs/{id}/download-original', [FSController::class, 'download_original'])->name('fs.download.original');
+    Route::get('/fs/{id}/download-modified', [FSController::class, 'download_modified'])->name('fs.download.modified');
+    Route::get('/fs/{id}/delete-modified', [FSController::class, 'delete_modified_file'])->name('fs.delete.modified');
+    Route::get('/fs/{id}/create-ticket', [FSController::class, 'create_ticket'])->name('fs.tickets.create');
+    Route::post('/fs/{id}/store-ticket', [FSController::class, 'store_ticket'])->name('fs.tickets.store');
+
+    Route::resource('tk', TKController::class);
+    Route::get('/tk/{id}/download-document', [TKController::class, 'download_document'])->name('tk.download');
+
     Route::resource('od', \App\Http\Controllers\Consumer\OrderController::class);
     Route::resource('tr', \App\Http\Controllers\Consumer\TransactionController::class);
     Route::get('/buy-credits', [\App\Http\Controllers\Consumer\BuyTuningCreditsController::class, 'index'])->name('consumer.buy-credits');
@@ -96,8 +93,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     // locale Route
     Route::get('lang/{locale}', [LanguageController::class, 'swap']);
-
-    Route::get('chat', [AppsController::class, 'chatApp']);
 });
 
 Route::get('/passwordtest', function () {

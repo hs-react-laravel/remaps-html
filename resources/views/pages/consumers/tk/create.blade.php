@@ -23,19 +23,19 @@
           <div class="card-body">
             <div class="row mb-1">
               <div class="col-12">
-                <label class="form-label" for="make">Subject</label>
-                <input type="text" class="form-control" id="make" name="make" />
+                <label class="form-label" for="subject">Subject</label>
+                <input type="text" class="form-control" id="subject" name="subject" />
               </div>
             </div>
 
             <div class="row mb-1">
               <div class="col-12">
-                <label class="form-label" for="note_to_engineer">Message</label>
+                <label class="form-label" for="message">Message</label>
                 <textarea
                   class="form-control"
-                  id="note_to_engineer"
+                  id="message"
                   rows="5"
-                  name="note_to_engineer"
+                  name="message"
                 ></textarea>
               </div>
             </div>

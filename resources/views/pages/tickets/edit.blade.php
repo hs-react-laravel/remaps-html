@@ -39,7 +39,7 @@
                   <p class="badge bg-{{$msg->sender_id == $user->id ? 'primary' : 'danger'}} badge-custom">
                     {{ $msg->message }} <br>
                     @if ($msg->document)
-                      <a href=""><i data-feather="file"></i> {{ $msg->document }}</a>
+                      <a href="{{ route('tickets.download', ['id' => $msg->id]) }}"><i data-feather="file"></i> {{ $msg->document }}</a>
                     @endif
                   </p>
                 </div>
