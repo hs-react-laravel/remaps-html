@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Remaps;
 
+use App\Helpers\Helper;
 use Illuminate\Http\Request;
 use App\Models\FileService;
 use App\Models\Ticket;
@@ -18,9 +19,16 @@ class FileServiceController extends Controller
     public function index()
     {
         $user = $this->user;
-        $entries = FileService::whereHas('user', function($query) use($user){
-            $query->where('company_id', $user->company_id);
-        })->orderBy('id', 'DESC')->paginate(10);
+
+        $entries = [];
+        if ($this->user->is_staff) {
+            $entries = FileService::where('assign_id', $this->user->id)->orderBy('id', 'DESC')->paginate(10);
+        } else if ($this->user->is_admin) {
+            $query = FileService::whereHas('user', function($query) use($user){
+                $query->where('company_id', $user->company_id);
+            });
+            $entries = $query->orderBy('id', 'DESC')->paginate(10);
+        }
         return view('pages.fileservice.index', [
             'entries' => $entries
         ]);
@@ -67,8 +75,7 @@ class FileServiceController extends Controller
     public function edit($id)
     {
         $fs = FileService::find($id);
-        $staff = $fs->staffs->first();
-        return view('pages.fileservice.edit', ['fileService' => $fs, 'staff_id' => $staff->id]);
+        return view('pages.fileservice.edit', ['fileService' => $fs]);
     }
 
     /**
@@ -91,15 +98,14 @@ class FileServiceController extends Controller
                 $request->request->add(['status' => 'W']);
             }
         }
+        //assign to staff
+        if ($request->assign) {
+            $request->request->add(['assign_id' => $request->assign]);
+        }
         // save model
         $fs->update($request->all());
         // relation with staff
-        if ($request->assign) {
-            StaffWork::create([
-                'user_id' => $request->assign,
-                'fileservice_id' => $id
-            ]);
-        }
+
         return redirect(route('fileservices.index'));
     }
 

@@ -47,7 +47,7 @@
                   <select class="form-select" id="assign" name="assign">
                     <option value=""></option>
                     @foreach ($company->staffs as $staff)
-                      <option value="{{ $staff->id }}" @if($staff->id == $staff_id) selected @endif>{{ $staff->fullname }}</option>
+                      <option value="{{ $staff->id }}" @if($fileService->assign_id == $staff->id) selected @endif>{{ $staff->fullname }}</option>
                     @endforeach
                   </select>
                 </div>

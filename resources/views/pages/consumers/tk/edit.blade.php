@@ -16,8 +16,8 @@
           {{ Form::model($entry, array('route' => array('tk.update', $entry->id), 'method' => 'PUT')) }}
             <div class="message-wrapper">
               <div class="message-{{ $entry->sender_id == $user->id ? 'right' : 'left' }}">
-                <div class="avatar bg-light-{{$entry->sender_id == $user->id ? 'primary' : 'danger'}}">
-                  <div class="avatar-content">{{$entry->sender_id == $user->id ? 'ME' : 'AD'}}</div>
+                <div class="avatar" style="background-color: #{{ \App\Helpers\Helper::generateAvatarColor($entry->sender_id) }}">
+                  <div class="avatar-content">{{ \App\Helpers\Helper::getInitialName($entry->sender_id) }}</div>
                 </div> <br>
                 <p class="badge bg-{{$entry->sender_id == $user->id ? 'primary' : 'danger'}} badge-custom">
                   {{ $entry->message }} <br>
@@ -32,8 +32,8 @@
               @foreach ($messages as $msg)
                 <div class="message-{{ $msg->sender_id == $user->id ? 'right' : 'left' }}">
                   @if ($msg->sender_id != $prev_id)
-                    <div class="avatar bg-light-{{$msg->sender_id == $user->id ? 'primary' : 'danger'}}">
-                      <div class="avatar-content">{{$msg->sender_id == $user->id ? 'ME' : 'AD'}}</div>
+                    <div class="avatar" style="background-color: #{{ \App\Helpers\Helper::generateAvatarColor($msg->sender_id) }}">
+                      <div class="avatar-content">{{ \App\Helpers\Helper::getInitialName($msg->sender_id) }}</div>
                     </div> <br>
                   @endif
                   <p class="badge bg-{{$msg->sender_id == $user->id ? 'primary' : 'danger'}} badge-custom">

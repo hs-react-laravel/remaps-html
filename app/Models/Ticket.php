@@ -20,7 +20,18 @@ class Ticket extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $fillable = ['sender_id', 'receiver_id', 'file_servcie_id', 'parent_chat_id', 'subject', 'message', 'document', 'is_closed','is_read'];
+    protected $fillable = [
+        'sender_id',
+        'receiver_id',
+        'file_servcie_id',
+        'parent_chat_id',
+        'assign_id',
+        'subject',
+        'message',
+        'document',
+        'is_closed',
+        'is_read'
+    ];
 
     /**
      * Get the user that owns the company.
@@ -36,6 +47,11 @@ class Ticket extends Model
     public function receiver()
     {
         return $this->belongsTo('App\Models\User', 'receiver_id');
+    }
+
+    public function staff()
+    {
+        return $this->belongsTo('App\Models\User', 'assign_id');
     }
 
     /**

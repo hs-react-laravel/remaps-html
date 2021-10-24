@@ -91,22 +91,28 @@ class TicketController extends Controller
     public function update(Request $request, $id)
     {
         $ticket = Ticket::find($id);
-        $new_ticket = new Ticket();
-        $new_ticket->parent_chat_id = $ticket->id;
-        $new_ticket->sender_id = $this->user->id;
-        $new_ticket->receiver_id = $this->company->owner->id;
-        $new_ticket->message = $request->message;
-        $new_ticket->subject = $ticket->subject;
-        if ($request->file('upload_file')) {
-            $file = $request->file('upload_file');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(storage_path('app/public/uploads/tickets'), $filename);
-            $new_ticket->document = $filename;
-        }
-        $new_ticket->save();
 
-        $ticket->is_closed = 0;
-        $ticket->save();
+        if ($request->file('upload_file') || $request->message) {
+            $new_ticket = new Ticket();
+            $new_ticket->parent_chat_id = $ticket->id;
+            $new_ticket->sender_id = $this->user->id;
+            $new_ticket->receiver_id = $ticket->assign_id ? $ticket->assign_id : $this->company->owner->id;
+            $new_ticket->message = $request->message;
+            $new_ticket->subject = $ticket->subject;
+            if ($request->file('upload_file')) {
+                $file = $request->file('upload_file');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $file->move(storage_path('app/public/uploads/tickets'), $filename);
+                $new_ticket->document = $filename;
+            }
+            $new_ticket->save();
+            $ticket->is_closed = 0;
+            $ticket->save();
+        }
+        if ($request->assign){
+            $ticket->assign_id = $request->assign;
+            $ticket->save();
+        }
 
         return redirect(route('tickets.edit', ['ticket' => $id]));
     }

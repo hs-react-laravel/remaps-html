@@ -26,7 +26,8 @@
             <tr>
               <th width="20%">Client</th>
               <th width="20%">File Service</th>
-              <th width="20%">Ticket Status</th>
+              <th width="10%">Ticket Status</th>
+              <th width="20%">Assign</th>
               <th width="20%">Created At</th>
               <th width="20%">Actions</th>
             </tr>
@@ -37,6 +38,7 @@
                 <td>{{ $entry->client }}</td>
                 <td>{{ $entry->file_service_name }}</td>
                 <td>{{ $entry->closed ? 'Closed' : 'Open' }}</td>
+                <td> @if ($entry->staff) {{ $entry->staff->fullname }} @endif </td>
                 <td>{{ $entry->created_at }}</td>
                 <td class="td-actions">
                   <a class="btn btn-icon btn-primary" href="{{ route('tickets.edit', ['ticket' => $entry->id]) }}">

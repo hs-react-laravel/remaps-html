@@ -25,6 +25,7 @@ class Controller extends BaseController
                 view()->share('company', $this->company);
 
                 $verticalMenu = 'verticalMenuCustomer.json';
+                if ($this->user->is_staff) $verticalMenu = 'verticalMenuStaff.json';
                 if ($this->user->is_admin) $verticalMenu = 'verticalMenuCompany.json';
                 if ($this->user->is_master) $verticalMenu = 'verticalMenu.json';
 

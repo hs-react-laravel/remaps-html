@@ -13,7 +13,27 @@ class FileService extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'tuning_type_id', 'make', 'model', 'generation', 'engine', 'ecu', 'engine_hp', 'year', 'gearbox','fuel_type', 'reading_tool', 'license_plate', 'vin', 'orginal_file', 'modified_file', 'note_to_engineer', 'notes_by_engineer', 'status', 'displayable_id'
+        'user_id',
+        'tuning_type_id',
+        'make',
+        'model',
+        'generation',
+        'engine',
+        'ecu',
+        'engine_hp',
+        'year',
+        'gearbox',
+        'fuel_type',
+        'reading_tool',
+        'license_plate',
+        'vin',
+        'orginal_file',
+        'modified_file',
+        'note_to_engineer',
+        'notes_by_engineer',
+        'status',
+        'displayable_id',
+        'assign_id'
     ];
 
 
@@ -33,9 +53,9 @@ class FileService extends Model
     {
         return $this->hasOne('App\Models\Ticket','file_servcie_id');
     }
-    public function staffs()
+    public function staff()
     {
-        return $this->belongsToMany(User::class, 'staff_works', 'fileservice_id', 'user_id');
+        return $this->belongsTo(User::class, 'assign_id');
     }
 
     public function getStatusAttribute($value) {

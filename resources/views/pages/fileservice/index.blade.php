@@ -27,30 +27,32 @@
               <th width="10%">Job No.</th>
               <th width="20%">Car</th>
               <th width="20%">License Plate</th>
+              <th>Assign</th>
               <th width="15%">Created At</th>
               <th width="20%">Actions</th>
             </tr>
           </thead>
           <tbody>
-            @foreach ($entries as $e)
+            @foreach ($entries as $entry)
               <tr>
-                  <td>{{ $e->displayable_id }}</td>
-                  <td>{{ $e->car }}</td>
-                  <td>{{ $e->license_plate }}</td>
-                  <td>{{ $e->created_at }}</td>
+                  <td>{{ $entry->displayable_id }}</td>
+                  <td>{{ $entry->car }}</td>
+                  <td>{{ $entry->license_plate }}</td>
+                  <td> @if ($entry->staff) {{ $entry->staff->fullname }} @endif</td>
+                  <td>{{ $entry->created_at }}</td>
                   <td class="td-actions">
                     <a
                       class="btn btn-icon btn-success"
-                      href="{{ $e->tickets
-                        ? route('tickets.edit', ['ticket' => $e->tickets->id])
-                        : route('fileservice.tickets.create', ['id' => $e->id]) }}">
+                      href="{{ $entry->tickets
+                        ? route('tickets.edit', ['ticket' => $entry->tickets->id])
+                        : route('fileservice.tickets.create', ['id' => $entry->id]) }}">
                       <i data-feather="message-circle"></i>
                     </a>
-                    <a class="btn btn-icon btn-primary" href="{{ route('fileservices.edit', ['fileservice' => $e->id]) }}">
+                    <a class="btn btn-icon btn-primary" href="{{ route('fileservices.edit', ['fileservice' => $entry->id]) }}">
                       <i data-feather="edit"></i>
                     </a>
-                    <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $e->id }}"><i data-feather="trash-2"></i></a>
-                    <form action="{{ route('fileservices.destroy', $e->id) }}" class="delete-form" method="POST" style="display:none">
+                    <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}"><i data-feather="trash-2"></i></a>
+                    <form action="{{ route('fileservices.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
                       <input type="hidden" name="_method" value="DELETE">
                       <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     </form>

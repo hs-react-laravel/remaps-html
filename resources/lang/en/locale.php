@@ -200,6 +200,7 @@ return [
     //Menu
     "Admin Functions" => "Admin",
     "Company Functions" => "Company",
+    "Staff Functions" => "Staff",
     "Customers" => "Customers",
     "File Services" => "File Services",
     "Support Tickets" => "Support Tickets",
