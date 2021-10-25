@@ -2,11 +2,11 @@
 $configData = Helper::applClasses();
 @endphp
 <div class="main-menu menu-fixed {{(($configData['theme'] === 'dark') || ($configData['theme'] === 'semi-dark')) ? 'menu-dark' : 'menu-light'}} menu-accordion menu-shadow" data-scroll-to-active="true">
-  <div class="navbar-header" style="height: 10rem">
+  <div class="navbar-header mt-1" style="height: 10rem">
     <img src="{{ asset('storage/uploads/logo/'.$company->logo) }}" style="width: 100%; height: 100%; border-radius: 5px">
   </div>
   <div class="shadow-bottom"></div>
-  <div class="main-menu-content" style="height: calc(100% - 10rem) !important">
+  <div class="main-menu-content" style="height: calc(100% - 11rem) !important">
     @php
       $custom_classes = "";
       if(isset($menu->classlist)) {

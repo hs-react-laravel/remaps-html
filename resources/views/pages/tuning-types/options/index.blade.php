@@ -39,14 +39,14 @@
                 <td>{{ $entry->credits }}</td>
                 <td>{{ $entry->tooltip }}</td>
                 <td class="td-actions">
+                  <a class="btn btn-icon btn-primary" href="{{ route('options.edit', ['id' => $typeId, 'option' => $entry->id]) }}">
+                    <i data-feather="edit"></i>
+                  </a>
                   <a class="btn btn-icon btn-success" href="{{ route('options.sort.up', ['id' => $typeId, 'option' => $entry->id]) }}">
                     <i data-feather="arrow-up"></i>
                   </a>
                   <a class="btn btn-icon btn-success" href="{{ route('options.sort.down', ['id' => $typeId, 'option' => $entry->id]) }}">
                     <i data-feather="arrow-down"></i>
-                  </a>
-                  <a class="btn btn-icon btn-primary" href="{{ route('options.edit', ['id' => $typeId, 'option' => $entry->id]) }}">
-                    <i data-feather="edit"></i>
                   </a>
                   <a class="btn btn-icon btn-danger" onclick="onDelete(this)">
                     <i data-feather="trash-2"></i>

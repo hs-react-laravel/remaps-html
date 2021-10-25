@@ -43,14 +43,14 @@
                   </a>
                 </td>
                 <td class="td-actions">
+                  <a class="btn btn-icon btn-primary" href="{{ route('tuning-types.edit', ['tuning_type' => $entry->id]) }}">
+                    <i data-feather="edit"></i>
+                  </a>
                   <a class="btn btn-icon btn-success" href="{{ route('tuning-types.sort-up', ['id' => $entry->id]) }}">
                     <i data-feather="arrow-up"></i>
                   </a>
                   <a class="btn btn-icon btn-success" href="{{ route('tuning-types.sort-down', ['id' => $entry->id]) }}">
                     <i data-feather="arrow-down"></i>
-                  </a>
-                  <a class="btn btn-icon btn-primary" href="{{ route('tuning-types.edit', ['tuning_type' => $entry->id]) }}">
-                    <i data-feather="edit"></i>
                   </a>
                   <a class="btn btn-icon btn-danger" onclick="onDelete(this)">
                     <i data-feather="trash-2"></i>

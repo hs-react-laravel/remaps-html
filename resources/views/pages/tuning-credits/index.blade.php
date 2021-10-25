@@ -58,13 +58,13 @@
                   </td>
                 @endforeach
                 <td class="td-actions" @if($entry->set_default_tier) style="font-weight: bold" @endif">
+                  <a class="btn btn-icon btn-primary" href="{{ route('tuning-credits.edit', ['tuning_credit' => $entry->id]) }}">
+                    <i data-feather="edit"></i>
+                  </a>
                   <a
                     class="btn btn-icon @if($entry->set_default_tier) btn-dark @else btn-success @endif"
                     href="{{ route('tuning-credits.default', ['id' => $entry->id]) }}">
                     <i data-feather="check-circle"></i>
-                  </a>
-                  <a class="btn btn-icon btn-primary" href="{{ route('tuning-credits.edit', ['tuning_credit' => $entry->id]) }}">
-                    <i data-feather="edit"></i>
                   </a>
                   <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}"><i data-feather="trash-2"></i></a>
                   <form action="{{ route('tuning-credits.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">

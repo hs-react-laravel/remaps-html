@@ -42,6 +42,9 @@
                   <td>{{ $u->total_customers }}</td>
                   <td>{{ $u->created_at }}</td>
                   <td class="td-actions">
+                    <a class="btn btn-icon btn-primary" href="{{ route('companies.edit', ['company' => $u->id]) }}">
+                      <i data-feather="edit"></i>
+                    </a>
                     <a class="btn btn-icon btn-success">
                       <i data-feather="award"></i>
                     </a>
@@ -59,9 +62,6 @@
                     </a>
                     <a class="btn btn-icon btn-success">
                       <i data-feather="thumbs-up"></i>
-                    </a>
-                    <a class="btn btn-icon btn-primary" href="{{ route('companies.edit', ['company' => $u->id]) }}">
-                      <i data-feather="edit"></i>
                     </a>
                     <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $u->id }}"><i data-feather="trash-2"></i></a>
                     <form action="{{ route('companies.destroy', $u->id) }}" class="delete-form" method="POST" style="display:none">

@@ -41,15 +41,15 @@
                   <td> @if ($entry->staff) {{ $entry->staff->fullname }} @endif</td>
                   <td>{{ $entry->created_at }}</td>
                   <td class="td-actions">
+                    <a class="btn btn-icon btn-primary" href="{{ route('fileservices.edit', ['fileservice' => $entry->id]) }}">
+                      <i data-feather="edit"></i>
+                    </a>
                     <a
                       class="btn btn-icon btn-success"
                       href="{{ $entry->tickets
                         ? route('tickets.edit', ['ticket' => $entry->tickets->id])
                         : route('fileservice.tickets.create', ['id' => $entry->id]) }}">
                       <i data-feather="message-circle"></i>
-                    </a>
-                    <a class="btn btn-icon btn-primary" href="{{ route('fileservices.edit', ['fileservice' => $entry->id]) }}">
-                      <i data-feather="edit"></i>
                     </a>
                     <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}"><i data-feather="trash-2"></i></a>
                     <form action="{{ route('fileservices.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
