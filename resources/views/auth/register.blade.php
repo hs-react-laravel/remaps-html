@@ -56,6 +56,11 @@
                     <div class="col-xl-6 col-md-6 col-12">
                       <label class="form-label" for="password">Password</label>
                       <input type="password" class="form-control" id="password" name="password" required autocomplete="new-password" />
+                      @error('name')
+                        <span class="invalid-feedback" role="alert">
+                          <strong>{{ $message }}</strong>
+                        </span>
+                      @enderror
                     </div>
                     <div class="col-xl-6 col-md-6 col-12">
                       <label class="form-label" for="password_confirmation">Confirm Password</label>
@@ -98,6 +103,7 @@
                     <div class="col-xl-4 col-md-6 col-12">
                       <label class="form-label" for="first_name">First Name</label>
                       <input type="text" class="form-control" id="first_name" name="first_name" />
+
                     </div>
                     <div class="col-xl-4 col-md-6 col-12">
                       <label class="form-label" for="last_name">Last Name</label>

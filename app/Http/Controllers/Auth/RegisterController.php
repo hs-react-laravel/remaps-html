@@ -77,10 +77,11 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        $data['password'] = Hash::make($data['password']);
+        $default_tuning_group = $this->company->defaultTuningCreditGroup;
+        if ($default_tuning_group) {
+            $data['tuning_credit_group_id'] = $default_tuning_group->id;
+        }
+        return User::create($data);
     }
 }

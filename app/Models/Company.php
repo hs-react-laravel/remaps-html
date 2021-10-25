@@ -104,6 +104,10 @@ class Company extends Model
     {
         return $this->hasMany('App\Models\TuningCreditGroup');
     }
+    public function defaultTuningCreditGroup()
+    {
+        return $this->tuningCreditGroups->where('set_default_tier', 1);
+    }
 	public function tuningCreditGroupsSelected()
     {
         return $this->hasMany('App\Models\TuningCreditGroup');
