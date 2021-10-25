@@ -41,6 +41,7 @@
                   >{{ $fileService->notes_by_engineer }}</textarea>
                 </div>
               </div>
+              @if (!$user->is_staff)
               <div class="col-12">
                 <div class="mb-1">
                   <label class="form-label" for="assign">Assign</label>
@@ -52,6 +53,7 @@
                   </select>
                 </div>
               </div>
+              @endif
               <div class="col-12">
                 <button type="submit" class="btn btn-primary me-1">Save</button>
               </div>

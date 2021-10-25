@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Company;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -31,6 +32,8 @@ class RegisterController extends Controller
      */
     protected $redirectTo = RouteServiceProvider::HOME;
 
+    protected $company;
+
     /**
      * Create a new controller instance.
      *
@@ -39,6 +42,17 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+        $this->company = Company::where('domain_link', url(''))->first();
+        if (!$this->company){
+            abort(400, 'No such domain('.url("").') is registerd with system. Please contact to webmaster.');
+        }
+        view()->share('company', $this->company);
+    }
+
+    public function showRegistrationForm()
+    {
+        $langs = config('constants.langs');
+        return view('auth.register', ['langs' => $langs]);
     }
 
     /**
@@ -50,7 +64,6 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);

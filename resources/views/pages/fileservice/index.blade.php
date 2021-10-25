@@ -27,7 +27,7 @@
               <th width="10%">Job No.</th>
               <th width="20%">Car</th>
               <th width="20%">License Plate</th>
-              <th>Assign</th>
+              <th>Working</th>
               <th width="15%">Created At</th>
               <th width="20%">Actions</th>
             </tr>

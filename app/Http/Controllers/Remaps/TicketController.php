@@ -20,7 +20,7 @@ class TicketController extends Controller
         //
         $user = $this->user;
         $entries = Ticket::where('parent_chat_id', 0)->where(function($query) use($user){
-            return $query->where('receiver_id', $user->id)->orWhere('sender_id', $user->id);
+            return $query->where('receiver_id', $user->company->owner->id)->orWhere('sender_id', $user->id);
         })->orderBy('id', 'DESC')->paginate(10);
         return view('pages.tickets.index', [
             'entries' => $entries
@@ -96,7 +96,7 @@ class TicketController extends Controller
             $new_ticket = new Ticket();
             $new_ticket->parent_chat_id = $ticket->id;
             $new_ticket->sender_id = $this->user->id;
-            $new_ticket->receiver_id = $ticket->assign_id ? $ticket->assign_id : $this->company->owner->id;
+            $new_ticket->receiver_id = $this->user->is_staff ? $this->user->id : $this->user->company->owner->id;
             $new_ticket->message = $request->message;
             $new_ticket->subject = $ticket->subject;
             if ($request->file('upload_file')) {
