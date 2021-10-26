@@ -27,7 +27,22 @@
                   <option value="1" @if($customer->private == 1) selected @endif>Business Customer</option>
                 </select>
               </div>
+              <div class="col-xl-4 col-md-6 col-12" style="display: none" id="vat_number_container">
+                <label class="form-label" for="vat_number">VAT/TAX Number</label>
+                <input type="text" class="form-control" id="vat_number" name="vat_number" value="{{ $customer->vat_number }}" />
+              </div>
             </div>
+            @if(!empty($company->vat_number) && !empty($company->vat_percentage))
+            <div class="row mb-1">
+              <div class="col-xl-4 col-md-6 col-12">
+                <div class="form-check form-check-inline">
+                  <input type="hidden" name="add_tax" value="0" />
+                  <input class="form-check-input" type="checkbox" id="add_tax" name="add_tax" value="1" @if($customer->add_tax) checked @endif/>
+                  <label class="form-check-label" for="add_tax">Add Tax</label>
+                </div>
+              </div>
+            </div>
+            @endif
             <div class="row mb-1">
               <div class="col-xl-4 col-md-6 col-12">
                 <label class="form-label" for="tuning_credit_group_id">Tuning price type</label>
@@ -115,13 +130,14 @@
                 >{{ $customer->tools }}</textarea>
               </div>
             </div>
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary me-1">Submit</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-12">
-      <button type="submit" class="btn btn-primary me-1">Submit</button>
-    </div>
+
   {{ Form::close() }}
 </section>
 
@@ -135,4 +151,18 @@
   <!-- Page js files -->
   <script src="{{ asset(mix('js/scripts/forms/form-tooltip-valid.js'))}}"></script>
   <script src="{{ asset(mix('js/scripts/forms/form-select2.js')) }}"></script>
+  <script>
+    var val = $('#private').val();
+      if (val == 1)
+        $('#vat_number_container').show()
+      else
+        $('#vat_number_container').hide()
+    $('#private').on('change', function(){
+      var val = $(this).val();
+      if (val == 1)
+        $('#vat_number_container').show()
+      else
+        $('#vat_number_container').hide()
+    })
+  </script>
 @endsection

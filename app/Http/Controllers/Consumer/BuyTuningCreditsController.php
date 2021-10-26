@@ -40,7 +40,10 @@ class BuyTuningCreditsController extends Controller
         $groupCreditTires  = $this->user->tuningCreditGroup->tuningCreditTires()->withPivot('from_credit', 'for_credit')->wherePivot('from_credit', '!=', 0.00);
         $tire = $groupCreditTires->where('id', $request->tire_id)->first();
 
-        $tax = $tire->pivot->for_credit * $this->company->vat_percentage / 100;
+        $isVatCalculation = ($this->company->vat_number != null) && ($this->company->vat_percentage != null) && ($this->user->add_tax);
+        $vat_percentage = $isVatCalculation ? $this->company->vat_percentage : 0;
+
+        $tax = $tire->pivot->for_credit * $vat_percentage / 100;
         $total_amount = $tire->pivot->for_credit + $tax;
         $req = new OrdersCreateRequest();
         $req->prefer('return=representation');

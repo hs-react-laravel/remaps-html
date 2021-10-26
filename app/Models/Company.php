@@ -80,7 +80,7 @@ class Company extends Model
 
     public function users()
     {
-        return $this->hasMany('App\Models\User')->where('is_staff', 0);
+        return $this->hasMany('App\Models\User')->whereNull('is_staff');
     }
     public function staffs()
     {

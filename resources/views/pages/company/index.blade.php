@@ -1,7 +1,7 @@
 
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Customers')
+@section('title', 'Companies')
 
 @section('vendor-style')
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/animate/animate.min.css')) }}">
@@ -42,26 +42,36 @@
                   <td>{{ $u->total_customers }}</td>
                   <td>{{ $u->created_at }}</td>
                   <td class="td-actions">
-                    <a class="btn btn-icon btn-primary" href="{{ route('companies.edit', ['company' => $u->id]) }}">
+                    <a class="btn btn-icon btn-primary" href="{{ route('companies.edit', ['company' => $u->id]) }}" title="Edit">
                       <i data-feather="edit"></i>
                     </a>
-                    <a class="btn btn-icon btn-success">
+                    <a class="btn btn-icon btn-success" title="Subscriptions">
                       <i data-feather="award"></i>
                     </a>
-                    <a class="btn btn-icon btn-success">
+                    <a class="btn btn-icon btn-success" title="Resend password reset link">
                       <i data-feather="mail"></i>
                     </a>
-                    <a class="btn btn-icon btn-success">
+                    <a
+                      class="btn btn-icon btn-success"
+                      title="Login as this company"
+                      href="{{ route('companies.switch', ['id' => $u->id]) }}"
+                      target="_blank" >
                       <i data-feather="user"></i>
                     </a>
                     <a class="btn btn-icon btn-success">
                       <i data-feather="dollar-sign"></i>
                     </a>
-                    <a class="btn btn-icon btn-success">
-                      <i data-feather="lock"></i>
+                    <a
+                      class="btn btn-icon btn-success"
+                      title="{{ $u->is_public ? 'Private' : 'Public' }}"
+                      href="{{ route('companies.public', ['id' => $u->id]) }}" >
+                      <i data-feather="{{ $u->is_public ? 'lock' : 'users'}}"></i>
                     </a>
-                    <a class="btn btn-icon btn-success">
-                      <i data-feather="thumbs-up"></i>
+                    <a
+                      class="btn btn-icon btn-success"
+                      title="{{ $u->owner->is_active == 1 ? 'Active' : 'Deactive' }}"
+                      href="{{ route('companies.activate', ['id' => $u->id]) }}" >
+                      <i data-feather="{{ $u->owner->is_active == 1 ? 'thumbs-down' : 'thumbs-up' }}"></i>
                     </a>
                     <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $u->id }}"><i data-feather="trash-2"></i></a>
                     <form action="{{ route('companies.destroy', $u->id) }}" class="delete-form" method="POST" style="display:none">

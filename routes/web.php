@@ -47,6 +47,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('company/transactions', TransactionController::class);
     Route::resource('company/email-templates', EmailTemplateController::class);
     Route::resource('admin/companies', CompanyController::class);
+    Route::get('admin/companies/{id}/activate', [CompanyController::class, 'activate'])->name('companies.activate');
+    Route::get('admin/companies/{id}/public', [CompanyController::class, 'public'])->name('companies.public');
+    Route::get('admin/companies/{id}/switch', [CompanyController::class, 'switchAsCompany'])->name('companies.switch');
     Route::resource('admin/packages', PackageController::class);
 
     Route::get('company/company-settings', [CompanySettingController::class, 'company_setting'])->name('company.setting');

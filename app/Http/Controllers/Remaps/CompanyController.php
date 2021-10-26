@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Remaps;
 
 use Illuminate\Http\Request;
 use App\Models\Company;
+use Auth;
 
 class CompanyController extends Controller
 {
@@ -95,5 +96,41 @@ class CompanyController extends Controller
     {
         Company::find($id)->delete();
         return redirect(route('companies.index'));
+    }
+
+    public function activate($id)
+    {
+        $company = Company::find($id);
+		$companyUser = $company->owner;
+        if($companyUser->is_active ==1){
+			$companyUser->is_active = 0;
+			$companyUser->save();
+		}else{
+			$companyUser->is_active = 1;
+			$companyUser->save();
+			$token = app('auth.password.broker')->createToken($companyUser);
+		}
+        return redirect(route('companies.index'));
+    }
+
+    public function public($id)
+    {
+        $company = Company::find($id);
+		if($company->is_public == 1){
+			$company->is_public = 0;
+		} else {
+			$company->is_public = 1;
+		}
+		$company->Save();
+        return redirect(route('companies.index'));
+    }
+
+    public function switchAsCompany($id){
+        $company = Company::find($id);
+        $user = $company->users()->where('is_master', 0)->where('is_admin', 1)->first();
+        if($user){
+            Auth::login($user);
+            return redirect()->away($user->company->domain_link);
+        }
     }
 }
