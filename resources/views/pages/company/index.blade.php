@@ -35,52 +35,58 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ($entries as $u)
+            @if (count($entries) > 0)
+              @foreach ($entries as $u)
+                <tr>
+                    <td>{{ $u->name }}</td>
+                    <td>{{ $u->domain_link }}</td>
+                    <td>{{ $u->total_customers }}</td>
+                    <td>{{ $u->created_at }}</td>
+                    <td class="td-actions">
+                      <a class="btn btn-icon btn-primary" href="{{ route('companies.edit', ['company' => $u->id]) }}" title="Edit">
+                        <i data-feather="edit"></i>
+                      </a>
+                      <a class="btn btn-icon btn-success" title="Subscriptions">
+                        <i data-feather="award"></i>
+                      </a>
+                      <a class="btn btn-icon btn-success" title="Resend password reset link">
+                        <i data-feather="mail"></i>
+                      </a>
+                      <a
+                        class="btn btn-icon btn-success"
+                        title="Login as this company"
+                        href="{{ route('companies.switch', ['id' => $u->id]) }}"
+                        target="_blank" >
+                        <i data-feather="user"></i>
+                      </a>
+                      <a class="btn btn-icon btn-success">
+                        <i data-feather="dollar-sign"></i>
+                      </a>
+                      <a
+                        class="btn btn-icon btn-success"
+                        title="{{ $u->is_public ? 'Private' : 'Public' }}"
+                        href="{{ route('companies.public', ['id' => $u->id]) }}" >
+                        <i data-feather="{{ $u->is_public ? 'lock' : 'users'}}"></i>
+                      </a>
+                      <a
+                        class="btn btn-icon btn-success"
+                        title="{{ $u->owner->is_active == 1 ? 'Active' : 'Deactive' }}"
+                        href="{{ route('companies.activate', ['id' => $u->id]) }}" >
+                        <i data-feather="{{ $u->owner->is_active == 1 ? 'thumbs-down' : 'thumbs-up' }}"></i>
+                      </a>
+                      <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $u->id }}"><i data-feather="trash-2"></i></a>
+                      <form action="{{ route('companies.destroy', $u->id) }}" class="delete-form" method="POST" style="display:none">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                      </form>
+                    </td>
+                </tr>
+              @endforeach
+            @else
               <tr>
-                  <td>{{ $u->name }}</td>
-                  <td>{{ $u->domain_link }}</td>
-                  <td>{{ $u->total_customers }}</td>
-                  <td>{{ $u->created_at }}</td>
-                  <td class="td-actions">
-                    <a class="btn btn-icon btn-primary" href="{{ route('companies.edit', ['company' => $u->id]) }}" title="Edit">
-                      <i data-feather="edit"></i>
-                    </a>
-                    <a class="btn btn-icon btn-success" title="Subscriptions">
-                      <i data-feather="award"></i>
-                    </a>
-                    <a class="btn btn-icon btn-success" title="Resend password reset link">
-                      <i data-feather="mail"></i>
-                    </a>
-                    <a
-                      class="btn btn-icon btn-success"
-                      title="Login as this company"
-                      href="{{ route('companies.switch', ['id' => $u->id]) }}"
-                      target="_blank" >
-                      <i data-feather="user"></i>
-                    </a>
-                    <a class="btn btn-icon btn-success">
-                      <i data-feather="dollar-sign"></i>
-                    </a>
-                    <a
-                      class="btn btn-icon btn-success"
-                      title="{{ $u->is_public ? 'Private' : 'Public' }}"
-                      href="{{ route('companies.public', ['id' => $u->id]) }}" >
-                      <i data-feather="{{ $u->is_public ? 'lock' : 'users'}}"></i>
-                    </a>
-                    <a
-                      class="btn btn-icon btn-success"
-                      title="{{ $u->owner->is_active == 1 ? 'Active' : 'Deactive' }}"
-                      href="{{ route('companies.activate', ['id' => $u->id]) }}" >
-                      <i data-feather="{{ $u->owner->is_active == 1 ? 'thumbs-down' : 'thumbs-up' }}"></i>
-                    </a>
-                    <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $u->id }}"><i data-feather="trash-2"></i></a>
-                    <form action="{{ route('companies.destroy', $u->id) }}" class="delete-form" method="POST" style="display:none">
-                      <input type="hidden" name="_method" value="DELETE">
-                      <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    </form>
-                  </td>
+                <td colspan="5">No matching records found</td>
               </tr>
-            @endforeach
+            @endif
           </tbody>
         </table>
       </div>

@@ -33,35 +33,41 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ($entries as $entry)
+            @if (count($entries) > 0)
+              @foreach ($entries as $entry)
+                <tr>
+                  <td>{{ $entry->label }}</td>
+                  <td>{{ $entry->credits }}</td>
+                  <td>
+                    <a href="{{ route('options.index', ['id' => $entry->id]) }}">
+                      {{ $entry->tuningTypeOptions()->count() }} tuning options
+                    </a>
+                  </td>
+                  <td class="td-actions">
+                    <a class="btn btn-icon btn-primary" href="{{ route('tuning-types.edit', ['tuning_type' => $entry->id]) }}">
+                      <i data-feather="edit"></i>
+                    </a>
+                    <a class="btn btn-icon btn-success" href="{{ route('tuning-types.sort-up', ['id' => $entry->id]) }}">
+                      <i data-feather="arrow-up"></i>
+                    </a>
+                    <a class="btn btn-icon btn-success" href="{{ route('tuning-types.sort-down', ['id' => $entry->id]) }}">
+                      <i data-feather="arrow-down"></i>
+                    </a>
+                    <a class="btn btn-icon btn-danger" onclick="onDelete(this)">
+                      <i data-feather="trash-2"></i>
+                    </a>
+                    <form action="{{ route('tuning-types.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
+                      <input type="hidden" name="_method" value="DELETE">
+                      <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    </form>
+                  </td>
+                </tr>
+              @endforeach
+            @else
               <tr>
-                <td>{{ $entry->label }}</td>
-                <td>{{ $entry->credits }}</td>
-                <td>
-                  <a href="{{ route('options.index', ['id' => $entry->id]) }}">
-                    {{ $entry->tuningTypeOptions()->count() }} tuning options
-                  </a>
-                </td>
-                <td class="td-actions">
-                  <a class="btn btn-icon btn-primary" href="{{ route('tuning-types.edit', ['tuning_type' => $entry->id]) }}">
-                    <i data-feather="edit"></i>
-                  </a>
-                  <a class="btn btn-icon btn-success" href="{{ route('tuning-types.sort-up', ['id' => $entry->id]) }}">
-                    <i data-feather="arrow-up"></i>
-                  </a>
-                  <a class="btn btn-icon btn-success" href="{{ route('tuning-types.sort-down', ['id' => $entry->id]) }}">
-                    <i data-feather="arrow-down"></i>
-                  </a>
-                  <a class="btn btn-icon btn-danger" onclick="onDelete(this)">
-                    <i data-feather="trash-2"></i>
-                  </a>
-                  <form action="{{ route('tuning-types.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
-                    <input type="hidden" name="_method" value="DELETE">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                  </form>
-                </td>
+                <td colspan="4">No matching records found</td>
               </tr>
-            @endforeach
+            @endif
           </tbody>
         </table>
       </div>

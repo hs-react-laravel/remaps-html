@@ -22,21 +22,27 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ($entries as $e)
+            @if (count($entries) > 0)
+              @foreach ($entries as $e)
+                <tr>
+                  <td>{{ $e->name }}</td>
+                  <td>{{ $e->billing_interval }}</td>
+                  <td>{{ $e->amount_with_current_sign }}</td>
+                  <td>
+                    <a class="btn btn-icon btn-primary">
+                      <i data-feather="edit"></i>
+                    </a>
+                    <a class="btn btn-icon btn-danger">
+                      <i data-feather="trash-2"></i>
+                    </a>
+                  </td>
+                </tr>
+              @endforeach
+            @else
               <tr>
-                <td>{{ $e->name }}</td>
-                <td>{{ $e->billing_interval }}</td>
-                <td>{{ $e->amount_with_current_sign }}</td>
-                <td>
-                  <a class="btn btn-icon btn-primary">
-                    <i data-feather="edit"></i>
-                  </a>
-                  <a class="btn btn-icon btn-danger">
-                    <i data-feather="trash-2"></i>
-                  </a>
-                </td>
+                <td colspan="4">No matching records found</td>
               </tr>
-            @endforeach
+            @endif
           </tbody>
         </table>
       </div>

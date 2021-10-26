@@ -26,19 +26,25 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ($entries as $e)
+            @if (count($entries) > 0)
+              @foreach ($entries as $e)
+                <tr>
+                  <td>{{ $e->client }}</td>
+                  <td>{{ $e->file_service_name }}</td>
+                  <td>{{ $e->closed ? 'Closed' : 'Open' }}</td>
+                  <td>{{ $e->created_at }}</td>
+                  <td>
+                    <a class="btn btn-icon btn-primary" href="{{ route('tk.edit', ['tk' => $e->id]) }}">
+                      <i data-feather="edit"></i>
+                    </a>
+                  </td>
+                </tr>
+              @endforeach
+            @else
               <tr>
-                <td>{{ $e->client }}</td>
-                <td>{{ $e->file_service_name }}</td>
-                <td>{{ $e->closed ? 'Closed' : 'Open' }}</td>
-                <td>{{ $e->created_at }}</td>
-                <td>
-                  <a class="btn btn-icon btn-primary" href="{{ route('tk.edit', ['tk' => $e->id]) }}">
-                    <i data-feather="edit"></i>
-                  </a>
-                </td>
+                <td colspan="5">No matching records found</td>
               </tr>
-            @endforeach
+            @endif
           </tbody>
         </table>
       </div>

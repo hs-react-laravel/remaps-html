@@ -26,28 +26,34 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ($entries as $entry)
+            @if (count($entries) > 0)
+              @foreach ($entries as $entry)
+                <tr>
+                    <td>{{ $entry->displayable_id }}</td>
+                    <td>{{ $entry->car }}</td>
+                    <td>{{ $entry->license_plate }}</td>
+                    <td>{{ $entry->created_at }}</td>
+                    <td>
+                      <a class="btn btn-icon btn-success" href="{{ route('fs.tickets.create', ['id' => $entry->id]) }}">
+                        <i data-feather="message-circle"></i>
+                      </a>
+                      <a class="btn btn-icon btn-success" href="{{ route('fs.download.original', ['id' => $entry->id]) }}">
+                        <i data-feather="download"></i>
+                      </a>
+                      <a class="btn btn-icon btn-success" href="{{ route('fs.download.modified', ['id' => $entry->id]) }}">
+                        <i data-feather="download-cloud"></i>
+                      </a>
+                      <a class="btn btn-icon btn-primary" href="{{ route('fs.edit', ['f' => $entry->id]) }}">
+                        <i data-feather="edit"></i>
+                      </a>
+                    </td>
+                </tr>
+              @endforeach
+            @else
               <tr>
-                  <td>{{ $entry->displayable_id }}</td>
-                  <td>{{ $entry->car }}</td>
-                  <td>{{ $entry->license_plate }}</td>
-                  <td>{{ $entry->created_at }}</td>
-                  <td>
-                    <a class="btn btn-icon btn-success" href="{{ route('fs.tickets.create', ['id' => $entry->id]) }}">
-                      <i data-feather="message-circle"></i>
-                    </a>
-                    <a class="btn btn-icon btn-success" href="{{ route('fs.download.original', ['id' => $entry->id]) }}">
-                      <i data-feather="download"></i>
-                    </a>
-                    <a class="btn btn-icon btn-success" href="{{ route('fs.download.modified', ['id' => $entry->id]) }}">
-                      <i data-feather="download-cloud"></i>
-                    </a>
-                    <a class="btn btn-icon btn-primary" href="{{ route('fs.edit', ['f' => $entry->id]) }}">
-                      <i data-feather="edit"></i>
-                    </a>
-                  </td>
+                <td colspan="5">No matching records found</td>
               </tr>
-            @endforeach
+            @endif
           </tbody>
         </table>
       </div>

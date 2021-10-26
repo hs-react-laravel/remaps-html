@@ -33,25 +33,31 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ($entries as $entry)
+            @if (count($entries) > 0)
+              @foreach ($entries as $entry)
+                <tr>
+                  <td>{{ $entry->client }}</td>
+                  <td>{{ $entry->file_service_name }}</td>
+                  <td>{{ $entry->closed ? 'Closed' : 'Open' }}</td>
+                  <td> @if ($entry->staff) {{ $entry->staff->fullname }} @endif </td>
+                  <td>{{ $entry->created_at }}</td>
+                  <td class="td-actions">
+                    <a class="btn btn-icon btn-primary" href="{{ route('tickets.edit', ['ticket' => $entry->id]) }}">
+                      <i data-feather="edit"></i>
+                    </a>
+                    <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}"><i data-feather="trash-2"></i></a>
+                    <form action="{{ route('tickets.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
+                      <input type="hidden" name="_method" value="DELETE">
+                      <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    </form>
+                  </td>
+                </tr>
+              @endforeach
+            @else
               <tr>
-                <td>{{ $entry->client }}</td>
-                <td>{{ $entry->file_service_name }}</td>
-                <td>{{ $entry->closed ? 'Closed' : 'Open' }}</td>
-                <td> @if ($entry->staff) {{ $entry->staff->fullname }} @endif </td>
-                <td>{{ $entry->created_at }}</td>
-                <td class="td-actions">
-                  <a class="btn btn-icon btn-primary" href="{{ route('tickets.edit', ['ticket' => $entry->id]) }}">
-                    <i data-feather="edit"></i>
-                  </a>
-                  <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}"><i data-feather="trash-2"></i></a>
-                  <form action="{{ route('tickets.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
-                    <input type="hidden" name="_method" value="DELETE">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                  </form>
-                </td>
+                <td colspan="6">No matching records found</td>
               </tr>
-            @endforeach
+            @endif
           </tbody>
         </table>
       </div>

@@ -24,20 +24,26 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ($entries as $e)
+            @if (count($entries) > 0)
+              @foreach ($entries as $e)
               <tr>
-                <td>{{ $e->created_at }}</td>
-                <td>{{ $e->customer_company }}</td>
-                <td>{{ $e->amount_with_sign }}</td>
-                <td>{{ $e->status }}</td>
-                <td>{{ $e->displayable_id }}</td>
-                <td>
+                  <td>{{ $e->created_at }}</td>
+                  <td>{{ $e->customer_company }}</td>
+                  <td>{{ $e->amount_with_sign }}</td>
+                  <td>{{ $e->status }}</td>
+                  <td>{{ $e->displayable_id }}</td>
+                  <td>
                   <a class="btn btn-icon btn-success" href="{{ route('order.invoice', ['id' => $e->id]) }}">
-                    <i data-feather="file"></i>
+                      <i data-feather="file"></i>
                   </a>
-                </td>
+                  </td>
               </tr>
-            @endforeach
+              @endforeach
+              @else
+                <tr>
+                  <td colspan="6">No matching records found</td>
+                </tr>
+              @endif
           </tbody>
         </table>
       </div>

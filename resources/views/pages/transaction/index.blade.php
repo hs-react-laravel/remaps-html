@@ -31,23 +31,29 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ($entries as $e)
+            @if (count($entries) > 0)
+              @foreach ($entries as $e)
+                <tr>
+                  <td>{{ $e->description }}</td>
+                  <td>{{ $e->credits_with_type }}</td>
+                  <td>{{ $e->status }}</td>
+                  <td>{{ $e->created_at }}</td>
+                  <td>
+                    <a class="btn btn-icon btn-danger" onclick="onDelete(this)">
+                      <i data-feather="trash-2"></i>
+                    </a>
+                    <form action="{{ route('transactions.destroy', $e->id) }}" class="delete-form" method="POST" style="display:none">
+                      <input type="hidden" name="_method" value="DELETE">
+                      <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    </form>
+                  </td>
+                </tr>
+              @endforeach
+            @else
               <tr>
-                <td>{{ $e->description }}</td>
-                <td>{{ $e->credits_with_type }}</td>
-                <td>{{ $e->status }}</td>
-                <td>{{ $e->created_at }}</td>
-                <td>
-                  <a class="btn btn-icon btn-danger" onclick="onDelete(this)">
-                    <i data-feather="trash-2"></i>
-                  </a>
-                  <form action="{{ route('transactions.destroy', $e->id) }}" class="delete-form" method="POST" style="display:none">
-                    <input type="hidden" name="_method" value="DELETE">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                  </form>
-                </td>
+                <td colspan="5">No matching records found</td>
               </tr>
-            @endforeach
+            @endif
           </tbody>
         </table>
       </div>

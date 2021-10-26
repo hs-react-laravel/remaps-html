@@ -44,36 +44,42 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ($entries as $entry)
-              <tr>
-                <td @if($entry->set_default_tier) style="font-weight: bold" @endif">{{ $entry->name }}</td>
-                @foreach ($tires as $tire)
-                  @php
-                    $groupCreditTire = $tire->tuningCreditGroups()->where('tuning_credit_group_id', $entry->id)->withPivot('from_credit', 'for_credit')->first();
-                  @endphp
-                  <td @if($entry->set_default_tier) style="font-weight: bold" @endif">
-                    {{ config('constants.currency_sign') }} {{ number_format(@$groupCreditTire->pivot->from_credit, 2) }}
-                    ->
-                    {{ config('constants.currency_sign') }} {{ number_format(@$groupCreditTire->pivot->for_credit, 2) }}
+            @if (count($entries) > 0)
+              @foreach ($entries as $entry)
+                <tr>
+                  <td @if($entry->set_default_tier) style="font-weight: bold" @endif">{{ $entry->name }}</td>
+                  @foreach ($tires as $tire)
+                    @php
+                      $groupCreditTire = $tire->tuningCreditGroups()->where('tuning_credit_group_id', $entry->id)->withPivot('from_credit', 'for_credit')->first();
+                    @endphp
+                    <td @if($entry->set_default_tier) style="font-weight: bold" @endif">
+                      {{ config('constants.currency_sign') }} {{ number_format(@$groupCreditTire->pivot->from_credit, 2) }}
+                      ->
+                      {{ config('constants.currency_sign') }} {{ number_format(@$groupCreditTire->pivot->for_credit, 2) }}
+                    </td>
+                  @endforeach
+                  <td class="td-actions" @if($entry->set_default_tier) style="font-weight: bold" @endif">
+                    <a class="btn btn-icon btn-primary" href="{{ route('tuning-credits.edit', ['tuning_credit' => $entry->id]) }}">
+                      <i data-feather="edit"></i>
+                    </a>
+                    <a
+                      class="btn btn-icon @if($entry->set_default_tier) btn-dark @else btn-success @endif"
+                      href="{{ route('tuning-credits.default', ['id' => $entry->id]) }}">
+                      <i data-feather="check-circle"></i>
+                    </a>
+                    <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}"><i data-feather="trash-2"></i></a>
+                    <form action="{{ route('tuning-credits.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
+                      <input type="hidden" name="_method" value="DELETE">
+                      <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    </form>
                   </td>
-                @endforeach
-                <td class="td-actions" @if($entry->set_default_tier) style="font-weight: bold" @endif">
-                  <a class="btn btn-icon btn-primary" href="{{ route('tuning-credits.edit', ['tuning_credit' => $entry->id]) }}">
-                    <i data-feather="edit"></i>
-                  </a>
-                  <a
-                    class="btn btn-icon @if($entry->set_default_tier) btn-dark @else btn-success @endif"
-                    href="{{ route('tuning-credits.default', ['id' => $entry->id]) }}">
-                    <i data-feather="check-circle"></i>
-                  </a>
-                  <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}"><i data-feather="trash-2"></i></a>
-                  <form action="{{ route('tuning-credits.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
-                    <input type="hidden" name="_method" value="DELETE">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                  </form>
-                </td>
+                </tr>
+              @endforeach
+            @else
+              <tr>
+                <td colspan="{{ count($tires) + 2 }}">No matching records found</td>
               </tr>
-            @endforeach
+            @endif
           </tbody>
         </table>
       </div>

@@ -33,32 +33,38 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ($entries as $entry)
+            @if (count($entries) > 0)
+              @foreach ($entries as $entry)
+                <tr>
+                    <td>{{ $entry->displayable_id }}</td>
+                    <td>{{ $entry->car }}</td>
+                    <td>{{ $entry->license_plate }}</td>
+                    <td> @if ($entry->staff) {{ $entry->staff->fullname }} @endif</td>
+                    <td>{{ $entry->created_at }}</td>
+                    <td class="td-actions">
+                      <a class="btn btn-icon btn-primary" href="{{ route('fileservices.edit', ['fileservice' => $entry->id]) }}">
+                        <i data-feather="edit"></i>
+                      </a>
+                      <a
+                        class="btn btn-icon btn-success"
+                        href="{{ $entry->tickets
+                          ? route('tickets.edit', ['ticket' => $entry->tickets->id])
+                          : route('fileservice.tickets.create', ['id' => $entry->id]) }}">
+                        <i data-feather="message-circle"></i>
+                      </a>
+                      <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}"><i data-feather="trash-2"></i></a>
+                      <form action="{{ route('fileservices.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                      </form>
+                    </td>
+                </tr>
+              @endforeach
+            @else
               <tr>
-                  <td>{{ $entry->displayable_id }}</td>
-                  <td>{{ $entry->car }}</td>
-                  <td>{{ $entry->license_plate }}</td>
-                  <td> @if ($entry->staff) {{ $entry->staff->fullname }} @endif</td>
-                  <td>{{ $entry->created_at }}</td>
-                  <td class="td-actions">
-                    <a class="btn btn-icon btn-primary" href="{{ route('fileservices.edit', ['fileservice' => $entry->id]) }}">
-                      <i data-feather="edit"></i>
-                    </a>
-                    <a
-                      class="btn btn-icon btn-success"
-                      href="{{ $entry->tickets
-                        ? route('tickets.edit', ['ticket' => $entry->tickets->id])
-                        : route('fileservice.tickets.create', ['id' => $entry->id]) }}">
-                      <i data-feather="message-circle"></i>
-                    </a>
-                    <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}"><i data-feather="trash-2"></i></a>
-                    <form action="{{ route('fileservices.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
-                      <input type="hidden" name="_method" value="DELETE">
-                      <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    </form>
-                  </td>
+                <td colspan="6">No matching records found</td>
               </tr>
-            @endforeach
+            @endif
           </tbody>
         </table>
       </div>

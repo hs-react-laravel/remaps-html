@@ -33,31 +33,37 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ($entries as $entry)
+            @if (count($entries) > 0)
+              @foreach ($entries as $entry)
+                <tr>
+                  <td>{{ $entry->label }}</td>
+                  <td>{{ $entry->credits }}</td>
+                  <td>{{ $entry->tooltip }}</td>
+                  <td class="td-actions">
+                    <a class="btn btn-icon btn-primary" href="{{ route('options.edit', ['id' => $typeId, 'option' => $entry->id]) }}">
+                      <i data-feather="edit"></i>
+                    </a>
+                    <a class="btn btn-icon btn-success" href="{{ route('options.sort.up', ['id' => $typeId, 'option' => $entry->id]) }}">
+                      <i data-feather="arrow-up"></i>
+                    </a>
+                    <a class="btn btn-icon btn-success" href="{{ route('options.sort.down', ['id' => $typeId, 'option' => $entry->id]) }}">
+                      <i data-feather="arrow-down"></i>
+                    </a>
+                    <a class="btn btn-icon btn-danger" onclick="onDelete(this)">
+                      <i data-feather="trash-2"></i>
+                    </a>
+                    <form action="{{ route('options.destroy', ['id' => $typeId, 'option' => $entry->id]) }}" class="delete-form" method="POST" style="display:none">
+                      <input type="hidden" name="_method" value="DELETE">
+                      <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    </form>
+                  </td>
+                </tr>
+              @endforeach
+            @else
               <tr>
-                <td>{{ $entry->label }}</td>
-                <td>{{ $entry->credits }}</td>
-                <td>{{ $entry->tooltip }}</td>
-                <td class="td-actions">
-                  <a class="btn btn-icon btn-primary" href="{{ route('options.edit', ['id' => $typeId, 'option' => $entry->id]) }}">
-                    <i data-feather="edit"></i>
-                  </a>
-                  <a class="btn btn-icon btn-success" href="{{ route('options.sort.up', ['id' => $typeId, 'option' => $entry->id]) }}">
-                    <i data-feather="arrow-up"></i>
-                  </a>
-                  <a class="btn btn-icon btn-success" href="{{ route('options.sort.down', ['id' => $typeId, 'option' => $entry->id]) }}">
-                    <i data-feather="arrow-down"></i>
-                  </a>
-                  <a class="btn btn-icon btn-danger" onclick="onDelete(this)">
-                    <i data-feather="trash-2"></i>
-                  </a>
-                  <form action="{{ route('options.destroy', ['id' => $typeId, 'option' => $entry->id]) }}" class="delete-form" method="POST" style="display:none">
-                    <input type="hidden" name="_method" value="DELETE">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                  </form>
-                </td>
+                <td colspan="4">No matching records found</td>
               </tr>
-            @endforeach
+            @endif
           </tbody>
         </table>
       </div>

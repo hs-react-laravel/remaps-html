@@ -37,29 +37,35 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ($entries as $entry)
+            @if (count($entries) > 0)
+              @foreach ($entries as $entry)
+                <tr>
+                    <td>{{ $entry->fullName }}</td>
+                    <td>{{ $entry->business_name }}</td>
+                    <td>{{ number_format($entry->tuning_credits, 2) }}</td>
+                    <td>{{ $entry->tuningPriceGroup }}</td>
+                    <td>{{ $entry->fileServicesCount }}</td>
+                    <td>{{ $entry->lastLoginDiff }}</td>
+                    <td class="td-actions">
+                      <a class="btn btn-icon btn-primary" href="{{ route('customers.edit', ['customer' => $entry->id]) }}">
+                        <i data-feather="edit"></i>
+                      </a>
+                      <a class="btn btn-icon btn-success" target="_blank" href="{{ route('customer.sa', ['id' => $entry->id]) }}">
+                        <i data-feather="user"></i>
+                      </a>
+                      <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}"><i data-feather="trash-2"></i></a>
+                      <form action="{{ route('customers.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                      </form>
+                    </td>
+                </tr>
+              @endforeach
+            @else
               <tr>
-                  <td>{{ $entry->fullName }}</td>
-                  <td>{{ $entry->business_name }}</td>
-                  <td>{{ number_format($entry->tuning_credits, 2) }}</td>
-                  <td>{{ $entry->tuningPriceGroup }}</td>
-                  <td>{{ $entry->fileServicesCount }}</td>
-                  <td>{{ $entry->lastLoginDiff }}</td>
-                  <td class="td-actions">
-                    <a class="btn btn-icon btn-primary" href="{{ route('customers.edit', ['customer' => $entry->id]) }}">
-                      <i data-feather="edit"></i>
-                    </a>
-                    <a class="btn btn-icon btn-success" target="_blank" href="{{ route('customer.sa', ['id' => $entry->id]) }}">
-                      <i data-feather="user"></i>
-                    </a>
-                    <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}"><i data-feather="trash-2"></i></a>
-                    <form action="{{ route('customers.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
-                      <input type="hidden" name="_method" value="DELETE">
-                      <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    </form>
-                  </td>
+                <td colspan="7">No matching records found</td>
               </tr>
-            @endforeach
+            @endif
           </tbody>
         </table>
       </div>
