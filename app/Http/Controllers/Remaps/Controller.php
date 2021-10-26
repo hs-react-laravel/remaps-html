@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Auth;
 
 class Controller extends BaseController
 {
@@ -16,7 +17,7 @@ class Controller extends BaseController
 
     public function __construct() {
         $this->middleware(function ($request, $next, $guard = null) {
-            $this->user = auth()->user();
+            $this->user = Auth::guard($guard)->user();
             if($this->user){
                 $this->company = $this->user->company;
                 $this->user->last_login = \Carbon\Carbon::now()->format('Y-m-d H:i:s');

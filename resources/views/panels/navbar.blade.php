@@ -336,7 +336,7 @@
         <div class="user-nav d-sm-flex d-none">
           <span class="user-name fw-bolder">
             @if (Auth::check())
-              {{ Auth::user()->name }}
+              {{ Auth::user()->fullname }}
             @else
               John Doe
             @endif
@@ -371,10 +371,6 @@
           <form method="POST" id="logout-form" action="{{ route('logout') }}">
             @csrf
           </form>
-        @else
-          <a class="dropdown-item" href="{{ Route::has('login') ? route('login') : 'javascript:void(0)' }}">
-            <i class="me-50" data-feather="log-in"></i> Login
-          </a>
         @endif
       </div>
     </li>
