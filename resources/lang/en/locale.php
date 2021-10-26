@@ -201,6 +201,7 @@ return [
     "Admin Functions" => "Admin",
     "Company Functions" => "Company",
     "Staff Functions" => "Staff",
+    "Customer Functions" => "Customer",
     "Customers" => "Customers",
     "File Services" => "File Services",
     "Support Tickets" => "Support Tickets",

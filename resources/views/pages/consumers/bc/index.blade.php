@@ -18,7 +18,8 @@
       <!-- basic plan -->
         @foreach ($groupCreditTires as $idx => $tire)
         @php
-          $tax = $tire->pivot->for_credit * $company->vat_percentage / 100;
+          $vat_percentage = $isVatCalculation ? $this->company->vat_percentage : 0;
+          $tax = $tire->pivot->for_credit * $vat_percentage / 100;
           $total_amount = $tire->pivot->for_credit + $tax;
         @endphp
         <div class="col-12 col-md-3 col-xl-3">

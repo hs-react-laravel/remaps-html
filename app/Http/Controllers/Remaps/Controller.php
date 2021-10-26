@@ -23,11 +23,10 @@ class Controller extends BaseController
                 $this->company = $this->user->company;
                 $this->user->last_login = \Carbon\Carbon::now()->format('Y-m-d H:i:s');
                 $this->user->save();
-                view()->share('user', $this->user);
-                view()->share('company', $this->company);
+
 
                 $verticalMenu = 'verticalMenuCustomer.json';
-                $role = 'consumer';
+                $role = 'customer';
                 if ($this->user->is_staff) {
                     $verticalMenu = 'verticalMenuStaff.json';
                     $role = 'staff';
@@ -41,6 +40,11 @@ class Controller extends BaseController
                     $role = 'master';
                 }
                 $this->role = $role;
+
+                view()->share('user', $this->user);
+                view()->share('company', $this->company);
+                view()->share('role', $this->role);
+
                 $verticalMenuJson = file_get_contents(base_path('resources/data/menu-data/'.$verticalMenu));
                 $verticalMenuData = json_decode($verticalMenuJson);
                 $horizontalMenuJson = file_get_contents(base_path('resources/data/menu-data/horizontalMenu.json'));

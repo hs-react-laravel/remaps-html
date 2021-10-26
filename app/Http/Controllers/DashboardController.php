@@ -30,7 +30,7 @@ class DashboardController extends Controller
                 $query->where('company_id', $user->company_id);
             })->where('status', 'C')->count();
             return view('pages.dashboard.admin', compact('data'));
-        } else if ($this->role == 'consumer') {
+        } else if ($this->role == 'customer') {
             $customerRating = CustomerRating::where(['user_id'=>$this->user->id,'company_id'=>$this->user->company_id])->first();
             $data['customerRating']  = $customerRating;
             $data['title'] = trans('backpack::base.dashboard');
