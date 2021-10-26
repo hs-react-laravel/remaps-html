@@ -24,19 +24,30 @@ $configData = Helper::applClasses();
       </li>
       @else
       {{-- Add Custom Class with nav-item --}}
-      <li class="nav-item {{ $custom_classes }} {{Route::currentRouteName() === $menu->slug ? 'active' : ''}}">
-        <a href="{{isset($menu->url)? url($menu->url):'javascript:void(0)'}}" class="d-flex align-items-center" target="{{isset($menu->newTab) ? '_blank':'_self'}}">
-          <i data-feather="{{ $menu->icon }}"></i>
-          <span class="menu-title text-truncate">{{ __('locale.'.$menu->name) }}</span>
-          @if (isset($menu->badge))
-          <?php $badgeClasses = "badge rounded-pill badge-light-primary ms-auto me-1" ?>
-          <span class="{{ isset($menu->badgeClass) ? $menu->badgeClass : $badgeClasses }}">{{$menu->badge}}</span>
+      @if($menu->name != 'external')
+        <li class="nav-item {{ $custom_classes }} {{Route::currentRouteName() === $menu->slug ? 'active' : ''}}">
+          <a href="{{isset($menu->url)? url($menu->url):'javascript:void(0)'}}" class="d-flex align-items-center" target="{{isset($menu->newTab) ? '_blank':'_self'}}">
+            <i data-feather="{{ $menu->icon }}"></i>
+            <span class="menu-title text-truncate">{{ __('locale.'.$menu->name) }}</span>
+            @if (isset($menu->badge))
+            <?php $badgeClasses = "badge rounded-pill badge-light-primary ms-auto me-1" ?>
+            <span class="{{ isset($menu->badgeClass) ? $menu->badgeClass : $badgeClasses }}">{{$menu->badge}}</span>
+            @endif
+          </a>
+          @if(isset($menu->submenu))
+          @include('panels/submenu', ['menu' => $menu->submenu])
           @endif
-        </a>
-        @if(isset($menu->submenu))
-        @include('panels/submenu', ['menu' => $menu->submenu])
+        </li>
+      @else
+        @if($company->link_name && $company->link_value)
+        <li class="nav-item {{ $custom_classes }}">
+          <a href="{{$company->link_value}}" class="d-flex align-items-center" target="_blank">
+            <i data-feather="{{ $menu->icon }}"></i>
+            <span class="menu-title text-truncate">{{$company->link_name}}</span>
+          </a>
+        </li>
         @endif
-      </li>
+      @endif
       @endif
       @endforeach
       @endif
