@@ -14,6 +14,7 @@ class Controller extends BaseController
 
     protected $user;
     protected $company;
+    protected $role;
 
     public function __construct() {
         $this->middleware(function ($request, $next, $guard = null) {
@@ -26,10 +27,20 @@ class Controller extends BaseController
                 view()->share('company', $this->company);
 
                 $verticalMenu = 'verticalMenuCustomer.json';
-                if ($this->user->is_staff) $verticalMenu = 'verticalMenuStaff.json';
-                if ($this->user->is_admin) $verticalMenu = 'verticalMenuCompany.json';
-                if ($this->user->is_master) $verticalMenu = 'verticalMenu.json';
-
+                $role = 'consumer';
+                if ($this->user->is_staff) {
+                    $verticalMenu = 'verticalMenuStaff.json';
+                    $role = 'staff';
+                }
+                if ($this->user->is_admin) {
+                    $verticalMenu = 'verticalMenuCompany.json';
+                    $role = 'company';
+                }
+                if ($this->user->is_master) {
+                    $verticalMenu = 'verticalMenu.json';
+                    $role = 'master';
+                }
+                $this->role = $role;
                 $verticalMenuJson = file_get_contents(base_path('resources/data/menu-data/'.$verticalMenu));
                 $verticalMenuData = json_decode($verticalMenuJson);
                 $horizontalMenuJson = file_get_contents(base_path('resources/data/menu-data/horizontalMenu.json'));
