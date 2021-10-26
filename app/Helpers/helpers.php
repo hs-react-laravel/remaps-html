@@ -4,30 +4,24 @@ namespace App\Helpers;
 
 use App\Models\User;
 use Config;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use App\Models\Company;
 
 class Helper
 {
     public static function applClasses()
     {
-        // Demo
-        $fullURL = request()->fullurl();
-        // if (App()->environment() === 'production') {
-        //     for ($i = 1; $i < 7; $i++) {
-        //         $contains = Str::contains($fullURL, 'demo-' . $i);
-        //         if ($contains === true) {
-        //             $data = config('custom.' . 'demo-' . $i);
-        //         }
-        //     }
-        // } else {
-        //     $data = config('custom.custom');
-        // }
+        $company = Company::where('domain_link', url(''))->first();
+        $theme = !!$company ? $company->style_theme : 0;
+
         $data = config('custom.demo-4');
+        $data['theme'] = $theme == 1 ? 'light' : 'dark';
 
         // default data array
         $DefaultData = [
             'mainLayoutType' => 'vertical',
-            'theme' => 'light',
+            'theme' => $theme == 1 ? 'light' : 'dark',
             'sidebarCollapsed' => false,
             'navbarColor' => '',
             'horizontalMenuType' => 'floating',

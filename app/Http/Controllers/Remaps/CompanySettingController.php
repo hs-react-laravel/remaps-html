@@ -24,6 +24,14 @@ class CompanySettingController extends Controller
                 $file->move(storage_path('app/public/uploads/logo'), $filename);
                 $request->request->add(['logo' => $filename]);
             }
+            if ($request->file('style_background_file')) {
+                $file = $request->file('style_background_file');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $file->move(storage_path('app/public/uploads/styling'), $filename);
+                $request->request->add(['style_background' => $filename]);
+                // dd($request);
+            }
+            // dd($request->all());
             $this->user->company->update($request->all());
             return redirect()->route('company.setting', [
                 'tab' => $request->tab

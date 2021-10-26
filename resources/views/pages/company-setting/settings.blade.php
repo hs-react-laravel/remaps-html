@@ -89,6 +89,18 @@
                 >Opening Hours</a
               >
             </li>
+            <li class="nav-item">
+              <a
+                class="nav-link @if($tab == 'styling') active @endif"
+                id="styling-tab-fill"
+                data-bs-toggle="tab"
+                href="#styling-fill"
+                role="tab"
+                aria-controls="styling-fill"
+                aria-selected="@if($tab == 'styling') true @else false @endif"
+                >Styling</a
+              >
+            </li>
           </ul>
 
           <!-- Tab panes -->
@@ -99,6 +111,7 @@
             @include('pages.company-setting.notes')
             @include('pages.company-setting.evc')
             @include('pages.company-setting.openhours')
+            @include('pages.company-setting.styling')
           </div>
         </div>
       </div>
@@ -151,6 +164,12 @@
       const [file] = imageLogo.files
       if (file) {
         logo.src = URL.createObjectURL(file)
+      }
+    }
+    style_background.onchange = evt => {
+      const [file] = style_background.files
+      if (file) {
+        style_background_img.src = URL.createObjectURL(file)
       }
     }
   </script>

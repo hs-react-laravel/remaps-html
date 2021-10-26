@@ -73,7 +73,9 @@ class Company extends Model
         'sun_to',
         'sun_close',
         'notify_check',
-        'open_check'
+        'open_check',
+        'style_background',
+        'style_theme'
     ];
 
     public function users()

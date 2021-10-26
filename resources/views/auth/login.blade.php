@@ -1,78 +1,5 @@
-{{-- @extends('layouts.app')
-
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
-
-                <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
-
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
-
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-@endsection --}}
 @php
-$configData = Helper::applClasses();
+  $configData = Helper::applClasses();
 @endphp
 @extends('layouts/fullLayoutMaster')
 
@@ -89,26 +16,45 @@ $configData = Helper::applClasses();
   <div class="auth-inner row m-0">
     <!-- Brand logo-->
     <a class="brand-logo" href="#">
-      <h2 class="brand-text text-primary ms-1">Remaps</h2>
+      <h2 class="brand-text ms-1"
+        style="-webkit-text-stroke: 1px {{$company->theme_color ? 'white' : 'black'}}">
+        {{ $company->name }}
+      </h2>
     </a>
     <!-- /Brand logo-->
 
     <!-- Left Text-->
-    <div class="d-none d-lg-flex col-lg-8 align-items-center p-5">
-      <div class="w-100 d-lg-flex align-items-center justify-content-center px-5">
-        @if($configData['theme'] === 'dark')
-          <img class="img-fluid" src="{{asset('images/pages/login-v2-dark.svg')}}" alt="Login V2" />
+    <div class="d-none d-lg-flex col-lg-9 align-items-center" style="padding: 0">
+      <div class="w-100 d-lg-flex align-items-center justify-content-center">
+          @if($configData['theme'] === 'dark')
+            <img class="img-fluid"
+              src="{{$company->style_background ? asset('storage/uploads/styling/'.$company->style_background) : asset('images/pages/login-v2-dark.svg')}}"
+              alt="Login V2"
+              style="height: 100vh" />
           @else
-          <img class="img-fluid" src="{{asset('images/pages/login-v2.svg')}}" alt="Login V2" />
+            <img class="img-fluid"
+              src="{{$company->style_background ? asset('storage/uploads/styling/'.$company->style_background) : asset('images/pages/login-v2.svg')}}"
+              alt="Login V2"
+              style="height: 100vh" />
           @endif
       </div>
     </div>
     <!-- /Left Text-->
 
     <!-- Login-->
-    <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5">
+    <div class="d-flex col-lg-3 align-items-center auth-bg px-2 p-lg-5">
       <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
-        <h2 class="card-title fw-bold mb-1">Welcome to Remaps</h2>
+        <div class="w-100 justify-content-center mb-2">
+          <img
+            src="{{ $company->logo ?
+              asset('storage/uploads/logo/'.$company->logo) :
+              'https://via.placeholder.com/250x110.png?text=Logo+Here'
+            }}"
+            id="logo"
+            class="rounded me-2 mb-1 mb-md-0 w-100"
+            alt="Logo Image"
+          />
+        </div>
         <p class="card-text mb-2">Please sign-in to your account and start the adventure</p>
         <form class="auth-login-form mt-2" action="{{ route('login') }}" method="POST">
           @csrf

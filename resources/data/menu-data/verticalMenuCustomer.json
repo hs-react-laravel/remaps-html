@@ -45,6 +45,12 @@
         "name": "Browse Tuning Specs",
         "icon": "search",
         "slug": "cars.index"
+    },
+    {
+        "url": "",
+        "name": "external",
+        "icon": "external-link",
+        "slug": ""
     }
   ]
 }
