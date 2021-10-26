@@ -94,6 +94,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/buy-credits/success', [\App\Http\Controllers\Consumer\BuyTuningCreditsController::class, 'paymentSuccess'])->name('consumer.buy-credits.success');
     // Main Page Route
     Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard');
+    Route::post('/customer-rate', [DashboardController::class, 'addRating'])->name('dashboard.rate');
 
     // locale Route
     Route::get('lang/{locale}', [LanguageController::class, 'swap']);

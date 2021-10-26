@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Remaps\Controller;
-use App\Models\FileService;
+use App\Models\CustomerRating;
+use App\Models\Company;
 
 class DashboardController extends Controller
 {
@@ -29,7 +30,76 @@ class DashboardController extends Controller
                 $query->where('company_id', $user->company_id);
             })->where('status', 'C')->count();
             return view('pages.dashboard.admin', compact('data'));
+        } else if ($this->role == 'consumer') {
+            $customerRating = CustomerRating::where(['user_id'=>$this->user->id,'company_id'=>$this->user->company_id])->first();
+            $data['customerRating']  = $customerRating;
+            $data['title'] = trans('backpack::base.dashboard');
+            $data['fileServices'] = $this->user->fileServices()->orderBy('id', 'DESC')->take(5)->get();
+            $data['fs_pending'] = $this->user->fileServices()->where('status', 'P')->count();
+            $data['fs_open'] = $this->user->fileServices()->where('status', 'O')->count();
+            $data['fs_waiting'] = $this->user->fileServices()->where('status', 'W')->count();
+            $data['fs_completed'] = $this->user->fileServices()->where('status', 'C')->count();
+            $data['resellerId'] = $this->user->reseller_id;
+
+            $company = $this->user->company;
+            $day = lcfirst(date('l'));
+            $daymark_from = substr($day, 0, 3).'_from';
+            $daymark_to = substr($day, 0, 3).'_to';
+            $open_status = -1;
+            if ($company->open_check) {
+                if ($company->$daymark_from && str_replace(':', '', $company->$daymark_from) > date('Hi')
+                    || $company->$daymark_to && str_replace(':', '', $company->$daymark_to) < date('Hi')) {
+                    $open_status = $company->notify_check == 0 ? 1 : 2;
+                }
+            }
+            $data['openStatus'] = $open_status;
+
+            if ($this->company->reseller_id && $this->user->reseller_password) {
+                $url = "https://evc.de/services/api_resellercredits.asp";
+                $dataArray = array(
+                    'apiid'=>'j34sbc93hb90',
+                    'username'=> $this->user->company->reseller_id,
+                    'password'=> $this->user->company->reseller_password,
+                    'verb'=>'getcustomeraccount',
+                    'customer' => $this->user->reseller_id
+                );
+                $ch = curl_init();
+                $params = http_build_query($dataArray);
+                $getUrl = $url."?".$params;
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_URL, $getUrl);
+                curl_setopt($ch, CURLOPT_TIMEOUT, 500);
+
+                $response = curl_exec($ch);
+                if (strpos($response, 'ok') !== FALSE) {
+                    $data['evcCount'] = str_replace('ok: ', '', $response);
+                }
+            }
+            return view('pages.dashboard.consumer', compact('data', 'customerRating'));
         }
         return view('pages.dashboard.consumer');
+    }
+
+    public function addRating(Request $request){
+		if(isset($request->id) && !empty($request->id) ){
+			$id = $request->id;
+			$model = CustomerRating::where(['id' => $id])->first();
+		}else{
+			$model = new CustomerRating();
+		}
+
+		$model->rating = $request->rating;
+		$model->user_id = $this->user->id;
+		$model->company_id = $this->user->company_id;
+		$model->save();
+
+		$avgRating = CustomerRating::where('company_id', $model->company_id)->avg('rating');
+
+		$company = Company::find($model->company_id);
+		$company->rating = $avgRating;
+		$company->save();
+		return redirect(route('dashboard'))->with('Rating Added');
     }
 }
