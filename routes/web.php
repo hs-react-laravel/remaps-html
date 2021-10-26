@@ -89,7 +89,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('od', \App\Http\Controllers\Consumer\OrderController::class);
     Route::resource('tr', \App\Http\Controllers\Consumer\TransactionController::class);
     Route::get('/buy-credits', [\App\Http\Controllers\Consumer\BuyTuningCreditsController::class, 'index'])->name('consumer.buy-credits');
-    Route::get('/buy-credits/handle', [\App\Http\Controllers\Consumer\BuyTuningCreditsController::class, 'handlePayment'])->name('consumer.buy-credits.handle');
+    Route::post('/buy-credits/handle', [\App\Http\Controllers\Consumer\BuyTuningCreditsController::class, 'handlePayment'])->name('consumer.buy-credits.handle');
     Route::get('/buy-credits/cancel', [\App\Http\Controllers\Consumer\BuyTuningCreditsController::class, 'paymentCancel'])->name('consumer.buy-credits.cancel');
     Route::get('/buy-credits/success', [\App\Http\Controllers\Consumer\BuyTuningCreditsController::class, 'paymentSuccess'])->name('consumer.buy-credits.success');
     // Main Page Route

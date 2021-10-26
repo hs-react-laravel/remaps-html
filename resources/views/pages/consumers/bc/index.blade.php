@@ -17,27 +17,38 @@
     <div class="row">
       <!-- basic plan -->
         @foreach ($groupCreditTires as $idx => $tire)
+        @php
+          $tax = $tire->pivot->for_credit * $company->vat_percentage / 100;
+          $total_amount = $tire->pivot->for_credit + $tax;
+        @endphp
         <div class="col-12 col-md-3 col-xl-3">
           <div class="card basic-pricing text-center">
-            <div class="card-body">
-              <h3>
-                <i data-feather="credit-card" class="card-custom"></i>
-                <i data-feather="x"></i>
-                {{ $tire->amount }}
-              </h3>
-              <div class="annual-plan">
-                <div class="plan-price mt-2">
-                  <sup class="font-medium-1 fw-bold text-primary">£</sup>
-                  <span class="pricing-basic-value fw-bolder text-primary">{{ $tire->pivot->for_credit }}</span>
+            <form action="{{ route('consumer.buy-credits.handle') }}" method="POST">
+              @csrf
+              <input type="hidden" name="group_id" value="{{ $tuningCreditGroup->id }}">
+              <input type="hidden" name="tire_id" value="{{ $tire->id }}">
+              <div class="card-body">
+                <h3>
+                  <i data-feather="credit-card" class="card-custom"></i>
+                  <i data-feather="x"></i>
+                  {{ $tire->amount }}
+                </h3>
+                <div class="annual-plan">
+                  <div class="plan-price mt-2">
+                    <sup class="font-medium-1 fw-bold text-primary">£</sup>
+                    <span class="pricing-basic-value fw-bolder text-primary">
+                      {{ $total_amount }}
+                    </span>
+                  </div>
+                  <small class="annual-pricing d-none text-muted"></small>
                 </div>
-                <small class="annual-pricing d-none text-muted"></small>
+                <button
+                  type="submit"
+                  class="btn w-100 {{$idx == count($groupCreditTires) - 1 ? 'btn-primary' : 'btn-outline-primary'}} mt-2">
+                  Buy
+                </button>
               </div>
-              <a
-                class="btn w-100 {{$idx == count($groupCreditTires) - 1 ? 'btn-primary' : 'btn-outline-primary'}} mt-2"
-                href="{{ route('consumer.buy-credits.handle') }}?amount={{$tire->amount}}" >
-                Buy
-              </a>
-            </div>
+            </form>
           </div>
         </div>
         @endforeach

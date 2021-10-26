@@ -7,7 +7,7 @@
     {
         "url": "/",
         "name": "Dashboards",
-        "icon": "circle",
+        "icon": "home",
         "slug": "dashboard"
     },
     {

@@ -18,11 +18,12 @@ class CompanySettingController extends Controller
     public function store(Request $request) {
         try {
             // upload file
-            $file = $request->file('upload_file');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(storage_path('app/public/uploads/logo'), $filename);
-            // save model
-            $request->request->add(['logo' => $filename]);
+            if ($request->file('upload_file')) {
+                $file = $request->file('upload_file');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $file->move(storage_path('app/public/uploads/logo'), $filename);
+                $request->request->add(['logo' => $filename]);
+            }
             $this->user->company->update($request->all());
             return redirect()->route('company.setting', [
                 'tab' => $request->tab
