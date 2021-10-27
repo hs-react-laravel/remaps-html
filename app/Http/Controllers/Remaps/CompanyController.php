@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Remaps;
 
 use Illuminate\Http\Request;
 use App\Models\Company;
+use App\Http\Controllers\Controller;
 use Auth;
 
 class CompanyController extends Controller

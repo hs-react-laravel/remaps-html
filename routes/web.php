@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CarBrowserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\DashboardController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\Remaps\TuningCreditController;
 use App\Http\Controllers\Remaps\TuningTypeController;
 use App\Http\Controllers\Remaps\TuningTypeOptionController;
 use App\Http\Controllers\Remaps\StaffController;
+use App\Http\Controllers\Consumer\BuyTuningCreditsController;
 use App\Http\Controllers\Consumer\FileServiceController as FSController;
 use App\Http\Controllers\Consumer\TicketController as TKController;
 use App\Http\Controllers\Consumer\OrderController as ODController;
@@ -101,6 +103,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard');
     Route::post('/customer-rate', [DashboardController::class, 'addRating'])->name('dashboard.rate');
     Route::get('/profile', [DashboardController::class, 'profile'])->name('dashboard');
+
+    Route::get('/cars', [CarBrowserController::class, 'index'])->name('cars.index');
+    Route::get('/cars/category', [CarBrowserController::class, 'category'])->name('cars.category');
 
     // locale Route
     Route::get('lang/{locale}', [LanguageController::class, 'swap']);

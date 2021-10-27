@@ -20,3 +20,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/tuning-type-options/{id}', [ApiController::class, 'tuning_type_options']);
+Route::post('/carquery', [ApiController::class, 'car_query'])->name('api.car.query');
+Route::post('/carid', [ApiController::class, 'car_id'])->name('api.car.id');
