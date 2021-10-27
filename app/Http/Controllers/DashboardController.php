@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Remaps\Controller;
+use App\Http\Controllers\Controller;
 use App\Models\CustomerRating;
 use App\Models\Company;
 
@@ -30,10 +30,26 @@ class DashboardController extends Controller
                 $query->where('company_id', $user->company_id);
             })->where('status', 'C')->count();
             return view('pages.dashboard.admin', compact('data'));
+        } else if($this->role == 'staff') {
+            $data['fileServices'] = \App\Models\FileService::whereHas('user', function($query) use($user){
+                $query->where('company_id', $user->company_id);
+            })->orderBy('id', 'DESC')->take(5)->get();
+            $data['fs_pending'] = \App\Models\FileService::whereHas('user', function($query) use($user){
+                $query->where('company_id', $user->company_id);
+            })->where('status', 'P')->count();
+            $data['fs_open'] = \App\Models\FileService::whereHas('user', function($query) use($user){
+                $query->where('company_id', $user->company_id);
+            })->where('status', 'O')->count();
+            $data['fs_waiting'] = \App\Models\FileService::whereHas('user', function($query) use($user){
+                $query->where('company_id', $user->company_id);
+            })->where('status', 'W')->count();
+            $data['fs_completed'] = \App\Models\FileService::whereHas('user', function($query) use($user){
+                $query->where('company_id', $user->company_id);
+            })->where('status', 'C')->count();
+            return view('pages.dashboard.staff', compact('data'));
         } else if ($this->role == 'customer') {
             $customerRating = CustomerRating::where(['user_id'=>$this->user->id,'company_id'=>$this->user->company_id])->first();
             $data['customerRating']  = $customerRating;
-            $data['title'] = trans('backpack::base.dashboard');
             $data['fileServices'] = $this->user->fileServices()->orderBy('id', 'DESC')->take(5)->get();
             $data['fs_pending'] = $this->user->fileServices()->where('status', 'P')->count();
             $data['fs_open'] = $this->user->fileServices()->where('status', 'O')->count();
@@ -101,5 +117,9 @@ class DashboardController extends Controller
 		$company->rating = $avgRating;
 		$company->save();
 		return redirect(route('dashboard'))->with('Rating Added');
+    }
+
+    public function profile() {
+        $user = $this->user;
     }
 }

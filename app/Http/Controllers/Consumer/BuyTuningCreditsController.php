@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Consumer;
 use App\Models\TuningCreditGroup;
 use App\Models\TuningCreditTire;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use PayPalCheckoutSdk\Core\PayPalHttpClient;
 use PayPalCheckoutSdk\Core\SandboxEnvironment;
 use PayPalCheckoutSdk\Orders\OrdersCreateRequest;

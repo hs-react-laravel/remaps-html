@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Remaps;
 
 use Illuminate\Http\Request;
-use App\Models\Company;
+use App\Http\Controllers\Controller;
 
 class CompanySettingController extends Controller
 {

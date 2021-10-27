@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Remaps;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\EmailTemplate;
 
 class EmailTemplateController extends Controller

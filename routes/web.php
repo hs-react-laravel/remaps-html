@@ -16,9 +16,11 @@ use App\Http\Controllers\Remaps\PackageController;
 use App\Http\Controllers\Remaps\TuningCreditController;
 use App\Http\Controllers\Remaps\TuningTypeController;
 use App\Http\Controllers\Remaps\TuningTypeOptionController;
+use App\Http\Controllers\Remaps\StaffController;
 use App\Http\Controllers\Consumer\FileServiceController as FSController;
 use App\Http\Controllers\Consumer\TicketController as TKController;
-use App\Http\Controllers\Remaps\StaffController;
+use App\Http\Controllers\Consumer\OrderController as ODController;
+use App\Http\Controllers\Consumer\TransactionController as TRController;
 
 /*
 |--------------------------------------------------------------------------
@@ -89,21 +91,17 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('tk', TKController::class);
     Route::get('/tk/{id}/download-document', [TKController::class, 'download_document'])->name('tk.download');
 
-    Route::resource('od', \App\Http\Controllers\Consumer\OrderController::class);
-    Route::resource('tr', \App\Http\Controllers\Consumer\TransactionController::class);
-    Route::get('/buy-credits', [\App\Http\Controllers\Consumer\BuyTuningCreditsController::class, 'index'])->name('consumer.buy-credits');
-    Route::post('/buy-credits/handle', [\App\Http\Controllers\Consumer\BuyTuningCreditsController::class, 'handlePayment'])->name('consumer.buy-credits.handle');
-    Route::get('/buy-credits/cancel', [\App\Http\Controllers\Consumer\BuyTuningCreditsController::class, 'paymentCancel'])->name('consumer.buy-credits.cancel');
-    Route::get('/buy-credits/success', [\App\Http\Controllers\Consumer\BuyTuningCreditsController::class, 'paymentSuccess'])->name('consumer.buy-credits.success');
+    Route::resource('od', ODController::class);
+    Route::resource('tr', TRController::class);
+    Route::get('/buy-credits', [BuyTuningCreditsController::class, 'index'])->name('consumer.buy-credits');
+    Route::post('/buy-credits/handle', [BuyTuningCreditsController::class, 'handlePayment'])->name('consumer.buy-credits.handle');
+    Route::get('/buy-credits/cancel', [BuyTuningCreditsController::class, 'paymentCancel'])->name('consumer.buy-credits.cancel');
+    Route::get('/buy-credits/success', [BuyTuningCreditsController::class, 'paymentSuccess'])->name('consumer.buy-credits.success');
     // Main Page Route
     Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard');
     Route::post('/customer-rate', [DashboardController::class, 'addRating'])->name('dashboard.rate');
+    Route::get('/profile', [DashboardController::class, 'profile'])->name('dashboard');
 
     // locale Route
     Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 });
-
-Route::get('/passwordtest', function () {
-    dd(Hash::make('abc'));
-});
-
