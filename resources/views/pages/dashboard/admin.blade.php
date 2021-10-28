@@ -29,7 +29,7 @@
           </div>
           <div class="card-body">
             <p>Please activate your subscription. Click on the button below and select your subscription. Once completed your panel will be fully activated.</p>
-            <a class="btn btn-primary me-1" href="{{ route('orders.index') }}">Choose Package</a>
+            <a class="btn btn-primary me-1" href="{{ route('packages.choose') }}">Choose Package</a>
           </div>
         </div>
         @else

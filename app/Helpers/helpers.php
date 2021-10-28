@@ -184,4 +184,10 @@ class Helper
         $user = User::find($id);
         return strtoupper(substr($user->first_name, 0, 1) . substr($user->last_name, 0, 1));
     }
+
+    public static function getCurrencySymbol($currencyCode, $locale = 'en_US')
+	{
+		$formatter = new \NumberFormatter($locale . '@currency=' . $currencyCode, \NumberFormatter::CURRENCY);
+		return $formatter->getSymbol(\NumberFormatter::CURRENCY_SYMBOL);
+	}
 }

@@ -22,6 +22,29 @@ class PackageController extends Controller
         ]);
     }
 
+    public function getAccessToken() {
+        $ch = curl_init();
+        $clientId = config('paypal.sandbox.client_id');
+        $secret = config('paypal.sandbox.client_secret');
+
+        // $api_url = "https://api.paypal.com/v1/oauth2/token";
+        $api_url = "https://api-m.sandbox.paypal.com/v1/oauth2/token";
+
+        curl_setopt($ch, CURLOPT_URL, $api_url);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_USERPWD, $clientId.":".$secret);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, "grant_type=client_credentials");
+
+        $result = curl_exec($ch);
+        curl_close($ch);
+
+        $json = json_decode($result);
+        return $json->access_token;
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -116,17 +139,6 @@ class PackageController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -154,37 +166,4 @@ class PackageController extends Controller
         return redirect(route('packages.index'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
-    public function getAccessToken() {
-        $ch = curl_init();
-        $clientId = config('paypal.sandbox.client_id');
-        $secret = config('paypal.sandbox.client_secret');
-
-        // $api_url = "https://api.paypal.com/v1/oauth2/token";
-        $api_url = "https://api-m.sandbox.paypal.com/v1/oauth2/token";
-
-        curl_setopt($ch, CURLOPT_URL, $api_url);
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_USERPWD, $clientId.":".$secret);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, "grant_type=client_credentials");
-
-        $result = curl_exec($ch);
-        curl_close($ch);
-
-        $json = json_decode($result);
-        return $json->access_token;
-    }
 }

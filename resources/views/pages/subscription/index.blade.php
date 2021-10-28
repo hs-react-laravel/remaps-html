@@ -46,13 +46,22 @@
                   <td>{{ $entry->is_trial ? 'Trial' : 'Paid' }}</td>
                   <td>{{ $entry->status }}</td>
                   <td class="td-actions">
-                    <a class="btn btn-icon btn-success" title="Subscription payments" href="{{ route('subscriptions.payments', ['id' => $entry->id]) }}">
+                    <a
+                      class="btn btn-icon btn-success"
+                      title="Subscription payments"
+                      href="{{ route('subscriptions.payments', ['id' => $entry->id]) }}">
                       <i data-feather="dollar-sign"></i>
                     </a>
-                    <a class="btn btn-icon btn-danger" title="Cancel this subscription">
+                    <a
+                      class="btn btn-icon btn-danger"
+                      title="Cancel this subscription"
+                      href="{{ route('subscriptions.cancel', ['id' => $entry->id]) }}" >
                       <i data-feather="x"></i>
                     </a>
-                    <a class="btn btn-icon btn-danger" title="Cancel this subscription immediately">
+                    <a
+                      class="btn btn-icon btn-danger"
+                      title="Cancel this subscription immediately"
+                      href="{{ route('subscriptions.suspend', ['id' => $entry->id]) }}" >
                       <i data-feather="shield-off"></i>
                     </a>
                   </td>

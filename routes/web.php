@@ -85,6 +85,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('company/subscriptions', SubscriptionController::class);
     Route::get('company/subscriptions/{id}/payments', [SubscriptionController::class, 'payments'])->name('subscriptions.payments');
     Route::get('company/subscriptions/{id}/invoice', [SubscriptionController::class, 'invoice'])->name('subscriptions.invoice');
+    Route::get('company/package/choose', [SubscriptionController::class, 'choose'])->name('packages.choose');
+    Route::get('company/package/{id}/subscribe', [SubscriptionController::class, 'subscribeSubscription'])->name('subscribe.paypal');
+    Route::get('company/package/execute', [SubscriptionController::class, 'executeSubscription'])->name('paypal.subscription.execute');
+    Route::get('company/subscriptions/{id}/cancel', [SubscriptionController::class, 'cancelSubscription'])->name('subscriptions.cancel');
+    Route::get('company/subscriptions/{id}/suspend', [SubscriptionController::class, 'immediateCancelSubscription'])->name('subscriptions.suspend');
 
     Route::resource('company/staffs', StaffController::class);
 
