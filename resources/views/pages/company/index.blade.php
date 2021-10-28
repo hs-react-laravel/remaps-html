@@ -43,7 +43,10 @@
                     <td>{{ $u->total_customers }}</td>
                     <td>{{ $u->created_at }}</td>
                     <td class="td-actions">
-                      <a class="btn btn-icon btn-primary" href="{{ route('companies.edit', ['company' => $u->id]) }}" title="Edit">
+                      <a
+                        class="btn btn-icon btn-primary"
+                        href="{{ route('companies.edit', ['company' => $u->id]) }}"
+                        title="Edit" >
                         <i data-feather="edit"></i>
                       </a>
                       <a
@@ -62,9 +65,20 @@
                         target="_blank" >
                         <i data-feather="user"></i>
                       </a>
-                      <a class="btn btn-icon btn-success">
-                        <i data-feather="dollar-sign"></i>
-                      </a>
+                      @if($u->owner && !$u->owner->hasActiveSubscription())
+                        <a
+                          class="btn btn-icon btn-success"
+                          title="Add trial subscription for this company"
+                          href="{{ route('companies.trial', ['id' => $u->id]) }}" >
+                          <i data-feather="pocket"></i>
+                        </a>
+                      @else
+                        <a
+                          class="btn btn-icon btn-secondary"
+                          title="Add trial subscription for this company" >
+                          <i data-feather="pocket"></i>
+                        </a>
+                      @endif
                       <a
                         class="btn btn-icon btn-success"
                         title="{{ $u->is_public ? 'Private' : 'Public' }}"

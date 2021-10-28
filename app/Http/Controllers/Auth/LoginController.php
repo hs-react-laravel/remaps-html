@@ -37,7 +37,8 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
-        $this->company = Company::where('domain_link', url(''))->first();
+        // $this->company = Company::where('domain_link', url(''))->first();
+        $this->company = Company::find(1);
         if (!$this->company){
             abort(400, 'No such domain('.url("").') is registerd with system. Please contact to webmaster.');
         }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\TuningCreditGroup;
+use App\Models\Transaction;
 use App\Http\Controllers\Controller;
 
 class CustomerController extends Controller
@@ -159,22 +160,46 @@ class CustomerController extends Controller
             Auth::login($user);
             return redirect()->away(url('/'));
         }catch(\Exception $e){
-            \Alert::error(__('admin.opps'))->flash();
+            // \Alert::error(__('admin.opps'))->flash();
             return redirect(url('admin/customer'));
         }
     }
 
-    public function transactions($id){
+    public function transactions($id) {
         try{
             $user = User::find($id);
             if($this->company->id != $user->company->id){
                 abort(403, __('admin.no_permission'));
             }
             $entries = $user->transactions()->orderBy('id', 'DESC')->paginate(20);
-            return view('pages.transaction.index', ['entries' => $entries]);
+            return view('pages.customer.transaction', compact('id', 'entries'));
         }catch(\Exception $e){
-            \Alert::error(__('admin.opps'))->flash();
+            // \Alert::error(__('admin.opps'))->flash();
             return redirect(route('customers.index'));
         }
+    }
+
+    public function transactions_post(Request $request, $id) {
+        try{
+            $request->request->add(['status'=>'Completed']);
+            $transaction = new Transaction($request->all());
+            $user = $transaction->user;
+            if($transaction->save()){
+                if($transaction->type == 'A'){
+                    $totalCredits = ($user->tuning_credits + $transaction->credits);
+                }else{
+                   $totalCredits = ($user->tuning_credits - $transaction->credits);
+                }
+                $user->tuning_credits = $totalCredits;
+                $user->save();
+                // \Alert::success(__('admin.transaction_saved'))->flash();
+            }else{
+                // \Alert::error(__('admin.opps'))->flash();
+            }
+            return redirect(route('customer.tr', ['id' => $id]));
+        }catch(\Exception $e){
+            // \Alert::error(__('admin.opps'))->flash();
+        }
+        return redirect(route('customers.index'));
     }
 }

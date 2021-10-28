@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Remaps;
 use Illuminate\Http\Request;
 use App\Models\Company;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 use Auth;
 
 class CompanyController extends Controller
@@ -134,5 +135,42 @@ class CompanyController extends Controller
             // return redirect()->away($user->company->domain_link);
             return redirect(route('dashboard'));
         }
+    }
+
+    public function trial($id) {
+        $subscriptions = Company::find($id)->owner->subscriptions->sortByDesc('id');
+        return view('pages.company.trial', compact('id', 'subscriptions'));
+    }
+
+    public function trial_post(Request $request, $id) {
+        try{
+            $validations = Validator::make($request->all(), [
+                'description' => 'max:191',
+                'trial_days' => 'required|numeric'
+            ]);
+            $company = Company::find($id);
+            if(!$validations->fails()){
+                 $subscription = new \App\Models\Subscription();
+                 $subscription->user_id = $company->owner->id;
+                 $subscription->start_date = date("Y-m-d h:i:s");
+                 $subscription->trial_days = $request['trial_days'];
+                 $subscription->description = $request['description'];
+                 $subscription->pay_agreement_id = 'TRIAL'.rand(11111111, 99999999);
+                 $subscription->status = 'Active';
+                 $subscription->is_trial = 1;
+                 if($subscription->save()){
+                    //  \Alert::success(__('admin.subscription_saved'))->flash();
+                     return redirect(url('company/subscriptions?company='.$company->id))->withInput($request->all());
+                 }else{
+                    //  \Alert::error(__('admin.opps'))->flash();
+                     return redirect()->back()->withInput($request->all());
+                 }
+            }else{
+                return redirect()->back()->withInput($request->all())->withErrors($validations->errors());
+            }
+         }catch(\Exception $e){
+            //  \Alert::error(__('admin.opps'))->flash();
+             return redirect()->back()->withInput($request->all());
+         }
     }
 }

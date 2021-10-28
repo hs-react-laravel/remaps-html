@@ -55,6 +55,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('admin/companies/{id}/activate', [CompanyController::class, 'activate'])->name('companies.activate');
     Route::get('admin/companies/{id}/public', [CompanyController::class, 'public'])->name('companies.public');
     Route::get('admin/companies/{id}/switch', [CompanyController::class, 'switchAsCompany'])->name('companies.switch');
+    Route::get('admin/companies/{id}/trial', [CompanyController::class, 'trial'])->name('companies.trial');
+    Route::post('admin/companies/{id}/trial', [CompanyController::class, 'trial_post'])->name('companies.trial.post');
     Route::resource('admin/packages', PackageController::class);
 
     Route::get('company/company-settings', [CompanySettingController::class, 'company_setting'])->name('company.setting');
@@ -66,6 +68,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('company/customers', CustomerController::class);
     Route::get('company/customers/{id}/file-services',[CustomerController::class, 'fileServices'])->name('customer.fs');
     Route::get('company/customers/{id}/transactions',[CustomerController::class, 'transactions'])->name('customer.tr');
+    Route::post('company/customers/{id}/transactions',[CustomerController::class, 'transactions_post'])->name('customer.tr.post');
     Route::get('company/customers/{id}/switch-account',[CustomerController::class, 'switchAccount'])->name('customer.sa');
 
     Route::resource('company/tuning-credits', TuningCreditController::class);
