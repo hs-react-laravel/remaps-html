@@ -59,6 +59,12 @@
         "slug": "tuning-types.index"
     },
     {
+        "url": "company/subscriptions",
+        "name": "My Subscriptions",
+        "icon": "award",
+        "slug": "subscriptions.index"
+    },
+    {
         "url": "company/company-settings",
         "name": "Company Settings",
         "icon": "settings",

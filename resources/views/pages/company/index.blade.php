@@ -46,7 +46,10 @@
                       <a class="btn btn-icon btn-primary" href="{{ route('companies.edit', ['company' => $u->id]) }}" title="Edit">
                         <i data-feather="edit"></i>
                       </a>
-                      <a class="btn btn-icon btn-success" title="Subscriptions">
+                      <a
+                        class="btn btn-icon btn-success"
+                        title="Subscriptions"
+                        href="{{ route('subscriptions.index', ['company' => $u->id]) }}" >
                         <i data-feather="award"></i>
                       </a>
                       <a class="btn btn-icon btn-success" title="Resend password reset link">

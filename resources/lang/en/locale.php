@@ -214,6 +214,7 @@ return [
     "Manage Companies" => "Manage Companies",
     "Packages" => "Packages",
     "Staffs" => "Staff",
+    "My Subscriptions" => "My Subscriptions",
     "Company Settings" => "Company Settings",
     "Browse Tuning Specs" => "Browse Tuning Specs",
 ];

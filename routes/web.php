@@ -18,6 +18,7 @@ use App\Http\Controllers\Remaps\TuningCreditController;
 use App\Http\Controllers\Remaps\TuningTypeController;
 use App\Http\Controllers\Remaps\TuningTypeOptionController;
 use App\Http\Controllers\Remaps\StaffController;
+use App\Http\Controllers\Remaps\SubscriptionController;
 use App\Http\Controllers\Consumer\BuyTuningCreditsController;
 use App\Http\Controllers\Consumer\FileServiceController as FSController;
 use App\Http\Controllers\Consumer\TicketController as TKController;
@@ -81,6 +82,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('company/tuning-types/{id}/options/{option}/up-sort', [TuningTypeOptionController::class, 'upSort'])->name('options.sort.up');
     Route::get('company/tuning-types/{id}/options/{option}/down-sort', [TuningTypeOptionController::class, 'downSort'])->name('options.sort.down');
 
+    Route::resource('company/subscriptions', SubscriptionController::class);
+    Route::get('company/subscriptions/{id}/payments', [SubscriptionController::class, 'payments'])->name('subscriptions.payments');
+    Route::get('company/subscriptions/{id}/invoice', [SubscriptionController::class, 'invoice'])->name('subscriptions.invoice');
+
     Route::resource('company/staffs', StaffController::class);
 
     Route::resource('fs', FSController::class);
@@ -102,7 +107,7 @@ Route::group(['middleware' => 'auth'], function () {
     // Main Page Route
     Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard');
     Route::post('/customer-rate', [DashboardController::class, 'addRating'])->name('dashboard.rate');
-    Route::get('/profile', [DashboardController::class, 'profile'])->name('dashboard');
+    Route::get('/profile', [DashboardController::class, 'profile'])->name('dashboard.profile');
 
     Route::get('/cars', [CarBrowserController::class, 'index'])->name('cars.index');
     Route::get('/cars/category', [CarBrowserController::class, 'category'])->name('cars.category');

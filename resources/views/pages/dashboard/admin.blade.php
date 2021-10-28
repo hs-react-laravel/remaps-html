@@ -21,6 +21,26 @@
   <div class="row match-height">
     <!-- Statistics Card -->
     <div class="col-12">
+      @if($user->subscription_ended_string != NULL)
+        @if(!$user->hasActiveSubscription())
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">Subscription</h4>
+          </div>
+          <div class="card-body">
+            <p>Please activate your subscription. Click on the button below and select your subscription. Once completed your panel will be fully activated.</p>
+            <a class="btn btn-primary me-1" href="{{ route('orders.index') }}">Choose Package</a>
+          </div>
+        </div>
+        @else
+        <div class="alert alert-warning">
+          <p>
+            {!! $user->subscription_ended_string !!}
+          </p>
+        </div>
+        @endif
+      @endif
+
       <div class="card card-statistics">
         <div class="card-header">
           <h4 class="card-title">File Services</h4>
