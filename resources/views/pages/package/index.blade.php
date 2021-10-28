@@ -10,6 +10,9 @@
     <div class="card">
       <div class="card-header">
         <h4 class="card-title">Packages</h4>
+        <a href="{{ route('packages.create') }}" class="btn btn-icon btn-primary">
+          <i data-feather="plus"></i>
+        </a>
       </div>
       <div class="table-responsive">
         <table class="table">
@@ -29,11 +32,8 @@
                   <td>{{ $e->billing_interval }}</td>
                   <td>{{ $e->amount_with_current_sign }}</td>
                   <td>
-                    <a class="btn btn-icon btn-primary">
+                    <a class="btn btn-icon btn-primary" href="{{ route('packages.edit', ['package' => $e->id]) }}">
                       <i data-feather="edit"></i>
-                    </a>
-                    <a class="btn btn-icon btn-danger">
-                      <i data-feather="trash-2"></i>
                     </a>
                   </td>
                 </tr>
