@@ -15,7 +15,7 @@ class Helper
         $company = Company::where('domain_link', url(''))->first();
         $theme = !!$company ? $company->style_theme : 0;
 
-        $data = config('custom.demo-4');
+        $data = config('custom.demo-3');
         $data['theme'] = $theme == 1 ? 'light' : 'dark';
 
         // default data array
