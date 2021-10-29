@@ -38,16 +38,22 @@
                 <small class="annual-pricing d-none text-muted"></small>
               </div>
               <button
-                type="submit"
-                class="btn btn-outline-success me-2">
+                type="button"
+                class="btn btn-outline-info me-2"
+                onclick="onPaypalButton(this)">
                 <i class="fab fa-cc-paypal" style="font-size: 30px"></i>
               </button>
               <button
-                type="submit"
-                class="btn btn-outline-warning mt-2">
+                type="button"
+                class="btn btn-outline-warning"
+                data-bs-toggle="modal"
+                data-bs-target="#addNewCard"
+                data-group="{{ $tuningCreditGroup->id }}"
+                data-tire="{{ $tire->id }}"
+                onclick="onStripeButton(this)">
                 <i class="fab fa-cc-stripe" style="font-size: 30px"></i>
               </button>
-              <form action="{{ route('consumer.buy-credits.handle') }}" method="POST">
+              <form action="{{ route('consumer.buy-credits.handle') }}" method="POST" id="paypal-form">
                 @csrf
                 <input type="hidden" name="group_id" value="{{ $tuningCreditGroup->id }}">
                 <input type="hidden" name="tire_id" value="{{ $tire->id }}">
@@ -60,10 +66,61 @@
   </div>
 
 </section>
+@include('content/_partials/_modals/modal-add-new-cc')
 @endsection
 
 @section('page-script')
 {{-- Page js files --}}
 <script src="{{asset('js/scripts/pages/page-pricing.js')}}"></script>
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<script>
+  var $form = $('#cardValidation');
+  function onStripeButton(obj) {
+    var group = $(obj).data('group');
+    var tire = $(obj).data('tire');
+    $('#cardValidation input[name=group_id]').val(group);
+    $('#cardValidation input[name=tire_id]').val(tire);
+  }
+  $('#cardValidation').bind('submit', function(e) {
+    var $form = $('#cardValidation');
+    inputSelector = ['input[type=email]', 'input[type=password]', 'input[type=text]', 'input[type=file]', 'textarea'].join(', '),
+    $inputs       = $form.find('.required').find(inputSelector),
+    $errorMessage = $form.find('div.error'),
+    valid         = true;
+    $errorMessage.addClass('hide');
+    $('.has-error').removeClass('has-error');
+    $inputs.each(function(i, el) {
+      var $input = $(el);
+      if ($input.val() === '') {
+        $input.parent().addClass('has-error');
+        $errorMessage.removeClass('hide');
+        e.preventDefault();
+      }
+    });
+    if (!$form.data('cc-on-file')) {
+      e.preventDefault();
+      Stripe.setPublishableKey($form.data('stripe-publishable-key'));
+      Stripe.createToken({
+        number: $('.card-number').val(),
+        cvc: $('.card-cvc').val(),
+        exp_month: $('.card-expiry').val().split('/')[0],
+        exp_year: $('.card-expiry').val().split('/')[1]
+      }, stripeResponseHandler);
+    }
+  });
+  function stripeResponseHandler(status, response) {
+    if (response.error) {
+        $('.error').removeClass('hide').find('.alert').text(response.error.message);
+    } else {
+      // token contains id, last4, and card type
+      var token = response['id'];
+      console.log(token)
+      // insert the token into the form so it gets submitted to the server
+      $form.find('input[type=text]').empty();
+      $form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
+      $form.get(0).submit();
+    }
+  }
+</script>
 @endsection

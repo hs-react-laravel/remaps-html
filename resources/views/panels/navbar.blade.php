@@ -53,20 +53,22 @@
       <li class="nav-item"><a class="nav-link menu-toggle" href="javascript:void(0);"><i class="ficon"
             data-feather="menu"></i></a></li>
     </ul>
-    {{-- <ul class="nav navbar-nav bookmark-icons">
-      <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{ url('app/email') }}"
-          data-bs-toggle="tooltip" data-bs-placement="bottom" title="Email"><i class="ficon"
-            data-feather="mail"></i></a></li>
-      <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{ url('app/chat') }}"
-          data-bs-toggle="tooltip" data-bs-placement="bottom" title="Chat"><i class="ficon"
-            data-feather="message-square"></i></a></li>
-      <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{ url('app/calendar') }}"
-          data-bs-toggle="tooltip" data-bs-placement="bottom" title="Calendar"><i class="ficon"
-            data-feather="calendar"></i></a></li>
-      <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{ url('app/todo') }}"
-          data-bs-toggle="tooltip" data-bs-placement="bottom" title="Todo"><i class="ficon"
-            data-feather="check-square"></i></a></li>
-    </ul> --}}
+    @if ($role == "master" || $role == "company")
+      <ul class="nav navbar-nav bookmark-icons">
+        <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{ route('customers.index') }}"
+            data-bs-toggle="tooltip" data-bs-placement="bottom" title="Customers"><i class="ficon"
+              data-feather="users"></i></a></li>
+        <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{ route('fileservices.index') }}"
+            data-bs-toggle="tooltip" data-bs-placement="bottom" title="Files"><i class="ficon"
+              data-feather="file"></i></a></li>
+        <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{ route('tickets.index') }}"
+            data-bs-toggle="tooltip" data-bs-placement="bottom" title="Tickets"><i class="ficon"
+              data-feather="message-circle"></i></a></li>
+        <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{ route('company.setting') }}"
+          data-bs-toggle="tooltip" data-bs-placement="bottom" title="Settings"><i class="ficon"
+            data-feather="settings"></i></a></li>
+      </ul>
+    @endif
     {{-- <ul class="nav navbar-nav">
       <li class="nav-item d-none d-lg-block">
         <a class="nav-link bookmark-star">
@@ -83,6 +85,15 @@
     </ul> --}}
   </div>
   <ul class="nav navbar-nav align-items-center ms-auto">
+    @if ($role == 'customer')
+      <li class="nav-item d-none d-lg-block">
+        <a class="nav-link custom-card-link" href="{{ route('consumer.buy-credits') }}">
+          <i data-feather="credit-card" class="card-custom"></i>
+          <i data-feather="x"></i>
+          <span style="font-weight: bold">{{ number_format($user->tuning_credits, 2) }}</span>
+        </a>
+      </li>
+    @endif
     <li class="nav-item dropdown dropdown-language">
       <a class="nav-link dropdown-toggle" id="dropdown-flag" href="#" data-bs-toggle="dropdown" aria-haspopup="true">
         <i class="flag-icon flag-icon-us"></i>
@@ -103,8 +114,8 @@
         </a>
       </div>
     </li>
-    <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-style"><i class="ficon"
-          data-feather="{{ $configData['theme'] === 'dark' ? 'sun' : 'moon' }}"></i></a></li>
+    {{-- <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-style"><i class="ficon"
+          data-feather="{{ $configData['theme'] === 'dark' ? 'sun' : 'moon' }}"></i></a></li> --}}
     <li class="nav-item dropdown dropdown-user">
       <a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="javascript:void(0);"
         data-bs-toggle="dropdown" aria-haspopup="true">

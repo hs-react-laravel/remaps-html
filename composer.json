@@ -18,7 +18,8 @@
     "laravel/ui": "^3.3",
     "laravelcollective/html": "^6.2",
     "paypal/paypal-checkout-sdk": "1.0.1",
-    "srmklive/paypal": "^1.0"
+    "srmklive/paypal": "^1.0",
+    "stripe/stripe-php": "^7.100"
   },
   "require-dev": {
     "facade/ignition": "^2.5",
