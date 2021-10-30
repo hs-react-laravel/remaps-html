@@ -215,4 +215,32 @@ class User extends Authenticatable implements MustVerifyEmail
         }
         return FALSE;
     }
+    public function getUserEvcTuningCreditsAttribute() {
+        if ($this->reseller_id) {
+            $url = "https://evc.de/services/api_resellercredits.asp";
+            $dataArray = array(
+                'apiid'=>'j34sbc93hb90',
+                'username'=> $this->company->reseller_id,
+                'password'=> $this->company->reseller_password,
+                'verb'=>'getcustomeraccount',
+                'customer' => $this->reseller_id
+            );
+            $ch = curl_init();
+            $params = http_build_query($dataArray);
+            $getUrl = $url."?".$params;
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+            curl_setopt($ch, CURLOPT_URL, $getUrl);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 500);
+
+            $response = curl_exec($ch);
+            if (strpos($response, 'ok') !== FALSE) {
+                return str_replace('ok: ', '', $response);
+            }
+        }
+        else {
+            return '';
+        }
+    }
 }

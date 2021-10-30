@@ -57,6 +57,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('admin/companies/{id}/switch', [CompanyController::class, 'switchAsCompany'])->name('companies.switch');
     Route::get('admin/companies/{id}/trial', [CompanyController::class, 'trial'])->name('companies.trial');
     Route::post('admin/companies/{id}/trial', [CompanyController::class, 'trial_post'])->name('companies.trial.post');
+    Route::get('admin/companies/{id}/reset-password-link', [CompanyController::class, 'resendPasswordResetLink'])->name('companies.reset-password');
     Route::resource('admin/packages', PackageController::class);
 
     Route::get('company/company-settings', [CompanySettingController::class, 'company_setting'])->name('company.setting');

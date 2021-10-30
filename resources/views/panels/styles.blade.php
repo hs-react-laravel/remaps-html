@@ -39,5 +39,6 @@
   {{-- user custom styles --}}
   <link rel="stylesheet" href="{{ asset(mix('css/style.css')) }}" />
 @endif
-
+<link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/toastr.min.css')) }}">
+<link rel="stylesheet" href="{{ asset(mix('css/base/plugins/extensions/ext-component-toastr.css')) }}">
 <link rel="stylesheet" href="{{ asset('customcss/custom.css') }}">

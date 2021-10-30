@@ -6,7 +6,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\FileService;
 use App\Models\Ticket;
+use App\Models\User;
+use App\Mail\FileServiceModified;
+use App\Mail\FileServiceProcessed;
+use App\Mail\TicketFileCreated;
 use File;
+use Mail;
 
 class FileServiceController extends Controller
 {
@@ -91,6 +96,12 @@ class FileServiceController extends Controller
             $request->request->add(['modified_file' => $filename]);
             if ($fs->status != 'C') {
                 $request->request->add(['status' => 'W']);
+            } else {
+                try{
+					Mail::to($fs->user->email)->send(new FileServiceModified($fs));
+				}catch(\Exception $e){
+					session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
+				}
             }
         }
         //assign to staff
@@ -141,6 +152,12 @@ class FileServiceController extends Controller
         if (File::exists($file)) {
             $fileExt = File::extension($file);
             $fileName = $fileService->displayable_id.'-orginal.'.$fileExt;
+            try{
+                Mail::to($fileService->user->email)->send(new FileServiceProcessed($fileService));
+            }catch(\Exception $e){
+                session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
+                return redirect(route('fileservices.index'));
+            }
             return response()->download($file, $fileName);
         }
     }
@@ -186,7 +203,18 @@ class FileServiceController extends Controller
             $ticket->document = $filename;
         }
         $ticket->is_closed = 0;
-        $ticket->save();
+        $jobDetails = $fileService->make.' '.$fileService->model.' '.$fileService->generation;
+        $user = User::find($ticket->receiver_id);
+        if ($ticket->save()) {
+            try{
+            	Mail::to($user->email)->send(new TicketFileCreated($user, $jobDetails));
+			}catch(\Exception $e){
+				session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
+			}
+            session()->flash('message', __('admin.ticket_saved'));
+        } else {
+            session()->flash('error', __('admin.opps'));
+        }
 
         return redirect(route('tickets.index'));
     }

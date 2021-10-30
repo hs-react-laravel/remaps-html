@@ -52,24 +52,26 @@ $configData = Helper::applClasses();
       @endforeach
       @endif
       {{-- Foreach menu item ends --}}
-      @php
-        $days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
-      @endphp
-      <li class="nav-item {{ $custom_classes }}">
-        <div class="openhours_sidebar_wrapper">Opening Hours</div>
-        @foreach ($days as $day)
-          @php
-            $daymark_close = substr($day, 0, 3).'_close';
-            $daymark_from = substr($day, 0, 3).'_from';
-            $daymark_to = substr($day, 0, 3).'_to';
-          @endphp
-          <div class="openhours_sidebar_wrapper">
-            <span class="bullet bullet-sm @if($company->$daymark_close) bullet-danger @else bullet-success @endif"></span>
-            <span class="openhours_sidebar_day">{{ ucfirst($day) }}</span>
-            <span class="openhours_sidebar_time">{{ !$company->$daymark_close ? $company->$daymark_from.'-'.$company->$daymark_to : 'Closed' }}</span>
-          </div>
-        @endforeach
-      </li>
+      @if($role == 'customer')
+        @php
+          $days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+        @endphp
+        <li class="nav-item {{ $custom_classes }}">
+          <div class="openhours_sidebar_wrapper">Opening Hours</div>
+          @foreach ($days as $day)
+            @php
+              $daymark_close = substr($day, 0, 3).'_close';
+              $daymark_from = substr($day, 0, 3).'_from';
+              $daymark_to = substr($day, 0, 3).'_to';
+            @endphp
+            <div class="openhours_sidebar_wrapper">
+              <span class="bullet bullet-sm @if($company->$daymark_close) bullet-danger @else bullet-success @endif"></span>
+              <span class="openhours_sidebar_day">{{ ucfirst($day) }}</span>
+              <span class="openhours_sidebar_time">{{ !$company->$daymark_close ? $company->$daymark_from.'-'.$company->$daymark_to : 'Closed' }}</span>
+            </div>
+          @endforeach
+        </li>
+      @endif
     </ul>
   </div>
 </div>

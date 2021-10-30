@@ -55,9 +55,20 @@
                         href="{{ route('subscriptions.index', ['company' => $u->id]) }}" >
                         <i data-feather="award"></i>
                       </a>
-                      <a class="btn btn-icon btn-success" title="Resend password reset link">
+                      @if($u->owner)
+                      <a
+                        class="btn btn-icon btn-success"
+                        title="Resend password reset link"
+                        href="{{ route('companies.reset-password', ['id' => $u->id]) }}" >
                         <i data-feather="mail"></i>
                       </a>
+                      @else
+                      <a
+                        class="btn btn-icon btn-secondary"
+                        title="Resend password reset link" >
+                        <i data-feather="mail"></i>
+                      </a>
+                      @endif
                       <a
                         class="btn btn-icon btn-success"
                         title="Login as this company"
@@ -87,9 +98,9 @@
                       </a>
                       <a
                         class="btn btn-icon btn-success"
-                        title="{{ $u->owner->is_active == 1 ? 'Active' : 'Deactive' }}"
+                        title="{{ $u->owner && $u->owner->is_active == 1 ? 'Active' : 'Deactive' }}"
                         href="{{ route('companies.activate', ['id' => $u->id]) }}" >
-                        <i data-feather="{{ $u->owner->is_active == 1 ? 'thumbs-down' : 'thumbs-up' }}"></i>
+                        <i data-feather="{{ $u->owner && $u->owner->is_active == 1 ? 'thumbs-down' : 'thumbs-up' }}"></i>
                       </a>
                       <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $u->id }}"><i data-feather="trash-2"></i></a>
                       <form action="{{ route('companies.destroy', $u->id) }}" class="delete-form" method="POST" style="display:none">

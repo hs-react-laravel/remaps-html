@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Models\TuningCreditGroup;
 use App\Models\Transaction;
 use App\Http\Controllers\Controller;
+use App\Mail\WelcomeCustomer;
+use Mail;
 
 class CustomerController extends Controller
 {
@@ -57,24 +59,18 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        try{
+        try {
             $request->request->add(['company_id'=> $this->company->id]);
             $user = User::create($request->all());
             $token = app('auth.password.broker')->createToken($user);
-            // Log::create([
-            //     'staff_id' => $user->id,
-            //     'table' => 'Customer',
-            //     'action' => 'CREATE',
-            //     'id' => $this->crud->entry->id,
-            // ]);
-			// try{
-            // 	Mail::to($user->email)->send(new WelcomeCustomer($user, $token));
-			// }catch(\Exception $e){
-			// 	Alert::error('Error in SMTP: '.__('admin.opps'))->flash();
-			// }
+			try{
+                Mail::to($user->email)->send(new WelcomeCustomer($user, $token));
+			}catch(\Exception $e) {
+                session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
+			}
             return redirect(route('customers.index'));
-        }catch(\Exception $e){
-            // Alert::error(__('admin.opps'))->flash();
+        } catch(\Exception $e){
+            session()->flash('error', __('admin.opps'));
             return redirect(route('customers.index'));
         }
     }
@@ -132,7 +128,6 @@ class CustomerController extends Controller
      */
     public function destroy($id)
     {
-        //
         $customer = User::find($id);
         $customer->delete();
         return redirect(route('customers.index'));

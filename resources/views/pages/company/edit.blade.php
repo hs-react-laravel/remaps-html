@@ -132,5 +132,11 @@
         $(`#${id_close}`).prop('disabled', false)
       }
     })
+    imageLogo.onchange = evt => {
+      const [file] = imageLogo.files
+      if (file) {
+        logo.src = URL.createObjectURL(file)
+      }
+    }
   </script>
 @endsection

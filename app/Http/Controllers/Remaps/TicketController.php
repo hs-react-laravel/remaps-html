@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Ticket;
 use App\Models\FileService;
+use App\Models\User;
+use App\Mail\TicketFileCreated;
 
+use Mail;
 use File;
 
 class TicketController extends Controller
@@ -109,6 +112,13 @@ class TicketController extends Controller
             $new_ticket->save();
             $ticket->is_closed = 0;
             $ticket->save();
+
+            $user = User::find($ticket->receiver_id);
+            try{
+                Mail::to($user->email)->send(new TicketFileCreated($user,$ticket->subject));
+            }catch(\Exception $e){
+                session()->flash('message', __('admin.ticket_saved'));
+            }
         }
         if ($request->assign){
             $ticket->assign_id = $request->assign;

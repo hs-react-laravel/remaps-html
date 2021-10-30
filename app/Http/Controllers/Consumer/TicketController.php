@@ -6,8 +6,11 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Ticket;
 use App\Models\FileService;
+use App\Mail\TicketCreated;
+use App\Mail\TicketReply;
 
 use File;
+use Mail;
 
 class TicketController extends Controller
 {
@@ -60,6 +63,11 @@ class TicketController extends Controller
             ]);
         }
         Ticket::create($request->all());
+        try{
+			Mail::to($this->user->company->owner->email)->send(new TicketCreated($this->user,$request->all()['subject']));
+		}catch(\Exception $e){
+			session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
+		}
         return redirect(route('tk.index'));
     }
 
@@ -122,6 +130,12 @@ class TicketController extends Controller
 
         $ticket->is_closed = 0;
         $ticket->save();
+
+        try{
+            Mail::to($this->user->company->owner->email)->send(new TicketReply($this->user,$ticket->subject));
+        }catch(\Exception $e){
+            session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
+        }
 
         return redirect(route('tk.edit', ['tk' => $id]));
     }

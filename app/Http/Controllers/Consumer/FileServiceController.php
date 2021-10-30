@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Consumer;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Mail\FileServiceCreated;
+use App\Mail\FileServiceLimited;
+use App\Mail\TicketCreated;
 use App\Models\FileService;
 use App\Models\TuningType;
 use App\Models\Transaction;
@@ -54,6 +57,13 @@ class FileServiceController extends Controller
      */
     public function store(Request $request)
     {
+        $open_status = $this->open_status();
+        if ($open_status == 1) { // allow file service
+            session()->flash('warning', __('File Services are closed.'));
+        } else if ($open_status == 2) { // deny file service
+            session()->flash('warning', __('File Services are closed.'));
+            return redirect(url('customer/file-service'));
+        }
         // upload file
         $file = $request->file('upload_file');
         $filename = time() . '.' . $file->getClientOriginalExtension();
@@ -92,8 +102,33 @@ class FileServiceController extends Controller
         $transaction->status        =   config('constants.transaction_status.completed');
         $transaction->type          =   'S';
         $transaction->save();
-
+        try{
+            if ($open_status == -1) {
+                Mail::to($this->company->owner->email)->send(new FileServiceCreated($fileService));
+            } else if ($open_status == 1) {
+                Mail::to($user->email)->send(new FileServiceLimited($fileService));
+            }
+        }catch(\Exception $e){
+            session()->flash('error', __('admin.opps'));
+        }
         return redirect(route('fs.index'));
+    }
+
+    public function open_status() {
+        $user = \Auth::guard('customer')->user();
+        $company = $user->company;
+        $day = lcfirst(date('l'));
+        $daymark_from = substr($day, 0, 3).'_from';
+        $daymark_to = substr($day, 0, 3).'_to';
+
+        $open_status = -1;
+        if ($company->open_check) {
+            if ($company->$daymark_from && str_replace(':', '', $company->$daymark_from) > date('Hi')
+                || $company->$daymark_to && str_replace(':', '', $company->$daymark_to) < date('Hi')) {
+                $open_status = $company->notify_check == 0 ? 1 : 2;
+            }
+        }
+        return $open_status;
     }
 
     /**
@@ -194,7 +229,19 @@ class FileServiceController extends Controller
             $ticket->document = $filename;
         }
         $ticket->is_closed = 0;
-        $ticket->save();
+        $fileService = FileService::find($id);
+        $jobDetails = $fileService->make.' '.$fileService->model.' '.$fileService->generation;
+        if($ticket->save()){
+            try{
+            	Mail::to($this->user->company->owner->email)->send(new TicketCreated($this->user, $jobDetails));
+			}catch(\Exception $e){
+				session()->flash('message', 'Error in SMTP: '.__('admin.opps'));
+			}
+            session()->flash('message', __('admin.ticket_saved'));
+        }else{
+            session()->flash('error', __('admin.opps'));
+            return redirect()->back()->withInput($request->all());
+        }
 
         return redirect(route('tickets.index'));
     }
