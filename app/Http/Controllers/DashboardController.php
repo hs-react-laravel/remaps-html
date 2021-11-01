@@ -154,6 +154,11 @@ class DashboardController extends Controller
     }
 
     public function profile() {
-        $user = $this->user;
+        return view('pages.dashboard.profile');
+    }
+
+    public function profile_post(Request $request) {
+        $this->user->update($request->all());
+        return redirect(route('dashboard.profile'));
     }
 }

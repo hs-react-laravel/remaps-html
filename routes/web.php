@@ -127,6 +127,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/customer-rate', [DashboardController::class, 'addRating'])->name('dashboard.rate');
     Route::post('/set-reseller', [DashboardController::class, 'setReseller'])->name('dashboard.reseller');
     Route::get('/profile', [DashboardController::class, 'profile'])->name('dashboard.profile');
+    Route::post('/profile_post', [DashboardController::class, 'profile_post'])->name('dashboard.profile.post');
 
     Route::get('/cars', [CarBrowserController::class, 'index'])->name('cars.index');
     Route::get('/cars/category', [CarBrowserController::class, 'category'])->name('cars.category');
