@@ -11,7 +11,11 @@
 @section('content')
 
 <section id="basic-input">
+  @if (!$is_evc)
   <form action="{{ route('tuning-tires.store') }}" method="post">
+  @else
+  <form action="{{ route('evc-tuning-tires.store') }}" method="post">
+  @endif
     @csrf
     <div class="row">
       <div class="col-md-12">
@@ -26,12 +30,12 @@
                 <input type="text" class="form-control" id="amount" name="amount" />
               </div>
             </div>
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary me-1">Submit</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="col-12">
-      <button type="submit" class="btn btn-primary me-1">Submit</button>
     </div>
   </form>
 </section>

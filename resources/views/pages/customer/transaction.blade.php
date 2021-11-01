@@ -22,6 +22,7 @@
         <form action="{{ route('customer.tr.post', ['id' => $id]) }}" method="POST">
           @csrf
           <input type="hidden" name="user_id" value="{{ $id }}">
+          <input type="hidden" name="type" value="normal">
           <div class="row mb-2">
             <div class="col-12">
               <label class="form-label" for="description">Description</label>
@@ -51,6 +52,47 @@
       </div>
     </div>
   </div>
+  @if($company->reseller_id && $user->reseller_id)
+  <div class="col-md-12 col-xl-6">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="header-text">Add Transaction(EVC)</h4>
+      </div>
+      <div class="card-body">
+        <form action="{{ route('customer.tr.evc.post', ['id' => $id]) }}" method="POST">
+          @csrf
+          <input type="hidden" name="user_id" value="{{ $id }}">
+          <input type="hidden" name="type" value="evc">
+          <div class="row mb-2">
+            <div class="col-12">
+              <label class="form-label" for="description">Description</label>
+              <input type="text" class="form-control" id="description" name="description" required />
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-12">
+              <label class="form-label" for="credits">Credits</label>
+              <input type="number" class="form-control" id="credits" name="credits" required />
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-12">
+              <label class="form-label" for="type">Customer Type</label>
+              <select class="form-select" id="type" name="type" required>
+                <option value="">Select Option</option>
+                <option value="A">Give (+)</option>
+                <option value="S">Take (-)</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary me-1">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  @endif
 </div>
 <div class="row">
   <div class="col-12">

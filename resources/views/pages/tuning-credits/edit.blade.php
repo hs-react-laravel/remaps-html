@@ -11,7 +11,11 @@
 @section('content')
 
 <section id="basic-input">
+  @if (!$is_evc)
   {{ Form::model($entry, array('route' => array('tuning-credits.update', $entry->id), 'method' => 'PUT')) }}
+  @else
+  {{ Form::model($entry, array('route' => array('evc-tuning-credits.update', $entry->id), 'method' => 'PUT')) }}
+  @endif
     @csrf
     <div class="row">
       <div class="col-md-12">

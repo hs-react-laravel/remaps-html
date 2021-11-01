@@ -15,6 +15,7 @@ class Controller extends BaseController
     protected $user;
     protected $company;
     protected $role;
+    protected $is_evc;
 
     public function __construct() {
         $this->middleware(function ($request, $next, $guard = null) {
@@ -23,6 +24,7 @@ class Controller extends BaseController
                 $this->company = $this->user->company;
                 $this->user->last_login = \Carbon\Carbon::now()->format('Y-m-d H:i:s');
                 $this->user->save();
+                $this->is_evc = !!$this->company->reseller_id;
 
                 Config::set('mail.driver', $this->company->mail_driver);
                 Config::set('mail.host', $this->company->mail_host);
@@ -55,11 +57,21 @@ class Controller extends BaseController
                 view()->share('user', $this->user);
                 view()->share('company', $this->company);
                 view()->share('role', $this->role);
+                view()->share('is_evc', $this->is_evc);
 
                 $verticalMenuJson = file_get_contents(base_path('resources/data/menu-data/'.$verticalMenu));
                 $verticalMenuData = json_decode($verticalMenuJson);
                 $horizontalMenuJson = file_get_contents(base_path('resources/data/menu-data/horizontalMenu.json'));
                 $horizontalMenuData = json_decode($horizontalMenuJson);
+
+                if ($this->company->reseller_id) {
+                    $evc_menu = new \stdClass();
+                    $evc_menu->url = "company/evc-tuning-credits";
+                    $evc_menu->name = "EVC Tuning Credit Prices";
+                    $evc_menu->icon = "dollar-sign";
+                    $evc_menu->slug = "evc-tuning-credits.index";
+                    array_splice($verticalMenuData->menu, 9, 0, [$evc_menu]);
+                }
 
                 // Share all menuData to all the views
                 view()->share('menuData',[$verticalMenuData, $horizontalMenuData]);

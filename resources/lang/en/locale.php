@@ -210,6 +210,7 @@ return [
     "Transactions" => "Transactions",
     "Email Templates" => "Email Templates",
     "Tuning Credit Prices" => "Tuning Credit Prices",
+    "EVC Tuning Credit Prices" => "EVC Tuning Credit Prices",
     "Tuning Types" => "Tuning Types",
     "Manage Companies" => "Manage Companies",
     "Packages" => "Packages",

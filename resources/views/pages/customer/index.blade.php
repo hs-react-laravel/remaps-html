@@ -31,11 +31,10 @@
               <th width="10%">Company</th>
               <th width="5%">Tuning Credits</th>
               <th width="10%">Tuning Price Group</th>
-              <th width="5%">File Service</th>
               @if ($user->company->reseller_id)
-              <th>EVC Tuning Credits</th>
-              <th>EVC Tuning Price Group</th>
+              <th width="10%">EVC Tuning Price Group</th>
               @endif
+              <th width="5%">File Service</th>
               <th width="10%">Last Login</th>
               <th width="20%">Actions</th>
             </tr>
@@ -49,8 +48,7 @@
                     <td>{{ number_format($u->tuning_credits, 2) }}</td>
                     <td>{{ $u->tuningPriceGroup }}</td>
                     @if ($user->company->reseller_id)
-                    <td>{{ $u->user_evc_tuning_credits }}</td>
-                    <td>{{ $u->tuning_evc_credit_group_id }}</td>
+                    <td>{{ $u->tuning_evc_price_group }}</td>
                     @endif
                     <td>{{ $u->fileServicesCount }}</td>
                     <td>{{ $u->lastLoginDiff }}</td>

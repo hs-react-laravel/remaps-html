@@ -24,6 +24,7 @@ use App\Http\Controllers\Consumer\FileServiceController as FSController;
 use App\Http\Controllers\Consumer\TicketController as TKController;
 use App\Http\Controllers\Consumer\OrderController as ODController;
 use App\Http\Controllers\Consumer\TransactionController as TRController;
+use App\Http\Controllers\Remaps\TuningEVCCreditController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,13 +71,20 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('company/customers/{id}/file-services',[CustomerController::class, 'fileServices'])->name('customer.fs');
     Route::get('company/customers/{id}/transactions',[CustomerController::class, 'transactions'])->name('customer.tr');
     Route::post('company/customers/{id}/transactions',[CustomerController::class, 'transactions_post'])->name('customer.tr.post');
+    Route::post('company/customers/{id}/transactions/evc',[CustomerController::class, 'transactions_post_evc'])->name('customer.tr.evc.post');
     Route::get('company/customers/{id}/switch-account',[CustomerController::class, 'switchAccount'])->name('customer.sa');
 
     Route::resource('company/tuning-credits', TuningCreditController::class);
     Route::get('company/tuning-credits/{id}/default', [TuningCreditController::class, 'set_default'])->name('tuning-credits.default');
     Route::delete('company/tuning-tires/{id}/delete', [TuningCreditController::class, 'delete_tire'])->name('tuning-tires.destroy');
     Route::get('company/tuning-tires/create', [TuningCreditController::class, 'add_tire'])->name('tuning-tires.create');
-    Route::post('company/tuning-tires/store', [TuningCreditController::class, 'store_tire'])->name('tuning-tires.store');;
+    Route::post('company/tuning-tires/store', [TuningCreditController::class, 'store_tire'])->name('tuning-tires.store');
+
+    Route::resource('company/evc-tuning-credits', TuningEVCCreditController::class);
+    Route::get('company/evc-tuning-credits/{id}/default', [TuningEVCCreditController::class, 'set_default'])->name('evc-tuning-credits.default');
+    Route::delete('company/evc-tuning-tires/{id}/delete', [TuningEVCCreditController::class, 'delete_tire'])->name('evc-tuning-tires.destroy');
+    Route::get('company/evc-tuning-tires/create', [TuningEVCCreditController::class, 'add_tire'])->name('evc-tuning-tires.create');
+    Route::post('company/evc-tuning-tires/store', [TuningEVCCreditController::class, 'store_tire'])->name('evc-tuning-tires.store');
 
     Route::resource('company/tuning-types', TuningTypeController::class);
     Route::get('company/tuning-types/{id}/up-sort', [TuningTypeController::class, 'upSort'])->name('tuning-types.sort-up');
@@ -117,6 +125,7 @@ Route::group(['middleware' => 'auth'], function () {
     // Main Page Route
     Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard');
     Route::post('/customer-rate', [DashboardController::class, 'addRating'])->name('dashboard.rate');
+    Route::post('/set-reseller', [DashboardController::class, 'setReseller'])->name('dashboard.reseller');
     Route::get('/profile', [DashboardController::class, 'profile'])->name('dashboard.profile');
 
     Route::get('/cars', [CarBrowserController::class, 'index'])->name('cars.index');

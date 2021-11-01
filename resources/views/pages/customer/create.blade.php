@@ -47,13 +47,24 @@
             <div class="row mb-1">
               <div class="col-xl-4 col-md-6 col-12">
                 <label class="form-label" for="tuning_credit_group_id">Tuning price type</label>
-                <select class="select2 form-select" id="tuning_credit_group_id" name="tuning_credit_group_id">
+                <select class="select form-select" id="tuning_credit_group_id" name="tuning_credit_group_id">
                   <option value=""> </option>
                   @foreach ($tuningGroups as $id => $name)
                     <option value="{{ $id }}">{{ $name }}</option>
                   @endforeach
                 </select>
               </div>
+              @if ($user->company->reseller_id)
+              <div class="col-xl-4 col-md-6 col-12">
+                <label class="form-label" for="tuning_evc_credit_group_id">EVC Tuning price type</label>
+                <select class="select form-select" id="tuning_evc_credit_group_id" name="tuning_evc_credit_group_id">
+                  <option value=""> </option>
+                  @foreach ($evcTuningGroups as $id => $name)
+                    <option value="{{ $id }}">{{ $name }}</option>
+                  @endforeach
+                </select>
+              </div>
+              @endif
             </div>
             <div class="row mb-1">
               <div class="col-xl-4 col-md-6 col-12">

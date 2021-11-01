@@ -11,7 +11,11 @@
 @section('content')
 
 <section id="basic-input">
-  <form action="{{ route('tuning-credits.store') }}" method="post">
+  @if (!$is_evc)
+    <form action="{{ route('tuning-credits.store') }}" method="post">
+  @else
+    <form action="{{ route('evc-tuning-credits.store') }}" method="post">
+  @endif
     @csrf
     <div class="row">
       <div class="col-md-12">

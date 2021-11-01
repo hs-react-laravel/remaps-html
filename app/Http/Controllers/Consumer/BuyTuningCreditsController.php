@@ -28,9 +28,12 @@ class BuyTuningCreditsController extends Controller
         $groupCreditTires  = $tuningCreditGroup
             ? $this->user->tuningCreditGroup->tuningCreditTires()->withPivot('from_credit', 'for_credit')->wherePivot('from_credit', '!=', 0.00)->orderBy('amount', 'ASC')->get()
             : [];
+        $groupEVCCreditTires = $this->user->tuningEVCCreditGroup
+            ? $this->user->tuningEVCCreditGroup->tuningCreditTires()->withPivot('from_credit', 'for_credit')->wherePivot('from_credit', '!=', 0.00)->orderBy('amount', 'ASC')->get()
+            : [];
         $isVatCalculation = ($this->company->vat_number != null) && ($this->company->vat_percentage != null) && ($this->user->add_tax);
         $stripeKey = "pk_test_bRcRJEVm0RNqTW3Ge72Cmlfv00qvW84uiQ";
-        return view('pages.consumers.bc.index', compact('groupCreditTires', 'isVatCalculation', 'tuningCreditGroup', 'stripeKey'));
+        return view('pages.consumers.bc.index', compact('groupCreditTires', 'groupEVCCreditTires', 'isVatCalculation', 'tuningCreditGroup', 'stripeKey'));
     }
     public function handlePayment(Request $request)
     {
@@ -104,7 +107,8 @@ class BuyTuningCreditsController extends Controller
                 'total' => $total_amount,
                 'description' => $tuningCreditGroup->name.'('.$tire->amount.' credits)'
             ),
-            'item_count' => $tire->amount
+            'item_count' => $tire->amount,
+            'credit_type' => $tuningCreditGroup->group_type,
         ]);
         return redirect($redirect);
     }
@@ -115,6 +119,7 @@ class BuyTuningCreditsController extends Controller
         $request->body = "{}";
         $response = $this->paypal_client->execute($request);
         $result = $response->result;
+        $credit_type = session('credit_type');
 
         $user = $this->user;
         /* save order displayable id */
@@ -126,9 +131,34 @@ class BuyTuningCreditsController extends Controller
 
         if ($response->statusCode == 201) {
             $transaction = session('transaction');
-            $totalCredits = ($user->tuning_credits + session('item_count'));
-            $user->tuning_credits = $totalCredits;
-            $user->save();
+            if ($credit_type == 'normal') {
+                $totalCredits = ($user->tuning_credits + session('item_count'));
+                $user->tuning_credits = $totalCredits;
+                $user->save();
+            } else if ($credit_type == 'evc') {
+                $url = "https://evc.de/services/api_resellercredits.asp";
+                $dataArray = array(
+                    'apiid'=>'j34sbc93hb90',
+                    'username'=> $user->company->reseller_id,
+                    'password'=> $user->company->reseller_password,
+                    'verb'=>'addcustomeraccount',
+                    'customer' => $user->reseller_id,
+                    'credits' => session('item_count')
+                );
+                $ch = curl_init();
+                $data = http_build_query($dataArray);
+                $getUrl = $url."?".$data;
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_URL, $getUrl);
+                curl_setopt($ch, CURLOPT_TIMEOUT, 500);
+
+                $response = curl_exec($ch);
+                if (strpos($response, 'ok') !== FALSE) {
+                    session()->flash('message', 'Payment is successed');
+                }
+            }
             /* save order */
             $order = new \App\Models\Order();
             $order->user_id = $user->id;

@@ -44,11 +44,12 @@ class CustomerController extends Controller
             ->where('group_type', 'normal')
             ->orderBy('is_default', 'DESC')
             ->pluck('name', 'id');
+        $evcTuningGroups = TuningCreditGroup::where('company_id', $user->company_id)
+            ->where('group_type', 'evc')
+            ->orderBy('is_default', 'DESC')
+            ->pluck('name', 'id');
         $langs = config('constants.langs');
-        return view('pages.customer.create', [
-            'tuningGroups' => $tuningGroups,
-            'langs' => $langs,
-        ]);
+        return view('pages.customer.create', compact('tuningGroups', 'langs', 'evcTuningGroups'));
     }
 
     /**
@@ -99,12 +100,12 @@ class CustomerController extends Controller
             ->where('group_type', 'normal')
             ->orderBy('is_default', 'DESC')
             ->pluck('name', 'id');
+        $evcTuningGroups = TuningCreditGroup::where('company_id', $this->user->company_id)
+            ->where('group_type', 'evc')
+            ->orderBy('is_default', 'DESC')
+            ->pluck('name', 'id');
         $langs = config('constants.langs');
-        return view('pages.customer.edit', [
-            'customer' => $customer,
-            'tuningGroups' => $tuningGroups,
-            'langs' => $langs
-        ]);
+        return view('pages.customer.edit', compact('customer', 'langs', 'tuningGroups', 'evcTuningGroups'));
     }
 
     /**
@@ -169,7 +170,7 @@ class CustomerController extends Controller
             $entries = $user->transactions()->orderBy('id', 'DESC')->paginate(20);
             return view('pages.customer.transaction', compact('id', 'entries'));
         }catch(\Exception $e){
-            // \Alert::error(__('admin.opps'))->flash();
+            session()->flash('error', __('admin.opps'));
             return redirect(route('customers.index'));
         }
     }
@@ -187,13 +188,48 @@ class CustomerController extends Controller
                 }
                 $user->tuning_credits = $totalCredits;
                 $user->save();
-                // \Alert::success(__('admin.transaction_saved'))->flash();
+                session()->flash('message', __('admin.transaction_saved'));
             }else{
-                // \Alert::error(__('admin.opps'))->flash();
+                session()->flash('error', __('admin.opps'));
             }
             return redirect(route('customer.tr', ['id' => $id]));
         }catch(\Exception $e){
-            // \Alert::error(__('admin.opps'))->flash();
+            session()->flash('error', __('admin.opps'));
+        }
+        return redirect(route('customers.index'));
+    }
+
+    public function transactions_post_evc(Request $request, $id) {
+        try{
+            $request->request->add(['status'=>'Completed']);
+            $transaction = new \App\Models\Transaction($request->all());
+            $user = $transaction->user;
+
+            $url = "https://evc.de/services/api_resellercredits.asp";
+            $dataArray = array(
+                'apiid'=>'j34sbc93hb90',
+                'username'=> $user->company->reseller_id,
+                'password'=> $user->company->reseller_password,
+                'verb'=>'addcustomeraccount',
+                'customer' => $user->reseller_id,
+                'credits' => $transaction->credits
+            );
+            $ch = curl_init();
+            $data = http_build_query($dataArray);
+            $getUrl = $url."?".$data;
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+            curl_setopt($ch, CURLOPT_URL, $getUrl);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 500);
+
+            $response = curl_exec($ch);
+            if (strpos($response, 'ok') !== FALSE) {
+                $transaction->save();
+            }
+            return redirect(route('customer.tr', ['id' => $id]));
+        }catch(\Exception $e){
+            session()->flash('error', __('admin.opps'));
         }
         return redirect(route('customers.index'));
     }
