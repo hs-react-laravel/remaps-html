@@ -115,7 +115,7 @@ class FileServiceController extends Controller
     }
 
     public function open_status() {
-        $user = \Auth::guard('customer')->user();
+        $user = $this->user;
         $company = $user->company;
         $day = lcfirst(date('l'));
         $daymark_from = substr($day, 0, 3).'_from';

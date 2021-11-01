@@ -192,8 +192,8 @@
               @csrf
               <label class="mb-1">ID</label>
               <input type="text" class="form-control" id="reseller_id" />
-              @if ($data['resellerId'])
-                <label>EVC Credits</label>
+              @if ($data['resellerId'] && $data['evcCount'])
+                <label class="mb-1">EVC Credits</label>
                 <p>{{ $data['evcCount'] }}</p>
               @endif
             </form>

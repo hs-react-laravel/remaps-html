@@ -69,7 +69,7 @@ class DashboardController extends Controller
                 }
             }
             $data['openStatus'] = $open_status;
-
+            $data['evcCount'] = '';
             if ($this->company->reseller_id && $this->user->reseller_password) {
                 $url = "https://evc.de/services/api_resellercredits.asp";
                 $dataArray = array(
