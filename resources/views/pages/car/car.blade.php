@@ -129,8 +129,10 @@
   <script>
     var yAxisMaxLeft = ({{ intval($car->tuned_bhp) }} / 100) + 1;
     var yAxisMaxRight = ({{ intval($car->tuned_torque) }} / 100) + 1;
-    var bhpdata = [0, 22.85, 40, 52.85, 67.14, 77.14, 87.14, 97.14, 97.85, 100, 100, 80, 0, 0].map((v) => Math.round(v / 100 * {{ intval($car->tuned_bhp) }}) );
-    var tordata = [0, 58.18, 87.27, 98.78, 100, 95.75, 92.27, 90.30, 87.27, 84.24, 78.78, 60, 0, 0].map((v) => Math.round(v / 100 * {{ intval($car->tuned_torque) }}));
+    var bhpdata_tuned = [0, 22.85, 40, 52.85, 67.14, 77.14, 87.14, 97.14, 97.85, 100, 100, 80, 0, 0].map((v) => Math.round(v / 100 * {{ intval($car->tuned_bhp) }}) );
+    var tordata_tuned = [0, 58.18, 87.27, 98.78, 100, 95.75, 92.27, 90.30, 87.27, 84.24, 78.78, 60, 0, 0].map((v) => Math.round(v / 100 * {{ intval($car->tuned_torque) }}));
+    var bhpdata = [0, 22.85, 40, 52.85, 67.14, 77.14, 87.14, 97.14, 97.85, 100, 100, 80, 0, 0].map((v) => Math.round(v / 100 * {{ intval($car->std_bhp) }}) );
+    var tordata = [0, 58.18, 87.27, 98.78, 100, 95.75, 92.27, 90.30, 87.27, 84.24, 78.78, 60, 0, 0].map((v) => Math.round(v / 100 * {{ intval($car->std_torque) }}));
 
     var chartWrapper = $('.chartjs');
     var lineChartEx = $('.line-chart-ex');
@@ -257,7 +259,7 @@
     datasets: [
         {
             data: tordata,
-            label: 'Torque',
+            label: 'OEM Torque',
             borderColor: lineChartDanger,
             // borderDash: [5],
             lineTension: 0.5,
@@ -278,8 +280,50 @@
         },
         {
             data: bhpdata,
-            label: 'Power',
+            label: 'OEM Power',
             borderColor: lineChartPrimary,
+            lineTension: 0.5,
+            pointStyle: 'circle',
+            backgroundColor: lineChartPrimary,
+            fill: false,
+            pointRadius: 1,
+            pointHoverRadius: 5,
+            pointHoverBorderWidth: 5,
+            pointBorderColor: 'transparent',
+            pointHoverBorderColor: window.colors.solid.white,
+            pointHoverBackgroundColor: lineChartPrimary,
+            pointShadowOffsetX: 1,
+            pointShadowOffsetY: 1,
+            pointShadowBlur: 5,
+            pointShadowColor: tooltipShadow,
+            yAxisID: 'y-left'
+        },
+        {
+            data: tordata_tuned,
+            label: 'Tuned Torque',
+            borderColor: lineChartDanger,
+            borderDash: [5],
+            lineTension: 0.5,
+            pointStyle: 'circle',
+            backgroundColor: lineChartDanger,
+            fill: false,
+            pointRadius: 1,
+            pointHoverRadius: 5,
+            pointHoverBorderWidth: 5,
+            pointBorderColor: 'transparent',
+            pointHoverBorderColor: window.colors.solid.white,
+            pointHoverBackgroundColor: lineChartDanger,
+            pointShadowOffsetX: 1,
+            pointShadowOffsetY: 1,
+            pointShadowBlur: 5,
+            pointShadowColor: tooltipShadow,
+            yAxisID: 'y-right'
+        },
+        {
+            data: bhpdata_tuned,
+            label: 'Tuned Power',
+            borderColor: lineChartPrimary,
+            borderDash: [5],
             lineTension: 0.5,
             pointStyle: 'circle',
             backgroundColor: lineChartPrimary,
