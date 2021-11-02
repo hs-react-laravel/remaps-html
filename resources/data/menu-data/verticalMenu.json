@@ -91,6 +91,12 @@
         "name": "Packages",
         "icon": "package",
         "slug": "packages.index"
+    },
+    {
+        "url": "admin/slidermanagers",
+        "name": "Slider Manager",
+        "icon": "image",
+        "slug": "slidermanagers.index"
     }
   ]
 }

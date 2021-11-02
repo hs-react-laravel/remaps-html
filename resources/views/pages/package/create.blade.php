@@ -10,7 +10,7 @@
 
 @section('content')
 
-<section id="basic-input">
+<section>
   <form action="{{ route('packages.store') }}" method="post">
     @csrf
     <div class="row">

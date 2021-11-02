@@ -24,6 +24,7 @@ use App\Http\Controllers\Consumer\FileServiceController as FSController;
 use App\Http\Controllers\Consumer\TicketController as TKController;
 use App\Http\Controllers\Consumer\OrderController as ODController;
 use App\Http\Controllers\Consumer\TransactionController as TRController;
+use App\Http\Controllers\Remaps\SliderManagerController;
 use App\Http\Controllers\Remaps\TuningEVCCreditController;
 
 /*
@@ -52,6 +53,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('company/transactions', TransactionController::class);
     Route::resource('company/email-templates', EmailTemplateController::class);
+
     Route::resource('admin/companies', CompanyController::class);
     Route::get('admin/companies/{id}/activate', [CompanyController::class, 'activate'])->name('companies.activate');
     Route::get('admin/companies/{id}/public', [CompanyController::class, 'public'])->name('companies.public');
@@ -60,6 +62,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('admin/companies/{id}/trial', [CompanyController::class, 'trial_post'])->name('companies.trial.post');
     Route::get('admin/companies/{id}/reset-password-link', [CompanyController::class, 'resendPasswordResetLink'])->name('companies.reset-password');
     Route::resource('admin/packages', PackageController::class);
+    Route::resource('admin/slidermanagers', SliderManagerController::class);
 
     Route::get('company/company-settings', [CompanySettingController::class, 'company_setting'])->name('company.setting');
     Route::post('company/company-settings-update', [CompanySettingController::class, 'store'])->name('company.setting.store');

@@ -214,6 +214,7 @@ return [
     "Tuning Types" => "Tuning Types",
     "Manage Companies" => "Manage Companies",
     "Packages" => "Packages",
+    "Slider Manager" => "Slider Manager",
     "Staffs" => "Staff",
     "My Subscriptions" => "My Subscriptions",
     "Company Settings" => "Company Settings",

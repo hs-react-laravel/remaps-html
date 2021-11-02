@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Remaps;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\SliderManager;
 
 class SliderManagerController extends Controller
 {
@@ -13,7 +15,8 @@ class SliderManagerController extends Controller
      */
     public function index()
     {
-        //
+        $entries = SliderManager::get();
+        return view('pages.sliders.index', compact('entries'));
     }
 
     /**
@@ -23,7 +26,7 @@ class SliderManagerController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.sliders.create');
     }
 
     /**
@@ -34,7 +37,14 @@ class SliderManagerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if ($request->file('upload_file')) {
+            $file = $request->file('upload_file');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(storage_path('app/public/uploads/logo'), $filename);
+            $request->request->add(['image' => $filename]);
+        }
+        SliderManager::create($request->all());
+        return redirect(route('slidermanagers.index'));
     }
 
     /**
@@ -56,7 +66,8 @@ class SliderManagerController extends Controller
      */
     public function edit($id)
     {
-        //
+        $entry = SliderManager::find($id);
+        return view('pages.sliders.edit', compact('entry'));
     }
 
     /**
@@ -68,7 +79,14 @@ class SliderManagerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if ($request->file('upload_file')) {
+            $file = $request->file('upload_file');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(storage_path('app/public/uploads/logo'), $filename);
+            $request->request->add(['image' => $filename]);
+        }
+        SliderManager::find($id)->update($request->all());
+        return redirect(route('slidermanagers.index'));
     }
 
     /**
@@ -79,6 +97,7 @@ class SliderManagerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        SliderManager::find($id)->delete();
+        return redirect(route('slidermanagers.index'));
     }
 }

@@ -30,12 +30,12 @@
             <img class="img-fluid"
               src="{{$company->style_background ? asset('storage/uploads/styling/'.$company->style_background) : asset('images/pages/login-v2-dark.svg')}}"
               alt="Login V2"
-              style="height: 100vh" />
+              style="height: 100vh; width: 100vw" />
           @else
             <img class="img-fluid"
               src="{{$company->style_background ? asset('storage/uploads/styling/'.$company->style_background) : asset('images/pages/login-v2.svg')}}"
               alt="Login V2"
-              style="height: 100vh" />
+              style="height: 100vh; width: 100vw" />
           @endif
       </div>
     </div>

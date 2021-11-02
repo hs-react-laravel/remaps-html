@@ -1,7 +1,7 @@
 
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Orders')
+@section('title', 'Packages')
 
 @section('content')
 <!-- Basic Tables start -->
