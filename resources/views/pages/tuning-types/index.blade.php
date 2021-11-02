@@ -1,7 +1,7 @@
 
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Support Tickets')
+@section('title', 'Tuning Types')
 
 @section('vendor-style')
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/animate/animate.min.css')) }}">
