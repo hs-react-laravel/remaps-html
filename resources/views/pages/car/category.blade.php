@@ -63,7 +63,7 @@
           </ul>
         </div>
         <div class="row">
-          @if(!empty($_GET['make']))
+          @if(isset($make))
             <div class="card col-md-6 col-lg-3">
               <a class="btn btn-dark" href="{{ url('/cars/category') }}">Overview</a>
             </div>

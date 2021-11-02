@@ -87,29 +87,29 @@
           </ul>
         </div>
         <div class="row">
-          @if(!empty($_GET['make']))
+          @if(isset($make))
             <div class="card col-md-6 col-lg-3">
               <a class="btn btn-dark" href="{{ url('/cars/category') }}">Overview</a>
             </div>
           @endif
-          @if(!empty($_GET['model']))
+          @if(isset($model))
             <div class="card col-md-6 col-lg-3">
-              <a class="btn btn-dark" href="{{ url('/cars/category'.'?make='.$_GET['make']) }}">
-                Back to {{ $_GET['make'] }}
+              <a class="btn btn-dark" href="{{ url('/cars/category'.'?make='.$make) }}">
+                Back to {{ $make }}
               </a>
             </div>
           @endif
-          @if(!empty($_GET['generation']))
+          @if(isset($generation))
             <div class="card col-md-6 col-lg-3">
-              <a class="btn btn-dark" href="{{ url('/cars/category'.'?make='.$_GET['make'].'&model='.$_GET['model']) }}">
-                Back to {{ $_GET['model'] }}
+              <a class="btn btn-dark" href="{{ url('/cars/category'.'?make='.$make.'&model='.$model) }}">
+                Back to {{ $model }}
               </a>
             </div>
           @endif
-          @if(!empty($_GET['engine']))
+          @if(isset($engine))
             <div class="card col-md-6 col-lg-3">
-              <a class="btn btn-dark" href="{{ url('/cars/category'.'?make='.$_GET['make'].'&model='.$_GET['model'].'&generation='.$_GET['generation']) }}">
-                Back to {{ $_GET['generation'] }}
+              <a class="btn btn-dark" href="{{ url('/cars/category'.'?make='.$make.'&model='.$model.'&generation='.$generation) }}">
+                Back to {{ $generation }}
               </a>
             </div>
           @endif

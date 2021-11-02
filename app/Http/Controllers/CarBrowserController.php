@@ -23,14 +23,14 @@ class CarBrowserController extends Controller
             $car = $engines = Car::find($engine);
             $logofile = str_replace(" ", "-", strtolower($car->brand));
             $logofile = asset('images/carlogo/'.$logofile.'.jpg');
-            return view('pages.car.car', compact('car', 'logofile'));
+            return view('pages.car.car', compact('car', 'logofile', 'make', 'model', 'generation', 'engine'));
         } else if ($generation) {
             $engines = Car::where('brand', $make)
                 ->where('model', $model)
                 ->where('year', $generation)
                 ->get();
             $logo = asset('images/carlogo/'.str_replace(" ", "-", strtolower($make)).'.jpg');
-            return view('pages.car.category')
+            return view('pages.car.category', compact('make', 'model', 'generation', 'engine'))
                 ->with('mode', 'generation')
                 ->with('subitems', $engines)
                 ->with('title', $generation)
@@ -43,7 +43,7 @@ class CarBrowserController extends Controller
                 ->groupBy('year')
                 ->pluck('year');
             $logo = asset('images/carlogo/'.str_replace(" ", "-", strtolower($make)).'.jpg');
-            return view('pages.car.category')
+            return view('pages.car.category', compact('make', 'model', 'generation', 'engine'))
                 ->with('mode', 'model')
                 ->with('subitems', $generations)
                 ->with('title', $model)
@@ -54,7 +54,7 @@ class CarBrowserController extends Controller
                 ->groupBy('model')
                 ->pluck('model');
             $logo = asset('images/carlogo/'.str_replace(" ", "-", strtolower($make)).'.jpg');
-            return view('pages.car.category')
+            return view('pages.car.category', compact('make', 'model', 'generation', 'engine'))
                 ->with('mode', 'make')
                 ->with('subitems', $models)
                 ->with('title', $make)
