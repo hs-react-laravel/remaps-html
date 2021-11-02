@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'File Service')
+@section('title', 'Edit File Service')
 
 @section('content')
 <!-- Basic Vertical form layout section start -->

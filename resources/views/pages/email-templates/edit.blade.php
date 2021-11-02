@@ -22,7 +22,7 @@
               <input type="text" class="form-control" id="subject" name="subject" value="{{ $entry->subject }}" />
             </div>
           </div>
-          <div class="row">
+          <div class="row mb-1">
             <div class="col-12">
               <label class="form-label" for="body">Body</label>
               <textarea
@@ -33,12 +33,12 @@
               >{{ $entry->body }}</textarea>
             </div>
           </div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary me-1">Submit</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="col-12">
-    <button type="submit" class="btn btn-primary me-1">Submit</button>
   </div>
   {{ Form::close() }}
 </section>

@@ -15,7 +15,7 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">{{ $is_evc && ' ' }} Tuning Credits</h4>
+        <h4 class="card-title">{{ $is_evc ? 'EVC' : '' }} Tuning Credits</h4>
         <div>
           @if (!$is_evc)
             <a href="{{ route('tuning-tires.create') }}" class="btn btn-icon btn-primary" style="float: right">

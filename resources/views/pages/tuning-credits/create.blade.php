@@ -1,7 +1,7 @@
 
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Input')
+@section('title', 'Create')
 
 @section('vendor-style')
   <!-- vendor css files -->
@@ -42,12 +42,12 @@
               </div>
             </div>
             @endforeach
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary me-1">Submit</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="col-12">
-      <button type="submit" class="btn btn-primary me-1">Submit</button>
     </div>
   </form>
 </section>

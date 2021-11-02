@@ -32,12 +32,12 @@
                 <input type="number" class="form-control" id="credits" name="credits" value="{{ $entry->credits }}" />
               </div>
             </div>
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary me-1">Submit</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="col-12">
-      <button type="submit" class="btn btn-primary me-1">Submit</button>
     </div>
   {{ Form::close() }}
 </section>

@@ -1,7 +1,7 @@
 
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Create File Service')
+@section('title', 'Create a File Service')
 
 @section('vendor-style')
   <!-- vendor css files -->
