@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\TuningType;
 use Illuminate\Http\Request;
 use App\Models\Car;
+use App\Models\Company;
+use App\Models\Styling;
 
 class ApiController extends Controller
 {
@@ -45,5 +47,43 @@ class ApiController extends Controller
             ->where('engine_type', $request->engine)
             ->first()->id;
         return $id;
+    }
+
+    public function change_style(Request $request)
+    {
+        $company = Company::find($request->input('company'));
+        $styling = Styling::where('company_id', $company->id)->first();
+        $styleObj = (array)json_decode($styling->data);
+        if ($request->input('type') == 'theme') {
+            switch($request->input('value')) {
+                case '':
+                    $styleObj['theme'] = 'light';
+                    break;
+                case 'dark-layout':
+                    $styleObj['theme'] = 'dark';
+                    break;
+                case 'semi-dark-layout':
+                    $styleObj['theme'] = 'semi-dark';
+                    break;
+                case 'bordered-layout':
+                    $styleObj['theme'] = 'bordered';
+                    break;
+            }
+        } else if ($request->input('type') == 'layoutWidth') {
+            $styleObj['layoutWidth'] = $request->input('value');
+        } else if ($request->input('type') == 'navbarColor') {
+            $styleObj['navbarColor'] = $request->input('value');
+        } else if ($request->input('type') == 'navbarType') {
+            if ($styleObj['mainLayoutType'] == 'vertical') {
+                $styleObj['verticalMenuNavbarType'] = $request->input('value');
+            } else if ($styleObj['mainLayoutType'] == 'horizontal') {
+                $styleObj['horizontalMenuType'] = $request->input('value');
+            }
+        } else if ($request->input('type') == 'footerType') {
+            $styleObj['footerType'] = $request->input('value');
+        }
+        $styling->data = json_encode($styleObj);
+        $styling->save();
+        return $request->input('value');
     }
 }

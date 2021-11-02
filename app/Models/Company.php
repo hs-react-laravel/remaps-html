@@ -90,6 +90,10 @@ class Company extends Model
     {
         return $this->hasOne('App\Models\User')->where('is_admin', 1);
     }
+    public function styling()
+    {
+        return $this->hasOne('App\Models\Styling');
+    }
     public function emailTemplates()
     {
         return $this->hasMany('App\Models\EmailTemplate');

@@ -8,6 +8,8 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Auth, Config;
 
+use App\Models\Styling;
+
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
@@ -74,7 +76,11 @@ class Controller extends BaseController
                 }
 
                 // Share all menuData to all the views
-                view()->share('menuData',[$verticalMenuData, $horizontalMenuData]);
+                view()->share('menuData', [$verticalMenuData, $horizontalMenuData]);
+
+                $styleObj = Styling::where('company_id', $this->company->id)->first();
+                $data = (array)json_decode($styleObj->data);
+                view()->share('styling', $data);
             }
             return $next($request);
         });

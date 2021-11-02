@@ -56,7 +56,51 @@
     toastr.warning("{{ session('warning') }}");
     @endif
 </script>
+<script>
+    $('.layout-name').on('click', function () {
+        var $this = $(this);
+        var currentLayout = $this.data('layout');
+        apiStyling('theme', currentLayout);
+    });
+    // Full Width Layout
+    $('#layout-width-full').on('click', function () {
+        apiStyling('layoutWidth', 'full');
+    });
+    // Boxed Layout
+    $('#layout-width-boxed').on('click', function () {
+        apiStyling('layoutWidth', 'boxed');
+    });
+    $('#customizer-navbar-colors .color-box').on('click', function () {
+        var $this = $(this);
+        var navbarColor = $this.data('navbar-color');
+        apiStyling('navbarColor', navbarColor);
+    })
+    $('input[name="navType"]').on('click', function () {
+        var $this = $(this);
+        var navbarType = $this.data('type');
+        apiStyling('navbarType', navbarType);
+    })
+    $('input[name="footerType"]').on('click', function () {
+        var $this = $(this);
+        var footerType = $this.data('footer');
+        apiStyling('footerType', footerType);
+    })
 
+    function apiStyling(type, value) {
+        $.ajax({
+            type: 'POST',
+            url: "{{ route('api.style') }}",
+            data: {
+                company: "{{ $company->id }}",
+                type: type,
+                value: value
+            },
+            success: function(result) {
+                console.log(result);
+            }
+        })
+    }
+</script>
 <!-- END: Theme JS-->
 <!-- BEGIN: Page JS-->
 @yield('page-script')

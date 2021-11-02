@@ -26,12 +26,22 @@
           </div>
         </div>
       </div>
-      <div class="col-12">
-        <div class="d-flex flex-column mb-3">
-          <label class="form-check-label mb-50" for="customSwitch3">Theme (Black / Light)</label>
-          <div class="form-check form-check-primary form-switch">
-            <input type="hidden" name="style_theme" value="0">
-            <input type="checkbox" class="form-check-input" id="customSwitch3" name="style_theme" value="1" @if($company->style_theme == 1) checked @endif />
+      <div class="col-xl-8 col-lg-8 col-md-6 mb-1">
+        <div class="border rounded p-1">
+          <div class="d-flex flex-column">
+            <label class="form-check-label mb-50" for="customSwitch3">Main Layout</label>
+            <div class="d-flex">
+              <div class="form-check me-1">
+                <input type="radio" id="main-layout-vertical" name="mainLayoutType"
+                  @if($styling['mainLayoutType'] == 'vertical') checked @endif class="form-check-input" value="vertical">
+                <label class="form-check-label" for="main-layout-vertical">Vertical</label>
+              </div>
+              <div class="form-check me-1">
+                <input type="radio" id="main-layout-horizontal" name="mainLayoutType"
+                  @if($styling['mainLayoutType'] == 'horizontal') checked @endif class="form-check-input" value="horizontal">
+                <label class="form-check-label" for="main-layout-horizontal">Horizontal</label>
+              </div>
+            </div>
           </div>
         </div>
       </div>

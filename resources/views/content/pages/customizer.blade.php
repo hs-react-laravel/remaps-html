@@ -21,36 +21,28 @@
       <p class="fw-bold">Skin</p>
       <div class="d-flex">
         <div class="form-check me-1">
-          <input type="radio" id="skinlight" name="skinradio" class="form-check-input layout-name" checked="" data-layout="">
+          <input type="radio" id="skinlight" name="skinradio"
+            class="form-check-input layout-name" @if($styling['theme'] == 'light') checked @endif data-layout="">
           <label class="form-check-label" for="skinlight">Light</label>
         </div>
         <div class="form-check me-1">
-          <input type="radio" id="skinbordered" name="skinradio" class="form-check-input layout-name" data-layout="bordered-layout">
+          <input type="radio" id="skinbordered" name="skinradio"
+            class="form-check-input layout-name" @if($styling['theme'] == 'bordered') checked @endif data-layout="bordered-layout">
           <label class="form-check-label" for="skinbordered">Bordered</label>
         </div>
         <div class="form-check me-1">
-          <input type="radio" id="skindark" name="skinradio" class="form-check-input layout-name" data-layout="dark-layout">
+          <input type="radio" id="skindark" name="skinradio"
+            class="form-check-input layout-name" @if($styling['theme'] == 'dark') checked @endif data-layout="dark-layout">
           <label class="form-check-label" for="skindark">Dark</label>
         </div>
         <div class="form-check">
-          <input type="radio" id="skinsemidark" name="skinradio" class="form-check-input layout-name" data-layout="semi-dark-layout">
+          <input type="radio" id="skinsemidark" name="skinradio"
+            class="form-check-input layout-name" @if($styling['theme'] == 'semi-dark') checked @endif data-layout="semi-dark-layout">
           <label class="form-check-label" for="skinsemidark">Semi Dark</label>
         </div>
       </div>
     </div>
 
-    <hr />
-
-    <!-- Menu -->
-    <div class="customizer-menu px-2">
-      <div id="customizer-menu-collapsible" class="d-flex">
-        <p class="fw-bold me-auto m-0">Menu Collapsed</p>
-        <div class="form-check form-check-primary form-switch">
-          <input type="checkbox" class="form-check-input" id="collapse-sidebar-switch">
-          <label class="form-check-label" for="collapse-sidebar-switch"></label>
-        </div>
-      </div>
-    </div>
     <hr />
 
     <!-- Layout Width -->
@@ -88,19 +80,19 @@
       <p class="navbar-type-text fw-bold">Navbar Type</p>
       <div class="d-flex">
         <div class="form-check me-1">
-          <input type="radio" id="nav-type-floating" name="navType" class="form-check-input" checked="">
+          <input type="radio" id="nav-type-floating" name="navType" class="form-check-input" checked="" data-type="floating">
           <label class="form-check-label" for="nav-type-floating">Floating</label>
         </div>
         <div class="form-check me-1">
-          <input type="radio" id="nav-type-sticky" name="navType" class="form-check-input">
+          <input type="radio" id="nav-type-sticky" name="navType" class="form-check-input" data-type="sticky">
           <label class="form-check-label" for="nav-type-sticky">Sticky</label>
         </div>
         <div class="form-check me-1">
-          <input type="radio" id="nav-type-static" name="navType" class="form-check-input">
+          <input type="radio" id="nav-type-static" name="navType" class="form-check-input" data-type="static">
           <label class="form-check-label" for="nav-type-static">Static</label>
         </div>
         <div class="form-check">
-          <input type="radio" id="nav-type-hidden" name="navType" class="form-check-input">
+          <input type="radio" id="nav-type-hidden" name="navType" class="form-check-input" data-type="hidden">
           <label class="form-check-label" for="nav-type-hidden">Hidden</label>
         </div>
       </div>
@@ -112,15 +104,15 @@
       <p class="fw-bold">Footer Type</p>
       <div class="d-flex">
         <div class="form-check me-1">
-          <input type="radio" id="footer-type-sticky" name="footerType" class="form-check-input">
+          <input type="radio" id="footer-type-sticky" name="footerType" class="form-check-input" data-footer="sticky">
           <label class="form-check-label" for="footer-type-sticky">Sticky</label>
         </div>
         <div class="form-check me-1">
-          <input type="radio" id="footer-type-static" name="footerType" class="form-check-input" checked="">
+          <input type="radio" id="footer-type-static" name="footerType" class="form-check-input" checked="" data-footer="static">
           <label class="form-check-label" for="footer-type-static">Static</label>
         </div>
         <div class="form-check me-1">
-          <input type="radio" id="footer-type-hidden" name="footerType" class="form-check-input">
+          <input type="radio" id="footer-type-hidden" name="footerType" class="form-check-input" data-footer="hidden">
           <label class="form-check-label" for="footer-type-hidden">Hidden</label>
         </div>
       </div>

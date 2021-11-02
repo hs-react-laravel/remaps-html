@@ -53,12 +53,18 @@ class CompanySettingController extends Controller
                     return redirect()->route('company.setting', ['tab' => $request->tab]);
                 }
             }
+            if ($request->input('mainLayoutType')) {
+                $styling = (array)json_decode($this->user->company->styling->data);
+                $styling['mainLayoutType'] = $request->input('mainLayoutType');
+                $this->user->company->styling->data = json_encode($styling);
+                $this->user->company->styling->save();
+            }
             $this->user->company->update($request->all());
-            return redirect()->route('company.setting', [
-                'tab' => $request->tab
-            ]);
         } catch (\Exception $ex) {
-            dd($ex);
+            session()->flash('error', $ex->getMessage());
         }
+        return redirect()->route('company.setting', [
+            'tab' => $request->tab
+        ]);
     }
 }

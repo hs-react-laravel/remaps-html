@@ -7,27 +7,22 @@ use Config;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\Company;
+use App\Models\Styling;
 
 class Helper
 {
     public static function applClasses()
     {
         $company = Company::where('domain_link', url(''))->first();
-        $theme = !!$company ? $company->style_theme : 0;
-
-        $data = config('custom.demo-3');
-        $data['theme'] = $theme == 1 ? 'light' : 'dark';
-
-        // default data array
         $DefaultData = [
             'mainLayoutType' => 'vertical',
-            'theme' => $theme == 1 ? 'light' : 'dark',
+            'theme' => 'dark',
             'sidebarCollapsed' => false,
             'navbarColor' => '',
             'horizontalMenuType' => 'floating',
             'verticalMenuNavbarType' => 'floating',
             'footerType' => 'static', //footer
-            'layoutWidth' => 'boxed',
+            'layoutWidth' => 'full',
             'showMenu' => true,
             'bodyClass' => '',
             'pageClass' => '',
@@ -35,11 +30,24 @@ class Helper
             'contentLayout' => 'default',
             'blankPage' => false,
             'defaultLanguage' => 'en',
-            'direction' => env('MIX_CONTENT_DIRECTION', 'ltr'),
+            'direction' => 'ltr',
         ];
 
+        $styleObj = Styling::where('company_id', $company->id)->first();
+        if ($styleObj) {
+            $data = (array)json_decode($styleObj->data);
+        } else {
+            $data = $DefaultData;
+            $newStyle = new Styling;
+            $newStyle->company_id = $company->id;
+            $newStyle->data = json_encode($DefaultData);
+            $newStyle->save();
+        }
+
+        view()->share('styling', $data);
+
         // if any key missing of array from custom.php file it will be merge and set a default value from dataDefault array and store in data variable
-        $data = array_merge($DefaultData, $data);
+        // $data = array_merge($DefaultData, $data);
 
         // All options available in the template
         $allOptions = [
