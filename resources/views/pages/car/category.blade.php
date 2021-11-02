@@ -50,7 +50,6 @@
             @endif
           </h4>
           <p>
-            {{ $company->name }} is leading in the development of {{ $title }} tuning files. <br>
             The development of each {{ $title }} tuning file is the result of perfection and dedication by {{ $company->name }} programmers.
             The organization only uses the latest technologies and has many years experience in ECU remapping software.
             Many (chiptuning) organizations around the globe download their tuning files for {{ $title }} at {{ $company->name }} for the best possible result.
