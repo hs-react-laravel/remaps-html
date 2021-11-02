@@ -13,6 +13,8 @@
 @endsection
 
 @section('content')
+<form action="{{ route('cars.category') }}" method="post">
+  @csrf
 <div class="row">
   <div class="col-12">
     <div class="card">
@@ -50,12 +52,13 @@
           </div>
         </div>
         <div class="col-12" style="display: flex; justify-content: center">
-          <a class="btn btn-primary me-1" href="{{ route('cars.category') }}" id="btn-find">Find My Car</a>
+          <button type="submit" class="btn btn-primary me-1" href="{{ route('cars.category') }}" id="btn-find">Find My Car</button>
         </div>
       </div>
     </div>
   </div>
 </div>
+</form>
 @endsection
 @section('vendor-script')
   <script src="{{ asset(mix('vendors/js/extensions/sweetalert2.all.min.js')) }}"></script>
@@ -73,7 +76,7 @@
     updateNextOption('generation', 'engine');
   });
   $('#engine').change(function() {
-    updateButtonLink();
+    // updateButtonLink();
   });
   function updateNextOption(fromKey, toKey)  {
     $("#make").prop('disabled', 'disabled');
@@ -125,25 +128,25 @@
       $("#generation").prop('disabled', false);
       $("#engine").prop('disabled', false);
     }
-    updateButtonLink();
+    // updateButtonLink();
   }
-  function updateButtonLink() {
-    var url = `{{ route('cars.category') }}`
-    if ($('#make').val()) {
-      url += `/?make=${$('#make').val()}`;
-    }
-    if ($('#model').val()) {
-      url += `&model=${$('#model').val()}`;
-    }
-    if ($('#generation').val()) {
-      url += `&generation=${$('#generation').val()}`;
-    }
-    if ($('#engine').val()) {
-      url += `&engine=${$('#engine').val()}`;
-    }
-    console.log(url);
-    $('#btn-find').attr('href', url);
-  }
+//   function updateButtonLink() {
+//     var url = `{{ route('cars.category') }}`
+//     if ($('#make').val()) {
+//       url += `/?make=${$('#make').val()}`;
+//     }
+//     if ($('#model').val()) {
+//       url += `&model=${$('#model').val()}`;
+//     }
+//     if ($('#generation').val()) {
+//       url += `&generation=${$('#generation').val()}`;
+//     }
+//     if ($('#engine').val()) {
+//       url += `&engine=${$('#engine').val()}`;
+//     }
+//     console.log(url);
+//     $('#btn-find').attr('href', url);
+//   }
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }

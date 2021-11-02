@@ -133,6 +133,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/profile_post', [DashboardController::class, 'profile_post'])->name('dashboard.profile.post');
 
     Route::get('/cars', [CarBrowserController::class, 'index'])->name('cars.index');
+    Route::post('/cars/category', [CarBrowserController::class, 'category'])->name('cars.category');
     Route::get('/cars/category', [CarBrowserController::class, 'category'])->name('cars.category');
 
     // locale Route
