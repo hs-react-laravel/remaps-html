@@ -42,17 +42,21 @@ class Controller extends BaseController
                     Config::set('backpack.base.project_name', $this->company->name);
 
                     $verticalMenu = 'verticalMenuCustomer.json';
+                    $horizontalMenu = 'horizontalCustomer.json';
                     $role = 'customer';
                     if ($this->user->is_staff) {
                         $verticalMenu = 'verticalMenuStaff.json';
+                        $horizontalMenu = 'horizontalMenuStaff.json';
                         $role = 'staff';
                     }
                     if ($this->user->is_admin) {
                         $verticalMenu = 'verticalMenuCompany.json';
+                        $horizontalMenu = 'horizontalMenuCompany.json';
                         $role = 'company';
                     }
                     if ($this->user->is_master) {
                         $verticalMenu = 'verticalMenu.json';
+                        $horizontalMenu = 'horizontalMenu.json';
                         $role = 'master';
                     }
                     $this->role = $role;
@@ -64,7 +68,7 @@ class Controller extends BaseController
 
                     $verticalMenuJson = file_get_contents(base_path('resources/data/menu-data/'.$verticalMenu));
                     $verticalMenuData = json_decode($verticalMenuJson);
-                    $horizontalMenuJson = file_get_contents(base_path('resources/data/menu-data/horizontalMenu.json'));
+                    $horizontalMenuJson = file_get_contents(base_path('resources/data/menu-data/'.$horizontalMenu));
                     $horizontalMenuData = json_decode($horizontalMenuJson);
 
                     if ($this->company->reseller_id) {

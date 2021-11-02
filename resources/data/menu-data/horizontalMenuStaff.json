@@ -1,0 +1,22 @@
+{
+  "menu": [
+    {
+        "url": "/",
+        "name": "Dashboards",
+        "icon": "home",
+        "slug": "dashboard"
+    },
+    {
+        "url": "company/fileservices",
+        "name": "File Services",
+        "icon": "file",
+        "slug": "fileservices.index"
+    },
+    {
+        "url": "company/tickets",
+        "name": "Support Tickets",
+        "icon": "message-circle",
+        "slug": "tickets.index"
+    }
+  ]
+}

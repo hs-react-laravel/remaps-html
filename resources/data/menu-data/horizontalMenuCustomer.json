@@ -1,0 +1,52 @@
+{
+    "menu": [
+      {
+          "url": "/",
+          "name": "Dashboards",
+          "icon": "home",
+          "slug": "dashboard"
+      },
+      {
+          "url": "fs",
+          "name": "File Services",
+          "icon": "file",
+          "slug": "fs.index"
+      },
+      {
+          "url": "tk",
+          "name": "Support Tickets",
+          "icon": "message-circle",
+          "slug": "tk.index"
+      },
+      {
+          "url": "buy-credits",
+          "name": "Buy Tuning Credits",
+          "icon": "plus",
+          "slug": "consumer.buy-credits"
+      },
+      {
+          "url": "od",
+          "name": "Orders",
+          "icon": "file-text",
+          "slug": "od.index"
+      },
+      {
+          "url": "tr",
+          "name": "Transactions",
+          "icon": "credit-card",
+          "slug": "tr.index"
+      },
+      {
+          "url": "cars",
+          "name": "Browse Tuning Specs",
+          "icon": "search",
+          "slug": "cars.index"
+      },
+      {
+          "url": "",
+          "name": "external",
+          "icon": "external-link",
+          "slug": ""
+      }
+    ]
+  }

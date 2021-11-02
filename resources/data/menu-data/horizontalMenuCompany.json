@@ -71,24 +71,6 @@
         "name": "Browse Tuning Specs",
         "icon": "search",
         "slug": "cars.index"
-    },
-    {
-        "url": "admin/companies",
-        "name": "Manage Companies",
-        "icon": "layers",
-        "slug": "companies.index"
-    },
-    {
-        "url": "admin/packages",
-        "name": "Packages",
-        "icon": "package",
-        "slug": "packages.index"
-    },
-    {
-        "url": "admin/slidermanagers",
-        "name": "Slider Manager",
-        "icon": "image",
-        "slug": "slidermanagers.index"
     }
   ]
 }
