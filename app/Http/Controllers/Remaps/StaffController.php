@@ -52,7 +52,11 @@ class StaffController extends Controller
         try {
             $request->request->add([
                 'company_id'=> $this->company->id,
-                'is_staff' => 1
+                'is_staff' => 1,
+                'business_name' => '',
+                'address_line_1' => '',
+                'county' => '',
+                'town' => '',
             ]);
             $user = User::create($request->all());
             $token = app('auth.password.broker')->createToken($user);
@@ -87,7 +91,9 @@ class StaffController extends Controller
      */
     public function edit($id)
     {
-        //
+        $entry = User::find($id);
+        $langs = config('constants.langs');
+        return view('pages.staff.edit', compact('entry', 'langs'));
     }
 
     /**
@@ -110,6 +116,7 @@ class StaffController extends Controller
      */
     public function destroy($id)
     {
-        //
+        User::find($id)->delete();
+        return redirect(route('staffs.index'));
     }
 }

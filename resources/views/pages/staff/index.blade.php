@@ -28,7 +28,7 @@
           <thead>
             <tr>
               <th width="10%">Name</th>
-              <th width="10%">Company</th>
+              <th width="10%">Email</th>
               <th width="5%">File Service</th>
               <th width="10%">Last Login</th>
               <th width="20%">Actions</th>
@@ -39,18 +39,18 @@
               @foreach ($entries as $entry)
                 <tr>
                     <td>{{ $entry->fullName }}</td>
-                    <td>{{ $entry->business_name }}</td>
+                    <td>{{ $entry->email }}</td>
                     <td>{{ $entry->fileServicesAssignedCount }}</td>
                     <td>{{ $entry->lastLoginDiff }}</td>
                     <td class="td-actions">
-                      <a class="btn btn-icon btn-primary" href="{{ route('customers.edit', ['customer' => $entry->id]) }}">
+                      <a class="btn btn-icon btn-primary" href="{{ route('staffs.edit', ['staff' => $entry->id]) }}">
                         <i data-feather="edit"></i>
                       </a>
                       <a class="btn btn-icon btn-success" target="_blank" href="{{ route('customer.sa', ['id' => $entry->id]) }}">
                         <i data-feather="user"></i>
                       </a>
                       <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}"><i data-feather="trash-2"></i></a>
-                      <form action="{{ route('customers.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
+                      <form action="{{ route('staffs.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                       </form>

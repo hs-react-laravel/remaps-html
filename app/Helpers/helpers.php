@@ -44,8 +44,6 @@ class Helper
             $newStyle->save();
         }
 
-        view()->share('styling', $data);
-
         // if any key missing of array from custom.php file it will be merge and set a default value from dataDefault array and store in data variable
         // $data = array_merge($DefaultData, $data);
 

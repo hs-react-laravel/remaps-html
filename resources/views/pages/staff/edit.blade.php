@@ -1,7 +1,7 @@
 
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Create')
+@section('title', 'Edit')
 
 @section('vendor-style')
   <!-- vendor css files -->
@@ -17,7 +17,7 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-            <h4 class="card-title">Add a new staff</h4>
+            <h4 class="card-title">Edit staff</h4>
           </div>
           <div class="card-body">
             <div class="row mb-1">
@@ -25,7 +25,7 @@
                 <label class="form-label" for="lang">Language</label>
                 <select class="form-select" id="lang" name="lang">
                   @foreach ($langs as $abbr => $lang)
-                    <option value="{{ $abbr }}">{{ $lang }}</option>
+                    <option value="{{ $abbr }}" @if($entry->lang == $abbr) selected @endif >{{ $lang }}</option>
                   @endforeach
                 </select>
               </div>
@@ -34,23 +34,23 @@
               <div class="col-xl-2 col-md-6 col-12">
                 <label class="form-label" for="title">Title</label>
                 <select class="form-select" id="title" name="title">
-                  <option value="Mr">Mr</option>
-                  <option value="Ms">Ms</option>
+                  <option value="Mr" @if($entry->title == 'Mr') selected @endif>Mr</option>
+                  <option value="Ms" @if($entry->title == 'Ms') selected @endif>Ms</option>
                 </select>
               </div>
               <div class="col-xl-3 col-md-6 col-12">
                 <label class="form-label" for="first_name">First Name</label>
-                <input type="text" class="form-control" id="first_name" name="first_name" />
+                <input type="text" class="form-control" id="first_name" name="first_name" value="{{ $entry->first_name }}" />
               </div>
               <div class="col-xl-3 col-md-6 col-12">
                 <label class="form-label" for="last_name">Last Name</label>
-                <input type="text" class="form-control" id="last_name" name="last_name" />
+                <input type="text" class="form-control" id="last_name" name="last_name" value="{{ $entry->last_name }}" />
               </div>
             </div>
             <div class="row mb-1">
               <div class="col-xl-4 col-md-6 col-12">
                 <label class="form-label" for="email">Email</label>
-                <input type="text" class="form-control" id="email" name="email" />
+                <input type="text" class="form-control" id="email" name="email" value="{{ $entry->email }}" />
               </div>
             </div>
             <div class="col-12">
