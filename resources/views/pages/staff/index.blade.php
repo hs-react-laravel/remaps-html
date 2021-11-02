@@ -29,8 +29,6 @@
             <tr>
               <th width="10%">Name</th>
               <th width="10%">Company</th>
-              <th width="5%">Tuning Credits</th>
-              <th width="10%">Tuning Price Group</th>
               <th width="5%">File Service</th>
               <th width="10%">Last Login</th>
               <th width="20%">Actions</th>
@@ -42,9 +40,7 @@
                 <tr>
                     <td>{{ $entry->fullName }}</td>
                     <td>{{ $entry->business_name }}</td>
-                    <td>{{ number_format($entry->tuning_credits, 2) }}</td>
-                    <td>{{ $entry->tuningPriceGroup }}</td>
-                    <td>{{ $entry->fileServicesCount }}</td>
+                    <td>{{ $entry->fileServicesAssignedCount }}</td>
                     <td>{{ $entry->lastLoginDiff }}</td>
                     <td class="td-actions">
                       <a class="btn btn-icon btn-primary" href="{{ route('customers.edit', ['customer' => $entry->id]) }}">

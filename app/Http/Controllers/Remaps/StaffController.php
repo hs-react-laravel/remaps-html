@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Remaps;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Mail\WelcomeCustomer;
 use App\Models\User;
+
+use Mail;
 
 class StaffController extends Controller
 {
@@ -33,7 +36,9 @@ class StaffController extends Controller
      */
     public function create()
     {
-        //
+        $user = $this->user;
+        $langs = config('constants.langs');
+        return view('pages.staff.create', compact('langs'));
     }
 
     /**
@@ -44,7 +49,23 @@ class StaffController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $request->request->add([
+                'company_id'=> $this->company->id,
+                'is_staff' => 1
+            ]);
+            $user = User::create($request->all());
+            $token = app('auth.password.broker')->createToken($user);
+			try{
+                Mail::to($user->email)->send(new WelcomeCustomer($user, $token));
+			}catch(\Exception $e) {
+                session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
+			}
+            return redirect(route('staffs.index'));
+        } catch(\Exception $e){
+            session()->flash('error',$e->getMessage());
+            return redirect(route('staffs.index'));
+        }
     }
 
     /**

@@ -106,6 +106,9 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getFileServicesCountAttribute() {
         return $this->fileServices()->count();
     }
+    public function getFileServicesAssignedCountAttribute() {
+        return FileService::where('assign_id', $this->id)->count();
+    }
     public function getTuningPriceGroupAttribute() {
         return @$this->tuningCreditGroup->name;
     }
@@ -127,12 +130,12 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getUserTuningCreditsAttribute($value) {
         return number_format($this->tuning_credits, 2);
     }
-    public function getLastLoginAttribute($value) {
-        if(empty($value)){
-            return 'Never';
-        }
-        return \Carbon\Carbon::parse($value)->diffForHumans();
-    }
+    // public function getLastLoginAttribute($value) {
+    //     if(empty($value)){
+    //         return 'Never';
+    //     }
+    //     return \Carbon\Carbon::parse($value)->diffForHumans();
+    // }
     public function getSubscriptionEndedStringAttribute() {
 
         $string = "";
