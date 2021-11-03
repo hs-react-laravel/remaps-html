@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Remaps;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StaffRequest;
 use App\Mail\WelcomeCustomer;
 use App\Models\User;
 
@@ -47,7 +48,7 @@ class StaffController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StaffRequest $request)
     {
         try {
             $request->request->add([

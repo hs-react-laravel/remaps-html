@@ -12,6 +12,8 @@ use App\Mail\WelcomeCustomer;
 use App\Models\User;
 use App\Models\Company;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CompanyRequest;
+
 class CompanyController extends Controller
 {
     /**
@@ -47,7 +49,7 @@ class CompanyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CompanyRequest $request)
     {
         try {
             if($request->hasFile('upload_file')){
@@ -159,7 +161,7 @@ class CompanyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CompanyRequest $request, $id)
     {
         try {
             $entry = Company::find($id);

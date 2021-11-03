@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Remaps;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CompanySettingRequest;
 
 class CompanySettingController extends Controller
 {
@@ -15,7 +16,7 @@ class CompanySettingController extends Controller
         ]);
     }
 
-    public function store(Request $request) {
+    public function store(CompanySettingRequest $request) {
         try {
             // upload file
             if ($request->file('upload_file')) {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Remaps;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TuningTypeRequest;
 use App\Models\TuningType;
 
 class TuningTypeController extends Controller
@@ -38,7 +39,7 @@ class TuningTypeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TuningTypeRequest $request)
     {
         $request->request->add(['company_id'=> $this->company->id]);
         TuningType::create($request->all());
@@ -75,7 +76,7 @@ class TuningTypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TuningTypeRequest $request, $id)
     {
         $entry = TuningType::find($id);
         $entry->update($request->all());

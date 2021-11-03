@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Remaps;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AdminFileServiceRequest;
 use App\Models\FileService;
 use App\Models\Ticket;
 use App\Models\User;
@@ -85,7 +86,7 @@ class FileServiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AdminFileServiceRequest $request, $id)
     {
         $fs = FileService::find($id);
         // upload file
@@ -147,38 +148,52 @@ class FileServiceController extends Controller
     }
 
     public function download_original($id) {
-        $fileService = FileService::find($id);
-        $file = storage_path('app/public/uploads/file-services/orginal/').$fileService->orginal_file;
-        if (File::exists($file)) {
-            $fileExt = File::extension($file);
-            $fileName = $fileService->displayable_id.'-orginal.'.$fileExt;
-            try{
-                Mail::to($fileService->user->email)->send(new FileServiceProcessed($fileService));
-            }catch(\Exception $e){
-                session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
-                return redirect(route('fileservices.index'));
+        try {
+            $fileService = FileService::find($id);
+            $file = storage_path('app/public/uploads/file-services/orginal/').$fileService->orginal_file;
+            if (File::exists($file)) {
+                $fileExt = File::extension($file);
+                $fileName = $fileService->displayable_id.'-orginal.'.$fileExt;
+                try{
+                    Mail::to($fileService->user->email)->send(new FileServiceProcessed($fileService));
+                }catch(\Exception $e){
+                    session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
+                    return redirect(route('fileservices.index'));
+                }
+                return response()->download($file, $fileName);
             }
-            return response()->download($file, $fileName);
+        } catch (\Exception $ex) {
+            session()->flash('error', $ex->getMessage());
+            return redirect(route('fileservices.index'));
         }
     }
 
     public function download_modified($id) {
-        $fileService = FileService::find($id);
-        $file = storage_path('app/public/uploads/file-services/modified/').$fileService->modified_file;
-        if (File::exists($file)) {
-            $fileExt = File::extension($file);
-            $fileName = $fileService->displayable_id.'-modified.'.$fileExt;
-            return response()->download($file, $fileName);
+        try {
+            $fileService = FileService::find($id);
+            $file = storage_path('app/public/uploads/file-services/modified/').$fileService->modified_file;
+            if (File::exists($file)) {
+                $fileExt = File::extension($file);
+                $fileName = $fileService->displayable_id.'-modified.'.$fileExt;
+                return response()->download($file, $fileName);
+            }
+        } catch (\Exception $ex) {
+            session()->flash('error', $ex->getMessage());
+            return redirect(route('fileservices.index'));
         }
     }
 
     public function delete_modified_file($id) {
-        $fileService = FileService::find($id);
-        $file = storage_path('app/public/uploads/file-services/modified/').$fileService->modified_file;
-        if (File::exists($file)) {
-            File::delete($file);
-            $fileService->modified_file = "";
-            $fileService->save();
+        try {
+            $fileService = FileService::find($id);
+            $file = storage_path('app/public/uploads/file-services/modified/').$fileService->modified_file;
+            if (File::exists($file)) {
+                File::delete($file);
+                $fileService->modified_file = "";
+                $fileService->save();
+            }
+        } catch (\Exception $ex) {
+            session()->flash('error', $ex->getMessage());
         }
         return redirect(route('fileservices.edit', ['fileservice' => $id]));
     }

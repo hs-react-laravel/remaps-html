@@ -8,8 +8,9 @@ use App\Models\User;
 use App\Models\TuningCreditGroup;
 use App\Models\Transaction;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CustomerRequest;
 use App\Mail\WelcomeCustomer;
-use Mail;
+use Illuminate\Support\Facades\Mail;
 
 class CustomerController extends Controller
 {
@@ -58,7 +59,7 @@ class CustomerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CustomerRequest $request)
     {
         try {
             $request->request->add(['company_id'=> $this->company->id]);
@@ -115,7 +116,7 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CustomerRequest $request, $id)
     {
         User::find($id)->update($request->all());
         return redirect(route('customers.index'));
@@ -144,7 +145,7 @@ class CustomerController extends Controller
             $entries = $user->fileServices()->orderBy('id', 'DESC')->paginate(20);
             return view('pages.fileservice.index', ['entries' => $entries]);
         }catch(\Exception $e){
-            \Alert::error(__('admin.opps'))->flash();
+            session()->flash('error', __('admin.opps'));
             return redirect(route('customers.index'));
         }
     }
@@ -156,7 +157,7 @@ class CustomerController extends Controller
             Auth::login($user);
             return redirect()->away(url('/'));
         }catch(\Exception $e){
-            // \Alert::error(__('admin.opps'))->flash();
+            session()->flash('error', __('admin.opps'));
             return redirect(url('admin/customer'));
         }
     }

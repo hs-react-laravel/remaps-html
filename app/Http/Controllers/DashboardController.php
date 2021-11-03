@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AccountInfoRequest;
 use App\Models\CustomerRating;
 use App\Models\Company;
 
@@ -157,7 +158,7 @@ class DashboardController extends Controller
         return view('pages.dashboard.profile');
     }
 
-    public function profile_post(Request $request) {
+    public function profile_post(AccountInfoRequest $request) {
         $this->user->update($request->all());
         return redirect(route('dashboard.profile'));
     }

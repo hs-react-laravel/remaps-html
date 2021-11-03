@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Remaps;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\EmailTemplateRequest;
 use App\Models\EmailTemplate;
 
 class EmailTemplateController extends Controller
@@ -74,7 +75,7 @@ class EmailTemplateController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EmailTemplateRequest $request, $id)
     {
         $entry = EmailTemplate::find($id);
         $entry->update($request->all());

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Remaps;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TuningTypeOptionRequest;
 use App\Models\TuningTypeOption;
 
 class TuningTypeOptionController extends Controller
@@ -44,7 +45,7 @@ class TuningTypeOptionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $tuningTypeId)
+    public function store(TuningTypeOptionRequest $request, $tuningTypeId)
     {
         $request->request->add([
             'tuning_type_id'=> $tuningTypeId,
@@ -87,7 +88,7 @@ class TuningTypeOptionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $tuningTypeId, $optionId)
+    public function update(TuningTypeOptionRequest $request, $tuningTypeId, $optionId)
     {
         $entry = TuningTypeOption::find($optionId);
         $entry->update($request->all());

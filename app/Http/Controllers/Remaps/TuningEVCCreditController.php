@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Remaps;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TuningEVCCreditGroupRequest;
+use App\Http\Requests\TuningEVCCreditTireRequest;
 use App\Models\TuningCreditGroup;
 use App\Models\TuningCreditTire;
 
@@ -50,7 +52,7 @@ class TuningEVCCreditController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TuningEVCCreditGroupRequest $request)
     {
         $request->request->add(['company_id'=> $this->company->id]);
         $request->request->add(['group_type'=> 'evc']);
@@ -98,7 +100,7 @@ class TuningEVCCreditController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TuningEVCCreditGroupRequest $request, $id)
     {
         $tuningCreditGroup = TuningCreditGroup::find($id);
         $tuningCreditGroup->update($request->all());
@@ -146,7 +148,7 @@ class TuningEVCCreditController extends Controller
         return view('pages.tuning-credits.add_tire');
     }
 
-    public function store_tire(Request $request)
+    public function store_tire(TuningEVCCreditTireRequest $request)
     {
         $request->request->add(['company_id'=> $this->company->id, 'group_type' => 'evc']);
         TuningCreditTire::create($request->all());

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Remaps;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PackageRequest;
 use App\Models\Package;
 
 class PackageController extends Controller
@@ -61,7 +62,7 @@ class PackageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PackageRequest $request)
     {
         // $product = '1month Rolling £35';
         // if ($request->billing_interval == 'Day') {
@@ -157,7 +158,7 @@ class PackageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PackageRequest $request, $id)
     {
         $package = Package::find($id);
 

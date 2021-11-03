@@ -55,6 +55,9 @@
     }
     toastr.warning("{{ session('warning') }}");
     @endif
+    @if($errors->any())
+    toastr.error("{!! implode('', $errors->all('<div>:message</div>')) !!}");
+    @endif
 </script>
 <script>
     $('.layout-name').on('click', function () {

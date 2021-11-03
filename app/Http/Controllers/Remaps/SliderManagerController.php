@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Remaps;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SliderManagerRequest;
 use App\Models\SliderManager;
 
 class SliderManagerController extends Controller
@@ -35,7 +36,7 @@ class SliderManagerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SliderManagerRequest $request)
     {
         if ($request->file('upload_file')) {
             $file = $request->file('upload_file');
@@ -77,7 +78,7 @@ class SliderManagerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(SliderManagerRequest $request, $id)
     {
         if ($request->file('upload_file')) {
             $file = $request->file('upload_file');
