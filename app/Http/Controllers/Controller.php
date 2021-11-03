@@ -94,8 +94,28 @@ class Controller extends BaseController
                     // Share all menuData to all the views
                     view()->share('menuData', [$verticalMenuData, $horizontalMenuData]);
 
+                    $data = [
+                        'mainLayoutType' => 'vertical',
+                        'theme' => 'dark',
+                        'sidebarCollapsed' => false,
+                        'navbarColor' => '',
+                        'horizontalMenuType' => 'floating',
+                        'verticalMenuNavbarType' => 'floating',
+                        'footerType' => 'static',
+                        'layoutWidth' => 'full',
+                        'showMenu' => true,
+                        'bodyClass' => '',
+                        'pageClass' => '',
+                        'pageHeader' => true,
+                        'contentLayout' => 'default',
+                        'blankPage' => false,
+                        'defaultLanguage' => 'en',
+                        'direction' => 'ltr',
+                    ];
                     $styleObj = Styling::where('company_id', $this->company->id)->first();
-                    $data = (array)json_decode($styleObj->data);
+                    if (!$styleObj) {
+                        $data = (array)json_decode($styleObj->data);
+                    }
                     view()->share('styling', $data);
                 }
             } catch (\Exception $ex) {
