@@ -251,9 +251,9 @@
             position: 'top',
             align: 'start',
             labels: {
-              usePointStyle: true,
+            //   usePointStyle: true,
               padding: 25,
-              boxWidth: 9
+              boxWidth: 2
             }
           }
         },
