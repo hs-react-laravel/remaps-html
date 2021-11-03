@@ -72,7 +72,7 @@ class Controller extends BaseController
                     $horizontalMenuJson = file_get_contents(base_path('resources/data/menu-data/'.$horizontalMenu));
                     $horizontalMenuData = json_decode($horizontalMenuJson);
 
-                    if ($this->company->reseller_id) {
+                    if ($this->company->reseller_id && $this->user->is_admin) {
                         $evc_menu = new \stdClass();
                         $evc_menu->url = "company/evc-tuning-credits";
                         $evc_menu->name = "EVC Tuning Credit Prices";
