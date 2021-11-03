@@ -181,9 +181,9 @@
           },
           layout: {
             padding: {
-              top: -15,
-              bottom: -25,
-              left: -15
+            //   top: -15,
+            //   bottom: -25,
+            //   left: -15
             }
           },
           scales: {
@@ -191,7 +191,8 @@
               {
                 display: true,
                 scaleLabel: {
-                  display: true
+                  display: true,
+                  labelString: 'RPM'
                 },
                 gridLines: {
                   display: true,
@@ -209,7 +210,8 @@
                 display: true,
                 position: 'left',
                 scaleLabel: {
-                    display: true
+                    display: true,
+                    labelString: 'Power(hp)'
                 },
                 ticks: {
                     stepSize: yAxisMaxLeft * 100 / 5,
@@ -228,7 +230,8 @@
                 display: true,
                 position: 'right',
                 scaleLabel: {
-                    display: true
+                    display: true,
+                    labelString: 'Torque(Nm)'
                 },
                 ticks: {
                     stepSize: yAxisMaxRight * 100 / 5,
