@@ -62,13 +62,6 @@
                         href="{{ route('companies.reset-password', ['id' => $u->id]) }}" >
                         <i data-feather="mail"></i>
                       </a>
-                      @else
-                      <a
-                        class="btn btn-icon btn-secondary"
-                        title="Resend password reset link" >
-                        <i data-feather="mail"></i>
-                      </a>
-                      @endif
                       <a
                         class="btn btn-icon btn-success"
                         title="Login as this company"
@@ -76,6 +69,19 @@
                         target="_blank" >
                         <i data-feather="user"></i>
                       </a>
+                      @else
+                      <a
+                        class="btn btn-icon btn-secondary"
+                        title="Resend password reset link" >
+                        <i data-feather="mail"></i>
+                      </a>
+                      <a
+                        class="btn btn-icon btn-secondary"
+                        title="Login as this company" >
+                        <i data-feather="user"></i>
+                      </a>
+                      @endif
+
                       @if($u->owner && !$u->owner->hasActiveSubscription())
                         <a
                           class="btn btn-icon btn-success"
