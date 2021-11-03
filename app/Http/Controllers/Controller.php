@@ -30,13 +30,23 @@ class Controller extends BaseController
                     $this->user->save();
                     $this->is_evc = !!$this->company->reseller_id;
 
-                    Config::set('mail.driver', $this->company->mail_driver);
-                    Config::set('mail.host', $this->company->mail_host);
-                    Config::set('mail.port', $this->company->mail_port);
-                    Config::set('mail.encryption', $this->company->mail_encryption);
-                    //Config::set('mail.encryption', '');
-                    Config::set('mail.username', $this->company->mail_username);
-                    Config::set('mail.password', $this->company->mail_password);
+                    if ($this->company->mail_driver && $this->company->mail_host && $this->company->mail_port && $this->company->mail_encryption
+                        && $this->company->mail_username && $this->company->mail_password) {
+                        Config::set('mail.driver', $this->company->mail_driver);
+                        Config::set('mail.host', $this->company->mail_host);
+                        Config::set('mail.port', $this->company->mail_port);
+                        Config::set('mail.encryption', $this->company->mail_encryption);
+                        Config::set('mail.username', $this->company->mail_username);
+                        Config::set('mail.password', $this->company->mail_password);
+                    } else {
+                        Config::set('mail.driver', 'smtp');
+                        Config::set('mail.host', 'mail.myremaps.com');
+                        Config::set('mail.port', 25);
+                        Config::set('mail.encryption', '');
+                        Config::set('mail.username', 'noreply@myremaps.com');
+                        Config::set('mail.password', '!Winston11!');
+                    }
+
                     Config::set('mail.from.address',$this->company->mail_username );
                     Config::set('mail.from.name', $this->company->name);
                     Config::set('app.name', $this->company->name);
