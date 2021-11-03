@@ -127,8 +127,8 @@
 @endsection
 @section('page-script')
   <script>
-    var yAxisMaxLeft = ({{ intval($car->tuned_bhp) }} / 100) + 1;
-    var yAxisMaxRight = ({{ intval($car->tuned_torque) }} / 100) + 1;
+    var yAxisMaxLeft = Math.round({{ intval($car->tuned_bhp) }} / 100) + 1;
+    var yAxisMaxRight = Math.round({{ intval($car->tuned_torque) }} / 100) + 1;
     var bhpdata_tuned = [0, 22.85, 40, 52.85, 67.14, 77.14, 87.14, 97.14, 97.85, 100, 100, 80, 0, 0].map((v) => Math.round(v / 100 * {{ intval($car->tuned_bhp) }}) );
     var tordata_tuned = [0, 58.18, 87.27, 98.78, 100, 95.75, 92.27, 90.30, 87.27, 84.24, 78.78, 60, 0, 0].map((v) => Math.round(v / 100 * {{ intval($car->tuned_torque) }}));
     var bhpdata = [0, 22.85, 40, 52.85, 67.14, 77.14, 87.14, 97.14, 97.85, 100, 100, 80, 0, 0].map((v) => Math.round(v / 100 * {{ intval($car->std_bhp) }}) );
