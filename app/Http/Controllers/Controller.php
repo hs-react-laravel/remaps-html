@@ -6,7 +6,8 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
-use Auth, Config;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
 use App\Models\Styling;
 
@@ -42,7 +43,7 @@ class Controller extends BaseController
                     Config::set('backpack.base.project_name', $this->company->name);
 
                     $verticalMenu = 'verticalMenuCustomer.json';
-                    $horizontalMenu = 'horizontalCustomer.json';
+                    $horizontalMenu = 'horizontalMenuCustomer.json';
                     $role = 'customer';
                     if ($this->user->is_staff) {
                         $verticalMenu = 'verticalMenuStaff.json';

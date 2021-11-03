@@ -37,6 +37,22 @@
             data-feather="settings"></i></a></li>
       </ul>
     @endif
+    @if ($role == "customer")
+      <ul class="nav navbar-nav bookmark-icons">
+        <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{ route('dashboard') }}"
+            data-bs-toggle="tooltip" data-bs-placement="bottom" title="Home"><i class="ficon"
+              data-feather="home"></i></a></li>
+        <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{ route('fs.index') }}"
+            data-bs-toggle="tooltip" data-bs-placement="bottom" title="Files"><i class="ficon"
+              data-feather="file"></i></a></li>
+        <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{ route('tk.index') }}"
+            data-bs-toggle="tooltip" data-bs-placement="bottom" title="Tickets"><i class="ficon"
+              data-feather="message-circle"></i></a></li>
+        <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{ route('cars.index') }}"
+          data-bs-toggle="tooltip" data-bs-placement="bottom" title="Specs"><i class="ficon"
+            data-feather="search"></i></a></li>
+      </ul>
+    @endif
     {{-- <ul class="nav navbar-nav">
       <li class="nav-item d-none d-lg-block">
         <a class="nav-link bookmark-star">

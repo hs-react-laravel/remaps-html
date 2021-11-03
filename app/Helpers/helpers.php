@@ -21,7 +21,7 @@ class Helper
             'navbarColor' => '',
             'horizontalMenuType' => 'floating',
             'verticalMenuNavbarType' => 'floating',
-            'footerType' => 'static', //footer
+            'footerType' => 'static',
             'layoutWidth' => 'full',
             'showMenu' => true,
             'bodyClass' => '',
