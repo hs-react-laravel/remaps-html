@@ -8,17 +8,17 @@
     <!-- Bootstrap CSS -->
    {{-----<link href="{{ URL::asset('css/font-awesome.min.css') }}" rel="stylesheet">-----------}}
 	  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ URL::asset('css/bootstrap.min.css') }}">
-     <link rel="stylesheet" href="{{ URL::asset('css/owl.carousel.min.css') }}">
-    <link rel="stylesheet" href="{{ URL::asset('css/style.css') }}">
-    <link rel="stylesheet" href="{{ URL::asset('css/responsive.css') }}">
+      <link rel="stylesheet" href="{{ asset('customcss/bootstrap.min.css') }}">
+      <link rel="stylesheet" href="{{ asset('customcss/owl.carousel.min.css') }}">
+     <link rel="stylesheet" href="{{ asset('customcss/style.css') }}">
+     <link rel="stylesheet" href="{{ asset('customcss/responsive.css') }}">
    <!-- js-->
 <!---------------google  analytics code ------------------>
 	@include('layouts/googleanalytics')
 	  @include('layouts/googleaddsense')
 <!--------------- // google analytics code ------------------>
   </head>
-  
+
 <!-- Global site tag (gtag.js) - Google Analytics -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-149001991-1"></script>
 		<script>
@@ -27,23 +27,23 @@
 		gtag('js', new Date());
 
 		gtag('config', 'UA-149001991-1');
-		</script>  
+		</script>
 <body>
 
 <!--Header-start-->
 <header class="header">
-	<div class="container"> 
+	<div class="container">
 	   <div class="header-inner d-flex">
-		<a class="logo" href="/"><img src="{{ URL::asset('images/logo-front.png') }}" alt="logo"></a>
+		<a class="logo" href="/"><img src="{{ URL::asset('customimages/logo-front.png') }}" alt="logo"></a>
 		<!--<a class="register" href="#!">Register</a>-->
-	   </div>        
+	   </div>
 	</div>
 </header>
 <!--Header-end-->
 
  @yield('content')
- 
- 
+
+
  <footer class="footer">
 	<div class="container text-center">
 		<p>Copyright © 2019 My Remaps. All Rights Reserved</p>
@@ -55,10 +55,10 @@
 </footer>
 
 
-  <script src="{{ URL::asset('js/jquery-3.2.1.min.js') }}"></script>
-  <script src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
-  <script src="{{ URL::asset('js/popper.min.js') }}"></script>
-  <script src="{{ URL::asset('js/owl.carousel.min.js') }}"></script>
+<script src="{{ asset('customjs/jquery-3.2.1.min.js') }}"></script>
+<script src="{{ asset('customjs/bootstrap.min.js') }}"></script>
+<script src="{{ asset('customjs/popper.min.js') }}"></script>
+<script src="{{ asset('customjs/owl.carousel.min.js') }}"></script>
 
 <script>
     $(document).ready(function() {
