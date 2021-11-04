@@ -328,6 +328,7 @@ class CompanyController extends Controller
             return redirect(route('companies.create', ['tab' => $request->tab]))
                         ->withErrors($validator)
                         ->withInput();
+        }
         try {
             $entry = Company::find($id);
             if($request->hasFile('upload_file')){
