@@ -1,4 +1,4 @@
-<div class="tab-pane @if($tab == 'name') active @endif" id="home-fill" role="tabpanel" aria-labelledby="home-tab-fill">
+<div class="tab-pane @if($tab == 'name') active @endif" id="name-fill" role="tabpanel" aria-labelledby="name-tab-fill">
   {{ $entry->id
     ? Form::model($entry, array('route' => array('companies.update', $entry->id), 'method' => 'PUT', 'enctype' => 'multipart/form-data'))
     : Form::model($entry, array('route' => array('companies.store', $entry->id), 'method' => 'POST', 'enctype' => 'multipart/form-data')) }}
@@ -7,7 +7,7 @@
     <div class="row">
       <div class="col-md-4 col-12">
         <div class="mb-1">
-          <label class="form-label" for="name-column">Name</label>
+          <label class="form-label" for="name-column">Name <span class="text-danger">*</span></label>
           <input
             type="text"
             id="name-column"
@@ -21,7 +21,7 @@
 
       <div class="col-md-4 col-12">
         <div class="mb-1">
-          <label class="form-label" for="address-line1">Address line 1</label>
+          <label class="form-label" for="address-line1">Address line 1 <span class="text-danger">*</span></label>
           <input
             type="text"
             id="address-line1"
@@ -48,7 +48,7 @@
 
       <div class="col-md-4 col-12">
         <div class="mb-1">
-          <label class="form-label" for="town">Town</label>
+          <label class="form-label" for="town">Town <span class="text-danger">*</span></label>
           <input
             type="text"
             id="town"
@@ -75,7 +75,7 @@
 
       <div class="col-md-4 col-12">
         <div class="mb-1">
-          <label class="form-label" for="country">Country</label>
+          <label class="form-label" for="country">Country <span class="text-danger">*</span></label>
           <input
             type="text"
             id="country"

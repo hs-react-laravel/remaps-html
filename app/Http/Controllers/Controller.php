@@ -30,7 +30,7 @@ class Controller extends BaseController
                     $this->user->save();
                     $this->is_evc = !!$this->company->reseller_id;
 
-                    if ($this->company->mail_driver && $this->company->mail_host && $this->company->mail_port && $this->company->mail_encryption
+                    if ($this->company->mail_host && $this->company->mail_port && $this->company->mail_encryption
                         && $this->company->mail_username && $this->company->mail_password) {
                         Config::set('mail.driver', $this->company->mail_driver);
                         Config::set('mail.host', $this->company->mail_host);

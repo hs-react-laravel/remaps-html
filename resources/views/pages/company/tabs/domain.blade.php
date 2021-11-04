@@ -7,12 +7,12 @@
     <div class="row">
       <div class="col-md-4 col-12">
         <div class="mb-1">
-          <label class="form-label" for="domain_link">Domain Link</label>
+          <label class="form-label" for="domain_link">Domain Link <span class="text-danger">*</span></label>
           <input
             type="text"
             id="domain_link"
             class="form-control"
-            placeholder="xxx@xxx.com"
+            placeholder="xxx.myremaps.com"
             name="domain_link"
             value="{{ $entry->domain_link }}" />
         </div>

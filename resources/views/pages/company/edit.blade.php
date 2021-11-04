@@ -1,10 +1,20 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Tabs')
+@section('title', 'Company Information')
 
 @section('content')
 @php
   $tab = isset($_GET['tab']) ? $_GET['tab'] : 'name';
+  $tabs = [
+    'name' => 'Name & Address',
+    'domain' => 'Domain',
+    'email' => "Email Addresses",
+    'smtp' => "SMTP",
+    'finance' => "Finance",
+    'paypal' => "Paypal",
+    'stripe' => "Stripe",
+    'note' => "Notes to Customers"
+  ];
 @endphp
 <section id="nav-filled">
   <div class="row match-height">
@@ -15,75 +25,33 @@
           <h4 class="card-title">Companies</h4>
         </div>
         <div class="card-body">
-          <p class="card-text">
-            Edit Company
-          </p>
           <!-- Nav tabs -->
           <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
-            <li class="nav-item">
-              <a
-                class="nav-link @if($tab == 'name') active @endif"
-                id="home-tab-fill"
-                data-bs-toggle="tab"
-                href="#home-fill"
-                role="tab"
-                aria-controls="home-fill"
-                aria-selected="@if($tab == 'name') true @else false @endif"
-                >Name & Address</a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link @if($tab == 'domain') active @endif"
-                id="domain-tab-fill"
-                data-bs-toggle="tab"
-                href="#domain-fill"
-                role="tab"
-                aria-controls="domain-fill"
-                aria-selected="@if($tab == 'domain') true @else false @endif"
-                >Domain information</a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link @if($tab == 'email') active @endif"
-                id="email-tab-fill"
-                data-bs-toggle="tab"
-                href="#email-fill"
-                role="tab"
-                aria-controls="email-fill"
-                aria-selected="@if($tab == 'email') true @else false @endif"
-                >Email addresses</a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link @if($tab == 'finance') active @endif"
-                id="financial-tab-fill"
-                data-bs-toggle="tab"
-                href="#financial-fill"
-                role="tab"
-                aria-controls="financial-fill"
-                aria-selected="@if($tab == 'finance') true @else false @endif"
-                >Financial information</a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link @if($tab == 'note') active @endif"
-                id="note-tab-fill"
-                data-bs-toggle="tab"
-                href="#note-fill"
-                role="tab"
-                aria-controls="note-fill"
-                aria-selected="@if($tab == 'note') true @else false @endif"
-                >Notes to customers</a>
-            </li>
+            @foreach ($tabs as $tabName => $tabTitle)
+              <li class="nav-item">
+                <a
+                  class="nav-link @if($tab == $tabName) active @endif"
+                  id="{{$tabName}}-tab-fill"
+                  data-bs-toggle="tab"
+                  href="#{{$tabName}}-fill"
+                  role="tab"
+                  aria-controls="{{$tabName}}-fill"
+                  aria-selected="@if($tab == $tabName) true @else false @endif"
+                  >{{$tabTitle}}</a>
+              </li>
+            @endforeach
           </ul>
 
           <!-- Tab panes -->
           <div class="tab-content pt-1">
-            @include('pages.company.name-address')
-            @include('pages.company.domain')
-            @include('pages.company.email')
-            @include('pages.company.financial')
-            @include('pages.company.notes')
+            @include('pages.company.tabs.name-address')
+            @include('pages.company.tabs.domain')
+            @include('pages.company.tabs.email')
+            @include('pages.company.tabs.financial')
+            @include('pages.company.tabs.notes')
+            @include('pages.company.tabs.smtp')
+            @include('pages.company.tabs.paypal')
+            @include('pages.company.tabs.stripe')
           </div>
         </div>
       </div>
