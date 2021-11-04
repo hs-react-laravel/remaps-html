@@ -246,6 +246,88 @@ class CompanyController extends Controller
      */
     public function update(CompanyRequest $request, $id)
     {
+        $requestData = Request::capture();
+        switch($request->tab){
+            case 'name':
+                $validator = Validator::make($request->only(['name', 'country', 'state', 'town', 'address_line_1', 'address_line_2', 'post_code', 'logo', 'theme_color', 'copy_right_text']),[
+                    'name' => 'bail|required|string|max:100',
+                    'address_line_1'=> 'bail|required|string|max:100',
+                    'address_line_2'=> 'bail|nullable|string|max:100',
+                    'town'=> 'bail|required|string|max:50',
+                    'post_code'=> 'bail|nullable|string|max:30',
+                    'country'=> 'bail|required|string|max:50',
+                    'state'=> 'bail|nullable|string|max:50',
+					//'rating'=> 'bail|nullable|string|max:50',
+                    'file'=> 'bail|nullable|image|mimes:jpg,png,jpeg',
+                    'copy_right_text'=> 'bail|nullable|string|max:100'
+                ]);
+
+                $requestData->replace($request->only(['name', 'country', 'state', 'town', 'address_line_1', 'address_line_2', 'post_code', 'logo', 'theme_color', 'copy_right_text']));
+                break;
+            case 'domain':
+                $validator = Validator::make($request->only('domain_link'), [
+                    'domain_link'=> 'bail|required|url|unique:companies,domain_link|max:100'
+                ]);
+                $requestData->replace($request->only('domain_link'));
+                break;
+            case 'email':
+                // 'main_email_address'=> 'bail|required|email|unique:companies,main_email_address,'.$company->id.'|unique:users,email,'.$company->owner->id.'|max:100',
+                $validator = Validator::make($request->only(['main_email_address', 'support_email_address', 'billing_email_address']), [
+                    'main_email_address'=> 'bail|required|email|unique:companies,main_email_address|max:100',
+                    'support_email_address'=> 'bail|nullable|email|max:100',
+                    'billing_email_address'=> 'bail|nullable|email|max:100'
+                ]);
+                $requestData->replace($request->only(['main_email_address', 'support_email_address', 'billing_email_address']));
+                break;
+            case 'finance':
+                $validator = Validator::make($request->only(['bank_account', 'bank_identification_code', 'vat_number', 'vat_percentage']), [
+                    'bank_account'=> 'bail|nullable|string|max:100',
+                    'bank_identification_code'=> 'bail|nullable|string|max:100',
+                    'vat_number'=> 'bail|nullable|string|max:100',
+                    'vat_percentage'=> 'bail|nullable|required_with:vat_number|regex:/^\d*(\.\d{1,2})?$/|max:8'
+                ]);
+                $requestData->replace($request->only(['bank_account', 'bank_identification_code', 'vat_number', 'vat_percentage']));
+                break;
+            case 'note':
+                $validator = Validator::make($request->only('customer_note'), [
+                    'customer_note'=> 'bail|nullable|string',
+                ]);
+                $requestData->replace($request->only('customer_note'));
+                break;
+
+            case 'smtp':
+                $validator = Validator::make($request->only(['mail_host', 'mail_port', 'mail_username', 'mail_password']), [
+                    'mail_driver'=> 'bail|nullable|string|max:20',
+                    'mail_host'=> 'bail|nullable|string|max:100',
+                    'mail_port'=> 'bail|nullable|integer',
+                    'mail_username'=> 'bail|nullable|email|max:100',
+                    'mail_password'=> 'bail|nullable|string|max:100'
+                ]);
+                $requestData->replace($request->only(['mail_host', 'mail_port', 'mail_username', 'mail_password']));
+                break;
+            case 'paypal':
+                $validator = Validator::make($request->only(['paypal_client_id', 'paypal_secret', 'paypal_currency_code']), [
+                    'paypal_client_id'=> 'bail|nullable|string|max:200',
+                    'paypal_secret'=> 'bail|nullable|string|max:200',
+                    'paypal_currency_code'=> 'bail|nullable|string|max:10'
+                ]);
+                $requestData->replace($request->only(['paypal_client_id', 'paypal_secret', 'paypal_currency_code']));
+                break;
+            case 'stripe':
+                $validator = Validator::make($request->only(['stripe_key', 'stripe_secret']), [
+                    'stripe_key'=> 'bail|nullable|string|max:200',
+                    'stripe_secret'=> 'bail|nullable|string|max:200',
+                ]);
+                $requestData->replace($request->only(['id', 'stripe_key', 'stripe_secret']));
+                break;
+            default:
+                break;
+        }
+
+        if ($validator->fails()) {
+            return redirect(route('companies.create', ['tab' => $request->tab]))
+                        ->withErrors($validator)
+                        ->withInput();
         try {
             $entry = Company::find($id);
             if($request->hasFile('upload_file')){
