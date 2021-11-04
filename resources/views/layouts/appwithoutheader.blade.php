@@ -40,7 +40,7 @@
 
   <footer class="footer">
 	<div class="container text-center">
-		<p>Copyright © 2019 My Remaps. All Rights Reserved</p>
+		<p>Copyright © 2021 My Remaps. All Rights Reserved</p>
 		<ul class="social">
 		 <li><a href="https://www.facebook.com/remappingfileportal" target="_blank"><i class="fa fa-facebook-f"></i></a></li>
 		 <li><a href="mailto:sales@myremaps.com"><i class="fa fa-envelope"></i></a></li>
