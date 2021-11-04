@@ -35,7 +35,7 @@ use Config;
 
 class CompanyController extends Controller
 {
-	
+
 	public function companies(Request $request){
 		$qry = $request->all();
 		if(!empty($qry) && isset($qry['keyword']) && isset($qry['sort'])  ){
@@ -48,7 +48,7 @@ class CompanyController extends Controller
 		//dd($company);
 		return view('Frontend.companies',compact('company'));
 	}
-	
+
     /**
      * Show the form for creating a new resource.
      *
@@ -59,19 +59,19 @@ class CompanyController extends Controller
 		$company = Company::all();
 		return view('Frontend.create',compact('company'));
     }
-	
+
 	/**
      * Store a details of payment with paypal.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-	
+
 	 public function postPaymentWithpaypal(CompanyRegisterFront $request){
 		 $company = new \App\Models\Company();
 		 $company->name = $request->name;
 		 $company->main_email_address = $request->main_email_address;
-         
+
          if ($request->has('own_domain')) {
             $company->domain_link = $request->own_domain;
          } else {
@@ -82,9 +82,9 @@ class CompanyController extends Controller
 		 $company->town = $request->town;
 		 $company->country = $request->country;
 		 $company->vat_number = $request->vat_number;
-		
+
 		 if($company->save()){
-		  	 $companyUser = new \App\User();
+		  	 $companyUser = new \App\Models\User();
 			 $companyUser->company_id = $company->id;
 			 $companyUser->tuning_credit_group_id = Null;
 			 $companyUser->first_name =  $request->name;
@@ -101,11 +101,11 @@ class CompanyController extends Controller
 			 $companyUser->is_admin = 1;
 			 $companyUser->is_active = 0;
 			 $companyUser->save();
-			
+
 			 $emailTemplates = \App\Models\EmailTemplate::where('company_id', 1)->whereIn('label', ['customer-welcome-email', 'new-file-service-created-email', 'file-service-modified-email', 'file-service-processed-email','new-ticket-created','new-file-ticket-created','reply-to-your-ticket'])->get();
 				 if($emailTemplates->count() > 0){
 					 foreach($emailTemplates as $emailTemplate){
-						 $userTemplate = $emailTemplate->replicate(); 
+						 $userTemplate = $emailTemplate->replicate();
 						 $userTemplate->company_id = $company->id;
 						 $userTemplate->save();
 					 }
@@ -129,24 +129,24 @@ class CompanyController extends Controller
 		}else{
 			return redirect()->back()->with('error', 'Unknown error occurred');
 		}
-		
+
 	 }
-	
+
 	public function thankyou(){
 		 $msg = 'Regististration received, Please wait for your application to be processed';
 		return view('Frontend.thankyou',compact('msg'));
-	}	
+	}
    public function postPaymentWithpaypal1(CompanyRegisterFront $request){
-				
-		/** setup PayPal api context **/		
-		
-        $paypalConf = \Config::get('paypal');		
+
+		/** setup PayPal api context **/
+
+        $paypalConf = \Config::get('paypal');
 		$paypalConf['client_id'] = 'AdCpLIlE528OLfuUBCpMG2ZyXO3Om5EmSKDnsjKZNBoj68r6ElMraX4PeV-ac8WtCvovQUZF_9RIja-x';
 		$paypalConf['secret'] = 'EKXQRFQSdB3Mn8958gNR7YejYhW9mEUk6lXx0psc0rWJwQDvDcqxIMJGbUidJ6N8Ta4n1ZKIdDDkVAxf';
         $this->apiContext = new ApiContext(new OAuthTokenCredential($paypalConf['client_id'], $paypalConf['secret']));
 		$paypalConf['settings']['mode'] = 'sandbox';
         $this->apiContext->setConfig($paypalConf['settings']);
-		
+
         $payer = new Payer();
         $payer->setPaymentMethod('paypal');
 
@@ -159,7 +159,7 @@ class CompanyController extends Controller
         $item_list = new ItemList();
         $item_list->setItems([$item]);
 
-        $details = new Details(); 
+        $details = new Details();
         $details->setShipping(0.00);
                 //->setTax($request->item_tax)
                 //->setSubtotal($request->item_amount);
@@ -168,7 +168,7 @@ class CompanyController extends Controller
         $amount->setCurrency('GBP')
             ->setTotal($request->amount)
             ->setDetails($details);
-			
+
 
         $transaction = new Transaction();
         $transaction->setAmount($amount)
@@ -185,14 +185,14 @@ class CompanyController extends Controller
             ->setPayer($payer)
             ->setRedirectUrls($redirect_urls)
             ->setTransactions(array($transaction));
-			
-		
-		
-        try{ 
+
+
+
+        try{
             $payment->create($this->apiContext);
-			
+
 			$request->domain_link = $request->domain_prefix."".$request->domain_suffix;
-			
+
 			/** add payment ID to session **/
         \Session::put([
             'paypal_payment_id'=> $payment->getId(),
@@ -208,9 +208,9 @@ class CompanyController extends Controller
             'package_id'=> $request->package_id,
             'amount'=> $request->amount,
         ]);
-		
+
 		$package_id = \Session::get('package_id');
-			
+
         }catch(PayPal\Exception\PayPalConnectionException $ex) {
 			//dd($ex);
             \Alert::error($ex->getMessage())->flash();
@@ -227,7 +227,7 @@ class CompanyController extends Controller
             }
         }
 
-        
+
 
         if(isset($redirect_url)) {
             /** redirect to paypal **/
@@ -237,7 +237,7 @@ class CompanyController extends Controller
         return redirect()->route('register-account.create')->with('error','Unknown error occurred');
     }
 
-    
+
 
     /**
      * handle payment status.
@@ -246,7 +246,7 @@ class CompanyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function getPaymentStatus(Request $request){
-		
+
         $payment_id = \Session::get('paypal_payment_id');
         $name = \Session::get('name');
         $main_email_address = \Session::get('main_email_address');
@@ -259,9 +259,9 @@ class CompanyController extends Controller
         $vat_number = \Session::get('vat_number');
         $package_id = \Session::get('package_id');
         $amount = \Session::get('amount');
-		
+
 		//dd(session()->all());
-		
+
         \Session::forget('paypal_payment_id');
         \Session::forget('name');
         \Session::forget('main_email_address');
@@ -274,13 +274,13 @@ class CompanyController extends Controller
         \Session::forget('vat_number');
         //\Session::forget('package_id');
         \Session::forget('amount');
-		
+
         if (empty($request->PayerID) || empty($request->token)) {
             \Alert::error('Payment failed')->flash();
             return redirect()->route('register-account.create',$package_id)->with('error','Payment failed');
         }
         try{
-			
+
 			$company = \App\Models\Company::where('is_default', 1)->first();
 			if($company){
 				\Config::set('paypal.client_id', $company->paypal_client_id);
@@ -290,31 +290,31 @@ class CompanyController extends Controller
 			$paypalConf = \Config::get('paypal');
 			$this->apiContext = new ApiContext(new OAuthTokenCredential($paypalConf['client_id'], $paypalConf['secret']));
 			$this->apiContext->setConfig($paypalConf['settings']);
-			
-            $payment = Payment::get($payment_id, $this->apiContext);			
+
+            $payment = Payment::get($payment_id, $this->apiContext);
             $execution = new PaymentExecution();
-			
+
             $execution->setPayerId($request->PayerID);
             $result = $payment->execute($execution, $this->apiContext);
-            $transactions = $result->getTransactions(); 
-            $transaction = $transactions[0]; 
-            $relatedResources = $transaction->getRelatedResources(); 
-            $relatedResource = $relatedResources[0]; 
+            $transactions = $result->getTransactions();
+            $transaction = $transactions[0];
+            $relatedResources = $transaction->getRelatedResources();
+            $relatedResource = $relatedResources[0];
             $paypalOrder = $relatedResource->getOrder();
-           
+
 			if ($result->getState() == 'approved') {
 				$company = new \App\Models\Company();
 				$company->name = $name;
-				$company->main_email_address = $main_email_address;				
+				$company->main_email_address = $main_email_address;
 				$company->domain_link = $domain_link;
 				$company->address_line_1 = $address_line_1;
 				$company->address_line_2 = $address_line_2;
 				$company->town = $town;
 				$company->country = $country;
 				$company->vat_number = $vat_number;
-				$company->save();		
-					
-				
+				$company->save();
+
+
 				if($company->owner == NULL){
 					/* register company*/
 					if($company->name && $company->main_email_address && $company->address_line_1 && $company->town && $company->country && $company->domain_link){
@@ -334,13 +334,13 @@ class CompanyController extends Controller
 						$companyUser->town = $town;
 						$companyUser->is_master = 0;
 						$companyUser->is_admin = 1;
-						
+
 						if($companyUser->save()){
 							$emailTemplates = \App\Models\EmailTemplate::where('company_id', 1)->where('subject', 'Welcome: Company has been registered')->get();
-						
+
 							if($emailTemplates->count() > 0){
 								foreach($emailTemplates as $emailTemplate){
-									$userTemplate = $emailTemplate->replicate(); 
+									$userTemplate = $emailTemplate->replicate();
 									$userTemplate->company_id = $company->id;
 									$userTemplate->save();
 									//dd($userTemplate->save());
@@ -349,7 +349,7 @@ class CompanyController extends Controller
 							try{
 								\Mail::to($companyUser->email)->send(new RegisterCompanyFront($companyUser));
 							}catch(\Exception $e){
-														
+
 							}
 						}
 					}
@@ -358,45 +358,45 @@ class CompanyController extends Controller
 					$companyOwner->email = $main_email_address;
 					$companyOwner->save();
 				}
-				
-				
+
+
 				/** add payment ID to session **/
 				\Session::put([
 					'companyUser'=> $companyUser->id,
 				]);
-				
+
 			    return redirect()->route('paypal.subscribe.subscription',$package_id);
 			    //return redirect()->route('register-account.create')->with('success','You have successfully registered you company. Please check your email to set the password');
-                
+
             }
-            
+
         }catch(\Exception $ex){
 			return redirect()->route('register-account.create',$package_id)->with('error','Something went wrong. Please try again');
-           
+
         }
     }
-	
-	
-	
+
+
+
 	/**
      * Subscribe user in a plan.
      * @return \Illuminate\Http\Response
      */
     public function subscribeSubscription(Request $request, \App\Models\Package $package){
-		
+
 		$company = \App\Models\Company::where('is_default', 1)->first();
 			if($company){
 				\Config::set('paypal.client_id', $company->paypal_client_id);
 				\Config::set('paypal.secret', $company->paypal_secret);
 			}
-		
-		/** setup PayPal api context **/		
-		
+
+		/** setup PayPal api context **/
+
         $paypalConf = \Config::get('paypal');
         $this->apiContext = new ApiContext(new OAuthTokenCredential($paypalConf['client_id'], $paypalConf['secret']));
         $this->apiContext->setConfig($paypalConf['settings']);
-		
-        
+
+
         $startDate = '';
 
         switch ($package->billing_interval) {
@@ -417,18 +417,18 @@ class CompanyController extends Controller
                 break;
         }
         $agreement = new Agreement();
-		
-		
+
+
         if($package->billing_interval)
         $agreement->setName($package->name)
             ->setDescription($package->name)
             ->setStartDate($startDate);
         /* Set agreement Plan */
-        
+
         $plan = new Plan();
         $plan->setId($package->pay_plan_id);
         $agreement->setPlan($plan);
-		
+
         /* Overwrite merchant prefeerences */
         $merchantPreferences = new MerchantPreferences();
         $merchantPreferences->setReturnUrl(route('paypal.execute.subscription').'?success=true')
@@ -440,59 +440,59 @@ class CompanyController extends Controller
         $payer = new Payer();
         $payer->setPaymentMethod('paypal');
         $agreement->setPayer($payer);
-		
+
         try {
-            /* Create agreement */ 
-            $agreement = $agreement->create($this->apiContext);			
+            /* Create agreement */
+            $agreement = $agreement->create($this->apiContext);
             $approvalUrl = $agreement->getApprovalLink();
-			
+
             if($approvalUrl) {
                 return redirect()->away($approvalUrl);
             }
-			
+
         }catch (PayPal\Exception\PayPalConnectionException $ex) {
-			
+
             \Alert::error($ex->getMessage())->flash();
 			 return redirect()->route('register-account.create',$package_id)->with('error',$ex->getMessage());
         }catch (\Exception $ex) {
-			
+
             \Alert::error($ex->getMessage())->flash();
 			 return redirect()->route('register-account.create',$package_id)->with('error',$ex->getMessage());
         }
         //return redirect(url('admin/subscription/packages'));
     }
 
-	
-	
+
+
     /**
      * Execute subscription status.
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function executeSubscription(Request $request){		
+    public function executeSubscription(Request $request){
         if ($request->has('success') && $request->query('success') == 'true') {
 			$company = \App\Models\Company::where('is_default', 1)->first();
 			if($company){
 				\Config::set('paypal.client_id', $company->paypal_client_id);
 				\Config::set('paypal.secret', $company->paypal_secret);
 			}
-			
-			/** setup PayPal api context **/		
-			
-			$paypalConf = \Config::get('paypal');	
+
+			/** setup PayPal api context **/
+
+			$paypalConf = \Config::get('paypal');
 			$this->apiContext = new ApiContext(new OAuthTokenCredential($paypalConf['client_id'], $paypalConf['secret']));
 			$this->apiContext->setConfig($paypalConf['settings']);
-		
+
 			$companyUser = \Session::get('companyUser');
 			$package_id = \Session::get('package_id');
 			\Session::forget('companyUser');
 			\Session::forget('package_id');
             $token = $request->query('token');
             $agreement = new \PayPal\Api\Agreement();
-			
+
             try {
                 // Execute agreement
-                $agreement = $agreement->execute($token, $this->apiContext);                
+                $agreement = $agreement->execute($token, $this->apiContext);
                 $subscription = new \App\Models\Subscription();
                 $subscription->user_id = $companyUser;
                 $subscription->pay_agreement_id = $agreement->id;
@@ -515,10 +515,10 @@ class CompanyController extends Controller
             \Alert::error(__('admin.company_not_subscribed'))->flash();
 			return redirect()->route('register-account.create',$package_id)->with('error','There is some error. Company has not been subscribed.');
         }
-		
+
         //return redirect()->route('register-account.create',$package_id)->with('success','You have successfully registered your company.');
     }
-	
-	
-	
+
+
+
 }

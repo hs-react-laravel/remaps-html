@@ -17,7 +17,7 @@
     <div class="row">
         @foreach ($groupCreditTires as $idx => $tire)
         @php
-          $vat_percentage = $isVatCalculation ? $this->company->vat_percentage : 0;
+          $vat_percentage = $isVatCalculation ? $company->vat_percentage : 0;
           $tax = $tire->pivot->for_credit * $vat_percentage / 100;
           $total_amount = $tire->pivot->for_credit + $tax;
         @endphp

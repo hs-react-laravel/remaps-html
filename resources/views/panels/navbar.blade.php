@@ -39,7 +39,7 @@
     @endif
     @if ($role == "customer")
       <ul class="nav navbar-nav bookmark-icons">
-        <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{ route('dashboard') }}"
+        <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{ route('dashboard.customer') }}"
             data-bs-toggle="tooltip" data-bs-placement="bottom" title="Home"><i class="ficon"
               data-feather="home"></i></a></li>
         <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{ route('fs.index') }}"
@@ -143,8 +143,8 @@
             {{ ucfirst($role) }}
           </span>
         </div>
-        <span class="avatar" style="background-color: #{{ \App\Helpers\Helper::generateAvatarColor(Auth::user()->id) }}">
-          <div class="avatar-content">{{ \App\Helpers\Helper::getInitialName(Auth::user()->id) }}</div>
+        <span class="avatar" style="background-color: #{{ \App\Helpers\Helper::generateAvatarColor($user->id) }}">
+          <div class="avatar-content">{{ \App\Helpers\Helper::getInitialName($user->id) }}</div>
         </span>
       </a>
       <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">
@@ -154,7 +154,7 @@
           href="{{ Route::has('dashboard.profile') ? route('dashboard.profile') : 'javascript:void(0)' }}">
           <i class="me-50" data-feather="user"></i> Profile
         </a>
-        @if (Auth::check())
+        @if (Auth::guard('admin')->check())
           <a class="dropdown-item" href="{{ route('logout') }}"
             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
             <i class="me-50" data-feather="power"></i> Logout

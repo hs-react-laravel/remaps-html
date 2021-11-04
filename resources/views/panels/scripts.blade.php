@@ -94,7 +94,7 @@
             type: 'POST',
             url: "{{ route('api.style') }}",
             data: {
-                company: "{{ $company->id }}",
+                company: "{{ isset($company) ? $company->id : '' }}",
                 type: type,
                 value: value
             },

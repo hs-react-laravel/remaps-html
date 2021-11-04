@@ -154,8 +154,8 @@ class CustomerController extends Controller
     {
         try{
             $user = User::find($id);
-            Auth::login($user);
-            return redirect()->away(url('/'));
+            Auth::guard('customer')->login($user);
+            return redirect()->away(url('customer/dashboard'));
         }catch(\Exception $e){
             session()->flash('error', __('admin.opps'));
             return redirect(url('admin/customer'));
