@@ -24,6 +24,8 @@ use App\Http\Controllers\Consumer\FileServiceController as FSController;
 use App\Http\Controllers\Consumer\TicketController as TKController;
 use App\Http\Controllers\Consumer\OrderController as ODController;
 use App\Http\Controllers\Consumer\TransactionController as TRController;
+use App\Http\Controllers\Frontend\CompanyController as FrontendCompanyController;
+use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Remaps\SliderManagerController;
 use App\Http\Controllers\Remaps\TuningEVCCreditController;
 
@@ -40,6 +42,21 @@ use App\Http\Controllers\Remaps\TuningEVCCreditController;
 
 // Remaps
 Auth::routes();
+Route::group(['domain' => 'frontend.pbxphonesystems.co.uk'], function () {
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+	Route::get('register-as-a-remapping-file-supplier', [HomeController::class, 'innerhome'])->name('innerhome');
+	Route::get('compare-prices', [FrontendCompanyController::class, 'companies'])->name('companies');
+	Route::get('/register-account', [FrontendCompanyController::class, 'create'])->name('register-account.create');
+	Route::get('thankyou', [FrontendCompanyController::class, 'thankyou'])->name('thankyou');
+
+	// route for post request
+	Route::post('paypal', [FrontendCompanyController::class, 'postPaymentWithpaypal'])->name('pay.with.paypal.main');
+	// route for check status responce
+	Route::get('paypal', [FrontendCompanyController::class, 'getPaymentStatus'])->name('paypal.payment.status.main');
+
+	Route::get('paypal/subscribe/execute', [FrontendCompanyController::class, 'executeSubscription'])->name('paypal.execute.subscription');
+	Route::get('paypal/subscribe/{package}', [FrontendCompanyController::class, 'subscribeSubscription'])->name('paypal.subscribe.subscription');
+});
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('company/fileservices', FileServiceController::class);
     Route::get('/company/fileservices/{id}/download-original', [FileServiceController::class, 'download_original'])->name('fileservice.download.original');
