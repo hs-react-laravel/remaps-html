@@ -15,7 +15,7 @@ a, a:hover{line-height: 100%; color: #000; display: inline-block; -webkit-transi
 .owl-theme .owl-controls{margin-top: 0;}
 .owl-controls .owl-pagination{display: none;}
 .main-heading{display: block; margin-bottom: 60px; text-align: center;}
-.main-heading h2{font-size: 42px;  font-weight:400; color: #333333; text-transform: uppercase;} 
+.main-heading h2{font-size: 42px;  font-weight:400; color: #333333; text-transform: uppercase;}
 .main-heading h2 strong{color: #1e74b7; font-weight: 600;}
 h3 {font-size:34px;}
 .main-heading p{font-size: 14px;color: #333;}
@@ -114,7 +114,7 @@ h3 {font-size:34px;}
 .home-block-04 .view-btn:hover, .home-block-04 .view-btn:focus {background:#fff; color: #1e74b7;}
 
 .view-btn.back-btn{margin:25px 0 20px;}
-.btn-success.view-btn, .back-btn{margin:15px 0 20px; padding:10px 25px; color:#fff !important; border-radius: 0; outline: none; background: #1e74b7; border:1px solid #ddd; text-transform: capitalize;} 
+.btn-success.view-btn, .back-btn{margin:15px 0 20px; padding:10px 25px; color:#fff !important; border-radius: 0; outline: none; background: #1e74b7; border:1px solid #ddd; text-transform: capitalize;}
 .btn-success.view-btn:hover, .btn-success.view-btn:focus, .back-btn:hover, .back-btn:focus{background:#000;}
 footer.footer{ border: 1px solid #ddd;}
 footer.footer p{font-size: 13px; margin: 0; padding: 30px 0 0; font-size: 13px;}
@@ -163,7 +163,7 @@ footer.footer p{font-size: 13px; margin: 0; padding: 30px 0 0; font-size: 13px;}
 
 
 /*Landing Page CSS*/
-.landing-block-outer{background:rgba(0, 0, 0, 0) url(../images/bg1.jpg) no-repeat scroll center center;background-size:cover;width:100%;height:100%;min-height:100vh;display:flex;padding:0 15px 50px;}
+.landing-block-outer{background:rgba(0, 0, 0, 0) url(../customimages/bg1.jpg) no-repeat scroll center center;background-size:cover;width:100%;height:100%;min-height:100vh;display:flex;padding:0 15px 50px;}
 .landing-block-inr{margin:auto;max-width:850px;position:relative;width:100%;}
 .landing-logo{margin:0 0 7%;}
 .landing-block-inr p{font-size:18px;line-height:26px;margin-bottom:3.5%;}
