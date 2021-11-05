@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Config;
 use App\Models\Company;
 
 class ForgotPasswordController extends Controller
@@ -28,6 +29,22 @@ class ForgotPasswordController extends Controller
         $this->company = Company::where('domain_link', url(''))->first();
         if (!$this->company){
             abort(400, 'No such domain('.url("").') is registerd with system. Please contact to webmaster.');
+        }
+        if ($this->company->mail_host && $this->company->mail_port && $this->company->mail_encryption
+            && $this->company->mail_username && $this->company->mail_password) {
+            Config::set('mail.driver', $this->company->mail_driver);
+            Config::set('mail.host', $this->company->mail_host);
+            Config::set('mail.port', $this->company->mail_port);
+            Config::set('mail.encryption', $this->company->mail_encryption);
+            Config::set('mail.username', $this->company->mail_username);
+            Config::set('mail.password', $this->company->mail_password);
+        } else {
+            Config::set('mail.driver', 'smtp');
+            Config::set('mail.host', 'mail.myremaps.com');
+            Config::set('mail.port', 25);
+            Config::set('mail.encryption', '');
+            Config::set('mail.username', 'noreply@myremaps.com');
+            Config::set('mail.password', '!Winston11!');
         }
         view()->share('company', $this->company);
     }
