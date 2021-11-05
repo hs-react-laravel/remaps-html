@@ -226,7 +226,8 @@ class SubscriptionController extends MasterController
         }
         else {
             try {
-                $url = "https://api.paypal.com/v1/billing/subscriptions/{$subscription->pay_agreement_id}/cancel";
+                // $url = "https://api.paypal.com/v1/billing/subscriptions/{$subscription->pay_agreement_id}/cancel";
+                $url = "https://api-m.sandbox.paypal.com/v1/billing/subscriptions/{$subscription->pay_agreement_id}/cancel";
 
                 $curl = curl_init($url);
                 curl_setopt($curl, CURLOPT_URL, $url);
