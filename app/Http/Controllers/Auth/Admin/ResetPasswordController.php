@@ -44,7 +44,7 @@ class ResetPasswordController extends Controller
         if(!$this->company){
             abort(400, 'No such domain('.url("").') is registerd with system. Please contact to webmaster.');
         }
-        view::share('company', $this->company);
+        view()->share('company', $this->company);
     }
 
     /**
@@ -64,7 +64,7 @@ class ResetPasswordController extends Controller
      */
     public function showResetForm(Request $request, $token = null)
     {
-        return view('auth.admin.passwords.reset')->with(
+        return view('auth.admin.reset')->with(
             ['token' => $token, 'email' => $request->email]
         );
     }

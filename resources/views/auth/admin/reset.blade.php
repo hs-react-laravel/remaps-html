@@ -18,52 +18,53 @@
           <img src="{{ asset('storage/uploads/logo/'.$company->logo) }}" style="width: 100%; height: 100%; border-radius: 5px"></a>
         </a>
 
-        <h4 class="card-title mb-1">Company Login</h4>
+        <h4 class="card-title mb-1">Reset Password 🔒</h4>
+        <p class="card-text mb-2">Your new password must be different from previously used passwords</p>
 
-        <form class="auth-login-form mt-2" action="{{ route('admin.auth.login') }}" method="POST">
+        <form class="auth-reset-password-form mt-2" action="{{ route('admin.auth.password.reset') }}" method="POST">
           @csrf
-          <div class="mb-1">
-            <label for="login-email" class="form-label">Email</label>
-            <input
-              type="text"
-              class="form-control"
-              id="login-email"
-              name="email"
-              placeholder="john@example.com"
-              aria-describedby="login-email"
-              tabindex="1"
-              autofocus
-            />
-          </div>
-
+          <input type="hidden" name="token" value="{{ $token }}">
           <div class="mb-1">
             <div class="d-flex justify-content-between">
-              <label class="form-label" for="login-password">Password</label>
-              <a href="{{route('admin.auth.show.password.reset')}}">
-                <small>Forgot Password?</small>
-              </a>
+              <label class="form-label" for="reset-password-new">New Password</label>
             </div>
             <div class="input-group input-group-merge form-password-toggle">
               <input
                 type="password"
                 class="form-control form-control-merge"
-                id="login-password"
+                id="reset-password-new"
                 name="password"
-                tabindex="2"
                 placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                aria-describedby="login-password"
+                aria-describedby="reset-password-new"
+                tabindex="1"
+                autofocus
               />
               <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
             </div>
           </div>
           <div class="mb-1">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="remember-me" tabindex="3" />
-              <label class="form-check-label" for="remember-me"> Remember Me </label>
+            <div class="d-flex justify-content-between">
+              <label class="form-label" for="reset-password-confirm">Confirm Password</label>
+            </div>
+            <div class="input-group input-group-merge form-password-toggle">
+              <input
+                type="password"
+                class="form-control form-control-merge"
+                id="reset-password-confirm"
+                name="password_confirmation"
+                placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                aria-describedby="reset-password-confirm"
+                tabindex="2"
+              />
+              <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
             </div>
           </div>
-          <button class="btn btn-primary w-100" tabindex="4">Sign in</button>
+          <button class="btn btn-primary w-100" tabindex="3">Set New Password</button>
         </form>
+
+        <p class="text-center mt-2">
+          <a href="{{url('auth/login-basic')}}"> <i data-feather="chevron-left"></i> Back to login </a>
+        </p>
 
       </div>
     </div>

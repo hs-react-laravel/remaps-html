@@ -37,7 +37,7 @@ class ForgotPasswordController extends Controller
         if(!$this->company){
             abort(400, 'No such domain('.url("").') is registerd with system. Please contact to webmaster.');
         }
-        view::share('company', $this->company);
+        view()->share('company', $this->company);
     }
 
     /**
@@ -47,7 +47,7 @@ class ForgotPasswordController extends Controller
      */
     public function showLinkRequestForm()
     {
-        return view('auth.admin.passwords.email');
+        return view('auth.admin.email');
     }
 
     /**
@@ -59,10 +59,10 @@ class ForgotPasswordController extends Controller
 
     public function sendResetLinkEmail(Request $request)
     {
-        
+
         $this->validate($request, ['email' => 'required|email']);
 
-        $user_check = \App\User::where('email', $request->email)->first();
+        $user_check = \App\Models\User::where('email', $request->email)->first();
 
         if($user_check){
             if($user_check->is_admin == 0){
