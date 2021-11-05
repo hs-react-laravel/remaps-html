@@ -29,6 +29,7 @@ use App\Http\Controllers\Frontend\CompanyController as FrontendCompanyController
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Remaps\SliderManagerController;
 use App\Http\Controllers\Remaps\TuningEVCCreditController;
+use App\Http\Controllers\PaypalWebhookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,6 +80,7 @@ Route::group(['middleware' => 'web', 'prefix'=>'admin'], function(){
 	Route::post('password/email', '\App\Http\Controllers\Auth\Admin\ForgotPasswordController@sendResetLinkEmail')->name('admin.auth.password.email');
 	Route::get('company/{company}/switch-account','\App\Http\Controllers\Auth\Admin\LoginController@switchAsCompany');
 });
+Route::post('/paypal/webhooks', [PaypalWebhookController::class, 'index']);
 Route::group(['prefix'=>'admin'], function () {
     Route::group(['middleware' => 'auth:admin'], function () {
         Route::get('/dashboard', [DashboardController::class, 'dashboardAdmin'])->name('dashboard.admin');
