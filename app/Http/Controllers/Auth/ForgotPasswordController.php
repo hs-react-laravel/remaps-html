@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
-
+use Illuminate\Support\Facades\Password;
 use App\Models\Company;
 
 class ForgotPasswordController extends Controller
@@ -30,5 +30,14 @@ class ForgotPasswordController extends Controller
             abort(400, 'No such domain('.url("").') is registerd with system. Please contact to webmaster.');
         }
         view()->share('company', $this->company);
+    }
+    /**
+     * Reset password broker.
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     */
+    public function broker() {
+
+        return Password::broker('customers');
     }
 }
