@@ -237,8 +237,10 @@ class PaypalWebhookController extends Controller{
         //     default:
         //     break;
         // }
+    }
 
-
+    public function subscription(Request $request) {
+        Log::error('subs');
     }
 
     public function getAccessToken() {
