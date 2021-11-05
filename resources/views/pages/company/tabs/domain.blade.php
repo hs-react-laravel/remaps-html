@@ -1,8 +1,4 @@
 <div class="tab-pane @if($tab == 'domain') active @endif" id="domain-fill" role="tabpanel" aria-labelledby="domain-tab-fill">
-  {{ $entry->id
-    ? Form::model($entry, array('route' => array('companies.update', $entry->id), 'method' => 'PUT'))
-    : Form::model($entry, array('route' => array('companies.store', $entry->id), 'method' => 'POST')) }}
-    @csrf
     <input type="hidden" name="tab" value="domain" />
     <div class="row">
       <div class="col-md-4 col-12">
@@ -21,5 +17,4 @@
         <button type="submit" class="btn btn-primary me-1">Submit</button>
       </div>
     </div>
-  {{ Form::close() }}
 </div>

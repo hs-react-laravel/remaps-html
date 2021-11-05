@@ -1,10 +1,4 @@
 <div class="tab-pane @if($tab == 'finance') active @endif" id="finance-fill" role="tabpanel" aria-labelledby="finance-tab-fill">
-  {{ $entry->id
-    ? Form::model($entry, array('route' => array('companies.update', $entry->id), 'method' => 'PUT'))
-    : Form::model($entry, array('route' => array('companies.store', $entry->id), 'method' => 'POST')) }}
-    @csrf
-    <input type="hidden" name="tab" value="finance" />
-
     <div class="row mb-1">
       <div class="col-md-6 col-xl-4">
         <label class="form-label" for="bank_account">Bank account <small class="text-muted">(optional)</small></label>

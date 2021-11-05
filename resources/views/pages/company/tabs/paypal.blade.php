@@ -1,9 +1,4 @@
 <div class="tab-pane @if($tab == 'paypal') active @endif" id="paypal-fill" role="tabpanel" aria-labelledby="paypal-tab-fill">
-  {{ $entry->id
-    ? Form::model($entry, array('route' => array('companies.update', $entry->id), 'method' => 'PUT'))
-    : Form::model($entry, array('route' => array('companies.store', $entry->id), 'method' => 'POST')) }}
-    @csrf
-    <input type="hidden" name="tab" value="paypal" />
     <p>
       <strong>Note: </strong>
       To generate your API credientials log in with your Paypal Account at:
@@ -61,5 +56,4 @@
     <div class="col-12">
       <button type="submit" class="btn btn-primary me-1">Submit</button>
     </div>
-  {{ Form::close() }}
 </div>

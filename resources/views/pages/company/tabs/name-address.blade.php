@@ -1,9 +1,4 @@
 <div class="tab-pane @if($tab == 'name') active @endif" id="name-fill" role="tabpanel" aria-labelledby="name-tab-fill">
-  {{ $entry->id
-    ? Form::model($entry, array('route' => array('companies.update', $entry->id), 'method' => 'PUT', 'enctype' => 'multipart/form-data'))
-    : Form::model($entry, array('route' => array('companies.store', $entry->id), 'method' => 'POST', 'enctype' => 'multipart/form-data')) }}
-    <input type="hidden" name="tab" value="name" />
-    @csrf
     <div class="row">
       <div class="col-md-4 col-12">
         <div class="mb-1">
@@ -140,5 +135,4 @@
         <button type="submit" class="btn btn-primary me-1">Submit</button>
       </div>
     </div>
-  {{ Form::close() }}
 </div>

@@ -28,7 +28,7 @@
           <!-- Nav tabs -->
           <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
             @foreach ($tabs as $tabName => $tabTitle)
-              <li class="nav-item">
+              <li class="nav-item" onclick="onTabClick('{{$tabName}}')">
                 <a
                   class="nav-link @if($tab == $tabName) active @endif"
                   id="{{$tabName}}-tab-fill"
@@ -42,6 +42,11 @@
             @endforeach
           </ul>
 
+          {{ $entry->id
+            ? Form::model($entry, array('route' => array('companies.update', $entry->id), 'method' => 'PUT', 'enctype' => 'multipart/form-data'))
+            : Form::model($entry, array('route' => array('companies.store', $entry->id), 'method' => 'POST', 'enctype' => 'multipart/form-data')) }}
+            <input type="hidden" name="tab" value="name" />
+            @csrf
           <!-- Tab panes -->
           <div class="tab-content pt-1">
             @include('pages.company.tabs.name-address')
@@ -53,6 +58,7 @@
             @include('pages.company.tabs.paypal')
             @include('pages.company.tabs.stripe')
           </div>
+          {{ Form::close() }}
         </div>
       </div>
     </div>
@@ -105,6 +111,9 @@
       if (file) {
         logo.src = URL.createObjectURL(file)
       }
+    }
+    function onTabClick(tab) {
+      $('input[name="tab"]').val(tab);
     }
   </script>
 @endsection

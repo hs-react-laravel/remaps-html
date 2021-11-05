@@ -1,9 +1,4 @@
 <div class="tab-pane @if($tab == 'stripe') active @endif" id="stripe-fill" role="tabpanel" aria-labelledby="stripe-tab-fill">
-    {{ $entry->id
-      ? Form::model($entry, array('route' => array('companies.update', $entry->id), 'method' => 'PUT'))
-      : Form::model($entry, array('route' => array('companies.store', $entry->id), 'method' => 'POST')) }}
-      @csrf
-      <input type="hidden" name="tab" value="stripe" />
       <div class="row mb-1">
         <div class="col-xl-4 col-md-6">
           <label class="form-label" for="stripe_key">Stripe key<small class="text-muted">(optional)</small></label>
@@ -31,5 +26,4 @@
       <div class="col-12">
         <button type="submit" class="btn btn-primary me-1">Submit</button>
       </div>
-    {{ Form::close() }}
   </div>

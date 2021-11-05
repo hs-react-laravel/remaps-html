@@ -1,9 +1,4 @@
 <div class="tab-pane @if($tab == 'note') active @endif" id="note-fill" role="tabpanel" aria-labelledby="evc-tab-fill">
-  {{ $entry->id
-    ? Form::model($entry, array('route' => array('companies.update', $entry->id), 'method' => 'PUT'))
-    : Form::model($entry, array('route' => array('companies.store', $entry->id), 'method' => 'POST')) }}
-    @csrf
-    <input type="hidden" name="tab" value="note" />
     <div class="row">
       <div class="col-6">
         <div class="mb-1">
@@ -21,5 +16,4 @@
     <div class="col-12">
       <button type="submit" class="btn btn-primary me-1">Submit</button>
     </div>
-  {{ Form::close() }}
 </div>
