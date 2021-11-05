@@ -105,6 +105,7 @@
         <h2 class="card-title fw-bold mb-1">Forgot Password? 🔒</h2>
         <p class="card-text mb-2">Enter your email and we'll send you instructions to reset your password</p>
         <form class="auth-forgot-password-form mt-2" action="{{route('password.email')}}" method="POST">
+          @csrf
           <div class="mb-1">
             <label class="form-label" for="forgot-password-email">Email</label>
             <input class="form-control" id="forgot-password-email" type="text" name="email" placeholder="john@example.com" aria-describedby="forgot-password-email" autofocus="" tabindex="1" />
