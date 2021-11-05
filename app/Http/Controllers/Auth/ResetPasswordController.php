@@ -7,6 +7,8 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Support\Facades\Password;
 
+use App\Models\Company;
+
 class ResetPasswordController extends Controller
 {
     /*
@@ -28,6 +30,16 @@ class ResetPasswordController extends Controller
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::HOME;
+
+    public function __construct()
+    {
+        $this->middleware('guest')->except('logout');
+        $this->company = Company::where('domain_link', url(''))->first();
+        if (!$this->company){
+            abort(400, 'No such domain('.url("").') is registerd with system. Please contact to webmaster.');
+        }
+        view()->share('company', $this->company);
+    }
 
     public function broker() {
         return Password::broker('customers');
