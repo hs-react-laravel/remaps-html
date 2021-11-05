@@ -42,7 +42,7 @@
                 type="button"
                 class="btn btn-outline-info me-2"
                 onclick="onPaypalButton(this)">
-                <i class="fab fa-cc-paypal" style="font-size: 30px"></i>
+                Paypal
               </button>
               <button
                 type="button"
@@ -52,7 +52,7 @@
                 data-group="{{ $tuningCreditGroup->id }}"
                 data-tire="{{ $tire->id }}"
                 onclick="onStripeButton(this)">
-                <i class="fab fa-cc-stripe" style="font-size: 30px"></i>
+                Stripe
               </button>
               <form action="{{ route('consumer.buy-credits.handle') }}" method="POST" id="paypal-form">
                 @csrf
