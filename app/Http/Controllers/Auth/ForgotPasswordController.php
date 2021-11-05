@@ -38,6 +38,8 @@ class ForgotPasswordController extends Controller
             Config::set('mail.encryption', $this->company->mail_encryption);
             Config::set('mail.username', $this->company->mail_username);
             Config::set('mail.password', $this->company->mail_password);
+            Config::set('mail.from.address', $this->company->mail_username);
+            Config::set('mail.from.name', $this->company->name);
         } else {
             Config::set('mail.driver', 'smtp');
             Config::set('mail.host', 'mail.myremaps.com');
@@ -45,6 +47,8 @@ class ForgotPasswordController extends Controller
             Config::set('mail.encryption', '');
             Config::set('mail.username', 'noreply@myremaps.com');
             Config::set('mail.password', '!Winston11!');
+            Config::set('mail.from.address', 'noreply@myremaps.com');
+            Config::set('mail.from.name', '!Winston11!');
         }
         view()->share('company', $this->company);
     }
