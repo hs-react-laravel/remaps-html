@@ -155,6 +155,15 @@
           <i class="me-50" data-feather="user"></i> Profile
         </a>
         @if (Auth::guard('admin')->check())
+          <a class="dropdown-item" href="{{ route('admin.auth.logout') }}"
+            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            <i class="me-50" data-feather="power"></i> Logout
+          </a>
+          <form method="POST" id="logout-form" action="{{ route('admin.auth.logout') }}">
+            @csrf
+          </form>
+        @endif
+        @if (Auth::guard('customer')->check())
           <a class="dropdown-item" href="{{ route('logout') }}"
             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
             <i class="me-50" data-feather="power"></i> Logout
