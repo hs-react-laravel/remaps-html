@@ -43,6 +43,7 @@ use App\Http\Controllers\PaypalWebhookController;
 */
 
 // Remaps
+Route::post('paypal/webhooks', [PaypalWebhookController::class, 'index']);
 Route::group(['domain' => 'frontend.pbxphonesystems.co.uk'], function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
 	Route::get('register-as-a-remapping-file-supplier', [HomeController::class, 'innerhome'])->name('innerhome');
@@ -80,7 +81,6 @@ Route::group(['middleware' => 'web', 'prefix'=>'admin'], function(){
 	Route::post('password/email', '\App\Http\Controllers\Auth\Admin\ForgotPasswordController@sendResetLinkEmail')->name('admin.auth.password.email');
 	Route::get('company/{company}/switch-account','\App\Http\Controllers\Auth\Admin\LoginController@switchAsCompany');
 });
-Route::post('/paypal/webhooks', [PaypalWebhookController::class, 'index']);
 Route::group(['prefix'=>'admin'], function () {
     Route::group(['middleware' => 'auth:admin'], function () {
         Route::get('/dashboard', [DashboardController::class, 'dashboardAdmin'])->name('dashboard.admin');
