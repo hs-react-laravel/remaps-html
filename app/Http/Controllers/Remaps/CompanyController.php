@@ -383,7 +383,7 @@ class CompanyController extends Controller
                         try{
                             Mail::to($companyUser->email)->send(new WelcomeCustomer($companyUser, $token));
                         }catch(\Exception $e){
-                            session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
+                            session()->flash('error', $e->getMessage());
                         }
                     }
                 }
