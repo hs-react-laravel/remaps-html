@@ -62,7 +62,7 @@
                       class="btn btn-icon btn-danger"
                       title="Cancel this subscription immediately"
                       href="{{ route('subscriptions.suspend', ['id' => $entry->id]) }}" >
-                      <i data-feather="shield-off"></i>
+                      <i data-feather="pause"></i>
                     </a>
                   </td>
                 </tr>

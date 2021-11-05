@@ -300,6 +300,13 @@ class SubscriptionController extends MasterController
                 curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
                 $resp = curl_exec($curl);
                 curl_close($curl);
+
+                $subscription->status = 'Suspended';
+                if($subscription->save()){
+                    // \Alert::success(__('admin.company_cancelled_subscription'))->flash();
+                }else{
+                    // \Alert::error(__('admin.opps'))->flash();
+                }
                 // \Alert::success(__('admin.company_cancelled_subscription'))->flash();
             }catch(\Exception $e){
                 // \Alert::error($e->getMessage())->flash();
