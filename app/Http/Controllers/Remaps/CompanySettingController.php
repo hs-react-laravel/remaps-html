@@ -16,7 +16,7 @@ class CompanySettingController extends MasterController
         ]);
     }
 
-    public function store(CompanySettingRequest $request) {
+    public function store(Request $request) {
         try {
             // upload file
             if ($request->file('upload_file')) {
