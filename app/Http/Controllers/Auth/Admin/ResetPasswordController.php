@@ -52,7 +52,7 @@ class ResetPasswordController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    protected function guard()
+    public function guard()
     {
         return Auth::guard('admin');
     }
@@ -75,7 +75,6 @@ class ResetPasswordController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function broker() {
-
         return Password::broker('admins');
     }
 }

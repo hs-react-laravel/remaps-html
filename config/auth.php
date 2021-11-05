@@ -120,8 +120,8 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
-        'companies' => [
-            'provider' => 'companies',
+        'admins' => [
+            'provider' => 'admins',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
