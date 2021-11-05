@@ -52,12 +52,4 @@ class ResetPasswordController extends Controller
     {
         return Auth::guard('customer');
     }
-
-    // public function resetPassword($user, $password)
-    // {
-    //     $this->setUserPassword($user, $password);
-    //     $user->setRememberToken(Str::random(60));
-    //     $user->save();
-    //     event(new PasswordReset($user));
-    // }
 }
