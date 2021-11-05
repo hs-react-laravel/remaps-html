@@ -122,7 +122,7 @@
         </div>
         <h2 class="card-title fw-bold mb-1">Reset Password 🔒</h2>
         <p class="card-text mb-2">Your new password must be different from previously used passwords</p>
-        <form class="auth-reset-password-form mt-2" action="{{route('password.update')}}" method="GET">
+        <form class="auth-reset-password-form mt-2" action="{{route('password.update')}}" method="POST">
           @csrf
           <input type="hidden" name="token" value="{{ $token }}">
           <input id="email" type="hidden" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
