@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Remaps;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\MasterController;
 use App\Http\Requests\EmailTemplateRequest;
 use App\Models\EmailTemplate;
 
-class EmailTemplateController extends Controller
+class EmailTemplateController extends MasterController
 {
     /**
      * Display a listing of the resource.

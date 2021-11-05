@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Consumer;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\MasterController;
 use App\Mail\FileServiceCreated;
 use App\Mail\FileServiceLimited;
 use App\Mail\TicketCreated;
@@ -11,10 +11,10 @@ use App\Models\FileService;
 use App\Models\TuningType;
 use App\Models\Transaction;
 use App\Models\Ticket;
-use Storage;
-use File;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 
-class FileServiceController extends Controller
+class FileServiceController extends MasterController
 {
     /**
      * Display a listing of the resource.

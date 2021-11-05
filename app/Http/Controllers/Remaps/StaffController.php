@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Remaps;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\MasterController;
 use App\Http\Requests\StaffRequest;
 use App\Mail\WelcomeCustomer;
 use App\Models\User;
 
 use Mail;
 
-class StaffController extends Controller
+class StaffController extends MasterController
 {
     /**
      * Display a listing of the resource.

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Remaps;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\MasterController;
 use App\Http\Requests\TicketsRequest;
 use App\Models\Ticket;
 use App\Models\FileService;
@@ -13,7 +13,7 @@ use App\Mail\TicketFileCreated;
 use Mail;
 use File;
 
-class TicketController extends Controller
+class TicketController extends MasterController
 {
     /**
      * Display a listing of the resource.

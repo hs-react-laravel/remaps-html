@@ -11,10 +11,10 @@ use App\Mail\CompanyActivateEmail;
 use App\Mail\WelcomeCustomer;
 use App\Models\User;
 use App\Models\Company;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\MasterController;
 use App\Http\Requests\CompanyRequest;
 
-class CompanyController extends Controller
+class CompanyController extends MasterController
 {
     /**
      * Display a listing of the resource.

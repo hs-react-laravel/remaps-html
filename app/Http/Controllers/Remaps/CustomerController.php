@@ -7,12 +7,12 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\TuningCreditGroup;
 use App\Models\Transaction;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\MasterController;
 use App\Http\Requests\CustomerRequest;
 use App\Mail\WelcomeCustomer;
 use Illuminate\Support\Facades\Mail;
 
-class CustomerController extends Controller
+class CustomerController extends MasterController
 {
     /**
      * Display a listing of the resource.

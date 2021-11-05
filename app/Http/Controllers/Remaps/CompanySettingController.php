@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Remaps;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\MasterController;
 use App\Http\Requests\CompanySettingRequest;
 
-class CompanySettingController extends Controller
+class CompanySettingController extends MasterController
 {
     //
     public function company_setting() {

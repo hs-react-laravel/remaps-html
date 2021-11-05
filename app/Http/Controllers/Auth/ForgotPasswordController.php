@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 
+use App\Models\Company;
+
 class ForgotPasswordController extends Controller
 {
     /*
@@ -19,4 +21,14 @@ class ForgotPasswordController extends Controller
     */
 
     use SendsPasswordResetEmails;
+
+    public function __construct()
+    {
+        $this->middleware('guest')->except('logout');
+        $this->company = Company::where('domain_link', url(''))->first();
+        if (!$this->company){
+            abort(400, 'No such domain('.url("").') is registerd with system. Please contact to webmaster.');
+        }
+        view()->share('company', $this->company);
+    }
 }

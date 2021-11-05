@@ -3,18 +3,15 @@
 namespace App\Http\Controllers\Consumer;
 
 use App\Models\TuningCreditGroup;
-use App\Models\TuningCreditTire;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\MasterController;
 use PayPalCheckoutSdk\Core\PayPalHttpClient;
 use PayPalCheckoutSdk\Core\SandboxEnvironment;
 use PayPalCheckoutSdk\Orders\OrdersCreateRequest;
 use PayPalCheckoutSdk\Orders\OrdersCaptureRequest;
 use Stripe\StripeClient;
 
-use Session;
-
-class BuyTuningCreditsController extends Controller
+class BuyTuningCreditsController extends MasterController
 {
     protected $paypal_client;
     public function __construct() {

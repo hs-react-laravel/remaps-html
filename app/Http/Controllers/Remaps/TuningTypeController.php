@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Remaps;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\MasterController;
 use App\Http\Requests\TuningTypeRequest;
 use App\Models\TuningType;
 
-class TuningTypeController extends Controller
+class TuningTypeController extends MasterController
 {
     /**
      * Display a listing of the resource.

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Consumer;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\MasterController;
 use App\Models\Order;
 
-class OrderController extends Controller
+class OrderController extends MasterController
 {
     /**
      * Display a listing of the resource.

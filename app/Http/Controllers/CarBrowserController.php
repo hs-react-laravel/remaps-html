@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Car;
 
-class CarBrowserController extends Controller
+class CarBrowserController extends MasterController
 {
     public function index()
     {

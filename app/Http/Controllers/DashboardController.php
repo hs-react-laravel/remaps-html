@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\MasterController;
 use App\Http\Requests\AccountInfoRequest;
 use App\Models\CustomerRating;
 use App\Models\Company;
 
-class DashboardController extends Controller
+class DashboardController extends MasterController
 {
     // Dashboard - Ecommerce
     public function dashboardAdmin()

@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Remaps;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\MasterController;
 use App\Http\Requests\TuningCreditGroupRequest;
 use App\Http\Requests\TuningCreditTireRequest;
 use App\Models\TuningCreditGroup;
 use App\Models\TuningCreditTire;
 
-class TuningCreditController extends Controller
+class TuningCreditController extends MasterController
 {
     /**
      * Display a listing of the resource.

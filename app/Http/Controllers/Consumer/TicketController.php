@@ -3,16 +3,15 @@
 namespace App\Http\Controllers\Consumer;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\File;
+use App\Http\Controllers\MasterController;
 use App\Models\Ticket;
 use App\Models\FileService;
 use App\Mail\TicketCreated;
 use App\Mail\TicketReply;
 
-use File;
-use Mail;
-
-class TicketController extends Controller
+class TicketController extends MasterController
 {
     /**
      * Display a listing of the resource.
