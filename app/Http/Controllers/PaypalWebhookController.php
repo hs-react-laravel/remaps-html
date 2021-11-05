@@ -16,7 +16,7 @@ use App\Models\Subscription;
 use PayPal\Rest\ApiContext;
 use PayPal\Api\Agreement;
 use App\Models\Company;
-use Mail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 
 class PaypalWebhookController extends Controller{
@@ -240,7 +240,34 @@ class PaypalWebhookController extends Controller{
     }
 
     public function subscription(Request $request) {
-        Log::error('subs');
+        $resource = $request->resource;
+        $subscription = Subscription::where('pay_agreement_id', @$resource['billing_agreement_id'])->first();
+
+        if($subscription){
+            $billingInfo = $this->getSubscriptionBillingInfo($subscription->pay_agreement_id);
+
+            $subscriptionPayment = SubscriptionPayment::where('pay_txn_id', $resource['id'])->first();
+            if(!$subscriptionPayment){
+                $subscriptionPayment = new SubscriptionPayment();
+            }
+            $subscriptionPayment->subscription_id = $subscription->id;
+            $subscriptionPayment->pay_txn_id = $resource['id'];
+            $subscriptionPayment->next_billing_date = \Carbon\Carbon::parse($billingInfo->next_billing_time)->format('Y-m-d H:i:s');
+            $subscriptionPayment->last_payment_date  = \Carbon\Carbon::parse($billingInfo->last_payment->time)->format('Y-m-d H:i:s');
+            if(isset($billingInfo->last_payment->amount->value)) {
+                $subscriptionPayment->last_payment_amount  = $billingInfo->last_payment->amount->value;
+            }
+
+            $subscriptionPayment->failed_payment_count  = $billingInfo->failed_payments_count;
+            $subscriptionPayment->status = $resource['state'];
+
+            if($subscriptionPayment->save()){
+                Mail::to($this->master->owner->email)->send(new BillingPaymentCompleted($subscription));
+            }
+            Log::info('PAYMENT.SALE.COMPLETED:: Payment sale completed.');
+        }else{
+            Log::info('PAYMENT.SALE.COMPLETED:: Agreement doesn\'t exists.');
+        }
     }
 
     public function getAccessToken() {
