@@ -131,7 +131,16 @@
               <label class="form-label" for="reset-password-new">New Password</label>
             </div>
             <div class="input-group input-group-merge form-password-toggle">
-              <input class="form-control form-control-merge" id="reset-password-new" type="password" name="password" placeholder="············" aria-describedby="reset-password-new" autofocus="" tabindex="1" />
+              <input
+                class="form-control form-control-merge"
+                id="reset-password-new"
+                type="password"
+                name="password"
+                placeholder="············"
+                aria-describedby="reset-password-new"
+                autofocus=""
+                tabindex="1"
+                autocomplete="new-password" />
               <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
             </div>
           </div>
@@ -140,7 +149,15 @@
               <label class="form-label" for="reset-password-confirm">Confirm Password</label>
             </div>
             <div class="input-group input-group-merge form-password-toggle">
-              <input class="form-control form-control-merge" id="reset-password-confirm" type="password" name="password_confirmation" placeholder="············" aria-describedby="reset-password-confirm" tabindex="2" />
+              <input
+                class="form-control form-control-merge"
+                id="reset-password-confirm"
+                type="password"
+                name="password_confirmation"
+                placeholder="············"
+                aria-describedby="reset-password-confirm"
+                tabindex="2"
+                autocomplete="new-password" />
               <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
             </div>
           </div>
