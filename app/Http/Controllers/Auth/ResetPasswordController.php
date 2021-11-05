@@ -35,7 +35,7 @@ class ResetPasswordController extends Controller
 
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest:customer');
         $this->company = Company::where('domain_link', url(''))->first();
         if (!$this->company){
             abort(400, 'No such domain('.url("").') is registerd with system. Please contact to webmaster.');
@@ -47,11 +47,11 @@ class ResetPasswordController extends Controller
         return Password::broker('customers');
     }
 
-    protected function resetPassword($user, $password)
-    {
-        $this->setUserPassword($user, $password);
-        $user->setRememberToken(Str::random(60));
-        $user->save();
-        event(new PasswordReset($user));
-    }
+    // public function resetPassword($user, $password)
+    // {
+    //     $this->setUserPassword($user, $password);
+    //     $user->setRememberToken(Str::random(60));
+    //     $user->save();
+    //     event(new PasswordReset($user));
+    // }
 }
