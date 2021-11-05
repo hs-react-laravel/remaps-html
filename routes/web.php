@@ -42,6 +42,22 @@ use App\Http\Controllers\Remaps\TuningEVCCreditController;
 */
 
 // Remaps
+Route::group(['domain' => 'frontend.pbxphonesystems.co.uk'], function () {
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+	Route::get('register-as-a-remapping-file-supplier', [HomeController::class, 'innerhome'])->name('innerhome');
+	Route::get('compare-prices', [FrontendCompanyController::class, 'companies'])->name('companies');
+	Route::get('/register-account', [FrontendCompanyController::class, 'create'])->name('register-account.create');
+	Route::get('thankyou', [FrontendCompanyController::class, 'thankyou'])->name('thankyou');
+
+	// route for post request
+	Route::post('paypal', [FrontendCompanyController::class, 'postPaymentWithpaypal'])->name('pay.with.paypal.main');
+	// route for check status responce
+	Route::get('paypal', [FrontendCompanyController::class, 'getPaymentStatus'])->name('paypal.payment.status.main');
+
+	Route::get('paypal/subscribe/execute', [FrontendCompanyController::class, 'executeSubscription'])->name('paypal.execute.subscription');
+	Route::get('paypal/subscribe/{package}', [FrontendCompanyController::class, 'subscribeSubscription'])->name('paypal.subscribe.subscription');
+});
+
 Auth::routes();
 
 Route::get('/admin', function () {
@@ -175,18 +191,4 @@ Route::group(['middleware' => 'auth:customer'], function () {
     Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 });
 
-Route::group(['domain' => 'frontend.pbxphonesystems.co.uk'], function () {
-    Route::get('/', [HomeController::class, 'index'])->name('home');
-	Route::get('register-as-a-remapping-file-supplier', [HomeController::class, 'innerhome'])->name('innerhome');
-	Route::get('compare-prices', [FrontendCompanyController::class, 'companies'])->name('companies');
-	Route::get('/register-account', [FrontendCompanyController::class, 'create'])->name('register-account.create');
-	Route::get('thankyou', [FrontendCompanyController::class, 'thankyou'])->name('thankyou');
 
-	// route for post request
-	Route::post('paypal', [FrontendCompanyController::class, 'postPaymentWithpaypal'])->name('pay.with.paypal.main');
-	// route for check status responce
-	Route::get('paypal', [FrontendCompanyController::class, 'getPaymentStatus'])->name('paypal.payment.status.main');
-
-	Route::get('paypal/subscribe/execute', [FrontendCompanyController::class, 'executeSubscription'])->name('paypal.execute.subscription');
-	Route::get('paypal/subscribe/{package}', [FrontendCompanyController::class, 'subscribeSubscription'])->name('paypal.subscribe.subscription');
-});
