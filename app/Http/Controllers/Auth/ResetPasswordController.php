@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\Company;
 
@@ -45,6 +46,11 @@ class ResetPasswordController extends Controller
 
     public function broker() {
         return Password::broker('customers');
+    }
+
+    protected function guard()
+    {
+        return Auth::guard('customer');
     }
 
     // public function resetPassword($user, $password)
