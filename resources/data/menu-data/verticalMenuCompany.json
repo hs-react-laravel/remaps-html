@@ -59,6 +59,12 @@
         "slug": "tuning-types.index"
     },
     {
+        "url": "admin/staffs",
+        "name": "Staffs",
+        "icon": "user-check",
+        "slug": "staffs.index"
+    },
+    {
         "url": "admin/subscriptions",
         "name": "My Subscriptions",
         "icon": "award",

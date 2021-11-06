@@ -84,7 +84,7 @@ class LoginController extends Controller
 		$email = $request->get($this->username());
         $user = User::where($this->username(), $email)->first();
         if (!empty($user)) {
-            if ($user->is_admin == 0) {
+            if ($user->is_admin == 0 && $user->is_staff == null) {
                 return redirect('admin/login')->with(['status'=>'error', 'error'=>__('auth.invalid_admin_privilege')]);
             }
 			if ($user->is_active == 0) {
@@ -108,12 +108,12 @@ class LoginController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    protected function credentials(Request $request) {
-        $credentials = $request->only($this->username(), 'password');
-        $credentials['is_admin'] = 1;
-        $credentials['company_id'] = $this->company->id;
-        return $credentials;
-    }
+    // protected function credentials(Request $request) {
+    //     $credentials = $request->only($this->username(), 'password');
+    //     $credentials['is_admin'] = 1;
+    //     $credentials['company_id'] = $this->company->id;
+    //     return $credentials;
+    // }
 
     /**
      * Get the failed login response instance.

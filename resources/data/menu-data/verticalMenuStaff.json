@@ -5,19 +5,19 @@
       "slug": ""
     },
     {
-        "url": "/",
+        "url": "admin/dashboard",
         "name": "Dashboards",
         "icon": "home",
-        "slug": "dashboard"
+        "slug": "dashboard.admin"
     },
     {
-        "url": "company/fileservices",
+        "url": "admin/fileservices",
         "name": "File Services",
         "icon": "file",
         "slug": "fileservices.index"
     },
     {
-        "url": "company/tickets",
+        "url": "admin/tickets",
         "name": "Support Tickets",
         "icon": "message-circle",
         "slug": "tickets.index"

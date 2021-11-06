@@ -11,8 +11,9 @@
 @section('content')
 
 <section id="basic-input">
-  <form action="{{ route('staffs.store') }}" method="post">
+  <form action="{{ route('staffs.update', ['staff' => $entry->id]) }}" method="post">
     @csrf
+    <input type="hidden" name="_method" value="PUT">
     <div class="row">
       <div class="col-md-12">
         <div class="card">

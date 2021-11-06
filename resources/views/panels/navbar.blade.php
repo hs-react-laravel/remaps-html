@@ -137,8 +137,7 @@
           <span class="user-name fw-bolder">
             @if (Auth::guard('admin')->check())
               {{ Auth::guard('admin')->user()->fullname }}
-            @endif
-            @if (Auth::guard('customer')->check())
+            @elseif (Auth::guard('customer')->check())
               {{ Auth::guard('customer')->user()->fullname }}
             @endif
           </span>
@@ -165,8 +164,7 @@
           <form method="POST" id="logout-form" action="{{ route('admin.auth.logout') }}">
             @csrf
           </form>
-        @endif
-        @if (Auth::guard('customer')->check())
+        @elseif (Auth::guard('customer')->check())
           <a class="dropdown-item" href="{{ route('logout') }}"
             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
             <i class="me-50" data-feather="power"></i> Logout
