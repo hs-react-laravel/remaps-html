@@ -100,9 +100,9 @@ class TuningCreditController extends MasterController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(TuningCreditGroupRequest $request, $id)
+    public function update(TuningCreditGroupRequest $request)
     {
-        $tuningCreditGroup = TuningCreditGroup::find($id);
+        $tuningCreditGroup = TuningCreditGroup::find($request->get('id'));
         $tuningCreditGroup->update($request->all());
         if($request->has('credit_tires')){
             $tuningCreditGroup->tuningCreditTires()->sync($request->credit_tires);
