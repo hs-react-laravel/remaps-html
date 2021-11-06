@@ -15,7 +15,7 @@ class AdminFileServiceRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::check() && Auth::user()->is_admin == 1;
+        return Auth::check() && Auth::user()->is_admin == 1 || Auth::user()->is_staff == 1;
     }
 
     /**
@@ -38,7 +38,7 @@ class AdminFileServiceRequest extends FormRequest
             case 'PATCH': {
                     return [
                         'notes_by_engineer' => 'bail|nullable|string',
-                        'file' => 'bail|nullable',
+                        'upload_file' => 'bail|nullable',
                     ];
                 }
             default:break;
@@ -55,9 +55,9 @@ class AdminFileServiceRequest extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            if($this->has('file')){
-                if ($this->file('file')->getClientSize() > '10485760') {
-                    $validator->errors()->add('file', 'File shouldn\'t be greater than 10 MB. Please select another file.');
+            if($this->has('upload_file')){
+                if ($this->file('upload_file')->getSize() > '10485760') {
+                    $validator->errors()->add('upload_file', 'File shouldn\'t be greater than 10 MB. Please select another file.');
                 }
             }
 

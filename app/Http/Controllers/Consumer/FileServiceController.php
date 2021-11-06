@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Consumer;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\MasterController;
+use App\Http\Requests\FileServiceRequest;
 use App\Mail\FileServiceCreated;
 use App\Mail\FileServiceLimited;
 use App\Mail\TicketCreated;
@@ -55,61 +56,64 @@ class FileServiceController extends MasterController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(FileServiceRequest $request)
     {
-        $open_status = $this->open_status();
-        if ($open_status == 1) { // allow file service
-            session()->flash('warning', __('File Services are closed.'));
-        } else if ($open_status == 2) { // deny file service
-            session()->flash('warning', __('File Services are closed.'));
-            return redirect(url('customer/file-service'));
-        }
-        // upload file
-        $file = $request->file('upload_file');
-        $filename = time() . '.' . $file->getClientOriginalExtension();
-        $file->move(storage_path('app/public/uploads/file-services/orginal'), $filename);
-        // save once
-        $request->request->add([
-            'user_id' => $this->user->id,
-            'orginal_file' => $filename,
-        ]);
-        $fileService = FileService::create($request->all());
-        $fileService->save();
-        // save tuning options and sum credits
-        $tuningTypeCredits = $fileService->tuningType->credits;
-        if($request->has('tuning_type_options')){
-            $fileService->tuningTypeOptions()->sync($request->tuning_type_options);
-            $tuningTypeOptionsCredits = $fileService->tuningTypeOptions()->sum('credits');
-            $tuningTypeCredits = ($tuningTypeCredits + $tuningTypeOptionsCredits);
-        }
-        /* save user credits */
-        $user = $fileService->user;
-        $totalCredits = ($user->tuning_credits - $tuningTypeCredits);
-        $user->tuning_credits = $totalCredits;
-        $user->save();
-        /* save file service displayable id */
-        $displableId = FileService::wherehas('user', function($query) use($user){
-            $query->where('company_id', $user->company_id);
-        })->max('displayable_id');
-        $displableId++;
-        $fileService->displayable_id = $displableId;
-        $fileService->save();
-        /* save transaction */
-        $transaction = new Transaction();
-        $transaction->user_id       =   $user->id;
-        $transaction->credits       =   number_format($tuningTypeCredits, 2);
-        $transaction->description   =   "File Service: " . $fileService->car;
-        $transaction->status        =   config('constants.transaction_status.completed');
-        $transaction->type          =   'S';
-        $transaction->save();
-        try{
-            if ($open_status == -1) {
-                Mail::to($this->company->owner->email)->send(new FileServiceCreated($fileService));
-            } else if ($open_status == 1) {
-                Mail::to($user->email)->send(new FileServiceLimited($fileService));
+        try {
+            $open_status = $this->open_status();
+            if ($open_status == 1) { // allow file service
+                session()->flash('warning', __('File Services are closed.'));
+            } else if ($open_status == 2) { // deny file service
+                session()->flash('warning', __('File Services are closed.'));
+                return redirect(url('customer/file-service'));
             }
-        }catch(\Exception $e){
-            session()->flash('error', __('admin.opps'));
+            // upload file
+            $file = $request->file('upload_file');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(storage_path('app/public/uploads/file-services/orginal'), $filename);
+            // save once
+            $request->request->add([
+                'orginal_file' => $filename,
+            ]);
+            $fileService = FileService::create($request->all());
+            $fileService->save();
+            // save tuning options and sum credits
+            $tuningTypeCredits = $fileService->tuningType->credits;
+            if($request->has('tuning_type_options')){
+                $fileService->tuningTypeOptions()->sync($request->tuning_type_options);
+                $tuningTypeOptionsCredits = $fileService->tuningTypeOptions()->sum('credits');
+                $tuningTypeCredits = ($tuningTypeCredits + $tuningTypeOptionsCredits);
+            }
+            /* save user credits */
+            $user = $fileService->user;
+            $totalCredits = ($user->tuning_credits - $tuningTypeCredits);
+            $user->tuning_credits = $totalCredits;
+            $user->save();
+            /* save file service displayable id */
+            $displableId = FileService::wherehas('user', function($query) use($user){
+                $query->where('company_id', $user->company_id);
+            })->max('displayable_id');
+            $displableId++;
+            $fileService->displayable_id = $displableId;
+            $fileService->save();
+            /* save transaction */
+            $transaction = new Transaction();
+            $transaction->user_id       =   $user->id;
+            $transaction->credits       =   number_format($tuningTypeCredits, 2);
+            $transaction->description   =   "File Service: " . $fileService->car;
+            $transaction->status        =   config('constants.transaction_status.completed');
+            $transaction->type          =   'S';
+            $transaction->save();
+            try{
+                if ($open_status == -1) {
+                    Mail::to($this->company->owner->email)->send(new FileServiceCreated($fileService));
+                } else if ($open_status == 1) {
+                    Mail::to($user->email)->send(new FileServiceLimited($fileService));
+                }
+            }catch(\Exception $ex){
+                session()->flash('error', $ex->getMessage());
+            }
+        } catch (\Exception $ex) {
+            session()->flash('error', $ex->getMessage());
         }
         return redirect(route('fs.index'));
     }

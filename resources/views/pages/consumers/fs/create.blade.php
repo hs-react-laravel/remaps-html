@@ -13,6 +13,7 @@
 <section id="basic-input">
   <form action="{{ route('fs.store') }}" method="post" enctype="multipart/form-data">
     @csrf
+    <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
     <div class="row">
       <div class="col-md-12">
         <div class="card">
@@ -23,26 +24,26 @@
             <div class="row mb-1">
               <div class="col-xl-3 col-md-3 col-12">
                 <label class="form-label" for="make">Make</label>
-                <input type="text" class="form-control" id="make" name="make" />
+                <input type="text" class="form-control" id="make" name="make" required />
               </div>
               <div class="col-xl-3 col-md-3 col-12">
                 <label class="form-label" for="model">Model</label>
-                <input type="text" class="form-control" id="model" name="model" />
+                <input type="text" class="form-control" id="model" name="model" required />
               </div>
               <div class="col-xl-3 col-md-3 col-12">
                 <label class="form-label" for="generation">Generation</label>
-                <input type="text" class="form-control" id="generation" name="generation" />
+                <input type="text" class="form-control" id="generation" name="generation" required />
               </div>
             </div>
 
             <div class="row mb-1">
               <div class="col-xl-3 col-md-3 col-12">
                 <label class="form-label" for="engine">Engine</label>
-                <input type="text" class="form-control" id="engine" name="engine" />
+                <input type="text" class="form-control" id="engine" name="engine" required />
               </div>
               <div class="col-xl-3 col-md-3 col-12">
                 <label class="form-label" for="ecu">ECU</label>
-                <input type="text" class="form-control" id="ecu" name="ecu" />
+                <input type="text" class="form-control" id="ecu" name="ecu" required />
               </div>
               <div class="col-xl-3 col-md-3 col-12">
                 <label class="form-label" for="engine_hp">Engine HP</label>
@@ -53,7 +54,7 @@
             <div class="row mb-1">
               <div class="col-xl-4 col-md-6 col-12">
                 <label class="form-label" for="year">Year of Manufacture</label>
-                <select class="select2 form-select" id="year" name="year">
+                <select class="select2 form-select" id="year" name="year" required>
                   @for ($i = 1990; $i <= date('Y'); $i++)
                     <option value="{{ $i }}">{{ $i }}</option>
                   @endfor
@@ -91,7 +92,7 @@
             <div class="row mb-1">
               <div class="col-xl-4 col-md-6 col-12">
                 <label class="form-label" for="license_plate">License plate</label>
-                <input type="text" class="form-control" id="license_plate" name="license_plate" />
+                <input type="text" class="form-control" id="license_plate" name="license_plate" required />
               </div>
               <div class="col-xl-4 col-md-6 col-12">
                 <label class="form-label" for="vin">Miles / KM</label>
@@ -117,7 +118,7 @@
                   </div>
                 </div>
                 <label class="form-label" for="tuning_type_id">Tuning Type</label>
-                <select class="form-select" id="tuning_type_id" name="tuning_type_id">
+                <select class="form-select" id="tuning_type_id" name="tuning_type_id" required>
                   <option value="">Select Tuning Type</option>
                   @foreach ($tuningTypes as $key => $title)
                     <option value="{{ $key }}">{{ $title }}</option>

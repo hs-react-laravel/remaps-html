@@ -11,8 +11,8 @@ use App\Models\User;
 use App\Mail\FileServiceModified;
 use App\Mail\FileServiceProcessed;
 use App\Mail\TicketFileCreated;
-use File;
-use Mail;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 
 class FileServiceController extends MasterController
 {
@@ -190,6 +190,9 @@ class FileServiceController extends MasterController
             if (File::exists($file)) {
                 File::delete($file);
                 $fileService->modified_file = "";
+                if ($this->user->is_staff) {
+                    $fileService->assign_id = $this->user->id;
+                }
                 $fileService->save();
             }
         } catch (\Exception $ex) {

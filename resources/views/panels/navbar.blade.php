@@ -135,11 +135,7 @@
         data-bs-toggle="dropdown" aria-haspopup="true">
         <div class="user-nav d-sm-flex d-none">
           <span class="user-name fw-bolder">
-            @if (Auth::guard('admin')->check())
-              {{ Auth::guard('admin')->user()->fullname }}
-            @elseif (Auth::guard('customer')->check())
-              {{ Auth::guard('customer')->user()->fullname }}
-            @endif
+            {{ $user->fullname }}
           </span>
           <span class="user-status">
             {{ ucfirst($role) }}
@@ -153,10 +149,10 @@
         <h6 class="dropdown-header">Manage Profile</h6>
         <div class="dropdown-divider"></div>
         <a class="dropdown-item"
-          href="{{ Auth::guard('admin')->check() ? route('admin.dashboard.profile') : route('dashboard.profile') }}">
+          href="{{ $user->is_admin ? route('admin.dashboard.profile') : route('dashboard.profile') }}">
           <i class="me-50" data-feather="user"></i> Profile
         </a>
-        @if (Auth::guard('admin')->check())
+        @if ($user->is_admin || $user->is_staff)
           <a class="dropdown-item" href="{{ route('admin.auth.logout') }}"
             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
             <i class="me-50" data-feather="power"></i> Logout
@@ -164,7 +160,7 @@
           <form method="POST" id="logout-form" action="{{ route('admin.auth.logout') }}">
             @csrf
           </form>
-        @elseif (Auth::guard('customer')->check())
+        @else
           <a class="dropdown-item" href="{{ route('logout') }}"
             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
             <i class="me-50" data-feather="power"></i> Logout

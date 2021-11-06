@@ -18,7 +18,7 @@
           method="POST">
           @csrf
           <input type="hidden" name="group_id" value="{{ $tuningCreditGroup->id }}">
-          <input type="hidden" name="tire_id" value="{{ $tire->id }}">
+          <input type="hidden" name="tire_id">
           <input type="hidden" name="stripe_credit_type" value="normal">
           <div class="col-12">
             <label class="form-label" for="modalAddCardNumber">Card Number</label>

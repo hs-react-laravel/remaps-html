@@ -43,8 +43,8 @@ class FileServiceRequest extends FormRequest
                     'tuning_type_id' => 'bail|required|integer'
                 ];
 
-                if($this->uploaded_file == null){
-                    $rules['file'] = 'bail|required';
+                if($this->upload_file == null){
+                    $rules['upload_file'] = 'bail|required';
                 }
 
                 return $rules;
@@ -69,8 +69,8 @@ class FileServiceRequest extends FormRequest
                         'tuning_type_id' => 'bail|required|integer'
                     ];
 
-                    if($this->uploaded_file == null){
-                        $rules['file'] = 'bail|required';
+                    if($this->upload_file == null){
+                        $rules['upload_file'] = 'bail|required';
                     }
 
                     return $rules;
@@ -108,8 +108,8 @@ class FileServiceRequest extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            if($this->has('file')){
-                if ($this->file('file')->getClientSize() > '10485760') {
+            if($this->has('upload_file')){
+                if ($this->file('upload_file')->getSize() > '10485760') {
                     $validator->errors()->add('file', 'File shouldn\'t be greater than 10 MB. Please select another file.');
                 }
             }

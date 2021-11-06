@@ -52,11 +52,13 @@
                           : route('fileservice.tickets.create', ['id' => $entry->id]) }}">
                         <i data-feather="message-circle"></i>
                       </a>
+                      @if($user->is_admin)
                       <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}"><i data-feather="trash-2"></i></a>
                       <form action="{{ route('fileservices.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                       </form>
+                      @endif
                     </td>
                 </tr>
               @endforeach
