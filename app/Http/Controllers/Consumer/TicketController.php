@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\File;
 use App\Http\Controllers\MasterController;
+use App\Http\Requests\TicketRequest;
 use App\Models\Ticket;
 use App\Models\FileService;
 use App\Mail\TicketCreated;
@@ -45,7 +46,7 @@ class TicketController extends MasterController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TicketRequest $request)
     {
         // create ticket
         $request->request->add([
@@ -110,8 +111,9 @@ class TicketController extends MasterController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TicketRequest $request)
     {
+        $id = $request->route('tk');
         $ticket = Ticket::find($id);
         $new_ticket = new Ticket();
         $new_ticket->parent_chat_id = $ticket->id;
@@ -152,13 +154,17 @@ class TicketController extends MasterController
 
     public function download_document($id)
     {
-        $ticket = Ticket::find($id);
-        $file = storage_path('app/public/uploads/tickets/').$ticket->document;
-        if ($ticket->document && File::exists($file)) {
-            $fileExt = File::extension($file);
-            $fileName = $ticket->id.'-document.'.$fileExt;
-            return response()->download($file, $fileName);
+        try {
+            $ticket = Ticket::find($id);
+            $file = storage_path('app/public/uploads/tickets/').$ticket->document;
+            if ($ticket->document && File::exists($file)) {
+                $fileExt = File::extension($file);
+                $fileName = $ticket->id.'-document.'.$fileExt;
+                return response()->download($file, $fileName);
+            }
+        } catch (\Exception $ex) {
+            session()->flash('error', $ex->getMessage());
+            return redirect(route('tickets.index'));
         }
-        return redirect(route('tickets.index'));
     }
 }
