@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\MasterController;
 use App\Http\Requests\AccountInfoRequest;
+use App\Http\Requests\AccountStaffRequest;
 use App\Models\CustomerRating;
 use App\Models\Company;
 use Illuminate\Support\Facades\Auth;
@@ -157,10 +158,24 @@ class DashboardController extends MasterController
     }
 
     public function profile() {
-        return view('pages.dashboard.profile');
+        $post_link = route('admin.dashboard.profile.staff.post');
+        if ($this->user->is_staff) {
+            return view('pages.dashboard.profile_staff', compact('post_link'));
+        } else {
+            $post_link = $this->user->is_admin ? route('admin.dashboard.profile.post') : route('dashboard.profile.post');
+            return view('pages.dashboard.profile', compact('post_link'));
+        }
     }
 
     public function profile_post(AccountInfoRequest $request) {
+        $this->user->update($request->all());
+        if (Auth::guard('admin')->check()) {
+            return redirect(route('admin.dashboard.profile'));
+        }
+        return redirect(route('dashboard.profile'));
+    }
+
+    public function profile_staff_post(AccountStaffRequest $request) {
         $this->user->update($request->all());
         if (Auth::guard('admin')->check()) {
             return redirect(route('admin.dashboard.profile'));

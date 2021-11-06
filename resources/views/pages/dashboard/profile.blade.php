@@ -4,8 +4,9 @@
 
 @section('content')
 <section>
-  <form action="{{ Auth::guard('admin')->check() ? route('admin.dashboard.profile.post') : route('dashboard.profile.post') }}" method="post">
+  <form action="{{ $post_link }}" method="post">
   @csrf
+  <input type="hidden" name="user_id" value="{{ $user->id }}">
   <div class="row">
     <div class="col-md-9">
       <div class="card">

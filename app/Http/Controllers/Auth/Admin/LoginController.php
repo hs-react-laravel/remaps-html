@@ -108,12 +108,19 @@ class LoginController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    // protected function credentials(Request $request) {
-    //     $credentials = $request->only($this->username(), 'password');
-    //     $credentials['is_admin'] = 1;
-    //     $credentials['company_id'] = $this->company->id;
-    //     return $credentials;
-    // }
+    protected function credentials(Request $request) {
+        $credentials = $request->only($this->username(), 'password');
+
+        $email = $request->get($this->username());
+        $user = User::where($this->username(), $email)->first();
+        if ($user->is_admin) {
+            $credentials['is_admin'] = 1;
+        } else if ($user->is_staff) {
+            $credentials['is_staff'] = 1;
+        }
+        $credentials['company_id'] = $this->company->id;
+        return $credentials;
+    }
 
     /**
      * Get the failed login response instance.

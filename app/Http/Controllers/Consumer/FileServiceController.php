@@ -185,39 +185,53 @@ class FileServiceController extends MasterController
     }
 
     public function download_original($id) {
-        $fileService = FileService::find($id);
-        $file = storage_path('app/public/uploads/file-services/orginal/').$fileService->orginal_file;
-        if (File::exists($file)) {
-            $fileExt = File::extension($file);
-            $fileName = $fileService->displayable_id.'-orginal.'.$fileExt;
-            return response()->download($file, $fileName);
+        try {
+            $fileService = FileService::find($id);
+            $file = storage_path('app/public/uploads/file-services/orginal/').$fileService->orginal_file;
+            if (File::exists($file)) {
+                $fileExt = File::extension($file);
+                $fileName = $fileService->displayable_id.'-orginal.'.$fileExt;
+                return response()->download($file, $fileName);
+            }
+        } catch (\Exception $ex) {
+            session()->flash('error', $ex->getMessage());
+            return redirect(route('fs.index'));
         }
     }
 
     public function download_modified($id) {
-        $fileService = FileService::find($id);
-        $file = storage_path('app/public/uploads/file-services/modified/').$fileService->modified_file;
-        if (File::exists($file)) {
-            $fileExt = File::extension($file);
-            $fileName = $fileService->displayable_id.'-modified.'.$fileExt;
-            return response()->download($file, $fileName);
+        try {
+            $fileService = FileService::find($id);
+            $file = storage_path('app/public/uploads/file-services/modified/').$fileService->modified_file;
+            if (File::exists($file)) {
+                $fileExt = File::extension($file);
+                $fileName = $fileService->displayable_id.'-modified.'.$fileExt;
+                return response()->download($file, $fileName);
+            }
+        } catch (\Exception $ex) {
+            session()->flash('error', $ex->getMessage());
+            return redirect(route('fs.index'));
         }
     }
 
     public function delete_modified_file($id) {
-        $fileService = FileService::find($id);
-        $file = storage_path('app/public/uploads/file-services/modified/').$fileService->modified_file;
-        if (File::exists($file)) {
-            File::delete($file);
-            $fileService->modified_file = "";
-            $fileService->save();
+        try {
+            $fileService = FileService::find($id);
+            $file = storage_path('app/public/uploads/file-services/modified/').$fileService->modified_file;
+            if (File::exists($file)) {
+                File::delete($file);
+                $fileService->modified_file = "";
+                $fileService->save();
+            }
+        } catch (\Exception $ex) {
+            session()->flash('error', $ex->getMessage());
         }
         return redirect(route('fileservices.edit', ['fileservice' => $id]));
     }
 
     public function create_ticket($id) {
         $fileService = FileService::find($id);
-        return view('pages.fileservice.create_ticket', ['fileService' => $fileService]);
+        return view('pages.consumers.fs.create_ticket', ['fileService' => $fileService]);
     }
 
     public function store_ticket(Request $request, $id) {

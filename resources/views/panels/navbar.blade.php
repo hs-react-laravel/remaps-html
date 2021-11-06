@@ -149,7 +149,7 @@
         <h6 class="dropdown-header">Manage Profile</h6>
         <div class="dropdown-divider"></div>
         <a class="dropdown-item"
-          href="{{ $user->is_admin ? route('admin.dashboard.profile') : route('dashboard.profile') }}">
+          href="{{ $user->is_admin || $user->is_staff ? route('admin.dashboard.profile') : route('dashboard.profile') }}">
           <i class="me-50" data-feather="user"></i> Profile
         </a>
         @if ($user->is_admin || $user->is_staff)

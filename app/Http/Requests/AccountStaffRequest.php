@@ -7,7 +7,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class AccountInfoRequest extends FormRequest
+class AccountStaffRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -34,14 +34,7 @@ class AccountInfoRequest extends FormRequest
                 return [
                     'first_name'      => 'required|string|min:3|max:191',
                     'last_name'       => 'required|string|min:3|max:191',
-                    'business_name'   => 'required|string|min:3|max:191',
-                    'business_name'   => 'required|string|min:3|max:191',
-                    'address_line_1'  => 'required|string|min:3|max:191',
-                    'address_line_2'  => 'nullable|string|min:3|max:191',
                     'phone'           => 'required|numeric|digits_between:7,14',
-                    'county'          => 'required|string|min:3|max:191',
-                    'town'            => 'required|string|min:3|max:191',
-                    'post_code'       => 'nullable|string|min:5|max:7',
                     'email'           => 'required|email|unique:users,email',
                 ];
             }
@@ -52,14 +45,7 @@ class AccountInfoRequest extends FormRequest
                     return [
                         'first_name'      => 'required|string|min:3|max:191',
                         'last_name'       => 'required|string|min:3|max:191',
-                        'business_name'   => 'required|string|min:3|max:191',
-                        'business_name'   => 'required|string|min:3|max:191',
-                        'address_line_1'  => 'required|string|min:3|max:191',
-                        'address_line_2'  => 'nullable|string|min:3|max:191',
                         'phone'           => 'required|numeric|digits_between:7,14',
-                        'county'          => 'required|string|min:3|max:191',
-                        'town'            => 'required|string|min:3|max:191',
-                        'post_code'        => 'nullable|string|min:5|max:7',
                         'email'           => 'required|email|unique:users,email,'.$user->id.',id',
                     ];
                 }
@@ -68,13 +54,6 @@ class AccountInfoRequest extends FormRequest
                     return [
                         'first_name'      => 'required|string|min:3|max:191',
                         'last_name'       => 'required|string|min:3|max:191',
-                        'business_name'   => 'required|string|min:3|max:191',
-                        'business_name'   => 'required|string|min:3|max:191',
-                        'address_line_1'  => 'required|string|min:3|max:191',
-                        'address_line_2'  => 'nullable|string|min:3|max:191',
-                        'phone'           => 'required|numeric|digits_between:7,14',
-                        'county'          => 'required|string|min:3|max:191',
-                        'town'            => 'required|string|min:3|max:191',
                         'post_code'       => 'nullable|string|min:5|max:7',
                         'email'           => 'required|email|unique:users,email,'.$user->id.',id',
                     ];
