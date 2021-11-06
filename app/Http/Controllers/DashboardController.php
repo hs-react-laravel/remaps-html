@@ -7,6 +7,7 @@ use App\Http\Controllers\MasterController;
 use App\Http\Requests\AccountInfoRequest;
 use App\Models\CustomerRating;
 use App\Models\Company;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends MasterController
 {
@@ -229,6 +230,9 @@ class DashboardController extends MasterController
 
     public function profile_post(AccountInfoRequest $request) {
         $this->user->update($request->all());
+        if (Auth::guard('admin')->check()) {
+            return redirect(route('admin.dashboard.profile'));
+        }
         return redirect(route('dashboard.profile'));
     }
 }

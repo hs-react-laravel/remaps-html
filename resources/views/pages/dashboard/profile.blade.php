@@ -4,7 +4,7 @@
 
 @section('content')
 <section>
-  <form action="{{ route('dashboard.profile.post') }}" method="post">
+  <form action="{{ Auth::guard('admin')->check() ? route('admin.dashboard.profile.post') : route('dashboard.profile.post') }}" method="post">
   @csrf
   <div class="row">
     <div class="col-md-9">

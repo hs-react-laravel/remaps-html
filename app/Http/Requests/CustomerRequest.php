@@ -16,7 +16,7 @@ class CustomerRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::check() && Auth::user()->is_admin == 1;
+        return Auth::guard('admin')->check();
     }
 
     /**
@@ -26,8 +26,8 @@ class CustomerRequest extends FormRequest
      */
     public function rules()
     {
-        $user = User::find($this->get('id'));
-        $admin = Auth::user();
+        $user = User::find($this->route('customer'));
+        $admin = Auth::guard('admin')->user();
         switch ($this->method()) {
             case 'GET':{
                 return [

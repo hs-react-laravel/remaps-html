@@ -135,8 +135,11 @@
         data-bs-toggle="dropdown" aria-haspopup="true">
         <div class="user-nav d-sm-flex d-none">
           <span class="user-name fw-bolder">
-            @if (Auth::check())
-              {{ Auth::user()->fullname }}
+            @if (Auth::guard('admin')->check())
+              {{ Auth::guard('admin')->user()->fullname }}
+            @endif
+            @if (Auth::guard('customer')->check())
+              {{ Auth::guard('customer')->user()->fullname }}
             @endif
           </span>
           <span class="user-status">
@@ -151,7 +154,7 @@
         <h6 class="dropdown-header">Manage Profile</h6>
         <div class="dropdown-divider"></div>
         <a class="dropdown-item"
-          href="{{ Route::has('dashboard.profile') ? route('dashboard.profile') : 'javascript:void(0)' }}">
+          href="{{ Auth::guard('admin')->check() ? route('admin.dashboard.profile') : route('dashboard.profile') }}">
           <i class="me-50" data-feather="user"></i> Profile
         </a>
         @if (Auth::guard('admin')->check())

@@ -71,10 +71,10 @@
         "slug": "company.setting"
     },
     {
-        "url": "cars",
+        "url": "admin/cars",
         "name": "Browse Tuning Specs",
         "icon": "search",
-        "slug": "cars.index"
+        "slug": "admin.cars.index"
     }
   ]
 }

@@ -17,7 +17,7 @@ class AccountInfoRequest extends FormRequest
     public function authorize()
     {
         // only allow updates if the user is logged in
-        return (Auth::check() && Auth::user()->is_admin);
+        return (Auth::guard('admin')->check() || Auth::guard('customer')->check());
     }
 
     /**
@@ -27,8 +27,10 @@ class AccountInfoRequest extends FormRequest
      */
     public function rules()
     {
-
-        $user = User::find($this->get('id'));
+        $user = Auth::guard('admin')->user();
+        if (Auth::guard('customer')->check()) {
+            $user = Auth::guard('customer')->user();
+        }
         switch ($this->method()) {
             case 'GET':{
                 return [

@@ -156,6 +156,8 @@ Route::group(['prefix'=>'admin'], function () {
         Route::post('/cars/category', [CarBrowserController::class, 'category'])->name('admin.cars.category');
         Route::get('/cars/category', [CarBrowserController::class, 'category'])->name('admin.cars.category');
     });
+    Route::get('/profile', [DashboardController::class, 'profile'])->name('admin.dashboard.profile');
+    Route::post('/profile_post', [DashboardController::class, 'profile_post'])->name('admin.dashboard.profile.post');
 });
 Route::group(['middleware' => 'auth:customer'], function () {
     Route::group(['prefix'=>'customer'], function () {

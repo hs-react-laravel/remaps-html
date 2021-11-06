@@ -68,11 +68,11 @@ class CustomerController extends MasterController
 			try{
                 Mail::to($user->email)->send(new WelcomeCustomer($user, $token));
 			}catch(\Exception $e) {
-                session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
+                session()->flash('error', $e->getMessage());
 			}
             return redirect(route('customers.index'));
         } catch(\Exception $e){
-            session()->flash('error', __('admin.opps'));
+            session()->flash('error', $e->getMessage());
             return redirect(route('customers.index'));
         }
     }
@@ -116,8 +116,9 @@ class CustomerController extends MasterController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CustomerRequest $request, $id)
+    public function update(CustomerRequest $request)
     {
+        $id = $request->route('customer');
         User::find($id)->update($request->all());
         return redirect(route('customers.index'));
     }
