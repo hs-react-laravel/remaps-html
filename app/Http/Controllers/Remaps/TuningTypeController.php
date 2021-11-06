@@ -76,9 +76,9 @@ class TuningTypeController extends MasterController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(TuningTypeRequest $request, $id)
+    public function update(TuningTypeRequest $request)
     {
-        $entry = TuningType::find($id);
+        $entry = TuningType::find($request->route('tuning_type'));
         $entry->update($request->all());
         return redirect(route('tuning-types.index'));
     }

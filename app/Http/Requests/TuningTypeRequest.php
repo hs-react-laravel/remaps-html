@@ -16,7 +16,7 @@ class TuningTypeRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::check() && Auth::user()->is_admin;
+        return Auth::guard('admin')->check();
     }
 
     /**
@@ -26,8 +26,8 @@ class TuningTypeRequest extends FormRequest
      */
     public function rules()
     {
-        $tuningType = TuningType::find($this->get('id'));
-        $this->user = Auth::user();
+        $tuningType = TuningType::find($this->route('tuning_type'));
+        $this->user = Auth::guard('admin')->user();
 
         switch ($this->method()) {
             case 'GET':{

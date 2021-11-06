@@ -29,12 +29,11 @@ class TuningTypeOptionRequest extends FormRequest
     public function rules()
     {
 
-        $tuningTypeOption = TuningTypeOption::find($this->get('id'));
+        $tuningTypeOption = TuningTypeOption::find($this->route('option'));
 
         switch ($this->method()) {
             case 'GET':{
                 return [
-                    'tuning_type_id' => 'required|integer',
                     'label' => 'required|string|min:3|max:191',
                     'tooltip' => 'nullable|string|min:3|max:191',
                     'credits' => 'required|regex:/^\d*(\.\d{1,2})?$/|max:8'
@@ -45,7 +44,6 @@ class TuningTypeOptionRequest extends FormRequest
                 }
             case 'POST': {
                     return [
-                        'tuning_type_id' => 'required|integer',
                         'label' => 'required|string|min:3|max:191|'.Rule::unique('tuning_type_options')->where('tuning_type_id', $this->tuning_type_id),
                         'tooltip' => 'nullable|string|min:3|max:191',
                         'credits' => 'required|regex:/^\d*(\.\d{1,2})?$/|max:8'
@@ -54,7 +52,6 @@ class TuningTypeOptionRequest extends FormRequest
             case 'PUT':
             case 'PATCH': {
                     return [
-                        'tuning_type_id' => 'required|integer',
                         'label' => 'required|string|min:3|max:191|unique:tuning_type_options,label,'.$tuningTypeOption->id.',id,tuning_type_id,'.$this->tuning_type_id,
                         'tooltip' => 'nullable|string|min:3|max:191',
                         'credits' => 'required|regex:/^\d*(\.\d{1,2})?$/|max:8'

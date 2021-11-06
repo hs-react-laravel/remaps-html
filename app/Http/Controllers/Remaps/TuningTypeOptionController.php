@@ -45,8 +45,9 @@ class TuningTypeOptionController extends MasterController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TuningTypeOptionRequest $request, $tuningTypeId)
+    public function store(TuningTypeOptionRequest $request)
     {
+        $tuningTypeId = $request->route('id');
         $request->request->add([
             'tuning_type_id'=> $tuningTypeId,
             'order_as' => TuningTypeOption::where('tuning_type_id',$tuningTypeId)->count()

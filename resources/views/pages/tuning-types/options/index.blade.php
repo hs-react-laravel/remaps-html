@@ -18,9 +18,14 @@
     <div class="card">
       <div class="card-header">
         <h4 class="card-title">Tuning Type Options</h4>
-        <a href="{{ route('options.create', ['id' => $typeId]) }}" class="btn btn-icon btn-primary">
-          <i data-feather="plus"></i>
-        </a>
+        <div>
+          <a href="{{ route('tuning-credits.index') }}" class="btn btn-icon btn-secondary">
+            <i data-feather="arrow-left"></i>
+          </a>
+          <a href="{{ route('options.create', ['id' => $typeId]) }}" class="btn btn-icon btn-primary">
+            <i data-feather="plus"></i>
+          </a>
+        </div>
       </div>
       <div class="table-responsive">
         <table class="table">
