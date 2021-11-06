@@ -8,7 +8,7 @@
         "url": "admin/dashboard",
         "name": "Dashboards",
         "icon": "home",
-        "slug": "dashboard"
+        "slug": "dashboard.admin"
     },
     {
       "url": "admin/customers",
