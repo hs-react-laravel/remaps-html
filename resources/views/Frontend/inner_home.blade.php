@@ -1,46 +1,46 @@
 @extends('layouts.appnew')
 
 @section('content')
-   
+
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({
           google_ad_client: "ca-pub-6263923552826378",
           enable_page_level_ads: true
      });
-</script>	
-	
+</script>
+
 <!--slider-start-->
 <div class="banner-slider-outer">
 	   <div class="container">
          <div class="owl-carousel banner-silder">
-		 @if (!empty($slider))		 
-			@foreach($slider as $slide)	
+		 @if (!empty($slider))
+			@foreach($slider as $slide)
             <div class="item">
-            	<div class="d-flex align-items-center slider-caption"> 
+            	<div class="d-flex align-items-center slider-caption">
 				@if($slide['image'])
                   <div class="img-block">
-                  	<img src="/uploads/logo/{{ $slide['image'] }}" alt="banner">
+                  	<img src="storage/uploads/logo/{{ $slide['image'] }}" alt="banner">
                   </div>
-				@endif  
+				@endif
                   <div class="content-block">
                   	<h1>{{ $slide['title'] }}</h1>
                   	<p>{{ $slide['description'] }}</p>
-					@if($slide['button_text'])  
+					@if($slide['button_text'])
                   	<div class="btn-outer">
                   		<a  href="{{ $slide['button_link'] }}" class="view-btn">{{ $slide['button_text'] }}</a>
                   	</div>
-					@endif  
+					@endif
                   </div>
             	</div>
              </div>
-			@endforeach 
+			@endforeach
 			@endif
-           
+
            </div>
 
        </div>
-</div>    
+</div>
 <!--slider-section-end-->
 
 <div class="ptb home-block-01">
@@ -85,8 +85,8 @@
 	<div class="container">
 		<div class="main-heading">
 			<h2><strong>Core</strong> Features</h2>
-			<h3>Designed for Remapping Resellers</h3> 
-			<p>We consulted remapping masters with active slave networks and file service requirements and built this portal specifically to help the day to day processing of jobs from remapping professionals</p> 
+			<h3>Designed for Remapping Resellers</h3>
+			<p>We consulted remapping masters with active slave networks and file service requirements and built this portal specifically to help the day to day processing of jobs from remapping professionals</p>
 		</div>
 		<div class="d-flex home-block-02-content">
 			<div class="box">
@@ -94,14 +94,14 @@
 	              <div class="img-block"><img class="card-img" src="images/icon-04.png" alt="icon-03"></div>
 	              <div class="card-body">
 	                 <div class="card-title">Customisable</div>
-						<ul>		
+						<ul>
 						 <li>Email notifications</li>
 					 	<li>Choose your currency</li>
-						 <li>Colour themes & logo upload</li> 
-						 <li>Customisable Email Delivery</li> 
-						 <li>Even Host on your own domain*</li> 
-						 <li>Mobile Friendly</li> 
-						</ul>    
+						 <li>Colour themes & logo upload</li>
+						 <li>Customisable Email Delivery</li>
+						 <li>Even Host on your own domain*</li>
+						 <li>Mobile Friendly</li>
+						</ul>
 	             </div>
 	            </div>
 			</div>
@@ -110,14 +110,14 @@
 	              <div class="img-block"><img class="card-img" src="images/icon-05.png" alt="icon-03"></div>
 	              <div class="card-body">
 	                 <div class="card-title">Billing</div>
-	                  <ul>		
-						 <li>No "per file charges"</li> 
-						 <li>PAYG - No contract </li> 
-						 <li>Automatic client invoicing</li> 
-						 <li>VAT or not</li> 
-						 <li>PayPal Payment Handling</li> 
-						 <li>Easy Reporting</li> 
-					  </ul> 
+	                  <ul>
+						 <li>No "per file charges"</li>
+						 <li>PAYG - No contract </li>
+						 <li>Automatic client invoicing</li>
+						 <li>VAT or not</li>
+						 <li>PayPal Payment Handling</li>
+						 <li>Easy Reporting</li>
+					  </ul>
 	             </div>
 	            </div>
 			</div>
@@ -126,12 +126,12 @@
 	              <div class="img-block"><img class="card-img" src="images/icon-06.png" alt="icon-03"></div>
 	              <div class="card-body">
 	                 <div class="card-title">Support</div>
-	                  <ul>		
-						 <li>Built in ticket support</li> 
-						 <li>Chat screen</li> 
-						 <li>File attaching</li> 
+	                  <ul>
+						 <li>Built in ticket support</li>
+						 <li>Chat screen</li>
+						 <li>File attaching</li>
 						 <li>Mobile Support </li>
-					  </ul> 
+					  </ul>
 	             </div>
 	            </div>
 			</div>
@@ -140,12 +140,12 @@
 	              <div class="img-block"><img class="card-img" src="images/icon-07.png" alt="icon-03"></div>
 	              <div class="card-body">
 	                 <div class="card-title">Security</div>
-	                  <ul>		
-						 <li>Secure SSL Encryption</li> 
-						 <li>All files are encrypted</li> 
-						 <li>2gb of storage included</li> 
+	                  <ul>
+						 <li>Secure SSL Encryption</li>
+						 <li>All files are encrypted</li>
+						 <li>2gb of storage included</li>
 						 <li>Extra storage available</li>
-					  </ul> 
+					  </ul>
 	             </div>
 	            </div>
 			</div>
@@ -161,9 +161,9 @@
 			<p</p>
 		</div>
 		<div class="row">
-			
+
 			@if(!empty($packages))
-				@php 
+				@php
 					$totlPackages = count($packages);
 					$classDiv = 'col-md-4';
 					if($totlPackages%2 ==0){
@@ -178,7 +178,7 @@
 						  <div class="price">@php echo $val['amount'];@endphp</div>
 						  	@php echo $val['description'];@endphp
 							<a href="/register-account?domain=@php echo strpos($val['name'], 'own') !== false ? 'own' : 'regular';@endphp" class="view-btn">GET STARTED</a>
-						  </div>	
+						  </div>
 					</div>
 				@endforeach
 			@endif
@@ -244,5 +244,5 @@
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script> ------->
-	
+
 @endsection
