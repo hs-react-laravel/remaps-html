@@ -51,7 +51,7 @@
 		<div class="row">
 			<div class="col-md-4">
 				<div class="card">
-	              <div class="img-block"><img class="card-img" src="images/icon-01.png" alt="icon-01"></div>
+	              <div class="img-block"><img class="card-img" src="customimages/icon-01.png" alt="icon-01"></div>
 	              <div class="card-body">
 	                 <div class="card-title">Select your package</div>
 	                  <p>Choose from monthly, yearly payments. Even host on your own domain if you choose.</p>
@@ -60,7 +60,7 @@
 			</div>
 			<div class="col-md-4">
 				<div class="card">
-	              <div class="img-block"> <img class="card-img" src="images/icon-02.png" alt="icon-01"/></div>
+	              <div class="img-block"> <img class="card-img" src="customimages/icon-02.png" alt="icon-01"/></div>
 	              <div class="card-body">
 	                 <div class="card-title">Enter your basic details</div>
 	                  <p>Fill in your company details which prefills your file panel. </p>
@@ -69,7 +69,7 @@
 			</div>
 			<div class="col-md-4">
 				<div class="card">
-	              <div class="img-block"><img class="card-img" src="images/icon-03.png" alt="icon-03"></div>
+	              <div class="img-block"><img class="card-img" src="customimages/icon-03.png" alt="icon-03"></div>
 	              <div class="card-body">
 	                 <div class="card-title">Pay</div>
 	                  <p>Make your payment and you are up and running in minutes</p>
@@ -91,7 +91,7 @@
 		<div class="d-flex home-block-02-content">
 			<div class="box">
 				<div class="card bg-blue">
-	              <div class="img-block"><img class="card-img" src="images/icon-04.png" alt="icon-03"></div>
+	              <div class="img-block"><img class="card-img" src="customimages/icon-04.png" alt="icon-03"></div>
 	              <div class="card-body">
 	                 <div class="card-title">Customisable</div>
 						<ul>
@@ -107,7 +107,7 @@
 			</div>
 			<div class="box">
 				<div class="card bg-dark">
-	              <div class="img-block"><img class="card-img" src="images/icon-05.png" alt="icon-03"></div>
+	              <div class="img-block"><img class="card-img" src="customimages/icon-05.png" alt="icon-03"></div>
 	              <div class="card-body">
 	                 <div class="card-title">Billing</div>
 	                  <ul>
@@ -123,7 +123,7 @@
 			</div>
 			<div class="box">
 				<div class="card bg-dark">
-	              <div class="img-block"><img class="card-img" src="images/icon-06.png" alt="icon-03"></div>
+	              <div class="img-block"><img class="card-img" src="customimages/icon-06.png" alt="icon-03"></div>
 	              <div class="card-body">
 	                 <div class="card-title">Support</div>
 	                  <ul>
@@ -137,7 +137,7 @@
 			</div>
 			<div class="box">
 				<div class="card bg-blue">
-	              <div class="img-block"><img class="card-img" src="images/icon-07.png" alt="icon-03"></div>
+	              <div class="img-block"><img class="card-img" src="customimages/icon-07.png" alt="icon-03"></div>
 	              <div class="card-body">
 	                 <div class="card-title">Security</div>
 	                  <ul>
@@ -173,7 +173,7 @@
 				@foreach($packages as $val)
 					<div class="@php echo $classDiv @endphp">
 						<div class="box border-gray">
-						  <div class="img-block"><img class="card-img" src="images/icon-10.png" alt="icon-10"></div>
+						  <div class="img-block"><img class="card-img" src="customimages/icon-10.png" alt="icon-10"></div>
 						  <div class="title">@php echo $val['name'];@endphp</div>
 						  <div class="price">@php echo $val['amount'];@endphp</div>
 						  	@php echo $val['description'];@endphp
@@ -201,14 +201,14 @@
 			      	<div class="home-block-04-right-inner">
 					<div class="box box-01">
 						<div class="d-flex justify-content-center">
-					     <div class="img-block"><img src="images/img-11.jpg" alt="img-11"/></div>
+					     <div class="img-block"><img src="customimages/img-11.jpg" alt="img-11"/></div>
 					   	 </div>
 					    <div class="title">Company</div>
 					    <p>The Cloud file storage, email notifications and invoicing now make our daily life easy. </p>
 					</div>
 					<div class="box box-02">
 						<div class="d-flex justify-content-center">
-					     <div class="img-block"><img src="images/img-12.jpg" alt="img-12"/></div>
+					     <div class="img-block"><img src="customimages/img-12.jpg" alt="img-12"/></div>
 					   	 </div>
 					    <div class="title">Customers</div>
 					    <p>I upload my file and get an email when its ready. All my files are neatly stored, its perfect. </p>
