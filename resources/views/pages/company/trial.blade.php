@@ -25,9 +25,8 @@
               <input type="number" class="form-control" id="days" name="trial_days" />
             </div>
           </div>
-          <div class="col-12">
-            <button type="submit" class="btn btn-primary me-1">Submit</button>
-          </div>
+          <button type="submit" class="btn btn-primary me-1">Submit</button>
+          <button type="button" class="btn btn-flat-secondary me-1" onclick="history.back(-1)">Cancel</button>
         </form>
       </div>
     </div>
