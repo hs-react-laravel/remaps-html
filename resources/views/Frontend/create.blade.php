@@ -2,59 +2,59 @@
 
 @section('content')
 
-	<script src='https://www.google.com/recaptcha/api.js'></script>	
+	<script src='https://www.google.com/recaptcha/api.js'></script>
     <div class="container">
         <div class="register-col">
             <div class="box box-default">
-                
+
 				@if ($message = Session::get('success'))
 
 					<div class="alert alert-success alert-block">
-						<button type="button" class="close" data-dismiss="alert">×</button>	
+						<button type="button" class="close" data-dismiss="alert">×</button>
 							<strong>{{ $message }}</strong>
 					</div>
 
 				@endif
-				
+
 				@if ($message = Session::get('error'))
 
 				<div class="alert alert-danger alert-block">
-					<button type="button" class="close" data-dismiss="alert">×</button>	
+					<button type="button" class="close" data-dismiss="alert">×</button>
 						<strong>{{ $message }}</strong>
 				</div>
 
 				@endif
-				
+
 				 @if($errors->any())
 
 				<div class="alert alert-danger alert-block">
 					 @foreach ($errors->all() as $error)
                         <li>{{$error}}</li>
-                    @endforeach 
+                    @endforeach
 				</div>
 
 				@endif
 
                 <div class="box-body">
                    <a  class="view-btn back-btn" href="/">Back</a>
-					{!! Form::open(array('action' => 'Frontend\CompanyController@postPaymentWithpaypal', 'autocomplete' => "off")) !!}
-						
-						
+					{!! Form::open(array('action' => route('pay.with.paypal.main'), 'autocomplete' => "off")) !!}
+
+
 						<div class="form-group">
 						  {!! Form::label('name', 'Company Name') !!}
 						  {!! Form::text('name', '', ['class' => 'form-control', 'placeholder'=>'Company Name']) !!}
 						</div>
-						
+
 						<div class="form-group">
 						  {!! Form::label('main_email_address', 'Email Address') !!}
 						  {!! Form::text('main_email_address', '', ['class' => 'form-control', 'placeholder'=>'Email Address']) !!}
 						</div>
-						
+
 						<div class="form-group">
 						  {!! Form::label('password', 'Password') !!}
 						  {!! Form::password('password', ['class' => 'form-control', 'placeholder'=>'Password']) !!}
 						</div>
-						
+
 						<div class="form-group">
 						  {!! Form::label('password_confirmation', 'Confirm Password') !!}
 						  {!! Form::password('password_confirmation', ['class' => 'form-control', 'placeholder'=>'Confirm Password']) !!}
@@ -84,27 +84,27 @@
 						  {!! Form::label('address_line_1', 'Address line 1') !!}
 						  {!! Form::text('address_line_1', '', ['class' => 'form-control', 'placeholder'=>'Address line 1']) !!}
 						</div>
-						
+
 						<div class="form-group">
 						  {!! Form::label('address_line_2', 'Address line 2') !!}
 						  {!! Form::text('address_line_2', '', ['class' => 'form-control', 'placeholder'=>'Address line 2']) !!}
 						</div>
-						
+
 						<div class="form-group">
 						  {!! Form::label('town', 'Town') !!}
 						  {!! Form::text('town', '', ['class' => 'form-control', 'placeholder'=>'Town']) !!}
 						</div>
-						
+
 						<div class="form-group">
 						  {!! Form::label('country', 'Country') !!}
 						  {!! Form::text('country', '', ['class' => 'form-control', 'placeholder'=>'Country']) !!}
-						</div>						
-						
+						</div>
+
 						<div class="form-group">
 						  {!! Form::label('vat_number', 'VAT Number (optional)') !!}
 						  {!! Form::text('vat_number', '', ['class' => 'form-control', 'placeholder'=>'VAT Number']) !!}
-						</div>	
-						
+						</div>
+
 						<div class="form-group">
 							@php /*
 								{!! Form::hidden('package_id', $packageID) !!}
@@ -112,34 +112,34 @@
 							*/ @endphp
 							{!! Form::hidden('domain_link', '', ['id' => 'domain_link']) !!}
 						</div>
-						
+
 						<div class="form-group">
-							<div class="g-recaptcha" data-sitekey="{{env('SITE_KEY')}}" ></div>	
+							<div class="g-recaptcha" data-sitekey="{{env('SITE_KEY')}}" ></div>
 						</div>
-						
+
 						<div class="form-group">
 							<div id="error"></div>
 						</div>
 						<button id="btnSubmit" class="btn btn-success view-btn" type="submit">Submit</button>
-					
-						
+
+
 					{!! Form::close() !!}
 
-                   
+
                 </div>
             </div>
 			<p>If you need any help, please contact to <a class="custom-link" href="mailto:support@myremaps.com">support@myremaps.com</a></p>
         </div>
     </div>
-	
-	
+
+
 @endsection
 
 
 @section('after_scripts')
 	<script>
 		$("#btnSubmit").click(function () {
-			
+
 			var response = grecaptcha.getResponse();
 			html ='';
 			$("#error").hide();
@@ -147,7 +147,7 @@
 			if(response.length != 0){ //validation successful
 				return true;
 			}else{
-				
+
 				var html = '<span class="alert alert-danger">';
 						html += 'Invalid captcha code. Please try again.';
 					html += '</span>';
@@ -155,7 +155,7 @@
 				$("#error").html(html);
 				return false;
 			}
-			
+
 		});
 	</script>
 @endsection
