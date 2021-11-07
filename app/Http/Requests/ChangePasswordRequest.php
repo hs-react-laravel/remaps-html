@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class ChangePasswordRequest extends FormRequest
 {
@@ -14,7 +15,7 @@ class ChangePasswordRequest extends FormRequest
      */
     public function authorize()
     {
-        return (\Auth::guard('admin')->check() || \Auth::guard('customer')->check());
+        return (Auth::guard('admin')->check() || Auth::guard('customer')->check());
     }
 
     /**

@@ -6,9 +6,11 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\MasterController;
 use App\Http\Requests\AccountInfoRequest;
 use App\Http\Requests\AccountStaffRequest;
+use App\Http\Requests\ChangePasswordRequest;
 use App\Models\CustomerRating;
 use App\Models\Company;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class DashboardController extends MasterController
 {
@@ -181,5 +183,28 @@ class DashboardController extends MasterController
             return redirect(route('admin.dashboard.profile'));
         }
         return redirect(route('dashboard.profile'));
+    }
+
+    public function edit_password() {
+        $post_link = route('password.edit.post');
+        if ($this->user->is_admin) {
+            $post_link = route('admin.password.edit.post');
+        }
+        return view('pages.dashboard.edit_password', compact('post_link'));
+    }
+
+    public function edit_password_post(ChangePasswordRequest $request) {
+        try{
+            $user = $this->user;
+            $user->password = Hash::make($request->new_password);
+            if ($user->save()) {
+                session()->flash('message', __('auth.password_changed'));
+            } else {
+                session()->flash('error', __('admin.opps'));
+            }
+        }catch(\Exception $e){
+            session()->flash('error', $e->getMessage());
+        }
+        return redirect()->back();
     }
 }

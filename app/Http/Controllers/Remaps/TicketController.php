@@ -4,15 +4,14 @@ namespace App\Http\Controllers\Remaps;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\MasterController;
-use App\Http\Requests\TicketsRequest;
+use App\Http\Requests\TicketRequest;
 use App\Models\Ticket;
 use App\Models\FileService;
 use App\Models\User;
 use App\Mail\TicketFileCreated;
 
-use Mail;
-use File;
-
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\File;
 class TicketController extends MasterController
 {
     /**
@@ -93,7 +92,7 @@ class TicketController extends MasterController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(TicketsRequest $request, $id)
+    public function update(TicketRequest $request, $id)
     {
         $ticket = Ticket::find($id);
 

@@ -56,7 +56,9 @@ data-asset-path="{{ asset('/')}}">
   <!-- End: Content-->
 
   @if($configData['blankPage'] == false && isset($configData['blankPage']))
+  @if($user->is_admin || $user->is_staff)
   @include('content/pages/customizer')
+  @endif
 
   @include('content/pages/buy-now')
   @endif

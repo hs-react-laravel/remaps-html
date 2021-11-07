@@ -40,7 +40,11 @@ data-asset-path="{{ asset('/')}}">
   </div>
   <!-- End: Content-->
 
-  @if($configData['blankPage'] == false) @include('content/pages/customizer') @include('content/pages/buy-now') @endif
+  @if($configData['blankPage'] == false)
+  @if($user->is_admin || $user->is_staff)
+  @include('content/pages/customizer')
+  @endif
+  @include('content/pages/buy-now') @endif
 
   <div class="sidenav-overlay"></div>
   <div class="drag-target"></div>

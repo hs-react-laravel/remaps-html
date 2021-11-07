@@ -152,6 +152,10 @@
           href="{{ $user->is_admin || $user->is_staff ? route('admin.dashboard.profile') : route('dashboard.profile') }}">
           <i class="me-50" data-feather="user"></i> Profile
         </a>
+        <a class="dropdown-item"
+          href="{{ $user->is_admin || $user->is_staff ? route('admin.password.edit') : route('password.edit') }}">
+          <i class="me-50" data-feather="key"></i> Change Password
+        </a>
         @if ($user->is_admin || $user->is_staff)
           <a class="dropdown-item" href="{{ route('admin.auth.logout') }}"
             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
