@@ -64,7 +64,7 @@
 						  {!! Form::label('domain_prefix', 'Choose your preferred subdomain (yourname.myremaps.com)') !!}
 						  <div class="d-flex d-flex-custom">
 						  {!! Form::text('domain_prefix', '', ['class' => 'form-control', 'id' => 'domain_prefix', 'placeholder'=>'Eg: yourname']) !!}
-						  {!! Form::text('domain_suffix', '.myremaps.com', ['class' => 'form-control', 'readonly' => 'true']) !!}
+						  {!! Form::text('domain_suffix', '.pbxphonesystems.co.uk', ['class' => 'form-control', 'readonly' => 'true']) !!}
 						  </div>
 						</div>
 						@endif
