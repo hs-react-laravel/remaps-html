@@ -39,7 +39,6 @@
                    <a  class="view-btn back-btn" href="/">Back</a>
 					{!! Form::open(array('route' => ('pay.with.paypal.main'), 'method' => 'POST', 'autocomplete' => "off")) !!}
 
-
 						<div class="form-group">
 						  {!! Form::label('name', 'Company Name') !!}
 						  {!! Form::text('name', '', ['class' => 'form-control', 'placeholder'=>'Company Name']) !!}
