@@ -37,7 +37,7 @@
 
                 <div class="box-body">
                    <a  class="view-btn back-btn" href="/">Back</a>
-					{!! Form::open(array('action' => route('pay.with.paypal.main'), 'autocomplete' => "off")) !!}
+					{!! Form::open(array('route' => ('pay.with.paypal.main'), 'autocomplete' => "off")) !!}
 
 
 						<div class="form-group">
