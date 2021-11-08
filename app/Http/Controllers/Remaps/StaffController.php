@@ -7,8 +7,7 @@ use App\Http\Controllers\MasterController;
 use App\Http\Requests\StaffRequest;
 use App\Mail\WelcomeCustomer;
 use App\Models\User;
-
-use Mail;
+use Illuminate\Support\Facades\Mail;
 
 class StaffController extends MasterController
 {
