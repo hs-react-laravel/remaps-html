@@ -191,10 +191,9 @@ Route::group(['middleware' => 'auth:customer', 'prefix'=>'customer'], function (
 
     Route::get('/profile', [DashboardController::class, 'profile'])->name('dashboard.profile');
     Route::post('/profile_post', [DashboardController::class, 'profile_post'])->name('dashboard.profile.post');
-    // locale Route
-    // Route::get('lang/{locale}', [LanguageController::class, 'swap']);
+
     Route::get('/edit-password', [DashboardController::class, 'edit_password'])->name('password.edit');
     Route::post('/edit-password', [DashboardController::class, 'edit_password_post'])->name('password.edit.post');
 });
 
-
+Route::get('lang/{locale}', [LanguageController::class, 'swap']);

@@ -29,7 +29,7 @@ class FileServiceController extends MasterController
         $query = FileService::whereHas('user', function($query) use($user){
             $query->where('company_id', $user->company_id);
         });
-        if(request()->query('status')){
+        if(request()->query('status')) {
             $query = $query->where('status', request()->query('status'));
         }
         $entries = $query->orderBy('id', 'DESC')->paginate(10);

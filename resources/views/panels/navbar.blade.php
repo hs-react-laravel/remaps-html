@@ -90,40 +90,40 @@
         <a class="dropdown-item" href="{{ url('lang/fr') }}" data-language="fr">
           <i class="flag-icon flag-icon-fr"></i> French
         </a>
-        <a class="dropdown-item" href="{{ url('lang/es') }}" data-language="de">
+        <a class="dropdown-item" href="{{ url('lang/es') }}" data-language="es">
           <i class="flag-icon flag-icon-es"></i> Spanish
         </a>
         <a class="dropdown-item" href="{{ url('lang/pt') }}" data-language="pt">
           <i class="flag-icon flag-icon-pt"></i> Portuguese
         </a>
-        <a class="dropdown-item" href="{{ url('lang/it') }}" data-language="pt">
+        <a class="dropdown-item" href="{{ url('lang/it') }}" data-language="it">
           <i class="flag-icon flag-icon-it"></i> Italian
         </a>
-        <a class="dropdown-item" href="{{ url('lang/jp') }}" data-language="pt">
+        <a class="dropdown-item" href="{{ url('lang/jp') }}" data-language="jp">
           <i class="flag-icon flag-icon-jp"></i> Japanese
         </a>
-        <a class="dropdown-item" href="{{ url('lang/nl') }}" data-language="pt">
+        <a class="dropdown-item" href="{{ url('lang/nl') }}" data-language="nl">
           <i class="flag-icon flag-icon-nl"></i> Dutch
         </a>
-        <a class="dropdown-item" href="{{ url('lang/pl') }}" data-language="pt">
+        <a class="dropdown-item" href="{{ url('lang/pl') }}" data-language="pl">
           <i class="flag-icon flag-icon-pl"></i> Polish
         </a>
-        <a class="dropdown-item" href="{{ url('lang/de') }}" data-language="pt">
+        <a class="dropdown-item" href="{{ url('lang/de') }}" data-language="de">
           <i class="flag-icon flag-icon-de"></i> German
         </a>
-        <a class="dropdown-item" href="{{ url('lang/ru') }}" data-language="pt">
+        <a class="dropdown-item" href="{{ url('lang/ru') }}" data-language="ru">
           <i class="flag-icon flag-icon-ru"></i> Russian
         </a>
-        <a class="dropdown-item" href="{{ url('lang/tr') }}" data-language="pt">
+        <a class="dropdown-item" href="{{ url('lang/tr') }}" data-language="tr">
           <i class="flag-icon flag-icon-tr"></i> Turikish
         </a>
-        <a class="dropdown-item" href="{{ url('lang/no') }}" data-language="pt">
+        <a class="dropdown-item" href="{{ url('lang/no') }}" data-language="no">
           <i class="flag-icon flag-icon-no"></i> Norwegian
         </a>
-        <a class="dropdown-item" href="{{ url('lang/se') }}" data-language="pt">
+        <a class="dropdown-item" href="{{ url('lang/se') }}" data-language="se">
           <i class="flag-icon flag-icon-se"></i> Sweden
         </a>
-        <a class="dropdown-item" href="{{ url('lang/dk') }}" data-language="pt">
+        <a class="dropdown-item" href="{{ url('lang/dk') }}" data-language="dk">
           <i class="flag-icon flag-icon-dk"></i> Danish
         </a>
       </div>

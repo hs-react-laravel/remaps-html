@@ -54,9 +54,9 @@
                 </div>
               </div>
               @endif
-              <button type="submit" class="btn btn-primary me-1">Save</button>
-              <button type="button" class="btn btn-flat-secondary me-1" onclick="history.back(-1)">Cancel</button>
             </div>
+            <button type="submit" class="btn btn-primary me-1">Save</button>
+            <button type="button" class="btn btn-flat-secondary me-1" onclick="history.back(-1)">Cancel</button>
           {{ Form::close() }}
         </div>
       </div>
