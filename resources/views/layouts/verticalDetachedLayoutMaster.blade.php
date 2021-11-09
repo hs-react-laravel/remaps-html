@@ -21,7 +21,7 @@ data-asset-path="{{ asset('/')}}">
 
     <div class="content-wrapper {{ $configData['layoutWidth'] === 'boxed' ? 'container-xxl p-0' : '' }}">
       {{-- Include Breadcrumb --}}
-      @if($configData['pageHeader'] == true) @include('panels.breadcrumb') @endif
+      {{-- @if($configData['pageHeader'] == true) @include('panels.breadcrumb') @endif --}}
 
       <div class="{{ $configData['contentsidebarClass'] }}">
         <div class="content-body">

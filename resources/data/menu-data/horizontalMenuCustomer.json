@@ -1,43 +1,43 @@
 {
     "menu": [
       {
-          "url": "/",
+          "url": "customer/dashboard",
           "name": "Dashboards",
           "icon": "home",
-          "slug": "dashboard"
+          "slug": "dashboard.customer"
       },
       {
-          "url": "fs",
+          "url": "customer/fs",
           "name": "File Services",
           "icon": "file",
           "slug": "fs.index"
       },
       {
-          "url": "tk",
+          "url": "customer/tk",
           "name": "Support Tickets",
           "icon": "message-circle",
           "slug": "tk.index"
       },
       {
-          "url": "buy-credits",
+          "url": "customer/buy-credits",
           "name": "Buy Tuning Credits",
           "icon": "plus",
           "slug": "consumer.buy-credits"
       },
       {
-          "url": "od",
+          "url": "customer/od",
           "name": "Orders",
           "icon": "file-text",
           "slug": "od.index"
       },
       {
-          "url": "tr",
+          "url": "customer/tr",
           "name": "Transactions",
           "icon": "credit-card",
           "slug": "tr.index"
       },
       {
-          "url": "cars",
+          "url": "customer/cars",
           "name": "Browse Tuning Specs",
           "icon": "search",
           "slug": "cars.index"
