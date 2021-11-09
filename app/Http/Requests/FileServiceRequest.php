@@ -127,9 +127,7 @@ class FileServiceRequest extends FormRequest
                 $requestTuningType = \App\Models\TuningType::find($this->get('tuning_type_id'));
                 if($requestTuningType){
                     $tuningTypeCredits = $requestTuningType->credits;
-					/*if(($tuningTypeCredits == 0) && empty($this->get('tuning_type_options'))){
-                        $validator->errors()->add('user', 'Please select atleast one tuning type option.');
-                    }*/
+
                     if($user->tuning_credits < $tuningTypeCredits){
                         $validator->errors()->add('user', __('customer.not_enough_credits'));
                     }else{

@@ -56,7 +56,7 @@ class FileServiceProcessed extends Mailable
             $body = str_replace('##ENGINE_HP', $this->fileService->engine_hp, $body);
             $body = str_replace('##ENGINE', $this->fileService->engine, $body);
             $body = str_replace('##YEAR', $this->fileService->year, $body);
-            $body = str_replace('##GEARBOX', config('site.file_service_gearbox')[$this->fileService->gearbox], $body);
+            $body = str_replace('##GEARBOX', config('constants.file_service_gearbox')[$this->fileService->gearbox], $body);
             $body = str_replace('##READING_TOOL', $this->fileService->reading_tool, $body);
             $body = str_replace('##LICENSE_PLATE', $this->fileService->license_plate, $body);
             $body = str_replace('##NOTE_TO_ENGINEER', $this->fileService->note_to_engineer, $body);

@@ -24,7 +24,11 @@ class FileServiceController extends MasterController
      */
     public function index()
     {
-        $entries = FileService::where('user_id', $this->user->id)->orderBy('id', 'DESC')->paginate(10);
+        $query = FileService::where('user_id', $this->user->id);
+        if(request()->query('status')){
+            $query = $query->where('status', request()->query('status'));
+        }
+        $entries = $query->orderBy('id', 'DESC')->paginate(10);
         $tuningTypes = TuningType::where('company_id', $this->user->company_id)->orderBy('order_as', 'ASC')->pluck('label', 'id')->toArray();
         return view('pages.consumers.fs.index', [
             'entries' => $entries,
@@ -62,9 +66,12 @@ class FileServiceController extends MasterController
             $open_status = $this->open_status();
             if ($open_status == 1) { // allow file service
                 session()->flash('warning', __('File Services are closed.'));
+                $request->request->add(['status' => 'P']);
             } else if ($open_status == 2) { // deny file service
                 session()->flash('warning', __('File Services are closed.'));
                 return redirect(url('customer/file-service'));
+            } else {
+                $request->request->add(['status' => 'O']);
             }
             // upload file
             $file = $request->file('upload_file');

@@ -58,7 +58,7 @@ class SubscriptionPayment extends Model
      * @return string
      */
     public function getLastPaymentAmountAttribute($value) {
-        return config('site.currency_sign').' '.number_format($value, 2);
+        return config('constants.currency_sign').' '.number_format($value, 2);
     }
 
     /**
