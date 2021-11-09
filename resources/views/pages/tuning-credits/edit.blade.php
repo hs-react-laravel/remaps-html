@@ -11,7 +11,7 @@
 @section('content')
 
 <section id="basic-input">
-  @if (!$is_evc)
+  @if ($group_type == 'normal')
   {{ Form::model($entry, array('route' => array('tuning-credits.update', $entry->id), 'method' => 'PUT')) }}
   @else
   {{ Form::model($entry, array('route' => array('evc-tuning-credits.update', $entry->id), 'method' => 'PUT')) }}

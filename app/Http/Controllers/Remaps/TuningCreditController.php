@@ -29,6 +29,7 @@ class TuningCreditController extends MasterController
         return view('pages.tuning-credits.index', [
             'entries' => $entries,
             'tires' => $tires,
+            'group_type' => 'normal'
         ]);
     }
 
@@ -43,7 +44,7 @@ class TuningCreditController extends MasterController
             ->where('group_type', 'normal')
             ->orderBy('amount', 'ASC')
             ->get();
-        return view('pages.tuning-credits.create', ['tires' => $tires]);
+        return view('pages.tuning-credits.create', ['tires' => $tires, 'group_type' => 'normal']);
     }
 
     /**
@@ -90,6 +91,7 @@ class TuningCreditController extends MasterController
         return view('pages.tuning-credits.edit', [
             'entry' => $group,
             'tires' => $tires,
+            'group_type' => 'normal'
         ]);
     }
 

@@ -11,7 +11,7 @@
 @section('content')
 
 <section id="basic-input">
-  @if (!$is_evc)
+  @if ($group_type == 'normal')
     <form action="{{ route('tuning-credits.store') }}" method="post">
   @else
     <form action="{{ route('evc-tuning-credits.store') }}" method="post">

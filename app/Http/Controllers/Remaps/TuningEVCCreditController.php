@@ -29,6 +29,7 @@ class TuningEVCCreditController extends MasterController
         return view('pages.tuning-credits.index', [
             'entries' => $entries,
             'tires' => $tires,
+            'group_type' => 'evc'
         ]);
     }
 
@@ -43,7 +44,7 @@ class TuningEVCCreditController extends MasterController
             ->where('group_type', 'evc')
             ->orderBy('amount', 'ASC')
             ->get();
-        return view('pages.tuning-credits.create', ['tires' => $tires]);
+        return view('pages.tuning-credits.create', ['tires' => $tires, 'group_type' => 'evc']);
     }
 
     /**
@@ -90,6 +91,7 @@ class TuningEVCCreditController extends MasterController
         return view('pages.tuning-credits.edit', [
             'entry' => $group,
             'tires' => $tires,
+            'group_type' => 'evc'
         ]);
     }
 

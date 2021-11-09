@@ -15,9 +15,9 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">{{ $is_evc ? 'EVC' : '' }} Tuning Credits</h4>
+        <h4 class="card-title">{{ $group_type == 'evc' ? 'EVC' : '' }} Tuning Credits</h4>
         <div>
-          @if (!$is_evc)
+          @if ($group_type == 'normal')
             <a href="{{ route('tuning-tires.create') }}" class="btn btn-icon btn-primary" style="float: right">
               <i data-feather="plus"></i> Tire
             </a>
@@ -43,7 +43,7 @@
               @foreach ($tires as $tire)
               <th class="th-tires">{{ $tire->amount }} Credits <br>
                 <a href="#" onclick="onDeleteTire(this)">remove {{ $tire->amount }} Credits</a>
-                @if (!$is_evc)
+                @if ($group_type == 'normal')
                 <form action="{{ route('tuning-tires.destroy', $tire->id) }}" class="delete-tire-form" method="POST" style="display:none">
                 @else
                 <form action="{{ route('evc-tuning-tires.destroy', $tire->id) }}" class="delete-tire-form" method="POST" style="display:none">
@@ -72,7 +72,7 @@
                     </td>
                   @endforeach
                   <td class="td-actions" @if($entry->set_default_tier) style="font-weight: bold" @endif">
-                    @if (!$is_evc)
+                    @if ($group_type == 'normal')
                       <a class="btn btn-icon btn-primary" href="{{ route('tuning-credits.edit', ['tuning_credit' => $entry->id]) }}">
                         <i data-feather="edit"></i>
                       </a>

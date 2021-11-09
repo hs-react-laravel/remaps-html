@@ -44,7 +44,6 @@ use App\Http\Controllers\PaypalWebhookController;
 
 // Remaps
 Route::post('paypal/webhooks', [PaypalWebhookController::class, 'index']);
-Route::post('paypal/subscription', [PaypalWebhookController::class, 'subscription']);
 Route::group(['domain' => 'frontend.pbxphonesystems.co.uk'], function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
 	Route::get('register-as-a-remapping-file-supplier', [HomeController::class, 'innerhome'])->name('innerhome');
