@@ -17,8 +17,8 @@
 <div class="auth-wrapper auth-cover">
   <div class="auth-inner row m-0">
     <!-- Brand logo-->
-    <a class="brand-logo" href="#">
-      <h2 class="brand-text text-primary ms-1">Remaps</h2>
+    <a class="brand-logo" href="{{ url('/') }}">
+      <h2 class="brand-text text-primary ms-1">{{ $company->name }}</h2>
     </a>
     <!-- /Brand logo-->
 
@@ -43,7 +43,7 @@
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header">
-                  <h4 class="card-title">Add a new customer</h4>
+                  <h4 class="card-title">Register</h4>
                 </div>
                 <div class="card-body">
                   <div class="row mb-1">

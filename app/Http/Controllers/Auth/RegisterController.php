@@ -9,6 +9,11 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Models\TuningCreditGroup;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
@@ -30,7 +35,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/login';
 
     protected $company;
 
@@ -65,8 +70,16 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'business_name' =>  'required|max:255',
+            'email' => 'required|unique:users,email,NULL,id,company_id,'.$this->company->id,
+            'password' => 'nullable|min:6',
+            'password_confirmation' => 'nullable|required_with:password|min:6|max:20|same:password',
+            'address_line_1' =>  'required|max:255',
+            'county' =>  'required|max:255',
+            'town' =>  'required|max:255',
+            'phone' =>  'required|max:255',
         ]);
     }
 
@@ -78,11 +91,47 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $data['password'] = Hash::make($data['password']);
-        $default_tuning_group = $this->company->defaultTuningCreditGroup;
-        if ($default_tuning_group) {
-            $data['tuning_credit_group_id'] = $default_tuning_group->id;
+        $company  = $this->company;
+
+		$data['company_id'] = $company->id;
+
+        $defaultGroup = TuningCreditGroup::where('company_id', $this->company->id)
+            ->where('group_type', 'normal')
+            ->where('set_default_tier', 1)->first();
+
+		$model = new User();
+        $model->tuning_credit_group_id  =   $defaultGroup ?? null;
+        $model->title                   =   $data['title'];
+        $model->first_name              =   $data['first_name'];
+        $model->last_name               =   $data['last_name'];
+        $model->lang                    =   $data['lang'];
+        $model->email                   =   $data['email'];
+        $model->password                =   Hash::make($data['password']);
+        $model->business_name           =   $data['business_name'];
+        $model->address_line_1          =   $data['address_line_1'];
+        $model->address_line_2          =   $data['address_line_2'];
+        $model->post_code               =   $data['post_code'];
+        $model->county                  =   $data['county'];
+        $model->town                    =   $data['town'];
+        $model->phone                   =   $data['phone'];
+        $model->tools                   =   $data['tools'];
+        $model->company_id              =   $company->id;
+
+		$model->save();
+    }
+
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        if ($response = $this->registered($request, $user)) {
+            return $response;
         }
-        return User::create($data);
+
+        return $request->wantsJson()
+                    ? new JsonResponse([], 201)
+                    : redirect($this->redirectPath())->with(['message'=>'Registration has been saved successfully.','status'=>'success']);
     }
 }
