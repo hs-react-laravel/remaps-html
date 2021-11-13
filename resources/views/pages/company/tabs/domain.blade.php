@@ -3,14 +3,14 @@
     <div class="row">
       <div class="col-md-4 col-12">
         <div class="mb-1">
-          <label class="form-label" for="domain_link">Domain Link <span class="text-danger">*</span></label>
+          <label class="form-label" for="v2_domain_link">Domain Link <span class="text-danger">*</span></label>
           <input
             type="text"
-            id="domain_link"
+            id="v2_domain_link"
             class="form-control"
             placeholder="xxx.myremaps.com"
-            name="domain_link"
-            value="{{ $entry->domain_link }}" />
+            name="v2_domain_link"
+            value="{{ $entry->v2_domain_link }}" />
         </div>
       </div>
       <div class="col-12">

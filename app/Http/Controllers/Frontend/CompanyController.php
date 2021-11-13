@@ -74,9 +74,9 @@ class CompanyController extends Controller
 		 $company->main_email_address = $request->main_email_address;
 
          if ($request->has('own_domain')) {
-            $company->domain_link = $request->own_domain;
+            $company->v2_domain_link = $request->own_domain;
          } else {
-            $company->domain_link = 'https://'.$request->domain_link;
+            $company->v2_domain_link = 'https://'.$request->v2_domain_link;
          }
 		 $company->address_line_1 = $request->address_line_1;
 		 $company->address_line_2 = $request->address_line_2;

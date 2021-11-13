@@ -107,7 +107,7 @@
 								?>
 								@php
 									$logo = 'uploads/logo/'.$val['logo'];
-									$link =$val['domain_link'];
+									$link =$val['v2_domain_link'];
 								@endphp
 								<tr>
 									<td class="">

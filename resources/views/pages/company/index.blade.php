@@ -39,7 +39,7 @@
               @foreach ($entries as $u)
                 <tr>
                     <td>{{ $u->name }}</td>
-                    <td>{{ $u->domain_link }}</td>
+                    <td>{{ $u->v2_domain_link }}</td>
                     <td>{{ $u->total_customers }}</td>
                     <td>{{ $u->created_at }}</td>
                     <td class="td-actions">

@@ -109,7 +109,7 @@
 								{!! Form::hidden('package_id', $packageID) !!}
 								{!! Form::hidden('amount', $packageAmount) !!}
 							*/ @endphp
-							{!! Form::hidden('domain_link', '', ['id' => 'domain_link']) !!}
+							{!! Form::hidden('v2_domain_link', '', ['id' => 'v2_domain_link']) !!}
 						</div>
 
 						<div class="form-group">

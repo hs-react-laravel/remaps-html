@@ -23,7 +23,7 @@ class Company extends Model
         'logo',
         'theme_color',
         'copy_right_text',
-        'domain_link',
+        'v2_domain_link',
         'main_email_address',
         'support_email_address',
         'billing_email_address',

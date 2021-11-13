@@ -34,7 +34,7 @@ class CompanyRegisterFront extends FormRequest
 			'password' => 'nullable|min:6',
             'password_confirmation' => 'nullable|required_with:password|min:6|max:20|same:password',
 			'domain_prefix' => 'bail|nullable|string|max:100',
-			'domain_link' => 'bail|required|unique:companies,domain_link|max:100',
+			'v2_domain_link' => 'bail|required|unique:companies,v2_domain_link|max:100',
         ];
     }
 

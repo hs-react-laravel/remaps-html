@@ -40,7 +40,7 @@ class ResetPasswordController extends Controller
     public function __construct()
     {
         $this->middleware('guest:admin');
-        $this->company = \App\Models\Company::where('domain_link', url(''))->first();
+        $this->company = \App\Models\Company::where('v2_domain_link', url(''))->first();
         if(!$this->company){
             abort(400, 'No such domain('.url("").') is registerd with system. Please contact to webmaster.');
         }

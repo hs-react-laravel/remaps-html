@@ -70,10 +70,10 @@ class CompanyController extends MasterController
                 $requestData->replace($request->only(['name', 'country', 'state', 'town', 'address_line_1', 'address_line_2', 'post_code', 'logo', 'theme_color', 'copy_right_text']));
                 break;
             case 'domain':
-                $validator = Validator::make($request->only('domain_link'), [
-                    'domain_link'=> 'bail|required|url|unique:companies,domain_link|max:100'
+                $validator = Validator::make($request->only('v2_domain_link'), [
+                    'v2_domain_link'=> 'bail|required|url|unique:companies,v2_domain_link|max:100'
                 ]);
-                $requestData->replace($request->only('domain_link'));
+                $requestData->replace($request->only('v2_domain_link'));
                 break;
             case 'email':
                 // 'main_email_address'=> 'bail|required|email|unique:companies,main_email_address,'.$company->id.'|unique:users,email,'.$company->owner->id.'|max:100',
@@ -145,7 +145,7 @@ class CompanyController extends MasterController
             }
             $company = Company::create($request->all());
             if($company->owner == NULL){
-                if($company->name && $company->main_email_address && $company->address_line_1 && $company->town && $company->country && $company->domain_link) {
+                if($company->name && $company->main_email_address && $company->address_line_1 && $company->town && $company->country && $company->v2_domain_link) {
                     $companyUser = new User();
 					$companyUser->company_id = $company->id;
 					$companyUser->tuning_credit_group_id = Null;
@@ -195,7 +195,7 @@ class CompanyController extends MasterController
                 return redirect(route('companies.edit', ['company' => $company->id, 'tab' => 'name']));
             }
 
-            if(!$company->domain_link) {
+            if(!$company->v2_domain_link) {
                 session()->flash('warning', 'Please update company domain in order to complete company registration.');
                 return redirect(route('companies.edit', ['company' => $company->id, 'tab' => 'domain']));
             }
@@ -265,10 +265,10 @@ class CompanyController extends MasterController
                 $requestData->replace($request->only(['name', 'country', 'state', 'town', 'address_line_1', 'address_line_2', 'post_code', 'logo', 'theme_color', 'copy_right_text']));
                 break;
             case 'domain':
-                $validator = Validator::make($request->only('domain_link'), [
-                    'domain_link'=> 'bail|required|url|unique:companies,domain_link|max:100'
+                $validator = Validator::make($request->only('v2_domain_link'), [
+                    'v2_domain_link'=> 'bail|required|url|unique:companies,v2_domain_link|max:100'
                 ]);
-                $requestData->replace($request->only('domain_link'));
+                $requestData->replace($request->only('v2_domain_link'));
                 break;
             case 'email':
                 // 'main_email_address'=> 'bail|required|email|unique:companies,main_email_address,'.$company->id.'|unique:users,email,'.$company->owner->id.'|max:100',
@@ -344,7 +344,7 @@ class CompanyController extends MasterController
 
             if($entry->owner == NULL){
                 /* register company owner*/
-                if($entry->name && $entry->main_email_address && $entry->address_line_1 && $entry->town && $entry->country && $entry->domain_link){
+                if($entry->name && $entry->main_email_address && $entry->address_line_1 && $entry->town && $entry->country && $entry->v2_domain_link){
                     $companyUser = new User();
                     $companyUser->company_id = $entry->id;
                     $companyUser->tuning_credit_group_id = Null;
@@ -398,7 +398,7 @@ class CompanyController extends MasterController
                 return redirect(route('companies.edit', ['company' => $entry->id, 'tab' => 'name']));
             }
 
-            if(!$entry->domain_link) {
+            if(!$entry->v2_domain_link) {
                 session()->flash('warning', 'Please update company domain in order to complete company registration.');
                 return redirect(route('companies.edit', ['company' => $entry->id, 'tab' => 'domain']));
             }
@@ -477,7 +477,7 @@ class CompanyController extends MasterController
         $user = $company->users()->where('is_master', 0)->where('is_admin', 1)->first();
         if($user){
             Auth::login($user);
-            return redirect()->away($user->company->domain_link.'/admin/dashboard');
+            return redirect()->away($user->company->v2_domain_link.'/admin/dashboard');
         }
     }
 

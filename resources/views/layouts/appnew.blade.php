@@ -86,14 +86,14 @@
             $('#domain_prefix').keyup(function(){
               var domain_prefix = $(this).val();
               domain_prefix = domain_prefix.replace(/\s/g, '');
-              var domain_link = domain_prefix + '.myremaps.com';
-              $("#domain_link").val( $.trim(domain_link) );
+              var v2_domain_link = domain_prefix + '.myremaps.com';
+              $("#v2_domain_link").val( $.trim(v2_domain_link) );
             });
           @endif
           @if(isset($_GET['domain']) && $_GET['domain'] == 'own')
             $('#own_domain').keyup(function(){
-              var domain_link = $(this).val();
-              $("#domain_link").val( $.trim(domain_link) );
+              var v2_domain_link = $(this).val();
+              $("#v2_domain_link").val( $.trim(v2_domain_link) );
             });
           @endif
        });

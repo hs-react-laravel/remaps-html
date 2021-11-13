@@ -46,7 +46,7 @@ class FileServiceModified extends Mailable
 
             $body = str_replace('##APP_NAME', $this->fileService->user->company->name, $body);
             $body = str_replace('##APP_LOGO', asset('uploads/logo/'. $this->fileService->user->company->logo), $body);
-            $body = str_replace('##LINK', $this->fileService->user->company->domain_link.'/customer/file-service', $body);
+            $body = str_replace('##LINK', $this->fileService->user->company->v2_domain_link.'/customer/file-service', $body);
             $body = str_replace('##CAR_NAME', $this->fileService->car, $body);
 
             $body = str_replace('##MAKE', $this->fileService->make, $body);
