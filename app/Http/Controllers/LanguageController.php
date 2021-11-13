@@ -24,7 +24,7 @@ class LanguageController extends Controller
             'tr'=>'tr',
             'no'=>'no',
             'se'=>'se',
-            'dk'=>'dk',
+            'da'=>'da',
         ];
         // check for existing language
         if(array_key_exists($locale,$availLocale)){

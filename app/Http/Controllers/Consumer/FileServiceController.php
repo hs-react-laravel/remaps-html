@@ -105,7 +105,7 @@ class FileServiceController extends MasterController
             /* save transaction */
             $transaction = new Transaction();
             $transaction->user_id       =   $user->id;
-            $transaction->credits       =   number_format($tuningTypeCredits, 2);
+            $transaction->credits       =   $tuningTypeCredits;
             $transaction->description   =   "File Service: " . $fileService->car;
             $transaction->status        =   config('constants.transaction_status.completed');
             $transaction->type          =   'S';

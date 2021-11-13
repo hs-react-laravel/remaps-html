@@ -1,7 +1,7 @@
 
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Tuning Types')
+@section('title', __('locale.menu_TuningTypes'))
 
 @section('vendor-style')
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/animate/animate.min.css')) }}">
@@ -17,7 +17,7 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">Tuning Types</h4>
+        <h4 class="card-title">{{__('locale.menu_TuningTypes')}}</h4>
         <a href="{{ route('tuning-types.create') }}" class="btn btn-icon btn-primary">
           <i data-feather="plus"></i>
         </a>
@@ -26,10 +26,10 @@
         <table class="table">
           <thead>
             <tr>
-              <th>Label</th>
-              <th>Credits</th>
-              <th>Tuning Options</th>
-              <th>Actions</th>
+              <th>{{__('locale.tb_header_Label')}}</th>
+              <th>{{__('locale.tb_header_Credits')}}</th>
+              <th>{{__('locale.tb_header_TuningOptions')}}</th>
+              <th>{{__('locale.tb_header_Actions')}}</th>
             </tr>
           </thead>
           <tbody>

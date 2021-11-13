@@ -24,12 +24,12 @@
         <table class="table">
           <thead>
             <tr>
-              <th width="10%">Job No.</th>
-              <th width="20%">Car</th>
-              <th width="20%">License Plate</th>
+              <th width="10%">{{__('locale.tb_header_JobNo')}}</th>
+              <th width="20%">{{__('locale.tb_header_Car')}}</th>
+              <th width="20%">{{__('locale.tb_header_License')}}</th>
               <th>Working</th>
-              <th width="15%">Created At</th>
-              <th width="20%">Actions</th>
+              <th width="15%">{{__('locale.tb_header_CreatedAt')}}</th>
+              <th width="20%">{{__('locale.tb_header_Actions')}}</th>
             </tr>
           </thead>
           <tbody>

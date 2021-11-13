@@ -27,11 +27,11 @@
         <table class="table">
           <thead>
             <tr>
-              <th width="10%">Name</th>
-              <th width="10%">Email</th>
-              <th width="5%">File Service</th>
-              <th width="10%">Last Login</th>
-              <th width="20%">Actions</th>
+              <th width="10%">{{__('locale.tb_header_Name')}}</th>
+              <th width="10%">{{__('locale.contactInfo_Email')}}</th>
+              <th width="5%">{{__('locale.tb_header_FileService')}}</th>
+              <th width="10%">{{__('locale.tb_header_Lastlogin')}}</th>
+              <th width="20%">{{__('locale.tb_header_Actions')}}</th>
             </tr>
           </thead>
           <tbody>

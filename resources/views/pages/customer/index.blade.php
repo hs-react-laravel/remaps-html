@@ -1,7 +1,7 @@
 
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Customers')
+@section('title', __('locale.menu_Customers'))
 
 @section('vendor-style')
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/animate/animate.min.css')) }}">
@@ -18,7 +18,7 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">Customers</h4>
+        <h4 class="card-title">{{__('locale.menu_Customers')}}</h4>
         <a href="{{ route('customers.create') }}" class="btn btn-icon btn-primary">
           <i data-feather="user-plus"></i>
         </a>
@@ -27,16 +27,16 @@
         <table class="table">
           <thead>
             <tr>
-              <th width="10%">Name</th>
-              <th width="10%">Company</th>
-              <th width="5%">Tuning Credits</th>
-              <th width="10%">Tuning Price Group</th>
+              <th width="10%">{{__('locale.tb_header_Name')}}</th>
+              <th width="10%">{{__('locale.tb_header_Company')}}</th>
+              <th width="5%">{{__('locale.tb_header_TuningCredits')}}</th>
+              <th width="10%">{{__('locale.tb_header_TuningPriceGroup')}}</th>
               @if ($user->company->reseller_id)
-              <th width="10%">EVC Tuning Price Group</th>
+              <th width="10%">{{__('locale.tb_header_EVCTuningPriceGroup')}}</th>
               @endif
-              <th width="5%">File Service</th>
-              <th width="10%">Last Login</th>
-              <th width="20%">Actions</th>
+              <th width="5%">{{__('locale.tb_header_FileService')}}</th>
+              <th width="10%">{{__('locale.tb_header_Lastlogin')}}</th>
+              <th width="20%">{{__('locale.tb_header_Actions')}}</th>
             </tr>
           </thead>
           <tbody>

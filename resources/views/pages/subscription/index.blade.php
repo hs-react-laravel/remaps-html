@@ -1,7 +1,7 @@
 
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'My Subscriptions')
+@section('title', __('locale.menu_MySubscriptions'))
 
 @section('vendor-style')
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/animate/animate.min.css')) }}">
@@ -18,19 +18,19 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">Subscriptions</h4>
+        <h4 class="card-title">{{__('locale.menu_MySubscriptions')}}</h4>
       </div>
       <div class="table-responsive">
         <table class="table">
           <thead>
             <tr>
-              <th>Agreement Id</th>
-              <th>Description</th>
-              <th>Start At</th>
-              <th>Next Billing Date</th>
-              <th>Type</th>
-              <th>Status</th>
-              <th>Actions</th>
+              <th>{{__('locale.tb_header_AggreeId')}}</th>
+              <th>{{__('locale.tb_header_Description')}}</th>
+              <th>{{__('locale.tb_header_StartedAt')}}</th>
+              <th>{{__('locale.tb_header_NextBillingDate')}}</th>
+              <th>{{__('locale.tb_header_Type')}}</th>
+              <th>{{__('locale.tb_header_Status')}}</th>
+              <th>{{__('locale.tb_header_Actions')}}</th>
             </tr>
           </thead>
           <tbody>

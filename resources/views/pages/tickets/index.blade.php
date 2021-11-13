@@ -1,7 +1,7 @@
 
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Support Tickets')
+@section('title', __('locale.menu_SupportTickets'))
 
 @section('vendor-style')
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/animate/animate.min.css')) }}">
@@ -18,18 +18,18 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">Support Tickets</h4>
+        <h4 class="card-title">{{__('locale.menu_SupportTickets')}}</h4>
       </div>
       <div class="table-responsive">
         <table class="table">
           <thead>
             <tr>
-              <th width="20%">Client</th>
-              <th width="20%">File Service</th>
-              <th width="10%">Ticket Status</th>
+              <th width="20%">{{__('locale.tb_header_Client')}}</th>
+              <th width="20%">{{__('locale.tb_header_FileService')}}</th>
+              <th width="10%">{{__('locale.tb_header_TicketStatus')}}</th>
               <th width="20%">Assign</th>
-              <th width="20%">Created At</th>
-              <th width="20%">Actions</th>
+              <th width="15%">{{__('locale.tb_header_CreatedAt')}}</th>
+              <th width="20%">{{__('locale.tb_header_Actions')}}</th>
             </tr>
           </thead>
           <tbody>

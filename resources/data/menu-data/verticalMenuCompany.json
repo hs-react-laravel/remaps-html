@@ -6,79 +6,79 @@
     },
     {
         "url": "admin/dashboard",
-        "name": "Dashboards",
+        "name": "menu_Dashboard",
         "icon": "home",
         "slug": "dashboard.admin"
     },
     {
       "url": "admin/customers",
-      "name": "Customers",
+      "name": "menu_Customers",
       "icon": "users",
       "slug": "customers.index"
     },
     {
         "url": "admin/fileservices",
-        "name": "File Services",
+        "name": "menu_FileServices",
         "icon": "file",
         "slug": "fileservices.index"
     },
     {
         "url": "admin/tickets",
-        "name": "Support Tickets",
+        "name": "menu_SupportTickets",
         "icon": "message-circle",
         "slug": "tickets.index"
     },
     {
         "url": "admin/orders",
-        "name": "Orders",
+        "name": "menu_Orders",
         "icon": "file-text",
         "slug": "orders.index"
     },
     {
         "url": "admin/transactions",
-        "name": "Transactions",
+        "name": "menu_Transactions",
         "icon": "credit-card",
         "slug": "transactions.index"
     },
     {
         "url": "admin/email-templates",
-        "name": "Email Templates",
+        "name": "menu_EmailTemplates",
         "icon": "mail",
         "slug": "email-templates.index"
     },
     {
         "url": "admin/tuning-credits",
-        "name": "Tuning Credit Prices",
+        "name": "menu_TuningCredit",
         "icon": "dollar-sign",
         "slug": "tuning-credits.index"
     },
     {
         "url": "admin/tuning-types",
-        "name": "Tuning Types",
+        "name": "menu_TuningTypes",
         "icon": "columns",
         "slug": "tuning-types.index"
     },
     {
         "url": "admin/staffs",
-        "name": "Staffs",
+        "name": "menu_Staffs",
         "icon": "user-check",
         "slug": "staffs.index"
     },
     {
         "url": "admin/subscriptions",
-        "name": "My Subscriptions",
+        "name": "menu_MySubscriptions",
         "icon": "award",
         "slug": "subscriptions.index"
     },
     {
         "url": "admin/company-settings",
-        "name": "Company Settings",
+        "name": "menu_CompanySettings",
         "icon": "settings",
         "slug": "company.setting"
     },
     {
         "url": "admin/cars",
-        "name": "Browse Tuning Specs",
+        "name": "menu_BrowseSpecs",
         "icon": "search",
         "slug": "admin.cars.index"
     }

@@ -86,7 +86,7 @@ class MasterController extends BaseController
                     if ($this->company->reseller_id && $this->user->is_admin) {
                         $evc_menu = new \stdClass();
                         $evc_menu->url = "admin/evc-tuning-credits";
-                        $evc_menu->name = "EVC Tuning Credit Prices";
+                        $evc_menu->name = "menu_EVCTuningCredit";
                         $evc_menu->icon = "dollar-sign";
                         $evc_menu->slug = "evc-tuning-credits.index";
                         array_splice($verticalMenuData->menu, 9, 0, [$evc_menu]);

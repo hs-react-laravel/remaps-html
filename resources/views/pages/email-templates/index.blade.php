@@ -1,7 +1,7 @@
 
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Email Templates')
+@section('title', __('locale.menu_EmailTemplates'))
 
 @section('content')
 <!-- Basic Tables start -->
@@ -9,16 +9,16 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">Email Templates</h4>
+        <h4 class="card-title">{{__('locale.menu_EmailTemplates')}}</h4>
       </div>
       <div class="table-responsive">
         <table class="table">
           <thead>
             <tr>
-              <th width="20%">Email Type</th>
-              <th width="20%">Subject</th>
-              <th width="20%">Modified At</th>
-              <th width="5%">Actions</th>
+              <th width="20%">{{__('locale.tb_header_EmailType')}}</th>
+              <th width="20%">{{__('locale.tb_header_Subject')}}</th>
+              <th width="20%">{{__('locale.tb_header_ModifiedAt')}}</th>
+              <th width="5%">{{__('locale.tb_header_Actions')}}</th>
             </tr>
           </thead>
           <tbody>

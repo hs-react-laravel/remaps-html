@@ -25,11 +25,11 @@
         @if(!$user->hasActiveSubscription())
         <div class="card">
           <div class="card-header">
-            <h4 class="card-title">Subscription</h4>
+            <h4 class="card-title">{{ __('locale.dash_Subscription') }}</h4>
           </div>
           <div class="card-body">
-            <p>Please activate your subscription. Click on the button below and select your subscription. Once completed your panel will be fully activated.</p>
-            <a class="btn btn-primary me-1" href="{{ route('packages.choose') }}">Choose Package</a>
+            <p>{{ __('locale.dash_SubscriptionDesc') }}</p>
+            <a class="btn btn-primary me-1" href="{{ route('packages.choose') }}">{{ __('locale.btn_ChoosePackages') }}</a>
           </div>
         </div>
         @else
@@ -43,7 +43,7 @@
 
       <div class="card card-statistics">
         <div class="card-header">
-          <h4 class="card-title">File Services</h4>
+          <h4 class="card-title">{{ __('locale.menu_FileServices') }}</h4>
         </div>
         <div class="card-body statistics-body">
           <div class="row">
@@ -56,7 +56,7 @@
                 </div>
                 <div class="my-auto">
                   <h4 class="fw-bolder mb-0">{{ $data['fs_pending'] }}</h4>
-                  <p class="card-text font-small-3 mb-0">Upload Pending</p>
+                  <p class="card-text font-small-3 mb-0">{{ __('locale.dash_PendingFileService') }}</p>
                 </div>
               </div>
             </div>
@@ -69,7 +69,7 @@
                 </div>
                 <div class="my-auto">
                   <h4 class="fw-bolder mb-0">{{ $data['fs_open'] }}</h4>
-                  <p class="card-text font-small-3 mb-0">Open</p>
+                  <p class="card-text font-small-3 mb-0">{{ __('locale.dash_OpenFileService') }}</p>
                 </div>
               </div>
             </div>
@@ -82,7 +82,7 @@
                 </div>
                 <div class="my-auto">
                   <h4 class="fw-bolder mb-0">{{ $data['fs_waiting'] }}</h4>
-                  <p class="card-text font-small-3 mb-0">Waiting</p>
+                  <p class="card-text font-small-3 mb-0">{{ __('locale.dash_WaitingService') }}</p>
                 </div>
               </div>
             </div>
@@ -95,7 +95,7 @@
                 </div>
                 <div class="my-auto">
                   <h4 class="fw-bolder mb-0">{{ $data['fs_completed'] }}</h4>
-                  <p class="card-text font-small-3 mb-0">Completed</p>
+                  <p class="card-text font-small-3 mb-0">{{ __('locale.dash_CompletedService') }}</p>
                 </div>
               </div>
             </div>
@@ -109,18 +109,18 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title">Recent Orders</h4>
+          <h4 class="card-title">{{ __('locale.dash_RecentOrders') }}</h4>
         </div>
         <div class="card-body">
           <table class="table">
             <thead>
               <tr>
-                <th>Order No.</th>
-                <th>Date</th>
-                <th>Customer</th>
-                <th>Amount</th>
-                <th>Status</th>
-                <th>Options</th>
+                <th>{{ __('locale.title_OrderNo') }}</th>
+                <th>{{ __('locale.tb_header_Date') }}</th>
+                <th>{{ __('locale.tb_Customer') }}</th>
+                <th>{{ __('locale.tb_header_Amount') }}</th>
+                <th>{{ __('locale.tb_header_Status') }}</th>
+                <th>{{ __('locale.tb_header_Options') }}</th>
               </tr>
             </thead>
               <tbody>
@@ -146,7 +146,7 @@
                 @endif
             </tbody>
           </table>
-          <a class="btn btn-primary me-1" href="{{ route('orders.index') }}">View All Orders</a>
+          <a class="btn btn-primary me-1" href="{{ route('orders.index') }}">{{ __('locale.btn_ViewAllOrders') }}</a>
         </div>
       </div>
     </div>

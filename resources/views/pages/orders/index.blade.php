@@ -1,7 +1,7 @@
 
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Orders')
+@section('title', __('locale.menu_Orders'))
 
 @section('content')
 <!-- Basic Tables start -->
@@ -9,18 +9,18 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">Orders</h4>
+        <h4 class="card-title">{{__('locale.menu_Orders')}}</h4>
       </div>
       <div class="table-responsive">
         <table class="table">
           <thead>
             <tr>
-              <th width="20%">Order Date</th>
-              <th width="20%">Company</th>
-              <th width="20%">Amount</th>
-              <th width="20%">Status</th>
-              <th width="20%">Invoice No.</th>
-              <th>Action</th>
+              <th width="20%">{{__('locale.tb_header_OrderDate')}}</th>
+              <th width="20%">{{__('locale.tb_header_Company')}}</th>
+              <th width="20%">{{__('locale.tb_header_Amount')}}</th>
+              <th width="20%">{{__('locale.tb_header_Status')}}</th>
+              <th width="20%">{{__('locale.tb_header_InvoiceNo')}}</th>
+              <th>{{__('locale.tb_header_Actions')}}</th>
             </tr>
           </thead>
           <tbody>

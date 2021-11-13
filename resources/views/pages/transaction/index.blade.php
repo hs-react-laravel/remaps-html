@@ -23,11 +23,11 @@
         <table class="table">
           <thead>
             <tr>
-              <th width="20%">Description</th>
-              <th width="10%">Credits</th>
-              <th width="10%">Status</th>
-              <th width="10%">Date</th>
-              <th width="10%">Actions</th>
+              <th width="20%">{{__('locale.tb_header_Description')}}</th>
+              <th width="10%">{{__('locale.tb_header_Credits')}}</th>
+              <th width="10%">{{__('locale.tb_header_Status')}}</th>
+              <th width="10%">{{__('locale.tb_header_Date')}}</th>
+              <th width="10%">{{__('locale.tb_header_Actions')}}</th>
             </tr>
           </thead>
           <tbody>

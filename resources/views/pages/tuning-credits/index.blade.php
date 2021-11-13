@@ -1,7 +1,7 @@
 
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Tuning Credits')
+@section('title', ($group_type == 'evc' ? 'EVC' : '').__('locale.menu_TuningCredit'))
 @section('vendor-style')
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/animate/animate.min.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/sweetalert2.min.css')) }}">
@@ -15,7 +15,7 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">{{ $group_type == 'evc' ? 'EVC' : '' }} Tuning Credits</h4>
+        <h4 class="card-title">{{ ($group_type == 'evc' ? 'EVC' : '').__('locale.menu_TuningCredit') }}</h4>
         <div>
           @if ($group_type == 'normal')
             <a href="{{ route('tuning-tires.create') }}" class="btn btn-icon btn-primary" style="float: right">
