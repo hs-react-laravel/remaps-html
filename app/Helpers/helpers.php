@@ -13,7 +13,7 @@ class Helper
 {
     public static function applClasses()
     {
-        $company = Company::where('domain_link', url(''))->first();
+        $company = Company::where('v2_domain_link', url(''))->first();
         $DefaultData = [
             'mainLayoutType' => 'vertical',
             'theme' => 'dark',
