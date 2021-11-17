@@ -6,7 +6,8 @@ use App\Models\TuningCreditGroup;
 use Illuminate\Http\Request;
 use App\Http\Controllers\MasterController;
 use PayPalCheckoutSdk\Core\PayPalHttpClient;
-use PayPalCheckoutSdk\Core\SandboxEnvironment;
+// use PayPalCheckoutSdk\Core\SandboxEnvironment;
+use PayPalCheckoutSdk\Core\ProductionEnvironment;
 use PayPalCheckoutSdk\Orders\OrdersCreateRequest;
 use PayPalCheckoutSdk\Orders\OrdersCaptureRequest;
 use Stripe\StripeClient;
@@ -15,7 +16,7 @@ class BuyTuningCreditsController extends MasterController
 {
     protected $paypal_client;
     public function __construct() {
-        $env = new SandboxEnvironment(config('paypal.sandbox.client_id'), config('paypal.sandbox.client_secret'));
+        $env = new ProductionEnvironment($this->company->paypal_client_id, $this->company->paypal_secret);
         $this->paypal_client = new PayPalHttpClient($env);
         parent::__construct();
     }
@@ -29,7 +30,8 @@ class BuyTuningCreditsController extends MasterController
             ? $this->user->tuningEVCCreditGroup->tuningCreditTires()->withPivot('from_credit', 'for_credit')->wherePivot('from_credit', '!=', 0.00)->orderBy('amount', 'ASC')->get()
             : [];
         $isVatCalculation = ($this->company->vat_number != null) && ($this->company->vat_percentage != null) && ($this->user->add_tax);
-        $stripeKey = "pk_test_bRcRJEVm0RNqTW3Ge72Cmlfv00qvW84uiQ";
+        // $stripeKey = "pk_test_bRcRJEVm0RNqTW3Ge72Cmlfv00qvW84uiQ";
+        $stripeKey = $this->company->stripe_key;
         return view('pages.consumers.bc.index', compact('groupCreditTires', 'groupEVCCreditTires', 'isVatCalculation', 'tuningCreditGroup', 'stripeKey'));
     }
     public function handlePayment(Request $request)
@@ -197,8 +199,8 @@ class BuyTuningCreditsController extends MasterController
 
         $total_amount = $tire->pivot->for_credit + $tax;
 
-        // $stripe = new StripeClient($this->user->company->stripe_secret);
-        $stripe = new StripeClient("sk_test_Woo4C4CI3cf0dvngmUuty49A00csvMGrNg");
+        $stripe = new StripeClient($this->user->company->stripe_secret);
+        // $stripe = new StripeClient("sk_test_Woo4C4CI3cf0dvngmUuty49A00csvMGrNg");
 
         $result = $stripe->charges->create([
             'amount' => $total_amount * 100,
