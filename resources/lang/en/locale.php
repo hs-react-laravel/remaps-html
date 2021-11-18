@@ -80,6 +80,7 @@ return [
 //    sidebar
     'Company Functions' => 'Company',
     'Admin Functions' => 'Admin',
+    'Customer Functions' => 'Admin',
     'menu_Dashboard' => 'Dashboard',
     'menu_FileServices' => 'File services',
     'menu_SupportTickets' => 'Support tickets',
