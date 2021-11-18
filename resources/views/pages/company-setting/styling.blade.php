@@ -30,7 +30,7 @@
         <div class="border rounded p-1">
           <div class="d-flex flex-column">
             <label class="form-check-label mb-50" for="customSwitch3">Main Layout</label>
-            <div class="d-flex">
+            {{-- <div class="d-flex">
               <div class="form-check me-1">
                 <input type="radio" id="main-layout-vertical" name="mainLayoutType"
                   @if($styling['mainLayoutType'] == 'vertical') checked @endif class="form-check-input" value="vertical">
@@ -41,7 +41,7 @@
                   @if($styling['mainLayoutType'] == 'horizontal') checked @endif class="form-check-input" value="horizontal">
                 <label class="form-check-label" for="main-layout-horizontal">Horizontal</label>
               </div>
-            </div>
+            </div> --}}
           </div>
         </div>
       </div>
