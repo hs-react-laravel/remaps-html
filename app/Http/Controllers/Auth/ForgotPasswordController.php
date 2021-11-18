@@ -46,7 +46,7 @@ class ForgotPasswordController extends Controller
             Config::set('mail.port', 25);
             Config::set('mail.encryption', '');
             Config::set('mail.username', 'noreply@myremaps.com');
-            Config::set('mail.password', '!Winston11!');
+            Config::set('mail.password', 'Ig99ka%5');
             Config::set('mail.from.address', 'noreply@myremaps.com');
             Config::set('mail.from.name', '!Winston11!');
         }

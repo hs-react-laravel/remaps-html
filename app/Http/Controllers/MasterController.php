@@ -45,7 +45,7 @@ class MasterController extends BaseController
                         Config::set('mail.port', 25);
                         Config::set('mail.encryption', '');
                         Config::set('mail.username', 'noreply@myremaps.com');
-                        Config::set('mail.password', '!Winston11!');
+                        Config::set('mail.password', 'Ig99ka%5');
                     }
 
                     Config::set('mail.from.address',$this->company->mail_username );

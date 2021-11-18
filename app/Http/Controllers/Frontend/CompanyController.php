@@ -118,7 +118,7 @@ class CompanyController extends Controller
                 Config::set('mail.port', 25);
                 Config::set('mail.encryption', '');
                 Config::set('mail.username', 'noreply@myremaps.com');
-                Config::set('mail.password', '!Winston11!');
+                Config::set('mail.password', 'Ig99ka%5');
                 Config::set('mail.from.address', $mainCompany['mail_username']);
                 Config::set('mail.from.name', $mainCompany['name']);
                 Config::set('app.name', $mainCompany['name']);
