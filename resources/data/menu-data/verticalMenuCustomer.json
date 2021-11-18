@@ -6,19 +6,19 @@
     },
     {
         "url": "/customer/dashboard",
-        "name": "Dashboards",
+        "name": "menu_Dashboard",
         "icon": "home",
         "slug": "dashboard.customer"
     },
     {
         "url": "/customer/fs",
-        "name": "File Services",
+        "name": "menu_FileServices",
         "icon": "file",
         "slug": "fs.index"
     },
     {
         "url": "/customer/tk",
-        "name": "Support Tickets",
+        "name": "menu_SupportTickets",
         "icon": "message-circle",
         "slug": "tk.index"
     },
@@ -30,19 +30,19 @@
     },
     {
         "url": "/customer/od",
-        "name": "Orders",
+        "name": "menu_Orders",
         "icon": "file-text",
         "slug": "od.index"
     },
     {
         "url": "/customer/tr",
-        "name": "Transactions",
+        "name": "menu_Transactions",
         "icon": "credit-card",
         "slug": "tr.index"
     },
     {
         "url": "/customer/cars",
-        "name": "Browse Tuning Specs",
+        "name": "menu_BuyTuningCredits",
         "icon": "search",
         "slug": "cars.index"
     },
