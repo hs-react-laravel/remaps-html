@@ -14,9 +14,8 @@
               }}"
               id="style_background_img"
               class="rounded me-2 mb-1 mb-md-0"
-              width="250"
-              height="110"
               alt="Logo Image"
+              style="max-width: 250px; max-height: 110px; width: auto; height: auto"
             />
             <div class="featured-info">
               <div class="d-inline-block">
