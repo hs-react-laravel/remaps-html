@@ -18,9 +18,6 @@ class BuyTuningCreditsController extends MasterController
     protected $paypal_client;
     public function __construct() {
         parent::__construct();
-        $user = Auth::guard('customer')->user();
-        $env = new ProductionEnvironment($user->company->paypal_client_id, $user->company->paypal_secret);
-        $this->paypal_client = new PayPalHttpClient($env);
     }
     public function index()
     {
@@ -93,7 +90,10 @@ class BuyTuningCreditsController extends MasterController
                 )
             )
         );
-        $response = $this->paypal_client->execute($req);
+        $user = Auth::guard('customer')->user();
+        $env = new ProductionEnvironment($user->company->paypal_client_id, $user->company->paypal_secret);
+        $paypal_client = new PayPalHttpClient($env);
+        $response = $paypal_client->execute($req);
         $links = $response->result->links;
         $redirect = "/";
         foreach($links as $link) {
@@ -116,13 +116,16 @@ class BuyTuningCreditsController extends MasterController
 
     public function paymentSuccess(Request $request)
     {
+        $user = $this->user;
         $request = new OrdersCaptureRequest($request->session()->get('order_id'));
         $request->body = "{}";
-        $response = $this->paypal_client->execute($request);
+
+        $env = new ProductionEnvironment($user->company->paypal_client_id, $user->company->paypal_secret);
+        $paypal_client = new PayPalHttpClient($env);
+        $response = $paypal_client->execute($request);
         $result = $response->result;
         $credit_type = session('credit_type');
 
-        $user = $this->user;
         /* save order displayable id */
         $displableId = \App\Models\Order::wherehas('user', function($query) use($user){
             $query->where('company_id', $user->company_id);
