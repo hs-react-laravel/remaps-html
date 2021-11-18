@@ -24,7 +24,7 @@
     },
     {
         "url": "/customer/buy-credits",
-        "name": "Buy Tuning Credits",
+        "name": "menu_BuyTuningCredits",
         "icon": "plus",
         "slug": "consumer.buy-credits"
     },
@@ -42,7 +42,7 @@
     },
     {
         "url": "/customer/cars",
-        "name": "menu_BuyTuningCredits",
+        "name": "menu_BrowseSpecs",
         "icon": "search",
         "slug": "cars.index"
     },
