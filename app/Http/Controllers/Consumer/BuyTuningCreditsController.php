@@ -16,9 +16,9 @@ class BuyTuningCreditsController extends MasterController
 {
     protected $paypal_client;
     public function __construct() {
+        parent::__construct();
         $env = new ProductionEnvironment($this->company->paypal_client_id, $this->company->paypal_secret);
         $this->paypal_client = new PayPalHttpClient($env);
-        parent::__construct();
     }
     public function index()
     {
