@@ -138,6 +138,33 @@
         font-weight: 500;
       }
     }
+    &.bg-primary,
+    &.bg-secondary,
+    &.bg-success,
+    &.bg-danger,
+    &.bg-info,
+    &.bg-warning,
+    &.bg-dark {
+      .navigation-header, li a {
+        color: white;
+      }
+      > li {
+        &.active {
+          > a {
+            color: $white;
+          }
+        }
+      }
+    }
+    &.bg-dark {
+      > li {
+        &.active {
+          > a {
+            box-shadow: 0 0 10px 1px $black;
+          }
+        }
+      }
+    }
     li {
       &.has-sub {
         > a {
@@ -227,9 +254,9 @@
       &.active {
         z-index: 1;
         > a {
-          background: linear-gradient(118deg, rgba($primary, 1), rgba($primary, 0.7));
-          box-shadow: 0 0 10px 1px rgba($primary, 0.7);
-          color: $white;
+        //   background: linear-gradient(118deg, rgba($danger, 1), rgba($danger, 0.7));
+          box-shadow: 0 0 10px 1px rgba($dark, 0.7);
+          color: $dark;
           font-weight: 400;
           border-radius: 4px;
         }

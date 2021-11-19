@@ -48,7 +48,7 @@
         }
         &.open:not(.sidebar-group-active) {
           > a {
-            background-color: $theme-dark-body-bg;
+            background-color: $white;
           }
         }
         a:after,

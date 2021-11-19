@@ -23,6 +23,9 @@
     contentWrapper = $('.content-wrapper'),
     contentAreaWrapper = $('.content-area-wrapper'),
     customizer = $('.customizer'),
+    mainMenuNavigation = $('#main-menu-navigation'),
+    mainMenuItem = $('nav-item a'),
+    mainBody = $('.app-content'),
     flag = 0;
 
   // Customizer toggle & close button click events  [Remove customizer code from production]
@@ -93,10 +96,34 @@
         .find(navbar)
         .removeClass('bg-primary bg-secondary bg-success bg-danger bg-info bg-warning bg-dark')
         .addClass(navbarColor + ' navbar-dark');
+      body
+        .find(mainMenu)
+        .removeClass('bg-primary bg-secondary bg-success bg-danger bg-info bg-warning bg-dark')
+        .addClass(navbarColor + ' navbar-dark');
+      body
+        .find(mainMenuNavigation)
+        .removeClass('bg-primary bg-secondary bg-success bg-danger bg-info bg-warning bg-dark')
+        .addClass(navbarColor + ' navbar-dark');
+      body
+        .find(mainBody)
+        .removeClass('theme-primary theme-secondary theme-success theme-danger theme-info theme-warning theme-dark')
+        .addClass("theme-" + navbarColor.substring(3))
+      body.find(mainMenuItem).css('color', 'white');
     } else {
       body
         .find(navbar)
         .removeClass('bg-primary bg-secondary bg-success bg-danger bg-info bg-warning bg-dark navbar-dark');
+      body
+        .find(mainMenu)
+        .removeClass('bg-primary bg-secondary bg-success bg-danger bg-info bg-warning bg-dark navbar-dark');
+      body
+        .find(mainMenuNavigation)
+        .removeClass('bg-primary bg-secondary bg-success bg-danger bg-info bg-warning bg-dark navbar-dark');
+      body
+        .find(mainBody)
+        .removeClass('theme-primary theme-secondary theme-success theme-danger theme-info theme-warning theme-dark')
+        .addClass("theme-" + navbarColor.substring(3))
+      body.find(mainMenuItem).css('color', '#625f6e');
     }
     if (html.hasClass('dark-layout')) {
       navbar.addClass('navbar-dark');

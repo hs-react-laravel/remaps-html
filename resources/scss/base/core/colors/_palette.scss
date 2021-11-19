@@ -183,6 +183,30 @@
             box-shadow: none;
           }
         }
+        .theme-secondary .btn-primary{
+          border-color: $secondary !important;
+          background-color: $secondary !important;
+        }
+        .theme-success .btn-primary{
+          border-color: $success !important;
+          background-color: $success !important;
+        }
+        .theme-danger .btn-primary{
+          border-color: $danger !important;
+          background-color: $danger !important;
+        }
+        .theme-info .btn-primary{
+          border-color: $info !important;
+          background-color: $info !important;
+        }
+        .theme-warning .btn-primary{
+          border-color: $warning !important;
+          background-color: $warning !important;
+        }
+        .theme-dark .btn-primary{
+          border-color: $dark !important;
+          background-color: $dark !important;
+        }
         .btn-check {
           &:checked,
           &:active {
