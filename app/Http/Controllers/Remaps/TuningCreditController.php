@@ -147,7 +147,7 @@ class TuningCreditController extends MasterController
 
     public function add_tire()
     {
-        return view('pages.tuning-credits.add_tire');
+        return view('pages.tuning-credits.add_tire', ['group_type' => 'normal']);
     }
 
     public function store_tire(TuningCreditTireRequest $request)

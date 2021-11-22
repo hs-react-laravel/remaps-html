@@ -147,7 +147,7 @@ class TuningEVCCreditController extends MasterController
 
     public function add_tire()
     {
-        return view('pages.tuning-credits.add_tire');
+        return view('pages.tuning-credits.add_tire', ['group_type' => 'evc']);
     }
 
     public function store_tire(TuningEVCCreditTireRequest $request)
