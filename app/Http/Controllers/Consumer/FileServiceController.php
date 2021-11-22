@@ -268,6 +268,6 @@ class FileServiceController extends MasterController
             return redirect()->back()->withInput($request->all());
         }
 
-        return redirect(route('tickets.index'));
+        return redirect(route('fs.index'));
     }
 }
