@@ -35,7 +35,7 @@
             <div class="row mb-1">
               <div class="col-xl-4 col-md-6 col-12">
                 <label class="form-label" for="credits">Credits</label>
-                <input type="number" class="form-control" id="credits" name="credits" />
+                <input type="number" class="form-control" id="credits" name="credits" step=".01" />
               </div>
             </div>
             <button type="submit" class="btn btn-primary me-1">Submit</button>
