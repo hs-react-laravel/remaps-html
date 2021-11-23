@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth\Admin;
 
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Http\Controllers\Controller;
+use App\Models\Company;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -144,8 +145,9 @@ class LoginController extends Controller
      * @param \App\Models\Company $company
      * @return response()
      */
-    public function switchAsCompany(\App\Models\Company $company){
+    public function switchAsCompany(Request $request){
         try{
+            $company = Company::find($request->id);
             $user = $company->users()->where('is_master', 0)->where('is_admin', 1)->first();
 
             if($user){
