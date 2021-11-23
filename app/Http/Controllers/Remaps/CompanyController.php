@@ -476,7 +476,7 @@ class CompanyController extends MasterController
         $company = Company::find($id);
         $user = $company->users()->where('is_master', 0)->where('is_admin', 1)->first();
         if($user){
-            Auth::login($user);
+            Auth::guard('admin')->login($user);
             return redirect()->away($user->company->v2_domain_link.'/admin/dashboard');
         }
     }
