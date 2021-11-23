@@ -146,6 +146,7 @@ class LoginController extends Controller
      * @return response()
      */
     public function switchAsCompany(Request $request){
+        dd($request);
         try{
             $company = Company::find($request->id);
             dd($company);
