@@ -65,7 +65,7 @@
                       <a
                         class="btn btn-icon btn-success"
                         title="Login as this company"
-                        href="{{ route('companies.switch', ['id' => $u->id]) }}"
+                        href="{{ url('/company/'.$u->id.'/switch-account') }}"
                         target="_blank" >
                         <i data-feather="user"></i>
                       </a>
