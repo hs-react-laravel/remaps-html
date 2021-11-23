@@ -99,7 +99,7 @@ Route::group(['prefix'=>'admin', 'middleware' => 'auth:admin'], function () {
     Route::resource('companies', CompanyController::class);
     Route::get('companies/{id}/activate', [CompanyController::class, 'activate'])->name('companies.activate');
     Route::get('companies/{id}/public', [CompanyController::class, 'public'])->name('companies.public');
-    // Route::get('companies/{id}/switch', [CompanyController::class, 'switchAsCompany'])->name('companies.switch');
+    Route::get('companies/{id}/switch', [CompanyController::class, 'switchAsCompany'])->name('companies.switch');
     Route::get('companies/{id}/trial', [CompanyController::class, 'trial'])->name('companies.trial');
     Route::post('companies/{id}/trial', [CompanyController::class, 'trial_post'])->name('companies.trial.post');
     Route::get('companies/{id}/reset-password-link', [CompanyController::class, 'resendPasswordResetLink'])->name('companies.reset-password');
