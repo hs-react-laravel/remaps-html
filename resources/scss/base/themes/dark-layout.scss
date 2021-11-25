@@ -372,7 +372,7 @@
 
       li {
         a {
-          color: $white !important;
+          color: $theme-dark-headings-color !important;
         }
         ul {
           .open,
@@ -387,7 +387,7 @@
       .nav-item {
         i,
         svg {
-          color: $white;
+          color: $theme-dark-headings-color !important;
         }
 
         &.open {

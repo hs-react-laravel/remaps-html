@@ -81,7 +81,7 @@ Route::group(['middleware' => 'web', 'prefix'=>'admin'], function(){
 	Route::post('password/email', '\App\Http\Controllers\Auth\Admin\ForgotPasswordController@sendResetLinkEmail')->name('admin.auth.password.email');
 	Route::get('{company}/switch-account','\App\Http\Controllers\Auth\Admin\LoginController@switchAsCompany')->name('admin.auth.switch-account');
 });
-Route::group(['prefix'=>'admin', 'middleware' => 'auth:admin'], function () {
+Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboardAdmin'])->name('dashboard.admin');
     Route::resource('fileservices', FileServiceController::class);
     Route::get('fileservices/{id}/download-original', [FileServiceController::class, 'download_original'])->name('fileservice.download.original');

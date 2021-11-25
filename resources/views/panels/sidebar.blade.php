@@ -3,7 +3,7 @@ $configData = Helper::applClasses();
 @endphp
 <div class="main-menu menu-fixed {{
     (($configData['theme'] === 'dark') || ($configData['theme'] === 'semi-dark')) ? 'menu-dark' : 'menu-light'
-  }} {{ $configData['navbarColor'] }} menu-accordion menu-shadow" data-scroll-to-active="true">
+  }} menu-accordion menu-shadow" data-scroll-to-active="true">
   <div class="navbar-header mt-1" style="height: 10rem; display: flex; align-items: center; justify-content:center;">
     <a href="{{ $user->is_admin ? route('dashboard.admin') : route('dashboard.customer') }}">
     <img src="{{ asset('storage/uploads/logo/'.$company->logo) }}" style="width: 100%; max-height: 140px; border-radius: 5px"></a>
@@ -16,7 +16,7 @@ $configData = Helper::applClasses();
         $custom_classes = $menu->classlist;
       }
     @endphp
-    <ul class="navigation navigation-main {{ $configData['navbarColor'] }}" id="main-menu-navigation" data-menu="menu-navigation">
+    <ul class="navigation navigation-main {{ 'theme-'.substr($configData['navbarColor'], 3) }}" id="main-menu-navigation" data-menu="menu-navigation">
       {{-- Foreach menu item starts --}}
       @if(isset($menuData[0]))
       @foreach($menuData[0]->menu as $menu)

@@ -75,7 +75,6 @@ class LoginController extends Controller
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function login(Request $request) {
-
         $this->validateLogin($request);
         if ($this->hasTooManyLoginAttempts($request)) {
             $this->fireLockoutEvent($request);
@@ -83,7 +82,7 @@ class LoginController extends Controller
         }
 
 		$email = $request->get($this->username());
-        $user = User::where($this->username(), $email)->first();
+        $user = User::where($this->username(), $email)->where('company_id', $this->company->id)->first();
         if (!empty($user)) {
             if ($user->is_admin == 0 && $user->is_staff == null) {
                 return redirect('admin/login')->with(['status'=>'error', 'error'=>__('auth.invalid_admin_privilege')]);
@@ -99,8 +98,46 @@ class LoginController extends Controller
 
         $this->incrementLoginAttempts($request);
 
-
         return $this->sendFailedLoginResponse($request);
+    }
+
+    protected function attemptLogin(Request $request)
+    {
+        $email = $request->get($this->username());
+        $user = User::where($this->username(), $email)->where('company_id', $this->company->id)->first();
+        if ($user->is_master) {
+            return Auth::guard('master')->attempt(
+                $this->credentials($request), $request->filled('remember')
+            );
+        } else {
+            return $this->guard()->attempt(
+                $this->credentials($request), $request->filled('remember')
+            );
+        }
+    }
+
+    protected function sendLoginResponse(Request $request)
+    {
+        $request->session()->regenerate();
+
+        $this->clearLoginAttempts($request);
+
+        $email = $request->get($this->username());
+        $user = User::where($this->username(), $email)->first();
+
+        if ($user->is_master) {
+            if ($response = $this->authenticated($request, Auth::guard('master')->user())) {
+                return $response;
+            }
+        } else {
+            if ($response = $this->authenticated($request, $this->guard()->user())) {
+                return $response;
+            }
+        }
+
+        return $request->wantsJson()
+                    ? new JsonResponse([], 204)
+                    : redirect()->intended($this->redirectPath());
     }
 
     /**
@@ -113,11 +150,16 @@ class LoginController extends Controller
         $credentials = $request->only($this->username(), 'password');
 
         $email = $request->get($this->username());
-        $user = User::where($this->username(), $email)->first();
-        if ($user->is_admin) {
+        $user = User::where($this->username(), $email)->where('company_id', $this->company->id)->first();
+        if ($user->is_master) {
+            $credentials['is_master'] = 1;
             $credentials['is_admin'] = 1;
-        } else if ($user->is_staff) {
-            $credentials['is_staff'] = 1;
+        } else {
+            if ($user->is_admin) {
+                $credentials['is_admin'] = 1;
+            } else if ($user->is_staff) {
+                $credentials['is_staff'] = 1;
+            }
         }
         $credentials['company_id'] = $this->company->id;
         return $credentials;
@@ -146,7 +188,6 @@ class LoginController extends Controller
      * @return response()
      */
     public function switchAsCompany(Request $request){
-        dd($request);
         try{
             $company = Company::find($request->id);
             dd($company);

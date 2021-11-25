@@ -51,6 +51,11 @@ return [
             'provider' => 'admins',
         ],
 
+        'master' => [
+            'driver' => 'session',
+            'provider' => 'masters',
+        ],
+
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
@@ -90,6 +95,11 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
+
+        'masters' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\User::class,
+        ],
     ],
 
     /*
@@ -126,6 +136,12 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
+        'masters' => [
+            'provider' => 'masters',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ]
     ],
 
     /*

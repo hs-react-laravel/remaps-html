@@ -97,13 +97,9 @@
         .removeClass('bg-primary bg-secondary bg-success bg-danger bg-info bg-warning bg-dark')
         .addClass(navbarColor + ' navbar-dark');
       body
-        .find(mainMenu)
-        .removeClass('bg-primary bg-secondary bg-success bg-danger bg-info bg-warning bg-dark')
-        .addClass(navbarColor + ' navbar-dark');
-      body
         .find(mainMenuNavigation)
-        .removeClass('bg-primary bg-secondary bg-success bg-danger bg-info bg-warning bg-dark')
-        .addClass(navbarColor + ' navbar-dark');
+        .removeClass('theme-primary theme-secondary theme-success theme-danger theme-info theme-warning theme-dark')
+        .addClass("theme-" + navbarColor.substring(3));
       body
         .find(mainBody)
         .removeClass('theme-primary theme-secondary theme-success theme-danger theme-info theme-warning theme-dark')
@@ -114,11 +110,8 @@
         .find(navbar)
         .removeClass('bg-primary bg-secondary bg-success bg-danger bg-info bg-warning bg-dark navbar-dark');
       body
-        .find(mainMenu)
-        .removeClass('bg-primary bg-secondary bg-success bg-danger bg-info bg-warning bg-dark navbar-dark');
-      body
         .find(mainMenuNavigation)
-        .removeClass('bg-primary bg-secondary bg-success bg-danger bg-info bg-warning bg-dark navbar-dark');
+        .removeClass('theme-primary theme-secondary theme-success theme-danger theme-info theme-warning theme-dark');
       body
         .find(mainBody)
         .removeClass('theme-primary theme-secondary theme-success theme-danger theme-info theme-warning theme-dark')

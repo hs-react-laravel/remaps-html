@@ -24,9 +24,24 @@ class MasterController extends BaseController
     public function __construct() {
         $this->middleware(function ($request, $next, $guard = null) {
             try {
-                $this->user = Auth::guard($guard)->user();
+                $this->company = Company::where('v2_domain_link', url(''))->first();
+                if (str_starts_with($request->path(), 'admin')) {
+                    $user = null;
+                    if ($this->company->id == 1) { // master
+                        $user = Auth::guard('master')->user();
+                    } else {
+                        $user = Auth::guard('admin')->user();
+                    }
+                    if ($user) $this->user = $user;
+                    else return redirect(url('admin/login'));
+                } else if (str_starts_with($request->path(), 'customer')) {
+                    $user = Auth::guard('customer')->user();
+                    if ($user) $this->user = $user;
+                    else return redirect(url('login'));
+                }
+                // $this->user = Auth::guard($guard)->user();
                 if($this->user){
-                    $this->company = $this->user->company;
+                    // $this->company = $this->user->company;
                     $this->user->last_login = \Carbon\Carbon::now()->format('Y-m-d H:i:s');
                     $this->user->save();
                     $this->is_evc = !!$this->company->reseller_id;

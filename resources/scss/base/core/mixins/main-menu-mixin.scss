@@ -138,33 +138,77 @@
         font-weight: 500;
       }
     }
-    &.bg-primary,
-    &.bg-secondary,
-    &.bg-success,
-    &.bg-danger,
-    &.bg-info,
-    &.bg-warning,
-    &.bg-dark {
-      .navigation-header, li a {
-        color: white;
-      }
+    &.theme-primary {
       > li {
         &.active {
           > a {
-            color: $white;
+            background: linear-gradient(118deg, rgba($primary, 1), rgba($primary, 0.7));
+            color: $white
           }
         }
       }
     }
-    &.bg-dark {
+    &.theme-secondary {
       > li {
         &.active {
           > a {
-            box-shadow: 0 0 10px 1px $black;
+            background: linear-gradient(118deg, rgba($secondary, 1), rgba($secondary, 0.7));
+            color: $white
           }
         }
       }
     }
+    &.theme-success {
+      > li {
+        &.active {
+          > a {
+            background: linear-gradient(118deg, rgba($success, 1), rgba($success, 0.7));
+            color: $white
+          }
+        }
+      }
+    }
+    &.theme-danger {
+      > li {
+        &.active {
+          > a {
+            background: linear-gradient(118deg, rgba($danger, 1), rgba($danger, 0.7));
+            color: $white
+          }
+        }
+      }
+    }
+    &.theme-info {
+      > li {
+        &.active {
+          > a {
+            background: linear-gradient(118deg, rgba($info, 1), rgba($info, 0.7));
+            color: $white
+          }
+        }
+      }
+    }
+    &.theme-warning {
+      > li {
+        &.active {
+          > a {
+            background: linear-gradient(118deg, rgba($warning, 1), rgba($warning, 0.7));
+            color: $white
+          }
+        }
+      }
+    }
+    &.theme-dark {
+      > li {
+        &.active {
+          > a {
+            background: linear-gradient(118deg, rgba($dark, 1), rgba($dark, 0.7));
+            color: $white
+          }
+        }
+      }
+    }
+
     li {
       &.has-sub {
         > a {
@@ -254,7 +298,7 @@
       &.active {
         z-index: 1;
         > a {
-        //   background: linear-gradient(118deg, rgba($danger, 1), rgba($danger, 0.7));
+        //   background: linear-gradient(118deg, rgba($theme-color, 1), rgba($theme-color, 0.7));
           box-shadow: 0 0 10px 1px rgba($dark, 0.7);
           color: $dark;
           font-weight: 400;
