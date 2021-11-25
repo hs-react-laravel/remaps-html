@@ -25,8 +25,8 @@ class MasterController extends BaseController
         $this->middleware(function ($request, $next, $guard = null) {
             try {
                 $this->company = Company::where('v2_domain_link', url(''))->first();
-                // dd($this->company);
                 if (str_starts_with($request->path(), 'admin')) {
+                    dd($this->company);
                     $user = null;
                     if ($this->company->id == 1) { // master
                         $user = Auth::guard('master')->user();
