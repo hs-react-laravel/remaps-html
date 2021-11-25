@@ -26,14 +26,11 @@ class MasterController extends BaseController
             try {
                 $this->company = Company::where('v2_domain_link', url(''))->first();
                 if (str_starts_with($request->path(), 'admin')) {
-                    dd($this->company);
                     $user = null;
                     if ($this->company->id == 1) { // master
                         $user = Auth::guard('master')->user();
                     } else {
-                        dd('aaa');
                         $user = Auth::guard('admin')->user();
-                        dd($user);
                     }
                     if ($user) $this->user = $user;
                     else return redirect(url('admin/login'));
