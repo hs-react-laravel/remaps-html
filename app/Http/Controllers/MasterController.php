@@ -31,6 +31,7 @@ class MasterController extends BaseController
                     if ($this->company->id == 1) { // master
                         $user = Auth::guard('master')->user();
                     } else {
+                        dd('aaa');
                         $user = Auth::guard('admin')->user();
                         dd($user);
                     }
