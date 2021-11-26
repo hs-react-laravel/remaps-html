@@ -193,7 +193,6 @@ class LoginController extends Controller
             $user = $company->users()->where('is_master', 0)->where('is_admin', 1)->first();
             if($user){
                 Auth::guard('admin')->login($user);
-                dd($user);
                 return redirect()->away($user->company->v2_domain_link.'/admin/dashboard');
             }
         }catch(\Exception $e){
