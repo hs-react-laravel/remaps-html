@@ -54,7 +54,7 @@
                 onclick="onStripeButton(this)">
                 Stripe
               </button>
-              <form action="{{ route('consumer.buy-credits.handle') }}" method="POST" id="paypal-form">
+              <form action="{{ route('consumer.buy-credits.handle') }}" method="POST" class="paypal-form">
                 @csrf
                 <input type="hidden" name="group_id" value="{{ $tuningCreditGroup->id }}">
                 <input type="hidden" name="tire_id" value="{{ $tire->id }}">
@@ -105,7 +105,7 @@
               onclick="onStripeButton(this)">
               <i class="fab fa-cc-stripe" style="font-size: 30px"></i>
             </button>
-            <form action="{{ route('consumer.buy-credits.handle') }}" method="POST" id="paypal-form">
+            <form action="{{ route('consumer.buy-credits.handle') }}" method="POST" class="paypal-form">
               @csrf
               <input type="hidden" name="group_id" value="{{ $tuningCreditGroup->id }}">
               <input type="hidden" name="tire_id" value="{{ $tire->id }}">
@@ -129,6 +129,11 @@
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <script>
   var $form = $('#cardValidation');
+  function onPaypalButton(obj) {
+    var $paypal_form = $(obj).closest('.card-body').children('.paypal-form');
+    console.log($paypal_form);
+    $paypal_form.submit();
+  }
   function onStripeButton(obj) {
     var group = $(obj).data('group');
     var tire = $(obj).data('tire');
