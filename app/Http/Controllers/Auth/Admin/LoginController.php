@@ -41,7 +41,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest:admin')->except(['logout', 'switchAsCompany']);
+        $this->middleware('guest:admin')->except(['logout', 'switchAsCompany', 'redirectFromMaster']);
         $this->company = \App\Models\Company::where('v2_domain_link', url(''))->first();
         if(!$this->company){
             abort(400, 'No such domain('.url("").') is registerd with system. Please contact to webmaster.');
@@ -190,15 +190,24 @@ class LoginController extends Controller
     public function switchAsCompany(Request $request){
         try{
             $company = Company::find($request->id);
-            $user = $company->users()->where('is_master', 0)->where('is_admin', 1)->first();
-            if($user){
-                Auth::guard('admin')->login($user);
-                return redirect()->away($user->company->v2_domain_link.'/admin/dashboard');
+            if($company){
+                return redirect()->away($company->v2_domain_link.'/admin/'.$request->id.'/redirect-from-master');
             }
         }catch(\Exception $e){
             \Alert::error(__('admin.opps'))->flash();
         }
         abort(404, __('admin.opps'));
+    }
+
+    public function redirectFromMaster(Request $request) {
+        $company = Company::find($request->id);
+        $user = $company->users()->where('is_master', 0)->where('is_admin', 1)->first();
+        if($user){
+            Auth::guard('admin')->login($user);
+            return redirect('admin/dashboard');
+        } else {
+            return redirect('admin/login');
+        }
     }
 
     /**

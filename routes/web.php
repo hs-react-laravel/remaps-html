@@ -80,6 +80,7 @@ Route::group(['middleware' => 'web', 'prefix'=>'admin'], function(){
 	Route::get('password/reset/{token}', '\App\Http\Controllers\Auth\Admin\ResetPasswordController@showResetForm')->name('admin.auth.password.reset.form');
 	Route::post('password/email', '\App\Http\Controllers\Auth\Admin\ForgotPasswordController@sendResetLinkEmail')->name('admin.auth.password.email');
 	Route::get('{id}/switch-account','\App\Http\Controllers\Auth\Admin\LoginController@switchAsCompany')->name('admin.auth.switch-account');
+    Route::get('{id}/redirect-from-master','\App\Http\Controllers\Auth\Admin\LoginController@redirectFromMaster')->name('admin.auth.redirect-from-master');
 });
 Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboardAdmin'])->name('dashboard.admin');
