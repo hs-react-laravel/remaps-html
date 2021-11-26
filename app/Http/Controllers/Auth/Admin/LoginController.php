@@ -190,9 +190,8 @@ class LoginController extends Controller
     public function switchAsCompany(Request $request){
         try{
             $company = Company::find($request->id);
-            dd($company);
             $user = $company->users()->where('is_master', 0)->where('is_admin', 1)->first();
-
+            dd($user);
             if($user){
                 Auth::guard('admin')->login($user);
                 return redirect()->away($user->company->v2_domain_link.'/admin/dashboard');
