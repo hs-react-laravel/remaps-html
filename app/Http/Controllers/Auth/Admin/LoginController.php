@@ -41,7 +41,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest:admin')->except('logout');
+        $this->middleware('guest:admin')->except(['logout', 'switchAsCompany']);
         $this->company = \App\Models\Company::where('v2_domain_link', url(''))->first();
         if(!$this->company){
             abort(400, 'No such domain('.url("").') is registerd with system. Please contact to webmaster.');
@@ -190,13 +190,12 @@ class LoginController extends Controller
     public function switchAsCompany(Request $request){
         try{
             $company = Company::find($request->id);
-            dd($company);
-            // $user = $company->users()->where('is_master', 0)->where('is_admin', 1)->first();
+            $user = $company->users()->where('is_master', 0)->where('is_admin', 1)->first();
 
-            // if($user){
-            //     Auth::guard('admin')->login($user);
-            //     return redirect()->away($user->company->v2_domain_link.'/admin/dashboard');
-            // }
+            if($user){
+                Auth::guard('admin')->login($user);
+                return redirect()->away($user->company->v2_domain_link.'/admin/dashboard');
+            }
         }catch(\Exception $e){
             \Alert::error(__('admin.opps'))->flash();
         }
