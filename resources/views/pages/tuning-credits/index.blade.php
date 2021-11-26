@@ -19,14 +19,14 @@
         <div>
           @if ($group_type == 'normal')
             <a href="{{ route('tuning-tires.create') }}" class="btn btn-icon btn-primary" style="float: right">
-              <i data-feather="plus"></i> Tire
+              <i data-feather="plus"></i> Tier
             </a>
             <a href="{{ route('tuning-credits.create') }}" class="btn btn-icon btn-primary" style="float: right; margin-right: 20px">
               <i data-feather="plus"></i> Group
             </a>
           @else
             <a href="{{ route('evc-tuning-tires.create') }}" class="btn btn-icon btn-primary" style="float: right">
-              <i data-feather="plus"></i> Tire
+              <i data-feather="plus"></i> Tier
             </a>
             <a href="{{ route('evc-tuning-credits.create') }}" class="btn btn-icon btn-primary" style="float: right; margin-right: 20px">
               <i data-feather="plus"></i> Group
