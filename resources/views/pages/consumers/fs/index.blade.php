@@ -11,7 +11,7 @@
       <div class="card-header">
         <h4 class="card-title">File Services</h4>
         <a href="{{ route('fs.create') }}" class="btn btn-icon btn-primary">
-          <i data-feather="plus"></i>
+          Create New
         </a>
       </div>
       <div class="table-responsive">
