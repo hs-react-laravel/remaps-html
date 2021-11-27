@@ -40,7 +40,7 @@
             <td>
               @if ($user->is_admin)
                 <a href="{{ route('fileservice.download.original', ['id' => $fileService->id]) }}">download</a>
-              @elseif ($user->is_staff)
+              @else
                 <a href="{{ route('stafffs.download.original', ['id' => $fileService->id]) }}">download</a>
               @endif
             </td>
@@ -55,7 +55,7 @@
                 &nbsp;&nbsp;<a href="{{ route('fileservice.delete.modified', ['id' => $fileService->id]) }}">delete</a>
               @endif
             </td>
-            @elseif ($user->is_staff)
+            @else
             <td>
               <a href="{{ route('stafffs.download.modified', ['id' => $fileService->id]) }}">download</a>
               @if($fileService->status == 'Waiting')

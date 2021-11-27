@@ -163,12 +163,14 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::get('/edit-password', [DashboardController::class, 'edit_password'])->name('admin.password.edit');
     Route::post('/edit-password', [DashboardController::class, 'edit_password_post'])->name('admin.password.edit.post');
 });
-Route::group(['prefix'=>'staff', 'middleware' => 'check.staff'], function () {
-    Route::get('/dashboard', [DashboardController::class, 'dashboardStaff'])->name('dashboard.staff');
-    Route::resource('stafffs', StaffFileServiceController::class);
+Route::group(['prefix'=>'staff', 'middleware' => 'check.customerstaff'], function () {
     Route::get('stafffs/{id}/download-original', [StaffFileServiceController::class, 'download_original'])->name('stafffs.download.original');
     Route::get('stafffs/{id}/download-modified', [StaffFileServiceController::class, 'download_modified'])->name('stafffs.download.modified');
     Route::get('stafffs/{id}/delete-modified', [StaffFileServiceController::class, 'delete_modified_file'])->name('stafffs.delete.modified');
+});
+Route::group(['prefix'=>'staff', 'middleware' => 'check.onlystaff'], function () {
+    Route::get('/dashboard', [DashboardController::class, 'dashboardStaff'])->name('dashboard.staff');
+    Route::resource('stafffs', StaffFileServiceController::class);
     Route::get('stafffs/{id}/create-ticket', [StaffFileServiceController::class, 'create_ticket'])->name('stafffs.tickets.create');
     Route::post('stafffs/{id}/store-ticket', [StaffFileServiceController::class, 'store_ticket'])->name('stafffs.tickets.store');
 
