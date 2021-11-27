@@ -104,6 +104,9 @@
         .find(mainBody)
         .removeClass('theme-primary theme-secondary theme-success theme-danger theme-info theme-warning theme-dark')
         .addClass("theme-" + navbarColor.substring(3))
+      $('.customizer-toggle').removeClass('bg-primary bg-secondary bg-success bg-danger bg-info bg-warning bg-dark')
+        .addClass(navbarColor + ' navbar-dark');
+
       body.find(mainMenuItem).css('color', 'white');
     } else {
       body
@@ -115,7 +118,7 @@
       body
         .find(mainBody)
         .removeClass('theme-primary theme-secondary theme-success theme-danger theme-info theme-warning theme-dark')
-        .addClass("theme-" + navbarColor.substring(3))
+      $('.customizer-toggle').removeClass('bg-primary bg-secondary bg-success bg-danger bg-info bg-warning bg-dark')
       body.find(mainMenuItem).css('color', '#625f6e');
     }
     if (html.hasClass('dark-layout')) {
