@@ -131,7 +131,7 @@
                 @endif
             </tbody>
           </table>
-          <a class="btn btn-primary me-1 mt-2" href="{{ route('fileservices.index') }}">View All File Services</a>
+          <a class="btn btn-primary me-1 mt-2" href="{{ route('stafffs.index') }}">View All File Services</a>
         </div>
       </div>
     </div>
@@ -146,7 +146,7 @@
 @section('page-script')
   <script>
     function onFS(status) {
-      location.href = `/admin/fileservices?status=${status}`;
+      location.href = `/staff/stafffs?status=${status}`;
     }
   </script>
 @endsection

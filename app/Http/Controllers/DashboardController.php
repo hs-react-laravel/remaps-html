@@ -35,24 +35,27 @@ class DashboardController extends MasterController
                 $query->where('company_id', $user->company_id);
             })->where('status', 'C')->count();
             return view('pages.dashboard.admin', compact('data'));
-        } else if ($user->is_staff) {
-            $data['fileServices'] = \App\Models\FileService::whereHas('user', function($query) use($user){
-                $query->where('company_id', $user->company_id);
-            })->orderBy('id', 'DESC')->take(5)->get();
-            $data['fs_pending'] = \App\Models\FileService::whereHas('user', function($query) use($user){
-                $query->where('company_id', $user->company_id);
-            })->where('status', 'P')->count();
-            $data['fs_open'] = \App\Models\FileService::whereHas('user', function($query) use($user){
-                $query->where('company_id', $user->company_id);
-            })->where('status', 'O')->count();
-            $data['fs_waiting'] = \App\Models\FileService::whereHas('user', function($query) use($user){
-                $query->where('company_id', $user->company_id);
-            })->where('status', 'W')->count();
-            $data['fs_completed'] = \App\Models\FileService::whereHas('user', function($query) use($user){
-                $query->where('company_id', $user->company_id);
-            })->where('status', 'C')->count();
-            return view('pages.dashboard.staff', compact('data'));
         }
+    }
+    public function dashboardStaff()
+    {
+        $user = $this->user;
+        $data['fileServices'] = \App\Models\FileService::whereHas('user', function($query) use($user){
+            $query->where('company_id', $user->company_id);
+        })->orderBy('id', 'DESC')->take(5)->get();
+        $data['fs_pending'] = \App\Models\FileService::whereHas('user', function($query) use($user){
+            $query->where('company_id', $user->company_id);
+        })->where('status', 'P')->count();
+        $data['fs_open'] = \App\Models\FileService::whereHas('user', function($query) use($user){
+            $query->where('company_id', $user->company_id);
+        })->where('status', 'O')->count();
+        $data['fs_waiting'] = \App\Models\FileService::whereHas('user', function($query) use($user){
+            $query->where('company_id', $user->company_id);
+        })->where('status', 'W')->count();
+        $data['fs_completed'] = \App\Models\FileService::whereHas('user', function($query) use($user){
+            $query->where('company_id', $user->company_id);
+        })->where('status', 'C')->count();
+        return view('pages.dashboard.staff', compact('data'));
     }
     public function dashboardCustomer()
     {

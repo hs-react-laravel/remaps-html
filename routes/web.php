@@ -30,7 +30,8 @@ use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Remaps\SliderManagerController;
 use App\Http\Controllers\Remaps\TuningEVCCreditController;
 use App\Http\Controllers\PaypalWebhookController;
-
+use App\Http\Controllers\Staff\FileServiceController as StaffFileServiceController;
+use App\Http\Controllers\Staff\TicketController as StaffTicketController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -161,6 +162,18 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
 
     Route::get('/edit-password', [DashboardController::class, 'edit_password'])->name('admin.password.edit');
     Route::post('/edit-password', [DashboardController::class, 'edit_password_post'])->name('admin.password.edit.post');
+});
+Route::group(['prefix'=>'staff', 'middleware' => 'check.staff'], function () {
+    Route::get('/dashboard', [DashboardController::class, 'dashboardStaff'])->name('dashboard.staff');
+    Route::resource('stafffs', StaffFileServiceController::class);
+    Route::get('stafffs/{id}/download-original', [StaffFileServiceController::class, 'download_original'])->name('stafffs.download.original');
+    Route::get('stafffs/{id}/download-modified', [StaffFileServiceController::class, 'download_modified'])->name('stafffs.download.modified');
+    Route::get('stafffs/{id}/delete-modified', [StaffFileServiceController::class, 'delete_modified_file'])->name('stafffs.delete.modified');
+    Route::get('stafffs/{id}/create-ticket', [StaffFileServiceController::class, 'create_ticket'])->name('stafffs.tickets.create');
+    Route::post('stafffs/{id}/store-ticket', [StaffFileServiceController::class, 'store_ticket'])->name('stafffs.tickets.store');
+
+    Route::resource('stafftk', StaffTicketController::class);
+    Route::get('stafftk/{id}/download-document', [StaffTicketController::class, 'download_document'])->name('stafftk.download');
 });
 Route::group(['middleware' => 'auth:customer', 'prefix'=>'customer'], function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboardCustomer'])->name('dashboard.customer');

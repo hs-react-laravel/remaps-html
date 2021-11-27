@@ -15,7 +15,7 @@ class AdminFileServiceRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::check() && Auth::user()->is_admin == 1 || Auth::user()->is_staff == 1;
+        return Auth::guard('admin')->check() || Auth::guard('staff')->check();
     }
 
     /**

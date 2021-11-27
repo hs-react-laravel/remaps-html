@@ -154,14 +154,14 @@
         </h6>
         <div class="dropdown-divider"></div>
         <a class="dropdown-item"
-          href="{{ $user->is_admin || $user->is_staff ? route('admin.dashboard.profile') : route('dashboard.profile') }}">
+          href="{{ $user->is_admin || $user->is_master ? route('admin.dashboard.profile') : route('dashboard.profile') }}">
           <i class="me-50" data-feather="user"></i> Profile
         </a>
         <a class="dropdown-item"
-          href="{{ $user->is_admin || $user->is_staff ? route('admin.password.edit') : route('password.edit') }}">
+          href="{{ $user->is_admin || $user->is_master ? route('admin.password.edit') : route('password.edit') }}">
           <i class="me-50" data-feather="key"></i> Change Password
         </a>
-        @if ($user->is_admin || $user->is_staff)
+        @if ($user->is_admin || $user->is_master)
           <a class="dropdown-item" href="{{ route('admin.auth.logout') }}"
             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
             <i class="me-50" data-feather="power"></i> Logout

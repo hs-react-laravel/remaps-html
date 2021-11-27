@@ -37,17 +37,32 @@
         </tr>
         <tr>
             <th>Original file</th>
-            <td><a href="{{ route('fileservice.download.original', ['id' => $fileService->id]) }}">download</a></td>
+            <td>
+              @if ($user->is_admin)
+                <a href="{{ route('fileservice.download.original', ['id' => $fileService->id]) }}">download</a>
+              @elseif ($user->is_staff)
+                <a href="{{ route('stafffs.download.original', ['id' => $fileService->id]) }}">download</a>
+              @endif
+            </td>
         </tr>
         @if((($fileService->status == 'Completed') || ($fileService->status == 'Waiting')) && ($fileService->modified_file != ""))
           <tr>
-              <th>Modified file</th>
-              <td>
-                <a href="{{ route('fileservice.download.modified', ['id' => $fileService->id]) }}">download</a>
-                @if($fileService->status == 'Waiting')
-                  &nbsp;&nbsp;<a href="{{ route('fileservice.delete.modified', ['id' => $fileService->id]) }}">delete</a>
-                @endif
-              </td>
+            <th>Modified file</th>
+            @if($user->is_admin)
+            <td>
+              <a href="{{ route('fileservice.download.modified', ['id' => $fileService->id]) }}">download</a>
+              @if($fileService->status == 'Waiting')
+                &nbsp;&nbsp;<a href="{{ route('fileservice.delete.modified', ['id' => $fileService->id]) }}">delete</a>
+              @endif
+            </td>
+            @elseif ($user->is_staff)
+            <td>
+              <a href="{{ route('stafffs.download.modified', ['id' => $fileService->id]) }}">download</a>
+              @if($fileService->status == 'Waiting')
+                &nbsp;&nbsp;<a href="{{ route('stafffs.delete.modified', ['id' => $fileService->id]) }}">delete</a>
+              @endif
+            </td>
+            @endif
           </tr>
         @endif
       </tbody>

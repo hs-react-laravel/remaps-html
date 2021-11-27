@@ -38,6 +38,10 @@ class MasterController extends BaseController
                     $user = Auth::guard('customer')->user();
                     if ($user) $this->user = $user;
                     else return redirect(url('login'));
+                } else if (str_starts_with($request->path(), 'staff')) {
+                    $user = Auth::guard('staff')->user();
+                    if ($user) $this->user = $user;
+                    else return redirect(url('login'));
                 }
                 // $this->user = Auth::guard($guard)->user();
                 if($this->user){

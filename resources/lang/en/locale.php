@@ -81,6 +81,7 @@ return [
     'Company Functions' => 'Company',
     'Admin Functions' => 'Admin',
     'Customer Functions' => 'Customer',
+    'Staff Functions' => 'Staff',
     'menu_Dashboard' => 'Dashboard',
     'menu_FileServices' => 'File services',
     'menu_SupportTickets' => 'Support tickets',

@@ -5,22 +5,22 @@
       "slug": ""
     },
     {
-        "url": "admin/dashboard",
-        "name": "Dashboards",
+        "url": "staff/dashboard",
+        "name": "menu_Dashboard",
         "icon": "home",
-        "slug": "dashboard.admin"
+        "slug": "dashboard.staff"
     },
     {
-        "url": "admin/fileservices",
-        "name": "File Services",
+        "url": "staff/stafffs",
+        "name": "menu_FileServices",
         "icon": "file",
-        "slug": "fileservices.index"
+        "slug": "stafffs.index"
     },
     {
-        "url": "admin/tickets",
-        "name": "Support Tickets",
+        "url": "staff/stafftk",
+        "name": "menu_SupportTickets",
         "icon": "message-circle",
-        "slug": "tickets.index"
+        "slug": "stafftk.index"
     }
   ]
 }

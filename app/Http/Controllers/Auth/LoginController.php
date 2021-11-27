@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Company;
 use App\Models\User;
 
@@ -59,7 +60,7 @@ class LoginController extends Controller
         }
 
         $email = $request->get($this->username());
-        $user = User::where($this->username(), $email)->first();
+        $user = User::where($this->username(), $email)->where('company_id', $this->company->id)->first();
         if (!empty($user)) {
             if ($user->is_admin == 1) {
                 return redirect()->route('login')->with(['status'=>'error', 'error'=>__('auth.invalid_customer_privilege')]);
@@ -75,8 +76,53 @@ class LoginController extends Controller
         return $this->sendFailedLoginResponse($request);
     }
 
+    protected function attemptLogin(Request $request)
+    {
+        $email = $request->get($this->username());
+        $user = User::where($this->username(), $email)->where('company_id', $this->company->id)->first();
+        if ($user->is_staff) {
+            return Auth::guard('staff')->attempt(
+                $this->credentials($request), $request->filled('remember')
+            );
+        } else {
+            return $this->guard()->attempt(
+                $this->credentials($request), $request->filled('remember')
+            );
+        }
+    }
+
+    protected function sendLoginResponse(Request $request)
+    {
+        $request->session()->regenerate();
+
+        $this->clearLoginAttempts($request);
+
+        $email = $request->get($this->username());
+        $user = User::where($this->username(), $email)->first();
+
+        if ($user->is_staff) {
+            $this->redirectTo = '/admin/dashboard';
+            if ($response = $this->authenticated($request, Auth::guard('staff')->user())) {
+                return $response;
+            }
+        } else {
+            $this->redirectTo = '/staff/dashboard';
+            if ($response = $this->authenticated($request, $this->guard()->user())) {
+                return $response;
+            }
+        }
+
+        return $request->wantsJson()
+                    ? new JsonResponse([], 204)
+                    : redirect()->intended($this->redirectPath());
+    }
+
     public function logout(Request $request) {
-        $this->guard()->logout($request);
+        if (Auth::guard('staff')->check()) {
+            Auth::guard('staff')->logout($request);
+        } else {
+            $this->guard()->logout($request);
+        }
         return redirect()->route('login')->with(['status' => 'success', 'message' => __('auth.logged_out')]);
     }
 }

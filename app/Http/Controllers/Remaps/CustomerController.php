@@ -155,8 +155,13 @@ class CustomerController extends MasterController
     {
         try{
             $user = User::find($id);
-            Auth::guard('customer')->login($user);
-            return redirect()->away(url('customer/dashboard'));
+            if ($user->is_staff) {
+                Auth::guard('staff')->login($user);
+                return redirect()->away(url('staff/dashboard'));
+            } else {
+                Auth::guard('customer')->login($user);
+                return redirect()->away(url('customer/dashboard'));
+            }
         }catch(\Exception $e){
             session()->flash('error', __('admin.opps'));
             return redirect(url('admin/customer'));
