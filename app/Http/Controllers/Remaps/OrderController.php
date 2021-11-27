@@ -17,6 +17,8 @@ class OrderController extends MasterController
     public function index()
     {
         //
+        // dd(\File::exists('storage/uploads/logo/'.$this->company->logo));
+        dd(asset('storage/uploads/logo/'.$this->company->logo));
         $user = $this->user;
         $entries = Order::whereHas('user', function($query) use($user){
             return $query->where('company_id', $user->company_id);
