@@ -13,6 +13,10 @@
   <link rel="stylesheet" href="{{ asset(mix('css/base/pages/authentication.css')) }}">
 @endsection
 
+@php
+  $configData = Helper::applClasses();
+@endphp
+
 @section('content')
 <div class="auth-wrapper auth-cover">
   <div class="auth-inner row m-0">
@@ -158,7 +162,7 @@
                     </div>
                   </div>
                   <div class="col-12">
-                    <button type="submit" class="btn btn-primary" style="float: right;">Submit</button>
+                    <button type="submit" class="btn {{ 'btn-'.substr($configData['navbarColor'], 3) }}" style="float: right;">Submit</button>
                   </div>
                 </div>
               </div>

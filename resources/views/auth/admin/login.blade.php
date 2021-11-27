@@ -8,6 +8,10 @@
   <link rel="stylesheet" href="{{ asset(mix('css/base/pages/authentication.css')) }}">
 @endsection
 
+@php
+  $configData = Helper::applClasses();
+@endphp
+
 @section('content')
 <div class="auth-wrapper auth-basic px-2">
   <div class="auth-inner my-2">
@@ -62,7 +66,7 @@
               <label class="form-check-label" for="remember-me"> Remember Me </label>
             </div>
           </div>
-          <button class="btn btn-primary w-100" tabindex="4">Sign in</button>
+          <button class="btn {{ 'btn-'.substr($configData['navbarColor'], 3) }} w-100" tabindex="4">Sign in</button>
         </form>
 
       </div>

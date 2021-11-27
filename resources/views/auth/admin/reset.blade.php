@@ -8,6 +8,10 @@
   <link rel="stylesheet" href="{{ asset(mix('css/base/pages/authentication.css')) }}">
 @endsection
 
+@php
+  $configData = Helper::applClasses();
+@endphp
+
 @section('content')
 <div class="auth-wrapper auth-basic px-2">
   <div class="auth-inner my-2">
@@ -60,7 +64,7 @@
               <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
             </div>
           </div>
-          <button class="btn btn-primary w-100" tabindex="3">Set New Password</button>
+          <button class="btn {{ 'btn-'.substr($configData['navbarColor'], 3) }} w-100" tabindex="3">Set New Password</button>
         </form>
 
         <p class="text-center mt-2">

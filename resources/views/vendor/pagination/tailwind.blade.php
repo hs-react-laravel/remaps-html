@@ -1,6 +1,9 @@
+@php
+  $configData = Helper::applClasses();
+@endphp
 @if ($paginator->hasPages())
     <nav aria-label="Page navigation">
-        <ul class="pagination" style="float: right">
+        <ul class="pagination {{ 'pagination-'.substr($configData['navbarColor'], 3) }}" style="float: right">
         {{-- Previous Page Link --}}
         @if ($paginator->onFirstPage())
             <li class="page-item prev"><a class="page-link disabled" aria-disabled="true"></a></li>

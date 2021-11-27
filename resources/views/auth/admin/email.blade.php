@@ -8,6 +8,10 @@
   <link rel="stylesheet" href="{{ asset(mix('css/base/pages/authentication.css')) }}">
 @endsection
 
+@php
+  $configData = Helper::applClasses();
+@endphp
+
 @section('content')
 <div class="auth-wrapper auth-basic px-2">
   <div class="auth-inner my-2">
@@ -36,11 +40,11 @@
               autofocus
             />
           </div>
-          <button class="btn btn-primary w-100" tabindex="2">Send reset link</button>
+          <button class="btn {{ 'btn-'.substr($configData['navbarColor'], 3) }} w-100" tabindex="2">Send reset link</button>
         </form>
 
         <p class="text-center mt-2">
-          <a href="{{url('auth/login-basic')}}"> <i data-feather="chevron-left"></i> Back to login </a>
+          <a href="{{url('admin/login')}}"> <i data-feather="chevron-left"></i> Back to login </a>
         </p>
 
       </div>

@@ -106,6 +106,8 @@
         .addClass("theme-" + navbarColor.substring(3))
       $('.customizer-toggle').removeClass('bg-primary bg-secondary bg-success bg-danger bg-info bg-warning bg-dark')
         .addClass(navbarColor + ' navbar-dark');
+      $('.pagination').removeClass('pagination-primary pagination-secondary pagination-success pagination-danger pagination-info pagination-warning pagination-dark')
+      .addClass("pagination-" + navbarColor.substring(3))
 
       body.find(mainMenuItem).css('color', 'white');
     } else {

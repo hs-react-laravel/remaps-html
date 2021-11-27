@@ -104,7 +104,7 @@
               <label class="form-check-label" for="remember-me"> Remember Me</label>
             </div>
           </div>
-          <button class="btn btn-primary w-100" tabindex="4">Sign in</button>
+          <button class="btn {{ 'btn-'.substr($configData['navbarColor'], 3) }} w-100" tabindex="4">Sign in</button>
         </form>
         <p class="text-center mt-2">
           <span>New on our platform?</span>
