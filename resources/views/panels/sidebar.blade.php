@@ -55,7 +55,7 @@ $configData = Helper::applClasses();
       @endforeach
       @endif
       {{-- Foreach menu item ends --}}
-      @if($role == 'customer')
+      @if($role == 'customer' && $user->company->open_check)
         @php
           $days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
         @endphp
