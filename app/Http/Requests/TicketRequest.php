@@ -15,7 +15,7 @@ class TicketRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::guard('admin')->check() || Auth::guard('customer')->check();
+        return Auth::guard('master')->check() || Auth::guard('admin')->check() || Auth::guard('customer')->check() || Auth::guard('staff')->check();
     }
 
     /**

@@ -174,7 +174,7 @@ class DashboardController extends MasterController
 
     public function profile_post(AccountInfoRequest $request) {
         $this->user->update($request->all());
-        if (Auth::guard('admin')->check()) {
+        if (Auth::guard('master')->check() || Auth::guard('admin')->check()) {
             return redirect(route('admin.dashboard.profile'));
         }
         return redirect(route('dashboard.profile'));
@@ -182,7 +182,7 @@ class DashboardController extends MasterController
 
     public function profile_staff_post(AccountStaffRequest $request) {
         $this->user->update($request->all());
-        if (Auth::guard('admin')->check()) {
+        if (Auth::guard('master')->check() || Auth::guard('admin')->check()) {
             return redirect(route('admin.dashboard.profile'));
         }
         return redirect(route('dashboard.profile'));

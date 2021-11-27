@@ -18,7 +18,7 @@ class TuningCreditGroupRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::guard('admin')->check();
+        return Auth::guard('master')->check() || Auth::guard('admin')->check();
     }
 
     /**

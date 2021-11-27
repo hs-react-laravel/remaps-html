@@ -16,7 +16,7 @@ class CustomerRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::guard('admin')->check();
+        return Auth::guard('master')->check() || Auth::guard('admin')->check();
     }
 
     /**
@@ -28,6 +28,9 @@ class CustomerRequest extends FormRequest
     {
         $user = User::find($this->route('customer'));
         $admin = Auth::guard('admin')->user();
+        if (!$admin) {
+            $admin = Auth::guard('master')->user();
+        }
         switch ($this->method()) {
             case 'GET':{
                 return [
