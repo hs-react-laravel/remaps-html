@@ -6,9 +6,6 @@
 </head>
 
 <body>
-@php
-    dd(asset('storage/uploads/logo/'.$company->logo));
-@endphp
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
       <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
