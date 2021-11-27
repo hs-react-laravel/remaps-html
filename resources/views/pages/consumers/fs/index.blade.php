@@ -34,16 +34,16 @@
                     <td>{{ $entry->license_plate }}</td>
                     <td>{{ $entry->created_at }}</td>
                     <td>
-                      <a class="btn btn-icon btn-success" href="{{ route('fs.tickets.create', ['id' => $entry->id]) }}">
+                      <a class="btn btn-icon btn-success" href="{{ route('fs.tickets.create', ['id' => $entry->id]) }}" title="Ticket">
                         <i data-feather="message-circle"></i>
                       </a>
-                      <a class="btn btn-icon btn-success" href="{{ route('fs.download.original', ['id' => $entry->id]) }}">
+                      <a class="btn btn-icon btn-success" href="{{ route('fs.download.original', ['id' => $entry->id]) }}" title="Download Original">
                         <i data-feather="download"></i>
                       </a>
-                      <a class="btn btn-icon btn-success" href="{{ route('fs.download.modified', ['id' => $entry->id]) }}">
+                      <a class="btn btn-icon btn-success" href="{{ route('fs.download.modified', ['id' => $entry->id]) }}" title="Download Modified">
                         <i data-feather="download-cloud"></i>
                       </a>
-                      <a class="btn btn-icon btn-primary" href="{{ route('fs.edit', ['f' => $entry->id]) }}">
+                      <a class="btn btn-icon btn-primary" href="{{ route('fs.edit', ['f' => $entry->id]) }}" title="Edit">
                         <i data-feather="edit"></i>
                       </a>
                     </td>

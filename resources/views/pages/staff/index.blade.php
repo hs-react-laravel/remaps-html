@@ -43,13 +43,13 @@
                     <td>{{ $entry->fileServicesAssignedCount }}</td>
                     <td>{{ $entry->lastLoginDiff }}</td>
                     <td class="td-actions">
-                      <a class="btn btn-icon btn-primary" href="{{ route('staffs.edit', ['staff' => $entry->id]) }}">
+                      <a class="btn btn-icon btn-primary" href="{{ route('staffs.edit', ['staff' => $entry->id]) }}" title="Edit">
                         <i data-feather="edit"></i>
                       </a>
-                      <a class="btn btn-icon btn-success" target="_blank" href="{{ route('customer.sa', ['id' => $entry->id]) }}">
+                      <a class="btn btn-icon btn-success" target="_blank" href="{{ route('customer.sa', ['id' => $entry->id]) }}" title="Login as Staff">
                         <i data-feather="user"></i>
                       </a>
-                      <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}"><i data-feather="trash-2"></i></a>
+                      <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}" title="Delete"><i data-feather="trash-2"></i></a>
                       <form action="{{ route('staffs.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">

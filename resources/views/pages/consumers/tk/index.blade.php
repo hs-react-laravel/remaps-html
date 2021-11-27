@@ -34,7 +34,7 @@
                   <td>{{ $e->closed ? 'Closed' : 'Open' }}</td>
                   <td>{{ $e->created_at }}</td>
                   <td>
-                    <a class="btn btn-icon btn-primary" href="{{ route('tk.edit', ['tk' => $e->id]) }}">
+                    <a class="btn btn-icon btn-primary" href="{{ route('tk.edit', ['tk' => $e->id]) }}" title="Edit">
                       <i data-feather="edit"></i>
                     </a>
                   </td>

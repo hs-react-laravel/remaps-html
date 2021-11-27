@@ -33,7 +33,7 @@
                   <td>{{ $e->status }}</td>
                   <td>{{ $e->displayable_id }}</td>
                   <td>
-                  <a class="btn btn-icon btn-success" href="{{ route('order.invoice', ['id' => $e->id]) }}">
+                  <a class="btn btn-icon btn-success" href="{{ route('order.invoice', ['id' => $e->id]) }}" title="Download Invoice">
                       <i data-feather="file"></i>
                   </a>
                   </td>

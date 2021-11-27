@@ -53,22 +53,22 @@
                     <td>{{ $u->fileServicesCount }}</td>
                     <td>{{ $u->lastLoginDiff }}</td>
                     <td class="td-actions">
-                      <a class="btn btn-icon btn-primary" href="{{ route('customers.edit', ['customer' => $u->id]) }}">
+                      <a class="btn btn-icon btn-primary" href="{{ route('customers.edit', ['customer' => $u->id]) }}" title="Edit">
                         <i data-feather="edit"></i>
                       </a>
-                      <a class="btn btn-icon btn-success" href="{{ route('customer.fs', ['id' => $u->id]) }}">
+                      <a class="btn btn-icon btn-success" href="{{ route('customer.fs', ['id' => $u->id]) }}" title="File Services">
                         <i data-feather="file-text"></i>
                       </a>
-                      <a class="btn btn-icon btn-success" target="_blank" href="{{ route('customer.sa', ['id' => $u->id]) }}">
+                      <a class="btn btn-icon btn-success" target="_blank" href="{{ route('customer.sa', ['id' => $u->id]) }}" title="Login as Customer">
                         <i data-feather="user"></i>
                       </a>
-                      <a class="btn btn-icon btn-success" href="{{ route('customer.tr', ['id' => $u->id]) }}">
+                      <a class="btn btn-icon btn-success" href="{{ route('customer.tr', ['id' => $u->id]) }}" title="Transactions">
                         <i data-feather="credit-card"></i>
                       </a>
-                      <a class="btn btn-icon btn-success">
+                      <a class="btn btn-icon btn-success" title="Send Password Reset Link">
                         <i data-feather="mail"></i>
                       </a>
-                      <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $u->id }}"><i data-feather="trash-2"></i></a>
+                      <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $u->id }}" title="Delete"><i data-feather="trash-2"></i></a>
                       <form action="{{ route('customers.destroy', $u->id) }}" class="delete-form" method="POST" style="display:none">
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">

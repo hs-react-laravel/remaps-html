@@ -42,10 +42,10 @@
                   <td> @if ($entry->staff) {{ $entry->staff->fullname }} @endif </td>
                   <td>{{ $entry->created_at }}</td>
                   <td class="td-actions">
-                    <a class="btn btn-icon btn-primary" href="{{ route('stafftk.edit', ['stafftk' => $entry->id]) }}">
+                    <a class="btn btn-icon btn-primary" href="{{ route('stafftk.edit', ['stafftk' => $entry->id]) }}" title="Edit">
                       <i data-feather="edit"></i>
                     </a>
-                    <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}"><i data-feather="trash-2"></i></a>
+                    <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}" title="Delete"><i data-feather="trash-2"></i></a>
                     <form action="{{ route('stafftk.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
                       <input type="hidden" name="_method" value="DELETE">
                       <input type="hidden" name="_token" value="{{ csrf_token() }}">

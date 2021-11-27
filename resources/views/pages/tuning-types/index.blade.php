@@ -44,16 +44,16 @@
                     </a>
                   </td>
                   <td class="td-actions">
-                    <a class="btn btn-icon btn-primary" href="{{ route('tuning-types.edit', ['tuning_type' => $entry->id]) }}">
+                    <a class="btn btn-icon btn-primary" href="{{ route('tuning-types.edit', ['tuning_type' => $entry->id]) }}" title="Edit">
                       <i data-feather="edit"></i>
                     </a>
-                    <a class="btn btn-icon btn-success" href="{{ route('tuning-types.sort-up', ['id' => $entry->id]) }}">
+                    <a class="btn btn-icon btn-success" href="{{ route('tuning-types.sort-up', ['id' => $entry->id]) }}" title="Move Up">
                       <i data-feather="arrow-up"></i>
                     </a>
-                    <a class="btn btn-icon btn-success" href="{{ route('tuning-types.sort-down', ['id' => $entry->id]) }}">
+                    <a class="btn btn-icon btn-success" href="{{ route('tuning-types.sort-down', ['id' => $entry->id]) }}" title="Move Down">
                       <i data-feather="arrow-down"></i>
                     </a>
-                    <a class="btn btn-icon btn-danger" onclick="onDelete(this)">
+                    <a class="btn btn-icon btn-danger" onclick="onDelete(this)" title="Delete">
                       <i data-feather="trash-2"></i>
                     </a>
                     <form action="{{ route('tuning-types.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">

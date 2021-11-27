@@ -45,16 +45,16 @@
                   <td>{{ $entry->credits }}</td>
                   <td>{{ $entry->tooltip }}</td>
                   <td class="td-actions">
-                    <a class="btn btn-icon btn-primary" href="{{ route('options.edit', ['id' => $typeId, 'option' => $entry->id]) }}">
+                    <a class="btn btn-icon btn-primary" href="{{ route('options.edit', ['id' => $typeId, 'option' => $entry->id]) }}" title="Edit">
                       <i data-feather="edit"></i>
                     </a>
-                    <a class="btn btn-icon btn-success" href="{{ route('options.sort.up', ['id' => $typeId, 'option' => $entry->id]) }}">
+                    <a class="btn btn-icon btn-success" href="{{ route('options.sort.up', ['id' => $typeId, 'option' => $entry->id]) }}" title="Move Up">
                       <i data-feather="arrow-up"></i>
                     </a>
-                    <a class="btn btn-icon btn-success" href="{{ route('options.sort.down', ['id' => $typeId, 'option' => $entry->id]) }}">
+                    <a class="btn btn-icon btn-success" href="{{ route('options.sort.down', ['id' => $typeId, 'option' => $entry->id]) }}" title="Move Down">
                       <i data-feather="arrow-down"></i>
                     </a>
-                    <a class="btn btn-icon btn-danger" onclick="onDelete(this)">
+                    <a class="btn btn-icon btn-danger" onclick="onDelete(this)" title="Delete">
                       <i data-feather="trash-2"></i>
                     </a>
                     <form action="{{ route('options.destroy', ['id' => $typeId, 'option' => $entry->id]) }}" class="delete-form" method="POST" style="display:none">

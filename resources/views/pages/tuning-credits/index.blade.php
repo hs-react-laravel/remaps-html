@@ -73,25 +73,25 @@
                   @endforeach
                   <td class="td-actions" @if($entry->set_default_tier) style="font-weight: bold" @endif">
                     @if ($group_type == 'normal')
-                      <a class="btn btn-icon btn-primary" href="{{ route('tuning-credits.edit', ['tuning_credit' => $entry->id]) }}">
+                      <a class="btn btn-icon btn-primary" href="{{ route('tuning-credits.edit', ['tuning_credit' => $entry->id]) }}" title="Edit">
                         <i data-feather="edit"></i>
                       </a>
                       <a
                         class="btn btn-icon @if($entry->set_default_tier) btn-dark @else btn-success @endif"
-                        href="{{ route('tuning-credits.default', ['id' => $entry->id]) }}">
+                        href="{{ route('tuning-credits.default', ['id' => $entry->id]) }}" title="Set Default">
                         <i data-feather="check-circle"></i>
                       </a>
                     @else
-                      <a class="btn btn-icon btn-primary" href="{{ route('evc-tuning-credits.edit', ['evc_tuning_credit' => $entry->id]) }}">
+                      <a class="btn btn-icon btn-primary" href="{{ route('evc-tuning-credits.edit', ['evc_tuning_credit' => $entry->id]) }}" title="Edit">
                         <i data-feather="edit"></i>
                       </a>
                       <a
                         class="btn btn-icon @if($entry->set_default_tier) btn-dark @else btn-success @endif"
-                        href="{{ route('evc-tuning-credits.default', ['id' => $entry->id]) }}">
+                        href="{{ route('evc-tuning-credits.default', ['id' => $entry->id]) }}" title="Set Default">
                         <i data-feather="check-circle"></i>
                       </a>
                     @endif
-                    <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}"><i data-feather="trash-2"></i></a>
+                    <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}" title="Delete"><i data-feather="trash-2"></i></a>
                     <form action="{{ route('tuning-credits.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
                       <input type="hidden" name="_method" value="DELETE">
                       <input type="hidden" name="_token" value="{{ csrf_token() }}">
