@@ -42,19 +42,19 @@ class DashboardController extends MasterController
         $user = $this->user;
         $data['fileServices'] = \App\Models\FileService::whereHas('user', function($query) use($user){
             $query->where('company_id', $user->company_id);
-        })->orderBy('id', 'DESC')->take(5)->get();
+        })->where('assign_id', $user->id)->orderBy('id', 'DESC')->take(5)->get();
         $data['fs_pending'] = \App\Models\FileService::whereHas('user', function($query) use($user){
             $query->where('company_id', $user->company_id);
-        })->where('status', 'P')->count();
+        })->where('assign_id', $user->id)->where('status', 'P')->count();
         $data['fs_open'] = \App\Models\FileService::whereHas('user', function($query) use($user){
             $query->where('company_id', $user->company_id);
-        })->where('status', 'O')->count();
+        })->where('assign_id', $user->id)->where('status', 'O')->count();
         $data['fs_waiting'] = \App\Models\FileService::whereHas('user', function($query) use($user){
             $query->where('company_id', $user->company_id);
-        })->where('status', 'W')->count();
+        })->where('assign_id', $user->id)->where('status', 'W')->count();
         $data['fs_completed'] = \App\Models\FileService::whereHas('user', function($query) use($user){
             $query->where('company_id', $user->company_id);
-        })->where('status', 'C')->count();
+        })->where('assign_id', $user->id)->where('status', 'C')->count();
         return view('pages.dashboard.staff', compact('data'));
     }
     public function dashboardCustomer()
