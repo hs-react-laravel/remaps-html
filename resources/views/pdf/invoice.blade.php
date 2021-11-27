@@ -13,7 +13,7 @@
         <tr>
           <td valign="top">
 
-            @if(\File::exists(asset('storage/uploads/logo/'.$company->logo)))
+            @if(\File::exists('storage/uploads/logo/'.$company->logo))
               <img src="{{ asset('storage/uploads/logo/'.$company->logo) }}" alt="" style="width:280px" />
             @endif
           </td>
