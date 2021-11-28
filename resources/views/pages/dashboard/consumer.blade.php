@@ -111,10 +111,10 @@
                       <td>{{ $fileService->created_at }}</td>
                       <td>{{ $fileService->status }}</td>
                       <td>
-                        <a class="btn btn-icon btn-success" href="{{ route('fs.download.original', ['id' => $fileService->id]) }}">
+                        <a class="btn btn-icon btn-success" href="{{ route('fs.download.original', ['id' => $fileService->id]) }}" title="Download Origin">
                           <i data-feather="download"></i>
                         </a>
-                        <a class="btn btn-icon btn-success" href="{{ route('fs.download.modified', ['id' => $fileService->id]) }}">
+                        <a class="btn btn-icon btn-success" href="{{ route('fs.download.modified', ['id' => $fileService->id]) }}" title="Download Modified">
                           <i data-feather="download-cloud"></i>
                         </a>
                       </td>

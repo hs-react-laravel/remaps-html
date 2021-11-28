@@ -133,7 +133,7 @@
                       <td>{{ $order->amount_with_sign }}</td>
                       <td>{{ $order->status }}</td>
                       <td>
-                        <a class="btn btn-icon btn-success" href="{{ route('order.invoice', ['id' => $order->id]) }}">
+                        <a class="btn btn-icon btn-success" href="{{ route('order.invoice', ['id' => $order->id]) }}" title="Download Invoice">
                           <i data-feather="file"></i>
                         </a>
                       </td>

@@ -111,7 +111,7 @@
                       <td>{{ $fileService->created_at }}</td>
                       <td>{{ $fileService->status }}</td>
                       <td>
-                        <a class="btn btn-icon btn-primary" href="{{ route('fileservices.edit', ['fileservice' => $fileService->id]) }}">
+                        <a class="btn btn-icon btn-primary" href="{{ route('fileservices.edit', ['fileservice' => $fileService->id]) }}" title="Edit">
                           <i data-feather="edit"></i>
                         </a>
                         <a
