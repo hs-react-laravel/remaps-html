@@ -15,7 +15,7 @@ class EmailTemplateRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::check() && Auth::user()->is_admin == 1;
+        return Auth::guard('master')->check() || Auth::guard('admin')->check();
     }
 
     /**

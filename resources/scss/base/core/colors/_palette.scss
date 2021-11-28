@@ -371,7 +371,7 @@
       }
 
       // For Pagination
-      @if ($color_name != 'light' and $color_name != 'black' and $color_name != 'white' and $color_name != 'dark') {
+      @if ($color_name != 'light' and $color_name != 'black' and $color_name != 'white') {
         .pagination-#{$color-name} {
           .page-item {
             &.active {

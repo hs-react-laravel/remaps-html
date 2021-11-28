@@ -29,7 +29,8 @@ return [
         'reply-to-your-ticket' =>'Ticket Reply',
         'customer-activate-email' =>'Company  Registration Activate',
         'new-company-apply'=>'New Company apply',
-        'file-service-upload-limited'=>'File Service Upload Limited'
+        'file-service-upload-limited'=>'File Service Upload Limited',
+        'staff-job-assigned'=>'Job assigned for staff'
     ],
 
     'currency_sign'=>'£',

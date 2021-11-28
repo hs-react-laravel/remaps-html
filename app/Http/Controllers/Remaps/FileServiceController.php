@@ -10,6 +10,7 @@ use App\Models\Ticket;
 use App\Models\User;
 use App\Mail\FileServiceModified;
 use App\Mail\FileServiceProcessed;
+use App\Mail\JobAssigned;
 use App\Mail\TicketFileCreated;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
@@ -111,14 +112,21 @@ class FileServiceController extends MasterController
         //assign to staff
         if ($request->assign) {
             $request->request->add(['assign_id' => $request->assign]);
+            $fs->update($request->all());
+            try{
+                Mail::to($fs->staff)->send(new JobAssigned($fs));
+            }catch(\Exception $e){
+                session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
+            }
         } else {
             $request->request->add(['assign_id' => $this->user->id]);
+            $fs->update($request->all());
         }
         if ($this->user->is_staff) {
             $request->request->add(['assign_id' => $this->user->id]);
+            $fs->update($request->all());
         }
         // save model
-        $fs->update($request->all());
         // relation with staff
 
         return redirect(route('fileservices.index'));
