@@ -28,6 +28,9 @@ class StaffRequest extends FormRequest
     {
         $user = User::find($this->route('staff'));
         $admin = Auth::guard('admin')->user();
+        if (Auth::guard('master')->check()) {
+            $admin = Auth::guard('master')->user();
+        }
         switch ($this->method()) {
             case 'GET':{
                 return [

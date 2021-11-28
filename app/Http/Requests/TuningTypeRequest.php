@@ -28,6 +28,9 @@ class TuningTypeRequest extends FormRequest
     {
         $tuningType = TuningType::find($this->route('tuning_type'));
         $this->user = Auth::guard('admin')->user();
+        if (Auth::guard('master')->check()) {
+            $this->user = Auth::guard('master')->user();
+        }
 
         switch ($this->method()) {
             case 'GET':{

@@ -29,6 +29,9 @@ class TuningCreditGroupRequest extends FormRequest
     public function rules()
     {
         $this->user = Auth::guard('admin')->user();
+        if (Auth::guard('master')->check()) {
+            $this->user = Auth::guard('master')->user();
+        }
 
         $tuningCreditGroup = TuningCreditGroup::find($this->route('tuning_credit'));
         $this->tuningCreditTires = \App\Models\TuningCreditTire::where('company_id', $this->user->company_id)->where('group_type', 'normal')->orderBy('amount', 'ASC')->get();

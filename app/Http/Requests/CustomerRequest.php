@@ -28,7 +28,7 @@ class CustomerRequest extends FormRequest
     {
         $user = User::find($this->route('customer'));
         $admin = Auth::guard('admin')->user();
-        if (!$admin) {
+        if (Auth::guard('master')->check()) {
             $admin = Auth::guard('master')->user();
         }
         switch ($this->method()) {
