@@ -100,7 +100,7 @@ class RegisterController extends Controller
             ->where('set_default_tier', 1)->first();
 
 		$model = new User();
-        $model->tuning_credit_group_id  =   $defaultGroup ?? null;
+        $model->tuning_credit_group_id  =   $defaultGroup ? $defaultGroup->id : null;
         $model->title                   =   $data['title'];
         $model->first_name              =   $data['first_name'];
         $model->last_name               =   $data['last_name'];
