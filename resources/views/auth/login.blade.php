@@ -16,8 +16,7 @@
   <div class="auth-inner row m-0">
     <!-- Brand logo-->
     <a class="brand-logo" href="#">
-      <h2 class="brand-text ms-1"
-        style="-webkit-text-stroke: 1px {{$company->theme_color ? 'white' : 'black'}}">
+      <h2 class="brand-text ms-1" style="">
         {{ $company->name }}
       </h2>
     </a>
