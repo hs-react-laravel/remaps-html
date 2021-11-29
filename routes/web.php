@@ -156,6 +156,9 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::post('/cars/category', [CarBrowserController::class, 'category'])->name('admin.cars.category');
     Route::get('/cars/category', [CarBrowserController::class, 'category'])->name('admin.cars.category');
 
+    Route::get('/profile', [DashboardController::class, 'profile'])->name('admin.dashboard.profile');
+    Route::post('/profile_post', [DashboardController::class, 'profile_post'])->name('admin.dashboard.profile.post');
+
     Route::get('/edit-password', [DashboardController::class, 'edit_password'])->name('admin.password.edit');
     Route::post('/edit-password', [DashboardController::class, 'edit_password_post'])->name('admin.password.edit.post');
 });
@@ -163,6 +166,8 @@ Route::group(['prefix'=>'staff', 'middleware' => 'check.customerstaff'], functio
     Route::get('stafffs/{id}/download-original', [StaffFileServiceController::class, 'download_original'])->name('stafffs.download.original');
     Route::get('stafffs/{id}/download-modified', [StaffFileServiceController::class, 'download_modified'])->name('stafffs.download.modified');
     Route::get('stafffs/{id}/delete-modified', [StaffFileServiceController::class, 'delete_modified_file'])->name('stafffs.delete.modified');
+    Route::get('profile', [DashboardController::class, 'profile_staff'])->name('staff.dashboard.profile');
+    Route::post('profile_post', [DashboardController::class, 'profile_staff_post'])->name('staff.dashboard.profile.post');
 });
 Route::group(['prefix'=>'staff', 'middleware' => 'check.onlystaff'], function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboardStaff'])->name('dashboard.staff');
@@ -201,12 +206,14 @@ Route::group(['middleware' => 'auth:customer', 'prefix'=>'customer'], function (
     Route::post('/cars/category', [CarBrowserController::class, 'category'])->name('cars.category');
     Route::get('/cars/category', [CarBrowserController::class, 'category'])->name('cars.category');
 
+    Route::get('/profile', [DashboardController::class, 'profile'])->name('dashboard.profile');
+    Route::post('/profile_post', [DashboardController::class, 'profile_post'])->name('dashboard.profile.post');
+    Route::post('/profile_staff_post', [DashboardController::class, 'profile_staff_post'])->name('admin.dashboard.profile.staff.post');
+
     Route::get('/edit-password', [DashboardController::class, 'edit_password'])->name('password.edit');
     Route::post('/edit-password', [DashboardController::class, 'edit_password_post'])->name('password.edit.post');
 });
 Route::group(['middleware' => 'check.common'], function () {
-    Route::get('/profile', [DashboardController::class, 'profile'])->name('dashboard.profile');
-    Route::post('/profile_post', [DashboardController::class, 'profile_post'])->name('dashboard.profile.post');
-    Route::post('/profile_staff_post', [DashboardController::class, 'profile_staff_post'])->name('admin.dashboard.profile.staff.post');
+
 });
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);

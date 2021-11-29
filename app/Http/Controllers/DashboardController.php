@@ -163,18 +163,18 @@ class DashboardController extends MasterController
     }
 
     public function profile() {
-        $post_link = route('admin.dashboard.profile.staff.post');
-        if ($this->user->is_staff) {
-            return view('pages.dashboard.profile_staff', compact('post_link'));
-        } else {
-            $post_link = $this->user->is_admin ? route('admin.dashboard.profile.post') : route('dashboard.profile.post');
-            return view('pages.dashboard.profile', compact('post_link'));
-        }
+        $post_link = $this->user->is_admin ? route('admin.dashboard.profile.post') : route('dashboard.profile.post');
+        return view('pages.dashboard.profile', compact('post_link'));
+    }
+
+    public function profile_staff() {
+        $post_link = route('staff.dashboard.profile.post');
+        return view('pages.dashboard.profile_staff', compact('post_link'));
     }
 
     public function profile_post(AccountInfoRequest $request) {
         $this->user->update($request->all());
-        if (Auth::guard('master')->check() || Auth::guard('admin')->check()) {
+        if ($this->user->is_admin) {
             return redirect(route('admin.dashboard.profile'));
         }
         return redirect(route('dashboard.profile'));
@@ -182,10 +182,7 @@ class DashboardController extends MasterController
 
     public function profile_staff_post(AccountStaffRequest $request) {
         $this->user->update($request->all());
-        if (Auth::guard('master')->check() || Auth::guard('admin')->check()) {
-            return redirect(route('admin.dashboard.profile'));
-        }
-        return redirect(route('dashboard.profile'));
+        return redirect(route('staff.dashboard.profile'));
     }
 
     public function edit_password() {

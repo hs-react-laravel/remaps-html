@@ -153,10 +153,22 @@
           * {{Auth::guard('customer')->check() && Auth::guard('customer')->user()->id}} * --}}
         </h6>
         <div class="dropdown-divider"></div>
+        @if($user->is_admin || $user->is_master)
         <a class="dropdown-item"
-          href="{{ route('dashboard.profile') }}">
+          href="{{ route('admin.dashboard.profile') }}">
           <i class="me-50" data-feather="user"></i> Profile
         </a>
+        @elseif($user->is_staff)
+        <a class="dropdown-item"
+            href="{{ route('staff.dashboard.profile') }}">
+            <i class="me-50" data-feather="user"></i> Profile
+        </a>
+        @else
+        <a class="dropdown-item"
+            href="{{ route('dashboard.profile') }}">
+            <i class="me-50" data-feather="user"></i> Profile
+        </a>
+        @endif
         <a class="dropdown-item"
           href="{{ $user->is_admin || $user->is_master ? route('admin.password.edit') : route('password.edit') }}">
           <i class="me-50" data-feather="key"></i> Change Password
