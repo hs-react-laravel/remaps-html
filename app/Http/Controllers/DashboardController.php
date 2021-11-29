@@ -189,6 +189,8 @@ class DashboardController extends MasterController
         $post_link = route('password.edit.post');
         if ($this->user->is_admin) {
             $post_link = route('admin.password.edit.post');
+        } else if ($this->user->is_staff) {
+            $post_link = route('staff.password.edit.post');
         }
         return view('pages.dashboard.edit_password', compact('post_link'));
     }

@@ -158,21 +158,29 @@
           href="{{ route('admin.dashboard.profile') }}">
           <i class="me-50" data-feather="user"></i> Profile
         </a>
+        <a class="dropdown-item"
+          href="{{ route('admin.password.edit') }}">
+          <i class="me-50" data-feather="key"></i> Change Password
+        </a>
         @elseif($user->is_staff)
         <a class="dropdown-item"
             href="{{ route('staff.dashboard.profile') }}">
             <i class="me-50" data-feather="user"></i> Profile
+        </a>
+        <a class="dropdown-item"
+          href="{{ route('staff.password.edit') }}">
+          <i class="me-50" data-feather="key"></i> Change Password
         </a>
         @else
         <a class="dropdown-item"
             href="{{ route('dashboard.profile') }}">
             <i class="me-50" data-feather="user"></i> Profile
         </a>
-        @endif
         <a class="dropdown-item"
-          href="{{ $user->is_admin || $user->is_master ? route('admin.password.edit') : route('password.edit') }}">
+          href="{{ route('password.edit') }}">
           <i class="me-50" data-feather="key"></i> Change Password
         </a>
+        @endif
         @if ($user->is_admin || $user->is_master)
           <a class="dropdown-item" href="{{ route('admin.auth.logout') }}"
             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
