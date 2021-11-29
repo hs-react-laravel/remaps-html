@@ -154,7 +154,7 @@
         </h6>
         <div class="dropdown-divider"></div>
         <a class="dropdown-item"
-          href="{{ $user->is_admin || $user->is_master ? route('admin.dashboard.profile') : route('dashboard.profile') }}">
+          href="{{ route('dashboard.profile') }}">
           <i class="me-50" data-feather="user"></i> Profile
         </a>
         <a class="dropdown-item"
