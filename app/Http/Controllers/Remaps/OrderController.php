@@ -96,6 +96,9 @@ class OrderController extends MasterController
             $order = Order::find($id);
             $pdf = new Dompdf;
             $invoiceName = 'invoice_'.$order->displayable_id.'.pdf';
+            $options = $pdf->getOptions();
+            $options->setIsRemoteEnabled(true);
+            $pdf->setOptions($options);
 
             $pdf->loadHtml(
                 view('pdf.invoice')->with(['order'=>$order, 'company'=>$this->company])->render()
