@@ -92,7 +92,6 @@ class OrderController extends MasterController
         //
     }
     public function invoice($id){
-        dd(public_path('storage/uploads/logo/'.$this->company->logo));
         try{
             $order = Order::find($id);
             $pdf = new Dompdf;
