@@ -13,7 +13,7 @@
           <td valign="top">
 
             @if(\File::exists('storage/uploads/logo/'.$company->logo))
-              <img src="{{ storage_path('app/public/uploads/logo/'.$company->logo) }}" alt="" style="width:280px" />
+              <img src="{{ public_path('storage/uploads/logo/'.$company->logo) }}" alt="" style="width:280px" />
             @endif
           </td>
           <td align="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
