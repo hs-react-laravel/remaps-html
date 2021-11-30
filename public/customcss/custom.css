@@ -38,3 +38,22 @@
 .custom-card-link {
     color: #28c76f!important
 }
+
+.theme-secondary .form-control:focus {
+    border-color: #82868b;
+}
+.theme-success .form-control:focus {
+    border-color: #28c76f;
+}
+.theme-danger .form-control:focus {
+    border-color: #ea5455;
+}
+.theme-info .form-control:focus {
+    border-color: #00cfe8;
+}
+.theme-warning .form-control:focus {
+    border-color: #ff9f43;
+}
+.theme-dark .form-control:focus {
+    border-color: #4b4b4b;
+}
