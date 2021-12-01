@@ -175,9 +175,9 @@ class DashboardController extends MasterController
     public function profile_post(AccountInfoRequest $request) {
         $this->user->update($request->all());
         if ($this->user->is_admin) {
-            return redirect(route('admin.dashboard.profile'));
+            return redirect(route('admin.dashboard.profile'))->withInput();
         }
-        return redirect(route('dashboard.profile'));
+        return redirect(route('dashboard.profile'))->withInput();
     }
 
     public function profile_staff_post(AccountStaffRequest $request) {
