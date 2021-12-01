@@ -39,21 +39,27 @@
     color: #28c76f!important
 }
 
-.theme-secondary .form-control:focus {
+.theme-secondary .form-control:focus,
+.theme-secondary .form-select:focus {
     border-color: #82868b;
 }
-.theme-success .form-control:focus {
-    border-color: #28c76f;
+.theme-success .form-control:focus,
+.theme-success .form-select:focus {
+    border-color: #28c76f !important;
 }
-.theme-danger .form-control:focus {
+.theme-danger .form-control:focus,
+.theme-danger .form-select:focus {
     border-color: #ea5455;
 }
-.theme-info .form-control:focus {
+.theme-info .form-control:focus,
+.theme-info .form-select:focus {
     border-color: #00cfe8;
 }
-.theme-warning .form-control:focus {
+.theme-warning .form-control:focus,
+.theme-warning .form-select:focus {
     border-color: #ff9f43;
 }
-.theme-dark .form-control:focus {
+.theme-dark .form-control:focus,
+.theme-dark .form-select:focus {
     border-color: #4b4b4b;
 }

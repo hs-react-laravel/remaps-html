@@ -39,7 +39,7 @@ data-framework="laravel"
 data-asset-path="{{ asset('/')}}">
 
   <!-- BEGIN: Content-->
-  <div class="app-content content {{ $configData['pageClass'] }}">
+  <div class="app-content content {{ $configData['pageClass'] }} {{ 'theme-'.substr($configData['navbarColor'], 3) }}">
     <div class="content-overlay"></div>
     <div class="header-navbar-shadow"></div>
 

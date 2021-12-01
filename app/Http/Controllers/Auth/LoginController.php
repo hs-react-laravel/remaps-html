@@ -80,6 +80,7 @@ class LoginController extends Controller
     {
         $email = $request->get($this->username());
         $user = User::where($this->username(), $email)->where('company_id', $this->company->id)->first();
+        dd($user);
         if ($user && $user->is_staff) {
             return Auth::guard('staff')->attempt(
                 $this->credentials($request), $request->filled('remember')
