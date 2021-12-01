@@ -101,12 +101,13 @@ class FileServiceController extends MasterController
             $request->request->add(['modified_file' => $filename]);
             if ($fs->status != 'C') {
                 $request->request->add(['status' => 'W']);
-            } else {
-                try{
-					Mail::to($fs->user->email)->send(new FileServiceModified($fs));
-				}catch(\Exception $e){
-					session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
-				}
+            }
+        }
+        if ($request->status == 'C' || $request->status == 'W') {
+            try{
+                Mail::to($fs->user->email)->send(new FileServiceModified($fs));
+            }catch(\Exception $e){
+                session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
             }
         }
         //assign to staff
