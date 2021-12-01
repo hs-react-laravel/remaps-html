@@ -21,7 +21,7 @@
           $tax = $tire->pivot->for_credit * $vat_percentage / 100;
           $total_amount = $tire->pivot->for_credit + $tax;
         @endphp
-        <div class="col-12 col-md-3 col-xl-3">
+        <div class="payment-box">
           <div class="card basic-pricing text-center">
             <div class="card-body">
               <h3>
@@ -41,7 +41,7 @@
               @if ($user->company->paypal_client_id && $user->company->paypal_secret)
               <button
                 type="button"
-                class="btn btn-outline-info me-2"
+                class="btn btn-outline-info me-1"
                 onclick="onPaypalButton(this)">
                 Paypal
               </button>
