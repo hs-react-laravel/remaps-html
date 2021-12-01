@@ -59,22 +59,36 @@
                   <div class="row mb-1">
                     <div class="col-xl-6 col-md-6 col-12">
                       <label class="form-label" for="email">Email</label>
-                      <input type="text" class="form-control" id="email" name="email" required autocomplete="email" />
+                      <input
+                        type="text"
+                        class="form-control @error('email') is-invalid @enderror"
+                        id="email"
+                        name="email"
+                        required
+                        autocomplete="email"
+                        value="{{ old('email') }}" />
                     </div>
                   </div>
                   <div class="row mb-1">
                     <div class="col-xl-6 col-md-6 col-12">
                       <label class="form-label" for="password">Password</label>
-                      <input type="password" class="form-control" id="password" name="password" required autocomplete="new-password" />
-                      @error('name')
-                        <span class="invalid-feedback" role="alert">
-                          <strong>{{ $message }}</strong>
-                        </span>
-                      @enderror
+                      <input
+                        type="password"
+                        class="form-control @error('password') is-invalid @enderror"
+                        id="password"
+                        name="password"
+                        required
+                        autocomplete="new-password" />
                     </div>
                     <div class="col-xl-6 col-md-6 col-12">
                       <label class="form-label" for="password_confirmation">Confirm Password</label>
-                      <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required autocomplete="new-password" />
+                      <input
+                        type="password"
+                        class="form-control @error('password_confirmation') is-invalid @enderror"
+                        id="password_confirmation"
+                        name="password_confirmation"
+                        required
+                        autocomplete="new-password" />
                     </div>
                   </div>
                   <hr>
@@ -83,7 +97,7 @@
                       <label class="form-label" for="lang">Language</label>
                       <select class="form-select" id="lang" name="lang">
                         @foreach ($langs as $abbr => $lang)
-                          <option value="{{ $abbr }}">{{ $lang }}</option>
+                          <option value="{{ $abbr }}" @if(old('lang') == $abbr) selected @endif>{{ $lang }}</option>
                         @endforeach
                       </select>
                     </div>
@@ -92,13 +106,13 @@
                     <div class="col-xl-6 col-md-6 col-12">
                       <label class="form-label" for="private">Customer Type</label>
                       <select class="form-select" id="private" name="private">
-                        <option value="0">Private Customer</option>
-                        <option value="1">Business Customer</option>
+                        <option value="0" @if(old('private') == 0) selected @endif>Private Customer</option>
+                        <option value="1" @if(old('private') == 1) selected @endif>Business Customer</option>
                       </select>
                     </div>
                     <div class="col-xl-6 col-md-6 col-12" id="vat-container" style="display: none">
                       <label class="form-label" for="vat_number">TAX/VAT Number</label>
-                      <input type="text" class="form-control" id="vat_number" name="vat_number" />
+                      <input type="text" class="form-control" id="vat_number" name="vat_number" value="{{ old('vat_number') }}" />
                     </div>
                   </div>
                   <hr>
@@ -106,65 +120,109 @@
                     <div class="col-xl-4 col-md-6 col-12">
                       <label class="form-label" for="title">Title</label>
                       <select class="form-select" id="title" name="title">
-                        <option value="Mr">Mr</option>
-                        <option value="Ms">Ms</option>
+                        <option value="Mr" @if(old('private') == "Mr") selected @endif>Mr</option>
+                        <option value="Ms" @if(old('private') == "Ms") selected @endif>Ms</option>
                       </select>
                     </div>
                     <div class="col-xl-4 col-md-6 col-12">
                       <label class="form-label" for="first_name">First Name</label>
-                      <input type="text" class="form-control" id="first_name" name="first_name" />
-
+                      <input
+                        type="text"
+                        class="form-control @error('first_name') is-invalid @enderror"
+                        id="first_name"
+                        name="first_name"
+                        value="{{ old('first_name') }}" />
                     </div>
                     <div class="col-xl-4 col-md-6 col-12">
                       <label class="form-label" for="last_name">Last Name</label>
-                      <input type="text" class="form-control" id="last_name" name="last_name" />
+                      <input
+                        type="text"
+                        class="form-control @error('last_name') is-invalid @enderror"
+                        id="last_name"
+                        name="last_name"
+                        value="{{ old('last_name') }}" />
                     </div>
                   </div>
                   <div class="row mb-1">
                     <div class="col-xl-6 col-md-6 col-12">
                       <label class="form-label" for="business_name">Business Name</label>
-                      <input type="text" class="form-control" id="business_name" name="business_name" />
+                      <input
+                        type="text"
+                        class="form-control @error('business_name') is-invalid @enderror"
+                        id="business_name"
+                        name="business_name"
+                        value="{{ old('business_name') }}" />
                     </div>
                   </div>
                   <hr>
                   <div class="row mb-1">
                     <div class="col-xl-6 col-md-6 col-12">
                       <label class="form-label" for="address_line_1">Address Line 1</label>
-                      <input type="text" class="form-control" id="address_line_1" name="address_line_1" />
+                      <input
+                        type="text"
+                        class="form-control @error('address_line_1') is-invalid @enderror"
+                        id="address_line_1"
+                        name="address_line_1"
+                        value="{{ old('address_line_1') }}" />
                     </div>
                     <div class="col-xl-6 col-md-6 col-12">
                       <label class="form-label" for="address_line_2">Address Line 2</label>
-                      <input type="text" class="form-control" id="address_line_2" name="address_line_2" />
+                      <input
+                        type="text"
+                        class="form-control @error('address_line_2') is-invalid @enderror"
+                        id="address_line_2"
+                        name="address_line_2"
+                        value="{{ old('address_line_2') }}" />
                     </div>
                   </div>
                   <div class="row mb-1">
                     <div class="col-xl-4 col-md-6 col-12">
                       <label class="form-label" for="town">Town</label>
-                      <input type="text" class="form-control" id="town" name="town" />
+                      <input
+                        type="text"
+                        class="form-control @error('town') is-invalid @enderror"
+                        id="town"
+                        name="town"
+                        value="{{ old('town') }}" />
                     </div>
                     <div class="col-xl-4 col-md-6 col-12">
                       <label class="form-label" for="county">County</label>
-                      <input type="text" class="form-control" id="county" name="county" />
+                      <input
+                        type="text"
+                        class="form-control @error('county') is-invalid @enderror"
+                        id="county"
+                        name="county"
+                        value="{{ old('county') }}" />
                     </div>
                     <div class="col-xl-4 col-md-6 col-12">
                         <label class="form-label" for="post_code">Postal Code</label>
-                        <input type="text" class="form-control" id="post_code" name="post_code" />
+                        <input
+                          type="text"
+                          class="form-control @error('post_code') is-invalid @enderror"
+                          id="post_code"
+                          name="post_code"
+                        value="{{ old('post_code') }}" />
                       </div>
                   </div>
                   <hr>
                   <div class="row mb-1">
                     <div class="col-xl-4 col-md-6 col-12">
                       <label class="form-label" for="phone">Phone</label>
-                      <input type="text" class="form-control" id="phone" name="phone" />
+                      <input
+                        type="text"
+                        class="form-control @error('phone') is-invalid @enderror"
+                        id="phone"
+                        name="phone"
+                        value="{{ old('phone') }}" />
                     </div>
                     <div class="col-xl-8 col-md-6 col-12">
                       <label class="form-label" for="tools">Tools</label>
                       <textarea
-                        class="form-control"
+                        class="form-control @error('tools') is-invalid @enderror"
                         id="tools"
                         rows="3"
                         name="tools"
-                      ></textarea>
+                      >{{ old('tools') }}</textarea>
                     </div>
                   </div>
                   <div class="col-12">
