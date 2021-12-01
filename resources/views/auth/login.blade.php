@@ -3,7 +3,7 @@
 @endphp
 @extends('layouts/fullLayoutMaster')
 
-@section('title', 'Login Page')
+@section('title', 'Login Page '. $company->name .' Customer File service')
 
 @section('page-style')
   {{-- Page Css files --}}
