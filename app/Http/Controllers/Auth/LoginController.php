@@ -48,7 +48,7 @@ class LoginController extends Controller
     }
     protected function guard()
     {
-        return auth()->guard('customer');
+        return Auth::guard('customer');
     }
     public function login(Request $request) {
 
@@ -80,7 +80,6 @@ class LoginController extends Controller
     {
         $email = $request->get($this->username());
         $user = User::where($this->username(), $email)->where('company_id', $this->company->id)->first();
-        dd($this->credentials($request));
         if ($user && $user->is_staff) {
             return Auth::guard('staff')->attempt(
                 $this->credentials($request), $request->filled('remember')
