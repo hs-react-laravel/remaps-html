@@ -91,6 +91,19 @@ class LoginController extends Controller
         }
     }
 
+    protected function credentials(Request $request) {
+        $credentials = $request->only($this->username(), 'password');
+
+        $email = $request->get($this->username());
+        $user = User::where($this->username(), $email)->where('company_id', $this->company->id)->first();
+        if ($user->is_staff) {
+            $credentials['is_staff'] = 1;
+            $credentials['is_admin'] = 1;
+        }
+        $credentials['company_id'] = $this->company->id;
+        return $credentials;
+    }
+
     protected function sendLoginResponse(Request $request)
     {
         $request->session()->regenerate();
