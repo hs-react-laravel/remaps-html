@@ -98,7 +98,6 @@ class LoginController extends Controller
         $user = User::where($this->username(), $email)->where('company_id', $this->company->id)->first();
         if ($user->is_staff) {
             $credentials['is_staff'] = 1;
-            $credentials['is_admin'] = 1;
         }
         $credentials['company_id'] = $this->company->id;
         return $credentials;

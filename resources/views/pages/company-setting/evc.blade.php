@@ -12,7 +12,8 @@
           class="form-control"
           placeholder=""
           name="reseller_id"
-          value="{{ $company->reseller_id }}" />
+          value="{{ $company->reseller_id }}"
+          autocomplete="off" />
       </div>
     </div>
     <div class="col-md-4 col-12">
@@ -24,7 +25,8 @@
           class="form-control"
           placeholder="*******"
           name="reseller_password"
-          value="{{ $company->reseller_password }}" />
+          value="{{ $company->reseller_password }}"
+          autocomplete="new-password" />
       </div>
     </div>
     <div class="col-12">

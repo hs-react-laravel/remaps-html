@@ -123,7 +123,7 @@ class LoginController extends Controller
         $this->clearLoginAttempts($request);
 
         $email = $request->get($this->username());
-        $user = User::where($this->username(), $email)->first();
+        $user = User::where($this->username(), $email)->where('company_id', $this->company->id)->first();
 
         if ($user->is_master) {
             if ($response = $this->authenticated($request, Auth::guard('master')->user())) {
