@@ -90,6 +90,7 @@
             >{{ $user->tools }}</textarea>
           </div>
         </div>
+        @if ($user->is_admin)
         <div class="row mb-1">
           <div class="form-group col-md-12">
             <label>More info <small class="text-muted">(500 Charcters Max)</small></label>
@@ -98,6 +99,7 @@
             </textarea>
           </div>
         </div>
+        @endif
         <button type="submit" class="btn btn-primary me-1">Submit</button>
         <button type="button" class="btn btn-flat-secondary me-1" onclick="history.back(-1)">Cancel</button>
       </div>
