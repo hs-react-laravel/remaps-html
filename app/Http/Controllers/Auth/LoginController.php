@@ -85,9 +85,10 @@ class LoginController extends Controller
                 $this->credentials($request), $request->filled('remember')
             );
         } else {
-            return $this->guard()->attempt(
+            $res = $this->guard()->attempt(
                 $this->credentials($request), $request->filled('remember')
             );
+            dd($res);
         }
     }
 
@@ -98,7 +99,7 @@ class LoginController extends Controller
         $this->clearLoginAttempts($request);
 
         $email = $request->get($this->username());
-        $user = User::where($this->username(), $email)->first();
+        $user = User::where($this->username(), $email)->where('company_id', $this->company->id)->first();
 
         if ($user->is_staff) {
             $this->redirectTo = '/staff/dashboard';
