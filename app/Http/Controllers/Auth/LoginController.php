@@ -101,12 +101,12 @@ class LoginController extends Controller
         $user = User::where($this->username(), $email)->first();
 
         if ($user->is_staff) {
-            $this->redirectTo = '/admin/dashboard';
+            $this->redirectTo = '/staff/dashboard';
             if ($response = $this->authenticated($request, Auth::guard('staff')->user())) {
                 return $response;
             }
         } else {
-            $this->redirectTo = '/staff/dashboard';
+            $this->redirectTo = '/customer/dashboard';
             if ($response = $this->authenticated($request, $this->guard()->user())) {
                 return $response;
             }
