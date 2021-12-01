@@ -15,7 +15,7 @@
 <div class="auth-wrapper auth-cover">
   <div class="auth-inner row m-0">
     <!-- Brand logo-->
-    <a class="brand-logo" href="#">
+    <a class="brand-logo" style="width: auto" href="#">
       <h2 class="brand-text ms-1" style="">
         {{ $company->name }}
       </h2>

@@ -41,7 +41,7 @@
 
 .theme-secondary .form-control:focus,
 .theme-secondary .form-select:focus {
-    border-color: #82868b;
+    border-color: #82868b !important;
 }
 .theme-success .form-control:focus,
 .theme-success .form-select:focus {
@@ -49,20 +49,26 @@
 }
 .theme-danger .form-control:focus,
 .theme-danger .form-select:focus {
-    border-color: #ea5455;
+    border-color: #ea5455 !important;
 }
 .theme-info .form-control:focus,
 .theme-info .form-select:focus {
-    border-color: #00cfe8;
+    border-color: #00cfe8 !important;
 }
 .theme-warning .form-control:focus,
 .theme-warning .form-select:focus {
-    border-color: #ff9f43;
+    border-color: #ff9f43 !important;
 }
 .theme-dark .form-control:focus,
 .theme-dark .form-select:focus {
-    border-color: #4b4b4b;
+    border-color: #4b4b4b !important;
 }
+.theme-secondary a { color: #82868b; }
+.theme-success a { color: #28c76f; }
+.theme-danger a { color: #ea5455; }
+.theme-info a { color: #00cfe8; }
+.theme-dark a { color: #4b4b4b; }
+.theme-warning a { color: #ff9f43; }
 .payment-box {
     width: 270px;
 }
