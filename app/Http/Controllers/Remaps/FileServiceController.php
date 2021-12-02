@@ -22,7 +22,7 @@ class FileServiceController extends MasterController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = $this->user;
 

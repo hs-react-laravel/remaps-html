@@ -72,3 +72,10 @@
 .payment-box {
     width: 270px;
 }
+
+.theme-secondary .page-item.active .page-link { background-color: #82868b; }
+.theme-success .page-item.active .page-link { background-color: #28c76f; }
+.theme-danger .page-item.active .page-link { background-color: #ea5455; }
+.theme-info .page-item.active .page-link { background-color: #00cfe8; }
+.theme-warning .page-item.active .page-link { background-color: #ff9f43; }
+.theme-dark .page-item.active .page-link { background-color: #4b4b4b; }
