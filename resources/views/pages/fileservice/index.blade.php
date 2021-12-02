@@ -130,7 +130,7 @@
         }
       ],
       ajax: {
-          url: "{{ route('api.index.fileservices') }}",
+          url: "{{ route('fileservices.api') }}",
           headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
           },

@@ -93,6 +93,7 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::get('fileservices/{id}/delete-modified', [FileServiceController::class, 'delete_modified_file'])->name('fileservice.delete.modified');
     Route::get('fileservices/{id}/create-ticket', [FileServiceController::class, 'create_ticket'])->name('fileservice.tickets.create');
     Route::post('fileservices/{id}/store-ticket', [FileServiceController::class, 'store_ticket'])->name('fileservice.tickets.store');
+    Route::post('fileservices/api', [FileServiceController::class, 'getFileServices'])->name('fileservices.api');
 
     Route::resource('tickets', TicketController::class);
     Route::get('tickets/{id}/download-document', [TicketController::class, 'download_document'])->name('tickets.download');
