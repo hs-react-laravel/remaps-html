@@ -52,6 +52,7 @@ class ForgotPasswordController extends Controller
         }
         Config::set('app.name', $this->company->name);
         Config::set('app.url', $this->company->v2_domain_link);
+        Config::set('app.logo', asset('storage/uploads/logo/'.$this->company->logo));
         view()->share('company', $this->company);
     }
     /**
