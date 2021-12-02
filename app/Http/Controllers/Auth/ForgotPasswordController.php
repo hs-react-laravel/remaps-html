@@ -50,6 +50,7 @@ class ForgotPasswordController extends Controller
             Config::set('mail.from.address', 'no-reply@myremaps.com');
             Config::set('mail.from.name', 'Remaps');
         }
+        Config::set('app.name', $this->company->name);
         view()->share('company', $this->company);
     }
     /**
