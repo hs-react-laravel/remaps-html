@@ -24,4 +24,3 @@ Route::post('/carquery', [ApiController::class, 'car_query'])->name('api.car.que
 Route::post('/carid', [ApiController::class, 'car_id'])->name('api.car.id');
 Route::post('/styling', [ApiController::class, 'change_style'])->name('api.style');
 Route::post('/fileservices', [ApiController::class, 'getFileServices'])->name('api.index.fileservices');
-Route::post('/fileservices/delete/{id}', [ApiController::class, 'removeFileServices'])->name('api.delete.fileservices');

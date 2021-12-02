@@ -81,6 +81,7 @@
     var dt_ajax_table = $('.table-data')
     var dt_ajax = dt_ajax_table.dataTable({
       processing: true,
+      serverSide: true,
       dom: '<"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-end align-items-baseline"f<"dt-action-buttons text-end ms-1"B>>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       buttons: [
         {
@@ -142,19 +143,32 @@
             return res.data;
           },
       },
+      columns: [
+        { data: 'displayable_id' },
+        { data: 'car' },
+        { data: 'license_plate' },
+        { data: 'staff' },
+        { data: 'created_at' },
+        { data: 'actions' },
+      ],
+      columnDefs: [{
+        targets: [1, 3, 5],
+        orderable: false,
+        searchable: false,
+      }],
       createdRow: function(row, data, index) {
         $('td', row).addClass('td-actions')
         $('td', row).eq(5).html(`
-          <a class="btn btn-icon btn-primary" href="${data[6]}" title="Edit">
+          <a class="btn btn-icon btn-primary" href="${data['route.edit']}" title="Edit">
             ${feather.icons['edit'].toSvg()}
           </a>
-          <a class="btn btn-icon btn-success"title="Ticket" href=${data[7]}>
+          <a class="btn btn-icon btn-success"title="Ticket" href=${data['route.ticket']}>
             ${feather.icons['message-circle'].toSvg()}
           </a>
           <a class="btn btn-icon btn-danger" onclick="onDelete(this)">
             ${feather.icons['trash-2'].toSvg()}
           </a>
-          <form action="${data[8]}" class="delete-form" method="POST" style="display:none">
+          <form action="${data['route.delete']}" class="delete-form" method="POST" style="display:none">
             <input type="hidden" name="_method" value="DELETE">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
           </form>
