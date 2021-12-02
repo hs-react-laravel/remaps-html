@@ -97,7 +97,7 @@ class ApiController extends Controller
         if($request->status) {
             $query = $query->where('status', $request->status);
         }
-        $entries = $query->orderBy('id', 'DESC')->paginate(10);
+        $entries = $query->orderBy('id', 'DESC')->get();
 
         $return_data = [];
         foreach($entries as $entry) {
