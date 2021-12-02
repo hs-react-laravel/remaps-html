@@ -91,12 +91,17 @@ class TicketController extends MasterController
     public function edit($id)
     {
         $entry = Ticket::find($id);
-        $messages = Ticket::where('parent_chat_id', $entry->id)->get();
+        $messages = Ticket::where('parent_chat_id', $entry->id)->orderBy("id","ASC")->get();
 
         $fileService = null;
         if($entry->file_servcie_id != 0){
             $fileService = FileService::where('id', $entry->file_servcie_id)->first();
         }
+
+        Ticket::where('receiver_id',$this->user->id)->where(function($query) use($entry){
+            return $query->where('parent_chat_id',$entry->id)->orWhere('id',$entry->id);
+        })->update(['is_read'=>1]);
+
         return view('pages.consumers.tk.edit', [
             'entry' => $entry,
             'messages' => $messages,

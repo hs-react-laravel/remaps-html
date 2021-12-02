@@ -20,6 +20,7 @@ class MasterController extends BaseController
     protected $company;
     protected $role;
     protected $is_evc;
+    protected $tickets;
 
     public function __construct() {
         $this->middleware(function ($request, $next, $guard = null) {
@@ -43,12 +44,12 @@ class MasterController extends BaseController
                     if ($user) $this->user = $user;
                     else return redirect(url('login'));
                 }
-                // $this->user = Auth::guard($guard)->user();
+
                 if($this->user){
-                    // $this->company = $this->user->company;
                     $this->user->last_login = \Carbon\Carbon::now()->format('Y-m-d H:i:s');
                     $this->user->save();
                     $this->is_evc = !!$this->company->reseller_id;
+                    $this->tickets = $this->user->unread_tickets;
 
                     if ($this->company->mail_host && $this->company->mail_port && $this->company->mail_encryption
                         && $this->company->mail_username && $this->company->mail_password) {
@@ -96,6 +97,7 @@ class MasterController extends BaseController
                     view()->share('company', $this->company);
                     view()->share('role', $this->role);
                     view()->share('is_evc', $this->is_evc);
+                    view()->share('tickets_count', $this->tickets);
 
                     $verticalMenuJson = file_get_contents(base_path('resources/data/menu-data/'.$verticalMenu));
                     $verticalMenuData = json_decode($verticalMenuJson);

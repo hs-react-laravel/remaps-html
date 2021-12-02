@@ -109,6 +109,9 @@
       $('.pagination').removeClass('pagination-primary pagination-secondary pagination-success pagination-danger pagination-info pagination-warning pagination-dark')
       .addClass("pagination-" + navbarColor.substring(3))
 
+      $('.badge-tickets').removeClass('bg-primary bg-secondary bg-success bg-danger bg-info bg-warning bg-dark')
+        .addClass(navbarColor);
+
       body.find(mainMenuItem).css('color', 'white');
     } else {
       body
@@ -121,6 +124,8 @@
         .find(mainBody)
         .removeClass('theme-primary theme-secondary theme-success theme-danger theme-info theme-warning theme-dark')
       $('.customizer-toggle').removeClass('bg-primary bg-secondary bg-success bg-danger bg-info bg-warning bg-dark')
+      $('.badge-tickets').removeClass('bg-primary bg-secondary bg-success bg-danger bg-info bg-warning bg-dark')
+        .addClass('bg-primary');
       body.find(mainMenuItem).css('color', '#625f6e');
     }
     if (html.hasClass('dark-layout')) {

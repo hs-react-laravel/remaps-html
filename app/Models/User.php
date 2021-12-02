@@ -87,6 +87,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany('App\Models\Ticket', 'receiver_id');
     }
+    public function getUnreadTicketsAttribute() {
+		return $this->tickets()->where('is_read', 0)->count();
+    }
     public function fileServices()
     {
         return $this->hasMany('App\Models\FileService');
