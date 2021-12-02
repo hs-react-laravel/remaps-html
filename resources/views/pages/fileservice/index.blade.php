@@ -156,6 +156,7 @@
         orderable: false,
         searchable: false,
       }],
+      order: [[0, 'desc']],
       createdRow: function(row, data, index) {
         $('td', row).addClass('td-actions')
         $('td', row).eq(5).html(`
