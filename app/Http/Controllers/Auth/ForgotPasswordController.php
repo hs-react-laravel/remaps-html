@@ -51,6 +51,7 @@ class ForgotPasswordController extends Controller
             Config::set('mail.from.name', 'Remaps');
         }
         Config::set('app.name', $this->company->name);
+        Config::set('app.url', $this->company->v2_domain_link);
         view()->share('company', $this->company);
     }
     /**
