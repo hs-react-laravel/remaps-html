@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/dataTables.bootstrap5.min.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/responsive.bootstrap5.min.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/buttons.bootstrap5.min.css')) }}">
+  <link rel="stylesheet" href="{{ asset(mix('vendors/css/pickers/flatpickr/flatpickr.min.css')) }}">
 @endsection
 
 @section('page-style')
@@ -32,7 +33,7 @@
               <select class="form-select" id="customer" name="customer" required>
                 <option value="">-</option>
                 @foreach ($customers as $customer)
-                  <option value="{{ $customer->user_id }}">{{ $customer->user->full_name }}</option>
+                  <option value="{{ $customer->id }}" @if(isset($customer_id) && $customer->id == $customer_id) selected @endif>{{ $customer->full_name }}</option>
                 @endforeach
               </select>
             </div>
@@ -47,13 +48,32 @@
             </div>
             <div class="col-md-4">
               <label class="form-label">Date:</label>
-              <input
-                type="text"
-                class="form-control dt-input"
-                data-column="3"
-                placeholder="Web designer"
-                data-column-index="2"
-              />
+              <div class="mb-0">
+                <input
+                  type="text"
+                  class="form-control dt-date flatpickr-range dt-input"
+                  data-column="5"
+                  placeholder="StartDate to EndDate"
+                  data-column-index="4"
+                  name="dt_date"
+                />
+                <input
+                  type="hidden"
+                  class="form-control dt-date start_date dt-input"
+                  data-column="5"
+                  data-column-index="4"
+                  name="value_from_start_date"
+                  id="start_date"
+                />
+                <input
+                  type="hidden"
+                  class="form-control dt-date end_date dt-input"
+                  name="value_from_end_date"
+                  data-column="5"
+                  data-column-index="4"
+                  id="end_date"
+                />
+              </div>
             </div>
           </div>
         </form>
@@ -92,6 +112,7 @@
   <script src="{{ asset(mix('vendors/js/tables/datatable/buttons.print.min.js')) }}"></script>
   <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
   <script src="{{ asset(mix('js/scripts/forms/form-select2.js')) }}"></script>
+  <script src="{{ asset(mix('vendors/js/pickers/flatpickr/flatpickr.min.js')) }}"></script>
 @endsection
 @section('page-script')
 <script>
@@ -176,6 +197,8 @@
             data.id = "{{ $user->id }}",
             data.status = $('#status').val()
             data.customer = $('#customer').val()
+            data.start_date = $('#start_date').val()
+            data.end_date = $('#end_date').val()
           },
           dataSrc: function (res) {
             return res.data;
@@ -227,6 +250,38 @@
     $('#customer').change(function() {
         dt_ajax.draw();
     })
+    var separator = ' - ',
+      rangePickr = $('.flatpickr-range'),
+      dateFormat = 'YYYY-MM-DD';
+    var options = {
+      autoUpdateInput: false,
+      autoApply: true,
+      locale: {
+        format: dateFormat,
+        separator: separator
+      },
+      opens: $('html').attr('data-textdirection') === 'rtl' ? 'left' : 'right'
+    };
+    rangePickr.flatpickr({
+      mode: 'range',
+      dateFormat: 'Y-m-d',
+      onClose: function (selectedDates, dateStr, instance) {
+        var startDate = '',
+          endDate = new Date();
+        if (selectedDates[0] != undefined) {
+          startDate =
+            selectedDates[0].getFullYear() + '-' + (selectedDates[0].getMonth() + 1) + '-' + selectedDates[0].getDate();
+          $('.start_date').val(startDate);
+        }
+        if (selectedDates[1] != undefined) {
+          endDate =
+            selectedDates[1].getFullYear() + '-' + (selectedDates[1].getMonth() + 1) + '-' + selectedDates[1].getDate();
+          $('.end_date').val(endDate);
+        }
+        $(rangePickr).trigger('change').trigger('keyup');
+        dt_ajax.draw();
+      }
+    });
   })
 </script>
 @endsection

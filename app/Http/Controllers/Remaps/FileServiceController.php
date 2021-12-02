@@ -277,6 +277,9 @@ class FileServiceController extends MasterController
         if ($request->customer) {
             $query = $query->where('user_id', $request->customer);
         }
+        if ($request->start_date && $request->end_date) {
+            $query = $query->whereBetween('created_at', [$request->start_date.' 00:00:00', $request->end_date.' 23:59:59']);
+        }
         $query = $query->where(function($query) use ($searchValue) {
             $query->where('make', 'LIKE', '%'.$searchValue.'%');
             $query->orWhere('model', 'LIKE', '%'.$searchValue.'%');

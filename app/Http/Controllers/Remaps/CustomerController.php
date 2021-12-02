@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Remaps;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\FileService;
 use App\Models\TuningCreditGroup;
 use App\Models\Transaction;
 use App\Http\Controllers\MasterController;
@@ -143,8 +144,10 @@ class CustomerController extends MasterController
             if($this->company->id != $user->company->id){
                 abort(403, __('admin.no_permission'));
             }
-            $entries = $user->fileServices()->orderBy('id', 'DESC')->paginate(20);
-            return view('pages.fileservice.index', ['entries' => $entries]);
+
+            $customers = $this->company->users;
+            $customer_id = $id;
+            return view('pages.fileservice.index', compact('customers', 'customer_id'));
         }catch(\Exception $e){
             session()->flash('error', __('admin.opps'));
             return redirect(route('customers.index'));
