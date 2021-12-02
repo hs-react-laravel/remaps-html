@@ -6,6 +6,7 @@
 @section('vendor-style')
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/animate/animate.min.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/sweetalert2.min.css')) }}">
+  <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/dataTables.bootstrap5.min.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/responsive.bootstrap5.min.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/buttons.bootstrap5.min.css')) }}">
@@ -23,14 +24,48 @@
       <div class="card-header">
         <h4 class="card-title">File Services</h4>
       </div>
-      <div class="table-responsive" style="padding: 20px">
+      <div class="card-body p-1 pb-0">
+        <form class="dt_adv_search" method="POST">
+          <div class="row g-1 mb-md-1">
+            <div class="col-md-4">
+              <label class="form-label">Customer:</label>
+              <select class="form-select" id="customer" name="customer" required>
+                <option value="">-</option>
+                @foreach ($customers as $customer)
+                  <option value="{{ $customer->user_id }}">{{ $customer->user->full_name }}</option>
+                @endforeach
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Status:</label>
+              <select class="form-select" id="status" name="status">
+                <option value="">-</option>
+                @foreach (config('constants.file_service_staus') as $key => $value)
+                  <option value="{{$key}}" @if(isset($_GET['status']) && $_GET['status'] == $key) selected @endif>{{$value}}</option>
+                @endforeach
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Date:</label>
+              <input
+                type="text"
+                class="form-control dt-input"
+                data-column="3"
+                placeholder="Web designer"
+                data-column-index="2"
+              />
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="table-responsive m-1 mt-0">
         <table class="table table-data">
           <thead>
             <tr>
               <th width="10%">{{__('locale.tb_header_JobNo')}}</th>
               <th width="20%">{{__('locale.tb_header_Car')}}</th>
               <th width="20%">{{__('locale.tb_header_License')}}</th>
-              <th>Working</th>
+              <th>{{__('locale.tb_header_Working')}}</th>
               <th width="15%">{{__('locale.tb_header_CreatedAt')}}</th>
               <th width="20%">{{__('locale.tb_header_Actions')}}</th>
             </tr>
@@ -55,6 +90,8 @@
   <script src="{{ asset(mix('vendors/js/tables/datatable/vfs_fonts.js')) }}"></script>
   <script src="{{ asset(mix('vendors/js/tables/datatable/buttons.html5.min.js')) }}"></script>
   <script src="{{ asset(mix('vendors/js/tables/datatable/buttons.print.min.js')) }}"></script>
+  <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
+  <script src="{{ asset(mix('js/scripts/forms/form-select2.js')) }}"></script>
 @endsection
 @section('page-script')
 <script>
@@ -79,7 +116,7 @@
   }
   $(window).on('load', function() {
     var dt_ajax_table = $('.table-data')
-    var dt_ajax = dt_ajax_table.dataTable({
+    var dt_ajax = dt_ajax_table.DataTable({
       processing: true,
       serverSide: true,
       dom: '<"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-end align-items-baseline"f<"dt-action-buttons text-end ms-1"B>>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
@@ -137,7 +174,8 @@
           type: "POST",
           data: function(data) {
             data.id = "{{ $user->id }}",
-            data.status = "{{ $_GET['status'] ?? '' }}"
+            data.status = $('#status').val()
+            data.customer = $('#customer').val()
           },
           dataSrc: function (res) {
             return res.data;
@@ -183,6 +221,12 @@
         }
       }
     });
+    $('#status').change(function() {
+        dt_ajax.draw();
+    });
+    $('#customer').change(function() {
+        dt_ajax.draw();
+    })
   })
 </script>
 @endsection

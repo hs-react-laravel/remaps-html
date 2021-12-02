@@ -30,13 +30,15 @@ class FileServiceController extends MasterController
         $query = FileService::whereHas('user', function($query) use($user){
             $query->where('company_id', $user->company_id);
         });
+
+        $customers = $query->groupBy('user_id')->get();
+
         if(request()->query('status')) {
             $query = $query->where('status', request()->query('status'));
         }
         $entries = $query->orderBy('id', 'DESC')->paginate(10);
-        return view('pages.fileservice.index', [
-            'entries' => $entries
-        ]);
+
+        return view('pages.fileservice.index', compact('entries', 'customers'));
     }
 
     /**
@@ -271,6 +273,9 @@ class FileServiceController extends MasterController
         $totalRecords = $query->count();
         if($request->status) {
             $query = $query->where('status', $request->status);
+        }
+        if ($request->customer) {
+            $query = $query->where('user_id', $request->customer);
         }
         $query = $query->where(function($query) use ($searchValue) {
             $query->where('make', 'LIKE', '%'.$searchValue.'%');

@@ -33,7 +33,7 @@ $configData = Helper::applClasses();
             <i data-feather="{{ $menu->icon }}"></i>
             <span class="menu-title text-truncate">{{ __('locale.'.$menu->name) }}</span>
             @if ($menu->url == 'admin/tickets' && $tickets_count)
-            <?php $badgeClasses = "badge-tickets badge rounded-pill badge-glow ".($configData['navbarColor'] != '' ? $configData['navbarColor'] : 'bg-primary')." ms-auto me-1" ?>
+            <?php $badgeClasses = "badge-tickets badge rounded-pill badge-glow ".($configData['navbarColor'] != '' ? $configData['navbarColor'] : 'bg-primary')." ms-auto" ?>
             <span class="{{ isset($menu->badgeClass) ? $menu->badgeClass : $badgeClasses }}">{{$tickets_count}}</span>
             @endif
           </a>

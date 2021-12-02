@@ -62,6 +62,7 @@ return [
     'tb_header_LastPaymentAmount' => 'Last Payment Amount',
     'tb_header_FailedPaymentCount' => 'Failed Payment Count',
     'tb_header_Type' => 'Type',
+    'tb_header_Working' => 'Working',
 
     'btn_ViewAllFileServices' => 'View all file services',
     'btn_Submit' => 'Submit',
