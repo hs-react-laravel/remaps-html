@@ -69,7 +69,7 @@ class FileServiceController extends MasterController
                 $request->request->add(['status' => 'P']);
             } else if ($open_status == 2) { // deny file service
                 session()->flash('warning', __('File Services are closed.'));
-                return redirect(url('customer/file-service'));
+                return redirect(route('fs.index'));
             } else {
                 $request->request->add(['status' => 'O']);
             }
