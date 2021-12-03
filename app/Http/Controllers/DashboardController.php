@@ -125,7 +125,7 @@ class DashboardController extends MasterController
 		$company = Company::find($model->company_id);
 		$company->rating = $avgRating;
 		$company->save();
-		return redirect(route('dashboard'))->with('message', 'Rating Added');
+		return redirect(route('dashboard.customer'))->with('message', 'Rating Added');
     }
 
     public function setReseller(Request $request) {
@@ -159,7 +159,7 @@ class DashboardController extends MasterController
             $this->user->save();
         }
 
-        return redirect(route('dashboard'))->with('message', 'Reseller Set');
+        return redirect(route('dashboard.customer'))->with('message', 'Reseller Set');
     }
 
     public function profile() {

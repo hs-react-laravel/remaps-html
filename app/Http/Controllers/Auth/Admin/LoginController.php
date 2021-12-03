@@ -125,6 +125,7 @@ class LoginController extends Controller
         $email = $request->get($this->username());
         $user = User::where($this->username(), $email)->where('company_id', $this->company->id)->first();
 
+        $this->redirectTo = '/admin/dashboard';
         if ($user->is_master) {
             if ($response = $this->authenticated($request, Auth::guard('master')->user())) {
                 return $response;
