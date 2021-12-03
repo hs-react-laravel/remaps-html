@@ -98,11 +98,11 @@ data-asset-path="{{ asset('/')}}">
     canvas.width = 32;canvas.height = 32;
     var ctx = canvas.getContext('2d');
     var img = new Image();
-    ctx.fillStyle = "#FFF";
+    ctx.fillStyle = "transparent";
     ctx.fillRect(0, 0, 32, 32);
     ctx.fillStyle = textColor;
     ctx.font = 'bold 20px sans-serif';
-    ctx.fillText(getInitials('{{ $company->name }}'), 0, 24);
+    ctx.fillText(getInitials('{{ $company->name }}'), 3, 24);
 
     var link = document.createElement('link');
     link.type = 'image/x-icon';
