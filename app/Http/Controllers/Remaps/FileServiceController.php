@@ -31,7 +31,7 @@ class FileServiceController extends MasterController
             $query->where('company_id', $user->company_id);
         });
 
-        $customers = $query->groupBy('user_id')->get();
+        $customers = $this->company->users;
 
         if(request()->query('status')) {
             $query = $query->where('status', request()->query('status'));

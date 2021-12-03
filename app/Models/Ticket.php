@@ -75,8 +75,8 @@ class Ticket extends Model
      * Get the company attribute.
     */
     public function getLastMessageAttribute() {
-        if($this->childrens()->count() > 0){
-            return @$this->childrens()->orderBy('id', 'Desc')->first()->message;
+        if($this->childrens->count() > 0){
+            return $this->childrens->orderBy('id', 'Desc')->first()->message;
         }else{
             return $this->message;
         }
@@ -87,27 +87,15 @@ class Ticket extends Model
 	*/
 
 	public function getUnreadMessage() {
-		if($this->childrens()->count() == 0) {
-			$status = @$this->is_read;
-			$receiverID = @$this->receiver_id;
+		if($this->childrens->count() == 0) {
+			$status = $this->is_read;
+			$receiverID = $this->receiver_id;
 		}
 		else {
-			$status = @$this->childrens()->orderBy('id', 'Desc')->first()->is_read;
-			$receiverID = @$this->childrens()->orderBy('id', 'Desc')->first()->receiver_id;
+			$status = $this->childrens->orderBy('id', 'desc')->first()->is_read;
+			$receiverID = $this->childrens->orderBy('id', 'desc')->first()->receiver_id;
 		}
-
-		$id = \Auth::user()->id;
-		if($receiverID) {
-			if($status == '0' && $receiverID == $id) {
-				return '<strong class="envelope"><i class="fa fa-envelope"></i></strong>';
-			}
-			else {
-				return '<strong class="envelope-open"><i class="fa fa-envelope-open"></i></strong>';
-			}
-		}
-		else {
-			return '<strong class="envelope-open"><i class="fa fa-envelope-open"></i></strong>';
-		}
+        return $status;
     }
 
 
