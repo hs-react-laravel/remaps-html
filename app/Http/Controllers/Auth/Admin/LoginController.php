@@ -65,7 +65,7 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
-       return view('auth.admin.login');
+        return view('auth.admin.login');
     }
 
     /**
@@ -217,7 +217,11 @@ class LoginController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function logout(Request $request) {
-        $this->guard()->logout($request);
+        if (Auth::guard('admin')->check()) {
+            $this->guard()->logout($request);
+        } else if (Auth::guard('master')->check()) {
+            Auth::guard('master')->logout($request);
+        }
         return redirect('admin/login')->with(['status' => 'success', 'message' => __('auth.logged_out')]);
     }
 

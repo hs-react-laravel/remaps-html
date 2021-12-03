@@ -68,7 +68,7 @@
         </div>
         @endforeach
     </div>
-    @if(count($groupEVCCreditTires) > 0)
+    @if($user->company->reseller_id && $user->reseller_id)
     <h3>EVC Credit</h3>
     @endif
     <div class="row">
