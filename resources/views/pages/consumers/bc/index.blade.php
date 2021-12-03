@@ -68,7 +68,9 @@
         </div>
         @endforeach
     </div>
+    @if(count($groupEVCCreditTires) > 0)
     <h3>EVC Credit</h3>
+    @endif
     <div class="row">
       @foreach ($groupEVCCreditTires as $idx => $tire)
       @php
