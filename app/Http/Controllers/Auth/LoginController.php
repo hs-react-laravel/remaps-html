@@ -96,7 +96,7 @@ class LoginController extends Controller
 
         $email = $request->get($this->username());
         $user = User::where($this->username(), $email)->where('company_id', $this->company->id)->first();
-        if ($user->is_staff) {
+        if ($user && $user->is_staff) {
             $credentials['is_staff'] = 1;
         }
         $credentials['company_id'] = $this->company->id;
@@ -112,7 +112,7 @@ class LoginController extends Controller
         $email = $request->get($this->username());
         $user = User::where($this->username(), $email)->where('company_id', $this->company->id)->first();
 
-        if ($user->is_staff) {
+        if ($user && $user->is_staff) {
             $this->redirectTo = '/staff/dashboard';
             if ($response = $this->authenticated($request, Auth::guard('staff')->user())) {
                 return $response;
