@@ -146,7 +146,7 @@
 @section('page-script')
   <script>
     function onFS(status) {
-      location.href = `/staff/stafffs?status=${status}`;
+      location.href = `/staff/stafffs?staffstatus=${status}`;
     }
   </script>
 @endsection

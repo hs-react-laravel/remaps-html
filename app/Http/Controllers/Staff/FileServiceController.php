@@ -239,4 +239,75 @@ class FileServiceController extends MasterController
 
         return redirect(route('stafftk.index'));
     }
+
+    public function getFileServices(Request $request) {
+        $draw = $request->get('draw');
+        $start = $request->get('start');
+        $rowperpage = $request->get('length');
+
+        $columnIndex_arr = $request->get('order');
+        $columnName_arr = $request->get('columns');
+        $order_arr = $request->get('order');
+        $search_arr = $request->get('search');
+
+        $columnIndex = $columnIndex_arr[0]['column']; // Column index
+        $columnName = $columnName_arr[$columnIndex]['data']; // Column name
+        $columnSortOrder = $order_arr[0]['dir']; // asc or desc
+        $searchValue = $search_arr['value']; // Search value
+
+        $user = User::find($request->id);
+        $query = FileService::whereHas('user', function($query) use($user) {
+            $query->where('company_id', $user->company_id);
+        });
+        $totalRecords = $query->count();
+        if($request->staffstatus) {
+            $query = $query->where('assign_id', $user->id)->where('status', $request->staffstatus);
+        }
+        if($request->status) {
+            $query = $query->where('status', $request->status);
+        }
+        if ($request->customer) {
+            $query = $query->where('user_id', $request->customer);
+        }
+        if ($request->start_date && $request->end_date) {
+            $query = $query->whereBetween('created_at', [$request->start_date.' 00:00:00', $request->end_date.' 23:59:59']);
+        }
+        $query = $query->where(function($query) use ($searchValue) {
+            $query->where('make', 'LIKE', '%'.$searchValue.'%');
+            $query->orWhere('model', 'LIKE', '%'.$searchValue.'%');
+            $query->orWhere('generation', 'LIKE', '%'.$searchValue.'%');
+            $query->orWhere('engine', 'LIKE', '%'.$searchValue.'%');
+            $query->orWhere('ecu', 'LIKE', '%'.$searchValue.'%');
+            $query->orWhere('license_plate', 'LIKE', '%'.$searchValue.'%');
+        });
+
+        $totalRecordswithFilter = $query->count();
+
+        $entries = $query->orderBy($columnName, $columnSortOrder)->skip($start)->take($rowperpage)->get();
+
+        $return_data = [];
+        foreach($entries as $entry) {
+            array_push($return_data, [
+                'displayable_id' => $entry->displayable_id,
+                'car' => $entry->car,
+                'license_plate' => $entry->license_plate,
+                'staff' => $entry->staff ? $entry->staff->fullname : '',
+                'created_at' => $entry->created_at,
+                'actions' => '',
+                'route.edit' => route('fileservices.edit', ['fileservice' => $entry->id]), // edit route
+                'route.ticket' => $entry->tickets
+                    ? route('tickets.edit', ['ticket' => $entry->tickets->id])
+                    : route('fileservice.tickets.create', ['id' => $entry->id]), // ticket route
+                'route.destroy' => route('fileservices.destroy', $entry->id), // destroy route
+            ]);
+        }
+        $json_data = array(
+            'draw' => intval($draw),
+            'iTotalRecords' => $totalRecords,
+            'iTotalDisplayRecords' => $totalRecordswithFilter,
+            'data' => $return_data
+        );
+
+        return response()->json($json_data);
+    }
 }
