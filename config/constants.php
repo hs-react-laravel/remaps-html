@@ -78,16 +78,12 @@ return [
     'file_service_fuel_type'=>[
         'Diesel'=>'Diesel',
         'Petrol'=>'Petrol / benzine',
-        'Petrol91'=>'Petrol / benzine 91',
-        'Petrol91RON'=>'Petrol / benzine 91 RON',
-        'Petrol94'=>'Petrol / benzine 94',
-        'Petrol94RON'=>'Petrol / benzine 94 RON',
-        'Petrol95'=>'Petrol / benzine 95',
-        'Petrol95RON'=>'Petrol / benzine 95 RON',
-        'Petrol99'=>'Petrol / benzine 99',
-        'Petrol99RON'=>'Petrol / benzine 99 RON',
-        'Petrol100'=>'Petrol / benzine 100',
-        'Petrol102'=>'Petrol / benzine 102',
+        'Petrol91'=>'Petrol / benzine 91 RON',
+        'Petrol94'=>'Petrol / benzine 94 RON',
+        'Petrol95'=>'Petrol / benzine 95 RON',
+        'Petrol99'=>'Petrol / benzine 99 RON',
+        'Petrol100'=>'Petrol / benzine 100 RON',
+        'Petrol102'=>'Petrol / benzine 102 RON',
     ],
 
     'file_service_reading_tool' => [
