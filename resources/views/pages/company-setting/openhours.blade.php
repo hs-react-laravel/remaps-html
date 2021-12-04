@@ -68,7 +68,7 @@
           </div>
         </div>
         <div class="col-3">
-          <div class="form-check form-check-danger">
+          <div class="form-check">
             <input type="hidden" name="{{ $daymark_close }}" value="0">
             <input
               class="form-check-input input-close"

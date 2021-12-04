@@ -79,3 +79,10 @@
 .theme-info .page-item.active .page-link { background-color: #00cfe8 !important; }
 .theme-warning .page-item.active .page-link { background-color: #ff9f43 !important; }
 .theme-dark .page-item.active .page-link { background-color: #4b4b4b !important; }
+
+.theme-secondary .form-check-input:checked { background-color: #82868b !important; border-color: #82868b; }
+.theme-success .form-check-input:checked { background-color: #28c76f !important; border-color: #28c76f; }
+.theme-danger .form-check-input:checked { background-color: #ea5455 !important; border-color: #ea5455; }
+.theme-info .form-check-input:checked { background-color: #00cfe8 !important; border-color: #00cfe8; }
+.theme-warning .form-check-input:checked { background-color: #ff9f43 !important; border-color: #ff9f43; }
+.theme-dark .form-check-input:checked { background-color: #4b4b4b !important; border-color: #4b4b4b; }

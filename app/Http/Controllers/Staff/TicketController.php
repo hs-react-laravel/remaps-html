@@ -79,9 +79,9 @@ class TicketController extends MasterController
             $fileService = FileService::where('id', $entry->file_servcie_id)->first();
         }
 
-        Ticket::where('receiver_id',$this->user->id)->where(function($query) use($entry){
-            return $query->where('parent_chat_id',$entry->id)->orWhere('id', $entry->id);
-        })->update(['is_read'=>1]);
+        // Ticket::where('receiver_id',$this->user->id)->where(function($query) use($entry){
+        //     return $query->where('parent_chat_id',$entry->id)->orWhere('id', $entry->id);
+        // })->update(['is_read'=>1]);
 
         return view('pages.staffpage.tickets.edit', [
             'entry' => $entry,
