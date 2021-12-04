@@ -65,6 +65,8 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
+        $this->redirectTo = '/admin/dashboard';
+        session()->put('url', [ "intended" => "/admin/dashboard" ]);
         return view('auth.admin.login');
     }
 

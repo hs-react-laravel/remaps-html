@@ -194,6 +194,7 @@ Route::group(['middleware' => 'auth:customer', 'prefix'=>'customer'], function (
     Route::get('/fs/{id}/delete-modified', [FSController::class, 'delete_modified_file'])->name('fs.delete.modified');
     Route::get('/fs/{id}/create-ticket', [FSController::class, 'create_ticket'])->name('fs.tickets.create');
     Route::post('/fs/{id}/store-ticket', [FSController::class, 'store_ticket'])->name('fs.tickets.store');
+    Route::post('fs/api', [FSController::class, 'getFileServices'])->name('fs.api');
 
     Route::resource('tk', TKController::class);
     Route::get('/tk/{id}/download-document', [TKController::class, 'download_document'])->name('tk.download');

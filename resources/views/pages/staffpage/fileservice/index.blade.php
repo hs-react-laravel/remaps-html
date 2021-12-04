@@ -40,7 +40,6 @@
         </table>
       </div>
     </div>
-    {{ $entries->links() }}
   </div>
 </div>
 <!-- Basic Tables end -->
