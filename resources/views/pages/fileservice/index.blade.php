@@ -49,14 +49,17 @@
             <div class="col-md-4">
               <label class="form-label">Date:</label>
               <div class="mb-0">
-                <input
-                  type="text"
-                  class="form-control dt-date flatpickr-range dt-input"
-                  data-column="5"
-                  placeholder="StartDate to EndDate"
-                  data-column-index="4"
-                  name="dt_date"
-                />
+                <div class="input-group mb-2">
+                  <input
+                    type="text"
+                    class="form-control dt-date flatpickr-range dt-input"
+                    data-column="5"
+                    placeholder="StartDate to EndDate"
+                    data-column-index="4"
+                    name="dt_date"
+                  />
+                  <span class="input-group-text cursor-pointer" onclick="onClearDateRange()"><i data-feather="trash"></i></span>
+                </div>
                 <input
                   type="hidden"
                   class="form-control dt-date start_date dt-input"
@@ -135,9 +138,10 @@
       delete_form.submit();
     }
   }
+  var dt_ajax
   $(window).on('load', function() {
     var dt_ajax_table = $('.table-data')
-    var dt_ajax = dt_ajax_table.DataTable({
+    dt_ajax = dt_ajax_table.DataTable({
       processing: true,
       serverSide: true,
       dom: '<"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-end align-items-baseline"f<"dt-action-buttons text-end ms-1"B>>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
@@ -262,20 +266,19 @@
       },
       opens: $('html').attr('data-textdirection') === 'rtl' ? 'left' : 'right'
     };
-    rangePickr.flatpickr({
+    rflatpickr = rangePickr.flatpickr({
       mode: 'range',
       dateFormat: 'Y-m-d',
       onClose: function (selectedDates, dateStr, instance) {
         var startDate = '',
           endDate = new Date();
         if (selectedDates[0] != undefined) {
-          startDate =
-            selectedDates[0].getFullYear() + '-' + (selectedDates[0].getMonth() + 1) + '-' + selectedDates[0].getDate();
+          startDate = selectedDates[0].toISOString().split('T')[0];
           $('.start_date').val(startDate);
         }
         if (selectedDates[1] != undefined) {
-          endDate =
-            selectedDates[1].getFullYear() + '-' + (selectedDates[1].getMonth() + 1) + '-' + selectedDates[1].getDate();
+            console.log(selectedDates[1].toISOString())
+          endDate = selectedDates[1].toISOString().split('T')[0];
           $('.end_date').val(endDate);
         }
         $(rangePickr).trigger('change').trigger('keyup');
@@ -283,5 +286,12 @@
       }
     });
   })
+  var rflatpickr;
+  function onClearDateRange() {
+    rflatpickr.clear();
+    $('.start_date').val('');
+    $('.end_date').val('');
+    dt_ajax.draw();
+  }
 </script>
 @endsection
