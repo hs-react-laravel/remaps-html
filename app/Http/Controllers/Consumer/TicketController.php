@@ -11,6 +11,7 @@ use App\Models\Ticket;
 use App\Models\FileService;
 use App\Mail\TicketCreated;
 use App\Mail\TicketReply;
+use Illuminate\Support\Facades\Log;
 
 class TicketController extends MasterController
 {
@@ -66,6 +67,7 @@ class TicketController extends MasterController
         try{
 			Mail::to($this->user->company->owner->email)->send(new TicketCreated($this->user,$request->all()['subject']));
 		}catch(\Exception $e){
+            Log::error($e);
 			session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
 		}
         return redirect(route('tk.index'));

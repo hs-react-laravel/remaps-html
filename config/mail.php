@@ -36,10 +36,10 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
-            'port' => env('MAIL_PORT', 587),
-            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-            'username' => env('MAIL_USERNAME'),
+            'host' => env('MAIL_HOST', 'mail.remapdash.com'),
+            'port' => env('MAIL_PORT', 25),
+            'encryption' => '',
+            'username' => 'no-reply@remapdash.com',
             'password' => '6%3d5ohF',
             'timeout' => null,
             'auth_mode' => null,
