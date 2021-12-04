@@ -98,9 +98,9 @@
                       @endif
                       <a
                         class="btn btn-icon btn-success"
-                        title="{{ $u->is_public ? 'Private' : 'Public' }}"
+                        title="{{ !$u->is_public ? 'Private' : 'Public' }}"
                         href="{{ route('companies.public', ['id' => $u->id]) }}" >
-                        <i data-feather="{{ $u->is_public ? 'lock' : 'users'}}"></i>
+                        <i data-feather="{{ !$u->is_public ? 'lock' : 'users'}}"></i>
                       </a>
                       <a
                         class="btn btn-icon btn-success"
