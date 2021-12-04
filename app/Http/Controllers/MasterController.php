@@ -61,11 +61,11 @@ class MasterController extends BaseController
                         Config::set('mail.password', $this->company->mail_password);
                     } else {
                         Config::set('mail.driver', 'smtp');
-                        Config::set('mail.host', 'mail.myremaps.com');
+                        Config::set('mail.host', 'mail.remapdash.com');
                         Config::set('mail.port', 25);
                         Config::set('mail.encryption', '');
-                        Config::set('mail.username', 'no-reply@myremaps.com');
-                        Config::set('mail.password', 'Ig99ka%5');
+                        Config::set('mail.username', 'no-reply@remapdash.com');
+                        Config::set('mail.password', '6%3d5ohF');
                     }
 
                     Config::set('mail.from.address',$this->company->mail_username );
