@@ -331,7 +331,9 @@ class FileServiceController extends MasterController
                 'license_plate' => $entry->license_plate,
                 'created_at' => $entry->created_at,
                 'actions' => '',
-                'route.ticket' => route('fs.tickets.create', ['id' => $entry->id]), // ticket route
+                'route.ticket' => $entry->tickets
+                    ? route('tk.edit', ['tk' => $entry->tickets->id])
+                    : route('fs.tickets.create', ['id' => $entry->id]), // ticket route
                 'route.download.original' => route('fs.download.original', ['id' => $entry->id]), // download origin route
                 'route.download.modified' => route('fs.download.modified', ['id' => $entry->id]),
                 'route.show' => route('fs.show', ['f' => $entry->id])

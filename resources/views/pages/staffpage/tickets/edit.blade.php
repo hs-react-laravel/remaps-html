@@ -69,7 +69,7 @@
             @if (!$user->is_staff)
             <div class="col-12">
               <div class="mb-1">
-                <label class="form-label" for="assign">Assign</label>
+                <label class="form-label" for="assign">{{__('locale.tb_header_Assign')}}</label>
                 <select class="form-select" id="assign" name="assign">
                   <option value=""></option>
                   @foreach ($company->staffs as $staff)

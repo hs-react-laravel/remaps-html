@@ -86,14 +86,12 @@ class Ticket extends Model
 	* Get Read/Unread Status
 	*/
 
-	public function getUnreadMessage() {
-		if($this->childrens->count() == 0) {
+	public function getUnreadMessageAttribute() {
+		if($this->childrens()->count() == 0) {
 			$status = $this->is_read;
-			$receiverID = $this->receiver_id;
 		}
 		else {
-			$status = $this->childrens->orderBy('id', 'desc')->first()->is_read;
-			$receiverID = $this->childrens->orderBy('id', 'desc')->first()->receiver_id;
+			$status = $this->childrens()->orderBy('id', 'desc')->first()->is_read;
 		}
         return $status;
     }

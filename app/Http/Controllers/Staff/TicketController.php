@@ -105,7 +105,7 @@ class TicketController extends MasterController
             $new_ticket = new Ticket();
             $new_ticket->parent_chat_id = $ticket->id;
             $new_ticket->sender_id = $this->user->id;
-            $new_ticket->receiver_id = $this->user->is_staff ? $this->user->id : $this->user->company->owner->id;
+            $new_ticket->receiver_id = $this->user->company->owner->id;
             $new_ticket->message = $request->message;
             $new_ticket->subject = $ticket->subject;
             if ($request->file('upload_file')) {

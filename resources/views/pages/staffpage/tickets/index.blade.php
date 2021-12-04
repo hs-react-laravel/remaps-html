@@ -27,7 +27,7 @@
               <th width="20%">{{__('locale.tb_header_Client')}}</th>
               <th width="20%">{{__('locale.tb_header_FileService')}}</th>
               <th width="10%">{{__('locale.tb_header_TicketStatus')}}</th>
-              <th width="20%">Assign</th>
+              <th width="20%">{{__('locale.tb_header_Assign')}}</th>
               <th width="15%">{{__('locale.tb_header_CreatedAt')}}</th>
               <th width="20%">{{__('locale.tb_header_Actions')}}</th>
             </tr>

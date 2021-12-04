@@ -63,6 +63,7 @@ return [
     'tb_header_FailedPaymentCount' => 'Failed Payment Count',
     'tb_header_Type' => 'Type',
     'tb_header_Working' => 'Working',
+    'tb_header_Assign' => 'Assign',
 
     'btn_ViewAllFileServices' => 'View all file services',
     'btn_Submit' => 'Submit',
