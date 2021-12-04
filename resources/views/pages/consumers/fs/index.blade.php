@@ -20,9 +20,9 @@
     <div class="card">
       <div class="card-header">
         <h4 class="card-title">File Services</h4>
-        <a href="{{ route('fs.create') }}" class="btn btn-icon btn-primary">
+        <button href="{{ route('fs.create') }}" class="btn btn-icon btn-primary" onclick="onCreate()">
           Create New
-        </a>
+        </button>
       </div>
       <div class="table-responsive m-1 mt-0">
         <table class="table table-data">
@@ -239,5 +239,51 @@
       }
     });
   })
+  async function confirmRedirect(state) {
+    if (state == 1) { // allow but warning
+      var swal_result = await Swal.fire({
+        title: 'Warning!',
+        text: 'The file service is currrently closed. Please check the opening hours.',
+        icon: 'warning',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-outline-danger ms-1'
+        },
+        showCancelButton: true,
+        confirmButtonText: 'Proceed',
+        cancelButtonText: 'Cancel',
+        buttonsStyling: false
+      });
+      if (swal_result.isConfirmed) {
+        window.location.href = "{{ route('fs.create') }}";
+      }
+    } else if (state == 2) { // disallow
+      var swal_result = await Swal.fire({
+        title: 'Warning!',
+        text: 'The file service is currrently closed. Please check the opening hours.',
+        icon: 'warning',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+        },
+        confirmButtonText: 'OK',
+        buttonsStyling: false
+      });
+    } else {
+      window.location.href = "{{ route('fs.create') }}";
+    }
+  }
+  function onCreate() {
+    $.ajax({
+      url: "{{ route('fs.checkopen.api') }}",
+      type: 'POST',
+      data: {
+        _token: '{{ csrf_token() }}',
+      },
+      dataType: 'JSON',
+      success: function (data) {
+        confirmRedirect(data)
+      }
+    });
+  }
 </script>
 @endsection

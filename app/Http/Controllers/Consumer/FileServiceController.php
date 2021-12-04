@@ -275,6 +275,11 @@ class FileServiceController extends MasterController
         return redirect(route('fs.index'));
     }
 
+    public function checkOpenStatus(Request $request) {
+        $open_status = $this->open_status();
+        return $open_status;
+    }
+
     public function getFileServices(Request $request) {
         $draw = $request->get('draw');
         $start = $request->get('start');
