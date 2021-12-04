@@ -15,8 +15,8 @@
             value="{{ $company->name }}" />
         </div>
       </div>
-      <div class="col-md-8 col-12"></div>
-
+    </div>
+    <div class="row">
       <div class="col-md-4 col-12">
         <div class="mb-1">
           <label class="form-label" for="address-line1">Address line 1</label>
@@ -42,8 +42,8 @@
             value="{{ $company->address_line_2 }}" />
         </div>
       </div>
-      <div class="col-md-4 col-12"></div>
-
+    </div>
+    <div class="row">
       <div class="col-md-4 col-12">
         <div class="mb-1">
           <label class="form-label" for="town">Town</label>
@@ -69,8 +69,9 @@
             value="{{ $company->state }}" />
         </div>
       </div>
-      <div class="col-md-4 col-12"></div>
+    </div>
 
+    <div class="row">
       <div class="col-md-4 col-12">
         <div class="mb-1">
           <label class="form-label" for="country">Country</label>
@@ -96,7 +97,22 @@
             value="{{ $company->post_code }}" />
         </div>
       </div>
+    </div>
 
+    <div class="row">
+      <div class="col-md-4 col-12">
+        <div class="mb-1">
+          <label class="form-label" for="post-code">Timezone</label>
+          <select class="select2 form-select" id="timezone-select" name="timezone">
+            @foreach ($timezones as $tz)
+              <option value="{{ $tz->id }}" @if($company->timezone == $tz->id) selected @endif>{{ $tz->name }}</option>
+            @endforeach
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
       <div class="col-8 mb-1">
         <div class="border rounded p-1">
           <h4 class="mb-1">Logo Image</h4>
@@ -120,8 +136,8 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4 col-12"></div>
-
+    </div>
+    <div class="row">
       <div class="col-md-4 col-12">
         <div class="mb-1">
           <label class="form-label" for="copyright">Copy right text</label>
@@ -134,7 +150,8 @@
             value="{{ $company->copy_right_text }}" />
         </div>
       </div>
-      <div class="col-md-8 col-12"></div>
+    </div>
+    <div class="row">
       <div class="col-md-4 col-12">
         <div class="mb-1">
           <label class="form-label" for="link_name">Custom Link</label>
@@ -159,10 +176,9 @@
             value="{{ $company->link_value }}" />
         </div>
       </div>
-
-      <div class="col-12">
-        <button type="submit" class="btn btn-primary me-1">Submit</button>
-      </div>
+    </div>
+    <div class="col-12">
+      <button type="submit" class="btn btn-primary me-1">Submit</button>
     </div>
   </form>
 </div>

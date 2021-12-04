@@ -2,6 +2,11 @@
 
 @section('title', 'Company Settings')
 
+@section('vendor-style')
+  <!-- vendor css files -->
+  <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
+@endsection
+
 @section('content')
 @php
   $tab = isset($_GET['tab']) ? $_GET['tab'] : 'name';
@@ -119,7 +124,6 @@
     <!-- Filled Tabs ends -->
   </div>
 </section>
-
 @endsection
 
 @section('vendor-script')
@@ -129,15 +133,22 @@
   <script src="{{ asset(mix('vendors/js/pickers/pickadate/picker.time.js')) }}"></script>
   <script src="{{ asset(mix('vendors/js/pickers/pickadate/legacy.js')) }}"></script>
   <script src="{{ asset(mix('vendors/js/pickers/flatpickr/flatpickr.min.js')) }}"></script>
+  <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
 @endsection
 @section('page-script')
   <!-- Page js files -->
   <script src="{{ asset(mix('js/scripts/forms/pickers/form-pickers.js')) }}"></script>
   <script src="{{asset('js/scripts/components/components-navs.js')}}"></script>
+  <script src="{{ asset(mix('js/scripts/forms/form-select2.js')) }}"></script>
   <script>
     @if (!$company->open_check)
       $('#oh_form').hide();
     @endif
+    $('#timezone-select').select2({
+      dropdownAutoWidth: true,
+      width: '100%',
+      dropdownParent: $('#timezone-select').parent()
+    });
     $('#open_check').on('change', function(){
       let val = $(this).is(":checked");
       if (val) {

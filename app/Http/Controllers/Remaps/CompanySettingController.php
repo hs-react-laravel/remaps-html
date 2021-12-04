@@ -5,15 +5,15 @@ namespace App\Http\Controllers\Remaps;
 use Illuminate\Http\Request;
 use App\Http\Controllers\MasterController;
 use App\Http\Requests\CompanySettingRequest;
+use App\Models\Timezone;
 
 class CompanySettingController extends MasterController
 {
     //
     public function company_setting() {
         $company = $this->user->company;
-        return view('pages.company-setting.settings', [
-            'company' => $company,
-        ]);
+        $timezones = Timezone::get();
+        return view('pages.company-setting.settings', compact('company', 'timezones'));
     }
 
     public function store(Request $request) {

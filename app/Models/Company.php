@@ -75,7 +75,8 @@ class Company extends Model
         'notify_check',
         'open_check',
         'style_background',
-        'style_theme'
+        'style_theme',
+        'timezone'
     ];
 
     public function users()
