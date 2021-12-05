@@ -91,7 +91,7 @@ return [
     'menu_Orders' => 'Orders',
     'menu_Transactions' => 'Transactions',
     'menu_Customers' => 'Customers',
-    'menu_Staffs' => 'Staffs',
+    'menu_Staffs' => 'Staff',
     'menu_EmailTemplates' => 'Email Templates',
     'menu_TuningCredit' => 'Tuning credit prices',
     'menu_EVCTuningCredit' => 'EVC Tuning credit prices',
