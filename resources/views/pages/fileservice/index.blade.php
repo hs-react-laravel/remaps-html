@@ -88,7 +88,7 @@
               <th width="10%">{{__('locale.tb_header_JobNo')}}</th>
               <th width="20%">{{__('locale.tb_header_Car')}}</th>
               <th width="20%">{{__('locale.tb_header_License')}}</th>
-              <th>{{__('locale.tb_header_Working')}}</th>
+              <th>{{__('locale.tb_Customer')}}</th>
               <th width="15%">{{__('locale.tb_header_CreatedAt')}}</th>
               <th width="20%">{{__('locale.tb_header_Actions')}}</th>
             </tr>
@@ -212,7 +212,7 @@
         { data: 'displayable_id' },
         { data: 'car' },
         { data: 'license_plate' },
-        { data: 'staff' },
+        { data: 'customer' },
         { data: 'created_at' },
         { data: 'actions' },
       ],

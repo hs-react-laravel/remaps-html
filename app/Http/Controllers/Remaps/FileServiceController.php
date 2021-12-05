@@ -299,7 +299,7 @@ class FileServiceController extends MasterController
                 'displayable_id' => $entry->displayable_id,
                 'car' => $entry->car,
                 'license_plate' => $entry->license_plate,
-                'staff' => $entry->staff ? $entry->staff->fullname : '',
+                'customer' => $entry->user ? $entry->user->fullname : '',
                 'created_at' => $entry->created_at,
                 'actions' => '',
                 'route.edit' => route('fileservices.edit', ['fileservice' => $entry->id]), // edit route
