@@ -142,7 +142,7 @@
           type: "POST",
           data: function(data) {
             data.id = "{{ $user->id }}",
-            data.status = $('#status').val()
+            data.status = "{{ $_GET['status'] ?? '' }}"
             data.customer = $('#customer').val()
             data.start_date = $('#start_date').val()
             data.end_date = $('#end_date').val()

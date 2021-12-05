@@ -35,36 +35,6 @@
               <th width="20%">Actions</th>
             </tr>
           </thead>
-          {{-- <tbody>
-            @if (count($entries) > 0)
-              @foreach ($entries as $entry)
-                <tr>
-                    <td>{{ $entry->displayable_id }}</td>
-                    <td>{{ $entry->car }}</td>
-                    <td>{{ $entry->license_plate }}</td>
-                    <td>{{ $entry->created_at }}</td>
-                    <td>
-                      <a class="btn btn-icon btn-success" href="{{ route('fs.tickets.create', ['id' => $entry->id]) }}" title="Ticket">
-                        <i data-feather="message-circle"></i>
-                      </a>
-                      <a class="btn btn-icon btn-success" href="{{ route('fs.download.original', ['id' => $entry->id]) }}" title="Download Original">
-                        <i data-feather="download"></i>
-                      </a>
-                      <a class="btn btn-icon btn-success" href="{{ route('fs.download.modified', ['id' => $entry->id]) }}" title="Download Modified">
-                        <i data-feather="download-cloud"></i>
-                      </a>
-                      <a class="btn btn-icon btn-primary" href="{{ route('fs.edit', ['f' => $entry->id]) }}" title="Edit">
-                        <i data-feather="edit"></i>
-                      </a>
-                    </td>
-                </tr>
-              @endforeach
-            @else
-              <tr>
-                <td colspan="5">No matching records found</td>
-              </tr>
-            @endif
-          </tbody> --}}
         </table>
       </div>
     </div>
@@ -153,7 +123,7 @@
           type: "POST",
           data: function(data) {
             data.id = "{{ $user->id }}",
-            data.status = $('#status').val()
+            data.status = "{{ $_GET['status'] ?? '' }}"
             data.customer = $('#customer').val()
             data.start_date = $('#start_date').val()
             data.end_date = $('#end_date').val()
