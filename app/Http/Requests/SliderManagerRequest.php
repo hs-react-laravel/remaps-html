@@ -16,7 +16,7 @@ class SliderManagerRequest extends FormRequest
     public function authorize()
     {
         // only allow updates if the user is logged in
-        return Auth::check() && Auth::user()->is_master == 1;
+        return Auth::guard('master')->check();
     }
 
     /**

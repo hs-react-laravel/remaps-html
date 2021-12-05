@@ -16,7 +16,7 @@ class PackageRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::check() && Auth::user()->is_master == 1;
+        return Auth::guard('master')->check();
     }
 
     /**

@@ -53,7 +53,7 @@ class MasterController extends BaseController
 
                     if ($this->company->mail_host && $this->company->mail_port && $this->company->mail_encryption
                         && $this->company->mail_username && $this->company->mail_password) {
-                        Config::set('mail.driver', $this->company->mail_driver);
+                        Config::set('mail.default', $this->company->mail_driver);
                         Config::set('mail.mailers.host', $this->company->mail_host);
                         Config::set('mail.mailers.port', $this->company->mail_port);
                         Config::set('mail.mailers.encryption', $this->company->mail_encryption);

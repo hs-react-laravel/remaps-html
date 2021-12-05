@@ -172,7 +172,6 @@ class FileServiceController extends MasterController
                     Mail::to($fileService->user->email)->send(new FileServiceProcessed($fileService));
                 }catch(\Exception $e){
                     session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
-                    return redirect(route('fileservices.index'));
                 }
                 return response()->download($file, $fileName);
             }

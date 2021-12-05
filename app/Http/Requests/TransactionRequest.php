@@ -16,7 +16,7 @@ class TransactionRequest extends FormRequest
     public function authorize()
     {
         // only allow updates if the user is logged in
-        return Auth::check();
+        return Auth::guard('master')->check() || Auth::guard('admin')->check() || Auth::guard('customer')->check();
     }
 
     /**

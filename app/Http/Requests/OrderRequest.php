@@ -15,7 +15,7 @@ class OrderRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::check();
+        return Auth::guard('master')->check() || Auth::guard('admin')->check() || Auth::guard('customer')->check();
     }
 
     /**
