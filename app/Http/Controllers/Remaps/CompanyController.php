@@ -503,18 +503,18 @@ class CompanyController extends MasterController
                  $subscription->status = 'Active';
                  $subscription->is_trial = 1;
                  if($subscription->save()){
-                    //  \Alert::success(__('admin.subscription_saved'))->flash();
-                     return redirect(url('company/subscriptions?company='.$company->id))->withInput($request->all());
+                    session()->flash('success', __('admin.subscription_saved'));
+                    return redirect(route('companies.trial', ['id' => $id]))->withInput($request->all());
                  }else{
-                    //  \Alert::error(__('admin.opps'))->flash();
+                    session()->flash('error', __('admin.opps'));
                      return redirect()->back()->withInput($request->all());
                  }
             }else{
                 return redirect()->back()->withInput($request->all())->withErrors($validations->errors());
             }
          }catch(\Exception $e){
-            //  \Alert::error(__('admin.opps'))->flash();
-             return redirect()->back()->withInput($request->all());
+            session()->flash('error', __('admin.opps'));
+            return redirect()->back()->withInput($request->all());
          }
     }
 }
