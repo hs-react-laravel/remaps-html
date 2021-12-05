@@ -273,7 +273,7 @@ class CompanyController extends MasterController
             case 'email':
                 // 'main_email_address'=> 'bail|required|email|unique:companies,main_email_address,'.$company->id.'|unique:users,email,'.$company->owner->id.'|max:100',
                 $validator = Validator::make($request->only(['main_email_address', 'support_email_address', 'billing_email_address']), [
-                    'main_email_address'=> 'bail|required|email|unique:companies,main_email_address,'.$request->id.',id|unique:users,email,'.$request->id.',company_id|max:100',
+                    'main_email_address'=> 'bail|required|email|unique:companies,main_email_address,'.$id.',id|unique:users,email,'.$id.',company_id|max:100',
                     'support_email_address'=> 'bail|nullable|email|max:100',
                     'billing_email_address'=> 'bail|nullable|email|max:100'
                 ]);
