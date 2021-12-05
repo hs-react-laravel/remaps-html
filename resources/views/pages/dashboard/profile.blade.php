@@ -7,6 +7,7 @@
   <form action="{{ $post_link }}" method="post">
   @csrf
   <input type="hidden" name="user_id" value="{{ $user->id }}">
+  <input type="hidden" name="_method" value="put" />
   <div class="row">
     <div class="col-md-9">
       <div class="card">

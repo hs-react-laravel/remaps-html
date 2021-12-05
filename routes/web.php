@@ -160,7 +160,7 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::get('/cars/category', [CarBrowserController::class, 'category'])->name('admin.cars.category');
 
     Route::get('/profile', [DashboardController::class, 'profile'])->name('admin.dashboard.profile');
-    Route::post('/profile_post', [DashboardController::class, 'profile_post'])->name('admin.dashboard.profile.post');
+    Route::put('/profile_post', [DashboardController::class, 'profile_post'])->name('admin.dashboard.profile.post');
 
     Route::get('/edit-password', [DashboardController::class, 'edit_password'])->name('admin.password.edit');
     Route::post('/edit-password', [DashboardController::class, 'edit_password_post'])->name('admin.password.edit.post');
@@ -171,7 +171,7 @@ Route::group(['prefix'=>'staff', 'middleware' => 'check.customerstaff'], functio
     Route::get('stafffs/{id}/delete-modified', [StaffFileServiceController::class, 'delete_modified_file'])->name('stafffs.delete.modified');
 
     Route::get('profile', [DashboardController::class, 'profile_staff'])->name('staff.dashboard.profile');
-    Route::post('profile_post', [DashboardController::class, 'profile_staff_post'])->name('staff.dashboard.profile.post');
+    Route::put('profile_post', [DashboardController::class, 'profile_staff_post'])->name('staff.dashboard.profile.post');
 
     Route::get('edit-password', [DashboardController::class, 'edit_password'])->name('staff.password.edit');
     Route::post('edit-password', [DashboardController::class, 'edit_password_post'])->name('staff.password.edit.post');
@@ -217,7 +217,7 @@ Route::group(['middleware' => 'auth:customer', 'prefix'=>'customer'], function (
     Route::get('/cars/category', [CarBrowserController::class, 'category'])->name('cars.category');
 
     Route::get('/profile', [DashboardController::class, 'profile'])->name('dashboard.profile');
-    Route::post('/profile_post', [DashboardController::class, 'profile_post'])->name('dashboard.profile.post');
+    Route::put('/profile_post', [DashboardController::class, 'profile_post'])->name('dashboard.profile.post');
     Route::post('/profile_staff_post', [DashboardController::class, 'profile_staff_post'])->name('admin.dashboard.profile.staff.post');
 
     Route::get('/edit-password', [DashboardController::class, 'edit_password'])->name('password.edit');

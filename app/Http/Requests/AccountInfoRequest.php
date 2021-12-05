@@ -29,7 +29,6 @@ class AccountInfoRequest extends FormRequest
     {
         $user = User::find($this->get('user_id'));
 
-
         switch ($this->method()) {
             case 'GET':{
                 return [
@@ -77,7 +76,7 @@ class AccountInfoRequest extends FormRequest
                         'county'          => 'required|string|min:3|max:191',
                         'town'            => 'required|string|min:3|max:191',
                         'post_code'       => 'nullable|string|min:5|max:7',
-                        'email'           => 'required|email|unique:users,email,NULL,id,company_id,'.$user->company->id
+                        'email'           => 'required|email|unique:users,email,'.$user->id.',id,company_id,'.$user->company->id
                     ];
                 }
             default:break;
