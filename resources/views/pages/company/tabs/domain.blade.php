@@ -1,5 +1,4 @@
 <div class="tab-pane @if($tab == 'domain') active @endif" id="domain-fill" role="tabpanel" aria-labelledby="domain-tab-fill">
-    <input type="hidden" name="tab" value="domain" />
     <div class="row">
       <div class="col-md-4 col-12">
         <div class="mb-1">

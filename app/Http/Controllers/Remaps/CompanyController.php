@@ -247,6 +247,7 @@ class CompanyController extends MasterController
     public function update(Request $request, $id)
     {
         $requestData = Request::capture();
+        $company = Company::find($id);
         switch($request->tab){
             case 'name':
                 $validator = Validator::make($request->only(['name', 'country', 'state', 'town', 'address_line_1', 'address_line_2', 'post_code', 'logo', 'theme_color', 'copy_right_text']),[
@@ -266,14 +267,13 @@ class CompanyController extends MasterController
                 break;
             case 'domain':
                 $validator = Validator::make($request->only('v2_domain_link'), [
-                    'v2_domain_link'=> 'bail|required|url|unique:companies,v2_domain_link|max:100'
+                    'v2_domain_link'=> 'bail|required|url|unique:companies,v2_domain_link,'.$company->id.'|max:100'
                 ]);
                 $requestData->replace($request->only('v2_domain_link'));
                 break;
             case 'email':
-                // 'main_email_address'=> 'bail|required|email|unique:companies,main_email_address,'.$company->id.'|unique:users,email,'.$company->owner->id.'|max:100',
                 $validator = Validator::make($request->only(['main_email_address', 'support_email_address', 'billing_email_address']), [
-                    'main_email_address'=> 'bail|required|email|unique:companies,main_email_address,'.$id.',id|unique:users,email,'.$id.',company_id|max:100',
+                    'main_email_address'=> 'bail|required|email|unique:companies,main_email_address,'.$company->id.'|max:100',
                     'support_email_address'=> 'bail|nullable|email|max:100',
                     'billing_email_address'=> 'bail|nullable|email|max:100'
                 ]);
