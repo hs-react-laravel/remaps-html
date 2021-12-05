@@ -325,7 +325,7 @@ class CompanyController extends MasterController
         }
 
         if ($validator->fails()) {
-            return redirect(route('companies.create', ['tab' => $request->tab]))
+            return redirect(route('companies.edit', ['tab' => $request->tab, 'company' => $id]))
                         ->withErrors($validator)
                         ->withInput();
         }
