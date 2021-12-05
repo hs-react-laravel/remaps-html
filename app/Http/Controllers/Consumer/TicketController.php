@@ -67,7 +67,6 @@ class TicketController extends MasterController
         try{
 			Mail::to($this->user->company->owner->email)->send(new TicketCreated($this->user,$request->all()['subject']));
 		}catch(\Exception $e){
-            dd($e);
 			session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
 		}
         return redirect(route('tk.index'));
