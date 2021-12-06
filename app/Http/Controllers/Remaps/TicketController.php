@@ -173,4 +173,12 @@ class TicketController extends MasterController
         }
         return redirect(route('tickets.index'));
     }
+
+    public function close_ticket($id)
+    {
+        $ticket = Ticket::find($id);
+        $ticket->is_closed = 1;
+        $ticket->save();
+        return redirect(route('tickets.index'));
+    }
 }

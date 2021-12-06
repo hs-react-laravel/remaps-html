@@ -86,3 +86,11 @@
 .theme-info .form-check-input:checked { background-color: #00cfe8 !important; border-color: #00cfe8; }
 .theme-warning .form-check-input:checked { background-color: #ff9f43 !important; border-color: #ff9f43; }
 .theme-dark .form-check-input:checked { background-color: #4b4b4b !important; border-color: #4b4b4b; }
+
+.theme-primary .ticket-open td { color: #7367f0 !important; font-weight: bold; }
+.theme-secondary .ticket-open td { color: #82868b !important; font-weight: bold; }
+.theme-success .ticket-open td { color: #28c76f !important; font-weight: bold; }
+.theme-danger .ticket-open td { color: #ea5455 !important; font-weight: bold; }
+.theme-info .ticket-open td { color: #00cfe8 !important; font-weight: bold; }
+.theme-warning .ticket-open td { color: #ff9f43 !important; font-weight: bold; }
+.theme-dark .ticket-open td { color: #4b4b4b !important; font-weight: bold; }

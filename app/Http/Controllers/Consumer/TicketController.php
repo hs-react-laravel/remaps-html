@@ -170,7 +170,15 @@ class TicketController extends MasterController
             }
         } catch (\Exception $ex) {
             session()->flash('error', $ex->getMessage());
-            return redirect(route('tickets.index'));
+            return redirect(route('tk.index'));
         }
+    }
+
+    public function close_ticket($id)
+    {
+        $ticket = Ticket::find($id);
+        $ticket->is_closed = 1;
+        $ticket->save();
+        return redirect(route('tk.index'));
     }
 }

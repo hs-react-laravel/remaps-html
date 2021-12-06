@@ -35,40 +35,22 @@
           <tbody>
             @if (count($entries) > 0)
               @foreach ($entries as $entry)
-                <tr>
-                  @if($entry->unread_message == 0)
-                    <th>{{ $entry->client }}</th>
-                    <th>{{ $entry->file_service_name }}</th>
-                    <th>{{ $entry->closed ? 'Closed' : 'Open' }}</th>
-                    <th> @if ($entry->staff) {{ $entry->staff->fullname }} @endif </th>
-                    <th>{{ $entry->created_at }}</th>
-                    <th class="td-actions">
-                      <a class="btn btn-icon btn-primary" href="{{ route('tickets.edit', ['ticket' => $entry->id]) }}" title="Edit">
-                        <i data-feather="edit"></i>
-                      </a>
-                      <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}" title="Delete"><i data-feather="trash-2"></i></a>
-                      <form action="{{ route('tickets.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
-                        <input type="hidden" name="_method" value="DELETE">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                      </form>
-                    </th>
-                  @else
-                    <td>{{ $entry->client }}</td>
-                    <td>{{ $entry->file_service_name }}</td>
-                    <td>{{ $entry->closed ? 'Closed' : 'Open' }}</td>
-                    <td> @if ($entry->staff) {{ $entry->staff->fullname }} @endif </td>
-                    <td>{{ $entry->created_at }}</td>
-                    <td class="td-actions">
-                      <a class="btn btn-icon btn-primary" href="{{ route('tickets.edit', ['ticket' => $entry->id]) }}" title="Edit">
-                        <i data-feather="edit"></i>
-                      </a>
-                      <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}" title="Delete"><i data-feather="trash-2"></i></a>
-                      <form action="{{ route('tickets.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
-                        <input type="hidden" name="_method" value="DELETE">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                      </form>
-                    </td>
-                  @endif
+                <tr class="{{$entry->unread_message == 0 ? 'ticket-open' : ''}}">
+                  <td>{{ $entry->client }}</td>
+                  <td>{{ $entry->file_service_name }}</td>
+                  <td>{{ $entry->is_closed ? 'Closed' : 'Open' }}</td>
+                  <td> @if ($entry->staff) {{ $entry->staff->fullname }} @endif </td>
+                  <td>{{ $entry->created_at }}</td>
+                  <td class="td-actions">
+                    <a class="btn btn-icon btn-primary" href="{{ route('tickets.edit', ['ticket' => $entry->id]) }}" title="Edit">
+                      <i data-feather="edit"></i>
+                    </a>
+                    <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}" title="Delete"><i data-feather="trash-2"></i></a>
+                    <form action="{{ route('tickets.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
+                      <input type="hidden" name="_method" value="DELETE">
+                      <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    </form>
+                  </td>
                 </tr>
               @endforeach
             @else

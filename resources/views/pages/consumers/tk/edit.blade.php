@@ -10,6 +10,9 @@
       <div class="card">
         <div class="card-header">
           <h4 class="card-title">Contact Us</h4>
+          <a href="{{ route('tk.close', ['id' => $entry->id]) }}" class="btn btn-icon btn-primary">
+            Close Ticket
+          </a>
         </div>
         <div class="card-body">
           <hr>
