@@ -99,7 +99,8 @@
             class="form-control"
             placeholder="xxx@xxx.com"
             name="mail_username"
-            value="{{ $company->mail_username }}" />
+            value="{{ $company->mail_username }}"
+            autocomplete="off" />
         </div>
       </div>
       <div class="col-md-4 col-12">
@@ -111,7 +112,8 @@
             class="form-control"
             placeholder="*******"
             name="mail_password"
-            value="{{ $company->mail_password }}" />
+            value="{{ $company->mail_password }}"
+            autocomplete="new-password" />
         </div>
       </div>
       <div class="col-12">
