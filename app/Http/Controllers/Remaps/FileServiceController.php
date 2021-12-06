@@ -286,6 +286,7 @@ class FileServiceController extends MasterController
             $query->orWhere('engine', 'LIKE', '%'.$searchValue.'%');
             $query->orWhere('ecu', 'LIKE', '%'.$searchValue.'%');
             $query->orWhere('license_plate', 'LIKE', '%'.$searchValue.'%');
+            $query->orWhere('displayable_id', 'LIKE', '%'.$searchValue.'%');
         });
 
         $totalRecordswithFilter = $query->count();
