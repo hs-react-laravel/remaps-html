@@ -311,12 +311,13 @@ class FileServiceController extends MasterController
             $query = $query->whereBetween('created_at', [$request->start_date.' 00:00:00', $request->end_date.' 23:59:59']);
         }
         $query = $query->where(function($query) use ($searchValue) {
-            $query->where('make', 'LIKE', '%'.$searchValue.'%');
+            $query->orWhere('make', 'LIKE', '%'.$searchValue.'%');
             $query->orWhere('model', 'LIKE', '%'.$searchValue.'%');
             $query->orWhere('generation', 'LIKE', '%'.$searchValue.'%');
             $query->orWhere('engine', 'LIKE', '%'.$searchValue.'%');
             $query->orWhere('ecu', 'LIKE', '%'.$searchValue.'%');
             $query->orWhere('license_plate', 'LIKE', '%'.$searchValue.'%');
+            $query->orWhere('displayable_id', 'LIKE', '%'.$searchValue.'%');
         });
 
         $totalRecordswithFilter = $query->count();
