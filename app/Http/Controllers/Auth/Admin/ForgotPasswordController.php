@@ -62,7 +62,7 @@ class ForgotPasswordController extends Controller
 
         $this->validate($request, ['email' => 'required|email']);
 
-        $user_check = \App\Models\User::where('email', $request->email)->first();
+        $user_check = \App\Models\User::where('email', $request->email)->where('company_id', $this->company->id)->first();
 
         if($user_check){
             if($user_check->is_admin == 0){

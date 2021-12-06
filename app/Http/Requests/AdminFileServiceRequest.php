@@ -61,7 +61,13 @@ class AdminFileServiceRequest extends FormRequest
                 }
             }
 
-            $user = Auth::user();
+            $user = Auth::guard('admin')->user();
+            if (Auth::guard('master')->check()) {
+                $user = Auth::guard('master')->user();
+            }
+            if (Auth::guard('staff')->check()) {
+                $user = Auth::guard('staff')->user();
+            }
             if($user){
                 if(!$user->is_master){
                     if(!$user->hasActiveSubscription()){

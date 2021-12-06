@@ -113,7 +113,7 @@ class FileServiceRequest extends FormRequest
                     $validator->errors()->add('file', 'File shouldn\'t be greater than 10 MB. Please select another file.');
                 }
             }
-            $user = Auth::user();
+            $user = Auth::guard('customer')->user();
 
             if(!$user->company->owner->is_master){
                 if(!$user->company->owner->hasActiveSubscription()){

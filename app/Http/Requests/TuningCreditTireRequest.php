@@ -26,7 +26,10 @@ class TuningCreditTireRequest extends FormRequest
      */
     public function rules()
     {
-        $user = Auth::user();
+        $this->user = Auth::guard('admin')->user();
+        if (Auth::guard('master')->check()) {
+            $this->user = Auth::guard('master')->user();
+        }
 
         switch ($this->method()) {
             case 'GET':{
@@ -39,7 +42,7 @@ class TuningCreditTireRequest extends FormRequest
                 }
             case 'POST': {
                     return [
-                        'amount' =>'required|'.Rule::unique('tuning_credit_tires')->where('company_id', $user->company_id)->where('group_type', 'normal').'|regex:/^\d*(\.\d{1,2})?$/|max:8',
+                        'amount' =>'required|'.Rule::unique('tuning_credit_tires')->where('company_id', $this->user->company_id)->where('group_type', 'normal').'|regex:/^\d*(\.\d{1,2})?$/|max:8',
                     ];
                 }
             case 'PUT':
