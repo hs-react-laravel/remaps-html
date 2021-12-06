@@ -19,7 +19,7 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">File Services</h4>
+        <h4 class="card-title">{{ isset($_GET['status']) ? config('constants.file_service_staus')[$_GET['status']] : '' }} File Services</h4>
         <button href="{{ route('fs.create') }}" class="btn btn-icon btn-primary" onclick="onCreate()">
           Create New
         </button>

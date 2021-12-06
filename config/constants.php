@@ -51,7 +51,7 @@ return [
     ],
 
     'file_service_staus'=>[
-        'P'=>'Upload Pending',
+        'P'=>'Out of Hours',
         'O'=>'Open',
         'W'=>'Waiting',
         'C'=>'Completed',

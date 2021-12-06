@@ -23,7 +23,7 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">File Services</h4>
+        <h4 class="card-title">{{ isset($_GET['status']) ? config('constants.file_service_staus')[$_GET['status']] : '' }} File Services</h4>
       </div>
       <div class="table-responsive m-1 mt-0">
         <table class="table table-data">

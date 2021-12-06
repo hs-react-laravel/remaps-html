@@ -7,7 +7,7 @@
             type="text"
             id="v2_domain_link"
             class="form-control"
-            placeholder="xxx.myremaps.com"
+            placeholder="xxx.remapdash.com"
             name="v2_domain_link"
             value="{{ $entry->v2_domain_link }}" />
         </div>

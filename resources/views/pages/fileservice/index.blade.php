@@ -23,7 +23,7 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">File Services</h4>
+        <h4 class="card-title">{{ isset($_GET['status']) ? config('constants.file_service_staus')[$_GET['status']] : '' }} File Services</h4>
       </div>
       <div class="card-body p-1 pb-0">
         <form class="dt_adv_search" method="POST">
