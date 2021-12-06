@@ -39,6 +39,7 @@
                   <td>{{ $e->status }}</td>
                   <td>{{ $e->created_at }}</td>
                   <td>
+                    @if($user->is_admin)
                     <a class="btn btn-icon btn-danger" onclick="onDelete(this)" title="Delete">
                       <i data-feather="trash-2"></i>
                     </a>
@@ -46,6 +47,7 @@
                       <input type="hidden" name="_method" value="DELETE">
                       <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     </form>
+                    @endif
                   </td>
                 </tr>
               @endforeach

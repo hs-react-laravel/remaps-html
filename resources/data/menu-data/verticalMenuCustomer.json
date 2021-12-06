@@ -5,43 +5,43 @@
       "slug": ""
     },
     {
-        "url": "/customer/dashboard",
+        "url": "customer/dashboard",
         "name": "menu_Dashboard",
         "icon": "home",
         "slug": "dashboard.customer"
     },
     {
-        "url": "/customer/fs",
+        "url": "customer/fs",
         "name": "menu_FileServices",
         "icon": "file",
         "slug": "fs.index"
     },
     {
-        "url": "/customer/tk",
+        "url": "customer/tk",
         "name": "menu_SupportTickets",
         "icon": "message-circle",
         "slug": "tk.index"
     },
     {
-        "url": "/customer/buy-credits",
+        "url": "customer/buy-credits",
         "name": "menu_BuyTuningCredits",
         "icon": "plus",
         "slug": "consumer.buy-credits"
     },
     {
-        "url": "/customer/od",
+        "url": "customer/od",
         "name": "menu_Orders",
         "icon": "file-text",
         "slug": "od.index"
     },
     {
-        "url": "/customer/tr",
+        "url": "customer/tr",
         "name": "menu_Transactions",
         "icon": "credit-card",
         "slug": "tr.index"
     },
     {
-        "url": "/customer/cars",
+        "url": "customer/cars",
         "name": "menu_BrowseSpecs",
         "icon": "search",
         "slug": "cars.index"
