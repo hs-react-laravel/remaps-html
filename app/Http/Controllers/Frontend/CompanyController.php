@@ -113,12 +113,12 @@ class CompanyController extends Controller
 				 }
 				$mainCompany = Company::where('id', '1')->first()->toArray();
 
-                Config::set('mail.driver', 'smtp');
-                Config::set('mail.host', 'mail.myremaps.com');
-                Config::set('mail.port', 25);
-                Config::set('mail.encryption', '');
-                Config::set('mail.username', 'no-reply@myremaps.com');
-                Config::set('mail.password', 'Ig99ka%5');
+                Config::set('mail.default', 'smtp');
+                Config::set('mail.mailers.host', 'mail.remapdash.com');
+                Config::set('mail.mailers.port', 25);
+                Config::set('mail.mailers.encryption', '');
+                Config::set('mail.mailers.username', 'no-reply@remapdash.com');
+                Config::set('mail.mailers.password', '6%3d5ohF');
                 Config::set('mail.from.address', $mainCompany['mail_username']);
                 Config::set('mail.from.name', $mainCompany['name']);
                 Config::set('app.name', $mainCompany['name']);
