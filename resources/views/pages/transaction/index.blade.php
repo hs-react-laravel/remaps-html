@@ -27,7 +27,9 @@
               <th width="10%">{{__('locale.tb_header_Credits')}}</th>
               <th width="10%">{{__('locale.tb_header_Status')}}</th>
               <th width="10%">{{__('locale.tb_header_Date')}}</th>
+              @if($user->is_admin)
               <th width="10%">{{__('locale.tb_header_Actions')}}</th>
+              @endif
             </tr>
           </thead>
           <tbody>
@@ -38,8 +40,8 @@
                   <td>{{ $e->credits_with_type }}</td>
                   <td>{{ $e->status }}</td>
                   <td>{{ $e->created_at }}</td>
+                  @if($user->is_admin)
                   <td>
-                    @if($user->is_admin)
                     <a class="btn btn-icon btn-danger" onclick="onDelete(this)" title="Delete">
                       <i data-feather="trash-2"></i>
                     </a>
@@ -47,8 +49,8 @@
                       <input type="hidden" name="_method" value="DELETE">
                       <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     </form>
-                    @endif
                   </td>
+                  @endif
                 </tr>
               @endforeach
             @else
