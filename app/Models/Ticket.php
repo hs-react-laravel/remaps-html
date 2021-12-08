@@ -100,10 +100,11 @@ class Ticket extends Model
             $count += $children->where('receiver_id', $user->id)->where('is_read', 0)->count();
         } else if ($user->is_staff) {
             if ($this->assign_id != $user->id) return 1;
-            $count = $this->receiver_id == $user->company->owner->id && $this->is_read == 0 ? 0 : 1;
+            $count = $this->receiver_id == $user->company->owner->id && $this->is_read == 0 ? 1 : 0;
             $count += $children->where('receiver_id', $user->company->owner->id)->where('is_read', 0)->count();
         } else {
-            $count = $children->where('receiver_id', $user->id)->where('is_read', 0)->count();
+            $count = $this->receiver_id == $user->id && $this->is_read == 0 ? 1 : 0;
+            $count += $children->where('receiver_id', $user->id)->where('is_read', 0)->count();
         }
         return $count > 0 ? 0 : 1;
     }

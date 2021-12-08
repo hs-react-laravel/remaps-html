@@ -174,19 +174,14 @@ class TicketController extends MasterController
     public function read_all()
     {
         $user = $this->user;
-        Ticket::where('receiver_id', $user->company->owner->id)
+        $user = $this->user;
+        $parent_ids = Ticket::where('receiver_id', $user->company->owner->id)
             ->where('parent_chat_id', 0)
             ->where('assign_id', $user->id)
-            ->update([
-                'is_read' => 1
-            ]);
-        Ticket::where('receiver_id', $user->company->owner->id)
-            ->whereHas('parent', function($query) use($user){
-                $query->where('assign_id', $user->id);
-            })->update([
-                'is_read' => 1
-            ]);
-        return redirect(route('stafftk.index'));
+            ->pluck('id');
+        Ticket::whereIn('id', $parent_ids)->update(['is_read' => 1]);
+        Ticket::whereIn('parent_chat_id', $parent_ids)->update(['is_read' => 1]);
+        return redirect(route('tickets.index'));
     }
 
     public function getTickets(Request $request) {
@@ -211,13 +206,13 @@ class TicketController extends MasterController
         $totalRecords = $query->count();
 
         if ($request->unread == "true") {
-            $query = Ticket::where('parent_chat_id', 0)
-            ->where('receiver_id', $user->company->owner->id)
-            ->where('assign_id', $user->id)
+            $query = $query->where('assign_id', $user->id)
             ->where(function($query) use($user){
                 return $query->whereHas('childrens', function($query) use($user){
-                    return $query->where('receiver_id', $user->company->owner->id)->where('assign_id', $user->id)->where('is_read', 0);
-                })->orWhere('is_read', 0);
+                    return $query->where('receiver_id', $user->company->owner->id)->where('is_read', 0);
+                })->orWhere(function ($query) use($user) {
+                    return $query->where('receiver_id', $user->company->owner->id)->where('is_read', 0);
+                });
             });
         }
 

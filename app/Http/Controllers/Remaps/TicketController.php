@@ -209,13 +209,13 @@ class TicketController extends MasterController
         $totalRecords = $query->count();
 
         if ($request->unread == "true") {
-            $query = Ticket::where('parent_chat_id', 0)
-            ->where('receiver_id', $user->company->owner->id)
-            ->whereNull('assign_id')
+            $query = $query->whereNull('assign_id')
             ->where(function($query) use($user){
                 return $query->whereHas('childrens', function($query) use($user){
                     return $query->where('receiver_id', $user->company->owner->id)->where('is_read', 0);
-                })->orWhere('is_read', 0);
+                })->orWhere(function ($query) use($user) {
+                    return $query->where('receiver_id', $user->company->owner->id)->where('is_read', 0);
+                });
             });
         }
 
