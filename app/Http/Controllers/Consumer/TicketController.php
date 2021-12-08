@@ -180,7 +180,7 @@ class TicketController extends MasterController
     {
         $user = $this->user;
         Ticket::where('receiver_id', $user->id)->update(['is_read' => 1]);
-        return redirect(route('stafftk.index'));
+        return redirect(route('tk.index'));
     }
 
     public function getTickets(Request $request) {
