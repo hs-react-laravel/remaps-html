@@ -34,6 +34,60 @@ class CustomerController extends MasterController
         ]);
     }
 
+    public function api(Request $request)
+    {
+        $draw = $request->get('draw');
+        $start = $request->get('start');
+        $rowperpage = $request->get('length');
+
+        $columnIndex_arr = $request->get('order');
+        $columnName_arr = $request->get('columns');
+        $order_arr = $request->get('order');
+        $search_arr = $request->get('search');
+
+        $searchValue = $search_arr['value']; // Search value
+
+        $user = User::find($request->id);
+        $query = User::where('company_id', $user->company_id)
+            ->where('is_admin', 0)
+            ->whereNull('is_staff');
+
+        $totalRecords = $query->count();
+        $query = $query->where(function($query) use ($searchValue) {
+            $query->where('first_name', 'LIKE', '%'.$searchValue.'%');
+            $query->orWhere('last_name', 'LIKE', '%'.$searchValue.'%');
+            $query->orWhere('business_name', 'LIKE', '%'.$searchValue.'%');
+        });
+        $totalRecordswithFilter = $query->count();
+        $entries = $query->orderBy('id', 'DESC')->skip($start)->take($rowperpage)->get();
+        $return_data = [];
+        foreach($entries as $entry) {
+            array_push($return_data, [
+                'name' => $entry->fullName,
+                'company' => $entry->business_name,
+                'tuning_credits' => number_format($entry->tuning_credits, 2),
+                'tuning_price_group' => $entry->tuningPriceGroup,
+                'evc_tuning_credits' => $entry->tuning_evc_price_group,
+                'fileservice_ct' => $entry->fileServicesCount,
+                'last_login' => $entry->lastLoginDiff,
+                'actions' => '',
+                'route.edit' => route('customers.edit', ['customer' => $entry->id]), // edit route
+                'route.fs' => route('customer.fs', ['id' => $entry->id]), // file service route
+                'route.sa' => route('customer.sa', ['id' => $entry->id]), // switch account route
+                'route.tr' => route('customer.tr', ['id' => $entry->id]), // transaction route
+                'route.destroy' => route('customers.destroy', $entry->id) // destroy route
+            ]);
+        }
+        $json_data = array(
+            'draw' => intval($draw),
+            'iTotalRecords' => $totalRecords,
+            'iTotalDisplayRecords' => $totalRecordswithFilter,
+            'data' => $return_data
+        );
+
+        return response()->json($json_data);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
