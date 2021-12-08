@@ -105,7 +105,7 @@ return [
 
 
 //    dashboard top title
-    'dash_PendingFileService' => 'Pending',
+    'dash_PendingFileService' => 'Out of Hours',
     'dash_OpenFileService' => 'Open',
     'dash_WaitingService' => 'Waiting',
     'dash_CompletedService' => 'Completed',
