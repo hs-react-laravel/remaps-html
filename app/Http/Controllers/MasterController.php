@@ -54,19 +54,19 @@ class MasterController extends BaseController
                     if ($this->company->mail_host && $this->company->mail_port && $this->company->mail_encryption
                         && $this->company->mail_username && $this->company->mail_password) {
                         Config::set('mail.default', $this->company->mail_driver);
-                        Config::set('mail.mailers.host', $this->company->mail_host);
-                        Config::set('mail.mailers.port', $this->company->mail_port);
-                        Config::set('mail.mailers.encryption', $this->company->mail_encryption);
-                        Config::set('mail.mailers.username', $this->company->mail_username);
-                        Config::set('mail.mailers.password', $this->company->mail_password);
+                        Config::set('mail.mailers.smtp.host', $this->company->mail_host);
+                        Config::set('mail.mailers.smtp.port', $this->company->mail_port);
+                        Config::set('mail.mailers.smtp.encryption', $this->company->mail_encryption);
+                        Config::set('mail.mailers.smtp.username', $this->company->mail_username);
+                        Config::set('mail.mailers.smtp.password', $this->company->mail_password);
                         Config::set('mail.from.address',$this->company->mail_username );
                     } else {
                         Config::set('mail.default', 'smtp');
-                        Config::set('mail.mailers.host', 'mail.remapdash.com');
-                        Config::set('mail.mailers.port', 25);
-                        Config::set('mail.mailers.encryption', '');
-                        Config::set('mail.mailers.username', 'no-reply@remapdash.com');
-                        Config::set('mail.mailers.password', '6%3d5ohF');
+                        Config::set('mail.mailers.smtp.host', 'mail.remapdash.com');
+                        Config::set('mail.mailers.smtp.port', 25);
+                        Config::set('mail.mailers.smtp.encryption', '');
+                        Config::set('mail.mailers.smtp.username', 'no-reply@remapdash.com');
+                        Config::set('mail.mailers.smtp.password', '6%3d5ohF');
                         Config::set('mail.from.address', 'no-reply@remapdash.com');
                     }
 
