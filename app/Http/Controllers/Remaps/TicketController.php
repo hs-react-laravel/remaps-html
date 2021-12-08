@@ -185,9 +185,8 @@ class TicketController extends MasterController
                 'is_read' => 1
             ]);
         Ticket::where('receiver_id', $user->company->owner->id)
-            ->whereHas('parent', function($query) use($user){
-                $query->whereNull('assign_id');
-            })->update([
+            ->whereNull('assign_id')
+            ->children->update([
                 'is_read' => 1
             ]);
         return redirect(route('tickets.index'));
