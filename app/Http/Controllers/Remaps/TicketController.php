@@ -178,10 +178,9 @@ class TicketController extends MasterController
     public function read_all()
     {
         $user = $this->user;
-        $parent_ids = Ticket::where('receiver_id', $user->company->owner->id)
-            ->where('parent_chat_id', 0)
-            ->whereNull('assign_id')
-            ->pluck('id');
+        $parent_ids = Ticket::where(function($query) use($user){
+            return $query->where('receiver_id', $user->id)->orWhere('sender_id', $user->id);
+        })->where('parent_chat_id', 0)->whereNull('assign_id')->pluck('id');
         Ticket::whereIn('id', $parent_ids)->update(['is_read' => 1]);
         Ticket::whereIn('parent_chat_id', $parent_ids)->update(['is_read' => 1]);
         return redirect(route('tickets.index'));
@@ -204,7 +203,7 @@ class TicketController extends MasterController
 
         $user = User::find($request->id);
         $query = Ticket::where('parent_chat_id', 0)->where(function($query) use($user){
-            return $query->where('receiver_id', $user->company->owner->id)->orWhere('sender_id', $user->id);
+            return $query->where('receiver_id', $user->id)->orWhere('sender_id', $user->id);
         });
         $totalRecords = $query->count();
 
@@ -212,9 +211,9 @@ class TicketController extends MasterController
             $query = $query->whereNull('assign_id')
             ->where(function($query) use($user){
                 return $query->whereHas('childrens', function($query) use($user){
-                    return $query->where('receiver_id', $user->company->owner->id)->where('is_read', 0);
+                    return $query->where('receiver_id', $user->id)->where('is_read', 0);
                 })->orWhere(function ($query) use($user) {
-                    return $query->where('receiver_id', $user->company->owner->id)->where('is_read', 0);
+                    return $query->where('receiver_id', $user->id)->where('is_read', 0);
                 });
             });
         }
