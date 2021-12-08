@@ -234,7 +234,7 @@
           <a class="btn btn-icon btn-danger" onclick="onDelete(this)">
             ${feather.icons['trash-2'].toSvg()}
           </a>
-          <form action="${data['route.delete']}" class="delete-form" method="POST" style="display:none">
+          <form action="${data['route.destroy']}" class="delete-form" method="POST" style="display:none">
             <input type="hidden" name="_method" value="DELETE">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
           </form>

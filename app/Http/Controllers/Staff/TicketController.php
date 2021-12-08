@@ -21,14 +21,7 @@ class TicketController extends MasterController
      */
     public function index()
     {
-        //
-        $user = $this->user;
-        $entries = Ticket::where('parent_chat_id', 0)->where(function($query) use($user){
-            return $query->where('receiver_id', $user->company->owner->id)->orWhere('sender_id', $user->id);
-        })->orderBy('id', 'DESC')->paginate(10);
-        return view('pages.staffpage.tickets.index', [
-            'entries' => $entries
-        ]);
+        return view('pages.staffpage.tickets.index');
     }
 
     /**
@@ -176,5 +169,87 @@ class TicketController extends MasterController
         $ticket->is_closed = 1;
         $ticket->save();
         return redirect(route('stafftk.index'));
+    }
+
+    public function read_all()
+    {
+        $user = $this->user;
+        Ticket::where('receiver_id', $user->company->owner->id)
+            ->where('parent_chat_id', 0)
+            ->where('assign_id', $user->id)
+            ->update([
+                'is_read' => 1
+            ]);
+        Ticket::where('receiver_id', $user->company->owner->id)
+            ->whereHas('parent', function($query) use($user){
+                $query->where('assign_id', $user->id);
+            })->update([
+                'is_read' => 1
+            ]);
+        return redirect(route('stafftk.index'));
+    }
+
+    public function getTickets(Request $request) {
+        $draw = $request->get('draw');
+        $start = $request->get('start');
+        $rowperpage = $request->get('length');
+
+        $columnIndex_arr = $request->get('order');
+        $columnName_arr = $request->get('columns');
+        $order_arr = $request->get('order');
+        $search_arr = $request->get('search');
+
+        $columnIndex = $columnIndex_arr[0]['column']; // Column index
+        $columnName = $columnName_arr[$columnIndex]['data']; // Column name
+        $columnSortOrder = $order_arr[0]['dir']; // asc or desc
+        $searchValue = $search_arr['value']; // Search value
+
+        $user = User::find($request->id);
+        $query = Ticket::where('parent_chat_id', 0)->where(function($query) use($user){
+            return $query->where('receiver_id', $user->company->owner->id)->orWhere('sender_id', $user->company->owner->id);
+        });
+        $totalRecords = $query->count();
+
+        if ($request->unread == "true") {
+            $query = Ticket::where('parent_chat_id', 0)
+            ->where('receiver_id', $user->company->owner->id)
+            ->where('assign_id', $user->id)
+            ->where(function($query) use($user){
+                return $query->whereHas('childrens', function($query) use($user){
+                    return $query->where('receiver_id', $user->company->owner->id)->where('assign_id', $user->id)->where('is_read', 0);
+                })->orWhere('is_read', 0);
+            });
+        }
+
+        if ($request->open == "true") {
+            $query = $query->where('is_closed', 0);
+        }
+
+        $totalRecordswithFilter = $query->count();
+        $entries = $query->orderBy($columnName, $columnSortOrder)->skip($start)->take($rowperpage)->get();
+
+        $return_data = [];
+        foreach($entries as $entry) {
+            array_push($return_data, [
+                'client' => $entry->client,
+                'file_service' => $entry->file_service_name,
+                'is_closed' => $entry->is_closed ? 'Closed' : 'Open',
+                'staff' => $entry->staff ? $entry->staff->fullname : '',
+                'created_at' => $entry->created_at,
+                'actions' => '',
+                'route.edit' => route('stafftk.edit', ['stafftk' => $entry->id]), // edit route
+                'route.destroy' => route('stafftk.destroy', $entry->id), // destroy route
+                'unread_message' => $entry->getUnreadMessage($user),
+            ]);
+        }
+
+        $json_data = array(
+            'draw' => intval($draw),
+            'iTotalRecords' => $totalRecords,
+            'iTotalDisplayRecords' => $totalRecordswithFilter,
+            'data' => $return_data
+        );
+
+        return response()->json($json_data);
     }
 }

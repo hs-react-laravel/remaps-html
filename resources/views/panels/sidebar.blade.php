@@ -32,7 +32,7 @@ $configData = Helper::applClasses();
           <a href="{{isset($menu->url)? url($menu->url):'javascript:void(0)'}}" class="d-flex align-items-center" target="{{isset($menu->newTab) ? '_blank':'_self'}}">
             <i data-feather="{{ $menu->icon }}"></i>
             <span class="menu-title text-truncate">{{ __('locale.'.$menu->name) }}</span>
-            @if (($menu->url == 'admin/tickets' || $menu->url == 'customer/tk') && $tickets_count)
+            @if (($menu->url == 'admin/tickets' || $menu->url == 'customer/tk' || $menu->url == 'staff/stafftk') && $tickets_count)
             <?php $badgeClasses = "badge-tickets badge rounded-pill badge-glow ".($configData['navbarColor'] != '' ? $configData['navbarColor'] : 'bg-primary')." ms-auto" ?>
             <span class="{{ isset($menu->badgeClass) ? $menu->badgeClass : $badgeClasses }}">{{$tickets_count}}</span>
             @endif

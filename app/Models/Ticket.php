@@ -62,6 +62,11 @@ class Ticket extends Model
         return $this->belongsTo('App\Models\FileService', 'file_servcie_id');
     }
 
+    public function parent()
+    {
+        return $this->belongsTo('App\Models\Ticket', 'parent_chat_id');
+    }
+
     /**
      * Return the child messages array for this model.
      *
@@ -86,14 +91,22 @@ class Ticket extends Model
 	* Get Read/Unread Status
 	*/
 
-	public function getUnreadMessageAttribute() {
-		if($this->childrens()->count() == 0) {
-			$status = $this->is_read;
-		}
-		else {
-			$status = $this->childrens()->orderBy('id', 'desc')->first()->is_read;
-		}
-        return $status;
+	public function getUnreadMessage($user) {
+        $count = 0;
+        $children = $this->childrens();
+        if ($user->is_admin) {
+            if ($this->assign_id) return 1;
+            $count = $this->receiver_id == $user->id && $this->is_read == 0 ? 0 : 1;
+            $count += $children->where('receiver_id', $user->id)->where('is_read', 0)->count();
+            return $count > 0 ? 0 : 1;
+        } else if ($user->is_staff) {
+            if ($this->assign_id != $user->id) return 1;
+            $count = $this->receiver_id == $user->company->owner->id && $this->is_read == 0 ? 0 : 1;
+            $count += $children->where('receiver_id', $user->company->owner->id)->where('is_read', 0)->count();
+        } else {
+            $count = $children->where('receiver_id', $user->id)->where('is_read', 0)->count();
+        }
+        return $count > 0 ? 0 : 1;
     }
 
 

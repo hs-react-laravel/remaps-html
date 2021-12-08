@@ -98,6 +98,8 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::resource('tickets', TicketController::class);
     Route::get('tickets/{id}/download-document', [TicketController::class, 'download_document'])->name('tickets.download');
     Route::get('tickets/{id}/close', [TicketController::class, 'close_ticket'])->name('tickets.close');
+    Route::get('ticket/ra', [TicketController::class, 'read_all'])->name('tickets.read.all');
+    Route::post('tickets/api', [TicketController::class, 'getTickets'])->name('tickets.api');
 
     Route::resource('transactions', TransactionController::class);
     Route::resource('email-templates', EmailTemplateController::class);
@@ -187,6 +189,8 @@ Route::group(['prefix'=>'staff', 'middleware' => 'check.onlystaff'], function ()
     Route::resource('stafftk', StaffTicketController::class);
     Route::get('stafftk/{id}/download-document', [StaffTicketController::class, 'download_document'])->name('stafftk.download');
     Route::get('stafftk/{id}/close', [StaffTicketController::class, 'close_ticket'])->name('stafftk.close');
+    Route::get('stafftks/ra', [StaffTicketController::class, 'read_all'])->name('stafftk.read.all');
+    Route::post('stafftk/api', [StaffTicketController::class, 'getTickets'])->name('stafftk.api');
 });
 Route::group(['middleware' => 'auth:customer', 'prefix'=>'customer'], function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboardCustomer'])->name('dashboard.customer');
@@ -202,6 +206,8 @@ Route::group(['middleware' => 'auth:customer', 'prefix'=>'customer'], function (
     Route::resource('tk', TKController::class);
     Route::get('tk/{id}/download-document', [TKController::class, 'download_document'])->name('tk.download');
     Route::get('tk/{id}/close', [TKController::class, 'close_ticket'])->name('tk.close');
+    Route::get('tks/ra', [TKController::class, 'read_all'])->name('tk.read.all');
+    Route::post('tk/api', [TKController::class, 'getTickets'])->name('tk.api');
 
     Route::resource('od', ODController::class);
     Route::resource('tr', TRController::class);

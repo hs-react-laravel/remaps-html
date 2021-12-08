@@ -29,7 +29,7 @@ class TicketRequest extends FormRequest
             case 'GET':{
                 return [
                     'subject' => 'bail|required_if:file_servcie_id,0',
-                    'message' => 'bail|required|string'
+                    'message' => 'bail|nullable|required_if:assign_id,null|string'
                 ];
             }
             case 'DELETE': {
@@ -44,7 +44,7 @@ class TicketRequest extends FormRequest
             case 'PUT':
             case 'PATCH': {
                     return [
-                        'message' => 'bail|required|string'
+                        'message' => 'bail|nullable|required_if:assign_id,null|string'
                     ];
                 }
             default:break;

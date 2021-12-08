@@ -88,7 +88,28 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany('App\Models\Ticket', 'receiver_id');
     }
     public function getUnreadTicketsAttribute() {
-		return $this->tickets()->where('is_read', 0)->count();
+        $user = $this;
+        if ($this->is_admin) {
+            return $this->company->owner->tickets()
+                ->where('parent_chat_id', 0)
+                ->whereNull('assign_id')
+                ->where('is_read', 0)->count()
+            + $this->company->owner->tickets()->whereHas('parent', function($query) use($user){
+                $query->whereNull('assign_id');
+            })
+            ->where('is_read', 0)->count();
+        } else if ($this->is_staff) {
+            return $this->company->owner->tickets()
+                ->where('parent_chat_id', 0)
+                ->where('assign_id', $user->id)
+                ->where('is_read', 0)->count()
+            + $this->company->owner->tickets()->whereHas('parent', function($query) use($user){
+                $query->where('assign_id', $user->id);
+            })
+            ->where('is_read', 0)->count();
+        } else {
+            return $this->tickets()->where('is_read', 0)->count();
+        }
     }
     public function fileServices()
     {

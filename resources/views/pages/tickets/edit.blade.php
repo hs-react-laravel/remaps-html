@@ -83,7 +83,7 @@
             </div>
             @endif
             <button type="submit" class="btn btn-primary me-1">Send</button>
-            <button type="button" class="btn btn-flat-secondary me-1" onclick="history.back(-1)">Cancel</button>
+            <a type="button" class="btn btn-flat-secondary me-1" href="{{ route('tickets.index') }}">Cancel</a>
           {{ Form::close() }}
         </div>
       </div>
