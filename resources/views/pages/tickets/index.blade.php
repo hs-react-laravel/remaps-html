@@ -41,7 +41,7 @@
               name="open_check"
               id="open_check"
             />
-            <label class="form-check-label" for="open_check">Opened</label>
+            <label class="form-check-label" for="open_check">Open</label>
           </div>
           <a href="{{ route('tickets.read.all') }}" class="btn btn-icon btn-secondary">
             Mark All as Read
