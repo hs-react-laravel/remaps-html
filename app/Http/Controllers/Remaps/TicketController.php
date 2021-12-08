@@ -178,17 +178,12 @@ class TicketController extends MasterController
     public function read_all()
     {
         $user = $this->user;
-        Ticket::where('receiver_id', $user->company->owner->id)
+        $parent_ids = Ticket::where('receiver_id', $user->company->owner->id)
             ->where('parent_chat_id', 0)
             ->whereNull('assign_id')
-            ->update([
-                'is_read' => 1
-            ]);
-        Ticket::where('receiver_id', $user->company->owner->id)
-            ->whereNull('assign_id')
-            ->children->update([
-                'is_read' => 1
-            ]);
+            ->pluck('id');
+        Ticket::whereIn('id', $parent_ids)->update(['is_read' => 1]);
+        Ticket::whereIn('parent_chat_id', $parent_ids)->update(['is_read' => 1]);
         return redirect(route('tickets.index'));
     }
 
