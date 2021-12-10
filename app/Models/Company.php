@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Helpers\Helper;
 
 class Company extends Model
 {
@@ -120,7 +121,9 @@ class Company extends Model
         return $this->hasMany('App\Models\TuningCreditGroup');
     }
     public function getCreatedAtAttribute($value) {
-        return \Carbon\Carbon::parse($value)->format('d M Y g:i A');
+        $timezone = Helper::companyTimeZone();
+        $tz = Timezone::find($timezone ?? 1);
+        return \Carbon\Carbon::parse($value)->tz($tz->name)->format('d M Y h:i A');
     }
     public function getTotalCustomersAttribute($value) {
         if(!$this->users()){
@@ -131,6 +134,8 @@ class Company extends Model
 
     }
     public function getUpdatedAtAttribute($value) {
-        return \Carbon\Carbon::parse($value)->format('d M Y g:i A');
+        $timezone = Helper::companyTimeZone();
+        $tz = Timezone::find($timezone ?? 1);
+        return \Carbon\Carbon::parse($value)->tz($tz->name)->format('d M Y h:i A');
     }
 }

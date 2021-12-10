@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Helpers\Helper;
 
 class FileService extends Model
 {
@@ -65,9 +66,13 @@ class FileService extends Model
         return $this->make.' '.$this->model.' '.$this->generation;
     }
     public function getCreatedAtAttribute($value) {
-        return \Carbon\Carbon::parse($value)->format('d M Y g:i A');
+        $timezone = Helper::companyTimeZone();
+        $tz = Timezone::find($timezone ?? 1);
+        return \Carbon\Carbon::parse($value)->tz($tz->name)->format('d M Y h:i A');
     }
     public function getUpdatedAtAttribute($value) {
-        return \Carbon\Carbon::parse($value)->format('d M Y g:i A');
+        $timezone = Helper::companyTimeZone();
+        $tz = Timezone::find($timezone ?? 1);
+        return \Carbon\Carbon::parse($value)->tz($tz->name)->format('d M Y h:i A');
     }
 }

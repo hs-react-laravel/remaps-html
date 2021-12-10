@@ -40,6 +40,10 @@
         $daymark_close = substr($day, 0, 3).'_close';
         $daymark_from = substr($day, 0, 3).'_from';
         $daymark_to = substr($day, 0, 3).'_to';
+        $timezone = Helper::companyTimeZone();
+        $tz = \App\Models\Timezone::find($timezone ?? 1);
+        $day_from = $company->$daymark_from ? \Carbon\Carbon::parse($company->$daymark_from)->tz($tz->name)->format('H:i') : $company->$daymark_from;
+        $day_to = $company->$daymark_to ? \Carbon\Carbon::parse($company->$daymark_to)->tz($tz->name)->format('H:i') : $company->$daymark_to;
       @endphp
       <label class="form-label mt-1">{{ ucfirst($day) }}</label>
       <div class="row" style="align-items: center">
@@ -51,7 +55,7 @@
               class="form-control"
               id="{{ $daymark_from }}"
               name="{{ $daymark_from }}"
-              value="{{ $company->$daymark_from }}"
+              value="{{ $day_from }}"
               @if ($company->$daymark_close) disabled @endif />
           </div>
         </div>
@@ -63,7 +67,7 @@
               class="form-control"
               id="{{ $daymark_to }}"
               name="{{ $daymark_to }}"
-              value="{{ $company->$daymark_to }}"
+              value="{{ $day_to }}"
               @if ($company->$daymark_close) disabled @endif />
           </div>
         </div>

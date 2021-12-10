@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\MasterController;
 use App\Http\Requests\CompanySettingRequest;
 use App\Models\Timezone;
+use App\Helpers\Helper;
 
 class CompanySettingController extends MasterController
 {
@@ -60,6 +61,25 @@ class CompanySettingController extends MasterController
                 $this->user->company->styling->data = json_encode($styling);
                 $this->user->company->styling->save();
             }
+
+            $days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+            foreach($days as $day) {
+                $daymark_from = $day.'_from';
+                $daymark_to = $day.'_to';
+                if ($request->$daymark_from) {
+                    $timezone = Helper::companyTimeZone();
+                    $tz = Timezone::find($timezone ?? 1);
+                    $utc_from = \Carbon\Carbon::parse(new \DateTime($request->$daymark_from, new \DateTimeZone($tz->name)))->tz('UTC')->format('H:i');
+                    $request->merge([$daymark_from => $utc_from]);
+                }
+                if ($request->$daymark_to) {
+                    $timezone = Helper::companyTimeZone();
+                    $tz = Timezone::find($timezone ?? 1);
+                    $utc_to = \Carbon\Carbon::parse(new \DateTime($request->$daymark_to, new \DateTimeZone($tz->name)))->tz('UTC')->format('H:i');
+                    $request->merge([$daymark_to => $utc_to]);
+                }
+            }
+
             $this->user->company->update($request->all());
         } catch (\Exception $ex) {
             session()->flash('error', $ex->getMessage());

@@ -94,3 +94,10 @@
 .theme-info .ticket-open td { color: #00cfe8 !important; font-weight: bold; }
 .theme-warning .ticket-open td { color: #ff9f43 !important; font-weight: bold; }
 .theme-dark .ticket-open td { color: #4b4b4b !important; font-weight: bold; }
+
+.theme-secondary .input-group:focus-within .input-group-text { border-color: #82868b }
+.theme-success .input-group:focus-within .input-group-text { border-color: #28c76f }
+.theme-danger .input-group:focus-within .input-group-text { border-color: #ea5455 }
+.theme-info .input-group:focus-within .input-group-text { border-color: #00cfe8 }
+.theme-warning .input-group:focus-within .input-group-text { border-color: #ff9f43 }
+.theme-dark .input-group:focus-within .input-group-text { border-color: #4b4b4b }

@@ -2,6 +2,20 @@
   <form class="form" action="{{ route('company.setting.store') }}" method="POST" enctype="multipart/form-data">
     <input type="hidden" name="tab" value="name" />
     @csrf
+
+    <div class="row">
+      <div class="col-md-4 col-12">
+        <div class="mb-1">
+          <label class="form-label" for="post-code">Timezone</label>
+          <select class="select2 form-select" id="timezone-select" name="timezone">
+            @foreach ($timezones as $tz)
+              <option value="{{ $tz->id }}" @if($company->timezone == $tz->id) selected @endif>{{ $tz->name }}</option>
+            @endforeach
+          </select>
+        </div>
+      </div>
+    </div>
+
     <div class="row">
       <div class="col-md-4 col-12">
         <div class="mb-1">
@@ -95,19 +109,6 @@
             placeholder="Postal Code"
             name="post_code"
             value="{{ $company->post_code }}" />
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-4 col-12">
-        <div class="mb-1">
-          <label class="form-label" for="post-code">Timezone</label>
-          <select class="select2 form-select" id="timezone-select" name="timezone">
-            @foreach ($timezones as $tz)
-              <option value="{{ $tz->id }}" @if($company->timezone == $tz->id) selected @endif>{{ $tz->name }}</option>
-            @endforeach
-          </select>
         </div>
       </div>
     </div>

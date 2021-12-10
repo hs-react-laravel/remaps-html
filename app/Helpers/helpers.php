@@ -196,4 +196,10 @@ class Helper
 		$formatter = new \NumberFormatter($locale . '@currency=' . $currencyCode, \NumberFormatter::CURRENCY);
 		return $formatter->getSymbol(\NumberFormatter::CURRENCY_SYMBOL);
 	}
+
+    public static function companyTimeZone()
+    {
+        $company = Company::where('v2_domain_link', url(''))->first();
+        return $company->timezone;
+    }
 }

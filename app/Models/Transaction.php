@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Helpers\Helper;
 
 class Transaction extends Model
 {
@@ -42,7 +43,9 @@ class Transaction extends Model
      * @return string
      */
     public function getCreatedAtAttribute($value) {
-        return \Carbon\Carbon::parse($value)->format('d M Y g:i A');
+        $timezone = Helper::companyTimeZone();
+        $tz = Timezone::find($timezone ?? 1);
+        return \Carbon\Carbon::parse($value)->tz($tz->name)->format('d M Y h:i A');
     }
 
     /**
@@ -52,6 +55,8 @@ class Transaction extends Model
      * @return string
      */
     public function getUpdatedAtAttribute($value) {
-        return \Carbon\Carbon::parse($value)->format('d M Y g:i A');
+        $timezone = Helper::companyTimeZone();
+        $tz = Timezone::find($timezone ?? 1);
+        return \Carbon\Carbon::parse($value)->tz($tz->name)->format('d M Y h:i A');
     }
 }
