@@ -132,8 +132,13 @@ class TicketController extends MasterController
         $ticket->is_closed = 0;
         $ticket->save();
 
+        $mailing = $this->user->company->owner->email;
+        if ($ticket->assign_id) {
+            $mailing = User::find($ticket->assign_id)->email;
+        }
+
         try{
-            Mail::to($this->user->company->owner->email)->send(new TicketReply($this->user,$ticket->subject));
+            Mail::to($mailing)->send(new TicketReply($this->user,$ticket->subject));
         }catch(\Exception $e){
             session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
         }

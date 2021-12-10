@@ -36,7 +36,7 @@
                 </div>
                 <div class="my-auto">
                   <h4 class="fw-bolder mb-0">{{ $data['fs_pending'] }}</h4>
-                  <p class="card-text font-small-3 mb-0">Upload Pending</p>
+                  <p class="card-text font-small-3 mb-0">{{ __('locale.dash_PendingFileService') }}</p>
                 </div>
               </div>
             </div>
