@@ -84,9 +84,9 @@
                   <tr>
                       <th>Modified file</th>
                       <td>
-                        <a href="{{ url('file-service/'.$entry->id.'/download-modified') }}">download</a>
+                        <a href="{{ route('fs.download.modified', ['id' => $entry->id]) }}">download</a>
                         @if($entry->status == 'Waiting')
-                          &nbsp;&nbsp;<a href="{{ route('fs.download.modified', ['id' => $entry->id]) }}">delete</a>
+                          &nbsp;&nbsp;<a href="{{ route('fs.delete.modified', ['id' => $entry->id]) }}">delete</a>
                         @endif
                       </td>
                   </tr>
