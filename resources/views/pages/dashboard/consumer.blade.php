@@ -194,14 +194,14 @@
               <form action="{{ route('dashboard.reseller') }}" method="POST">
                 @csrf
                 <label class="mb-1">ID</label>
-                <input type="text" class="form-control" id="reseller_id" />
+                <input type="text" class="form-control" id="reseller_id" name="reseller_id" />
                 @if ($data['resellerId'] && $data['evcCount'])
                   <label class="mb-1">EVC Credits</label>
                   <p>{{ $data['evcCount'] }}</p>
                 @endif
+                <button type="submit" class="btn btn-primary mt-2">Submit</button>
               </form>
             </div>
-            <button type="submit" class="btn btn-primary mt-2">Submit</button>
           </div>
         </div>
         @endif

@@ -103,7 +103,7 @@ class FileServiceController extends MasterController
         } else {
             $request->request->remove('modified_file');
         }
-        if ($request->status == 'C' || $request->status == 'W') {
+        if ($request->status == 'C') {
             try{
                 Mail::to($fs->user->email)->send(new FileServiceModified($fs));
             }catch(\Exception $e){

@@ -81,7 +81,7 @@ class DashboardController extends MasterController
         }
         $data['openStatus'] = $open_status;
         $data['evcCount'] = '';
-        if ($this->company->reseller_id && $this->user->reseller_password) {
+        if ($this->company->reseller_id && $this->company->reseller_password) {
             $url = "https://evc.de/services/api_resellercredits.asp";
             $dataArray = array(
                 'apiid'=>'j34sbc93hb90',
@@ -152,7 +152,7 @@ class DashboardController extends MasterController
                 $this->user->reseller_id = $request->reseller_id;
                 $this->user->save();
             } else {
-                session()->flash('error', __('admin.opps').'\r\n'.$response);
+                return redirect(route('dashboard.customer'))->with('error', __('admin.opps').'\r\n'.$response);
             }
         } else {
             $this->user->reseller_id = '';
