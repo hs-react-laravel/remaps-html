@@ -141,12 +141,18 @@
                     <input
                       type="text"
                       class="form-control"
+                      id="file_name"
+                      name="file_name"
+                      readonly />
+                    <input
+                      type="hidden"
+                      class="form-control"
                       id="orginal_file"
                       name="orginal_file"
                       readonly />
                   </div>
                 </div>
-                <div class="progress progress-bar-success" style="display: none">
+                <div class="progress progress-bar-{{ substr($styling['navbarColor'], 3) }}" style="display: none">
                   <div
                     class="progress-bar progress-bar-striped progress-bar-animated"
                     role="progressbar"
@@ -207,7 +213,6 @@
       });
     });
     $('body').on('click', 'label.tuning-option-label', function(){
-      console.log('aaa');
       var parent = $(this).parent();
       $(parent).find('.tuning-option-check').trigger('click');
     })
@@ -217,6 +222,7 @@
   hidden_upload.onchange = evt => {
     const [file] = hidden_upload.files
     if (file) {
+      $('#file_name').val(file.name)
       $("#uploadForm").submit();
     }
   }

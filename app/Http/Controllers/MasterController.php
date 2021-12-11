@@ -135,7 +135,7 @@ class MasterController extends BaseController
                         'direction' => 'ltr',
                     ];
                     $styleObj = Styling::where('company_id', $this->company->id)->first();
-                    if (!$styleObj) {
+                    if ($styleObj) {
                         $data = (array)json_decode($styleObj->data);
                     }
                     view()->share('styling', $data);

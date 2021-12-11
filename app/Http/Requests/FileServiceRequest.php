@@ -43,8 +43,8 @@ class FileServiceRequest extends FormRequest
                     'tuning_type_id' => 'bail|required|integer'
                 ];
 
-                if($this->upload_file == null){
-                    $rules['upload_file'] = 'bail|required';
+                if($this->orginal_file == null){
+                    $rules['orginal_file'] = 'bail|required';
                 }
 
                 return $rules;
@@ -69,8 +69,8 @@ class FileServiceRequest extends FormRequest
                         'tuning_type_id' => 'bail|required|integer'
                     ];
 
-                    if($this->upload_file == null){
-                        $rules['upload_file'] = 'bail|required';
+                    if($this->orginal_file == null){
+                        $rules['orginal_file'] = 'bail|required';
                     }
 
                     return $rules;
