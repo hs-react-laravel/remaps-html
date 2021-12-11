@@ -142,7 +142,7 @@
           <p>{{ $company->name }}</p>
           <p>{{ $company->address_line_1 }} {{ $company->address_line_2 }}</p>
         </div>
-        @if ($is_evc)
+        @if ($is_evc && $company->vat_number)
           <div class="card-header">
             <h4 class="card-title">Financial Information</h4>
           </div>
@@ -174,34 +174,37 @@
       </div>
     </div>
     <div class="col-6">
-      <div class="card">
-        @if (!$is_evc)
-        <div class="card-header">
-          <h4 class="card-title">Financial Information</h4>
-        </div>
-        <div class="card-body">
-          <p>VAT Number: {{ $company->vat_number }}</p>
-        </div>
-        @else
-        <div class="card-header">
-          <h4 class="card-title">EVC Reseller ID</h4>
-        </div>
-        <div class="card-body">
-          <div class="col-md-6 col-xl-3">
-            <form action="{{ route('dashboard.reseller') }}" method="POST">
-              @csrf
-              <label class="mb-1">ID</label>
-              <input type="text" class="form-control" id="reseller_id" />
-              @if ($data['resellerId'] && $data['evcCount'])
-                <label class="mb-1">EVC Credits</label>
-                <p>{{ $data['evcCount'] }}</p>
-              @endif
-            </form>
+        @if (!$is_evc && $company->vat_number)
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">Financial Information</h4>
           </div>
-          <button type="submit" class="btn btn-primary mt-2">Submit</button>
+          <div class="card-body">
+            <p>VAT Number: {{ $company->vat_number }}</p>
+          </div>
         </div>
         @endif
-      </div>
+        @if ($is_evc)
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">EVC Reseller ID</h4>
+          </div>
+          <div class="card-body">
+            <div class="col-md-6 col-xl-3">
+              <form action="{{ route('dashboard.reseller') }}" method="POST">
+                @csrf
+                <label class="mb-1">ID</label>
+                <input type="text" class="form-control" id="reseller_id" />
+                @if ($data['resellerId'] && $data['evcCount'])
+                  <label class="mb-1">EVC Credits</label>
+                  <p>{{ $data['evcCount'] }}</p>
+                @endif
+              </form>
+            </div>
+            <button type="submit" class="btn btn-primary mt-2">Submit</button>
+          </div>
+        </div>
+        @endif
       <div class="card">
         <div class="card-header">
           <h4 class="card-title">Give Rating to Company</h4>
