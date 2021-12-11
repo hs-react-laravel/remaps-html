@@ -66,9 +66,9 @@
                       $groupCreditTire = $tire->tuningCreditGroups()->where('tuning_credit_group_id', $entry->id)->withPivot('from_credit', 'for_credit')->first();
                     @endphp
                     <td @if($entry->set_default_tier) style="font-weight: bold" @endif">
-                      {{ config('constants.currency_sign') }} {{ number_format(@$groupCreditTire->pivot->from_credit, 2) }}
+                      {{ config('constants.currency_signs')[$company->paypal_currency_code] }} {{ number_format(@$groupCreditTire->pivot->from_credit, 2) }}
                       ->
-                      {{ config('constants.currency_sign') }} {{ number_format(@$groupCreditTire->pivot->for_credit, 2) }}
+                      {{ config('constants.currency_signs')[$company->paypal_currency_code] }} {{ number_format(@$groupCreditTire->pivot->for_credit, 2) }}
                     </td>
                   @endforeach
                   <td class="td-actions" @if($entry->set_default_tier) style="font-weight: bold" @endif">

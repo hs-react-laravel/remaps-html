@@ -107,6 +107,7 @@ class OrderController extends MasterController
             $pdf->render();
             return $pdf->stream($invoiceName);
         }catch(\Exception $e){
+            dd($e);
             // \Alert::error(__('admin.opps'))->flash();
             return redirect(url('admin/order'));
         }

@@ -4,7 +4,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Invoice</title>
 </head>
-
 <body>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
@@ -188,9 +187,9 @@
         </tr>
         <tr>
           <td style="font-size:17px; font-family:Arial, Helvetica, sans-serif; height:25px;padding:10px; border-bottom:solid 2px #aaaaaa">{{ $order->description }}</td>
-          <td align="right" style="font-size:17px; font-family:Arial, Helvetica, sans-serif; height:25px; padding:10px; border-bottom:solid 2px #aaaaaa">{{ config('site.currency_sign') }} {{ number_format(($order->amount-$order->tax_amount), 2) }}</td>
+          <td align="right" style="font-size:17px; font-family:Arial, Helvetica, sans-serif; height:25px; padding:10px; border-bottom:solid 2px #aaaaaa">{{ config('constants.currency_signs')[$company->paypal_currency_code] }} {{ number_format(($order->amount-$order->tax_amount), 2) }}</td>
           <td align="right" style="font-size:17px; font-family:Arial, Helvetica, sans-serif; height:25px;padding:10px; border-bottom:solid 2px #aaaaaa">1</td>
-          <td align="right" style="font-size:17px; font-family:Arial, Helvetica, sans-serif; height:25px; padding:10px; border-bottom:solid 2px #aaaaaa">{{ config('site.currency_sign') }} {{ number_format(($order->amount-$order->tax_amount), 2) }}</td>
+          <td align="right" style="font-size:17px; font-family:Arial, Helvetica, sans-serif; height:25px; padding:10px; border-bottom:solid 2px #aaaaaa">{{ config('constants.currency_signs')[$company->paypal_currency_code] }} {{ number_format(($order->amount-$order->tax_amount), 2) }}</td>
         </tr>
       </table></td>
       </tr>
@@ -199,20 +198,20 @@
         <tr>
           <td width="56%" style="font-size:17px; font-family:Arial, Helvetica, sans-serif; height:10px;padding:10px;">Subtotal</td>
             <td width="44%" align="right" style="font-size:17px; font-family:Arial, Helvetica, sans-serif; height:25px; padding:10px;">
-                {{ config('site.currency_sign') }} {{ number_format(($order->amount-$order->tax_amount), 2) }}
+                {{ config('constants.currency_signs')[$company->paypal_currency_code] }} {{ number_format(($order->amount-$order->tax_amount), 2) }}
             </td>
         </tr>
         @if($order->vat_number != null)
           <tr>
             <td style="font-size:17px; font-family:Arial, Helvetica, sans-serif; height:10px;padding:10px;">VAT ({{ number_format($order->vat_percentage, 2) }}%)</td>
-            <td align="right" style="font-size:17px; font-family:Arial, Helvetica, sans-serif; height:25px; padding:10px;">{{ config('site.currency_sign') }} {{ number_format($order->tax_amount, 2) }}</td>
+            <td align="right" style="font-size:17px; font-family:Arial, Helvetica, sans-serif; height:25px; padding:10px;">{{ config('constants.currency_signs')[$company->paypal_currency_code] }} {{ number_format($order->tax_amount, 2) }}</td>
           </tr>
         @endif
         <tr>
           <td style="font-size:17px; font-family:Arial, Helvetica, sans-serif; height:10px;padding:10px; border-top:solid 2px #aaaaaa"><strong>Total</strong></td>
             <td align="right" style="font-size:17px; font-family:Arial, Helvetica, sans-serif; height:10px;padding:10px; border-top:solid 2px #aaaaaa">
                 <strong>
-                    {{ config('site.currency_sign') }} {{ number_format($order->amount, 2) }}
+                    {{ config('constants.currency_signs')[$company->paypal_currency_code] }} {{ number_format($order->amount, 2) }}
                 </strong>
             </td>
         </tr>
