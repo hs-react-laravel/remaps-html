@@ -103,6 +103,8 @@ class FileServiceController extends MasterController
 					session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
 				}
             }
+        } else {
+            $request->request->remove('modified_file');
         }
         //assign to staff
         if ($request->assign) {

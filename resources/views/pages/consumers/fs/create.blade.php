@@ -253,9 +253,6 @@
           $('#orginal_file').val(resp.file);
         }else{
         }
-        setTimeout(() => {
-          $(".progress").hide();
-        }, 1000);
       }
     });
   })

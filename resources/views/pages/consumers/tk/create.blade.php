@@ -134,9 +134,6 @@
             $('#document').val(resp.file);
           }else{
           }
-          setTimeout(() => {
-            $(".progress").hide();
-          }, 1000);
         }
       });
     })

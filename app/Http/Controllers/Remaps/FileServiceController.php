@@ -97,9 +97,11 @@ class FileServiceController extends MasterController
         $fs = FileService::find($id);
         // upload file
         if ($request->modified_file) {
-            if ($fs->status != 'C') {
+            if ($request->status != 'C') {
                 $request->request->add(['status' => 'W']);
             }
+        } else {
+            $request->request->remove('modified_file');
         }
         if ($request->status == 'C' || $request->status == 'W') {
             try{
