@@ -32,7 +32,7 @@
     <div class="row mb-1">
       <div class="col-xl-4 col-md-6">
         <label class="form-label" for="paypal_currency_code">Paypal currency code</label>
-        <select name="paypal_currency_code" class="form-control">
+        <select name="paypal_currency_code" class="form-select">
           @foreach (config('constants.currencies') as $code)
             <option value="{{ $code }}" @if ($entry->paypal_currency_code == $code) selected @endif>{{ $code }}</option>
           @endforeach
