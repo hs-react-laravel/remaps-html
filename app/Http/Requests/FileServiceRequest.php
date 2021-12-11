@@ -108,11 +108,6 @@ class FileServiceRequest extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            if($this->has('upload_file')){
-                if ($this->file('upload_file')->getSize() > '10485760') {
-                    $validator->errors()->add('file', 'File shouldn\'t be greater than 10 MB. Please select another file.');
-                }
-            }
             $user = Auth::guard('customer')->user();
 
             if(!$user->company->owner->is_master){

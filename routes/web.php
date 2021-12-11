@@ -94,12 +94,14 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::get('fileservices/{id}/create-ticket', [FileServiceController::class, 'create_ticket'])->name('fileservice.tickets.create');
     Route::post('fileservices/{id}/store-ticket', [FileServiceController::class, 'store_ticket'])->name('fileservice.tickets.store');
     Route::post('fileservices/api', [FileServiceController::class, 'getFileServices'])->name('fileservices.api');
+    Route::post('fileservices/api/upload', [FileServiceController::class, 'uploadFile'])->name('fileservices.api.upload');
 
     Route::resource('tickets', TicketController::class);
     Route::get('tickets/{id}/download-document', [TicketController::class, 'download_document'])->name('tickets.download');
     Route::get('tickets/{id}/close', [TicketController::class, 'close_ticket'])->name('tickets.close');
     Route::get('ticket/ra', [TicketController::class, 'read_all'])->name('tickets.read.all');
     Route::post('tickets/api', [TicketController::class, 'getTickets'])->name('tickets.api');
+    Route::post('tickets/api/upload/ticket', [TicketController::class, 'uploadTicketFile'])->name('tickets.api.upload');
 
     Route::resource('transactions', TransactionController::class);
     Route::resource('email-templates', EmailTemplateController::class);
@@ -203,6 +205,7 @@ Route::group(['middleware' => 'auth:customer', 'prefix'=>'customer'], function (
     Route::post('/fs/{id}/store-ticket', [FSController::class, 'store_ticket'])->name('fs.tickets.store');
     Route::post('fs/api', [FSController::class, 'getFileServices'])->name('fs.api');
     Route::post('fs/api/checkopen', [FSController::class, 'checkOpenStatus'])->name('fs.checkopen.api');
+    Route::post('fs/api/upload', [FSController::class, 'uploadFile'])->name('fs.api.upload');
 
     Route::resource('tk', TKController::class);
     Route::get('tk/{id}/download-document', [TKController::class, 'download_document'])->name('tk.download');

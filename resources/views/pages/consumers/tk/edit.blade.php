@@ -65,8 +65,27 @@
             </div>
             <div class="row mb-1">
               <div class="col-12">
-                <label for="file" class="form-label">File</label>
-                <input class="form-control" type="file" id="file" name="upload_file" />
+                <div style="margin-bottom: 2px; cursor: pointer">
+                  <label for="document" class="form-label">File</label>
+                  <div class="input-group" onclick="onUpload()">
+                    <span class="input-group-text">Choose File</span>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="document"
+                      name="document"
+                      readonly />
+                  </div>
+                </div>
+                <div class="progress progress-bar-success" style="display: none">
+                  <div
+                    class="progress-bar progress-bar-striped progress-bar-animated"
+                    role="progressbar"
+                    aria-valuenow="0"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  ></div>
+                </div>
               </div>
             </div>
             <div class="col-12">
@@ -81,7 +100,63 @@
       @include('blocks.fileservice_info')
       @include('blocks.car_info')
     </div>
+    {{ Form::open(array('id' => 'uploadForm', 'method' => 'POST', 'enctype' => 'multipart/form-data')) }}
+      <input type="file" name="file" id="hidden_upload" style="display: none" />
+    {{ Form::close() }}
   </div>
 </section>
 <!-- Basic Vertical form layout section end -->
+@endsection
+
+@section('page-script')
+  <script>
+    function onUpload() {
+      $('#hidden_upload').trigger('click');
+    }
+    hidden_upload.onchange = evt => {
+      const [file] = hidden_upload.files
+      if (file) {
+        $("#uploadForm").submit();
+      }
+    }
+    $("#uploadForm").on('submit', function(e){
+      e.preventDefault();
+      $.ajax({
+        xhr: function() {
+          var xhr = new window.XMLHttpRequest();
+          xhr.upload.addEventListener("progress", function(evt) {
+            if (evt.lengthComputable) {
+              var percentComplete = Math.round((evt.loaded / evt.total) * 100);
+              $(".progress-bar").width(percentComplete + '%');
+              $(".progress-bar").html(percentComplete+'%');
+            }
+          }, false);
+          return xhr;
+        },
+        type: 'POST',
+        url: "{{ route('tickets.api.upload') }}",
+        data: new FormData(this),
+        contentType: false,
+        cache: false,
+        processData:false,
+        beforeSend: function(){
+          $(".progress-bar").width('0%');
+          $(".progress").show();
+        },
+        error:function(){
+
+        },
+        success: function(resp){
+          if(resp.status){
+            $('#uploadForm')[0].reset();
+            $('#document').val(resp.file);
+          }else{
+          }
+          setTimeout(() => {
+            $(".progress").hide();
+          }, 1000);
+        }
+      });
+    })
+  </script>
 @endsection

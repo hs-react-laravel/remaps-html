@@ -23,6 +23,9 @@
       @include('blocks.fileservice_info')
       @include('blocks.car_info')
     </div>
+    {{ Form::open(array('id' => 'uploadForm', 'method' => 'POST', 'enctype' => 'multipart/form-data')) }}
+      <input type="file" name="file" id="hidden_upload" style="display: none" />
+    {{ Form::close() }}
   </div>
 </section>
 
@@ -36,4 +39,54 @@
   <!-- Page js files -->
   <script src="{{ asset(mix('js/scripts/forms/form-tooltip-valid.js'))}}"></script>
   <script src="{{ asset(mix('js/scripts/forms/form-select2.js')) }}"></script>
+  <script>
+    function onUpload() {
+      $('#hidden_upload').trigger('click');
+    }
+    hidden_upload.onchange = evt => {
+      const [file] = hidden_upload.files
+      if (file) {
+        $("#uploadForm").submit();
+      }
+    }
+    $("#uploadForm").on('submit', function(e){
+      e.preventDefault();
+      $.ajax({
+        xhr: function() {
+          var xhr = new window.XMLHttpRequest();
+          xhr.upload.addEventListener("progress", function(evt) {
+            if (evt.lengthComputable) {
+              var percentComplete = Math.round((evt.loaded / evt.total) * 100);
+              $(".progress-bar").width(percentComplete + '%');
+              $(".progress-bar").html(percentComplete+'%');
+            }
+          }, false);
+          return xhr;
+        },
+        type: 'POST',
+        url: "{{ route('tickets.api.upload') }}",
+        data: new FormData(this),
+        contentType: false,
+        cache: false,
+        processData:false,
+        beforeSend: function(){
+          $(".progress-bar").width('0%');
+          $(".progress").show();
+        },
+        error:function(){
+
+        },
+        success: function(resp){
+          if(resp.status){
+            $('#uploadForm')[0].reset();
+            $('#document').val(resp.file);
+          }else{
+          }
+          setTimeout(() => {
+            $(".progress").hide();
+          }, 1000);
+        }
+      });
+    })
+  </script>
 @endsection

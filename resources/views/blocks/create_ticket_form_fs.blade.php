@@ -18,8 +18,27 @@
 
     <div class="row mb-1">
       <div class="col-12">
-        <label for="file" class="form-label">File</label>
-        <input class="form-control" type="file" id="file" name="upload_file" />
+        <div style="margin-bottom: 2px; cursor: pointer">
+          <label for="document" class="form-label">File</label>
+          <div class="input-group" onclick="onUpload()">
+            <span class="input-group-text">Choose File</span>
+            <input
+              type="text"
+              class="form-control"
+              id="document"
+              name="document"
+              readonly />
+          </div>
+        </div>
+        <div class="progress progress-bar-success" style="display: none">
+          <div
+            class="progress-bar progress-bar-striped progress-bar-animated"
+            role="progressbar"
+            aria-valuenow="0"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          ></div>
+        </div>
       </div>
     </div>
 

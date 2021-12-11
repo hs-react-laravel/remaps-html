@@ -133,9 +133,28 @@
             </div>
 
             <div class="row mb-1">
-              <div class="col-xl-10 col-md-12 col-12">
-                <label for="file" class="form-label">File</label>
-                <input class="form-control" type="file" id="file" name="upload_file" />
+              <div class="col-12 mb-1">
+                <div style="margin-bottom: 2px">
+                  <label for="orginal_file" class="form-label">Modified file</label>
+                  <div class="input-group" onclick="onUpload()">
+                    <span class="input-group-text">Choose File</span>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="orginal_file"
+                      name="orginal_file"
+                      readonly />
+                  </div>
+                </div>
+                <div class="progress progress-bar-success" style="display: none">
+                  <div
+                    class="progress-bar progress-bar-striped progress-bar-animated"
+                    role="progressbar"
+                    aria-valuenow="0"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  ></div>
+                </div>
               </div>
             </div>
 
@@ -148,6 +167,9 @@
     </div>
 
   </form>
+  {{ Form::open(array('id' => 'uploadForm', 'route' => 'fileservices.api.upload', 'method' => 'POST', 'enctype' => 'multipart/form-data')) }}
+    <input type="file" name="file" id="hidden_upload" style="display: none" />
+  {{ Form::close() }}
 </section>
 
 @endsection
@@ -189,5 +211,53 @@
       var parent = $(this).parent();
       $(parent).find('.tuning-option-check').trigger('click');
     })
+    function onUpload() {
+    $('#hidden_upload').trigger('click');
+  }
+  hidden_upload.onchange = evt => {
+    const [file] = hidden_upload.files
+    if (file) {
+      $("#uploadForm").submit();
+    }
+  }
+  $("#uploadForm").on('submit', function(e){
+    e.preventDefault();
+    $.ajax({
+      xhr: function() {
+        var xhr = new window.XMLHttpRequest();
+        xhr.upload.addEventListener("progress", function(evt) {
+          if (evt.lengthComputable) {
+            var percentComplete = Math.round((evt.loaded / evt.total) * 100);
+            $(".progress-bar").width(percentComplete + '%');
+            $(".progress-bar").html(percentComplete+'%');
+          }
+        }, false);
+        return xhr;
+      },
+      type: 'POST',
+      url: "{{ route('fs.api.upload') }}",
+      data: new FormData(this),
+      contentType: false,
+      cache: false,
+      processData:false,
+      beforeSend: function(){
+        $(".progress-bar").width('0%');
+        $(".progress").show();
+      },
+      error:function(){
+
+      },
+      success: function(resp){
+        if(resp.status){
+          $('#uploadForm')[0].reset();
+          $('#orginal_file').val(resp.file);
+        }else{
+        }
+        setTimeout(() => {
+          $(".progress").hide();
+        }, 1000);
+      }
+    });
+  })
   </script>
 @endsection

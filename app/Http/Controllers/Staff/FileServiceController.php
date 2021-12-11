@@ -93,11 +93,7 @@ class FileServiceController extends MasterController
     {
         $fs = FileService::find($id);
         // upload file
-        $file = $request->file('upload_file');
-        if ($file) {
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(storage_path('app/public/uploads/file-services/modified'), $filename);
-            $request->request->add(['modified_file' => $filename]);
+        if ($request->modified_file) {
             if ($fs->status != 'C') {
                 $request->request->add(['status' => 'W']);
             } else {
@@ -294,11 +290,11 @@ class FileServiceController extends MasterController
                 'staff' => $entry->staff ? $entry->staff->fullname : '',
                 'created_at' => $entry->created_at,
                 'actions' => '',
-                'route.edit' => route('fileservices.edit', ['fileservice' => $entry->id]), // edit route
+                'route.edit' => route('stafffs.edit', ['stafff' => $entry->id]), // edit route
                 'route.ticket' => $entry->tickets
-                    ? route('tickets.edit', ['ticket' => $entry->tickets->id])
-                    : route('fileservice.tickets.create', ['id' => $entry->id]), // ticket route
-                'route.destroy' => route('fileservices.destroy', $entry->id), // destroy route
+                    ? route('stafftk.edit', ['stafftk' => $entry->tickets->id])
+                    : route('stafffs.tickets.create', ['id' => $entry->id]), // ticket route
+                'route.destroy' => route('stafffs.destroy', $entry->id), // destroy route
             ]);
         }
         $json_data = array(

@@ -121,12 +121,7 @@ class TicketController extends MasterController
         $new_ticket->receiver_id = $this->company->owner->id;
         $new_ticket->message = $request->message;
         $new_ticket->subject = $ticket->subject;
-        if ($request->file('upload_file')) {
-            $file = $request->file('upload_file');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(storage_path('app/public/uploads/tickets'), $filename);
-            $new_ticket->document = $filename;
-        }
+        $new_ticket->document = $request->document;
         $new_ticket->save();
 
         $ticket->is_closed = 0;

@@ -42,8 +42,27 @@
 
             <div class="row mb-1">
               <div class="col-12">
-                <label for="file" class="form-label">File</label>
-                <input class="form-control" type="file" id="file" name="upload_file" />
+                <div style="margin-bottom: 2px; cursor: pointer">
+                  <label for="document" class="form-label">File</label>
+                  <div class="input-group" onclick="onUpload()">
+                    <span class="input-group-text">Choose File</span>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="document"
+                      name="document"
+                      readonly />
+                  </div>
+                </div>
+                <div class="progress progress-bar-success" style="display: none">
+                  <div
+                    class="progress-bar progress-bar-striped progress-bar-animated"
+                    role="progressbar"
+                    aria-valuenow="0"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  ></div>
+                </div>
               </div>
             </div>
 
@@ -52,154 +71,13 @@
           </div>
         </div>
       </form>
-      @if (isset($fileService))
-      <div class="card">
-        <div class="card-header">
-          <h4 class="card-title">Customer information</h4>
-        </div>
-        <div class="table-responsive">
-          <table class="table">
-            <tbody>
-              <tr>
-                <th>Business</th>
-                <td>{{ $fileService->user->business_name }}</td>
-              </tr>
-              <tr>
-                <th>Name</th>
-                <td>{{ $fileService->user->full_name }}</td>
-              </tr>
-              <tr>
-                <th>Email address</th>
-                <td>{{ $fileService->user->email }}</td>
-              </tr>
-              <tr>
-                <th>Phone</th>
-                <td>{{ $fileService->user->phone }}</td>
-              </tr>
-              <tr>
-                <th>County</th>
-                <td>{{ $fileService->user->county }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      @endif
+      @include('blocks.customer_info')
     </div>
-    @if (isset($fileService))
-    <div class="col-md-6 col-12">
-      <div class="card">
-        <div class="card-header">
-          <h4 class="card-title">File service information</h4>
-        </div>
-        <div class="table-responsive">
-          <table class="table">
-            <tbody>
-              <tr>
-                <th>No.</th>
-                <td>{{ $fileService->displayable_id }}</td>
-              </tr>
-              <tr>
-                <th>Status</th>
-                <td>{{ $fileService->status }}</td>
-              </tr>
-              <tr>
-                <th>Date submitted</th>
-                <td>{{ $fileService->created_at }}</td>
-              </tr>
-              <tr>
-                <th>Tuning type</th>
-                <td>{{ $fileService->tuningType->label }}</td>
-              </tr>
-              <tr>
-                  <th>Tuning options</th>
-                  <td>{{ $fileService->tuningTypeOptions()->pluck('label')->implode(',') }}</td>
-              </tr>
-              <tr>
-                <th>Credits</th>
-                  @php
-                    $tuningTypeCredits = $fileService->tuningType->credits;
-                    $tuningTypeOptionsCredits = $fileService->tuningTypeOptions()->sum('credits');
-                    $credits = ($tuningTypeCredits+$tuningTypeOptionsCredits);
-                  @endphp
-                  <td>{{ number_format($credits, 2) }}</td>
-              </tr>
-              <tr>
-                  <th>Original file</th>
-                  <td><a href="{{ url('file-service/'.$fileService->id.'/download-orginal') }}">download</a></td>
-              </tr>
-              @if((($fileService->status == 'Completed') || ($fileService->status == 'Waiting')) && ($fileService->modified_file != ""))
-                <tr>
-                    <th>Modified file</th>
-                    <td>
-                      <a href="{{ url('file-service/'.$fileService->id.'/download-modified') }}">download</a>
-                      @if($fileService->status == 'Waiting')
-                        &nbsp;&nbsp;<a href="{{ url('file-service/'.$fileService->id.'/delete-modified') }}">delete</a>
-                      @endif
-                    </td>
-                </tr>
-              @endif
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header">
-          <h4 class="card-title">Car information</h4>
-        </div>
-        <div class="table-responsive">
-          <table class="table">
-            <tbody>
-              <tr>
-                <th>Car</th>
-                <td>{{ $fileService->car }}</td>
-              </tr>
-              <tr>
-                <th>Engine</th>
-                <td>{{ $fileService->engine }}</td>
-              </tr>
-              <tr>
-                <th>ECU</th>
-                <td>{{ $fileService->ecu }}</td>
-              </tr>
-              <tr>
-                <th>Engine HP</th>
-                <td>{{ $fileService->engine_hp }}</td>
-              </tr>
-              <tr>
-                <th>Year of Manufacture</th>
-                <td>{{ $fileService->year }}</td>
-              </tr>
-              <tr>
-                <th>Gearbox</th>
-                <td>{{ config('constants.file_service_gearbox')[$fileService->gearbox] }}</td>
-              </tr>
-              <tr>
-                <th>Fuel Type</th>
-                <td>{{ ($fileService->fuel_type)?config('constants.file_service_fuel_type')[$fileService->fuel_type]:'' }}</td>
-              </tr>
-              <tr>
-                <th>Reading Tool</th>
-                <td>{{ ($fileService->reading_tool)?config('constants.file_service_reading_tool')[$fileService->reading_tool]:'' }}</td>
-              </tr>
-              <tr>
-                <th>License plate</th>
-                <td>{{ $fileService->license_plate }}</td>
-              </tr>
-              <tr>
-                <th>Miles / KM</th>
-                <td>{{ $fileService->vin }}</td>
-              </tr>
-              <tr>
-                <th>Note to engineer</th>
-                <td>{{ $fileService->note_to_engineer }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-    @endif
+    @include('blocks.fileservice_info')
+    @include('blocks.car_info')
+    {{ Form::open(array('id' => 'uploadForm', 'method' => 'POST', 'enctype' => 'multipart/form-data')) }}
+      <input type="file" name="file" id="hidden_upload" style="display: none" />
+    {{ Form::close() }}
   </div>
 </section>
 
@@ -213,4 +91,54 @@
   <!-- Page js files -->
   <script src="{{ asset(mix('js/scripts/forms/form-tooltip-valid.js'))}}"></script>
   <script src="{{ asset(mix('js/scripts/forms/form-select2.js')) }}"></script>
+  <script>
+    function onUpload() {
+      $('#hidden_upload').trigger('click');
+    }
+    hidden_upload.onchange = evt => {
+      const [file] = hidden_upload.files
+      if (file) {
+        $("#uploadForm").submit();
+      }
+    }
+    $("#uploadForm").on('submit', function(e){
+      e.preventDefault();
+      $.ajax({
+        xhr: function() {
+          var xhr = new window.XMLHttpRequest();
+          xhr.upload.addEventListener("progress", function(evt) {
+            if (evt.lengthComputable) {
+              var percentComplete = Math.round((evt.loaded / evt.total) * 100);
+              $(".progress-bar").width(percentComplete + '%');
+              $(".progress-bar").html(percentComplete+'%');
+            }
+          }, false);
+          return xhr;
+        },
+        type: 'POST',
+        url: "{{ route('tickets.api.upload') }}",
+        data: new FormData(this),
+        contentType: false,
+        cache: false,
+        processData:false,
+        beforeSend: function(){
+          $(".progress-bar").width('0%');
+          $(".progress").show();
+        },
+        error:function(){
+
+        },
+        success: function(resp){
+          if(resp.status){
+            $('#uploadForm')[0].reset();
+            $('#document').val(resp.file);
+          }else{
+          }
+          setTimeout(() => {
+            $(".progress").hide();
+          }, 1000);
+        }
+      });
+    })
+  </script>
 @endsection

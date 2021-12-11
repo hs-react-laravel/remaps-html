@@ -74,14 +74,6 @@ class FileServiceController extends MasterController
             } else {
                 $request->request->add(['status' => 'O']);
             }
-            // upload file
-            $file = $request->file('upload_file');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(storage_path('app/public/uploads/file-services/orginal'), $filename);
-            // save once
-            $request->request->add([
-                'orginal_file' => $filename,
-            ]);
             $fileService = FileService::create($request->all());
             $fileService->save();
             // save tuning options and sum credits
@@ -251,12 +243,7 @@ class FileServiceController extends MasterController
         $ticket->receiver_id = $this->user->company->owner->id;
         $ticket->file_servcie_id = $id;
         $ticket->message = $request->message;
-        if ($request->file('upload_file')) {
-            $file = $request->file('upload_file');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(storage_path('app/public/uploads/tickets'), $filename);
-            $ticket->document = $filename;
-        }
+        $ticket->document = $request->document;
         $ticket->is_closed = 0;
         $fileService = FileService::find($id);
         $jobDetails = $fileService->make.' '.$fileService->model.' '.$fileService->generation;
@@ -348,5 +335,23 @@ class FileServiceController extends MasterController
         );
 
         return response()->json($json_data);
+    }
+
+    public function uploadFile(Request $request){
+        if($request->hasFile('file')){
+            if($request->file('file')->isValid()){
+                $file = $request->file('file');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                if($file->move(storage_path('app/public/uploads/file-services/orginal/'), $filename)){
+                    return response()->json(['status'=> TRUE, 'file'=>$filename], 200);
+                }else{
+                    return response()->json(['status'=> FALSE], 404);
+                }
+            }else{
+                return response()->json(['status'=> FALSE], 404);
+            }
+        }else{
+            return response()->json(['status'=> FALSE], 404);
+        }
     }
 }

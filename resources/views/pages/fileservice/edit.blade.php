@@ -24,10 +24,27 @@
                   </select>
                 </div>
               </div>
-              <div class="col-12">
-                <div class="mb-1">
+              <div class="col-12 mb-1">
+                <div style="margin-bottom: 2px">
                   <label for="modified_file" class="form-label">Modified file</label>
-                  <input class="form-control" type="file" id="modified_file" name="upload_file" />
+                  <div class="input-group" onclick="onUpload()">
+                    <span class="input-group-text">Choose File</span>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="modified_file"
+                      name="modified_file"
+                      readonly />
+                  </div>
+                </div>
+                <div class="progress progress-bar-success" style="display: none">
+                  <div
+                    class="progress-bar progress-bar-striped progress-bar-animated"
+                    role="progressbar"
+                    aria-valuenow="0"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  ></div>
                 </div>
               </div>
               <div class="col-12">
@@ -58,6 +75,9 @@
             <button type="submit" class="btn btn-primary me-1">Save</button>
             <button type="button" class="btn btn-flat-secondary me-1" onclick="history.back(-1)">Cancel</button>
           {{ Form::close() }}
+          {{ Form::open(array('id' => 'uploadForm', 'route' => 'fileservices.api.upload', 'method' => 'POST', 'enctype' => 'multipart/form-data')) }}
+            <input type="file" name="file" id="hidden_upload" style="display: none" />
+          {{ Form::close() }}
         </div>
       </div>
       @include('blocks.customer_info')
@@ -69,4 +89,57 @@
   </div>
 </section>
 <!-- Basic Vertical form layout section end -->
+@endsection
+
+@section('page-script')
+<script>
+  function onUpload() {
+    $('#hidden_upload').trigger('click');
+  }
+  hidden_upload.onchange = evt => {
+    const [file] = hidden_upload.files
+    if (file) {
+      $("#uploadForm").submit();
+    }
+  }
+  $("#uploadForm").on('submit', function(e){
+    e.preventDefault();
+    $.ajax({
+      xhr: function() {
+        var xhr = new window.XMLHttpRequest();
+        xhr.upload.addEventListener("progress", function(evt) {
+          if (evt.lengthComputable) {
+            var percentComplete = Math.round((evt.loaded / evt.total) * 100);
+            $(".progress-bar").width(percentComplete + '%');
+            $(".progress-bar").html(percentComplete+'%');
+          }
+        }, false);
+        return xhr;
+      },
+      type: 'POST',
+      url: "{{ route('fileservices.api.upload') }}",
+      data: new FormData(this),
+      contentType: false,
+      cache: false,
+      processData:false,
+      beforeSend: function(){
+        $(".progress-bar").width('0%');
+        $(".progress").show();
+      },
+      error:function(){
+
+      },
+      success: function(resp){
+        if(resp.status){
+          $('#uploadForm')[0].reset();
+          $('#modified_file').val(resp.file);
+        }else{
+        }
+        setTimeout(() => {
+          $(".progress").hide();
+        }, 1000);
+      }
+    });
+  })
+</script>
 @endsection
