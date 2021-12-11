@@ -31,7 +31,7 @@
               </h3>
               <div class="annual-plan">
                 <div class="plan-price mt-2">
-                  <sup class="font-medium-1 fw-bold text-primary">£</sup>
+                  <sup class="font-medium-1 fw-bold text-primary">{{ config('constants.currency_signs')[$company->paypal_currency_code] }}</sup>
                   <span class="pricing-basic-value fw-bolder text-primary">
                     {{ $total_amount }}
                   </span>
@@ -88,7 +88,7 @@
             </h3>
             <div class="annual-plan">
               <div class="plan-price mt-2">
-                <sup class="font-medium-1 fw-bold text-primary">£</sup>
+                <sup class="font-medium-1 fw-bold text-primary">{{ config('constants.currency_signs')[$company->paypal_currency_code] }}</sup>
                 <span class="pricing-basic-value fw-bolder text-primary">
                   {{ $total_amount }}
                 </span>
