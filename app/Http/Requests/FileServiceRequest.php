@@ -38,8 +38,8 @@ class FileServiceRequest extends FormRequest
                     'engine_hp' => 'bail|nullable|integer',
                     'license_plate' => 'bail|required|string|max:191',
                     'vin' => 'bail|nullable|string|max:191',
-                    'note_to_engineer' => 'bail|nullable|string|max:191',
-                    'notes_by_engineer' => 'bail|nullable|string|max:191',
+                    'note_to_engineer' => 'bail|nullable|string',
+                    'notes_by_engineer' => 'bail|nullable|string',
                     'tuning_type_id' => 'bail|required|integer'
                 ];
 
@@ -64,8 +64,8 @@ class FileServiceRequest extends FormRequest
                         'engine_hp' => 'bail|nullable|integer',
                         'license_plate' => 'bail|required|string|max:191',
                         'vin' => 'bail|nullable|string|max:191',
-                        'note_to_engineer' => 'bail|nullable|string|max:191',
-                        'notes_by_engineer' => 'bail|nullable|string|max:191',
+                        'note_to_engineer' => 'bail|nullable|string',
+                        'notes_by_engineer' => 'bail|nullable|string',
                         'tuning_type_id' => 'bail|required|integer'
                     ];
 
@@ -88,8 +88,8 @@ class FileServiceRequest extends FormRequest
                         'engine_hp' => 'bail|nullable|integer',
                         'license_plate' => 'bail|required|string|max:191',
                         'vin' => 'bail|nullable|string|max:191',
-                        'note_to_engineer' => 'bail|nullable|string|max:191',
-                        'notes_by_engineer' => 'bail|nullable|string|max:191'
+                        'note_to_engineer' => 'bail|nullable|string',
+                        'notes_by_engineer' => 'bail|nullable|string'
                     ];
 
                     return $rules;

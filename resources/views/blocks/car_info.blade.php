@@ -48,7 +48,7 @@
         </tr>
         <tr>
           <th>Note to engineer</th>
-          <td>{{ $fileService->note_to_engineer }}</td>
+          <td style="overflow-wrap: anywhere">{{ $fileService->note_to_engineer }}</td>
         </tr>
       </tbody>
     </table>

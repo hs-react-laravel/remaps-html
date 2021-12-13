@@ -169,7 +169,7 @@
                 @endif
                 <tr>
                   <th width="30%">Notes By Engineer</th>
-                  <td>{{ $entry->notes_by_engineer }}</td>
+                  <td style="overflow-wrap: anywhere">{{ $entry->notes_by_engineer }}</td>
                 </tr>
               </tbody>
             </table>

@@ -24,30 +24,65 @@
             <div class="row mb-1">
               <div class="col-xl-3 col-md-3 col-12">
                 <label class="form-label" for="make">Make</label>
-                <input type="text" class="form-control" id="make" name="make" required />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="make"
+                  name="make"
+                  required
+                  value="{{ old('make') ?? null }}"/>
               </div>
               <div class="col-xl-3 col-md-3 col-12">
                 <label class="form-label" for="model">Model</label>
-                <input type="text" class="form-control" id="model" name="model" required />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="model"
+                  name="model"
+                  required
+                  value="{{ old('model') ?? null }}" />
               </div>
               <div class="col-xl-3 col-md-3 col-12">
                 <label class="form-label" for="generation">Generation</label>
-                <input type="text" class="form-control" id="generation" name="generation" required />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="generation"
+                  name="generation"
+                  required
+                  value="{{ old('generation') ?? null }}" />
               </div>
             </div>
 
             <div class="row mb-1">
               <div class="col-xl-3 col-md-3 col-12">
                 <label class="form-label" for="engine">Engine</label>
-                <input type="text" class="form-control" id="engine" name="engine" required />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="engine"
+                  name="engine"
+                  required
+                  value="{{ old('engine') ?? null }}" />
               </div>
               <div class="col-xl-3 col-md-3 col-12">
                 <label class="form-label" for="ecu">ECU</label>
-                <input type="text" class="form-control" id="ecu" name="ecu" required />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="ecu"
+                  name="ecu"
+                  required
+                  value="{{ old('ecu') ?? null }}" />
               </div>
               <div class="col-xl-3 col-md-3 col-12">
                 <label class="form-label" for="engine_hp">Engine HP</label>
-                <input type="number" class="form-control" id="engine_hp" name="engine_hp" />
+                <input
+                  type="number"
+                  class="form-control"
+                  id="engine_hp"
+                  name="engine_hp"
+                  value="{{ old('engine_hp') ?? null }}" />
               </div>
             </div>
 
@@ -92,11 +127,22 @@
             <div class="row mb-1">
               <div class="col-xl-4 col-md-6 col-12">
                 <label class="form-label" for="license_plate">License plate</label>
-                <input type="text" class="form-control" id="license_plate" name="license_plate" required />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="license_plate"
+                  name="license_plate"
+                  required
+                  value="{{ old('license_plate') ?? null }}" />
               </div>
               <div class="col-xl-4 col-md-6 col-12">
                 <label class="form-label" for="vin">Miles / KM</label>
-                <input type="text" class="form-control" id="vin" name="vin" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="vin"
+                  name="vin"
+                  value="{{ old('vin') ?? null }}" />
               </div>
             </div>
 
@@ -108,7 +154,7 @@
                   id="note_to_engineer"
                   rows="5"
                   name="note_to_engineer"
-                ></textarea>
+                >{{ old('note_to_engineer') ?? '' }}</textarea>
               </div>
               <div class="col-xl-4 col-md-6 col-12" class="tuning-type-div">
                 <div id="clone" style="display: none" class="mt-1">

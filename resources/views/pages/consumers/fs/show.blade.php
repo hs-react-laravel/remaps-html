@@ -34,7 +34,7 @@
               <tr><th>Reading Tool</th><td>{{ $entry->reading_tool }}</td></tr>
               <tr><th>License plate</th><td>{{ $entry->license_plate }}</td></tr>
               <tr><th>Miles / KM</th><td>{{ $entry->vin }}</td></tr>
-              <tr><th width="30%">Note to engineer</th><td>{{ $entry->note_to_engineer }}</td></tr>
+              <tr><th width="30%">Note to engineer</th><td style="overflow-wrap: anywhere">{{ $entry->note_to_engineer }}</td></tr>
             </table>
           </div>
         </div>
@@ -93,7 +93,7 @@
                 @endif
                 <tr>
                   <th width="30%">Notes By Engineer</th>
-                  <td>{{ $entry->notes_by_engineer }}</td>
+                  <td style="overflow-wrap: anywhere">{{ $entry->notes_by_engineer }}</td>
                 </tr>
               </tbody>
             </table>
