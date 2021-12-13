@@ -209,7 +209,7 @@ class BuyTuningCreditsController extends MasterController
 
         $result = $stripe->charges->create([
             'amount' => $total_amount * 100,
-            'currency' => "GBP",
+            'currency' => $this->company->paypal_currency_code,
             'source' => $request->stripeToken,
             'description' => $tuningCreditGroup->name.'('.$tire->amount.' credits)'
         ]);
