@@ -190,13 +190,20 @@
             <h4 class="card-title">EVC Reseller ID</h4>
           </div>
           <div class="card-body">
-            <div class="col-md-6 col-xl-3">
+            <div class="col-md-6 col-xl-6">
               <form action="{{ route('dashboard.reseller') }}" method="POST">
                 @csrf
-                <label class="mb-1">ID</label>
-                <input type="text" class="form-control" id="reseller_id" name="reseller_id" />
-                @if ($data['resellerId'] && $data['evcCount'])
-                  <label class="mb-1">EVC Credits</label>
+                <div>
+                  <label>ID</label>
+                  <div class="mt-1 d-flex">
+                    <input type="text" class="form-control" id="reseller_id" name="reseller_id" value="{{ $data['resellerId'] }}" />
+                    @if ($data['resellerId'] && $data['evcCount'] != null)
+                    <i data-feather="check" style="color: green; width: 36px; height: 36px; margin-left: 10px;"></i>
+                    @endif
+                  </div>
+                </div>
+                @if ($data['resellerId'] && $data['evcCount'] != null)
+                  <label class="mt-1 mb-1">EVC Credits</label>
                   <p>{{ $data['evcCount'] }}</p>
                 @endif
                 <button type="submit" class="btn btn-primary mt-2">Submit</button>
