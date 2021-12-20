@@ -51,7 +51,7 @@ class MasterController extends BaseController
                     $this->is_evc = !!$this->company->reseller_id;
                     $this->tickets = $this->user->unread_tickets;
 
-                    if ($this->company->mail_host && $this->company->mail_port && $this->company->mail_encryption
+                    if ($this->company->mail_host && $this->company->mail_port
                         && $this->company->mail_username && $this->company->mail_password) {
                         Config::set('mail.default', $this->company->mail_driver);
                         Config::set('mail.mailers.smtp.host', $this->company->mail_host);
