@@ -103,15 +103,15 @@ class FileServiceController extends MasterController
             $transaction->status        =   config('constants.transaction_status.completed');
             $transaction->type          =   'S';
             $transaction->save();
-            // try{
-            //     if ($open_status == -1) {
-            //         Mail::to($this->company->owner->email)->send(new FileServiceCreated($fileService));
-            //     } else if ($open_status == 1) {
-            //         Mail::to($user->email)->send(new FileServiceLimited($fileService));
-            //     }
-            // }catch(\Exception $ex){
-            //     session()->flash('error', $ex->getMessage());
-            // }
+            try{
+                if ($open_status == -1) {
+                    Mail::to($this->company->owner->email)->send(new FileServiceCreated($fileService));
+                } else if ($open_status == 1) {
+                    Mail::to($user->email)->send(new FileServiceLimited($fileService));
+                }
+            }catch(\Exception $ex){
+                session()->flash('error', $ex->getMessage());
+            }
         } catch (\Exception $ex) {
             session()->flash('error', $ex->getMessage());
         }
