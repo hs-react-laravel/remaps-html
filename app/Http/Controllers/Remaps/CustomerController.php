@@ -100,12 +100,18 @@ class CustomerController extends MasterController
             ->where('group_type', 'normal')
             ->orderBy('is_default', 'DESC')
             ->pluck('name', 'id');
+        $defaultGroup = TuningCreditGroup::where('company_id', $this->company->id)
+            ->where('group_type', 'normal')
+            ->where('set_default_tier', 1)->first();
         $evcTuningGroups = TuningCreditGroup::where('company_id', $user->company_id)
             ->where('group_type', 'evc')
             ->orderBy('is_default', 'DESC')
             ->pluck('name', 'id');
+        $evcdefaultGroup = TuningCreditGroup::where('company_id', $this->company->id)
+            ->where('group_type', 'evc')
+            ->where('set_default_tier', 1)->first();
         $langs = config('constants.langs');
-        return view('pages.customer.create', compact('tuningGroups', 'langs', 'evcTuningGroups'));
+        return view('pages.customer.create', compact('tuningGroups', 'langs', 'evcTuningGroups', 'defaultGroup', 'evcdefaultGroup'));
     }
 
     /**
