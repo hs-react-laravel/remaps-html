@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Config;
 
 use App\Mail\CompanyActivateEmail;
 use App\Mail\WelcomeCustomer;
@@ -182,6 +183,7 @@ class CompanyController extends MasterController
 							}
 						}
 						$token = app('auth.password.broker')->createToken($companyUser);
+                        $this->setCompanyMailSender();
 						try{
 							Mail::to($companyUser->email)->send(new WelcomeCustomer($companyUser, $token));
 						}catch(\Exception $e) {
@@ -380,6 +382,7 @@ class CompanyController extends MasterController
                             }
                         }
                         $token = app('auth.password.broker')->createToken($companyUser);
+                        $this->setCompanyMailSender();
                         try{
                             Mail::to($companyUser->email)->send(new WelcomeCustomer($companyUser, $token));
                         }catch(\Exception $e){
@@ -438,6 +441,7 @@ class CompanyController extends MasterController
 			$companyUser->save();
 			$token = app('auth.password.broker')->createToken($companyUser);
             session()->flash('message', 'Comapny has been activated successfully.');
+            $this->setCompanyMailSender();
 			try{
             	Mail::to($companyUser->email)->send((new CompanyActivateEmail($companyUser, $token)));
 			}catch(\Exception $e){
@@ -449,6 +453,7 @@ class CompanyController extends MasterController
 
     public function resendPasswordResetLink($id){
         $company = Company::find($id);
+        $this->setCompanyMailSender();
         try {
             $user = $company->owner;
             $token = app('auth.password.broker')->createToken($user);
@@ -516,5 +521,15 @@ class CompanyController extends MasterController
             session()->flash('error', __('admin.opps'));
             return redirect()->back()->withInput($request->all());
          }
+    }
+
+    public function setCompanyMailSender() {
+        Config::set('mail.default', 'smtp');
+        Config::set('mail.mailers.smtp.host', 'mail.myremaps.com');
+        Config::set('mail.mailers.smtp.port', 25);
+        Config::set('mail.mailers.smtp.encryption', '');
+        Config::set('mail.mailers.smtp.username', 'sales@myremaps.com');
+        Config::set('mail.mailers.smtp.password', '#1Te8tm0');
+        Config::set('mail.from.address', 'sales@myremaps.com');
     }
 }
