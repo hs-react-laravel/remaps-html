@@ -29,7 +29,7 @@
               <tr>
                   <td>{{ $e->created_at }}</td>
                   <td>{{ $e->customer_company }}</td>
-                  <td>{{ $e->amount_with_sign }}</td>
+                  <td>{{ config('constants.currency_signs')[$company->paypal_currency_code] }}{{ $e->amount_with_sign }}</td>
                   <td>{{ $e->status }}</td>
                   <td>{{ $e->displayable_id }}</td>
                   <td>

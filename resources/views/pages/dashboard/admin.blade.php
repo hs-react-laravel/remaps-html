@@ -130,7 +130,7 @@
                       <td>{{ $order->displayable_id }}</td>
                       <td>{{ $order->created_at }}</td>
                       <td>{{ $order->customer }}</td>
-                      <td>{{ $order->amount_with_sign }}</td>
+                      <td>{{ config('constants.currency_signs')[$company->paypal_currency_code] }}{{ $order->amount_with_sign }}</td>
                       <td>{{ $order->status }}</td>
                       <td>
                         <a class="btn btn-icon btn-success" href="{{ route('order.invoice', ['id' => $order->id]) }}" title="Download Invoice">

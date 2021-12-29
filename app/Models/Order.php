@@ -54,8 +54,7 @@ class Order extends Model
      * @return string
      */
     public function getAmountWithSignAttribute() {
-
-        return config('constants.currency_sign').' '.number_format($this->amount, 2);
+        return number_format($this->amount, 2);
     }
 
     /**
