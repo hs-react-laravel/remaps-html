@@ -1,7 +1,7 @@
 <div class="tab-pane @if($tab == 'stripe') active @endif" id="stripe-fill" role="tabpanel" aria-labelledby="stripe-tab-fill">
       <div class="row mb-1">
         <div class="col-xl-4 col-md-6">
-          <label class="form-label" for="stripe_key">Stripe key<small class="text-muted">(optional)</small></label>
+          <label class="form-label" for="stripe_key">Stripe key</label>
           <input
             type="text"
             id="stripe_key"
@@ -13,7 +13,7 @@
       </div>
       <div class="row mb-1">
         <div class="col-xl-4 col-md-6">
-          <label class="form-label" for="stripe_secret">Stripe secret<small class="text-muted">(optional)</small></label>
+          <label class="form-label" for="stripe_secret">Stripe secret</label>
           <input
             type="text"
             id="stripe_secret"
