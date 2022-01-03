@@ -102,7 +102,7 @@
     <div class="row">
       <div class="col-md-6 col-12">
         <div class="mb-1">
-          <label class="form-label" for="stripe_key">Stripe key<small class="text-muted">(optional)</small></label>
+          <label class="form-label" for="stripe_key">Stripe key</label>
           <input
             type="text"
             id="stripe_key"
@@ -115,7 +115,7 @@
       <div class="col-md-6 col-12"></div>
       <div class="col-md-6 col-12">
         <div class="mb-1">
-          <label class="form-label" for="stripe_secret">Stripe secret<small class="text-muted">(optional)</small></label>
+          <label class="form-label" for="stripe_secret">Stripe secret</label>
           <input
             type="text"
             id="stripe_secret"
