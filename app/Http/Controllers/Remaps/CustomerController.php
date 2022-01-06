@@ -45,7 +45,15 @@ class CustomerController extends MasterController
         $order_arr = $request->get('order');
         $search_arr = $request->get('search');
 
+        $columnIndex = $columnIndex_arr[0]['column']; // Column index
+        $columnName = $columnName_arr[$columnIndex]['data']; // Column name
+        $columnSortOrder = $order_arr[0]['dir']; // asc or desc
         $searchValue = $search_arr['value']; // Search value
+
+        if ($columnName == 'name') $columnName = 'first_name';
+        if ($columnName == 'company') $columnName = 'business_name';
+        if ($columnName == 'tuning_price_group') $columnName = 'tuning_credit_group_id';
+        if ($columnName == 'evc_tuning_price_group') $columnName = 'tuning_evc_credit_group_id';
 
         $user = User::find($request->id);
         $query = User::where('company_id', $user->company_id)
@@ -59,7 +67,7 @@ class CustomerController extends MasterController
             $query->orWhere('business_name', 'LIKE', '%'.$searchValue.'%');
         });
         $totalRecordswithFilter = $query->count();
-        $entries = $query->orderBy('id', 'DESC')->skip($start)->take($rowperpage)->get();
+        $entries = $query->orderBy($columnName, $columnSortOrder)->skip($start)->take($rowperpage)->get();
         $return_data = [];
         foreach($entries as $entry) {
             array_push($return_data, [
@@ -67,7 +75,7 @@ class CustomerController extends MasterController
                 'company' => $entry->business_name,
                 'tuning_credits' => number_format($entry->tuning_credits, 2),
                 'tuning_price_group' => $entry->tuningPriceGroup,
-                'evc_tuning_credits' => $entry->tuning_evc_price_group,
+                'evc_tuning_price_group' => $entry->tuning_evc_price_group,
                 'fileservice_ct' => $entry->fileServicesCount,
                 'last_login' => $entry->lastLoginDiff,
                 'actions' => '',

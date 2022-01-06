@@ -136,7 +136,7 @@
     dt_ajax = dt_ajax_table.DataTable({
       processing: true,
       serverSide: true,
-      bSort: false,
+    //   bSort: false,
       dom: '<"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-end align-items-baseline"f<"dt-action-buttons text-end ms-1"B>>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       buttons: [
         {
@@ -202,11 +202,16 @@
         { data: 'company' },
         { data: 'tuning_credits' },
         { data: 'tuning_price_group' },
-        @if ($user->company->reseller_id) { data: 'evc_tuning_credits' }, @endif
+        @if ($user->company->reseller_id) { data: 'evc_tuning_price_group' }, @endif
         { data: 'fileservice_ct' },
         { data: 'last_login' },
         { data: 'actions' },
       ],
+      columnDefs: [{
+        targets: [5, 7],
+        orderable: false,
+        searchable: false,
+      }],
       lengthMenu: [[15, 25, 50], [15, 25, 50]],
       createdRow: function(row, data, index) {
         $('td', row).addClass('td-actions')
