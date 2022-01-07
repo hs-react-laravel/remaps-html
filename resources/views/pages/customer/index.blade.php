@@ -208,7 +208,11 @@
         { data: 'actions' },
       ],
       columnDefs: [{
+        @if ($user->company->reseller_id)
         targets: [5, 7],
+        @else
+        targets: [4, 6],
+        @endif
         orderable: false,
         searchable: false,
       }],
