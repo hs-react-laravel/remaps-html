@@ -66,12 +66,12 @@ class FileService extends Model
         return $this->make.' '.$this->model.' '.$this->generation;
     }
     public function getCreatedAtAttribute($value) {
-        $timezone = Helper::companyTimeZone();
+        $timezone = $this->user->company->timezone;
         $tz = Timezone::find($timezone ?? 1);
         return \Carbon\Carbon::parse($value)->tz($tz->name)->format('d M Y h:i A');
     }
     public function getUpdatedAtAttribute($value) {
-        $timezone = Helper::companyTimeZone();
+        $timezone = $this->user->company->timezone;
         $tz = Timezone::find($timezone ?? 1);
         return \Carbon\Carbon::parse($value)->tz($tz->name)->format('d M Y h:i A');
     }
