@@ -68,6 +68,7 @@ class MinuteUpdate extends Command
                 }
             }
         }
+        Log::info("cron is running");
         return Command::SUCCESS;
     }
 }
