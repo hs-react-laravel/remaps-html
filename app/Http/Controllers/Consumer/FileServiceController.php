@@ -104,9 +104,10 @@ class FileServiceController extends MasterController
             $transaction->type          =   'S';
             $transaction->save();
             try{
-                if ($open_status == -1) {
+                if ($open_status != 2) {
                     Mail::to($this->company->owner->email)->send(new FileServiceCreated($fileService));
-                } else if ($open_status == 1) {
+                }
+                if ($open_status == 1) {
                     Mail::to($user->email)->send(new FileServiceLimited($fileService));
                 }
             }catch(\Exception $ex){
