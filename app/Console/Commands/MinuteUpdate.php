@@ -46,7 +46,7 @@ class MinuteUpdate extends Command
         $this->info(count($entries));
         foreach($entries as $entry) {
             $company = $entry->user->company;
-            $timezone = Helper::companyTimeZone();
+            $timezone = $company->timezone;
             $tz = Timezone::find($timezone ?? 1);
 
             $day = lcfirst(date('l'));
