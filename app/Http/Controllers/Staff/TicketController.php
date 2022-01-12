@@ -94,7 +94,7 @@ class TicketController extends MasterController
     {
         $ticket = Ticket::find($id);
 
-        if ($request->file('upload_file') || $request->message) {
+        if ($request->document || $request->message) {
             $new_ticket = new Ticket();
             $new_ticket->parent_chat_id = $ticket->id;
             $new_ticket->sender_id = $this->user->id;
