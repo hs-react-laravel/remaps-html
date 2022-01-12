@@ -111,7 +111,7 @@ class TicketController extends MasterController
             $ticket->assign_id = $request->assign;
             $ticket->save();
 
-            $user = User::find($ticket->receiver_id);
+            $user = User::find($new_ticket->receiver_id);
             try{
                 Mail::to($user->email)->send(new TicketFileCreated($user,$ticket->subject));
             }catch(\Exception $e){
