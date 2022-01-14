@@ -34,7 +34,7 @@ class AccountStaffRequest extends FormRequest
                 return [
                     'first_name'      => 'required|string|min:3|max:191',
                     'last_name'       => 'required|string|min:3|max:191',
-                    'phone'           => 'required|numeric|digits_between:7,14',
+                    'phone'           => 'required|string|min:7',
                     'email'           => 'required|email|unique:users,email',
                 ];
             }
@@ -45,7 +45,7 @@ class AccountStaffRequest extends FormRequest
                     return [
                         'first_name'      => 'required|string|min:3|max:191',
                         'last_name'       => 'required|string|min:3|max:191',
-                        'phone'           => 'required|numeric|digits_between:7,14',
+                        'phone'           => 'required|string|min:7',
                         'email'           => 'required|email|unique:users,email,'.$user->id.',id',
                     ];
                 }

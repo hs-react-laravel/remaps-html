@@ -37,7 +37,7 @@
           </div>
           <div class="row mb-2">
             <div class="col-12">
-              <label class="form-label" for="type">Customer Type</label>
+              <label class="form-label" for="type">Add / Take Credits</label>
               <select class="form-select" id="type" name="type" required>
                 <option value="">Select Option</option>
                 <option value="A">Give (+)</option>
