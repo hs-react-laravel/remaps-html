@@ -147,20 +147,34 @@
       order: [[0, 'desc']],
       createdRow: function(row, data, index) {
         $('td', row).addClass('td-actions')
-        $('td', row).eq(4).html(`
-          <a class="btn btn-icon btn-success" href="${data['route.ticket']}" title="Ticket">
-            ${feather.icons['message-circle'].toSvg()}
-          </a>
-          <a class="btn btn-icon btn-success" href="${data['route.download.original']}" title="Download Original">
-            ${feather.icons['download'].toSvg()}
-          </a>
-          <a class="btn btn-icon btn-success" href="${data['route.download.modified']}" title="Download Modified">
-            ${feather.icons['download-cloud'].toSvg()}
-          </a>
-          <a class="btn btn-icon btn-primary" href="${data['route.show']}" title="Show">
-            ${feather.icons['edit'].toSvg()}
-          </a>
-        `);
+        if (data['modified_available']) {
+          $('td', row).eq(4).html(`
+            <a class="btn btn-icon btn-success" href="${data['route.ticket']}" title="Ticket">
+              ${feather.icons['message-circle'].toSvg()}
+            </a>
+            <a class="btn btn-icon btn-success" href="${data['route.download.original']}" title="Download Original">
+              ${feather.icons['download'].toSvg()}
+            </a>
+            <a class="btn btn-icon btn-success" href="${data['route.download.modified']}" title="Download Modified">
+              ${feather.icons['download-cloud'].toSvg()}
+            </a>
+            <a class="btn btn-icon btn-primary" href="${data['route.show']}" title="Show">
+              ${feather.icons['edit'].toSvg()}
+            </a>
+          `);
+        } else {
+          $('td', row).eq(4).html(`
+            <a class="btn btn-icon btn-success" href="${data['route.ticket']}" title="Ticket">
+              ${feather.icons['message-circle'].toSvg()}
+            </a>
+            <a class="btn btn-icon btn-success" href="${data['route.download.original']}" title="Download Original">
+              ${feather.icons['download'].toSvg()}
+            </a>
+            <a class="btn btn-icon btn-primary" href="${data['route.show']}" title="Show">
+              ${feather.icons['edit'].toSvg()}
+            </a>
+          `);
+        }
       },
       language: {
         paginate: {

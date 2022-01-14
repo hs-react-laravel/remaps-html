@@ -114,9 +114,11 @@
                         <a class="btn btn-icon btn-success" href="{{ route('fs.download.original', ['id' => $fileService->id]) }}" title="Download Origin">
                           <i data-feather="download"></i>
                         </a>
+                        @if($fileService->status == "Completed" && $fileService->modified_file)
                         <a class="btn btn-icon btn-success" href="{{ route('fs.download.modified', ['id' => $fileService->id]) }}" title="Download Modified">
                           <i data-feather="download-cloud"></i>
                         </a>
+                        @endif
                       </td>
                     </tr>
                   @endforeach

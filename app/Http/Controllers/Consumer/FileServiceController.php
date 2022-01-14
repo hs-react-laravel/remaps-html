@@ -325,7 +325,8 @@ class FileServiceController extends MasterController
                     : route('fs.tickets.create', ['id' => $entry->id]), // ticket route
                 'route.download.original' => route('fs.download.original', ['id' => $entry->id]), // download origin route
                 'route.download.modified' => route('fs.download.modified', ['id' => $entry->id]),
-                'route.show' => route('fs.show', ['f' => $entry->id])
+                'route.show' => route('fs.show', ['f' => $entry->id]),
+                'modified_available' => $entry->status == 'Completed' && $entry->modified_file
             ]);
         }
         $json_data = array(
