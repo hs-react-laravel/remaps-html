@@ -103,7 +103,7 @@ class CompanyController extends Controller
 			 $companyUser->is_active = 0;
 			 $companyUser->save();
 
-			 $emailTemplates = \App\Models\EmailTemplate::where('company_id', 1)->whereIn('label', ['customer-welcome-email', 'new-file-service-created-email', 'file-service-modified-email', 'file-service-processed-email','new-ticket-created','new-file-ticket-created','reply-to-your-ticket'])->get();
+			 $emailTemplates = \App\Models\EmailTemplate::where('company_id', 1)->whereIn('label', ['customer-welcome-email', 'new-file-service-created-email', 'file-service-opened-email', 'file-service-modified-email', 'file-service-processed-email','new-ticket-created','new-file-ticket-created','reply-to-your-ticket'])->get();
 				 if($emailTemplates->count() > 0){
 					 foreach($emailTemplates as $emailTemplate){
 						 $userTemplate = $emailTemplate->replicate();

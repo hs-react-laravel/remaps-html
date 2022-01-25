@@ -16,6 +16,7 @@ return [
     ],
     'emails'=>[
         'customer-welcome-email'=>'Customer welcome email',
+        'file-service-opened-email'=>'File service is opened',
         'new-file-service-created-email'=>'New file service email',
         'file-service-modified-email'=>'File service modified/completed',
         'file-service-processed-email'=>'File service processed',
