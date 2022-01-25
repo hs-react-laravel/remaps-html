@@ -32,7 +32,7 @@
           <div class="row mb-2">
             <div class="col-12">
               <label class="form-label" for="credits">Credits</label>
-              <input type="number" class="form-control" id="credits" name="credits" required />
+              <input type="number" class="form-control" id="credits" name="credits" step="0.01" required />
             </div>
           </div>
           <div class="row mb-2">
