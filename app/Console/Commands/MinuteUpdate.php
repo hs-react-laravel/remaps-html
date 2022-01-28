@@ -62,11 +62,6 @@ class MinuteUpdate extends Command
                     if ($company->$daymark_from && $today_start >= $entry_time) {
                         $entry->update(['status' => 'O']);
                         $this->line('found on checking company');
-                        try{
-                            Mail::to($entry->user->email)->send(new FileServiceOpened($entry));
-                        }catch(\Exception $e){
-                            session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
-                        }
                     }
                 } else {
                     $entry->update(['status' => 'O']);
