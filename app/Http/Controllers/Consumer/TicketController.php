@@ -242,4 +242,22 @@ class TicketController extends MasterController
 
         return response()->json($json_data);
     }
+
+    public function uploadTicketFile(Request $request){
+        if($request->hasFile('file')){
+            if($request->file('file')->isValid()){
+                $file = $request->file('file');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                if($file->move(storage_path('app/public/uploads/tickets/'), $filename)){
+                    return response()->json(['status'=> TRUE, 'file'=>$filename], 200);
+                }else{
+                    return response()->json(['status'=> FALSE], 404);
+                }
+            }else{
+                return response()->json(['status'=> FALSE], 404);
+            }
+        }else{
+            return response()->json(['status'=> FALSE], 404);
+        }
+    }
 }

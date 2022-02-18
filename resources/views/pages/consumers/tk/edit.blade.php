@@ -141,7 +141,7 @@
           return xhr;
         },
         type: 'POST',
-        url: "{{ route('tickets.api.upload') }}",
+        url: "{{ route('tk.api.upload') }}",
         data: new FormData(this),
         contentType: false,
         cache: false,

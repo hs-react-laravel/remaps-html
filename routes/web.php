@@ -212,6 +212,7 @@ Route::group(['middleware' => 'auth:customer', 'prefix'=>'customer'], function (
     Route::get('tk/{id}/close', [TKController::class, 'close_ticket'])->name('tk.close');
     Route::get('tks/ra', [TKController::class, 'read_all'])->name('tk.read.all');
     Route::post('tk/api', [TKController::class, 'getTickets'])->name('tk.api');
+    Route::post('tk/api/upload', [TKController::class, 'uploadTicketFile'])->name('tk.api.upload');
 
     Route::resource('od', ODController::class);
     Route::resource('tr', TRController::class);
