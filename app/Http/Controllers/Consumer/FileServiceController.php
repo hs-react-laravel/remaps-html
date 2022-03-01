@@ -251,6 +251,7 @@ class FileServiceController extends MasterController
         $ticket->file_servcie_id = $id;
         $ticket->message = $request->message;
         $ticket->document = $request->document;
+        $ticket->remain_file = $request->remain_file;
         $ticket->is_closed = 0;
         $fileService = FileService::find($id);
         $jobDetails = $fileService->make.' '.$fileService->model.' '.$fileService->generation;

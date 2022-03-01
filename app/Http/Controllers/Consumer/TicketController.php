@@ -48,15 +48,6 @@ class TicketController extends MasterController
             'sender_id'=> $this->user->id,
             'receiver_id'=> $this->user->company->owner->id
         ]);
-        if ($request->file('upload_file')) {
-            // upload file
-            $file = $request->file('upload_file');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(storage_path('app/public/uploads/tickets'), $filename);
-            $request->request->add([
-                'document' => $filename
-            ]);
-        }
         Ticket::create($request->all());
         try{
 			Mail::to($this->user->company->owner->email)->send(new TicketCreated($this->user,$request->all()['subject']));
@@ -122,6 +113,7 @@ class TicketController extends MasterController
         $new_ticket->message = $request->message;
         $new_ticket->subject = $ticket->subject;
         $new_ticket->document = $request->document;
+        $new_ticket->remain_file = $request->remain_file;
         $new_ticket->save();
 
         $ticket->is_closed = 0;

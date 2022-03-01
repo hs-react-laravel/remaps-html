@@ -232,15 +232,16 @@ class FileServiceController extends MasterController
         $ticket->file_servcie_id = $id;
         $ticket->message = $request->message;
         $ticket->document = $request->document;
+        $ticket->remain_file = $request->remain_file;
         $ticket->is_closed = 0;
         $jobDetails = $fileService->make.' '.$fileService->model.' '.$fileService->generation;
         $user = User::find($ticket->receiver_id);
         if ($ticket->save()) {
-            try{
-            	Mail::to($user->email)->send(new TicketFileCreated($user, $jobDetails));
-			}catch(\Exception $e){
-				session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
-			}
+            // try{
+            // 	Mail::to($user->email)->send(new TicketFileCreated($user, $jobDetails));
+			// }catch(\Exception $e){
+			// 	session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
+			// }
             session()->flash('message', __('admin.ticket_saved'));
         } else {
             session()->flash('error', __('admin.opps'));

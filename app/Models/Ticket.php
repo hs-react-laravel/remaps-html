@@ -30,6 +30,7 @@ class Ticket extends Model
         'subject',
         'message',
         'document',
+        'remain_file',
         'is_closed',
         'is_read'
     ];

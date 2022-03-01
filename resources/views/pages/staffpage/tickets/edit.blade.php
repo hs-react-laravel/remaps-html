@@ -22,7 +22,9 @@
                 <p class="badge bg-dark badge-custom">
                   {{ $entry->message }} <br>
                   @if ($entry->document)
-                    <a href="{{ route('tickets.download', ['id' => $entry->id]) }}"><i data-feather="file"></i> {{ $entry->document }}</a>
+                    <a href="{{ route('tickets.download', ['id' => $entry->id]) }}">
+                        <i data-feather="file"></i> {{ $entry->sender->is_reserve_filename && !empty($entry->remain_file) ? $entry->remain_file : $entry->document }}
+                    </a>
                   @endif
                 </p>
                 @php
@@ -39,7 +41,9 @@
                   <p class="badge bg-dark badge-custom">
                     {{ $msg->message }} <br>
                     @if ($msg->document)
-                      <a href="{{ route('tickets.download', ['id' => $msg->id]) }}"><i data-feather="file"></i> {{ $msg->document }}</a>
+                      <a href="{{ route('tickets.download', ['id' => $msg->id]) }}">
+                        <i data-feather="file"></i> {{ $msg->sender->is_reserve_filename && !empty($msg->remain_file) ? $msg->remain_file : $msg->document }}
+                      </a>
                     @endif
                   </p>
                 </div>
@@ -77,6 +81,12 @@
                       class="form-control"
                       id="document"
                       name="document"
+                      readonly />
+                    <input
+                      type="hidden"
+                      class="form-control"
+                      id="remain_file"
+                      name="remain_file"
                       readonly />
                   </div>
                 </div>
@@ -166,6 +176,7 @@
           if(resp.status){
             $('#uploadForm')[0].reset();
             $('#document').val(resp.file);
+            $('#remain_file').val(resp.remain);
           }else{
           }
         }

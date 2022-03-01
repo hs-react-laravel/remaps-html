@@ -46,6 +46,7 @@
     hidden_upload.onchange = evt => {
       const [file] = hidden_upload.files
       if (file) {
+        $('#file_name').val(file.name)
         $("#uploadForm").submit();
       }
     }
@@ -64,7 +65,7 @@
           return xhr;
         },
         type: 'POST',
-        url: "{{ route('tickets.api.upload') }}",
+        url: "{{ route('tk.api.upload') }}",
         data: new FormData(this),
         contentType: false,
         cache: false,
@@ -80,6 +81,7 @@
           if(resp.status){
             $('#uploadForm')[0].reset();
             $('#document').val(resp.file);
+            $('#remain_file').val(resp.remain);
           }else{
           }
         }

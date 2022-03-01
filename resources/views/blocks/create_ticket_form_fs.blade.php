@@ -25,12 +25,24 @@
             <input
               type="text"
               class="form-control"
+              id="file_name"
+              name="file_name"
+              readonly />
+            <input
+              type="hidden"
+              class="form-control"
               id="document"
               name="document"
               readonly />
+            <input
+              type="hidden"
+              class="form-control"
+              id="remain_file"
+              name="remain_file"
+              readonly />
           </div>
         </div>
-        <div class="progress progress-bar-success" style="display: none">
+        <div class="progress progress-bar-{{ substr($styling['navbarColor'], 3) }}" style="display: none">
           <div
             class="progress-bar progress-bar-striped progress-bar-animated"
             role="progressbar"
