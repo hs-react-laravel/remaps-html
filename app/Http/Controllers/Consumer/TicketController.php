@@ -152,6 +152,9 @@ class TicketController extends MasterController
             if ($ticket->document && File::exists($file)) {
                 $fileExt = File::extension($file);
                 $fileName = $ticket->id.'-document.'.$fileExt;
+                if ($ticket->sender->is_reserve_filename && !empty($ticket->remain_file)) {
+                    $fileName = $ticket->remain_file;
+                }
                 return response()->download($file, $fileName);
             }
         } catch (\Exception $ex) {

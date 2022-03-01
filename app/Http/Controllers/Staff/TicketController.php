@@ -102,6 +102,7 @@ class TicketController extends MasterController
             $new_ticket->message = $request->message;
             $new_ticket->subject = $ticket->subject;
             $new_ticket->document = $request->document;
+            $new_ticket->remain_file = $request->remain_file;
             $new_ticket->save();
             $ticket->is_closed = 0;
             $ticket->save();

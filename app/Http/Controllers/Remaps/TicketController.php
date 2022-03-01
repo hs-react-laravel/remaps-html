@@ -106,6 +106,7 @@ class TicketController extends MasterController
             $new_ticket->message = $request->message;
             $new_ticket->subject = $ticket->subject;
             $new_ticket->document = $request->document;
+            $new_ticket->remain_file = $request->remain_file;
             $new_ticket->save();
             $ticket->is_closed = 0;
             $ticket->assign_id = $request->assign;
@@ -157,6 +158,9 @@ class TicketController extends MasterController
         if ($ticket->document && File::exists($file)) {
             $fileExt = File::extension($file);
             $fileName = $ticket->id.'-document.'.$fileExt;
+            if ($ticket->sender->is_reserve_filename && !empty($ticket->remain_file)) {
+                $fileName = $ticket->remain_file;
+            }
             return response()->download($file, $fileName);
         }
         return redirect(route('tickets.index'));
