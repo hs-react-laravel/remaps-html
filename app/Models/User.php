@@ -45,7 +45,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'reseller_id',
         'private',
         'vat_number',
-        'add_tax'
+        'add_tax',
+        'is_reserve_filename'
     ];
 
     /**

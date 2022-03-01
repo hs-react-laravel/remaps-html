@@ -16,7 +16,7 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-            <h4 class="card-title">Add a new customer</h4>
+            <h4 class="card-title">Edit customer</h4>
           </div>
           <div class="card-body">
             <div class="row mb-1">
@@ -139,6 +139,13 @@
                   rows="3"
                   name="tools"
                 >{{ $customer->tools }}</textarea>
+              </div>
+            </div>
+            <div class="mb-1">
+              <div class="form-check form-check-inline">
+                <input type="hidden" name="is_reserve_filename" value="0" />
+                <input class="form-check-input" type="checkbox" id="is_reserve_filename" name="is_reserve_filename" value="1" @if($customer->is_reserve_filename) checked @endif/>
+                <label class="form-check-label" for="is_reserve_filename">Retain file names</label>
               </div>
             </div>
             <button type="submit" class="btn btn-primary me-1">Submit</button>

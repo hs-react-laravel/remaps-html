@@ -166,6 +166,9 @@ class FileServiceController extends MasterController
             if (File::exists($file)) {
                 $fileExt = File::extension($file);
                 $fileName = $fileService->displayable_id.'-orginal.'.$fileExt;
+                if ($fileService->user->is_reserve_filename && !empty($fileService->remain_orginal_file)) {
+                    $fileName = $fileService->remain_orginal_file;
+                }
                 try{
                     Mail::to($fileService->user->email)->send(new FileServiceProcessed($fileService));
                 }catch(\Exception $e){
@@ -186,6 +189,9 @@ class FileServiceController extends MasterController
             if (File::exists($file)) {
                 $fileExt = File::extension($file);
                 $fileName = $fileService->displayable_id.'-modified.'.$fileExt;
+                if ($fileService->user->is_reserve_filename && !empty($fileService->remain_modified_file)) {
+                    $fileName = $fileService->remain_modified_file;
+                }
                 return response()->download($file, $fileName);
             }
         } catch (\Exception $ex) {
@@ -317,8 +323,13 @@ class FileServiceController extends MasterController
             if($request->file('file')->isValid()){
                 $file = $request->file('file');
                 $filename = time() . '.' . $file->getClientOriginalExtension();
+                $org_filename = $file->getClientOriginalName();
                 if($file->move(storage_path('app/public/uploads/file-services/modified/'), $filename)){
-                    return response()->json(['status'=> TRUE, 'file'=>$filename], 200);
+                    return response()->json([
+                        'status'=> TRUE,
+                        'file' => $filename,
+                        'remain' => $org_filename
+                    ], 200);
                 }else{
                     return response()->json(['status'=> FALSE], 404);
                 }

@@ -155,6 +155,9 @@ class FileServiceController extends MasterController
             if (File::exists($file)) {
                 $fileExt = File::extension($file);
                 $fileName = $fileService->displayable_id.'-orginal.'.$fileExt;
+                if ($fileService->user->is_reserve_filename && !empty($fileService->remain_orginal_file)) {
+                    $fileName = $fileService->remain_orginal_file;
+                }
                 try{
                     Mail::to($fileService->user->email)->send(new FileServiceProcessed($fileService));
                 }catch(\Exception $e){
@@ -175,6 +178,9 @@ class FileServiceController extends MasterController
             if (File::exists($file)) {
                 $fileExt = File::extension($file);
                 $fileName = $fileService->displayable_id.'-modified.'.$fileExt;
+                if ($fileService->user->is_reserve_filename && !empty($fileService->remain_modified_file)) {
+                    $fileName = $fileService->remain_modified_file;
+                }
                 return response()->download($file, $fileName);
             }
         } catch (\Exception $ex) {

@@ -58,6 +58,12 @@
                       id="document"
                       name="document"
                       readonly />
+                    <input
+                      type="hidden"
+                      class="form-control"
+                      id="remain_file"
+                      name="remain_file"
+                      readonly />
                   </div>
                 </div>
                 <div class="progress progress-bar-{{ substr($styling['navbarColor'], 3) }}" style="display: none">
@@ -139,6 +145,7 @@
           if(resp.status){
             $('#uploadForm')[0].reset();
             $('#document').val(resp.file);
+            $('#remain_file').val(resp.remain);
           }else{
           }
         }

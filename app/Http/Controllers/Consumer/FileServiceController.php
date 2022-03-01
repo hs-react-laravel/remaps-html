@@ -195,7 +195,13 @@ class FileServiceController extends MasterController
             if (File::exists($file)) {
                 $fileExt = File::extension($file);
                 $fileName = $fileService->displayable_id.'-orginal.'.$fileExt;
+                if ($fileService->user->is_reserve_filename && !empty($fileService->remain_orginal_file)) {
+                    $fileName = $fileService->remain_orginal_file;
+                }
                 return response()->download($file, $fileName);
+            } else {
+                session()->flash('error', "File not found");
+                return redirect(route('fs.index'));
             }
         } catch (\Exception $ex) {
             session()->flash('error', $ex->getMessage());
@@ -344,8 +350,13 @@ class FileServiceController extends MasterController
             if($request->file('file')->isValid()){
                 $file = $request->file('file');
                 $filename = time() . '.' . $file->getClientOriginalExtension();
+                $org_filename = $file->getClientOriginalName();
                 if($file->move(storage_path('app/public/uploads/file-services/orginal/'), $filename)){
-                    return response()->json(['status'=> TRUE, 'file'=>$filename], 200);
+                    return response()->json([
+                        'status'=> TRUE,
+                        'file' => $filename,
+                        'remain' => $org_filename
+                    ], 200);
                 }else{
                     return response()->json(['status'=> FALSE], 404);
                 }

@@ -41,6 +41,12 @@
                       id="modified_file"
                       name="modified_file"
                       readonly />
+                    <input
+                      type="hidden"
+                      class="form-control"
+                      id="remain_modified_file"
+                      name="remain_modified_file"
+                      readonly />
                   </div>
                 </div>
                 <div class="progress progress-bar-{{ substr($styling['navbarColor'], 3) }}" style="display: none">
@@ -140,6 +146,7 @@
         if(resp.status){
           $('#uploadForm')[0].reset();
           $('#modified_file').val(resp.file);
+          $('#remain_modified_file').val(resp.remain);
         }else{
         }
       }
