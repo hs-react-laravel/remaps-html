@@ -74,6 +74,14 @@
                   @endforeach
                 </select>
               </div>
+              <div class="col-xl-4 col-md-6 col-12">
+                <div><label class="form-label" for="lang" style="color: transparent">Label Space</label></div>
+                <div class="form-check form-check-inline">
+                  <input type="hidden" name="is_reserve_filename" value="0" />
+                  <input class="form-check-input" type="checkbox" id="is_reserve_filename" name="is_reserve_filename" value="1" @if($customer->is_reserve_filename) checked @endif/>
+                  <label class="form-check-label" for="is_reserve_filename">Retain file names</label>
+                </div>
+              </div>
             </div>
             <div class="row mb-1">
               <div class="col-xl-2 col-md-6 col-12">
@@ -139,13 +147,6 @@
                   rows="3"
                   name="tools"
                 >{{ $customer->tools }}</textarea>
-              </div>
-            </div>
-            <div class="mb-1">
-              <div class="form-check form-check-inline">
-                <input type="hidden" name="is_reserve_filename" value="0" />
-                <input class="form-check-input" type="checkbox" id="is_reserve_filename" name="is_reserve_filename" value="1" @if($customer->is_reserve_filename) checked @endif/>
-                <label class="form-check-label" for="is_reserve_filename">Retain file names</label>
               </div>
             </div>
             <button type="submit" class="btn btn-primary me-1">Submit</button>
