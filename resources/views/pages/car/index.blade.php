@@ -13,7 +13,7 @@
 @endsection
 
 @section('content')
-<form action="{{ Auth::guard('admin')->check() ? route('admin.cars.category') : route('cars.category') }}" method="post">
+<form action="{{ Auth::guard('customer')->check() ? route('cars.category') : route('admin.cars.category') }}" method="post">
   @csrf
 <div class="row">
   <div class="col-12">

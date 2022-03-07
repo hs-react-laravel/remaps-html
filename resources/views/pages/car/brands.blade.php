@@ -38,7 +38,7 @@
       <div class="card-body">
         <div class="row">
           @foreach($brands as $brand)
-              <a class="col-sm-4 col-md-2 col-xl-1 brand-link" href="{{ (Auth::guard('admin')->check() ? route('admin.cars.category') : route('cars.category')).'?make='.$brand['brand'] }}">
+              <a class="col-sm-4 col-md-2 col-xl-1 brand-link" href="{{ (Auth::guard('customer')->check() ? route('cars.category') : route('admin.cars.category')).'?make='.$brand['brand'] }}">
                 <img src="{{ $brand['logo'] }}">
               </a>
           @endforeach
