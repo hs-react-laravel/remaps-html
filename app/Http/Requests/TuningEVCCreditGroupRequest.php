@@ -33,7 +33,7 @@ class TuningEVCCreditGroupRequest extends FormRequest
             $this->user = Auth::guard('master')->user();
         }
 
-        $tuningCreditGroup = TuningCreditGroup::find($this->get('id'));
+        $tuningCreditGroup = TuningCreditGroup::find($this->route('evc_tuning_credit'));
         $this->tuningCreditTires = \App\Models\TuningCreditTire::where('company_id', $this->user->company_id)->where('group_type', 'evc')->orderBy('amount', 'ASC')->get();
 
         switch ($this->method()) {
