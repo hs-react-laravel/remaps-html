@@ -95,12 +95,15 @@
               </div>
               <small class="annual-pricing d-none text-muted"></small>
             </div>
+            @if ($user->company->paypal_client_id && $user->company->paypal_secret)
             <button
               type="button"
               class="btn btn-outline-info me-2"
               onclick="onPaypalButton(this)">
-              <i class="fab fa-cc-paypal" style="font-size: 30px"></i>
+              Paypal
             </button>
+            @endif
+            @if ($user->company->stripe_key && $user->company->stripe_secret)
             <button
               type="button"
               class="btn btn-outline-warning"
@@ -109,8 +112,9 @@
               data-group="{{ $tuningCreditGroup->id }}"
               data-tire="{{ $tire->id }}"
               onclick="onStripeButton(this)">
-              <i class="fab fa-cc-stripe" style="font-size: 30px"></i>
+              Stripe
             </button>
+            @endif
             <form action="{{ route('consumer.buy-credits.handle') }}" method="POST" class="paypal-form">
               @csrf
               <input type="hidden" name="group_id" value="{{ $tuningCreditGroup->id }}">
