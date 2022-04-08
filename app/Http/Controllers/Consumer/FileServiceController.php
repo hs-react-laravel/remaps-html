@@ -125,19 +125,18 @@ class FileServiceController extends MasterController
     public function open_status() {
         $user = $this->user;
         $company = $user->company;
-        $timezone = $company->timezone;
-        $tz = Timezone::find($timezone ?? 1);
-        $day = lcfirst(date('l'));
-        $daymark_from = substr($day, 0, 3).'_from';
-        $daymark_to = substr($day, 0, 3).'_to';
-
-        $today_start = date('Y-m-d ').$company->$daymark_from.':00';
-        $today_end = date('Y-m-d ').$company->$daymark_to.':00';
-        $utc_from = Carbon::parse(new \DateTime($today_start, new \DateTimeZone($tz->name)))->tz('UTC')->format('Hi');
-        $utc_to = Carbon::parse(new \DateTime($today_end, new \DateTimeZone($tz->name)))->tz('UTC')->format('Hi');
-
         $open_status = -1;
         if ($company->open_check) {
+            $timezone = $company->timezone;
+            $tz = Timezone::find($timezone ?? 1);
+            $day = lcfirst(date('l'));
+            $daymark_from = substr($day, 0, 3).'_from';
+            $daymark_to = substr($day, 0, 3).'_to';
+
+            $today_start = date('Y-m-d ').$company->$daymark_from.':00';
+            $today_end = date('Y-m-d ').$company->$daymark_to.':00';
+            $utc_from = Carbon::parse(new \DateTime($today_start, new \DateTimeZone($tz->name)))->tz('UTC')->format('Hi');
+            $utc_to = Carbon::parse(new \DateTime($today_end, new \DateTimeZone($tz->name)))->tz('UTC')->format('Hi');
             if ($company->$daymark_from && $utc_from > date('Hi')
                 || $company->$daymark_to && $utc_to < date('Hi')) {
                 $open_status = $company->notify_check == 0 ? 1 : 2;

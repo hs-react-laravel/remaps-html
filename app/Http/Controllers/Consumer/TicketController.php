@@ -48,13 +48,13 @@ class TicketController extends MasterController
             'sender_id'=> $this->user->id,
             'receiver_id'=> $this->user->company->owner->id
         ]);
-        Ticket::create($request->all());
+        $ticket = Ticket::create($request->all());
         try{
 			Mail::to($this->user->company->owner->email)->send(new TicketCreated($this->user,$request->all()['subject']));
 		}catch(\Exception $e){
 			session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
 		}
-        return redirect(route('tk.index'));
+        return redirect(route('tk.edit', ['tk' => $ticket->id]));
     }
 
     /**
