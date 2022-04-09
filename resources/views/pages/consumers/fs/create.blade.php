@@ -182,7 +182,7 @@
               <div class="col-12 mb-1">
                 <div style="margin-bottom: 2px">
                   <label for="orginal_file" class="form-label">Modified file</label>
-                  <div class="input-group" onclick="onUpload()">
+                  <div class="input-group" onclick="onUpload()" id="dropContainer">
                     <span class="input-group-text">Choose File</span>
                     <input
                       type="text"
@@ -268,15 +268,28 @@
       var parent = $(this).parent();
       $(parent).find('.tuning-option-check').trigger('click');
     })
-    function onUpload() {
+  function onUpload() {
     $('#hidden_upload').trigger('click');
   }
-  hidden_upload.onchange = evt => {
+  function submitFile() {
     const [file] = hidden_upload.files
     if (file) {
       $('#file_name').val(file.name)
       $("#uploadForm").submit();
     }
+  }
+  dropContainer.ondragover = dropContainer.ondragenter = function(evt) {
+    evt.preventDefault()
+  }
+  dropContainer.ondrop = function(evt) {
+    const dT = new DataTransfer();
+    dT.items.add(evt.dataTransfer.files[0]);
+    hidden_upload.files = dT.files
+    evt.preventDefault()
+    submitFile()
+  }
+  hidden_upload.onchange = evt => {
+    submitFile()
   }
   $("#uploadForm").on('submit', function(e){
     e.preventDefault();

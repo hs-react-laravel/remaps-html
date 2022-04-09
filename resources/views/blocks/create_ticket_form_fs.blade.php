@@ -20,7 +20,7 @@
       <div class="col-12">
         <div style="margin-bottom: 2px; cursor: pointer">
           <label for="document" class="form-label">File</label>
-          <div class="input-group" onclick="onUpload()">
+          <div class="input-group" onclick="onUpload()" id="dropContainer">
             <span class="input-group-text">Choose File</span>
             <input
               type="text"
