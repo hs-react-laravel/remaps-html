@@ -15,7 +15,36 @@ use Illuminate\Support\Facades\Hash;
 
 class DashboardController extends MasterController
 {
-    // Dashboard - Ecommerce
+    public function dashboardAdminApi()
+    {
+        $user = $this->user;
+        $orders = \App\Models\Order::whereHas('user', function($query) use($user){
+            $query->where('company_id', $user->company_id);
+        })->orderBy('id', 'DESC')->take(5)->get();
+        $data['orders'] = array();
+        foreach($orders as $o) {
+            $do['id'] = $o->id;
+            $do['displayable_id'] = $o->displayable_id;
+            $do['created_at'] = $o->created_at;
+            $do['customer'] = $o->customer;
+            $do['amount_with_sign'] = $o->amount_with_sign;
+            $do['status'] = $o->status;
+            array_push($data['orders'], $do);
+        }
+        $data['fs_pending'] = \App\Models\FileService::whereHas('user', function($query) use($user){
+            $query->where('company_id', $user->company_id);
+        })->where('status', 'P')->count();
+        $data['fs_open'] = \App\Models\FileService::whereHas('user', function($query) use($user){
+            $query->where('company_id', $user->company_id);
+        })->where('status', 'O')->count();
+        $data['fs_waiting'] = \App\Models\FileService::whereHas('user', function($query) use($user){
+            $query->where('company_id', $user->company_id);
+        })->where('status', 'W')->count();
+        $data['fs_completed'] = \App\Models\FileService::whereHas('user', function($query) use($user){
+            $query->where('company_id', $user->company_id);
+        })->where('status', 'C')->count();
+        return response()->json($data);
+    }
     public function dashboardAdmin()
     {
         $user = $this->user;

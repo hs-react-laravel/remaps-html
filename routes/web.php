@@ -88,6 +88,7 @@ Route::group(['middleware' => 'web', 'prefix'=>'admin'], function(){
 });
 Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboardAdmin'])->name('dashboard.admin');
+    Route::get('/dashboard-api', [DashboardController::class, 'dashboardAdminApi'])->name('dashboard.admin.api');
     Route::resource('fileservices', FileServiceController::class);
     Route::get('fileservices/{id}/download-original', [FileServiceController::class, 'download_original'])->name('fileservice.download.original');
     Route::get('fileservices/{id}/download-modified', [FileServiceController::class, 'download_modified'])->name('fileservice.download.modified');

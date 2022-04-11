@@ -55,7 +55,7 @@
                   </div>
                 </div>
                 <div class="my-auto">
-                  <h4 class="fw-bolder mb-0">{{ $data['fs_pending'] }}</h4>
+                  <h4 class="fw-bolder mb-0" id="fs-pending"></h4>
                   <p class="card-text font-small-3 mb-0">{{ __('locale.dash_PendingFileService') }}</p>
                 </div>
               </div>
@@ -68,7 +68,7 @@
                   </div>
                 </div>
                 <div class="my-auto">
-                  <h4 class="fw-bolder mb-0">{{ $data['fs_open'] }}</h4>
+                  <h4 class="fw-bolder mb-0" id="fs-open"></h4>
                   <p class="card-text font-small-3 mb-0">{{ __('locale.dash_OpenFileService') }}</p>
                 </div>
               </div>
@@ -81,7 +81,7 @@
                   </div>
                 </div>
                 <div class="my-auto">
-                  <h4 class="fw-bolder mb-0">{{ $data['fs_waiting'] }}</h4>
+                  <h4 class="fw-bolder mb-0" id="fs-waiting"></h4>
                   <p class="card-text font-small-3 mb-0">{{ __('locale.dash_WaitingService') }}</p>
                 </div>
               </div>
@@ -94,7 +94,7 @@
                   </div>
                 </div>
                 <div class="my-auto">
-                  <h4 class="fw-bolder mb-0">{{ $data['fs_completed'] }}</h4>
+                  <h4 class="fw-bolder mb-0" id="fs-completed"></h4>
                   <p class="card-text font-small-3 mb-0">{{ __('locale.dash_CompletedService') }}</p>
                 </div>
               </div>
@@ -123,28 +123,7 @@
                 <th>{{ __('locale.tb_header_Options') }}</th>
               </tr>
             </thead>
-              <tbody>
-                @if($data['orders']->count() > 0)
-                  @foreach($data['orders'] as $order)
-                    <tr>
-                      <td>{{ $order->displayable_id }}</td>
-                      <td>{{ $order->created_at }}</td>
-                      <td>{{ $order->customer }}</td>
-                      <td>{{ config('constants.currency_signs')[$company->paypal_currency_code] .' '. $order->amount_with_sign }}</td>
-                      <td>{{ $order->status }}</td>
-                      <td>
-                        <a class="btn btn-icon btn-success" href="{{ route('order.invoice', ['id' => $order->id]) }}" title="Download Invoice">
-                          <i data-feather="file"></i>
-                        </a>
-                      </td>
-                    </tr>
-                  @endforeach
-                @else
-                  <tr>
-                    <td colspan="6">No file services created by you yet!</td>
-                  </tr>
-                @endif
-            </tbody>
+            <tbody id="tbody"></tbody>
           </table>
           <a class="btn btn-primary me-1" href="{{ route('orders.index') }}">{{ __('locale.btn_ViewAllOrders') }}</a>
         </div>
@@ -163,5 +142,46 @@
     function onFS(status) {
       location.href = `/admin/fileservices?status=${status}`;
     }
+    function fetchInfo() {
+      $.ajax({
+        type: 'GET',
+        url: "{{ route('dashboard.admin.api') }}",
+        success: function(result) {
+          console.log(result);
+          $('#fs-pending').html(result.fs_pending);
+          $('#fs-open').html(result.fs_open);
+          $('#fs-waiting').html(result.fs_waiting);
+          $('#fs-completed').html(result.fs_completed);
+          if (result.orders.length > 0) {
+            var html = ''
+            result.orders.forEach(o => {
+              html += `
+                <tr>
+                  <td>${o.displayable_id}</td>
+                  <td>${o.created_at}</td>
+                  <td>${o.customer}</td>
+                  <td>{{ config('constants.currency_signs')[$company->paypal_currency_code] }} ${o.amount_with_sign}</td>
+                  <td>${o.status}</td>
+                  <td>
+                    <a class="btn btn-icon btn-success" href="/admin/orders/${o.id}/invoice" title="Download Invoice">
+                      ${feather.icons['file'].toSvg()}
+                    </a>
+                  </td>
+                </tr>
+              `
+            })
+            $('#tbody').html(html)
+          } else {
+            $('#tbody').html('<tr><td colspan="6">No file services created by you yet!</td></tr>')
+          }
+        }
+      })
+    }
+    fetchInfo()
+    $(document).ready(function($) {
+      setInterval(() => {
+        fetchInfo()
+      }, 5 * 1000);
+    })
   </script>
 @endsection
