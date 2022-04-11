@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Config;
 
 use App\Models\Styling;
 use App\Models\Company;
+use App\Models\NotificationRead;
 
 class MasterController extends BaseController
 {
@@ -111,6 +112,15 @@ class MasterController extends BaseController
                         $evc_menu->icon = "dollar-sign";
                         $evc_menu->slug = "evc-tuning-credits.index";
                         array_splice($verticalMenuData->menu, 9, 0, [$evc_menu]);
+                    }
+
+                    if ($this->role == 'customer') {
+                        $notifies = array_filter($this->user->notifies->toArray(), function($obj){
+                            $readObj = NotificationRead::where('notification_id', $obj['id'])->where('user_id', $this->user->id)->first();
+                            if ($readObj->is_read) return false;
+                            return true;
+                        });
+                        view()->share('notifies', $notifies);
                     }
 
                     // Share all menuData to all the views

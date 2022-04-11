@@ -77,6 +77,12 @@
         "slug": "admin.cars.index"
     },
     {
+        "url": "admin/notifications",
+        "name": "menu_Notifications",
+        "icon": "bell",
+        "slug": "notifications.index"
+    },
+    {
         "navheader": "Admin Functions",
         "slug": ""
     },

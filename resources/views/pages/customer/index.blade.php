@@ -43,49 +43,6 @@
               <th width="20%">{{__('locale.tb_header_Actions')}}</th>
             </tr>
           </thead>
-          {{-- <tbody>
-            @if (count($users) > 0)
-              @foreach ($users as $u)
-                <tr>
-                    <td>{{ $u->fullName }}</td>
-                    <td>{{ $u->business_name }}</td>
-                    <td>{{ number_format($u->tuning_credits, 2) }}</td>
-                    <td>{{ $u->tuningPriceGroup }}</td>
-                    @if ($user->company->reseller_id)
-                    <td>{{ $u->tuning_evc_price_group }}</td>
-                    @endif
-                    <td>{{ $u->fileServicesCount }}</td>
-                    <td>{{ $u->lastLoginDiff }}</td>
-                    <td class="td-actions">
-                      <a class="btn btn-icon btn-primary" href="{{ route('customers.edit', ['customer' => $u->id]) }}" title="Edit">
-                        <i data-feather="edit"></i>
-                      </a>
-                      <a class="btn btn-icon btn-success" href="{{ route('customer.fs', ['id' => $u->id]) }}" title="File Services">
-                        <i data-feather="file-text"></i>
-                      </a>
-                      <a class="btn btn-icon btn-success" target="_blank" href="{{ route('customer.sa', ['id' => $u->id]) }}" title="Login as Customer">
-                        <i data-feather="user"></i>
-                      </a>
-                      <a class="btn btn-icon btn-success" href="{{ route('customer.tr', ['id' => $u->id]) }}" title="Transactions">
-                        <i data-feather="credit-card"></i>
-                      </a>
-                      <a class="btn btn-icon btn-success" title="Send Password Reset Link">
-                        <i data-feather="mail"></i>
-                      </a>
-                      <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $u->id }}" title="Delete"><i data-feather="trash-2"></i></a>
-                      <form action="{{ route('customers.destroy', $u->id) }}" class="delete-form" method="POST" style="display:none">
-                        <input type="hidden" name="_method" value="DELETE">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                      </form>
-                    </td>
-                </tr>
-              @endforeach
-            @else
-              <tr>
-                <td colspan="7">No matching records found</td>
-              </tr>
-            @endif
-          </tbody> --}}
         </table>
       </div>
     </div>

@@ -64,6 +64,10 @@ return [
     'tb_header_Type' => 'Type',
     'tb_header_Working' => 'Working',
     'tb_header_Assign' => 'Assign',
+    'tb_header_Notification_Subject' => 'Subject',
+    'tb_header_Notification_Content' => 'Content',
+    'tb_header_Notification_To' => 'To',
+    'tb_header_Notification_Type' => 'Type',
 
     'btn_ViewAllFileServices' => 'View all file services',
     'btn_Submit' => 'Submit',
@@ -99,6 +103,7 @@ return [
     'menu_MySubscriptions' => 'My Subscriptions',
     'menu_CompanySettings' => 'Company Settings',
     'menu_BrowseSpecs' => 'Browse Tuning Specs',
+    'menu_Notifications' => 'Notifications',
     'menu_Manage_Companies'=> 'Manage Companies',
     'menu_Packages'=> 'Packages',
     'menu_Slider_Manager'=> 'Slider Manager',

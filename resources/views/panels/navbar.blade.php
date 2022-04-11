@@ -130,12 +130,64 @@
     </li>
     {{-- <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-style"><i class="ficon"
           data-feather="{{ $configData['theme'] === 'dark' ? 'sun' : 'moon' }}"></i></a></li> --}}
+    @if ($role == "customer")
+    <li class="nav-item dropdown dropdown-notification me-25">
+      <a class="nav-link" href="javascript:void(0);" data-bs-toggle="dropdown">
+        <i class="ficon" data-feather="bell"></i>
+        @if(count($notifies) > 0)
+        <span class="badge rounded-pill bg-danger badge-up">{{ count($notifies) }}</span>
+        @endif
+      </a>
+      <ul class="dropdown-menu dropdown-menu-media dropdown-menu-end">
+        <li class="dropdown-menu-header">
+          <div class="dropdown-header d-flex">
+            <h4 class="notification-title mb-0 me-auto">Notifications</h4>
+            <div class="badge rounded-pill badge-light-primary">{{ count($notifies) }} New</div>
+          </div>
+        </li>
+        <li class="scrollable-container media-list">
+          @foreach ($notifies as $n)
+          <a class="d-flex" href="javascript:void(0)">
+            <div class="list-item d-flex align-items-start">
+              <div class="me-1">
+                @if($n['icon'] == 0)
+                <div class="avatar bg-light-danger">
+                  <div class="avatar-content"><i class="avatar-icon" data-feather="x"></i></div>
+                </div>
+                @elseif ($n['icon'] == 3)
+                <div class="avatar bg-light-success">
+                  <div class="avatar-content"><i class="avatar-icon" data-feather="check"></i></div>
+                </div>
+                @elseif ($n['icon'] == 1)
+                <div class="avatar bg-light-warning">
+                  <div class="avatar-content"><i class="avatar-icon" data-feather="alert-triangle"></i></div>
+                </div>
+                @elseif ($n['icon'] == 2)
+                <div class="avatar bg-light-info">
+                  <div class="avatar-content"><i class="avatar-icon" data-feather="info"></i></div>
+                </div>
+                @endif
+              </div>
+              <div class="list-item-body flex-grow-1">
+                <p class="media-heading">{{ $n['subject'] }}</p>
+                <small class="notification-text">{{ $n['body'] }}</small>
+              </div>
+            </div>
+          </a>
+          @endforeach
+        </li>
+        <li class="dropdown-menu-footer">
+          <a class="btn btn-primary w-100" href="{{ route('notification.read.all') }}">Read all notifications</a>
+        </li>
+      </ul>
+    </li>
+    @endif
     <li class="nav-item dropdown dropdown-user">
       <a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="javascript:void(0);"
         data-bs-toggle="dropdown" aria-haspopup="true">
         <div class="user-nav d-sm-flex d-none">
           <span class="user-name fw-bolder">
-            {{ $user->fullname }}
+            {{ $user->fullName }}
           </span>
           <span class="user-status">
             {{ ucfirst($role) }}

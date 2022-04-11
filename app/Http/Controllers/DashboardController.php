@@ -9,6 +9,7 @@ use App\Http\Requests\AccountStaffRequest;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Models\CustomerRating;
 use App\Models\Company;
+use App\Models\NotificationRead;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -207,6 +208,11 @@ class DashboardController extends MasterController
         }catch(\Exception $e){
             session()->flash('error', $e->getMessage());
         }
+        return redirect()->back();
+    }
+
+    public function read_all_notification() {
+        NotificationRead::where('user_id', $this->user->id)->update(['is_read' => 1]);
         return redirect()->back();
     }
 }

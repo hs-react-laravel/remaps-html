@@ -20,6 +20,7 @@ use App\Http\Controllers\Remaps\TuningTypeController;
 use App\Http\Controllers\Remaps\TuningTypeOptionController;
 use App\Http\Controllers\Remaps\StaffController;
 use App\Http\Controllers\Remaps\SubscriptionController;
+use App\Http\Controllers\Remaps\NotificationController;
 use App\Http\Controllers\Consumer\BuyTuningCreditsController;
 use App\Http\Controllers\Consumer\FileServiceController as FSController;
 use App\Http\Controllers\Consumer\TicketController as TKController;
@@ -130,6 +131,9 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::get('customers/{id}/switch-account',[CustomerController::class, 'switchAccount'])->name('customer.sa');
     Route::post('customers/api', [CustomerController::class, 'api'])->name('customer.api');
 
+    Route::resource('notifications', NotificationController::class);
+    Route::post('notifications/api', [NotificationController::class, 'api'])->name('notification.api');
+
     Route::resource('tuning-credits', TuningCreditController::class);
     Route::get('tuning-credits/{id}/default', [TuningCreditController::class, 'set_default'])->name('tuning-credits.default');
     Route::delete('tuning-tires/{id}/delete', [TuningCreditController::class, 'delete_tire'])->name('tuning-tires.destroy');
@@ -236,6 +240,7 @@ Route::group(['middleware' => 'auth:customer', 'prefix'=>'customer'], function (
 
     Route::get('/edit-password', [DashboardController::class, 'edit_password'])->name('password.edit');
     Route::post('/edit-password', [DashboardController::class, 'edit_password_post'])->name('password.edit.post');
+    Route::get('/read-all-notification', [DashboardController::class, 'read_all_notification'])->name('notification.read.all');
 });
 Route::group(['middleware' => 'check.common'], function () {
 
