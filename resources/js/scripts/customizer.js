@@ -84,6 +84,10 @@
     collapseSidebar.prop('checked', false);
   }
 
+  const colors = [
+    'primary', 'secondary', 'success', 'danger', 'info', 'warning', 'dark', 'dblue', 'dgreen', 'soil', 'dred', 'tred'
+  ]
+
   /***** Navbar Color Options *****/
   $('#customizer-navbar-colors .color-box').on('click', function () {
     var $this = $(this);
@@ -94,37 +98,37 @@
     if (navbarColor) {
       body
         .find(navbar)
-        .removeClass('bg-primary bg-secondary bg-success bg-danger bg-info bg-warning bg-dark')
+        .removeClass(colors.map(c => `bg-${c}`).join(' '))
         .addClass(navbarColor + ' navbar-dark');
       body
         .find(mainMenuNavigation)
-        .removeClass('theme-primary theme-secondary theme-success theme-danger theme-info theme-warning theme-dark')
+        .removeClass(colors.map(c => `theme-${c}`).join(' '))
         .addClass("theme-" + navbarColor.substring(3));
       body
         .find(mainBody)
-        .removeClass('theme-primary theme-secondary theme-success theme-danger theme-info theme-warning theme-dark')
+        .removeClass(colors.map(c => `theme-${c}`).join(' '))
         .addClass("theme-" + navbarColor.substring(3))
-      $('.customizer-toggle').removeClass('bg-primary bg-secondary bg-success bg-danger bg-info bg-warning bg-dark')
+      $('.customizer-toggle').removeClass(colors.map(c => `bg-${c}`).join(' '))
         .addClass(navbarColor + ' navbar-dark');
-      $('.pagination').removeClass('pagination-primary pagination-secondary pagination-success pagination-danger pagination-info pagination-warning pagination-dark')
+      $('.pagination').removeClass(colors.map(c => `pagination-${c}`).join(' '))
       .addClass("pagination-" + navbarColor.substring(3))
 
-      $('.badge-tickets').removeClass('bg-primary bg-secondary bg-success bg-danger bg-info bg-warning bg-dark')
+      $('.badge-tickets').removeClass(colors.map(c => `bg-${c}`).join(' '))
         .addClass(navbarColor);
 
       body.find(mainMenuItem).css('color', 'white');
     } else {
       body
         .find(navbar)
-        .removeClass('bg-primary bg-secondary bg-success bg-danger bg-info bg-warning bg-dark navbar-dark');
+        .removeClass(colors.map(c => `bg-${c}`).join(' ') + ' navbar-dark');
       body
         .find(mainMenuNavigation)
-        .removeClass('theme-primary theme-secondary theme-success theme-danger theme-info theme-warning theme-dark');
+        .removeClass(colors.map(c => `theme-${c}`).join(' '));
       body
         .find(mainBody)
-        .removeClass('theme-primary theme-secondary theme-success theme-danger theme-info theme-warning theme-dark')
-      $('.customizer-toggle').removeClass('bg-primary bg-secondary bg-success bg-danger bg-info bg-warning bg-dark')
-      $('.badge-tickets').removeClass('bg-primary bg-secondary bg-success bg-danger bg-info bg-warning bg-dark')
+        .removeClass(colors.map(c => `theme-${c}`).join(' '))
+      $('.customizer-toggle').removeClass(colors.map(c => `bg-${c}`).join(' ') + ' navbar-dark')
+      $('.badge-tickets').removeClass(colors.map(c => `bg-${c}`).join(' ') + ' navbar-dark')
         .addClass('bg-primary');
       body.find(mainMenuItem).css('color', '#625f6e');
     }

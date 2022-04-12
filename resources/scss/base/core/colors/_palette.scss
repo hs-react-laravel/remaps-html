@@ -46,7 +46,7 @@
     @if $color_type== 'base' {
       // background color
       .bg-#{$color_name} {
-        // background-color: $color_value !important;
+        background-color: $color_value !important;
 
         .card-header,
         .card-footer {
@@ -206,6 +206,26 @@
         .theme-dark .btn-primary{
           border-color: $dark !important;
           background-color: $dark !important;
+        }
+        .theme-dblue .btn-primary{
+          border-color: $dblue !important;
+          background-color: $dblue !important;
+        }
+        .theme-dgreen .btn-primary{
+          border-color: $dgreen !important;
+          background-color: $dgreen !important;
+        }
+        .theme-soil .btn-primary{
+          border-color: $soil !important;
+          background-color: $soil !important;
+        }
+        .theme-dred .btn-primary{
+          border-color: $dred !important;
+          background-color: $dred !important;
+        }
+        .theme-tred .btn-primary{
+          border-color: $tred !important;
+          background-color: $tred !important;
         }
         .btn-check {
           &:checked,

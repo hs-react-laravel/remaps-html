@@ -89,6 +89,61 @@ $danger-color: (
   'darken-3': darken($danger, 15%),
   'darken-4': darken($danger, 20%)
 );
+$dblue-color: (
+  'lighten-4': lighten($dblue, 20%),
+  'lighten-3': lighten($dblue, 15%),
+  'lighten-2': lighten($dblue, 10%),
+  'lighten-1': lighten($dblue, 5%),
+  'base': $dblue,
+  'darken-1': darken($dblue, 5%),
+  'darken-2': darken($dblue, 10%),
+  'darken-3': darken($dblue, 15%),
+  'darken-4': darken($dblue, 20%)
+);
+$dgreen-color: (
+  'lighten-4': lighten($dgreen, 20%),
+  'lighten-3': lighten($dgreen, 15%),
+  'lighten-2': lighten($dgreen, 10%),
+  'lighten-1': lighten($dgreen, 5%),
+  'base': $dgreen,
+  'darken-1': darken($dgreen, 5%),
+  'darken-2': darken($dgreen, 10%),
+  'darken-3': darken($dgreen, 15%),
+  'darken-4': darken($dgreen, 20%)
+);
+$soil-color: (
+  'lighten-4': lighten($soil, 20%),
+  'lighten-3': lighten($soil, 15%),
+  'lighten-2': lighten($soil, 10%),
+  'lighten-1': lighten($soil, 5%),
+  'base': $soil,
+  'darken-1': darken($soil, 5%),
+  'darken-2': darken($soil, 10%),
+  'darken-3': darken($soil, 15%),
+  'darken-4': darken($soil, 20%)
+);
+$dred-color: (
+  'lighten-4': lighten($dred, 20%),
+  'lighten-3': lighten($dred, 15%),
+  'lighten-2': lighten($dred, 10%),
+  'lighten-1': lighten($dred, 5%),
+  'base': $dred,
+  'darken-1': darken($dred, 5%),
+  'darken-2': darken($dred, 10%),
+  'darken-3': darken($dred, 15%),
+  'darken-4': darken($dred, 20%)
+);
+$tred-color: (
+  'lighten-4': lighten($tred, 20%),
+  'lighten-3': lighten($tred, 15%),
+  'lighten-2': lighten($tred, 10%),
+  'lighten-1': lighten($tred, 5%),
+  'base': $tred,
+  'darken-1': darken($tred, 5%),
+  'darken-2': darken($tred, 10%),
+  'darken-3': darken($tred, 15%),
+  'darken-4': darken($tred, 20%)
+);
 
 $colors: (
   'white': $white-color,
@@ -100,5 +155,10 @@ $colors: (
   'success': $success-color,
   'info': $info-color,
   'warning': $warning-color,
-  'danger': $danger-color
+  'danger': $danger-color,
+  'dblue': $dblue-color,
+  'dgreen': $dgreen-color,
+  'soil': $soil-color,
+  'dred': $dred-color,
+  'tred': $tred-color,
 );

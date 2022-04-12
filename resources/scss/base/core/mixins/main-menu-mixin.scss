@@ -208,6 +208,56 @@
         }
       }
     }
+    &.theme-dblue {
+      > li {
+        &.active {
+          > a {
+            background: linear-gradient(118deg, rgba($dblue, 1), rgba($dblue, 0.7));
+            color: $white
+          }
+        }
+      }
+    }
+    &.theme-dgreen {
+      > li {
+        &.active {
+          > a {
+            background: linear-gradient(118deg, rgba($dgreen, 1), rgba($dgreen, 0.7));
+            color: $white
+          }
+        }
+      }
+    }
+    &.theme-soil {
+      > li {
+        &.active {
+          > a {
+            background: linear-gradient(118deg, rgba($soil, 1), rgba($soil, 0.7));
+            color: $white
+          }
+        }
+      }
+    }
+    &.theme-dred {
+      > li {
+        &.active {
+          > a {
+            background: linear-gradient(118deg, rgba($dred, 1), rgba($dred, 0.7));
+            color: $white
+          }
+        }
+      }
+    }
+    &.theme-tred {
+      > li {
+        &.active {
+          > a {
+            background: linear-gradient(118deg, rgba($tred, 1), rgba($tred, 0.7));
+            color: $white
+          }
+        }
+      }
+    }
 
     li {
       &.has-sub {

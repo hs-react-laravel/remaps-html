@@ -74,6 +74,11 @@
           <li class="color-box bg-info" data-navbar-color="bg-info"></li>
           <li class="color-box bg-warning" data-navbar-color="bg-warning"></li>
           <li class="color-box bg-dark" data-navbar-color="bg-dark"></li>
+          <li class="color-box bg-dblue" data-navbar-color="bg-dblue"></li>
+          <li class="color-box bg-dgreen" data-navbar-color="bg-dgreen"></li>
+          <li class="color-box bg-soil" data-navbar-color="bg-soil"></li>
+          <li class="color-box bg-dred" data-navbar-color="bg-dred"></li>
+          <li class="color-box bg-tred" data-navbar-color="bg-tred"></li>
         </ul>
       </div>
 
