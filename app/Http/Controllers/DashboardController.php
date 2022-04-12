@@ -241,7 +241,21 @@ class DashboardController extends MasterController
     }
 
     public function read_all_notification() {
-        NotificationRead::where('user_id', $this->user->id)->update(['is_read' => 1]);
-        return redirect()->back();
+        // NotificationRead::where('user_id', $this->user->id)->update(['is_read' => 1]);
+        // return redirect()->back();
+    }
+
+    public function notifications() {
+        return view('pages.dashboard.notifications');
+    }
+
+    public function notification_read_one(Request $request) {
+        $id = $request->id;
+        NotificationRead::where('notification_id', $id)
+        ->where('user_id', $this->user->id)
+        ->first()
+        ->update([
+        'is_read' => 1
+        ]);
     }
 }

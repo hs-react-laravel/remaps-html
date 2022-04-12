@@ -117,7 +117,9 @@ class MasterController extends BaseController
                     if ($this->role == 'customer') {
                         $notifies = array_filter($this->user->notifies->toArray(), function($obj){
                             $readObj = NotificationRead::where('notification_id', $obj['id'])->where('user_id', $this->user->id)->first();
-                            if ($readObj->is_read) return false;
+                            if ($readObj->is_read == 1) {
+                                return false;
+                            }
                             return true;
                         });
                         view()->share('notifies', $notifies);

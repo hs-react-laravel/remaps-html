@@ -177,7 +177,7 @@
           @endforeach
         </li>
         <li class="dropdown-menu-footer">
-          <a class="btn btn-primary w-100" href="{{ route('notification.read.all') }}">Read all notifications</a>
+          <a class="btn btn-primary w-100" href="{{ route('dashboard.notifications') }}">Read all notifications</a>
         </li>
       </ul>
     </li>

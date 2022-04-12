@@ -241,7 +241,8 @@ Route::group(['middleware' => 'auth:customer', 'prefix'=>'customer'], function (
 
     Route::get('/edit-password', [DashboardController::class, 'edit_password'])->name('password.edit');
     Route::post('/edit-password', [DashboardController::class, 'edit_password_post'])->name('password.edit.post');
-    Route::get('/read-all-notification', [DashboardController::class, 'read_all_notification'])->name('notification.read.all');
+    Route::get('/notifications', [DashboardController::class, 'notifications'])->name('dashboard.notifications');
+    Route::post('/notifications/read', [DashboardController::class, 'notification_read_one'])->name('dashboard.notifications.read');
 });
 Route::group(['middleware' => 'check.common'], function () {
 
