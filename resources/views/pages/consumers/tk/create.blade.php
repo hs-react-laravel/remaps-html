@@ -16,7 +16,7 @@
       <form action="{{ route('tk.store') }}" method="post" enctype="multipart/form-data">
         <input type="hidden" name="fileservice_id" value="{{ isset($fileService) ? $fileService->id : "" }}">
         @csrf
-        <div class="card">
+        <div class="card" id="dropContainer">
           <div class="card-header">
             <h4 class="card-title">Contact Us</h4>
           </div>
@@ -44,7 +44,7 @@
               <div class="col-12">
                 <div style="margin-bottom: 2px; cursor: pointer">
                   <label for="document" class="form-label">File</label>
-                  <div class="input-group" onclick="onUpload()" id="dropContainer">
+                  <div class="input-group" onclick="onUpload()">
                     <span class="input-group-text">Choose File</span>
                     <input
                       type="text"
@@ -75,6 +75,7 @@
                     aria-valuemax="100"
                   ></div>
                 </div>
+                <span class="text-danger">Drag and drop file here</span>
               </div>
             </div>
 

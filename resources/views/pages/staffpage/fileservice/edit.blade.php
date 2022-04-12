@@ -7,7 +7,7 @@
 <section id="basic-vertical-layouts">
   <div class="row">
     <div class="col-md-6 col-12">
-      <div class="card">
+      <div class="card" id="dropContainer">
         <div class="card-header">
           <h4 class="card-title">Process the file service</h4>
         </div>
@@ -27,7 +27,7 @@
               <div class="col-12 mb-1">
                 <div style="margin-bottom: 2px">
                   <label for="modified_file" class="form-label">Modified file</label>
-                  <div class="input-group" onclick="onUpload()" id="dropContainer">
+                  <div class="input-group" onclick="onUpload()">
                     <span class="input-group-text">Choose File</span>
                     <input
                       type="text"
@@ -58,6 +58,7 @@
                     aria-valuemax="100"
                   ></div>
                 </div>
+                <span class="text-danger">Drag and drop file here</span>
               </div>
               <div class="col-12">
                 <div class="mb-1">

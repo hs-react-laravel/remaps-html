@@ -16,7 +16,7 @@
     <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
     <div class="row">
       <div class="col-md-12">
-        <div class="card">
+        <div class="card" id="dropContainer">
           <div class="card-header">
             <h4 class="card-title">Add a new file service</h4>
           </div>
@@ -182,7 +182,7 @@
               <div class="col-12 mb-1">
                 <div style="margin-bottom: 2px">
                   <label for="orginal_file" class="form-label">Modified file</label>
-                  <div class="input-group" onclick="onUpload()" id="dropContainer">
+                  <div class="input-group" onclick="onUpload()">
                     <span class="input-group-text">Choose File</span>
                     <input
                       type="text"
@@ -213,6 +213,7 @@
                     aria-valuemax="100"
                   ></div>
                 </div>
+                <span class="text-danger">Drag and drop file here</span>
               </div>
             </div>
 

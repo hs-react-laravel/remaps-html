@@ -7,7 +7,7 @@
 <section id="basic-vertical-layouts">
   <div class="row">
     <div class="col-md-6 col-12">
-      <div class="card">
+      <div class="card" id="dropContainer">
         <div class="card-header">
           <h4 class="card-title">Contact Us</h4>
           <a href="{{ route('tk.close', ['id' => $entry->id]) }}" class="btn btn-icon btn-primary">
@@ -71,7 +71,7 @@
               <div class="col-12">
                 <div style="margin-bottom: 2px; cursor: pointer">
                   <label for="document" class="form-label">File</label>
-                  <div class="input-group" onclick="onUpload()" id="dropContainer">
+                  <div class="input-group" onclick="onUpload()">
                     <span class="input-group-text">Choose File</span>
                     <input
                       type="text"
@@ -102,6 +102,7 @@
                     aria-valuemax="100"
                   ></div>
                 </div>
+                <span class="text-danger">Drag and drop file here</span>
               </div>
             </div>
             <div class="col-12">
