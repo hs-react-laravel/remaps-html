@@ -48,10 +48,10 @@
               <div class="col-12">
                 <label class="form-label" for="icon">Type</label>
                 <select class="form-select" id="icon" name="icon">
-                  <option value="0">Danger</option>
-                  <option value="1">Warning</option>
-                  <option value="2">Info</option>
-                  <option value="3">Success</option>
+                  <option value="0">Important News</option>
+                  <option value="1">Updates</option>
+                  <option value="2">News</option>
+                  <option value="3">General Info</option>
                 </select>
               </div>
             </div>
