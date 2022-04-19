@@ -194,7 +194,7 @@ class NotificationController extends MasterController
         $allCustomers = $this->users();
 
         foreach($entries as $entry) {
-            $types = ['Danger', 'Warning', 'Info', 'Success'];
+            $types = ['Important News', 'Updates', 'News', 'General Info'];
             $customerIDs = NotificationRead::where('notification_id', $entry->id)->pluck('user_id');
             $customers = User::whereIn('id', $customerIDs)->get();
             $name_array = [];
