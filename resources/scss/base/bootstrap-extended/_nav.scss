@@ -172,6 +172,36 @@
     .nav-link:after { background: linear-gradient(30deg, rgba($dark, 1), rgba($dark, 0.5)) !important; }
   }
 }
+.theme-dblue {
+  .nav-tabs {
+    .nav-link.active { color: $dblue !important; }
+    .nav-link:after { background: linear-gradient(30deg, rgba($dblue, 1), rgba($dblue, 0.5)) !important; }
+  }
+}
+.theme-dgreen {
+  .nav-tabs {
+    .nav-link.active { color: $dgreen !important; }
+    .nav-link:after { background: linear-gradient(30deg, rgba($dgreen, 1), rgba($dgreen, 0.5)) !important; }
+  }
+}
+.theme-soil {
+  .nav-tabs {
+    .nav-link.active { color: $soil !important; }
+    .nav-link:after { background: linear-gradient(30deg, rgba($soil, 1), rgba($soil, 0.5)) !important; }
+  }
+}
+.theme-dred {
+  .nav-tabs {
+    .nav-link.active { color: $dred !important; }
+    .nav-link:after { background: linear-gradient(30deg, rgba($dred, 1), rgba($dred, 0.5)) !important; }
+  }
+}
+.theme-tred {
+  .nav-tabs {
+    .nav-link.active { color: $tred !important; }
+    .nav-link:after { background: linear-gradient(30deg, rgba($tred, 1), rgba($tred, 0.5)) !important; }
+  }
+}
 // Basic Nav Tabs
 .nav-tabs {
   margin-bottom: 1rem;

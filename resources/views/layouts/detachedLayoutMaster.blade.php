@@ -53,6 +53,21 @@ data-textdirection="{{ env('MIX_CONTENT_DIRECTION') === 'rtl' ? 'rtl' : 'ltr' }}
         case 'bg-dark':
             textColor = '#4b4b4b'
             break;
+        case 'bg-dblue':
+            textColor = '#180061'
+            break;
+        case 'bg-dgreen':
+            textColor = '#044a01'
+            break;
+        case 'bg-soil':
+            textColor = '#ed7905'
+            break;
+        case 'bg-dred':
+            textColor = '#d90b04'
+            break;
+        case 'bg-tred':
+            textColor = '#910601'
+            break;
         case 'bg-primary':
         default:
             textColor = '#7367f0'

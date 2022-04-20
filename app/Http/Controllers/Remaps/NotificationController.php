@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Remaps;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\MasterController;
+use App\Mail\NewNotificationEmail;
 use App\Models\Notification;
 use App\Models\NotificationRead;
 use App\Models\User;
@@ -60,6 +62,12 @@ class NotificationController extends MasterController
                         'user_id' => $u->id,
                         'is_read' => 0
                     ]);
+
+                    try{
+                        Mail::to($u->email)->send(new NewNotificationEmail($this->company, $u));
+                    }catch(\Exception $ex){
+                        session()->flash('error', $ex->getMessage());
+                    }
                 }
             } else {
                 $userIDs = $request->to;
@@ -69,6 +77,12 @@ class NotificationController extends MasterController
                         'user_id' => $uID,
                         'is_read' => 0
                     ]);
+                    $u = User::find($uID);
+                    try{
+                        Mail::to($u->email)->send(new NewNotificationEmail($this->company, $u));
+                    }catch(\Exception $ex){
+                        session()->flash('error', $ex->getMessage());
+                    }
                 }
             }
             return redirect(route('notifications.index'));

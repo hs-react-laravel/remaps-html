@@ -31,7 +31,8 @@ return [
         'customer-activate-email' =>'Company  Registration Activate',
         'new-company-apply'=>'New Company apply',
         'file-service-upload-limited'=>'File Service Upload Limited',
-        'staff-job-assigned'=>'Job assigned for staff'
+        'staff-job-assigned'=>'Job assigned for staff',
+        'new-notification'=>'New Notification Email'
     ],
 
     'currency_sign'=>'£',
