@@ -81,6 +81,12 @@
         "name": "menu_BrowseSpecs",
         "icon": "search",
         "slug": "admin.cars.index"
+    },
+    {
+        "url": "admin/notifications",
+        "name": "menu_Notifications",
+        "icon": "bell",
+        "slug": "notifications.index"
     }
   ]
 }
