@@ -24,6 +24,7 @@ class CompanyController extends MasterController
      */
     public function index()
     {
+        $this->check_master();
         $user = $this->user;
         $entries = Company::where('id', '!=', $user->company->id)->orderBy('id', 'DESC')->paginate(20);
         return view('pages.company.index', [
@@ -38,6 +39,7 @@ class CompanyController extends MasterController
      */
     public function create()
     {
+        $this->check_master();
         $entry = new Company;
         return view('pages.company.edit', [
             'entry' => $entry
@@ -234,6 +236,7 @@ class CompanyController extends MasterController
      */
     public function edit($id)
     {
+        $this->check_master();
         $entry = Company::find($id);
         return view('pages.company.edit', [
             'entry' => $entry
@@ -433,6 +436,7 @@ class CompanyController extends MasterController
 
     public function activate($id)
     {
+        $this->check_master();
         $company = Company::find($id);
 		$companyUser = $company->owner;
         if($companyUser->is_active ==1){
@@ -454,6 +458,7 @@ class CompanyController extends MasterController
     }
 
     public function resendPasswordResetLink($id){
+        $this->check_master();
         $company = Company::find($id);
         $this->setCompanyMailSender();
         try {
@@ -469,6 +474,7 @@ class CompanyController extends MasterController
 
     public function public($id)
     {
+        $this->check_master();
         $company = Company::find($id);
 		if($company->is_public == 1){
 			$company->is_public = 0;
@@ -480,6 +486,7 @@ class CompanyController extends MasterController
     }
 
     public function switchAsCompany($id){
+        $this->check_master();
         $company = Company::find($id);
         $user = $company->users()->where('is_master', 0)->where('is_admin', 1)->first();
         if($user){
@@ -489,6 +496,7 @@ class CompanyController extends MasterController
     }
 
     public function trial($id) {
+        $this->check_master();
         $subscriptions = Company::find($id)->owner->subscriptions->sortByDesc('id');
         return view('pages.company.trial', compact('id', 'subscriptions'));
     }

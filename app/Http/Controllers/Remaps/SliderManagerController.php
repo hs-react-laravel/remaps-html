@@ -16,6 +16,7 @@ class SliderManagerController extends MasterController
      */
     public function index()
     {
+        $this->check_master();
         $entries = SliderManager::get();
         return view('pages.sliders.index', compact('entries'));
     }
@@ -27,6 +28,7 @@ class SliderManagerController extends MasterController
      */
     public function create()
     {
+        $this->check_master();
         return view('pages.sliders.create');
     }
 
@@ -67,6 +69,7 @@ class SliderManagerController extends MasterController
      */
     public function edit($id)
     {
+        $this->check_master();
         $entry = SliderManager::find($id);
         return view('pages.sliders.edit', compact('entry'));
     }

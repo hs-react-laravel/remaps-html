@@ -16,7 +16,7 @@ class PackageController extends MasterController
      */
     public function index()
     {
-        //
+        $this->check_master();
         $entries = Package::orderBy('id', 'DESC')->get();
         return view('pages.package.index', [
             'entries' => $entries
@@ -53,6 +53,7 @@ class PackageController extends MasterController
      */
     public function create()
     {
+        $this->check_master();
         return view('pages.package.create');
     }
 
@@ -147,6 +148,7 @@ class PackageController extends MasterController
      */
     public function edit($id)
     {
+        $this->check_master();
         $entry = Package::find($id);
         return view('pages.package.edit', compact('entry'));
     }

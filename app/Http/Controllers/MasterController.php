@@ -23,6 +23,11 @@ class MasterController extends BaseController
     protected $is_evc;
     protected $tickets;
 
+    protected function check_master() {
+        if ($this->company->id != 1)
+            abort(403);
+    }
+
     public function __construct() {
         $this->middleware(function ($request, $next, $guard = null) {
             try {
