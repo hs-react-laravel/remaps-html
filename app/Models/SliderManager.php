@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SliderManager extends Model
 {
-    use SoftDeletes;
     /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES

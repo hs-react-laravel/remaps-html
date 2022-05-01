@@ -8,7 +8,6 @@ use App\Helpers\Helper;
 
 class EmailTemplate extends Model
 {
-    use SoftDeletes;
     /**
      * The attributes that are mass assignable.
      *
