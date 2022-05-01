@@ -83,6 +83,12 @@
         "slug": "notifications.index"
     },
     {
+        "url": "admin/shopproducts",
+        "name": "menu_Shop_products",
+        "icon": "shopping-cart",
+        "slug": "shopproducts.index"
+    },
+    {
         "navheader": "Admin Functions",
         "slug": ""
     },

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Remaps;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\MasterController;
 use App\Models\ShopCategory;
+use App\Models\ShopProduct;
+use Illuminate\Http\Request;
 
-class ShopCategoryController extends MasterController
+class ShopProductController extends MasterController
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +16,9 @@ class ShopCategoryController extends MasterController
      */
     public function index()
     {
-        $this->check_master();
-        return view('pages.ecommerce.shopcategory.index')->with([
-            'entries' => ShopCategory::get()
+        $products = ShopProduct::where('company_id', $this->company->id)->get();
+        return view('pages.ecommerce.shopproducts.index')->with([
+            'entries' => $products
         ]);
     }
 
@@ -28,8 +29,10 @@ class ShopCategoryController extends MasterController
      */
     public function create()
     {
-        $this->check_master();
-        return view('pages.ecommerce.shopcategory.create');
+        $categories = ShopCategory::get();
+        return view('pages.ecommerce.shopproducts.create')->with([
+            'categories' => $categories
+        ]);
     }
 
     /**
@@ -40,9 +43,8 @@ class ShopCategoryController extends MasterController
      */
     public function store(Request $request)
     {
-        $this->check_master();
-        ShopCategory::create($request->all());
-        return redirect()->route('shopcategories.index');
+        //
+        dd($request);
     }
 
     /**
@@ -64,11 +66,7 @@ class ShopCategoryController extends MasterController
      */
     public function edit($id)
     {
-        $this->check_master();
-        $sc = ShopCategory::find($id);
-        return view('pages.ecommerce.shopcategory.edit')->with([
-            'entry' => $sc
-        ]);
+        //
     }
 
     /**
@@ -80,10 +78,7 @@ class ShopCategoryController extends MasterController
      */
     public function update(Request $request, $id)
     {
-        $this->check_master();
-        $sc = ShopCategory::find($id);
-        $sc->update($request->all());
-        return redirect()->route('shopcategories.index');
+        //
     }
 
     /**
@@ -94,8 +89,26 @@ class ShopCategoryController extends MasterController
      */
     public function destroy($id)
     {
-        $this->check_master();
-        ShopCategory::find($id)->delete();
-        return redirect()->route('shopcategories.index');
+        //
+    }
+
+    public function uploadImageFile(Request $request){
+        // return response()->json($request->all(), 200);
+        if($request->file('files')){
+            $files = $request->file('files');
+            $filenames = array();
+            foreach($files as $file) {
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $file->move(storage_path('app/public/uploads/products/'), $filename);
+                array_push($filenames, $filename);
+            }
+            return response()->json([
+                'status'=> TRUE,
+                'files' => $filenames,
+            ], 200);
+
+        }else{
+            return response()->json(['status'=> FALSE], 404);
+        }
     }
 }

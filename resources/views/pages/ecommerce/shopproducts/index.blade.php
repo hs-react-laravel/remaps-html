@@ -1,7 +1,7 @@
 
 @extends('layouts/contentLayoutMaster')
 
-@section('title', __('locale.menu_Shop_categories'))
+@section('title', __('locale.menu_Shop_products'))
 
 @section('content')
 <!-- Basic Tables start -->
@@ -9,9 +9,9 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">{{__('locale.menu_Shop_categories')}}</h4>
-        <a href="{{ route('shopcategories.create') }}" class="btn btn-icon btn-primary">
-          <i data-feather="user-plus"></i>
+        <h4 class="card-title">{{__('locale.menu_Shop_products')}}</h4>
+        <a href="{{ route('shopproducts.create') }}" class="btn btn-icon btn-primary">
+          New Product
         </a>
       </div>
       <div class="table-responsive">
@@ -25,17 +25,17 @@
           <tbody>
             @foreach ($entries as $entry)
               <tr>
-                  <td>{{ $entry->name }}</td>
-                  <td class="td-actions">
-                    <a class="btn btn-icon btn-primary" href="{{ route('shopcategories.edit', ['shopcategory' => $entry->id]) }}" title="Edit">
-                      <i data-feather="edit"></i>
-                    </a>
-                    <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}" title="Delete"><i data-feather="trash-2"></i></a>
-                    <form action="{{ route('shopcategories.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
-                      <input type="hidden" name="_method" value="DELETE">
-                      <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    </form>
-                  </td>
+                <td>{{ $entry->name }}</td>
+                <td class="td-actions">
+                  <a class="btn btn-icon btn-primary" href="{{ route('shopproducts.edit', ['shopproduct' => $entry->id]) }}" title="Edit">
+                    <i data-feather="edit"></i>
+                  </a>
+                  <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}" title="Delete"><i data-feather="trash-2"></i></a>
+                  <form action="{{ route('shopproducts.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                  </form>
+                </td>
               </tr>
             @endforeach
           </tbody>

@@ -32,6 +32,7 @@ use App\Http\Controllers\Remaps\SliderManagerController;
 use App\Http\Controllers\Remaps\TuningEVCCreditController;
 use App\Http\Controllers\PaypalWebhookController;
 use App\Http\Controllers\Remaps\ShopCategoryController;
+use App\Http\Controllers\Remaps\ShopProductController;
 use App\Http\Controllers\Staff\FileServiceController as StaffFileServiceController;
 use App\Http\Controllers\Staff\TicketController as StaffTicketController;
 /*
@@ -119,6 +120,8 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::resource('packages', PackageController::class);
     Route::resource('slidermanagers', SliderManagerController::class);
     Route::resource('shopcategories', ShopCategoryController::class);
+    Route::resource('shopproducts', ShopProductController::class);
+    Route::post('shopproducts/api/upload', [ShopProductController::class, 'uploadImageFile'])->name('shopproducts.files.api');
 
     Route::get('company-settings', [CompanySettingController::class, 'company_setting'])->name('company.setting');
     Route::post('company-settings-update', [CompanySettingController::class, 'store'])->name('company.setting.store');

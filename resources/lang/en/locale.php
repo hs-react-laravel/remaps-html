@@ -108,6 +108,7 @@ return [
     'menu_Packages'=> 'Packages',
     'menu_Slider_Manager'=> 'Slider Manager',
     'menu_Shop_categories'=> 'Shop Categories',
+    'menu_Shop_products'=> 'Shop Products',
 
 
 //    dashboard top title
