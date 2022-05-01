@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Helpers\Helper;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
-
+    use SoftDeletes;
     /**
      * The attributes that are mass assignable.
      *

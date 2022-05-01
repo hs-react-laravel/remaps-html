@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Helpers\Helper;
 
 class Ticket extends Model
 {
-
+    use SoftDeletes;
     /**
      * The table.
      *
