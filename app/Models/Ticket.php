@@ -8,6 +8,7 @@ use App\Helpers\Helper;
 
 class Ticket extends Model
 {
+    use SoftDeletes;
     /**
      * The table.
      *

@@ -8,6 +8,7 @@ use App\Helpers\Helper;
 
 class Company extends Model
 {
+    use SoftDeletes;
     /**
      * The attributes that are mass assignable.
      *

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TuningType extends Model
 {
+    use SoftDeletes;
     /**
      * The attributes that are mass assignable.
      *

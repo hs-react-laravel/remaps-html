@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TuningCreditTire extends Model
 {
+    use SoftDeletes;
     /**
      * The attributes that are mass assignable.
      *
