@@ -231,6 +231,7 @@ Route::group(['middleware' => 'auth:customer', 'prefix'=>'customer'], function (
     Route::get('/buy-credits/cancel', [BuyTuningCreditsController::class, 'paymentCancel'])->name('consumer.buy-credits.cancel');
     Route::get('/buy-credits/success', [BuyTuningCreditsController::class, 'paymentSuccess'])->name('consumer.buy-credits.success');
     Route::post('/buy-credits/stripe-post', [BuyTuningCreditsController::class, 'stripePost'])->name('consumer.buy-credits.stripe-post');
+    Route::get('orders/{id}/invoice', [ODController::class, 'invoice'])->name('customer.order.invoice');
     // Main Page Route
     // Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard');
     Route::post('/customer-rate', [DashboardController::class, 'addRating'])->name('dashboard.rate');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Consumer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\MasterController;
 use App\Models\Order;
+use Dompdf\Dompdf;
 
 class OrderController extends MasterController
 {
@@ -17,7 +18,7 @@ class OrderController extends MasterController
     {
         $user = $this->user;
         $entries = Order::where('user_id', $this->user->id)->orderBy('id', 'DESC')->paginate(10);
-        return view('pages.orders.index', [
+        return view('pages.consumers.od.index', [
             'entries' => $entries
         ]);
     }
@@ -86,5 +87,25 @@ class OrderController extends MasterController
     public function destroy($id)
     {
         //
+    }
+
+    public function invoice($id){
+        try{
+            $order = Order::find($id);
+            $pdf = new Dompdf;
+            $invoiceName = 'invoice_'.$order->displayable_id.'.pdf';
+            $options = $pdf->getOptions();
+            $options->setIsRemoteEnabled(true);
+            $pdf->setOptions($options);
+
+            $pdf->loadHtml(
+                view('pdf.invoice')->with(['order'=>$order, 'company'=>$this->company])->render()
+            );
+            $pdf->setPaper('A4', 'landscape');
+            $pdf->render();
+            return $pdf->stream($invoiceName);
+        }catch(\Exception $e){
+            return redirect(url('customer/od'));
+        }
     }
 }
