@@ -73,8 +73,8 @@ $configData = Helper::applClasses();
                 $daymark_to = substr($day, 0, 3).'_to';
                 $timezone = Helper::companyTimeZone();
                 $tz = \App\Models\Timezone::find($timezone ?? 1);
-                $day_from = $company->$daymark_from ? \Carbon\Carbon::parse($company->$daymark_from)->tz($tz->name)->format('H:i') : $company->$daymark_from;
-                $day_to = $company->$daymark_to ? \Carbon\Carbon::parse($company->$daymark_to)->tz($tz->name)->format('H:i') : $company->$daymark_to;
+                $day_from = $company->$daymark_from;
+                $day_to = $company->$daymark_to;
               @endphp
               <div class="openhours_sidebar_wrapper">
                 <span class="bullet bullet-sm @if($company->$daymark_close) bullet-danger @else bullet-success @endif"></span>

@@ -97,8 +97,8 @@ class ShopProductController extends MasterController
         if($request->file('files')){
             $files = $request->file('files');
             $filenames = array();
-            foreach($files as $file) {
-                $filename = time() . '.' . $file->getClientOriginalExtension();
+            foreach($files as $key => $file) {
+                $filename = time().'-'.$key.'.'.$file->getClientOriginalExtension();
                 $file->move(storage_path('app/public/uploads/products/'), $filename);
                 array_push($filenames, $filename);
             }

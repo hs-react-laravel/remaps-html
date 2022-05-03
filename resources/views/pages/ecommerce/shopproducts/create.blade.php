@@ -229,7 +229,9 @@
           $(".progress").show();
         },
         error:function(){
-
+          setTimeout(() => {
+            $(".progress").hide();
+          }, 2000);
         },
         success: function(resp){
           if(resp.status){
