@@ -66,22 +66,24 @@
             </div>
             <div class="row mb-1">
               <div class="col-12 mb-1">
-                <div class="border rounded p-1" id="product-images-wrapper">
+                <div class="border rounded p-1 product-images-wrapper" id="product-images-wrapper">
                   <label class="form-label mb-1">Product Images</label>
                   <div class="d-flex flex-row flex-wrap" id="images-wrapper">
-
                   </div>
-                  <div class="featured-info">
-                    <div class="d-inline-block">
-                      <input
-                        class="form-control"
-                        type="file"
-                        id="file_images"
-                        name="file_images"
-                        accept="image/*"
-                        multiple
-                        style="display: none" />
+                  <div class="d-flex justify-content-center">
+                    <div type="button" class="btn btn-primary" id="btn-add-product-image">
+                      <i data-feather="plus"></i>
                     </div>
+                  </div>
+                  <div>
+                    <input
+                    class="form-control"
+                    type="file"
+                    id="file_images"
+                    name="file_images"
+                    accept="image/*"
+                    multiple
+                    style="display: none" />
                   </div>
                   <div class="progress progress-bar-{{ substr($styling['navbarColor'], 3) }} mt-1" style="display: none">
                     <div
@@ -92,13 +94,17 @@
                       aria-valuemax="100"
                     ></div>
                   </div>
-                  <img
-                    src=""
-                    id="empty-image"
-                    class="rounded me-2 my-1"
-                    alt="Logo Image"
-                    style="max-width: 250px; max-height: 110px; width: auto; height: auto; display: none; border: 1px solid #00000020"
-                  />
+                  <div id="empty-image-container" style="display: none; position: relative" class="empty-image-container">
+                    <div style="position: absolute; top: 5px; right: 5px" class="remove-product-image">
+                      <i data-feather='x'></i>
+                    </div>
+                    <img
+                      src=""
+                      class="rounded me-2 my-1"
+                      alt="Logo Image"
+                      style="max-width: 250px; max-height: 110px; width: auto; height: auto; border: 1px solid #00000020;"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -122,9 +128,9 @@
           <div class="card-header">
             <label class="form-label" for="name">Product Availability</label>
             <div class="form-check form-check-inline">
-              <input type="hidden" name="open_check" value="0" />
-              <input class="form-check-input" type="checkbox" id="open_check" name="open_check" value="1" @if($company->open_check) checked @endif/>
-              <label class="form-check-label" for="open_check">Live</label>
+              <input type="hidden" name="live" value="0" />
+              <input class="form-check-input" type="checkbox" id="live_check" name="live" value="1" checked/>
+              <label class="form-check-label" for="live_check">Live</label>
             </div>
           </div>
           <div class="card-body">
@@ -149,6 +155,30 @@
               <div class="col-12">
                 <label class="form-label" for="stock">Stock</label>
                 <input type="number" class="form-control" id="stock" name="stock" required />
+              </div>
+            </div>
+            <div class="row mb-1">
+              <div class="col-12">
+
+                <label class="form-label" for="stock">Additional Information</label>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th width="30%">Name</th>
+                      <th width="70%">Content</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="padding: 1px">
+                        <input type="text" name="ad_titles[]" class="form-control" />
+                      </td>
+                      <td style="padding: 1px">
+                        <input type="text" name="ad_contents[]" class="form-control" />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
@@ -179,7 +209,7 @@
     $('#thumbnail-wrapper').click(function(ev) {
       $('#file_thumbnail').click();
     })
-    $('#product-images-wrapper').click(function(ev) {
+    $('#btn-add-product-image').click(function(ev) {
       $('#file_images').click();
     })
     $('#file_thumbnail').click(function(ev) {
@@ -194,16 +224,24 @@
         img_thumbnail.src = URL.createObjectURL(file)
       }
     }
+    $('body').on('click', '.remove-product-image', function(ev) {
+      const idx = $('.remove-product-image').index(this)
+      product_images.splice(idx, 1)
+      $('#documents').val(product_images.join(','))
+      $(this).parent().remove();
+    })
     file_images.onchange = evt => {
       const formData = new FormData()
       const files = file_images.files
+      if (files.length === 0) return
       formData.append( "_token", "{{ csrf_token() }}" );
       for (let i = 0; i < files.length; ++i) {
-        var newImage = $('#empty-image').clone()
+        var imageWrapper = $('#empty-image-container').clone()
+        $(imageWrapper).attr('id', '');
+        $(imageWrapper).css('display', 'block');
+        var newImage = $(imageWrapper).find('img');
         $(newImage).attr('src', URL.createObjectURL(files[i]));
-        $(newImage).attr('id', '');
-        $(newImage).css('display', 'block');
-        $('#images-wrapper').append(newImage);
+        $('#images-wrapper').append(imageWrapper);
         formData.append('files['+i+']', files[i])
       }
       $.ajax({
@@ -236,7 +274,7 @@
         success: function(resp){
           if(resp.status){
             product_images = product_images.concat(resp.files)
-            console.log(product_images)
+            $('#documents').val(product_images.join(','))
             setTimeout(() => {
               $(".progress").hide();
             }, 2000);
