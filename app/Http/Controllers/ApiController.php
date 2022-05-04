@@ -14,7 +14,7 @@ class ApiController extends Controller
 {
     //
     public function tuning_type_options($id) {
-        return TuningType::find($id)->tuningTypeOptions->orderBy('order_as');
+        return TuningType::find($id)->tuningTypeOptions()->orderBy('order_as')->get();
     }
 
     public function car_query(Request $request)
