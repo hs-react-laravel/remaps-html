@@ -36,7 +36,7 @@ $configData = Helper::applClasses();
             <?php $badgeClasses = "badge-tickets badge rounded-pill badge-glow ".($configData['navbarColor'] != '' ? $configData['navbarColor'] : 'bg-primary')." ms-auto" ?>
             <span class="{{ isset($menu->badgeClass) ? $menu->badgeClass : $badgeClasses }}">{{$tickets_count}}</span>
             @endif
-            @if (($menu->url == 'admin/notifications' || $menu->url == 'customer/notifications' || $menu->url == 'staff/notifications'))
+            @if (isset($menu->beta))
             <?php $badgeClasses = "badge-tickets badge rounded-pill badge-glow ".($configData['navbarColor'] != '' ? $configData['navbarColor'] : 'bg-primary')." ms-auto" ?>
             <span class="{{ isset($menu->badgeClass) ? $menu->badgeClass : $badgeClasses }}">Beta</span>
             @endif

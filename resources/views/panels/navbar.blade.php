@@ -1,6 +1,6 @@
 @if ($configData['mainLayoutType'] === 'horizontal' && isset($configData['mainLayoutType']))
   <nav
-    class="header-navbar navbar-expand-lg navbar navbar-fixed align-items-center navbar-shadow navbar-brand-center {{ $configData['navbarColor'] }}"
+    class="header-navbar navbar-expand-lg navbar navbar-fixed align-items-center navbar-shadow navbar-brand-center {{ 'theme-'.substr($configData['navbarColor'], 3) }} {{ $configData['navbarColor'] }}"
     data-nav="brand-center">
     <div class="navbar-header d-xl-block d-none">
       <ul class="nav navbar-nav">
@@ -13,7 +13,7 @@
     </div>
   @else
     <nav
-      class="header-navbar navbar navbar-expand-lg align-items-center {{ $configData['navbarClass'] }} navbar-light navbar-shadow {{ $configData['navbarColor'] }} {{ $configData['layoutWidth'] === 'boxed' && $configData['verticalMenuNavbarType'] === 'navbar-floating' ? 'container-xxl' : '' }}">
+      class="header-navbar navbar navbar-expand-lg align-items-center {{ 'theme-'.substr($configData['navbarColor'], 3) }} {{ $configData['navbarClass'] }} navbar-light navbar-shadow {{ $configData['navbarColor'] }} {{ $configData['layoutWidth'] === 'boxed' && $configData['verticalMenuNavbarType'] === 'navbar-floating' ? 'container-xxl' : '' }}">
 @endif
 <div class="navbar-container d-flex content">
   <div class="bookmark-wrapper d-flex align-items-center">

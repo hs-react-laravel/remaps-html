@@ -5,15 +5,12 @@ namespace App\Http\Controllers\Remaps;
 use App\Http\Controllers\MasterController;
 use App\Models\ShopCategory;
 use App\Models\ShopProduct;
+use App\Models\ShopProductSku;
+use App\Models\ShopProductSkuItem;
 use Illuminate\Http\Request;
 
 class ShopProductController extends MasterController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $products = ShopProduct::where('company_id', $this->company->id)->get();
@@ -22,11 +19,6 @@ class ShopProductController extends MasterController
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $categories = ShopCategory::get();
@@ -35,65 +27,150 @@ class ShopProductController extends MasterController
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
-        dd($request);
+        // dd($request);
+        $request->request->add([
+            'company_id' => $this->company->id
+        ]);
+        if ($request->file('thumb_image')) {
+            $thumb = $request->file('thumb_image');
+            $filename = time().'.'.$thumb->getClientOriginalExtension();
+            $thumb->move(storage_path('app/public/uploads/products/thumbnails/'), $filename);
+            $request->request->add([
+                'thumb' => $filename
+            ]);
+        }
+        $product = ShopProduct::create($request->all());
+        if ($request->has('sku_names')) {
+            $skuNames = $request->get('sku_names');
+            $skuTypes = $request->get('sku_types');
+            $skuItems = $request->get('sku_items');
+            $skuPrices = $request->get('sku_prices');
+            foreach ($skuNames as $i => $sName) {
+                $sku = ShopProductSku::create([
+                    'product_id' => $product->id,
+                    'title' => $sName,
+                    'type' => $skuTypes[$i]
+                ]);
+                if (isset($skuItems) && isset($skuItems[$i])) {
+                    foreach($skuItems[$i] as $j => $si) {
+                        ShopProductSkuItem::create([
+                            'product_sku_id' => $sku->id,
+                            'title' => $si,
+                            'price' => $skuPrices[$i][$j]
+                        ]);
+                    }
+                }
+            }
+        }
+        return redirect()->route('shopproducts.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        //
+        $entry = ShopProduct::find($id);
+        $categories = ShopCategory::get();
+        return view('pages.ecommerce.shopproducts.edit')->with(compact('entry', 'categories'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        // dd($request);
+        $product = ShopProduct::find($id);
+        $request->request->add([
+            'company_id' => $this->company->id
+        ]);
+        if ($request->file('thumb_image')) {
+            $thumb = $request->file('thumb_image');
+            $filename = time().'.'.$thumb->getClientOriginalExtension();
+            $thumb->move(storage_path('app/public/uploads/products/thumbnails/'), $filename);
+            $request->request->add([
+                'thumb' => $filename
+            ]);
+        }
+        // delete removed sku
+        $rskuIDs = $request->get('sku_ids') ?? [];
+        $dskuIDs = $product->sku->pluck('id')->toArray();
+        $deletedIds = array_filter($dskuIDs, function($it) use($rskuIDs) {
+            return !in_array($it, $rskuIDs);
+        });
+        $willRemovedSkus = ShopProductSku::whereIn('id', $deletedIds)->get();
+        foreach($willRemovedSkus as $sk) {
+            $sk->items()->delete();
+            $sk->delete();
+        }
+        // update or create sku
+        if ($request->has('sku_names')) {
+            $skuNames = $request->get('sku_names');
+            $skuTypes = $request->get('sku_types');
+            $skuItems = $request->get('sku_items');
+            $skuPrices = $request->get('sku_prices');
+            $skuIDs = $request->get('sku_ids');
+            $skuItemIDs = $request->get('sku_item_ids');
+            foreach ($skuNames as $i => $skuName) {
+                if ($skuIDs[$i] > 0) {
+                    $sku = ShopProductSku::find($skuIDs[$i]);
+                    $sku->update([
+                        'title' => $skuName,
+                        'type' => $skuTypes[$i]
+                    ]);
+                    $rskuItemIDs = $skuItemIDs[$i] ?? [];
+                    $dskuItemIDs = $sku->items->pluck('id')->toArray();
+                    $deletedIds = array_filter($dskuItemIDs, function($it) use($rskuItemIDs) {
+                        return !in_array($it, $rskuItemIDs);
+                    });
+                    ShopProductSkuItem::whereIn('id', $deletedIds)->delete();
+                } else {
+                    $sku = ShopProductSku::create([
+                        'product_id' => $product->id,
+                        'title' => $skuName,
+                        'type' => $skuTypes[$i]
+                    ]);
+                }
+                if (isset($skuItems) && isset($skuItems[$i])) {
+                    foreach($skuItems[$i] as $j => $si) {
+                        if ($skuItemIDs[$i][$j] > 0) {
+                            $dSkuItem = ShopProductSkuItem::find($skuItemIDs[$i][$j]);
+                            $dSkuItem->update([
+                                'title' => $si,
+                                'price' => $skuPrices[$i][$j]
+                            ]);
+                        } else {
+                            ShopProductSkuItem::create([
+                                'product_sku_id' => $sku->id,
+                                'title' => $si,
+                                'price' => $skuPrices[$i][$j]
+                            ]);
+                        }
+                    }
+                }
+            }
+        }
+
+        // update main info
+        $product->update($request->all());
+        return redirect()->route('shopproducts.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        $product = ShopProduct::find($id);
+        $skus = $product->sku;
+        foreach($skus as $sku) {
+            $sku->items()->delete();
+            $sku->delete();
+        }
+        $product->delete();
+        return redirect()->route('shopproducts.index');
     }
 
     public function uploadImageFile(Request $request){
-        // return response()->json($request->all(), 200);
         if($request->file('files')){
             $files = $request->file('files');
             $filenames = array();

@@ -86,7 +86,8 @@
         "url": "admin/shopproducts",
         "name": "menu_Shop_products",
         "icon": "shopping-cart",
-        "slug": "shopproducts.index"
+        "slug": "shopproducts.index",
+        "beta": true
     },
     {
         "navheader": "Admin Functions",
@@ -102,7 +103,8 @@
         "url": "admin/shopcategories",
         "name": "menu_Shop_categories",
         "icon": "shopping-cart",
-        "slug": "shopcategories.index"
+        "slug": "shopcategories.index",
+        "beta": true
     },
     {
         "url": "admin/packages",

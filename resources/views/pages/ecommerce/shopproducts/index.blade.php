@@ -14,18 +14,20 @@
           New Product
         </a>
       </div>
-      <div class="table-responsive">
+      <div class="table-responsive p-1">
         <table class="table">
           <thead>
             <tr>
               <th width="20%">{{__('locale.tb_header_Name')}}</th>
+              <th width="20%">{{__('locale.tb_header_Price')}}</th>
               <th width="5%">{{__('locale.tb_header_Actions')}}</th>
             </tr>
           </thead>
           <tbody>
             @foreach ($entries as $entry)
               <tr>
-                <td>{{ $entry->name }}</td>
+                <td>{{ $entry->title }}</td>
+                <td>{{ config('constants.currency_signs')[$company->paypal_currency_code] }} {{ $entry->price }}</td>
                 <td class="td-actions">
                   <a class="btn btn-icon btn-primary" href="{{ route('shopproducts.edit', ['shopproduct' => $entry->id]) }}" title="Edit">
                     <i data-feather="edit"></i>
@@ -38,6 +40,11 @@
                 </td>
               </tr>
             @endforeach
+            @if(count($entries) == 0)
+              <tr>
+                <td colspan="3">No Products</td>
+              </tr>
+            @endif
           </tbody>
         </table>
       </div>

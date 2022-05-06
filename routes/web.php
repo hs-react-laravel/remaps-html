@@ -25,6 +25,7 @@ use App\Http\Controllers\Consumer\BuyTuningCreditsController;
 use App\Http\Controllers\Consumer\FileServiceController as FSController;
 use App\Http\Controllers\Consumer\TicketController as TKController;
 use App\Http\Controllers\Consumer\OrderController as ODController;
+use App\Http\Controllers\Consumer\ShopCustomerController;
 use App\Http\Controllers\Consumer\TransactionController as TRController;
 use App\Http\Controllers\Frontend\CompanyController as FrontendCompanyController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -249,6 +250,8 @@ Route::group(['middleware' => 'auth:customer', 'prefix'=>'customer'], function (
     Route::post('/edit-password', [DashboardController::class, 'edit_password_post'])->name('password.edit.post');
     Route::get('/notifications', [DashboardController::class, 'notifications'])->name('dashboard.notifications');
     Route::post('/notifications/read', [DashboardController::class, 'notification_read_one'])->name('dashboard.notifications.read');
+
+    Route::get('/shop', [ShopCustomerController::class, 'index'])->name('customer.shop');
 });
 Route::group(['middleware' => 'check.common'], function () {
 

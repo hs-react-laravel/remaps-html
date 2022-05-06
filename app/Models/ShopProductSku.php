@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ShopProduct extends Model
+class ShopProductSku extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'company_id', 'title', 'description', 'category_id', 'details', 'price', 'image', 'thumb', 'stock', 'live'
+        'product_id', 'title', 'type'
     ];
 
-    public function sku() {
-        return $this->hasMany(ShopProductSku::class, 'product_id', 'id');
+    public function items() {
+        return $this->hasMany(ShopProductSkuItem::class, 'product_sku_id', 'id');
     }
 }

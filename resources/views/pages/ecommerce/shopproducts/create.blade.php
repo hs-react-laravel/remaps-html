@@ -21,19 +21,19 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-12 col-xl-7">
+      <div class="col-md-12 col-xl-6">
         <div class="card">
           <div class="card-body">
             <div class="row mb-1">
               <div class="col-12">
-                <label class="form-label" for="name">Title</label>
-                <input type="text" class="form-control" id="name" name="name" required />
+                <label class="form-label" for="title">Title</label>
+                <input type="text" class="form-control" id="title" name="title" required />
               </div>
             </div>
             <div class="row mb-1">
               <div class="col-12">
                 <label class="form-label" for="description">Description</label>
-                <input type="text" class="form-control" id="description" name="description" required />
+                <textarea type="text" class="form-control" id="description" name="description" required></textarea>
               </div>
             </div>
 
@@ -55,7 +55,7 @@
                           class="form-control"
                           type="file"
                           id="file_thumbnail"
-                          name="style_background_file"
+                          name="thumb_image"
                           accept="image/*"
                           style="display: none" />
                       </div>
@@ -72,18 +72,18 @@
                   </div>
                   <div class="d-flex justify-content-center">
                     <div type="button" class="btn btn-primary" id="btn-add-product-image">
-                      <i data-feather="plus"></i>
+                      Add Image
                     </div>
                   </div>
                   <div>
                     <input
-                    class="form-control"
-                    type="file"
-                    id="file_images"
-                    name="file_images"
-                    accept="image/*"
-                    multiple
-                    style="display: none" />
+                      class="form-control"
+                      type="file"
+                      id="file_images"
+                      name="file_images"
+                      accept="image/*"
+                      multiple
+                      style="display: none" />
                   </div>
                   <div class="progress progress-bar-{{ substr($styling['navbarColor'], 3) }} mt-1" style="display: none">
                     <div
@@ -123,7 +123,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-12 col-xl-5">
+      <div class="col-md-12 col-xl-6">
         <div class="card">
           <div class="card-header">
             <label class="form-label" for="name">Product Availability</label>
@@ -137,7 +137,7 @@
             <div class="row mb-1">
               <div class="col-12">
                 <label class="form-label" for="category">Category</label>
-                <select class="form-select" id="category" name="category">
+                <select class="form-select" id="category" name="category_id">
                   <option value="">-Select Product Category-</option>
                   @foreach ($categories as $cat)
                     <option value="{{ $cat->id }}">{{ $cat->name }}</option>
@@ -148,7 +148,7 @@
             <div class="row mb-1">
               <div class="col-12">
                 <label class="form-label" for="price">Price({{ config('constants.currency_signs')[$company->paypal_currency_code] }})</label>
-                <input type="number" class="form-control" id="price" name="price" required />
+                <input type="number" class="form-control" id="price" name="price" step=".01" required />
               </div>
             </div>
             <div class="row mb-1">
@@ -157,35 +157,42 @@
                 <input type="number" class="form-control" id="stock" name="stock" required />
               </div>
             </div>
-            <div class="row mb-1">
+            <hr />
+            {{-- <div class="row mb-1">
               <div class="col-12">
-
-                <label class="form-label" for="stock">Additional Information</label>
+                <label class="form-label">Additional Information</label>
                 <table class="table">
                   <thead>
                     <tr>
-                      <th width="30%">Name</th>
-                      <th width="70%">Content</th>
+                      <th width="20%">Name</th>
+                      <th width="75%">Content</th>
+                      <th width="5%"></th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr>
-                      <td style="padding: 1px">
-                        <input type="text" name="ad_titles[]" class="form-control" />
-                      </td>
-                      <td style="padding: 1px">
-                        <input type="text" name="ad_contents[]" class="form-control" />
-                      </td>
-                    </tr>
+                  <tbody id="ad-body">
+
                   </tbody>
                 </table>
+                <div class="d-flex justify-content-end mt-1">
+                  <button type="button" class="btn btn-primary" onclick="onAdAdd()">Add Information</button>
+                </div>
+              </div>
+            </div>
+            <hr /> --}}
+            <div class="row mb-1">
+              <label class="form-label">SKU</label>
+              <div class="sku-table-wrapper">
+
+              </div>
+              <div class="d-flex mt-1">
+                <button type="button" class="btn btn-primary" style="width: 200px" onclick="onSKUAdd()">Add SKU</button>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <input type="hidden" name="documents" id="documents">
+    <input type="hidden" name="image" id="documents">
     <div class="mb-1">
       <button type="submit" class="btn btn-primary me-1">Save</button>
       <button type="button" class="btn btn-flat-secondary me-1" onclick="history.back(-1)">Discard</button>
@@ -206,6 +213,86 @@
   <script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
   <script type="text/javascript">
     let product_images = []
+    function onAdAdd() {
+      $('#ad-body').append(`
+        <tr>
+          <td style="padding: 1px">
+            <input type="text" name="ad_titles[]" class="form-control" />
+          </td>
+          <td style="padding: 1px">
+            <input type="text" name="ad_contents[]" class="form-control" />
+          </td>
+          <td style="padding: 1px">
+            <button class="btn btn-danger" type="button" onclick="onTableRowDelete(this)">-</button>
+          </td>
+        </tr>
+      `)
+    }
+    function onSKUAdd() {
+      $('.sku-table-wrapper').append(`
+        <div class="mt-1 sku-table-div">
+          <div class="d-flex">
+            <div class="col-6 px-1">
+              <label class="form-label">Name</label>
+              <input type="text" class="form-control" name="sku_names[]" required />
+            </div>
+            <div class="col-6 px-1">
+              <label class="form-label">Type</label>
+              <select class="form-control" name="sku_types[]">
+                <option value="option">Single Choice</option>
+                <option value="check">Multiple Choice</option>
+              </select>
+            </div>
+          </div>
+          <table class="table mt-1">
+            <thead>
+              <tr>
+                <th width="75%">Name</th>
+                <th width="20%">Price</th>
+                <th width="5%"></th>
+              </tr>
+            </thead>
+            <tbody class="sku-body">
+
+            </tbody>
+          </table>
+          <div class="d-flex justify-content-end mt-1">
+            <button type="button" class="btn btn-danger me-1" onclick="onSKUDelete(this)">Remove SKU</button>
+            <button type="button" class="btn btn-primary" onclick="onSKUItemAdd(this)">Add Item</button>
+          </div>
+        </div>
+      `)
+    }
+    function onSKUItemAdd(obj) {
+      const tdiv = $(obj).closest('.sku-table-div')
+      const tbody = $(tdiv).find('.sku-body')
+      const idx = $('.sku-table-div').index(tdiv)
+      tbody.append(`
+        <tr>
+          <td style="padding: 1px">
+            <input type="text" name="sku_items[${idx}][]" class="form-control" />
+          </td>
+          <td style="padding: 1px">
+            <input type="number" name="sku_prices[${idx}][]" step=".01" class="form-control" />
+          </td>
+          <td style="padding: 1px">
+            <button class="btn btn-danger" type="button" onclick="onTableRowDelete(this)">-</button>
+          </td>
+        </tr>
+      `)
+    }
+    function onSKUDelete(obj) {
+      const skuTableDiv = $(obj).closest('.sku-table-div')
+      skuTableDiv.remove()
+      $('.sku-table-div').each((idx, div) => {
+        const inputs = $(div).find('.sku-body tr input')
+        $(inputs[0]).attr('name', `sku_items[${idx}][]`)
+        $(inputs[1]).attr('name', `sku_prices[${idx}][]`)
+      })
+    }
+    function onTableRowDelete(obj) {
+      $(obj).closest('tr').remove()
+    }
     $('#thumbnail-wrapper').click(function(ev) {
       $('#file_thumbnail').click();
     })

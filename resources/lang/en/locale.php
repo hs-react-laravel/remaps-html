@@ -41,6 +41,7 @@ return [
     'tb_Customer' => 'Customer',
     'tb_header_Credits' => 'Credits',
     'tb_header_Name' => 'Name',
+    'tb_header_Price' => 'Price',
     'tb_header_TuningCredits' => 'Tuning Credits',
     'tb_header_TuningPriceGroup' => 'Tuning price group',
     'tb_header_EVCTuningPriceGroup' => 'EVC Tuning price group',
@@ -109,6 +110,7 @@ return [
     'menu_Slider_Manager'=> 'Slider Manager',
     'menu_Shop_categories'=> 'Shop Categories',
     'menu_Shop_products'=> 'Shop Products',
+    'menu_Customer_Shop'=> 'Shop',
 
 
 //    dashboard top title
