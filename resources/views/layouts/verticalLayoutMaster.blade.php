@@ -81,6 +81,53 @@ data-asset-path="{{ asset('/')}}">
         });
       }
     })
+    function onChangeCart(obj) {
+      $.ajax({
+        url: '{{ route("customer.shop.cart.update") }}',
+        type: 'POST',
+        data: {
+          _token: '{{ csrf_token() }}',
+          id: $(obj).data('cartid'),
+          amount: $(obj).val()
+        },
+        dataType: 'JSON',
+        success: function (data) {
+          let amountLabel = $(obj).closest('.list-item').find('.cart-item-price')
+          $(amountLabel).html(data.newAmount)
+          let totalLabel = $(obj).closest('.dropdown-menu-media').find('.cart-total-price')
+          $(totalLabel).html(data.totalAmount)
+          let countLabel = $('.cart-item-count')
+          $(countLabel).html(data.itemCount)
+        }
+      });
+    }
+    function onRemoveCart(obj) {
+      $.ajax({
+        url: '{{ route("customer.shop.cart.delete") }}',
+        type: 'POST',
+        data: {
+          _token: '{{ csrf_token() }}',
+          id: $(obj).data('cartid')
+        },
+        dataType: 'JSON',
+        success: function (data) {
+          let totalLabel = $(obj).closest('.dropdown-menu-media').find('.cart-total-price')
+          $(totalLabel).html(data.totalAmount)
+          let countLabel = $('.cart-item-count')
+          $(countLabel).html(data.itemCount)
+          if (data.itemCount == 0) {
+            $(countLabel).hide()
+          }
+          let cartItem = $(obj).closest('.list-item')
+          $(cartItem).remove()
+        }
+      });
+    }
+    function onAddCartInline(obj) {
+        console.log('add cart')
+      let form = $(obj).parent().find('.add-cart-inline-form')
+      $(form).submit()
+    }
   </script>
 </body>
 </html>

@@ -252,6 +252,10 @@ Route::group(['middleware' => 'auth:customer', 'prefix'=>'customer'], function (
     Route::post('/notifications/read', [DashboardController::class, 'notification_read_one'])->name('dashboard.notifications.read');
 
     Route::get('/shop', [ShopCustomerController::class, 'index'])->name('customer.shop');
+    Route::get('/shop/{id}', [ShopCustomerController::class, 'detail'])->name('customer.shop.detail');
+    Route::post('/shop/cart/add', [ShopCustomerController::class, 'add2cart'])->name('customer.shop.cart.add');
+    Route::post('/shop/cart/update', [ShopCustomerController::class, 'updateCartItem'])->name('customer.shop.cart.update');
+    Route::post('/shop/cart/delete', [ShopCustomerController::class, 'deleteCartItem'])->name('customer.shop.cart.delete');
 });
 Route::group(['middleware' => 'check.common'], function () {
 

@@ -91,7 +91,7 @@
   @foreach ($products as $product)
   <div class="card ecommerce-card">
     <div class="item-img text-center justify-content-center">
-      <a href="{{url('app/ecommerce/details')}}">
+      <a href="{{ route('customer.shop.detail', ['id' => $product->id]) }}">
         <img
           class="img-fluid card-img-top"
           src="{{$product->thumb ? asset('storage/uploads/products/thumbnails/'.$product->thumb) : 'https://via.placeholder.com/350x250.png?text=Product'}}"
@@ -115,7 +115,7 @@
         </div>
       </div>
       <h6 class="item-name">
-        <a class="text-body" href="{{url('app/ecommerce/details')}}">{{ $product->title }}</a>
+        <a class="text-body" href="{{ route('customer.shop.detail', ['id' => $product->id]) }}">{{ $product->title }}</a>
         {{-- <span class="card-text item-company">By <a href="#" class="company-name">Apple</a></span> --}}
       </h6>
       <p class="card-text item-description">
@@ -132,10 +132,14 @@
         <i data-feather="heart"></i>
         <span>Wishlist</span>
       </a> --}}
-      <a href="#" class="btn btn-primary btn-cart">
+      <button class="btn btn-primary" style="border-radius: 0; flex-grow: 1;" onclick="onAddCartInline(this)">
         <i data-feather="shopping-cart"></i>
         <span class="add-to-cart">Add to cart</span>
-      </a>
+      </button>
+      <form class="add-cart-inline-form" action="{{ route('customer.shop.cart.add') }}" method="POST">
+        @csrf
+        <input type="hidden" name="product_id" value="{{ $product->id }}">
+      </form>
     </div>
   </div>
   @endforeach

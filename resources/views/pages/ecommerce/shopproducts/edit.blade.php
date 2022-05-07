@@ -206,7 +206,7 @@
             <div class="row mb-1">
               <label class="form-label">SKU</label>
               <div class="sku-table-wrapper">
-                @foreach ($entry->sku as $sku)
+                @foreach ($entry->sku as $i => $sku)
                   <div class="mt-1 sku-table-div">
                     <div class="d-flex">
                       <div class="col-6 px-1">
@@ -231,7 +231,7 @@
                         </tr>
                       </thead>
                       <tbody class="sku-body">
-                        @foreach ($sku->items as $i => $sitem)
+                        @foreach ($sku->items as $j => $sitem)
                           <tr>
                             <td style="padding: 1px">
                               <input type="text" name="sku_items[{{$i}}][]" class="form-control" value="{{ $sitem->title }}" />

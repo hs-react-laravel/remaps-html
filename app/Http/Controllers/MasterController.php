@@ -8,6 +8,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use DB;
 
 use App\Models\Styling;
 use App\Models\Company;
@@ -127,7 +128,14 @@ class MasterController extends BaseController
                             }
                             return true;
                         });
+                        $cartProducts = $this->user->cartProducts;
+                        $totalCartAmount = 0;
+                        foreach ($cartProducts as $item)  {
+                            $totalCartAmount += $item->price * $item->amount;
+                        }
                         view()->share('notifies', $notifies);
+                        view()->share('cartProducts', $cartProducts);
+                        view()->share('totalCartAmount', $totalCartAmount);
                     }
 
                     // Share all menuData to all the views

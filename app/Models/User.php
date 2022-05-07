@@ -131,6 +131,10 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(NotificationRead::class);
     }
+    public function cartProducts()
+    {
+        return $this->hasMany(ShopCart::class);
+    }
 
     public function getFullNameAttribute() {
         return ucwords($this->first_name . ' ' . $this->last_name);
