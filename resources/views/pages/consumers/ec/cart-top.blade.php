@@ -14,7 +14,9 @@
     <div class="list-item align-items-center">
       <img
         class="d-block rounded me-1"
-        src="{{$item->product->thumb ? asset('storage/uploads/products/thumbnails/'.$item->product->thumb) : 'https://via.placeholder.com/350x250.png?text=Product'}}"
+        src="{{ $item->product->thumb
+          ? asset('storage/uploads/products/thumbnails/'.$item->product->thumb)
+          : 'https://via.placeholder.com/350x250.png?text=Product'}}"
         alt="donuts"
         width="62">
       <div class="list-item-body flex-grow-1">
@@ -33,7 +35,7 @@
           </div>
         </div>
         <h5 class="cart-item-price">
-          {{ config('constants.currency_signs')[$company->paypal_currency_code] }}{{ number_format($item->price * $item->amount, 2) }}
+          {{ $currencyCode.number_format($item->price * $item->amount, 2) }}
         </h5>
       </div>
     </div>
@@ -43,9 +45,9 @@
     <div class="d-flex justify-content-between mb-1">
       <h6 class="fw-bolder mb-0">Total:</h6>
       <h6 class="text-primary fw-bolder mb-0 cart-total-price">
-        {{ config('constants.currency_signs')[$company->paypal_currency_code] }}{{ number_format($totalCartAmount, 2) }}
+        {{ $currencyCode.number_format($totalCartAmount, 2) }}
       </h6>
     </div>
-    <a class="btn btn-primary w-100" href="{{ url('app/ecommerce/checkout') }}">Checkout</a>
+    <a class="btn btn-primary w-100" href="{{ route('customer.shop.checkout') }}">Checkout</a>
   </li>
 </ul>

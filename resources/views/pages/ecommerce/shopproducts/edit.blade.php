@@ -171,7 +171,7 @@
             </div>
             <div class="row mb-1">
               <div class="col-12">
-                <label class="form-label" for="price">Price({{ config('constants.currency_signs')[$company->paypal_currency_code] }})</label>
+                <label class="form-label" for="price">Price({{ $currencyCode }})</label>
                 <input type="number" class="form-control" id="price" name="price" value="{{ $entry->price }}" step=".01" required />
               </div>
             </div>

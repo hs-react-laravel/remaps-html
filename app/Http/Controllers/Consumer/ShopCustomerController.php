@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Consumer;
 
 use App\Http\Controllers\MasterController;
+use App\Models\ShopCard;
 use App\Models\ShopCart;
 use App\Models\ShopProduct;
 use App\Models\ShopProductSkuItem;
@@ -71,10 +72,13 @@ class ShopCustomerController extends MasterController
             foreach ($cartProducts as $item)  {
                 $totalCartAmount += $item->price * $item->amount;
             }
+            $tax = $this->company->vat_percentage ?? 0;
             return response()->json([
                 'itemCount' => count($cartProducts),
                 'newAmount' => $currencyCode.number_format($newAmount, 2),
-                'totalAmount' => $currencyCode.number_format($totalCartAmount, 2)
+                'totalAmount' => $currencyCode.number_format($totalCartAmount, 2),
+                'taxAmount' => $currencyCode.number_format($totalCartAmount * $tax / 100, 2),
+                'orderAmount' => $currencyCode.number_format($totalCartAmount * ($tax + 100) / 100, 2)
             ], 200);
         } catch(\Exception $e) {
             return response()->json(['status'=> $e->getMessage()], 500);
@@ -92,12 +96,23 @@ class ShopCustomerController extends MasterController
             foreach ($cartProducts as $item)  {
                 $totalCartAmount += $item->price * $item->amount;
             }
+            $tax = $this->company->vat_percentage ?? 0;
             return response()->json([
                 'itemCount' => count($cartProducts),
-                'totalAmount' => $currencyCode.number_format($totalCartAmount, 2)
+                'totalAmount' => $currencyCode.number_format($totalCartAmount, 2),
+                'taxAmount' => $currencyCode.number_format($totalCartAmount * $tax / 100, 2),
+                'orderAmount' => $currencyCode.number_format($totalCartAmount * ($tax + 100) / 100, 2)
             ], 200);
         } catch(\Exception $e) {
             return response()->json(['status'=> FALSE], 500);
         }
+    }
+
+    public function checkout() {
+        return view('pages.consumers.ec.checkout');
+    }
+
+    public function addCard(Request $request) {
+        ShopCard::create($request->all());
     }
 }

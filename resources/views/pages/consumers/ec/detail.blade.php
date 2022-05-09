@@ -78,7 +78,7 @@
               <h4>{{ $product->title }}</h4>
               {{-- <span class="card-text item-company">By <a href="#" class="company-name">Apple</a></span> --}}
               <div class="ecommerce-details-price d-flex flex-wrap mt-1">
-                <h4 class="item-price me-1">{{ config('constants.currency_signs')[$company->paypal_currency_code] }}{{ $product->price }}</h4>
+                <h4 class="item-price me-1">{{ $currencyCode.number_format($product->price, 2) }}</h4>
                 <ul class="unstyled-list list-inline ps-1 border-start">
                   <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
                   <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
@@ -119,7 +119,7 @@
                       />
                       <label class="form-check-label" for="sku_selection-{{ $i }}-{{ $j }}">
                         {{ $skuItem->title }}
-                        <b>(+{{ config('constants.currency_signs')[$company->paypal_currency_code] }}{{ $skuItem->price }})</b>
+                        <b>(+{{ $currencyCode.number_format($skuItem->price, 2) }})</b>
                       </label>
                     </div>
                     @endforeach
@@ -134,7 +134,7 @@
                         value="{{ $skuItem->id }}"/>
                       <label class="form-check-label" for="sku_selection-{{ $i }}-{{ $j }}">
                         {{ $skuItem->title }}
-                        <b>(+{{ config('constants.currency_signs')[$company->paypal_currency_code] }}{{ $skuItem->price }})</b>
+                        <b>(+{{ $currencyCode.number_format($skuItem->price, 2) }})</b>
                       </label>
                     </div>
                     @endforeach

@@ -27,7 +27,7 @@
             @foreach ($entries as $entry)
               <tr>
                 <td>{{ $entry->title }}</td>
-                <td>{{ config('constants.currency_signs')[$company->paypal_currency_code] }} {{ $entry->price }}</td>
+                <td>{{ $currencyCode.number_format($entry->price, 2) }}</td>
                 <td class="td-actions">
                   <a class="btn btn-icon btn-primary" href="{{ route('shopproducts.edit', ['shopproduct' => $entry->id]) }}" title="Edit">
                     <i data-feather="edit"></i>

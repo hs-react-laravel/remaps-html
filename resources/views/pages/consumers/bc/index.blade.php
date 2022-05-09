@@ -31,7 +31,7 @@
               </h3>
               <div class="annual-plan">
                 <div class="plan-price mt-2">
-                  <sup class="font-medium-1 fw-bold text-primary">{{ config('constants.currency_signs')[$company->paypal_currency_code] }}</sup>
+                  <sup class="font-medium-1 fw-bold text-primary">{{ $currencyCode }}</sup>
                   <span class="pricing-basic-value fw-bolder text-primary">
                     {{ $total_amount }}
                   </span>
@@ -88,7 +88,7 @@
             </h3>
             <div class="annual-plan">
               <div class="plan-price mt-2">
-                <sup class="font-medium-1 fw-bold text-primary">{{ config('constants.currency_signs')[$company->paypal_currency_code] }}</sup>
+                <sup class="font-medium-1 fw-bold text-primary">{{ $currencyCode }}</sup>
                 <span class="pricing-basic-value fw-bolder text-primary">
                   {{ $total_amount }}
                 </span>
@@ -176,6 +176,21 @@
         exp_year: $('.card-expiry').val().split('/')[1]
       }, stripeResponseHandler);
     }
+    $.ajax({
+      url: '{{ route("customer.shop.payment.card") }}',
+      type: 'POST',
+      data: {
+        _token: '{{ csrf_token() }}',
+        name: $('.card-name').val(),
+        number: $('.card-number').val(),
+        cvv: $('.card-cvc').val(),
+        exp: $('.card-expiry').val()
+      },
+      dataType: 'JSON',
+      success: function (data) {
+
+      }
+    });
   });
   function stripeResponseHandler(status, response) {
     if (response.error) {

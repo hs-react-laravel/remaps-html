@@ -92,12 +92,32 @@ data-asset-path="{{ asset('/')}}">
         },
         dataType: 'JSON',
         success: function (data) {
-          let amountLabel = $(obj).closest('.list-item').find('.cart-item-price')
+          let tpCard = $(obj).closest('.list-item')
+          let scCard = $(obj).closest('.ecommerce-card')
+          const tpIdx = $('.list-item').index(tpCard)
+          const scIdx = $('.ecommerce-card').index(scCard)
+          console.log(tpIdx, scIdx)
+          if (scIdx > -1) {
+            tpCard = $('.media-list').find('.list-item')[scIdx]
+            $(tpCard).find('.touchspin-cart').val($(obj).val())
+          } else if (tpIdx > -1) {
+            scCard = $('.ecommerce-card')[tpIdx]
+            $(scCard).find('.quantity-counter').val($(obj).val())
+          }
+
+          let amountLabel = $(tpCard).find('.cart-item-price')
           $(amountLabel).html(data.newAmount)
-          let totalLabel = $(obj).closest('.dropdown-menu-media').find('.cart-total-price')
+          let totalLabel = $(tpCard).closest('.dropdown-menu-media').find('.cart-total-price')
           $(totalLabel).html(data.totalAmount)
           let countLabel = $('.cart-item-count')
           $(countLabel).html(data.itemCount)
+
+          amountLabel = $(scCard).find('.item-price')
+          $(amountLabel).html(data.newAmount)
+
+          $('.amt-total').html(data.totalAmount)
+          $('.amt-tax').html(data.taxAmount)
+          $('.amt-order').html(data.orderAmount)
         }
       });
     }
@@ -111,20 +131,33 @@ data-asset-path="{{ asset('/')}}">
         },
         dataType: 'JSON',
         success: function (data) {
-          let totalLabel = $(obj).closest('.dropdown-menu-media').find('.cart-total-price')
-          $(totalLabel).html(data.totalAmount)
           let countLabel = $('.cart-item-count')
           $(countLabel).html(data.itemCount)
           if (data.itemCount == 0) {
             $(countLabel).hide()
           }
-          let cartItem = $(obj).closest('.list-item')
-          $(cartItem).remove()
+          let tpCard = $(obj).closest('.list-item')
+          let scCard = $(obj).closest('.ecommerce-card')
+          const tpIdx = $('.list-item').index(tpCard)
+          const scIdx = $('.ecommerce-card').index(scCard)
+          if (tpIdx >= 0) {
+            scCard = $('.checkout-items .ecommerce-card')[tpIdx]
+            let totalLabel = $(obj).closest('.dropdown-menu-media').find('.cart-total-price')
+            $(totalLabel).html(data.totalAmount)
+          }
+          if (scIdx >= 0) {
+            tpCard = $('.dropdown-cart .list-item')[scIdx]
+            $('.dropdown-cart .cart-total-price').html(data.totalAmount)
+          }
+          $('.amt-total').html(data.totalAmount)
+          $('.amt-tax').html(data.taxAmount)
+          $('.amt-order').html(data.orderAmount)
+          $(scCard).remove()
+          $(tpCard).remove()
         }
       });
     }
     function onAddCartInline(obj) {
-        console.log('add cart')
       let form = $(obj).parent().find('.add-cart-inline-form')
       $(form).submit()
     }

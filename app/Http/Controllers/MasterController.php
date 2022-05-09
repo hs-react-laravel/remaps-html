@@ -137,6 +137,8 @@ class MasterController extends BaseController
                         view()->share('cartProducts', $cartProducts);
                         view()->share('totalCartAmount', $totalCartAmount);
                     }
+                    $currencyCode = config('constants.currency_signs')[$this->company->paypal_currency_code];
+                    view()->share('currencyCode', $currencyCode);
 
                     // Share all menuData to all the views
                     view()->share('menuData', [$verticalMenuData, $horizontalMenuData]);

@@ -41,7 +41,7 @@
 
           <div class="col-md-6">
             <label class="form-label" for="modalAddCardName">Name On Card</label>
-            <input type="text" id="modalAddCardName" class="form-control" placeholder="John Doe" required />
+            <input type="text" id="modalAddCardName" class="form-control card-name" placeholder="John Doe" required />
           </div>
 
           <div class="col-6 col-md-3">

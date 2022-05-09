@@ -131,9 +131,12 @@
     {{-- <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-style"><i class="ficon"
           data-feather="{{ $configData['theme'] === 'dark' ? 'sun' : 'moon' }}"></i></a></li> --}}
     @if ($role == "customer")
+
+    @if ($company->id == 1)
     <li class="nav-item dropdown dropdown-cart me-25">
-      @include('pages.consumers.ec.cart')
+      @include('pages.consumers.ec.cart-top')
     </li>
+    @endif
 
     <li class="nav-item dropdown dropdown-notification me-25">
       <a class="nav-link" href="javascript:void(0);" data-bs-toggle="dropdown">

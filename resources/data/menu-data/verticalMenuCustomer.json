@@ -51,13 +51,6 @@
         "name": "external",
         "icon": "external-link",
         "slug": ""
-    },
-    {
-        "url": "customer/shop",
-        "name": "menu_Customer_Shop",
-        "icon": "shopping-cart",
-        "slug": "customer.shop",
-        "beta": true
     }
   ]
 }
