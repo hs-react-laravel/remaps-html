@@ -110,8 +110,7 @@
         "url": "admin/shopcategories",
         "name": "menu_Shop_categories",
         "icon": "shopping-cart",
-        "slug": "shopcategories.index",
-        "beta": true
+        "slug": "shopcategories.index"
     },
     {
         "url": "admin/packages",
