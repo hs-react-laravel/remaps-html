@@ -21,7 +21,13 @@
 
 @section('content')
 <div class="ecommerce-application">
-  <a class="btn btn-primary" href="{{ route('shoporders.deliver', ['id' => $order->id]) }}">Mark as delivered</a>
+  @if ($order->status != 'delivered')
+  <a
+    class="btn btn-primary"
+    href="{{ route('shoporders.deliver', ['id' => $order->id]) }}">
+    Mark as delivered
+  </a>
+  @endif
   <a class="btn btn-flat-secondary" onclick="history.back(-1)">Back</a>
   <div id="place-order" class="list-view product-checkout" method="POST" action="{{ route('customer.shop.order.place') }}">
     <div class="checkout-items">
@@ -39,13 +45,8 @@
               <h6 class="mb-0"><a href="{{url('app/ecommerce/details')}}" class="text-body">{{ $item->product->title }}</a></h6>
               {{-- <span class="item-company">By <a href="#" class="company-name">Apple</a></span> --}}
               <div class="item-rating">
-                <ul class="unstyled-list list-inline">
-                  <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                  <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                  <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                  <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                  <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                </ul>
+                @php $avgRating = round($item->product->avgRating()); @endphp
+                @include('pages.consumers.ec.rating')
               </div>
             </div>
             @if ($item->product->stock > 0)
@@ -97,6 +98,10 @@
                 </div>
               </li>
             </ul>
+            <h6 class="price-title">Address</h6>
+            <p class="card-text mb-0 p-address-line-1">{{ $order->user->full_name }}</p>
+            <p class="card-text mb-0 p-address-line-2">{{ $order->ship_address_1 }} {{ $order->ship_address_2 }}</p>
+            <p class="card-text p-phone-number">{{$order->ship_town}} {{$order->ship_state}} {{$order->ship_zip}}, {{$order->ship_country}}</p>
             <h6 class="price-title">Price Details</h6>
             <ul class="list-unstyled">
               <li class="price-detail">

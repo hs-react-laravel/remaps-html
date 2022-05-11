@@ -20,4 +20,8 @@ class ShopOrderProduct extends Model
     public function product() {
         return $this->hasOne(ShopProduct::class, 'id', 'product_id');
     }
+
+    public function comment() {
+        return $this->hasOne(ShopComment::class, 'order_product_id', 'id');
+    }
 }

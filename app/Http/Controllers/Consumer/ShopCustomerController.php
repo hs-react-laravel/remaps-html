@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\MasterController;
 use App\Models\Shop\ShopCard;
 use App\Models\Shop\ShopCart;
+use App\Models\Shop\ShopComment;
 use App\Models\Shop\ShopOrder;
 use App\Models\Shop\ShopOrderProduct;
 use App\Models\Shop\ShopProduct;
@@ -261,8 +262,8 @@ class ShopCustomerController extends MasterController
                 )
             );
             // dd($req->body);
-            // $env = new ProductionEnvironment($user->company->paypal_client_id, $user->company->paypal_secret);
-            $env = new SandboxEnvironment('AdibmcjffSYZR9TSS5DuKIQpnf80KfY-3pBGd30JKz2Ar1xHIipwijo4eZOJvbDCFpfmOBItDqZoiHmM', 'EEPRF__DLqvkwnnpi2Hi3paQ-9SZFRqypUH-u0fr4zAzvv7hWtz1bJHF0CEwvrvZpHyLeKSTO_FwAeO_');
+            $env = new ProductionEnvironment($this->company->paypal_client_id, $this->paypal_secret);
+            // $env = new SandboxEnvironment('AdibmcjffSYZR9TSS5DuKIQpnf80KfY-3pBGd30JKz2Ar1xHIipwijo4eZOJvbDCFpfmOBItDqZoiHmM', 'EEPRF__DLqvkwnnpi2Hi3paQ-9SZFRqypUH-u0fr4zAzvv7hWtz1bJHF0CEwvrvZpHyLeKSTO_FwAeO_');
             $paypal_client = new PayPalHttpClient($env);
             $response = $paypal_client->execute($req);
             $links = $response->result->links;
@@ -286,8 +287,8 @@ class ShopCustomerController extends MasterController
         $order = ShopOrder::find($id);
         $request = new OrdersCaptureRequest($request->session()->get('order_id'));
         $request->body = "{}";
-        // $env = new ProductionEnvironment($user->company->paypal_client_id, $user->company->paypal_secret);
-        $env = new SandboxEnvironment('AdibmcjffSYZR9TSS5DuKIQpnf80KfY-3pBGd30JKz2Ar1xHIipwijo4eZOJvbDCFpfmOBItDqZoiHmM', 'EEPRF__DLqvkwnnpi2Hi3paQ-9SZFRqypUH-u0fr4zAzvv7hWtz1bJHF0CEwvrvZpHyLeKSTO_FwAeO_');
+        $env = new ProductionEnvironment($this->company->paypal_client_id, $this->paypal_secret);
+        // $env = new SandboxEnvironment('AdibmcjffSYZR9TSS5DuKIQpnf80KfY-3pBGd30JKz2Ar1xHIipwijo4eZOJvbDCFpfmOBItDqZoiHmM', 'EEPRF__DLqvkwnnpi2Hi3paQ-9SZFRqypUH-u0fr4zAzvv7hWtz1bJHF0CEwvrvZpHyLeKSTO_FwAeO_');
         $paypal_client = new PayPalHttpClient($env);
         $response = $paypal_client->execute($request);
         $result = $response->result;
@@ -314,5 +315,18 @@ class ShopCustomerController extends MasterController
     public function orderShow($id) {
         $order = ShopOrder::find($id);
         return view('pages.consumers.ec.order-show')->with(compact('order'));
+    }
+
+    public function commentProduct(Request $request, $id) {
+        // dd($request);
+        $orderProduct = ShopOrderProduct::find($id);
+        ShopComment::create([
+            'order_product_id' => $id,
+            'product_id' => $orderProduct->product->id,
+            'rating' => $request->rating,
+            'comment' => $request->comment
+        ]);
+
+        return redirect()->back();
     }
 }

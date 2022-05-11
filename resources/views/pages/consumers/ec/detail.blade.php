@@ -79,13 +79,8 @@
               {{-- <span class="card-text item-company">By <a href="#" class="company-name">Apple</a></span> --}}
               <div class="ecommerce-details-price d-flex flex-wrap mt-1">
                 <h4 class="item-price me-1">{{ $currencyCode.number_format($product->price, 2) }}</h4>
-                <ul class="unstyled-list list-inline ps-1 border-start">
-                  <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                  <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                  <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                  <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                  <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                </ul>
+                @php $avgRating = round($product->avgRating()); @endphp
+                @include('pages.consumers.ec.rating')
               </div>
               <p class="card-text">Available - <span class="text-success">In stock</span></p>
               <p class="card-text">

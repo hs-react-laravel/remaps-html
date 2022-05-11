@@ -17,4 +17,12 @@ class ShopProduct extends Model
     public function sku() {
         return $this->hasMany(ShopProductSku::class, 'product_id', 'id');
     }
+
+    public function comments() {
+        return $this->hasMany(ShopComment::class, 'product_id', 'id');
+    }
+
+    public function avgRating() {
+        return $this->comments->avg('rating');
+    }
 }

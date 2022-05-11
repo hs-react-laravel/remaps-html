@@ -85,13 +85,8 @@
                       <h6 class="mb-0"><a href="{{url('app/ecommerce/details')}}" class="text-body">{{ $item->product->title }}</a></h6>
                       {{-- <span class="item-company">By <a href="#" class="company-name">Apple</a></span> --}}
                       <div class="item-rating">
-                        <ul class="unstyled-list list-inline">
-                          <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                          <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                          <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                          <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                          <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                        </ul>
+                        @php $avgRating = round($item->product->avgRating()); @endphp
+                        @include('pages.consumers.ec.rating')
                       </div>
                     </div>
                     @if ($item->product->stock > 0)

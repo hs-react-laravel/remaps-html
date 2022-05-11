@@ -27,27 +27,7 @@ $configData = Helper::applClasses();
       </li>
       @else
       {{-- Add Custom Class with nav-item --}}
-      @if($menu->name != 'external')
-        <?php $badgeClasses = "badge-tickets badge rounded-pill badge-glow ".($configData['navbarColor'] != '' ? $configData['navbarColor'] : 'bg-primary')." ms-auto" ?>
-        <li class="nav-item {{ $custom_classes }} {{Route::currentRouteName() === $menu->slug ? 'active' : ''}}">
-          <a href="{{isset($menu->url)? url($menu->url):'javascript:void(0)'}}" class="d-flex align-items-center" target="{{isset($menu->newTab) ? '_blank':'_self'}}">
-            <i data-feather="{{ $menu->icon }}"></i>
-            <span class="menu-title text-truncate">{{ __('locale.'.$menu->name) }}</span>
-            @if (($menu->url == 'admin/tickets' || $menu->url == 'customer/tk' || $menu->url == 'staff/stafftk') && $tickets_count)
-            <span class="{{ isset($menu->badgeClass) ? $menu->badgeClass : $badgeClasses }}">{{$tickets_count}}</span>
-            @endif
-            @if (isset($menu->beta))
-            <span class="{{ isset($menu->badgeClass) ? $menu->badgeClass : $badgeClasses }}">Beta</span>
-            @endif
-            @if ($menu->url == 'admin/shoporders' && $unchecked_orders > 0)
-            <span class="{{ isset($menu->badgeClass) ? $menu->badgeClass : $badgeClasses }}">{{ $unchecked_orders }}</span>
-            @endif
-          </a>
-          @if(isset($menu->submenu))
-          @include('panels/submenu', ['menu' => $menu->submenu])
-          @endif
-        </li>
-      @else
+      @if($menu->name == 'external')
         @if($company->link_name && $company->link_value)
         <li class="nav-item {{ $custom_classes }}">
           <a href="{{$company->link_value}}" class="d-flex align-items-center" target="_blank">
@@ -55,6 +35,48 @@ $configData = Helper::applClasses();
             <span class="menu-title text-truncate">{{$company->link_name}}</span>
           </a>
         </li>
+        @endif
+      @else
+        @php
+          $badgeClasses = "badge-tickets badge rounded-pill badge-glow ".($configData['navbarColor'] != '' ? $configData['navbarColor'] : 'bg-primary')." ms-auto";
+        @endphp
+        @if (isset($menu->beta))
+          @if ($company->id == 88)
+          <li class="nav-item {{ $custom_classes }} {{Route::currentRouteName() === $menu->slug ? 'active' : ''}}">
+            <a href="{{isset($menu->url)? url($menu->url):'javascript:void(0)'}}" class="d-flex align-items-center" target="{{isset($menu->newTab) ? '_blank':'_self'}}">
+              <i data-feather="{{ $menu->icon }}"></i>
+              <span class="menu-title text-truncate">{{ __('locale.'.$menu->name) }}</span>
+              @if (($menu->url == 'admin/tickets' || $menu->url == 'customer/tk' || $menu->url == 'staff/stafftk') && $tickets_count)
+              <span class="{{ isset($menu->badgeClass) ? $menu->badgeClass : $badgeClasses }}">{{$tickets_count}}</span>
+              @endif
+              @if (isset($menu->beta))
+              <span class="{{ isset($menu->badgeClass) ? $menu->badgeClass : $badgeClasses }}">Beta</span>
+              @endif
+              @if ($menu->url == 'admin/shoporders' && $unchecked_orders > 0)
+              <span class="{{ isset($menu->badgeClass) ? $menu->badgeClass : $badgeClasses }}">{{ $unchecked_orders }}</span>
+              @endif
+            </a>
+            @if(isset($menu->submenu))
+            @include('panels/submenu', ['menu' => $menu->submenu])
+            @endif
+          </li>
+          @endif
+        @else
+          <li class="nav-item {{ $custom_classes }} {{Route::currentRouteName() === $menu->slug ? 'active' : ''}}">
+            <a href="{{isset($menu->url)? url($menu->url):'javascript:void(0)'}}" class="d-flex align-items-center" target="{{isset($menu->newTab) ? '_blank':'_self'}}">
+              <i data-feather="{{ $menu->icon }}"></i>
+              <span class="menu-title text-truncate">{{ __('locale.'.$menu->name) }}</span>
+              @if (($menu->url == 'admin/tickets' || $menu->url == 'customer/tk' || $menu->url == 'staff/stafftk') && $tickets_count)
+              <span class="{{ isset($menu->badgeClass) ? $menu->badgeClass : $badgeClasses }}">{{$tickets_count}}</span>
+              @endif
+              @if ($menu->url == 'admin/shoporders' && $unchecked_orders > 0)
+              <span class="{{ isset($menu->badgeClass) ? $menu->badgeClass : $badgeClasses }}">{{ $unchecked_orders }}</span>
+              @endif
+            </a>
+            @if(isset($menu->submenu))
+            @include('panels/submenu', ['menu' => $menu->submenu])
+            @endif
+          </li>
         @endif
       @endif
       @endif

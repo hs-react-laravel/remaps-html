@@ -102,13 +102,8 @@
     <div class="card-body">
       <div class="item-wrapper">
         <div class="item-rating">
-          <ul class="unstyled-list list-inline">
-            <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-            <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-            <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-            <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-            <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-          </ul>
+          @php $avgRating = round($product->avgRating()); @endphp
+          @include('pages.consumers.ec.rating')
         </div>
         <div>
           <h6 class="item-price">{{ config('constants.currency_signs')[$company->paypal_currency_code] }}{{ $product->price }}</h6>

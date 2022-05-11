@@ -22,15 +22,32 @@ $(function () {
     initializeRatings = $('.btn-initialize'),
     destroyRatings = $('.btn-destroy'),
     getRatings = $('.btn-get-rating'),
-    setRatings = $('.btn-set-rating');
+    setRatings = $('.btn-set-rating'),
+    productRatings = $('.product-ratings'),
+    productReadOnlyRatings = $('.product-readonly-ratings');
 
   // Basic Ratings
 
-  if (basicRatings.length) {
-    basicRatings.rateYo({
-      rating: 3.6,
+  if (productRatings.length) {
+    productRatings.rateYo({
+      rating: 0,
+      precision: 0,
       rtl: isRtl
+    }).on('rateyo.change', function (e, data) {
+      var rating = data.rating;
+      $(this).parent().find('.counter').val(rating);
     });
+  }
+
+  if (productReadOnlyRatings.length) {
+    productReadOnlyRatings.each((idx, ele) => {
+      $(ele).rateYo({
+        rating: $(ele).parent().find('.counter').val(),
+        precision: 0,
+        rtl: isRtl,
+        readOnly: true
+      })
+    })
   }
 
   // Custom SVG Ratings
