@@ -93,15 +93,15 @@ data-asset-path="{{ asset('/')}}">
         dataType: 'JSON',
         success: function (data) {
           let tpCard = $(obj).closest('.list-item')
-          let scCard = $(obj).closest('.ecommerce-card')
+          let scCard = $(obj).closest('.sc-cart-card')
           const tpIdx = $('.list-item').index(tpCard)
-          const scIdx = $('.ecommerce-card').index(scCard)
+          const scIdx = $('.sc-cart-card').index(scCard)
           console.log(tpIdx, scIdx)
           if (scIdx > -1) {
             tpCard = $('.media-list').find('.list-item')[scIdx]
             $(tpCard).find('.touchspin-cart').val($(obj).val())
           } else if (tpIdx > -1) {
-            scCard = $('.ecommerce-card')[tpIdx]
+            scCard = $('.sc-cart-card')[tpIdx]
             $(scCard).find('.quantity-counter').val($(obj).val())
           }
 

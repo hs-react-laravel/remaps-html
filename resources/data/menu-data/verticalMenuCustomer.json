@@ -51,6 +51,20 @@
         "name": "external",
         "icon": "external-link",
         "slug": ""
+    },
+    {
+        "url": "customer/shop",
+        "name": "menu_Shop_products",
+        "icon": "shopping-cart",
+        "slug": "customer.shop",
+        "beta": true
+    },
+    {
+        "url": "customer/shop/order/list",
+        "name": "menu_Customer_Shop_Order",
+        "icon": "shopping-bag",
+        "slug": "customer.shop.order.list",
+        "beta": true
     }
   ]
 }

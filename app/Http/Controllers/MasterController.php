@@ -13,6 +13,7 @@ use DB;
 use App\Models\Styling;
 use App\Models\Company;
 use App\Models\NotificationRead;
+use App\Models\Shop\ShopOrder;
 
 class MasterController extends BaseController
 {
@@ -136,6 +137,11 @@ class MasterController extends BaseController
                         view()->share('notifies', $notifies);
                         view()->share('cartProducts', $cartProducts);
                         view()->share('totalCartAmount', $totalCartAmount);
+                    } else if ($this->role == 'company' || $this->role == 'master') {
+                        $uncheckedOrders = ShopOrder::whereHas('user', function($query) use($user){
+                            return $query->where('company_id', $user->company_id);
+                        })->where('is_checked', 0)->count();
+                        view()->share('unchecked_orders', $uncheckedOrders);
                     }
                     $currencyCode = config('constants.currency_signs')[$this->company->paypal_currency_code];
                     view()->share('currencyCode', $currencyCode);

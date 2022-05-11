@@ -70,7 +70,7 @@ $(function () {
       });
     }
   }
-
+  console.log('wizard')
   // Init Wizard
   if (typeof checkoutWizard !== undefined && checkoutWizard !== null) {
     var wizard = new Stepper(checkoutWizard, {
@@ -90,6 +90,14 @@ $(function () {
       .on('click', function () {
         wizard.previous();
       });
+
+
+    if ($('#order_status').val() == 'placed') {
+      wizard.to(2);
+    }
+    if ($('#order_status').val() == 'addressed') {
+      wizard.to(3);
+    }
   }
 
   // checkout quantity counter

@@ -31,7 +31,13 @@
         </div>
         <div class="cart-item-qty">
           <div class="input-group">
-            <input class="touchspin-cart" type="number" value="{{ $item->amount }}" data-cartid="{{ $item->id }}" onchange="onChangeCart(this)">
+            <input
+              class="touchspin-cart"
+              type="number"
+              value="{{ $item->amount }}"
+              data-cartid="{{ $item->id }}"
+              onchange="onChangeCart(this)"
+              max="{{ $item->product->stock }}">
           </div>
         </div>
         <h5 class="cart-item-price">

@@ -33,6 +33,7 @@ use App\Http\Controllers\Remaps\SliderManagerController;
 use App\Http\Controllers\Remaps\TuningEVCCreditController;
 use App\Http\Controllers\PaypalWebhookController;
 use App\Http\Controllers\Remaps\ShopCategoryController;
+use App\Http\Controllers\Remaps\ShopOrderController;
 use App\Http\Controllers\Remaps\ShopProductController;
 use App\Http\Controllers\Staff\FileServiceController as StaffFileServiceController;
 use App\Http\Controllers\Staff\TicketController as StaffTicketController;
@@ -122,6 +123,8 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::resource('slidermanagers', SliderManagerController::class);
     Route::resource('shopcategories', ShopCategoryController::class);
     Route::resource('shopproducts', ShopProductController::class);
+    Route::resource('shoporders', ShopOrderController::class);
+    Route::get('shoporders/{id}/deliver', [ShopOrderController::class, 'deliver'])->name('shoporders.deliver');
     Route::post('shopproducts/api/upload', [ShopProductController::class, 'uploadImageFile'])->name('shopproducts.files.api');
 
     Route::get('company-settings', [CompanySettingController::class, 'company_setting'])->name('company.setting');
@@ -258,6 +261,14 @@ Route::group(['middleware' => 'auth:customer', 'prefix'=>'customer'], function (
     Route::post('/shop/cart/update', [ShopCustomerController::class, 'updateCartItem'])->name('customer.shop.cart.update');
     Route::post('/shop/cart/delete', [ShopCustomerController::class, 'deleteCartItem'])->name('customer.shop.cart.delete');
     Route::post('/shop/card/add', [ShopCustomerController::class, 'addCard'])->name('customer.shop.payment.card');
+    Route::post('/shop/order/place', [ShopCustomerController::class, 'placeOrder'])->name('customer.shop.order.place');
+    Route::post('/shop/order/{id}/address', [ShopCustomerController::class, 'setOrderAddress'])->name('customer.shop.order.address');
+    Route::post('/shop/order/{id}/stripe-payment', [ShopCustomerController::class, 'payOrderByStripe'])->name('customer.shop.order.pay.stripe');
+    Route::post('/shop/order/{id}/paypal-payment', [ShopCustomerController::class, 'payOrderByPaypal'])->name('customer.shop.order.pay.paypal');
+    Route::get('/shop/order/{id}/paypal-payment/cancel', [ShopCustomerController::class, 'paypalPaymentCancel'])->name('customer.shop.order.pay.paypal.cancel');
+    Route::get('/shop/order/{id}/paypal-payment/success', [ShopCustomerController::class, 'paypalPaymentSuccess'])->name('customer.shop.order.pay.paypal.success');
+    Route::get('/shop/order/list', [ShopCustomerController::class, 'orderList'])->name('customer.shop.order.list');
+    Route::get('/shop/order/{id}/show', [ShopCustomerController::class, 'orderShow'])->name('customer.shop.order.show');
 });
 Route::group(['middleware' => 'check.common'], function () {
 

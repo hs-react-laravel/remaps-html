@@ -90,6 +90,13 @@
         "beta": true
     },
     {
+        "url": "admin/shoporders",
+        "name": "menu_Customer_Shop_Order",
+        "icon": "shopping-bag",
+        "slug": "shoporders.index",
+        "beta": true
+    },
+    {
         "navheader": "Admin Functions",
         "slug": ""
     },

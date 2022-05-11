@@ -102,8 +102,8 @@
                   <span>EMI options available</span>
                 </li>
               </ul> --}}
-              <hr/>
               @foreach ($product->sku as $i => $sku)
+                <hr/>
                 <div class="sku-wrapper">
                   <h5>{{ $sku->title }}</h5>
                   @if ($sku->type == 'option')
@@ -143,7 +143,7 @@
               @endforeach
               <hr />
               <div class="d-flex flex-column flex-sm-row pt-1">
-                <button class="btn btn-primary me-0 me-sm-1 mb-1 mb-sm-0">
+                <button class="btn btn-primary me-0 me-sm-1 mb-1 mb-sm-0" @if($product->stock <= 0) disabled @endif>
                   <i data-feather="shopping-cart" class="me-50"></i>
                   <span class="add-to-cart">Add to cart</span>
                 </button>

@@ -237,7 +237,7 @@
                               <input type="text" name="sku_items[{{$i}}][]" class="form-control" value="{{ $sitem->title }}" />
                             </td>
                             <td style="padding: 1px">
-                              <input type="number" name="sku_prices[{{$i}}][]" class="form-control" value="{{ $sitem->price }}" />
+                              <input type="number" name="sku_prices[{{$i}}][]" step=".01" class="form-control" value="{{ $sitem->price }}" />
                             </td>
                             <td style="padding: 1px">
                               <input type="hidden" name="sku_item_ids[{{$i}}][]" value="{{ $sitem->id }}">

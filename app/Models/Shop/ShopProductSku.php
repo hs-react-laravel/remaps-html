@@ -1,21 +1,20 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Shop;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ShopCart extends Model
+class ShopProductSku extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'user_id', 'product_id', 'price', 'amount', 'sku_detail'
+        'product_id', 'title', 'type'
     ];
 
-    public function product()
-    {
-        return $this->belongsTo(ShopProduct::class, 'product_id', 'id');
+    public function items() {
+        return $this->hasMany(ShopProductSkuItem::class, 'product_sku_id', 'id');
     }
 }

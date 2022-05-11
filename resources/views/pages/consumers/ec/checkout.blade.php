@@ -19,8 +19,8 @@
 @endsection
 
 @section('content')
-<form action="">
   <div class="bs-stepper checkout-tab-steps ecommerce-application">
+    <input type="hidden" id="order_status" value="{{ isset($order) ? $order->status : '' }}">
     <!-- Wizard starts -->
     <div class="bs-stepper-header">
       <div class="step" data-target="#step-cart" role="tab" id="step-cart-trigger" style="pointer-events: none !important">
@@ -66,14 +66,13 @@
     <!-- Wizard ends -->
 
     <div class="bs-stepper-content">
-      <!-- Checkout Place order starts -->
       <div id="step-cart" class="content" role="tabpanel" aria-labelledby="step-cart-trigger">
-        <div id="place-order" class="list-view product-checkout">
-          <!-- Checkout Place Order Left starts -->
+        <form id="place-order" class="list-view product-checkout" method="POST" action="{{ route('customer.shop.order.place') }}">
+          @csrf
           <div class="checkout-items">
             @if (count($cartProducts) > 0)
               @foreach ($cartProducts as $item)
-                <div class="card ecommerce-card">
+                <div class="card ecommerce-card sc-cart-card">
                   <div class="item-img">
                     <a href="{{url('app/ecommerce/details')}}">
                       <img src="{{ $item->product->thumb
@@ -133,9 +132,6 @@
               Your cart is currently empty
             @endif
           </div>
-          <!-- Checkout Place Order Left ends -->
-
-          <!-- Checkout Place Order Right starts -->
           <div class="checkout-options">
             <div class="card">
               <div class="card-body">
@@ -164,19 +160,18 @@
                       </div>
                     </li>
                   </ul>
-                  <button type="button" class="btn btn-primary w-100 btn-next place-order">Place Order</button>
+                  <button type="submit" class="btn btn-primary w-100 place-order">Place Order</button>
                 </div>
               </div>
             </div>
-            <!-- Checkout Place Order Right ends -->
+
           </div>
-        </div>
-        <!-- Checkout Place order Ends -->
+        </form>
       </div>
-      <!-- Checkout Customer Address Starts -->
+
       <div id="step-address" class="content" role="tabpanel" aria-labelledby="step-address-trigger">
-          <!-- Checkout Customer Address Left starts -->
-          <div class="step-address-content" style="display: grid; column-gap: 2rem; grid-template-columns: 2fr 1fr;">
+        @if (isset($order))
+          {{ Form::model($order, array('route' => array('customer.shop.order.address', $order ? $order->id : ''), 'method' => 'POST', 'id' => "checkout-address", 'class' => "list-view product-checkout")) }}
             <div class="card">
               <div class="card-header flex-column align-items-start">
                 <h4 class="card-title">Ship Address</h4>
@@ -283,7 +278,7 @@
                     </div>
                   </div>
                   <div class="col-12">
-                    <button type="button" class="btn btn-primary btn-next delivery-address">Deliver Here</button>
+                    <button type="submit" class="btn btn-primary delivery-address">Deliver Here</button>
                   </div>
                 </div>
               </div>
@@ -297,17 +292,18 @@
                   <p class="card-text mb-0 p-address-line-1"></p>
                   <p class="card-text p-address-line-2"></p>
                   <p class="card-text p-phone-number"></p>
-                  <button type="button" class="btn btn-primary w-100 btn-next delivery-address mt-2">
+                  <button type="submit" class="btn btn-primary w-100 delivery-address mt-2">
                     Deliver To This Address
                   </button>
                 </div>
               </div>
             </div>
-          </div>
+          {{ Form::close() }}
+        @endif
+
       </div>
-      <!-- Checkout Customer Address Ends -->
-      <!-- Checkout Payment Starts -->
       <div id="step-payment" class="content" role="tabpanel" aria-labelledby="step-payment-trigger">
+        @if (isset($order))
         <div id="checkout-payment" class="list-view product-checkout">
           <div class="payment-type">
             <div class="card">
@@ -319,15 +315,70 @@
                 <ul class="other-payment-options list-unstyled">
                   <li class="py-50">
                     <div class="form-check">
-                      <input type="radio" id="customColorRadio2" name="paymentOptions" class="form-check-input" />
+                      <input type="radio" id="customColorRadio2" name="paymentOptions" class="form-check-input" value="paypal" checked />
                       <label class="form-check-label" for="customColorRadio2"> Paypal </label>
                     </div>
+                    <form
+                      id="paypalForm"
+                      action="{{ route('customer.shop.order.pay.paypal', ['id' => $order->id]) }}"
+                      method="POST">@csrf</form>
                   </li>
                   <li class="py-50">
                     <div class="form-check">
-                      <input type="radio" id="customColorRadio3" name="paymentOptions" class="form-check-input" />
+                      <input type="radio" id="customColorRadio3" name="paymentOptions" class="form-check-input" value="stripe" />
                       <label class="form-check-label" for="customColorRadio3"> Stripe </label>
                     </div>
+                    <form
+                      id="cardValidation"
+                      class="row gy-1 gx-2 mt-75"
+                      data-cc-on-file="false"
+                      data-stripe-publishable-key="{{ $company->stripe_key }}"
+                      style="display: none"
+                      action="{{ route('customer.shop.order.pay.stripe', ['id' => $order->id]) }}"
+                      method="POST">
+                      @csrf
+                      <div class="col-md-12">
+                        <label class="form-label" for="modalAddCardNumber">Card Number</label>
+                        <input
+                          id="modalAddCardNumber"
+                          name="modalAddCard"
+                          class="form-control add-credit-card-mask card-number"
+                          type="text"
+                          placeholder="1356 3215 6548 7898"
+                          aria-describedby="modalAddCard2"
+                          data-msg="Please enter your credit card number"
+                          required
+                        />
+                      </div>
+
+                      <div class="col-md-6">
+                        <label class="form-label" for="modalAddCardName">Name On Card</label>
+                        <input type="text" id="modalAddCardName" class="form-control card-name" placeholder="John Doe" required />
+                      </div>
+
+                      <div class="col-6 col-md-3">
+                        <label class="form-label" for="modalAddCardExpiryDate">Exp. Date</label>
+                        <input
+                          type="text"
+                          id="modalAddCardExpiryDate"
+                          class="form-control add-expiry-date-mask card-expiry"
+                          placeholder="MM/YY"
+                          required
+                        />
+                      </div>
+
+                      <div class="col-6 col-md-3">
+                        <label class="form-label" for="modalAddCardCvv">CVV</label>
+                        <input
+                          type="text"
+                          id="modalAddCardCvv"
+                          class="form-control add-cvv-code-mask card-cvc"
+                          maxlength="3"
+                          placeholder="654"
+                          required
+                        />
+                      </div>
+                    </form>
                   </li>
                 </ul>
               </div>
@@ -343,13 +394,13 @@
                   <li class="price-detail">
                     <div class="details-title">Price</div>
                     <div class="detail-amt amt-total">
-                      {{ $currencyCode.number_format($totalCartAmount, 2) }}
+                      {{ $currencyCode.number_format($order->amount, 2) }}
                     </div>
                   </li>
                   <li class="price-detail">
                     <div class="details-title">Tax</div>
                     <div class="detail-amt discount-amt text-success amt-tax">
-                      {{ $currencyCode.number_format($totalCartAmount * ($company->vat_percentage ?? 0) / 100, 2) }}
+                      {{ $currencyCode.number_format($order->tax, 2) }}
                     </div>
                   </li>
                 </ul>
@@ -358,23 +409,21 @@
                   <li class="price-detail">
                     <div class="details-title">Total Price</div>
                     <div class="detail-amt fw-bolder amt-order">
-                      {{ $currencyCode.number_format($totalCartAmount * (($company->vat_percentage ?? 0) + 100) / 100, 2) }}
+                      {{ $currencyCode.number_format($order->amount + $order->tax, 2) }}
                     </div>
                   </li>
                 </ul>
-                <button type="submit" class="btn btn-primary w-100 delivery-address mt-2">
+                <button type="button" class="btn btn-primary w-100 pay-button mt-2">
                   Pay
                 </button>
               </div>
             </div>
           </div>
         </div>
+        @endif
       </div>
-      <!-- Checkout Payment Ends -->
-      <!-- </div> -->
     </div>
   </div>
-</form>
 
 @endsection
 
@@ -388,6 +437,7 @@
 @section('page-script')
   <!-- Page js files -->
   <script src="{{ asset(mix('js/scripts/pages/app-ecommerce-checkout.js')) }}"></script>
+  <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
   <script>
     $('.address-input').change(function(){
       let name = $('#ship_name').val()
@@ -402,5 +452,78 @@
       $('.p-address-line-1').html(`${address_line_1} ${address_line_2}`)
       $('.p-address-line-2').html(`${town} ${state} ${postal}, ${country}`)
     })
+    let paymentOption = 'paypal';
+    $('input[name=paymentOptions]').change(function() {
+      paymentOption = $(this).val();
+      if (paymentOption == 'stripe') {
+        $('#cardValidation').show()
+      } else {
+        $('#cardValidation').hide()
+      }
+    })
+    $('.pay-button').click(function() {
+      console.log(paymentOption)
+      if (paymentOption == 'stripe') {
+        $('#cardValidation').submit()
+      } else if (paymentOption == 'paypal') {
+        $('#paypalForm').submit()
+      }
+    })
+    var $form = $('#cardValidation');
+    $('#cardValidation').bind('submit', function(e) {
+      var $form = $('#cardValidation');
+      inputSelector = ['input[type=email]', 'input[type=password]', 'input[type=text]', 'input[type=file]', 'textarea'].join(', '),
+      $inputs       = $form.find('.required').find(inputSelector),
+      $errorMessage = $form.find('div.error'),
+      valid         = true;
+      $errorMessage.addClass('hide');
+      $('.has-error').removeClass('has-error');
+      $inputs.each(function(i, el) {
+        var $input = $(el);
+        if ($input.val() === '') {
+          $input.parent().addClass('has-error');
+          $errorMessage.removeClass('hide');
+          e.preventDefault();
+        }
+      });
+      if (!$form.data('cc-on-file')) {
+        e.preventDefault();
+        Stripe.setPublishableKey($form.data('stripe-publishable-key'));
+        Stripe.createToken({
+          number: $('.card-number').val(),
+          cvc: $('.card-cvc').val(),
+          exp_month: $('.card-expiry').val().split('/')[0],
+          exp_year: $('.card-expiry').val().split('/')[1]
+        }, stripeResponseHandler);
+      }
+      $.ajax({
+        url: '{{ route("customer.shop.payment.card") }}',
+        type: 'POST',
+        data: {
+          _token: '{{ csrf_token() }}',
+          name: $('.card-name').val(),
+          number: $('.card-number').val(),
+          cvv: $('.card-cvc').val(),
+          exp: $('.card-expiry').val()
+        },
+        dataType: 'JSON',
+        success: function (data) {
+
+        }
+      });
+    });
+    function stripeResponseHandler(status, response) {
+      if (response.error) {
+          $('.error').removeClass('hide').find('.alert').text(response.error.message);
+      } else {
+        // token contains id, last4, and card type
+        var token = response['id'];
+        console.log(token)
+        // insert the token into the form so it gets submitted to the server
+        $form.find('input[type=text]').empty();
+        $form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
+        $form.get(0).submit();
+      }
+    }
   </script>
 @endsection

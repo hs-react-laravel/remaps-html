@@ -111,6 +111,7 @@ return [
     'menu_Shop_categories'=> 'Shop Categories',
     'menu_Shop_products'=> 'Shop Products',
     'menu_Customer_Shop'=> 'Shop',
+    'menu_Customer_Shop_Order'=> 'Shop Orders',
 
 
 //    dashboard top title

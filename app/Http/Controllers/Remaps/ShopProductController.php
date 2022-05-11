@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Remaps;
 
 use App\Http\Controllers\MasterController;
-use App\Models\ShopCategory;
-use App\Models\ShopProduct;
-use App\Models\ShopProductSku;
-use App\Models\ShopProductSkuItem;
+use App\Models\Shop\ShopCategory;
+use App\Models\Shop\ShopProduct;
+use App\Models\Shop\ShopProductSku;
+use App\Models\Shop\ShopProductSkuItem;
 use Illuminate\Http\Request;
 
 class ShopProductController extends MasterController

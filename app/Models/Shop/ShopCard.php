@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Shop;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ShopProductSkuItem extends Model
+class ShopCard extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'product_sku_id', 'title', 'price'
+        'name', 'number', 'exp', 'cvv'
     ];
 }
