@@ -171,6 +171,12 @@
             </div>
             <div class="row mb-1">
               <div class="col-12">
+                <label class="form-label" for="brand">Brand</label>
+                <input type="text" class="form-control" id="brand" name="brand" value="{{ $entry->brand }}" required />
+              </div>
+            </div>
+            <div class="row mb-1">
+              <div class="col-12">
                 <label class="form-label" for="price">Price({{ $currencyCode }})</label>
                 <input type="number" class="form-control" id="price" name="price" value="{{ $entry->price }}" step=".01" required />
               </div>
@@ -182,27 +188,6 @@
               </div>
             </div>
             <hr />
-            {{-- <div class="row mb-1">
-              <div class="col-12">
-                <label class="form-label">Additional Information</label>
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th width="20%">Name</th>
-                      <th width="75%">Content</th>
-                      <th width="5%"></th>
-                    </tr>
-                  </thead>
-                  <tbody id="ad-body">
-
-                  </tbody>
-                </table>
-                <div class="d-flex justify-content-end mt-1">
-                  <button type="button" class="btn btn-primary" onclick="onAdAdd()">Add Information</button>
-                </div>
-              </div>
-            </div>
-            <hr /> --}}
             <div class="row mb-1">
               <label class="form-label">SKU</label>
               <div class="sku-table-wrapper">

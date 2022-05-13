@@ -147,6 +147,12 @@
             </div>
             <div class="row mb-1">
               <div class="col-12">
+                <label class="form-label" for="brand">Brand</label>
+                <input type="text" class="form-control" id="brand" name="brand" required />
+              </div>
+            </div>
+            <div class="row mb-1">
+              <div class="col-12">
                 <label class="form-label" for="price">Price({{ $currencyCode }})</label>
                 <input type="number" class="form-control" id="price" name="price" step=".01" required />
               </div>

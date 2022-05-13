@@ -39,7 +39,9 @@
             <div class="card-body">
               <div class="item-name">
                 <h6 class="mb-0"><a href="{{url('app/ecommerce/details')}}" class="text-body">{{ $item->product->title }}</a></h6>
-                {{-- <span class="item-company">By <a href="#" class="company-name">Apple</a></span> --}}
+                @if ($item->product->brand)
+                <span class="item-company">By <a href="#" class="company-name">{{ $item->product->brand }}</a></span>
+                @endif
                 <div class="item-rating">
                   @php $avgRating = round($item->product->avgRating()); @endphp
                   @include('pages.consumers.ec.rating')

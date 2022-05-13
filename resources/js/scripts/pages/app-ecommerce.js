@@ -67,8 +67,14 @@ $(function () {
 
   // Init Price slider
   if (typeof priceSlider !== undefined && priceSlider !== null) {
-    noUiSlider.create(priceSlider, {
-      start: [1500, 3500],
+    var min = Number($('#min-price').val())
+    var max = Number($('#max-price').val())
+    var selectedMin = Number($('#min-price-select').val())
+    var selectedMax = Number($('#max-price-select').val())
+    if (selectedMin == 0) selectedMin = min
+    if (selectedMax == 0) selectedMax = max
+    const range = noUiSlider.create(priceSlider, {
+      start: [selectedMin, selectedMax],
       direction: direction,
       connect: true,
       tooltips: [true, true],
@@ -76,10 +82,15 @@ $(function () {
         decimals: 0
       }),
       range: {
-        min: 51,
-        max: 5000
+        min: min,
+        max: max
       }
     });
+    range.on('update', function(values, handle) {
+      console.log(values)
+      $('#min-price-select').val(values[0])
+      $('#max-price-select').val(values[1])
+    })
   }
 
   // Grid View

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\MasterController;
 use App\Models\Shop\ShopCard;
 use App\Models\Shop\ShopCart;
+use App\Models\Shop\ShopCategory;
 use App\Models\Shop\ShopComment;
 use App\Models\Shop\ShopOrder;
 use App\Models\Shop\ShopOrderProduct;
@@ -23,10 +24,59 @@ use PayPalCheckoutSdk\Orders\OrdersCaptureRequest;
 
 class ShopCustomerController extends MasterController
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = ShopProduct::where('company_id', $this->company->id)->where('live', 1)->paginate(9);
-        return view('pages.consumers.ec.index')->with(compact('products'));
+        $products = ShopProduct::where('company_id', $this->company->id)->where('live', 1);
+
+        if ($request->has('category_filter')) {
+            $products = $products->whereIn('category_id', $request->get('category_filter'));
+        }
+        if ($request->has('product_brands')) {
+            $products = $products->whereIn('brand', $request->get('product_brands'));
+        }
+        if ($request->has('min_selected_price')) {
+            $products = $products->where('price', '>=', $request->get('min_selected_price'));
+        }
+        if ($request->has('max_selected_price')) {
+            $products = $products->where('price', '<=', $request->get('max_selected_price'));
+        }
+
+        if ($request->has('rating')) {
+            $products = $products->where('rating', '>=', $request->get('rating'));
+        }
+
+        $products = $products->paginate(9);
+
+        $maxPrice = ShopProduct::where('company_id', $this->company->id)->where('live', 1)->max('price');
+        $minPrice = ShopProduct::where('company_id', $this->company->id)->where('live', 1)->min('price');
+        $categories = ShopCategory::get();
+        $brandNames = ShopProduct::where('company_id', $this->company->id)
+            ->select('id', 'brand')
+            ->groupBy('brand')
+            ->pluck('brand');
+        $brands = array();
+        foreach($brandNames as $bn) {
+            $count = ShopProduct::where('company_id', $this->company->id)
+                ->where('brand', $bn)
+                ->where('live', 1)
+                ->count();
+            array_push($brands, [
+                'title' => $bn,
+                'count' => $count
+            ]);
+        }
+        $ratingValues = [4, 3, 2, 1];
+        $ratings = array();
+        foreach($ratingValues as $rv) {
+            array_push($ratings, [
+                'rating' => $rv,
+                'count' => ShopProduct::where('company_id', $this->company->id)
+                    ->where('live', 1)
+                    ->where('rating', '>=', $rv)
+                    ->count()
+            ]);
+        }
+        return view('pages.consumers.ec.index')->with(compact('products', 'categories', 'maxPrice', 'minPrice', 'brands', 'ratings'));
     }
 
     public function detail($id)
@@ -229,9 +279,9 @@ class ShopCustomerController extends MasterController
                 array_push($items, $reqItem);
             }
 
-            $req = new OrdersCreateRequest();
-            $req->prefer('return=representation');
-            $req->body = array(
+            $orderReq = new OrdersCreateRequest();
+            $orderReq->prefer('return=representation');
+            $orderReq->body = array(
                 'intent' => 'CAPTURE',
                 'application_context' => array(
                     'return_url' => route('customer.shop.order.pay.paypal.success', ['id' => $id]),
@@ -261,11 +311,10 @@ class ShopCustomerController extends MasterController
                     )
                 )
             );
-            // dd($req->body);
             $env = new ProductionEnvironment($this->company->paypal_client_id, $this->paypal_secret);
             // $env = new SandboxEnvironment('AdibmcjffSYZR9TSS5DuKIQpnf80KfY-3pBGd30JKz2Ar1xHIipwijo4eZOJvbDCFpfmOBItDqZoiHmM', 'EEPRF__DLqvkwnnpi2Hi3paQ-9SZFRqypUH-u0fr4zAzvv7hWtz1bJHF0CEwvrvZpHyLeKSTO_FwAeO_');
             $paypal_client = new PayPalHttpClient($env);
-            $response = $paypal_client->execute($req);
+            $response = $paypal_client->execute($orderReq);
             $links = $response->result->links;
             $redirect = "/";
             foreach($links as $link) {
@@ -325,6 +374,10 @@ class ShopCustomerController extends MasterController
             'product_id' => $orderProduct->product->id,
             'rating' => $request->rating,
             'comment' => $request->comment
+        ]);
+        $product = ShopProduct::find($orderProduct->product_id);
+        $product->update([
+            'rating' => $product->avgRating()
         ]);
 
         return redirect()->back();

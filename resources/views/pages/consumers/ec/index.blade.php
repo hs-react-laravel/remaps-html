@@ -15,9 +15,12 @@
 <link rel="stylesheet" href="{{ asset('css/base/plugins/extensions/ext-component-toastr.css') }}">
 @endsection
 
+@section('content-sidebar')
+@include('pages.consumers.ec.sidebar')
+@endsection
+
 @section('content')
 <!-- E-commerce Content Section Starts -->
-<div class="ecommerce-application">
 <section id="ecommerce-header">
   <div class="row">
     <div class="col-sm-12">
@@ -111,7 +114,12 @@
       </div>
       <h6 class="item-name">
         <a class="text-body" href="{{ route('customer.shop.detail', ['id' => $product->id]) }}">{{ $product->title }}</a>
-        {{-- <span class="card-text item-company">By <a href="#" class="company-name">Apple</a></span> --}}
+        @php
+            // dd($product->brand)
+        @endphp
+        @if ($product->brand)
+        <span class="card-text item-company">By <a href="#" class="company-name">{{ $product->brand }}</a></span>
+        @endif
       </h6>
       <p class="card-text item-description">
         {{ $product->description }}
@@ -127,7 +135,7 @@
         <i data-feather="heart"></i>
         <span>Wishlist</span>
       </a> --}}
-      <button class="btn btn-primary" style="border-radius: 0; flex-grow: 1;" onclick="onAddCartInline(this)" @if($product->stock <= 0) disabled @endif>
+      <button class="btn btn-primary" style="border-radius: 5px; width: 100%;" onclick="onAddCartInline(this)" @if($product->stock <= 0) disabled @endif>
         <i data-feather="shopping-cart"></i>
         <span class="add-to-cart">Add to cart</span>
       </button>
@@ -146,7 +154,6 @@
   {{ $products->links() }}
 </section>
 <!-- E-commerce Pagination Ends -->
-</div>
 @endsection
 
 @section('vendor-script')

@@ -41,7 +41,7 @@ $configData = Helper::applClasses();
           $badgeClasses = "badge-tickets badge rounded-pill badge-glow ".($configData['navbarColor'] != '' ? $configData['navbarColor'] : 'bg-primary')." ms-auto";
         @endphp
         @if (isset($menu->beta))
-          @if ($company->id == 88)
+          @if ($company->id == 1)
           <li class="nav-item {{ $custom_classes }} {{Route::currentRouteName() === $menu->slug ? 'active' : ''}}">
             <a href="{{isset($menu->url)? url($menu->url):'javascript:void(0)'}}" class="d-flex align-items-center" target="{{isset($menu->newTab) ? '_blank':'_self'}}">
               <i data-feather="{{ $menu->icon }}"></i>

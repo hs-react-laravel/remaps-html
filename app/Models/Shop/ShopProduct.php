@@ -11,7 +11,7 @@ class ShopProduct extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'company_id', 'title', 'description', 'category_id', 'details', 'price', 'image', 'thumb', 'stock', 'live'
+        'company_id', 'title', 'description', 'category_id', 'brand', 'details', 'price', 'image', 'thumb', 'stock', 'live', 'rating'
     ];
 
     public function sku() {

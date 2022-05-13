@@ -132,7 +132,7 @@
           data-feather="{{ $configData['theme'] === 'dark' ? 'sun' : 'moon' }}"></i></a></li> --}}
     @if ($role == "customer")
 
-    @if ($company->id == 88)
+    @if ($company->id == 1)
     <li class="nav-item dropdown dropdown-cart me-25">
       @include('pages.consumers.ec.cart-top')
     </li>

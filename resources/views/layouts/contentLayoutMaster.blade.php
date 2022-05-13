@@ -4,7 +4,8 @@
 
 <!DOCTYPE html>
 @php
-$configData = Helper::applClasses();
+$routeName = Route::current()->getName();
+$configData = Helper::applClasses($routeName == 'customer.shop');
 @endphp
 
 <html class="loading {{ ($configData['theme'] === 'light') ? '' : $configData['layoutTheme']}}"

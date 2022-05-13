@@ -74,7 +74,7 @@
               @foreach ($cartProducts as $item)
                 <div class="card ecommerce-card sc-cart-card">
                   <div class="item-img">
-                    <a href="{{url('app/ecommerce/details')}}">
+                    <a href="{{ route('customer.shop.detail', ['id' => $item->product->id]) }}">
                       <img src="{{ $item->product->thumb
                         ? asset('storage/uploads/products/thumbnails/'.$item->product->thumb)
                         : 'https://via.placeholder.com/350x250.png?text=Product'}}" />
@@ -82,8 +82,10 @@
                   </div>
                   <div class="card-body">
                     <div class="item-name">
-                      <h6 class="mb-0"><a href="{{url('app/ecommerce/details')}}" class="text-body">{{ $item->product->title }}</a></h6>
-                      {{-- <span class="item-company">By <a href="#" class="company-name">Apple</a></span> --}}
+                      <h6 class="mb-0"><a href="{{ route('customer.shop.detail', ['id' => $item->product->id]) }}" class="text-body">{{ $item->product->title }}</a></h6>
+                      @if ($item->product->brand)
+                      <span class="item-company">By <a href="#" class="company-name">{{ $item->product->brand }}</a></span>
+                      @endif
                       <div class="item-rating">
                         @php $avgRating = round($item->product->avgRating()); @endphp
                         @include('pages.consumers.ec.rating')

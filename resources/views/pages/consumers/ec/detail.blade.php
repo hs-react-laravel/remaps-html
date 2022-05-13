@@ -76,7 +76,9 @@
             </div>
             <div class="col-12 col-md-7">
               <h4>{{ $product->title }}</h4>
-              {{-- <span class="card-text item-company">By <a href="#" class="company-name">Apple</a></span> --}}
+              @if ($product->brand)
+              <span class="card-text item-company">By <a href="#" class="company-name">{{ $product->brand }}</a></span>
+              @endif
               <div class="ecommerce-details-price d-flex flex-wrap mt-1">
                 <h4 class="item-price me-1">{{ $currencyCode.number_format($product->price, 2) }}</h4>
                 @php $avgRating = round($product->avgRating()); @endphp
