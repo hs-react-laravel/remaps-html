@@ -83,18 +83,38 @@
         "slug": "notifications.index"
     },
     {
-        "url": "admin/shopproducts",
-        "name": "menu_Shop_products",
+        "name": "menu_Shop",
         "icon": "shopping-cart",
-        "slug": "shopproducts.index",
-        "beta": true
-    },
-    {
-        "url": "admin/shoporders",
-        "name": "menu_Customer_Shop_Order",
-        "icon": "shopping-bag",
-        "slug": "shoporders.index",
-        "beta": true
+        "url" : "",
+        "slug": "",
+        "beta": true,
+        "submenu": [
+            {
+                "url": "admin/shopproducts",
+                "name": "menu_Shop_products",
+                "icon": "shopping-cart",
+                "slug": "shopproducts.index"
+            },
+            {
+                "url": "admin/shoporders",
+                "name": "menu_Customer_Shop_Order",
+                "icon": "shopping-bag",
+                "slug": "shoporders.index"
+            },
+            {
+                "url": "admin/shopcategories",
+                "name": "menu_Shop_categories",
+                "icon": "columns",
+                "slug": "shopcategories.index"
+            }
+            ,
+            {
+                "url": "admin/shoppackages",
+                "name": "menu_Packages",
+                "icon": "package",
+                "slug": "shopcategories.index"
+            }
+        ]
     },
     {
         "navheader": "Admin Functions",
@@ -105,12 +125,6 @@
         "name": "menu_Manage_Companies",
         "icon": "layers",
         "slug": "companies.index"
-    },
-    {
-        "url": "admin/shopcategories",
-        "name": "menu_Shop_categories",
-        "icon": "shopping-cart",
-        "slug": "shopcategories.index"
     },
     {
         "url": "admin/packages",

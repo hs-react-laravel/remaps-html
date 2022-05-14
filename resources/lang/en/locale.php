@@ -108,10 +108,11 @@ return [
     'menu_Manage_Companies'=> 'Manage Companies',
     'menu_Packages'=> 'Packages',
     'menu_Slider_Manager'=> 'Slider Manager',
-    'menu_Shop_categories'=> 'Shop Categories',
-    'menu_Shop_products'=> 'Shop Products',
+    'menu_Shop'=> 'Shop',
+    'menu_Shop_categories'=> 'Categories',
+    'menu_Shop_products'=> 'Products',
     'menu_Customer_Shop'=> 'Shop',
-    'menu_Customer_Shop_Order'=> 'Shop Orders',
+    'menu_Customer_Shop_Order'=> 'Orders',
 
 
 //    dashboard top title
@@ -134,7 +135,7 @@ return [
     'dash_noteDescription' => 'MONDAY - FRIDAY 9 - 5pm ALLOW 1 HOUR FOR FILE RETURN SATURDAY 10.30 - 2pm FILES WITH PRIOR NOTICE ONLY !',
 
     'dash_Subscription' => 'Subscription',
-    'dash_SubscriptionDesc' => 'Please activate your subscription.Click on the button below and select your subscription. Once completed your panel will be fully activated.',
+    'dash_SubscriptionDesc' => 'Please activate your subscription. Click on the button below and select your subscription. Once completed your panel will be fully activated.',
 
 //  file services
     'service_filter_title' => 'FILTER',

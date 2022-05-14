@@ -160,3 +160,15 @@
 .theme-soil .input-group:focus-within .input-group-text { border-color: #ed7905 }
 .theme-dred .input-group:focus-within .input-group-text { border-color: #d90b04 }
 .theme-tred .input-group:focus-within .input-group-text { border-color: #910601 }
+
+.main-menu .navigation.theme-secondary > li ul .active { background: #82868b !important; box-shadow: 0 0 10px 1px rgba(130, 134, 139, 0.7) !important; }
+.main-menu .navigation.theme-success > li ul .active { background: #28c76f !important; box-shadow: 0 0 10px 1px rgba(40, 199, 111, 0.7) !important; }
+.main-menu .navigation.theme-danger > li ul .active { background: #ea5455 !important; box-shadow: 0 0 10px 1px rgba(234, 84, 85, 0.7) !important; }
+.main-menu .navigation.theme-info > li ul .active { background: #00cfe8 !important; box-shadow: 0 0 10px 1px rgba(0, 207, 232, 0.7) !important; }
+.main-menu .navigation.theme-warning > li ul .active { background: #ff9f43 !important; box-shadow: 0 0 10px 1px rgba(255, 159, 67, 0.7) !important; }
+.main-menu .navigation.theme-dark > li ul .active { background: #4b4b4b !important; box-shadow: 0 0 10px 1px rgba(75, 75, 75, 0.7) !important; }
+.main-menu .navigation.theme-dblue > li ul .active { background: #180061 !important; box-shadow: 0 0 10px 1px rgba(24, 0, 97, 0.7) !important; }
+.main-menu .navigation.theme-dgreen > li ul .active { background: #044a01 !important; box-shadow: 0 0 10px 1px rgba(4, 74, 1, 0.7) !important; }
+.main-menu .navigation.theme-soil > li ul .active { background: #ed7905 !important; box-shadow: 0 0 10px 1px rgba(237, 121, 5, 0.7) !important; }
+.main-menu .navigation.theme-dred > li ul .active { background: #d90b04 !important; box-shadow: 0 0 10px 1px rgba(217, 11, 4, 0.7) !important; }
+.main-menu .navigation.theme-tred > li ul .active { background: #910601 !important; box-shadow: 0 0 10px 1px rgba(145, 6, 1, 0.7) !important; }

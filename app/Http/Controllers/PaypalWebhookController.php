@@ -16,6 +16,8 @@ use App\Models\Subscription;
 use PayPal\Rest\ApiContext;
 use PayPal\Api\Agreement;
 use App\Models\Company;
+use App\Models\Shop\ShopSubscription;
+use App\Models\Shop\ShopSubscriptionPayment;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Config;
@@ -166,6 +168,34 @@ class PaypalWebhookController extends Controller{
 
                     Log::info('PAYMENT.SALE.COMPLETED:: Agreement doesn\'t exists.');
                 }
+
+                $shopSub = ShopSubscription::where('pay_agreement_id', @$resource['billing_agreement_id'])->first();
+                if ($shopSub) {
+                    $billingInfo = $this->getShopSubscriptionBillingInfo($shopSub->pay_agreement_id);
+
+                    $subscriptionPayment = ShopSubscriptionPayment::where('pay_txn_id', $resource['id'])->first();
+                    if(!$subscriptionPayment){
+                    	$subscriptionPayment = new ShopSubscriptionPayment();
+                    }
+                    //\Log::info(print_r($agreementDetails, true));
+					//\Log::info(print_r($agreementDetails->getLastPaymentAmount(), true));
+                    $subscriptionPayment->subscription_id = $shopSub->id;
+                    $subscriptionPayment->pay_txn_id = $resource['id'];
+                    $subscriptionPayment->next_billing_date = \Carbon\Carbon::parse($billingInfo->next_billing_time)->format('Y-m-d H:i:s');
+                    $subscriptionPayment->last_payment_date  = \Carbon\Carbon::parse($billingInfo->last_payment->time)->format('Y-m-d H:i:s');
+                    //$subscriptionPayment->last_payment_amount  = $agreementDetails->getLastPaymentAmount()->value;
+					if(isset($billingInfo->last_payment->amount->value)) {
+						$subscriptionPayment->last_payment_amount  = $billingInfo->last_payment->amount->value;
+                    }
+
+					$subscriptionPayment->failed_payment_count  = $billingInfo->failed_payments_count;
+                    $subscriptionPayment->status = $resource['state'];
+
+                    if($subscriptionPayment->save()){
+                        Mail::to($this->master->owner->email)->send(new BillingPaymentCompleted($shopSub));
+                    }
+                    Log::info('PAYMENT.SALE.COMPLETED:: Payment sale completed.');
+                }
                 break;
 
             /* Subscription Payment Denied */
@@ -265,6 +295,31 @@ class PaypalWebhookController extends Controller{
 
     public function getSubscriptionBillingInfo($id) {
         $url = "https://api.paypal.com/v1/billing/subscriptions/{$id}";
+
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_HTTPGET, true);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+        $headers = array(
+            'Accept: application/json',
+            'Authorization: '."Bearer ". $this->getAccessToken(),
+            'Prefer: return=representation',
+            'Content-Type: application/json',
+        );
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+
+        $resp = curl_exec($curl);
+        curl_close($curl);
+
+        $subscriptionDetails = json_decode($resp);
+        $billingInfo = $subscriptionDetails->billing_info;
+        return $billingInfo;
+    }
+
+    public function getShopSubscriptionBillingInfo($id) {
+        // $url = "https://api.paypal.com/v1/billing/subscriptions/{$id}";
+        $url = "https://api-m.sandbox.paypal.com/v1/billing/subscriptions/{$id}";
 
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_URL, $url);

@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Remaps;
+namespace App\Http\Controllers\Remaps\Shop;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\MasterController;
-use App\Http\Requests\PackageRequest;
-use App\Models\Package;
+use App\Models\Shop\ShopPackage;
+use Illuminate\Http\Request;
 
-class PackageController extends MasterController
+class ShopPackageController extends MasterController
 {
     /**
      * Display a listing of the resource.
@@ -17,22 +16,21 @@ class PackageController extends MasterController
     public function index()
     {
         $this->check_master();
-        $entries = Package::orderBy('id', 'DESC')->get();
-        return view('pages.package.index', [
+        $entries = ShopPackage::orderBy('id', 'DESC')->get();
+        return view('pages.ecommerce.package.index', [
             'entries' => $entries
         ]);
     }
 
     public function getAccessToken() {
         $ch = curl_init();
+        // $clientId = $this->company->paypal_client_id;
+        // $secret = $this->company->paypal_secret;
+        $clientId = 'AdibmcjffSYZR9TSS5DuKIQpnf80KfY-3pBGd30JKz2Ar1xHIipwijo4eZOJvbDCFpfmOBItDqZoiHmM';
+        $secret = 'EEPRF__DLqvkwnnpi2Hi3paQ-9SZFRqypUH-u0fr4zAzvv7hWtz1bJHF0CEwvrvZpHyLeKSTO_FwAeO_';
 
-        $company = \App\Models\Company::where('is_default', 1)->first();
-        if(!$company) return;
-
-        $clientId = $company->paypal_client_id;
-        $secret = $company->paypal_secret;
-
-        $api_url = "https://api.paypal.com/v1/oauth2/token";
+        // $api_url = "https://api.paypal.com/v1/oauth2/token";
+        $api_url = "https://api-m.sandbox.paypal.com/v1/oauth2/token";
 
         curl_setopt($ch, CURLOPT_URL, $api_url);
         curl_setopt($ch, CURLOPT_HEADER, false);
@@ -49,15 +47,10 @@ class PackageController extends MasterController
         return $json->access_token;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $this->check_master();
-        return view('pages.package.create');
+        return view('pages.ecommerce.package.create');
     }
 
     /**
@@ -66,18 +59,9 @@ class PackageController extends MasterController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PackageRequest $request)
+    public function store(Request $request)
     {
-        // $product = '1month Rolling £35';
-        // if ($request->billing_interval == 'Day') {
-        //     $product = '1month Rolling £35';
-        // } else if ($request->billing_interval == 'Month') {
-        //     $product = 'Sub-49';
-        // } else if ($request->billing_interval == 'Year') {
-        //     $product = 'PROD-2XS463586A957535Y';
-        // }
-        // $product = "PROD-60T973968V500920D";
-        $product = "PROD-5FF60360EM039884C";
+        $product = "PROD-60T973968V500920D";
         $accessToken = $this->getAccessToken();
 
         $data = [
@@ -113,7 +97,8 @@ class PackageController extends MasterController
             ]
         ];
 
-        $url = "https://api.paypal.com/v1/billing/plans";
+        // $url = "https://api.paypal.com/v1/billing/plans";
+        $url = "https://api-m.sandbox.paypal.com/v1/billing/plans";
 
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -137,10 +122,23 @@ class PackageController extends MasterController
         $resp = curl_exec($curl);
         curl_close($curl);
 
-        $request->request->add(['pay_plan_id'=> json_decode($resp)->id]);
-        Package::create($request->all());
+        // dd($resp);
 
-        return redirect(route('packages.index'));
+        $request->request->add(['pay_plan_id'=> json_decode($resp)->id]);
+        ShopPackage::create($request->all());
+
+        return redirect(route('shoppackages.index'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+
     }
 
     /**
@@ -152,8 +150,8 @@ class PackageController extends MasterController
     public function edit($id)
     {
         $this->check_master();
-        $entry = Package::find($id);
-        return view('pages.package.edit', compact('entry'));
+        $entry = ShopPackage::find($id);
+        return view('pages.ecommerce.package.edit', compact('entry'));
     }
 
     /**
@@ -163,13 +161,21 @@ class PackageController extends MasterController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(PackageRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $package = Package::find($id);
+        ShopPackage::find($id)->update($request->all());
 
-        Package::find($id)->update($request->all());
-
-        return redirect(route('packages.index'));
+        return redirect(route('shoppackages.index'));
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
 }

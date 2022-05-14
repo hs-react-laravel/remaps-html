@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Remaps;
+namespace App\Http\Controllers\Remaps\Shop;
 
 use App\Http\Controllers\MasterController;
 use App\Models\Shop\ShopCategory;

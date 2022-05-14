@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Remaps;
+namespace App\Http\Controllers\Remaps\Shop;
 
-use App\Http\Controllers\MasterController;
 use Illuminate\Http\Request;
-use App\Models\Shop\ShopOrder;
+use App\Http\Controllers\MasterController;
+use App\Models\Shop\ShopCategory;
 
-class ShopOrderController extends MasterController
+class ShopCategoryController extends MasterController
 {
     /**
      * Display a listing of the resource.
@@ -15,12 +15,10 @@ class ShopOrderController extends MasterController
      */
     public function index()
     {
-        // $entries = ShopOrder::where('user_id', $this->user->id)->paginate('10');
-        $user = $this->user;
-        $entries = ShopOrder::whereHas('user', function($query) use($user){
-            return $query->where('company_id', $user->company_id);
-        })->orderBy('id', 'DESC')->paginate(10);
-        return view('pages.ecommerce.shoporder.index')->with(compact('entries'));
+        $this->check_master();
+        return view('pages.ecommerce.shopcategory.index')->with([
+            'entries' => ShopCategory::get()
+        ]);
     }
 
     /**
@@ -30,7 +28,8 @@ class ShopOrderController extends MasterController
      */
     public function create()
     {
-        //
+        $this->check_master();
+        return view('pages.ecommerce.shopcategory.create');
     }
 
     /**
@@ -41,7 +40,9 @@ class ShopOrderController extends MasterController
      */
     public function store(Request $request)
     {
-        //
+        $this->check_master();
+        ShopCategory::create($request->all());
+        return redirect()->route('shopcategories.index');
     }
 
     /**
@@ -52,18 +53,7 @@ class ShopOrderController extends MasterController
      */
     public function show($id)
     {
-        $order = ShopOrder::find($id);
-        $order->is_checked = 1;
-        $order->save();
-        return view('pages.ecommerce.shoporder.show')->with(compact('order'));
-    }
-
-    public function deliver($id)
-    {
-        $order = ShopOrder::find($id);
-        $order->status = 'delivered';
-        $order->save();
-        return redirect()->route('shoporders.index');
+        //
     }
 
     /**
@@ -74,7 +64,11 @@ class ShopOrderController extends MasterController
      */
     public function edit($id)
     {
-        //
+        $this->check_master();
+        $sc = ShopCategory::find($id);
+        return view('pages.ecommerce.shopcategory.edit')->with([
+            'entry' => $sc
+        ]);
     }
 
     /**
@@ -86,7 +80,10 @@ class ShopOrderController extends MasterController
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->check_master();
+        $sc = ShopCategory::find($id);
+        $sc->update($request->all());
+        return redirect()->route('shopcategories.index');
     }
 
     /**
@@ -97,6 +94,8 @@ class ShopOrderController extends MasterController
      */
     public function destroy($id)
     {
-        //
+        $this->check_master();
+        ShopCategory::find($id)->delete();
+        return redirect()->route('shopcategories.index');
     }
 }

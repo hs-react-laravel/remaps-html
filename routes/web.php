@@ -32,9 +32,11 @@ use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Remaps\SliderManagerController;
 use App\Http\Controllers\Remaps\TuningEVCCreditController;
 use App\Http\Controllers\PaypalWebhookController;
-use App\Http\Controllers\Remaps\ShopCategoryController;
-use App\Http\Controllers\Remaps\ShopOrderController;
-use App\Http\Controllers\Remaps\ShopProductController;
+use App\Http\Controllers\Remaps\Shop\ShopCategoryController;
+use App\Http\Controllers\Remaps\Shop\ShopOrderController;
+use App\Http\Controllers\Remaps\Shop\ShopPackageController;
+use App\Http\Controllers\Remaps\Shop\ShopProductController;
+use App\Http\Controllers\Remaps\Shop\ShopSubscriptionController;
 use App\Http\Controllers\Staff\FileServiceController as StaffFileServiceController;
 use App\Http\Controllers\Staff\TicketController as StaffTicketController;
 /*
@@ -124,6 +126,7 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::resource('shopcategories', ShopCategoryController::class);
     Route::resource('shopproducts', ShopProductController::class);
     Route::resource('shoporders', ShopOrderController::class);
+    Route::resource('shoppackages', ShopPackageController::class);
     Route::get('shoporders/{id}/deliver', [ShopOrderController::class, 'deliver'])->name('shoporders.deliver');
     Route::post('shopproducts/api/upload', [ShopProductController::class, 'uploadImageFile'])->name('shopproducts.files.api');
 
@@ -172,6 +175,11 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::get('package/execute', [SubscriptionController::class, 'executeSubscription'])->name('paypal.subscription.execute');
     Route::get('subscriptions/{id}/cancel', [SubscriptionController::class, 'cancelSubscription'])->name('subscriptions.cancel');
     Route::get('subscriptions/{id}/suspend', [SubscriptionController::class, 'immediateCancelSubscription'])->name('subscriptions.suspend');
+
+    Route::get('shop/package/choose', [ShopSubscriptionController::class, 'choose'])->name('shop.packages.choose');
+    Route::get('shop/package/{id}/subscribe', [ShopSubscriptionController::class, 'subscribeSubscription'])->name('shop.subscribe.paypal');
+    Route::get('shop/package/execute', [ShopSubscriptionController::class, 'executeSubscription'])->name('shop.paypal.subscription.execute');
+    Route::get('shop/subscriptions', [ShopSubscriptionController::class, 'index'])->name('shop.subscription');
 
     Route::resource('staffs', StaffController::class);
 
