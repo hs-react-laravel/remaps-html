@@ -26,7 +26,7 @@ class BillingSubscriptionCreated extends Mailable
      *
      * @return void
      */
-    public function __construct(Subscription $subscription)
+    public function __construct($subscription)
     {
         $this->subscription = $subscription;
     }

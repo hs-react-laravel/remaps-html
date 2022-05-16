@@ -26,7 +26,7 @@ class BillingPaymentPending extends Mailable
      *
      * @return void
      */
-    public function __construct(Subscription $subscription)
+    public function __construct($subscription)
     {
         $this->subscription = $subscription;
     }
@@ -52,7 +52,7 @@ class BillingPaymentPending extends Mailable
             $body = str_replace('##APP_LOGO', asset('uploads/logo/'. $masterCompany->logo), $body);
             $body = str_replace('##COMPANY_NAME', $this->subscription->user->company->name, $body);
             $body = str_replace('##AGREEMENT_ID', $this->subscription->pay_agreement_id, $body);
-            
+
             $lastPayment = $this->subscription->subscriptionPayments()->orderBY('id', 'DESC')->first();
             if($lastPayment){
                 $body = str_replace('##AGREEMENT_AMOUNT', $lastPayment->last_payment_amount, $body);
