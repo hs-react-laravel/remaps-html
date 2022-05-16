@@ -24,13 +24,13 @@ class ShopPackageController extends MasterController
 
     public function getAccessToken() {
         $ch = curl_init();
-        // $clientId = $this->company->paypal_client_id;
-        // $secret = $this->company->paypal_secret;
-        $clientId = 'AdibmcjffSYZR9TSS5DuKIQpnf80KfY-3pBGd30JKz2Ar1xHIipwijo4eZOJvbDCFpfmOBItDqZoiHmM';
-        $secret = 'EEPRF__DLqvkwnnpi2Hi3paQ-9SZFRqypUH-u0fr4zAzvv7hWtz1bJHF0CEwvrvZpHyLeKSTO_FwAeO_';
+        $clientId = $this->company->paypal_client_id;
+        $secret = $this->company->paypal_secret;
+        // $clientId = 'AdibmcjffSYZR9TSS5DuKIQpnf80KfY-3pBGd30JKz2Ar1xHIipwijo4eZOJvbDCFpfmOBItDqZoiHmM';
+        // $secret = 'EEPRF__DLqvkwnnpi2Hi3paQ-9SZFRqypUH-u0fr4zAzvv7hWtz1bJHF0CEwvrvZpHyLeKSTO_FwAeO_';
 
-        // $api_url = "https://api.paypal.com/v1/oauth2/token";
-        $api_url = "https://api-m.sandbox.paypal.com/v1/oauth2/token";
+        $api_url = "https://api.paypal.com/v1/oauth2/token";
+        // $api_url = "https://api-m.sandbox.paypal.com/v1/oauth2/token";
 
         curl_setopt($ch, CURLOPT_URL, $api_url);
         curl_setopt($ch, CURLOPT_HEADER, false);
@@ -61,7 +61,7 @@ class ShopPackageController extends MasterController
      */
     public function store(Request $request)
     {
-        $product = "PROD-60T973968V500920D";
+        $product = "PROD-5FF60360EM039884C";
         $accessToken = $this->getAccessToken();
 
         $data = [
@@ -97,8 +97,8 @@ class ShopPackageController extends MasterController
             ]
         ];
 
-        // $url = "https://api.paypal.com/v1/billing/plans";
-        $url = "https://api-m.sandbox.paypal.com/v1/billing/plans";
+        $url = "https://api.paypal.com/v1/billing/plans";
+        // $url = "https://api-m.sandbox.paypal.com/v1/billing/plans";
 
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_URL, $url);

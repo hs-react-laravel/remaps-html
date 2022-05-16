@@ -175,7 +175,8 @@ class ShopCustomerController extends MasterController
         if ($request->has('order')) {
             $order = ShopOrder::find($request->get('order'));
         }
-        return view('pages.consumers.ec.checkout')->with(compact('order'));
+        $isVatCalculation = ($this->company->vat_number != null) && ($this->company->vat_percentage != null) && ($this->user->add_tax);
+        return view('pages.consumers.ec.checkout')->with(compact('order', 'isVatCalculation'));
     }
 
     public function addCard(Request $request) {
@@ -190,8 +191,9 @@ class ShopCustomerController extends MasterController
             foreach ($cartProducts as $item)  {
                 $totalCartAmount += $item->price * $item->amount;
             }
+            $isVatCalculation = ($this->company->vat_number != null) && ($this->company->vat_percentage != null) && ($this->user->add_tax);
             $tax = $this->company->vat_percentage ?? 0;
-            $taxAmount = $totalCartAmount * $tax / 100;
+            $taxAmount = $isVatCalculation ? $totalCartAmount * $tax / 100 : 0;
             $order = ShopOrder::create([
                 'user_id' => $this->user->id,
                 'amount' => $totalCartAmount,

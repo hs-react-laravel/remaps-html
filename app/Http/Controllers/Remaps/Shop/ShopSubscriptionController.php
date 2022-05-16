@@ -18,13 +18,13 @@ class ShopSubscriptionController extends MasterController
         $company = \App\Models\Company::where('is_default', 1)->first();
         if(!$company) return;
 
-        // $clientId = $company->paypal_client_id;
-        // $secret = $company->paypal_secret;
-        $clientId = 'AdibmcjffSYZR9TSS5DuKIQpnf80KfY-3pBGd30JKz2Ar1xHIipwijo4eZOJvbDCFpfmOBItDqZoiHmM';
-        $secret = 'EEPRF__DLqvkwnnpi2Hi3paQ-9SZFRqypUH-u0fr4zAzvv7hWtz1bJHF0CEwvrvZpHyLeKSTO_FwAeO_';
+        $clientId = $company->paypal_client_id;
+        $secret = $company->paypal_secret;
+        // $clientId = 'AdibmcjffSYZR9TSS5DuKIQpnf80KfY-3pBGd30JKz2Ar1xHIipwijo4eZOJvbDCFpfmOBItDqZoiHmM';
+        // $secret = 'EEPRF__DLqvkwnnpi2Hi3paQ-9SZFRqypUH-u0fr4zAzvv7hWtz1bJHF0CEwvrvZpHyLeKSTO_FwAeO_';
 
-        // $api_url = "https://api.paypal.com/v1/oauth2/token";
-        $api_url = "https://api-m.sandbox.paypal.com/v1/oauth2/token";
+        $api_url = "https://api.paypal.com/v1/oauth2/token";
+        // $api_url = "https://api-m.sandbox.paypal.com/v1/oauth2/token";
 
         curl_setopt($ch, CURLOPT_URL, $api_url);
         curl_setopt($ch, CURLOPT_HEADER, false);
@@ -78,8 +78,8 @@ class ShopSubscriptionController extends MasterController
                     break;
             }
 
-            // $url = "https://api.paypal.com/v1/billing/subscriptions";
-            $url = "https://api-m.sandbox.paypal.com/v1/billing/subscriptions";
+            $url = "https://api.paypal.com/v1/billing/subscriptions";
+            // $url = "https://api-m.sandbox.paypal.com/v1/billing/subscriptions";
 
             $curl = curl_init($url);
             curl_setopt($curl, CURLOPT_URL, $url);
@@ -138,8 +138,8 @@ class ShopSubscriptionController extends MasterController
         // dd(session('package_id'));
         if ($request->has('success') && $request->query('success') == 'true') {
             $id = $request->subscription_id;
-            // $url = "https://api.paypal.com/v1/billing/subscriptions/{$id}";
-            $url = "https://api-m.sandbox.paypal.com/v1/billing/subscriptions/{$id}";
+            $url = "https://api.paypal.com/v1/billing/subscriptions/{$id}";
+            // $url = "https://api-m.sandbox.paypal.com/v1/billing/subscriptions/{$id}";
 
             $curl = curl_init($url);
             curl_setopt($curl, CURLOPT_URL, $url);
@@ -217,8 +217,8 @@ class ShopSubscriptionController extends MasterController
     public function immediateCancelSubscription($id){
         $subscription = ShopSubscription::find($id);
         try {
-            // $url = "https://api.paypal.com/v1/billing/subscriptions/{$subscription->pay_agreement_id}/suspend";
-            $url = "https://api-m.sandbox.paypal.com/v1/billing/subscriptions/{$subscription->pay_agreement_id}/suspend";
+            $url = "https://api.paypal.com/v1/billing/subscriptions/{$subscription->pay_agreement_id}/suspend";
+            // $url = "https://api-m.sandbox.paypal.com/v1/billing/subscriptions/{$subscription->pay_agreement_id}/suspend";
 
             $curl = curl_init($url);
             curl_setopt($curl, CURLOPT_URL, $url);
@@ -255,8 +255,8 @@ class ShopSubscriptionController extends MasterController
     public function reactiveSubscription($id){
         $subscription = ShopSubscription::find($id);
         try {
-            // $url = "https://api.paypal.com/v1/billing/subscriptions/{$subscription->pay_agreement_id}/suspend";
-            $url = "https://api-m.sandbox.paypal.com/v1/billing/subscriptions/{$subscription->pay_agreement_id}/activate";
+            $url = "https://api.paypal.com/v1/billing/subscriptions/{$subscription->pay_agreement_id}/suspend";
+            // $url = "https://api-m.sandbox.paypal.com/v1/billing/subscriptions/{$subscription->pay_agreement_id}/activate";
 
             $curl = curl_init($url);
             curl_setopt($curl, CURLOPT_URL, $url);
@@ -305,8 +305,8 @@ class ShopSubscriptionController extends MasterController
         $subscription = ShopSubscription::find($id);
 
         try {
-            // $url = "https://api.paypal.com/v1/billing/subscriptions/{$subscription->pay_agreement_id}/cancel";
-            $url = "https://api-m.sandbox.paypal.com/v1/billing/subscriptions/{$subscription->pay_agreement_id}/cancel";
+            $url = "https://api.paypal.com/v1/billing/subscriptions/{$subscription->pay_agreement_id}/cancel";
+            // $url = "https://api-m.sandbox.paypal.com/v1/billing/subscriptions/{$subscription->pay_agreement_id}/cancel";
 
             $curl = curl_init($url);
             curl_setopt($curl, CURLOPT_URL, $url);

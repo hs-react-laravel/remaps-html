@@ -144,7 +144,7 @@
                     <li class="price-detail">
                       <div class="detail-title">Estimated Tax</div>
                       <div class="detail-amt amt-tax">
-                        {{ $currencyCode.number_format($totalCartAmount * ($company->vat_percentage ?? 0) / 100, 2) }}
+                        {{ $currencyCode.number_format($isVatCalculation ? $totalCartAmount * ($company->vat_percentage ?? 0) / 100 : 0, 2) }}
                       </div>
                     </li>
                   </ul>
@@ -153,7 +153,7 @@
                     <li class="price-detail">
                       <div class="detail-title detail-total">Total</div>
                       <div class="detail-amt fw-bolder amt-order">
-                        {{ $currencyCode.number_format($totalCartAmount * (($company->vat_percentage ?? 0) + 100) / 100, 2) }}
+                        {{ $currencyCode.number_format($isVatCalculation ? $totalCartAmount * (($company->vat_percentage ?? 0) + 100) / 100 : $totalCartAmount, 2) }}
                       </div>
                     </li>
                   </ul>
