@@ -88,6 +88,7 @@ class PaypalWebhookController extends Controller{
             /* Subscription cancelled */
             case 'BILLING.SUBSCRIPTION.CANCELLED':
                 $resource = $request->resource;
+                Log::error('Cancelled: '.$resource['id']);
                 $subscription = Subscription::where('pay_agreement_id', $resource['id'])->first();
                 if($subscription){
                     $subscription->status = $resource['status'];
@@ -166,7 +167,7 @@ class PaypalWebhookController extends Controller{
             	$resource = $request->resource;
 				//\Log::info(print_r($resource, true));
                 $subscription = Subscription::where('pay_agreement_id', @$resource['billing_agreement_id'])->first();
-
+                Log::error('billing_agreement_id: '.@$resource['billing_agreement_id']);
                 if($subscription){
                     // $agreement = \PayPal\Api\Agreement::get($subscription->pay_agreement_id, $this->apiContext);
                     // $agreementDetails = $agreement->getAgreementDetails();
