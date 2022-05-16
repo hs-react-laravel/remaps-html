@@ -52,6 +52,9 @@ use App\Http\Controllers\Staff\TicketController as StaffTicketController;
 
 // Remaps
 Route::post('paypal/webhooks', [PaypalWebhookController::class, 'index']);
+Route::post('paypal/test', function() {
+    return 'test!';
+});
 Route::group(['domain' => 'remapdash.com'], function () {
     Route::get('/', function () {
         return redirect()->away('https://myremaps.com');
