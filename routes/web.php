@@ -51,7 +51,6 @@ use App\Http\Controllers\Staff\TicketController as StaffTicketController;
 */
 
 // Remaps
-Route::post('paypal/webhooks', [PaypalWebhookController::class, 'index']);
 Route::get('paypal/test', function() {
     return 'test!';
 });
