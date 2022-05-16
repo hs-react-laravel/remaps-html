@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\PaypalWebhookController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
