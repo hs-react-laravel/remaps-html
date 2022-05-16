@@ -10,12 +10,16 @@
     <div class="card">
       <div class="card-header">
         <h4 class="card-title">
-          {{__('locale.menu_Shop_products')}} ( {{ $entries->total() }} / {{ $maxProductCt }} ) <br>
-          @if ($entries->total() >= $maxProductCt)
-          <span style="font-size: 1rem">Please activate or upgrade your subscription for shop. Click <a href="{{ route('shop.packages.choose') }}">Here.</a></span>
+          @if ($user->is_master)
+            {{__('locale.menu_Shop_products')}} <br>
+          @else
+            {{__('locale.menu_Shop_products')}} ( {{ $entries->total() }} / {{ $maxProductCt }} ) <br>
+            @if ($entries->total() >= $maxProductCt)
+              <span style="font-size: 1rem">Please activate or upgrade your subscription for shop. Click <a href="{{ route('shop.packages.choose') }}">Here.</a></span>
+            @endif
           @endif
         </h4>
-        @if ($entries->total() < $maxProductCt)
+        @if ($entries->total() < $maxProductCt || $user->is_master)
         <a href="{{ route('shopproducts.create') }}" class="btn btn-icon btn-primary">
           New Product
         </a>

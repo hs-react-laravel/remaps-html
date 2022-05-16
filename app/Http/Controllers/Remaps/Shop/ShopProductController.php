@@ -35,7 +35,7 @@ class ShopProductController extends MasterController
     public function create()
     {
         $categories = ShopCategory::get();
-        if ($this->getMaxProductCount() <= $this->getCurrentProductCount()) {
+        if ($this->getMaxProductCount() <= $this->getCurrentProductCount() && !$this->user->is_master) {
             return redirect()->route('shopproducts.index');
         }
         return view('pages.ecommerce.shopproducts.create')->with([
