@@ -23,6 +23,7 @@
             </tr>
           </thead>
           <tbody>
+            @if (count($entries) > 0)
             @foreach ($entries as $entry)
               <tr>
                   <td>{{ $entry->name }}</td>
@@ -38,6 +39,11 @@
                   </td>
               </tr>
             @endforeach
+            @else
+              <tr>
+                <td colspan="2">No matching records found</td>
+              </tr>
+            @endif
           </tbody>
         </table>
       </div>
