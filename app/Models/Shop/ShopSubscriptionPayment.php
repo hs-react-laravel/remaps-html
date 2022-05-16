@@ -20,7 +20,7 @@ class ShopSubscriptionPayment extends Model
      * @var array
      */
     protected $fillable = [
-        'subscription_id', 'pay_txn_id', 'next_billing_date', 'last_payment_date', 'last_payment_amount', 'failed_payment_count', 'status'
+        'shop_subscription_id', 'pay_txn_id', 'next_billing_date', 'last_payment_date', 'last_payment_amount', 'failed_payment_count', 'status'
     ];
 
 
@@ -29,7 +29,7 @@ class ShopSubscriptionPayment extends Model
      */
     public function subscription()
     {
-        return $this->belongsTo('App\Models\Shop\Subscription');
+        return $this->belongsTo('App\Models\Shop\ShopSubscription');
     }
 
 

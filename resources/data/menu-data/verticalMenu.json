@@ -112,7 +112,7 @@
                 "url": "admin/shoppackages",
                 "name": "menu_Packages",
                 "icon": "package",
-                "slug": "shopcategories.index"
+                "slug": "shoppackages.index"
             }
         ]
     },

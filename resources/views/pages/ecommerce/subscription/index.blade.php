@@ -19,6 +19,9 @@
     <div class="card">
       <div class="card-header">
         <h4 class="card-title">{{__('locale.menu_MySubscriptions')}}</h4>
+        <a href="{{ route('shop.packages.choose') }}" class="btn btn-icon btn-primary">
+          Choose Package
+        </a>
       </div>
       <div class="table-responsive">
         <table class="table">
@@ -49,21 +52,32 @@
                     <a
                       class="btn btn-icon btn-success"
                       title="Subscription payments"
-                      href="{{ route('subscriptions.payments', ['id' => $entry->id]) }}">
+                      href="{{ route('shop.subscriptions.payments', ['id' => $entry->id]) }}">
                       <i data-feather="dollar-sign"></i>
                     </a>
-                    <a
-                      class="btn btn-icon btn-danger"
-                      title="Cancel this subscription"
-                      href="{{ route('subscriptions.cancel', ['id' => $entry->id]) }}" >
-                      <i data-feather="x"></i>
-                    </a>
-                    <a
-                      class="btn btn-icon btn-danger"
-                      title="Cancel this subscription immediately"
-                      href="{{ route('subscriptions.suspend', ['id' => $entry->id]) }}" >
-                      <i data-feather="pause"></i>
-                    </a>
+                    @if ($entry->status == 'ACTIVE')
+                      <a
+                        class="btn btn-icon btn-danger"
+                        title="Cancel this subscription"
+                        href="{{ route('shop.subscriptions.cancel', ['id' => $entry->id]) }}" >
+                        <i data-feather="x"></i>
+                      </a>
+                    @endif
+                    @if ($entry->status == 'SUSPENDED')
+                      <a
+                        class="btn btn-icon btn-danger"
+                        title="Reactivate this subscription immediately"
+                        href="{{ route('shop.subscriptions.reactive', ['id' => $entry->id]) }}" >
+                        <i data-feather="play"></i>
+                      </a>
+                    @elseif ($entry->status == 'ACTIVE')
+                      <a
+                        class="btn btn-icon btn-danger"
+                        title="Suspend this subscription immediately"
+                        href="{{ route('shop.subscriptions.suspend', ['id' => $entry->id]) }}" >
+                        <i data-feather="pause"></i>
+                      </a>
+                    @endif
                   </td>
                 </tr>
               @endforeach

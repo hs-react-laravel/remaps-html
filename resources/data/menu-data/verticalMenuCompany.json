@@ -108,10 +108,10 @@
                 "slug": "shoporders.index"
             },
             {
-                "url": "admin/subscriptions",
+                "url": "admin/shop/subscriptions",
                 "name": "dash_Subscription",
                 "icon": "award",
-                "slug": "subscriptions.index"
+                "slug": "shop.subscription.index"
             }
         ]
     }

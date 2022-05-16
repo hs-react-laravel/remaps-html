@@ -34,7 +34,7 @@
             </table>
           </div>
           <div class="card-footer">
-            <a class="btn btn-primary me-1" href="{{ route('shop.subscribe.paypal', ['id' => $package->id]) }}">Subscript Plan</a>
+            <a class="btn btn-primary me-1" href="{{ route('shop.subscribe.paypal', ['id' => $package->id]) }}">Subscribe Plan</a>
           </div>
         </div>
       </div>

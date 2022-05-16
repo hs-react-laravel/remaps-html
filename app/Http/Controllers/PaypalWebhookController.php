@@ -71,12 +71,17 @@ class PaypalWebhookController extends Controller{
                 $resource = $request->resource;
                 $subscription = Subscription::where('pay_agreement_id', $resource['id'])->first();
                 if($subscription){
-
                     Mail::to($this->master->owner->email)->send(new BillingSubscriptionCreated($subscription));
                     Log::info('BILLING.SUBSCRIPTION.CREATED:: Subscription created.');
-
                 }else{
+                    Log::info('BILLING.SUBSCRIPTION.CREATED:: Agreement doesn\'t exists.');
+                }
 
+                $shopSubscription = ShopSubscription::where('pay_agreement_id', $resource['id'])->first();
+                if($shopSubscription){
+                    Mail::to($this->master->owner->email)->send(new BillingSubscriptionCreated($subscription));
+                    Log::info('BILLING.SUBSCRIPTION.CREATED:: Subscription created.');
+                }else{
                     Log::info('BILLING.SUBSCRIPTION.CREATED:: Agreement doesn\'t exists.');
                 }
                 break;
@@ -91,9 +96,19 @@ class PaypalWebhookController extends Controller{
                     Mail::to($this->master->owner->email)->send(new BillingSubscriptionCancelled($subscription));
 
                     Log::info('BILLING.SUBSCRIPTION.CANCELLED:: Subscription cancelled.');
-
                 }else{
+                    Log::info('BILLING.SUBSCRIPTION.CANCELLED:: Agreement doesn\'t exists.');
+                }
 
+                $shopSubscription = ShopSubscription::where('pay_agreement_id', $resource['id'])->first();
+                if($shopSubscription){
+                    $shopSubscription->status = $resource['status'];
+                    $shopSubscription->save();
+
+                    Mail::to($this->master->owner->email)->send(new BillingSubscriptionCancelled($shopSubscription));
+
+                    Log::info('BILLING.SUBSCRIPTION.CANCELLED:: Subscription cancelled.');
+                }else{
                     Log::info('BILLING.SUBSCRIPTION.CANCELLED:: Agreement doesn\'t exists.');
                 }
                 break;
@@ -107,9 +122,17 @@ class PaypalWebhookController extends Controller{
                     $subscription->save();
 
                     Log::info('BILLING.SUBSCRIPTION.SUSPENDED:: Subscription suspended.');
-
                 }else{
+                    Log::info('BILLING.SUBSCRIPTION.SUSPENDED:: Agreement doesn\'t exists.');
+                }
 
+                $shopSubscription = ShopSubscription::where('pay_agreement_id', $resource['id'])->first();
+                if($shopSubscription){
+                    $shopSubscription->status = $resource['status'];
+                    $shopSubscription->save();
+
+                    Log::info('BILLING.SUBSCRIPTION.SUSPENDED:: Subscription suspended.');
+                }else{
                     Log::info('BILLING.SUBSCRIPTION.SUSPENDED:: Agreement doesn\'t exists.');
                 }
                 break;
@@ -123,9 +146,17 @@ class PaypalWebhookController extends Controller{
                     $subscription->save();
 
                     Log::info('BILLING.SUBSCRIPTION.RE-ACTIVATED:: Subscription re-activated.');
-
                 }else{
+                    Log::info('BILLING.SUBSCRIPTION.RE-ACTIVATED:: Agreement doesn\'t exists.');
+                }
 
+                $shopSubscription = ShopSubscription::where('pay_agreement_id', $resource['id'])->first();
+                if($shopSubscription){
+                    $shopSubscription->status = $resource['status'];
+                    $shopSubscription->save();
+
+                    Log::info('BILLING.SUBSCRIPTION.RE-ACTIVATED:: Subscription re-activated.');
+                }else{
                     Log::info('BILLING.SUBSCRIPTION.RE-ACTIVATED:: Agreement doesn\'t exists.');
                 }
                 break;
@@ -169,21 +200,18 @@ class PaypalWebhookController extends Controller{
                     Log::info('PAYMENT.SALE.COMPLETED:: Agreement doesn\'t exists.');
                 }
 
-                $shopSub = ShopSubscription::where('pay_agreement_id', @$resource['billing_agreement_id'])->first();
-                if ($shopSub) {
-                    $billingInfo = $this->getShopSubscriptionBillingInfo($shopSub->pay_agreement_id);
+                $shopSubscription = ShopSubscription::where('pay_agreement_id', @$resource['billing_agreement_id'])->first();
+                if ($shopSubscription) {
+                    $billingInfo = $this->getShopSubscriptionBillingInfo($shopSubscription->pay_agreement_id);
 
                     $subscriptionPayment = ShopSubscriptionPayment::where('pay_txn_id', $resource['id'])->first();
                     if(!$subscriptionPayment){
                     	$subscriptionPayment = new ShopSubscriptionPayment();
                     }
-                    //\Log::info(print_r($agreementDetails, true));
-					//\Log::info(print_r($agreementDetails->getLastPaymentAmount(), true));
-                    $subscriptionPayment->subscription_id = $shopSub->id;
+                    $subscriptionPayment->shop_subscription_id = $shopSubscription->id;
                     $subscriptionPayment->pay_txn_id = $resource['id'];
                     $subscriptionPayment->next_billing_date = \Carbon\Carbon::parse($billingInfo->next_billing_time)->format('Y-m-d H:i:s');
                     $subscriptionPayment->last_payment_date  = \Carbon\Carbon::parse($billingInfo->last_payment->time)->format('Y-m-d H:i:s');
-                    //$subscriptionPayment->last_payment_amount  = $agreementDetails->getLastPaymentAmount()->value;
 					if(isset($billingInfo->last_payment->amount->value)) {
 						$subscriptionPayment->last_payment_amount  = $billingInfo->last_payment->amount->value;
                     }
@@ -192,7 +220,7 @@ class PaypalWebhookController extends Controller{
                     $subscriptionPayment->status = $resource['state'];
 
                     if($subscriptionPayment->save()){
-                        Mail::to($this->master->owner->email)->send(new BillingPaymentCompleted($shopSub));
+                        Mail::to($this->master->owner->email)->send(new BillingPaymentCompleted($shopSubscription));
                     }
                     Log::info('PAYMENT.SALE.COMPLETED:: Payment sale completed.');
                 }
@@ -223,6 +251,37 @@ class PaypalWebhookController extends Controller{
 
                 	if($subscriptionPayment->save()){
                 		Mail::to($this->master->owner->email)->send(new BillingPaymentPending($subscription));
+                	}
+
+                    Log::info('PAYMENT.SALE.Denied:: Payment sale denied.');
+
+                }else{
+
+                    Log::info('PAYMENT.SALE.Denied:: Agreement doesn\'t exists.');
+                }
+
+                $shopSubscription = ShopSubscription::where('pay_agreement_id', @$resource['billing_agreement_id'])->first();
+
+                if($shopSubscription){
+                	// $agreement = \PayPal\Api\Agreement::get($subscription->pay_agreement_id, $this->apiContext);
+                    // $agreementDetails = $agreement->getAgreementDetails();
+                    $billingInfo = $this->getSubscriptionBillingInfo($shopSubscription->pay_agreement_id);
+
+                    $subscriptionPayment = ShopSubscriptionPayment::where('pay_txn_id', $resource['id'])->first();
+                    if(!$subscriptionPayment){
+                    	$subscriptionPayment = new ShopSubscriptionPayment();
+                    }
+
+                    $subscriptionPayment->shop_subscription_id = $shopSubscription->id;
+                    $subscriptionPayment->pay_txn_id = $resource['id'];
+                    $subscriptionPayment->next_billing_date = \Carbon\Carbon::parse($billingInfo->next_billing_time)->format('Y-m-d H:i:s');
+                    $subscriptionPayment->last_payment_date  = \Carbon\Carbon::parse($billingInfo->last_payment->time)->format('Y-m-d H:i:s');
+                    $subscriptionPayment->last_payment_amount  = $billingInfo->last_payment->amount->value;
+                    $subscriptionPayment->failed_payment_count  = $billingInfo->failed_payments_count;
+                	$subscriptionPayment->status = $resource['state'];
+
+                	if($subscriptionPayment->save()){
+                		Mail::to($this->master->owner->email)->send(new BillingPaymentPending($shopSubscription));
                 	}
 
                     Log::info('PAYMENT.SALE.Denied:: Payment sale denied.');
@@ -265,6 +324,36 @@ class PaypalWebhookController extends Controller{
 
                     Log::info('PAYMENT.SALE.PENDING:: Agreement doesn\'t exists.');
                 }
+
+                $shopSubscription = ShopSubscription::where('pay_agreement_id', @$resource['billing_agreement_id'])->first();
+
+                if($shopSubscription){
+                	// $agreement = \PayPal\Api\Agreement::get($subscription->pay_agreement_id, $this->apiContext);
+                    // $agreementDetails = $agreement->getAgreementDetails();
+                    $billingInfo = $this->getSubscriptionBillingInfo($shopSubscription->pay_agreement_id);
+
+                    $subscriptionPayment = ShopSubscriptionPayment::where('pay_txn_id', $resource['id'])->first();
+                    if(!$subscriptionPayment){
+                    	$subscriptionPayment = new ShopSubscriptionPayment();
+                    }
+
+                    $subscriptionPayment->shop_subscription_id = $shopSubscription->id;
+                    $subscriptionPayment->pay_txn_id = $resource['id'];
+                    $subscriptionPayment->next_billing_date = \Carbon\Carbon::parse($billingInfo->next_billing_time)->format('Y-m-d H:i:s');
+                    $subscriptionPayment->last_payment_date  = \Carbon\Carbon::parse($billingInfo->last_payment->time)->format('Y-m-d H:i:s');
+                    $subscriptionPayment->last_payment_amount  = $billingInfo->last_payment->amount->value;
+                    $subscriptionPayment->failed_payment_count  = $billingInfo->failed_payments_count;
+                	$subscriptionPayment->status = $resource['state'];
+
+                	if($subscriptionPayment->save()){
+                		Mail::to($this->master->owner->email)->send(new BillingPaymentPending($shopSubscription));
+                	}
+                    Log::info('PAYMENT.SALE.PENDING::Payment sale pending.');
+
+                }else{
+
+                    Log::info('PAYMENT.SALE.PENDING:: Agreement doesn\'t exists.');
+                }
             	break;
             default:
             break;
@@ -272,13 +361,16 @@ class PaypalWebhookController extends Controller{
     }
 
     public function getAccessToken() {
-        $credential = $this->apiContext->getCredential();
-
         $ch = curl_init();
-        $clientId = $credential->getClientId();
-        $secret = $credential->getClientSecret();
+        // $clientId = $this->company->paypal_client_id;
+        // $secret = $this->company->paypal_secret;
+        $clientId = 'AdibmcjffSYZR9TSS5DuKIQpnf80KfY-3pBGd30JKz2Ar1xHIipwijo4eZOJvbDCFpfmOBItDqZoiHmM';
+        $secret = 'EEPRF__DLqvkwnnpi2Hi3paQ-9SZFRqypUH-u0fr4zAzvv7hWtz1bJHF0CEwvrvZpHyLeKSTO_FwAeO_';
 
-        curl_setopt($ch, CURLOPT_URL, "https://api.paypal.com/v1/oauth2/token");
+        // $api_url = "https://api.paypal.com/v1/oauth2/token";
+        $api_url = "https://api-m.sandbox.paypal.com/v1/oauth2/token";
+
+        curl_setopt($ch, CURLOPT_URL, $api_url);
         curl_setopt($ch, CURLOPT_HEADER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_POST, true);

@@ -9,10 +9,17 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">{{__('locale.menu_Shop_products')}}</h4>
+        <h4 class="card-title">
+          {{__('locale.menu_Shop_products')}} ( {{ $entries->total() }} / {{ $maxProductCt }} ) <br>
+          @if ($entries->total() >= $maxProductCt)
+          <span style="font-size: 1rem">Please activate or upgrade your subscription for shop. Click <a href="{{ route('shop.packages.choose') }}">Here.</a></span>
+          @endif
+        </h4>
+        @if ($entries->total() < $maxProductCt)
         <a href="{{ route('shopproducts.create') }}" class="btn btn-icon btn-primary">
           New Product
         </a>
+        @endif
       </div>
       <div class="table-responsive p-1">
         <table class="table">
@@ -24,6 +31,7 @@
             </tr>
           </thead>
           <tbody>
+            @if (count($entries) > 0)
             @foreach ($entries as $entry)
               <tr>
                 <td>{{ $entry->title }}</td>
@@ -40,15 +48,16 @@
                 </td>
               </tr>
             @endforeach
-            @if(count($entries) == 0)
+            @else
               <tr>
-                <td colspan="3">No Products</td>
+                <td colspan="3">No matching records found</td>
               </tr>
             @endif
           </tbody>
         </table>
       </div>
     </div>
+    {{ $entries->links() }}
   </div>
 </div>
 <!-- Basic Tables end -->

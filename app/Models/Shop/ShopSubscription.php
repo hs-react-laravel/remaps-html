@@ -14,7 +14,7 @@ class ShopSubscription extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'pay_agreement_id', 'description', 'start_date', 'status',
+        'user_id', 'package_id', 'pay_agreement_id', 'description', 'start_date', 'status',
     ];
 
 
@@ -24,6 +24,11 @@ class ShopSubscription extends Model
     public function user()
     {
         return $this->belongsTo('App\Models\User');
+    }
+
+    public function package()
+    {
+        return $this->belongsTo('App\Models\Shop\ShopPackage', 'package_id', 'id');
     }
 
     /**

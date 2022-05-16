@@ -26,15 +26,15 @@
             @if (count($entries) > 0)
               @foreach ($entries as $e)
               <tr @if(!$e->is_checked) class="ticket-open" @endif>
-                  <td>{{ $e->created_at }}</td>
-                  <td>{{ $e->user->full_name }}</td>
-                  <td>{{ config('constants.currency_signs')[$company->paypal_currency_code].' '.($e->amount + $e->tax) }}</td>
-                  <td style="text-transform: uppercase">{{ $e->status }}</td>
-                  <td>
+                <td>{{ $e->created_at }}</td>
+                <td>{{ $e->user->full_name }}</td>
+                <td>{{ config('constants.currency_signs')[$company->paypal_currency_code].' '.($e->amount + $e->tax) }}</td>
+                <td style="text-transform: uppercase">{{ $e->status }}</td>
+                <td>
                   <a class="btn btn-icon btn-primary" href="{{ route('shoporders.show', ['shoporder' => $e->id]) }}">
                     <i data-feather="eye"></i>
                   </a>
-                  </td>
+                </td>
               </tr>
               @endforeach
               @else

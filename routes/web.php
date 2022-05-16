@@ -179,7 +179,12 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::get('shop/package/choose', [ShopSubscriptionController::class, 'choose'])->name('shop.packages.choose');
     Route::get('shop/package/{id}/subscribe', [ShopSubscriptionController::class, 'subscribeSubscription'])->name('shop.subscribe.paypal');
     Route::get('shop/package/execute', [ShopSubscriptionController::class, 'executeSubscription'])->name('shop.paypal.subscription.execute');
-    Route::get('shop/subscriptions', [ShopSubscriptionController::class, 'index'])->name('shop.subscription');
+    Route::get('shop/subscriptions', [ShopSubscriptionController::class, 'index'])->name('shop.subscription.index');
+    Route::get('shop/subscriptions/{id}/payments', [ShopSubscriptionController::class, 'payments'])->name('shop.subscriptions.payments');
+    Route::get('shop/subscriptions/{id}/invoice', [ShopSubscriptionController::class, 'invoice'])->name('shop.subscriptions.invoice');
+    Route::get('shop/subscriptions/{id}/cancel', [ShopSubscriptionController::class, 'cancelSubscription'])->name('shop.subscriptions.cancel');
+    Route::get('shop/subscriptions/{id}/suspend', [ShopSubscriptionController::class, 'immediateCancelSubscription'])->name('shop.subscriptions.suspend');
+    Route::get('shop/subscriptions/{id}/reactive', [ShopSubscriptionController::class, 'reactiveSubscription'])->name('shop.subscriptions.reactive');
 
     Route::resource('staffs', StaffController::class);
 

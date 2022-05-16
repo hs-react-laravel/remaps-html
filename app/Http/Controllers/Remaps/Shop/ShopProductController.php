@@ -11,17 +11,33 @@ use Illuminate\Http\Request;
 
 class ShopProductController extends MasterController
 {
+    private function getMaxProductCount() {
+        $maxProductCt = 2;
+        $isActive = $this->company->hasActiveShopSubscription();
+        if ($isActive) {
+            $sub = $this->company->getActiveShopSubscription();
+            $maxProductCt = $sub->package->product_count;
+        }
+        return $maxProductCt;
+    }
+
+    private function getCurrentProductCount() {
+        return ShopProduct::where('company_id', $this->company->id)->count();
+    }
+
     public function index()
     {
-        $products = ShopProduct::where('company_id', $this->company->id)->get();
-        return view('pages.ecommerce.shopproducts.index')->with([
-            'entries' => $products
-        ]);
+        $entries = ShopProduct::where('company_id', $this->company->id)->paginate(20);
+        $maxProductCt = $this->getMaxProductCount();
+        return view('pages.ecommerce.shopproducts.index')->with(compact('entries', 'maxProductCt'));
     }
 
     public function create()
     {
         $categories = ShopCategory::get();
+        if ($this->getMaxProductCount() <= $this->getCurrentProductCount()) {
+            return redirect()->route('shopproducts.index');
+        }
         return view('pages.ecommerce.shopproducts.create')->with([
             'categories' => $categories
         ]);

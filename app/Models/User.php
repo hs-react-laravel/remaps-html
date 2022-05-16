@@ -124,6 +124,10 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany('App\Models\Subscription');
     }
+    public function shopSubscriptions()
+    {
+        return $this->hasMany('App\Models\Shop\ShopSubscription');
+    }
     public function notifies()
     {
         return $this->belongsToMany(Notification::class, 'notification_reads', 'user_id', 'notification_id');
