@@ -68,16 +68,16 @@ class PackageController extends MasterController
      */
     public function store(PackageRequest $request)
     {
-        // $product = '1month Rolling £35';
-        // if ($request->billing_interval == 'Day') {
-        //     $product = '1month Rolling £35';
-        // } else if ($request->billing_interval == 'Month') {
-        //     $product = 'Sub-49';
-        // } else if ($request->billing_interval == 'Year') {
-        //     $product = 'PROD-2XS463586A957535Y';
-        // }
+        $product = '1month Rolling £35';
+        if ($request->billing_interval == 'Day') {
+            $product = '1month Rolling £35';
+        } else if ($request->billing_interval == 'Month') {
+            $product = 'Sub-49';
+        } else if ($request->billing_interval == 'Year') {
+            $product = 'PROD-2XS463586A957535Y';
+        }
         // $product = "PROD-60T973968V500920D";
-        $product = "PROD-5FF60360EM039884C";
+        // $product = "PROD-5FF60360EM039884C";
         $accessToken = $this->getAccessToken();
 
         $data = [

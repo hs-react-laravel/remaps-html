@@ -24,8 +24,11 @@ class ShopPackageController extends MasterController
 
     public function getAccessToken() {
         $ch = curl_init();
-        $clientId = $this->company->paypal_client_id;
-        $secret = $this->company->paypal_secret;
+        $company = \App\Models\Company::where('is_default', 1)->first();
+        if(!$company) return '';
+
+        $clientId = $company->paypal_client_id;
+        $secret = $company->paypal_secret;
         // $clientId = 'AdibmcjffSYZR9TSS5DuKIQpnf80KfY-3pBGd30JKz2Ar1xHIipwijo4eZOJvbDCFpfmOBItDqZoiHmM';
         // $secret = 'EEPRF__DLqvkwnnpi2Hi3paQ-9SZFRqypUH-u0fr4zAzvv7hWtz1bJHF0CEwvrvZpHyLeKSTO_FwAeO_';
 
@@ -61,7 +64,7 @@ class ShopPackageController extends MasterController
      */
     public function store(Request $request)
     {
-        $product = "PROD-5FF60360EM039884C";
+        $product = "PROD-01890818FL1494411";
         $accessToken = $this->getAccessToken();
 
         $data = [
