@@ -263,7 +263,8 @@ class ShopCustomerController extends MasterController
             $order = ShopOrder::find($id);
             $total_amount = $order->amount + $order->tax;
             $items = array();
-            $tax = $this->company->vat_percentage ?? 0;
+            $isVatCalculation = ($this->company->vat_number != null) && ($this->company->vat_percentage != null) && ($this->user->add_tax);
+            $tax = $isVatCalculation ? $this->company->vat_percentage : 0;
             foreach($order->items as $item) {
                 $reqItem = array(
                     'name' => $item->product->title,
