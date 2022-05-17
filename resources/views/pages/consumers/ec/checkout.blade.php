@@ -310,6 +310,7 @@
               </div>
               <div class="card-body">
                 <ul class="other-payment-options list-unstyled">
+                  @if ($user->company->paypal_client_id && $user->company->paypal_secret)
                   <li class="py-50">
                     <div class="form-check">
                       <input type="radio" id="customColorRadio2" name="paymentOptions" class="form-check-input" value="paypal" checked />
@@ -320,6 +321,8 @@
                       action="{{ route('customer.shop.order.pay.paypal', ['id' => $order->id]) }}"
                       method="POST">@csrf</form>
                   </li>
+                  @endif
+                  @if ($user->company->stripe_key && $user->company->stripe_secret)
                   <li class="py-50">
                     <div class="form-check">
                       <input type="radio" id="customColorRadio3" name="paymentOptions" class="form-check-input" value="stripe" />
@@ -377,6 +380,7 @@
                       </div>
                     </form>
                   </li>
+                  @endif
                 </ul>
               </div>
             </div>
