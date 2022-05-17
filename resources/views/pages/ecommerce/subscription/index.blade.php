@@ -18,7 +18,7 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">{{__('locale.menu_MySubscriptions')}}</h4>
+        <h4 class="card-title">Shop Subscription</h4>
         <a href="{{ route('shop.packages.choose') }}" class="btn btn-icon btn-primary">
           Choose Package
         </a>
@@ -28,6 +28,8 @@
           <thead>
             <tr>
               <th>{{__('locale.tb_header_AggreeId')}}</th>
+              <th>{{__('locale.tb_header_Package_Name')}}</th>
+              <th>{{__('locale.tb_header_Product_Count')}}</th>
               <th>{{__('locale.tb_header_Description')}}</th>
               <th>{{__('locale.tb_header_StartedAt')}}</th>
               <th>{{__('locale.tb_header_NextBillingDate')}}</th>
@@ -41,6 +43,10 @@
               @foreach ($entries as $entry)
                 <tr>
                   <td>{{ $entry->pay_agreement_id }}</td>
+                  @if (isset($entry->package))
+                  <td>{{ $entry->package->name }}</td>
+                  <td>{{ $entry->package->product_count }}</td>
+                  @endif
                   <td>{{ $entry->description }}</td>
                   <td>{{ $entry->created_at }}</td>
                   <td>{{ $entry->is_trial

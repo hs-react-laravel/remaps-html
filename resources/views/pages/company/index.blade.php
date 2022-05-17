@@ -55,6 +55,12 @@
                         href="{{ route('subscriptions.index', ['company' => $u->id]) }}" >
                         <i data-feather="award"></i>
                       </a>
+                      <a
+                        class="btn btn-icon btn-success"
+                        title="Subscriptions"
+                        href="{{ route('shop.subscription.index', ['company' => $u->id]) }}" >
+                        <i data-feather="shopping-cart"></i>
+                      </a>
                       @if($u->owner)
                       <a
                         class="btn btn-icon btn-success"
