@@ -242,7 +242,7 @@
                     <div class="mb-2">
                       <label class="form-label" cfor="ship_zip">Postal Code:</label>
                       <input
-                        type="number"
+                        type="text"
                         id="ship_zip"
                         class="form-control address-input"
                         name="ship_zip"
