@@ -158,8 +158,12 @@ data-asset-path="{{ asset('/')}}">
       });
     }
     function onAddCartInline(obj) {
-      let form = $(obj).parent().find('.add-cart-inline-form')
-      $(form).submit()
+      if ($(obj).data('link')) {
+        window.location.href = "/customer/shop/product/" + $(obj).data('proid')
+      } else {
+        let form = $(obj).parent().find('.add-cart-inline-form')
+        $(form).submit()
+      }
     }
   </script>
 </body>

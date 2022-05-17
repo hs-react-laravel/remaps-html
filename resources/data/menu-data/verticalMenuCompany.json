@@ -108,6 +108,12 @@
                 "slug": "shoporders.index"
             },
             {
+                "url": "admin/shopcategories",
+                "name": "menu_Shop_categories",
+                "icon": "columns",
+                "slug": "shopcategories.index"
+            },
+            {
                 "url": "admin/shop/subscriptions",
                 "name": "dash_Subscription",
                 "icon": "award",

@@ -106,8 +106,7 @@
                 "name": "menu_Shop_categories",
                 "icon": "columns",
                 "slug": "shopcategories.index"
-            }
-            ,
+            },
             {
                 "url": "admin/shoppackages",
                 "name": "menu_Packages",

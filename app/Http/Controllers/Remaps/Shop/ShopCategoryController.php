@@ -15,9 +15,8 @@ class ShopCategoryController extends MasterController
      */
     public function index()
     {
-        $this->check_master();
         return view('pages.ecommerce.shopcategory.index')->with([
-            'entries' => ShopCategory::get()
+            'entries' => ShopCategory::where('company_id', $this->company->id)->get()
         ]);
     }
 
@@ -28,7 +27,6 @@ class ShopCategoryController extends MasterController
      */
     public function create()
     {
-        $this->check_master();
         return view('pages.ecommerce.shopcategory.create');
     }
 
@@ -40,7 +38,9 @@ class ShopCategoryController extends MasterController
      */
     public function store(Request $request)
     {
-        $this->check_master();
+        $request->request->add([
+            'company_id' => $this->company->id
+        ]);
         ShopCategory::create($request->all());
         return redirect()->route('shopcategories.index');
     }
@@ -64,7 +64,6 @@ class ShopCategoryController extends MasterController
      */
     public function edit($id)
     {
-        $this->check_master();
         $sc = ShopCategory::find($id);
         return view('pages.ecommerce.shopcategory.edit')->with([
             'entry' => $sc
@@ -80,7 +79,6 @@ class ShopCategoryController extends MasterController
      */
     public function update(Request $request, $id)
     {
-        $this->check_master();
         $sc = ShopCategory::find($id);
         $sc->update($request->all());
         return redirect()->route('shopcategories.index');
@@ -94,7 +92,6 @@ class ShopCategoryController extends MasterController
      */
     public function destroy($id)
     {
-        $this->check_master();
         ShopCategory::find($id)->delete();
         return redirect()->route('shopcategories.index');
     }

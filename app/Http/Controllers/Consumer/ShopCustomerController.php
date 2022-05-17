@@ -49,7 +49,7 @@ class ShopCustomerController extends MasterController
 
         $maxPrice = ShopProduct::where('company_id', $this->company->id)->where('live', 1)->max('price');
         $minPrice = ShopProduct::where('company_id', $this->company->id)->where('live', 1)->min('price');
-        $categories = ShopCategory::get();
+        $categories = ShopCategory::where('company_id', $this->company->id)->get();
         $brandNames = ShopProduct::where('company_id', $this->company->id)
             ->select('id', 'brand')
             ->groupBy('brand')

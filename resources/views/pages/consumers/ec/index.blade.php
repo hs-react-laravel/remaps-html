@@ -131,13 +131,21 @@
           <h4 class="item-price">{{ config('constants.currency_signs')[$company->paypal_currency_code] }}{{ $product->price }}</h4>
         </div>
       </div>
-      {{-- <a href="#" class="btn btn-light btn-wishlist">
-        <i data-feather="heart"></i>
-        <span>Wishlist</span>
-      </a> --}}
-      <button class="btn btn-primary" style="border-radius: 5px; width: 100%;" onclick="onAddCartInline(this)" @if($product->stock <= 0) disabled @endif>
+      <button
+        class="btn btn-primary"
+        style="border-radius: 5px; width: 100%;"
+        onclick="onAddCartInline(this)"
+        data-link="{{ count($product->sku) > 0 ? 1 : 0 }}"
+        data-proid="{{ $product->id }}"
+        @if($product->stock <= 0) disabled @endif>
         <i data-feather="shopping-cart"></i>
-        <span class="add-to-cart">Add to cart</span>
+        <span class="add-to-cart">
+          @if ($product->stock <= 0)
+            Out of stock
+          @else
+            {{ count($product->sku) > 0 ? 'Customize' : 'Add to cart' }}
+          @endif
+        </span>
       </button>
       <form class="add-cart-inline-form" action="{{ route('customer.shop.cart.add') }}" method="POST">
         @csrf

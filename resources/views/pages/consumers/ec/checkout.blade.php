@@ -96,6 +96,22 @@
                     @else
                     <span class="text-danger mb-1">Out of Stock</span>
                     @endif
+                    @if ($item->sku_detail)
+                    <div>
+                      <div class="text-warning">Options</div>
+                      @php
+                        $skuItems = json_decode($item->sku_detail);
+                        // dd($skuItems);
+                      @endphp
+                      @foreach ($skuItems as $sku)
+                        <span><b>{{ $sku->title }} :</b></span> <br>
+                        @foreach ($sku->select as $select)
+                          <span>{{ $select->title }}</span>
+                          <span>({{ $currencyCode }}{{ $select->price }})</span> <br>
+                        @endforeach
+                      @endforeach
+                    </div>
+                    @endif
                     <div class="item-quantity">
                       <span class="quantity-title">Qty:</span>
                       <div class="quantity-counter-wrapper">
@@ -192,7 +208,7 @@
                     <div class="mb-2">
                       <label class="form-label" cfor="ship_phone">Mobile Number:</label>
                       <input
-                        type="number"
+                        type="text"
                         id="ship_phone"
                         class="form-control address-input"
                         name="ship_phone"
@@ -274,9 +290,6 @@
                         required />
                     </div>
                   </div>
-                  <div class="col-12">
-                    <button type="submit" class="btn btn-primary delivery-address">Deliver Here</button>
-                  </div>
                 </div>
               </div>
             </div>
@@ -288,6 +301,10 @@
                 <div class="card-body actions">
                   <p class="card-text mb-0 p-address-line-1"></p>
                   <p class="card-text p-address-line-2"></p>
+                  <p class="card-text p-town"></p>
+                  <p class="card-text p-county"></p>
+                  <p class="card-text p-zipcode"></p>
+                  <p class="card-text p-country"></p>
                   <p class="card-text p-phone-number"></p>
                   <button type="submit" class="btn btn-primary w-100 delivery-address mt-2">
                     Deliver To This Address
@@ -450,8 +467,13 @@
       let state = $('#ship_state').val()
       let country = $('#ship_country').val()
       $('.p-name').html(name)
-      $('.p-address-line-1').html(`${address_line_1} ${address_line_2}`)
-      $('.p-address-line-2').html(`${town} ${state} ${postal}, ${country}`)
+      $('.p-address-line-1').html(address_line_1)
+      $('.p-address-line-2').html(address_line_2)
+      $('.p-town').html(town)
+      $('.p-county').html(state)
+      $('.p-zipcode').html(postal)
+      $('.p-country').html(country)
+      $('.p-phone-number').html(phone)
     })
     let paymentOption = 'paypal';
     $('input[name=paymentOptions]').change(function() {

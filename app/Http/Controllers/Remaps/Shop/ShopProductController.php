@@ -34,7 +34,7 @@ class ShopProductController extends MasterController
 
     public function create()
     {
-        $categories = ShopCategory::get();
+        $categories = ShopCategory::where('company_id', $this->company->id)->get();
         if ($this->getMaxProductCount() <= $this->getCurrentProductCount() && !$this->user->is_master) {
             return redirect()->route('shopproducts.index');
         }
@@ -91,7 +91,7 @@ class ShopProductController extends MasterController
     public function edit($id)
     {
         $entry = ShopProduct::find($id);
-        $categories = ShopCategory::get();
+        $categories = ShopCategory::where('company_id', $this->company->id)->get();
         return view('pages.ecommerce.shopproducts.edit')->with(compact('entry', 'categories'));
     }
 
