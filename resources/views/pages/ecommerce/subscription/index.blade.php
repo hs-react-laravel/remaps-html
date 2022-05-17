@@ -27,15 +27,15 @@
         <table class="table">
           <thead>
             <tr>
-              <th>{{__('locale.tb_header_AggreeId')}}</th>
-              <th>{{__('locale.tb_header_Package_Name')}}</th>
-              <th>{{__('locale.tb_header_Product_Count')}}</th>
-              <th>{{__('locale.tb_header_Description')}}</th>
-              <th>{{__('locale.tb_header_StartedAt')}}</th>
-              <th>{{__('locale.tb_header_NextBillingDate')}}</th>
-              <th>{{__('locale.tb_header_Type')}}</th>
-              <th>{{__('locale.tb_header_Status')}}</th>
-              <th>{{__('locale.tb_header_Actions')}}</th>
+              <th width="10%">{{__('locale.tb_header_AggreeId')}}</th>
+              <th width="10%">{{__('locale.tb_header_Package_Name')}}</th>
+              <th width="10%">{{__('locale.tb_header_Product_Count')}}</th>
+              <th width="10%">{{__('locale.tb_header_Description')}}</th>
+              <th width="10%">{{__('locale.tb_header_StartedAt')}}</th>
+              <th width="10%">{{__('locale.tb_header_NextBillingDate')}}</th>
+              <th width="10%">{{__('locale.tb_header_Type')}}</th>
+              <th width="10%">{{__('locale.tb_header_Status')}}</th>
+              <th width="20%">{{__('locale.tb_header_Actions')}}</th>
             </tr>
           </thead>
           <tbody>
