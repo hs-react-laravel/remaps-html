@@ -101,9 +101,14 @@
               </li>
             </ul>
             <h6 class="price-title">Address</h6>
-            <p class="card-text mb-0 p-address-line-1">{{ $order->user->full_name }}</p>
-            <p class="card-text mb-0 p-address-line-2">{{ $order->ship_address_1 }} {{ $order->ship_address_2 }}</p>
-            <p class="card-text p-phone-number">{{$order->ship_town}} {{$order->ship_state}} {{$order->ship_zip}}, {{$order->ship_country}}</p>
+            <p class="card-text mb-0">{{ $order->user->full_name }}</p>
+            <p class="card-text mb-0">{{ $order->ship_address_1 }}</p>
+            <p class="card-text mb-0">{{ $order->ship_address_2 }}</p>
+            <p class="card-text mb-0">{{ $order->ship_town }}</p>
+            <p class="card-text mb-0">{{ $order->ship_state }}</p>
+            <p class="card-text mb-0">{{ $order->ship_zip }}</p>
+            <p class="card-text">{{$order->ship_country}}</p>
+            <p class="card-text">{{$order->ship_phone}}</p>
             <h6 class="price-title">Price Details</h6>
             <ul class="list-unstyled">
               <li class="price-detail">
