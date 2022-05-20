@@ -92,10 +92,10 @@ $(function () {
       });
 
 
-    if ($('#order_status').val() == 'placed') {
+    if ($('#order_status').val() == 1) {
       wizard.to(2);
     }
-    if ($('#order_status').val() == 'addressed') {
+    if ($('#order_status').val() == 2) {
       wizard.to(3);
     }
   }

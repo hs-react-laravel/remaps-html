@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Remaps\Shop;
 use App\Http\Controllers\MasterController;
 use Illuminate\Http\Request;
 use App\Models\Shop\ShopOrder;
+use App\Models\Shop\ShopProduct;
 
 class ShopOrderController extends MasterController
 {
@@ -97,6 +98,14 @@ class ShopOrderController extends MasterController
      */
     public function destroy($id)
     {
-        //
+        $order = ShopOrder::find($id);
+        foreach($order->items as $item) {
+            $product = ShopProduct::find($item->product_id);
+            $product->stock = $product->stock + $item->amount;
+            $product->save();
+            $item->delete();
+        }
+        $order->delete();
+        return redirect()->route('shoporders.index');
     }
 }
