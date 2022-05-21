@@ -8,6 +8,8 @@
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/wizard/bs-stepper.min.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/spinner/jquery.bootstrap-touchspin.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/toastr.min.css')) }}">
+  <link rel="stylesheet" href="{{ asset(mix('vendors/css/pickers/pickadate/pickadate.css')) }}">
+  <link rel="stylesheet" href="{{ asset(mix('vendors/css/pickers/flatpickr/flatpickr.min.css')) }}">
 @endsection
 
 @section('page-style')
@@ -17,18 +19,62 @@
   <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-wizard.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/extensions/ext-component-toastr.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-number-input.css')) }}">
+  <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/pickers/form-flat-pickr.css')) }}">
+  <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/pickers/form-pickadate.css')) }}">
 @endsection
 
 @section('content')
 <div class="ecommerce-application">
-  @if ($order->status != 'delivered')
-  <a
-    class="btn btn-primary"
-    href="{{ route('shoporders.deliver', ['id' => $order->id]) }}">
-    Mark as delivered
-  </a>
+  @if ($order->status == 7)
+    <a class="btn btn-primary" href="{{ route('shoporders.complete', ['id' => $order->id]) }}">Complete</a>
   @endif
   <a class="btn btn-flat-secondary" onclick="history.back(-1)">Back</a>
+  @if ($order->status == 4)
+    <form action="{{ route('shoporders.process', ['id' => $order->id]) }}" method="POST">
+      @csrf
+      <div class="col-md-12 col-xl-6">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">Dispatch</h4>
+          </div>
+          <div class="card-body">
+            <div class="col-12">
+              <label class="form-label" for="fp-default">Estimated Dispatch Date</label>
+              <input type="text" id="fp-default" class="form-control flatpickr-basic" name="dispatch_date" placeholder="YYYY-MM-DD" value="{{ $order->dispatch_date }}" />
+            </div>
+          </div>
+          <div class="card-header">
+            <button type="submit" class="btn btn-primary me-1">Submit</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  @endif
+  @if ($order->status == 6)
+    <form action="{{ route('shoporders.dispatch', ['id' => $order->id]) }}" method="POST">
+      @csrf
+      <div class="col-md-12 col-xl-6">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">Delivery</h4>
+          </div>
+          <div class="card-body">
+            <div class="col-12">
+              <label class="form-label" for="fp-default">Estimated Delivery Date</label>
+              <input type="text" id="fp-default" class="form-control flatpickr-basic" name="delivery_date" placeholder="YYYY-MM-DD" value="{{ $order->delivery_date }}" />
+            </div>
+            <div class="col-12">
+              <label class="form-label" for="fp-default">Tracking Number</label>
+              <input type="text" class="form-control" name="tracking_number" value="{{ $order->tracking_number }}" />
+            </div>
+          </div>
+          <div class="card-header">
+            <button type="submit" class="btn btn-primary me-1">Submit</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  @endif
   <div id="place-order" class="list-view product-checkout" method="POST" action="{{ route('customer.shop.order.place') }}">
     <div class="checkout-items">
       @foreach ($order->items as $item)
@@ -44,7 +90,7 @@
             <div class="item-name">
               <h6 class="mb-0"><a href="#" class="text-body">{{ $item->product->title }}</a></h6>
               @if ($item->product->brand)
-              <span class="item-company">By <a href="#" class="company-name">{{ $item->product->brand }}</a></span>
+                <span class="item-company">By <a href="#" class="company-name">{{ $item->product->brand }}</a></span>
               @endif
               <div class="item-rating">
                 @php $avgRating = round($item->product->avgRating()); @endphp
@@ -52,29 +98,37 @@
               </div>
             </div>
             @if ($item->product->stock > 0)
-            <span class="text-success mb-1">In Stock</span>
+              <span class="text-success mb-1">In Stock</span>
             @else
-            <span class="text-danger mb-1">Out of Stock</span>
+              <span class="text-danger mb-1">Out of Stock</span>
             @endif
             @if ($item->sku_detail)
-            <div>
-              <div class="text-warning">Options</div>
-              @php
-                $skuItems = json_decode($item->sku_detail);
-                // dd($skuItems);
-              @endphp
-              @foreach ($skuItems as $sku)
-                <span><b>{{ $sku->title }} :</b></span> <br>
-                @foreach ($sku->select as $select)
-                  <span>{{ $select->title }}</span>
-                  <span>({{ $currencyCode }}{{ $select->price }})</span> <br>
+              <div>
+                <div class="text-warning">Options</div>
+                @php
+                  $skuItems = json_decode($item->sku_detail);
+                  // dd($skuItems);
+                @endphp
+                @foreach ($skuItems as $sku)
+                  <span><b>{{ $sku->title }} :</b></span> <br>
+                  @foreach ($sku->select as $select)
+                    <span>{{ $select->title }}</span>
+                    <span>({{ $currencyCode }}{{ $select->price }})</span> <br>
+                  @endforeach
                 @endforeach
-              @endforeach
-            </div>
+              </div>
             @endif
             <div class="item-quantity">
               <span class="quantity-title">Qty: <b>{{ $item->amount }}</b></span>
             </div>
+            @php
+              $shipObj = json_decode($item->shipping_detail);
+            @endphp
+            @if ($shipObj)
+              <div>
+                <span>Shipping: <b>{{ $shipObj->option }}({{ '+'.$currencyCode.$shipObj->price }})</b></span>
+              </div>
+            @endif
           </div>
           <div class="item-options text-center">
             <div class="item-wrapper">
@@ -96,7 +150,7 @@
               <li class="price-detail">
                 <div class="detail-title"><b>Status</b></div>
                 <div style="text-transform: uppercase">
-                  {{ $order->status }}
+                  {{ $orderStatus[$order->status] }}
                 </div>
               </li>
             </ul>
@@ -118,9 +172,15 @@
                 </div>
               </li>
               <li class="price-detail">
-                <div class="detail-title">Estimated Tax</div>
+                <div class="detail-title">TAX / VAT</div>
                 <div class="detail-amt amt-tax">
                   {{ $currencyCode.number_format($order->tax, 2) }}
+                </div>
+              </li>
+              <li class="price-detail">
+                <div class="detail-title">Shipping</div>
+                <div class="detail-amt amt-tax">
+                  {{ $currencyCode.number_format($order->shipPrice(), 2) }}
                 </div>
               </li>
             </ul>
@@ -140,4 +200,17 @@
     </div>
   </div>
 </div>
+@endsection
+
+@section('vendor-script')
+  <!-- vendor files -->
+  <script src="{{ asset(mix('vendors/js/pickers/pickadate/picker.js')) }}"></script>
+  <script src="{{ asset(mix('vendors/js/pickers/pickadate/picker.date.js')) }}"></script>
+  <script src="{{ asset(mix('vendors/js/pickers/pickadate/picker.time.js')) }}"></script>
+  <script src="{{ asset(mix('vendors/js/pickers/pickadate/legacy.js')) }}"></script>
+  <script src="{{ asset(mix('vendors/js/pickers/flatpickr/flatpickr.min.js')) }}"></script>
+@endsection
+@section('page-script')
+  <!-- Page js files -->
+  <script src="{{ asset(mix('js/scripts/forms/pickers/form-pickers.js')) }}"></script>
 @endsection

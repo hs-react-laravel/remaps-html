@@ -164,27 +164,6 @@
               </div>
             </div>
             <hr />
-            {{-- <div class="row mb-1">
-              <div class="col-12">
-                <label class="form-label">Additional Information</label>
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th width="20%">Name</th>
-                      <th width="75%">Content</th>
-                      <th width="5%"></th>
-                    </tr>
-                  </thead>
-                  <tbody id="ad-body">
-
-                  </tbody>
-                </table>
-                <div class="d-flex justify-content-end mt-1">
-                  <button type="button" class="btn btn-primary" onclick="onAdAdd()">Add Information</button>
-                </div>
-              </div>
-            </div>
-            <hr /> --}}
             <div class="row mb-1">
               <label class="form-label">SKU</label>
               <div class="sku-table-wrapper">
@@ -192,6 +171,27 @@
               </div>
               <div class="d-flex mt-1">
                 <button type="button" class="btn btn-primary" style="width: 200px" onclick="onSKUAdd()">Add SKU</button>
+              </div>
+            </div>
+            <hr />
+            <div class="row mb-1">
+              <label class="form-label">Shipping Options</label>
+              <div class="shipping-table-wrapper">
+                <table class="table mt-1">
+                    <thead>
+                      <tr>
+                        <th width="75%">Name</th>
+                        <th width="20%">Price</th>
+                        <th width="5%"></th>
+                      </tr>
+                    </thead>
+                    <tbody class="shipping-body">
+
+                    </tbody>
+                  </table>
+              </div>
+              <div class="d-flex mt-1">
+                <button type="button" class="btn btn-primary" style="width: 200px" onclick="onShippingAdd()">Add Option</button>
               </div>
             </div>
           </div>
@@ -267,6 +267,22 @@
             <button type="button" class="btn btn-primary" onclick="onSKUItemAdd(this)">Add Item</button>
           </div>
         </div>
+      `)
+    }
+    function onShippingAdd(obj) {
+      const tbody = $('.shipping-body')
+      tbody.append(`
+        <tr>
+          <td style="padding: 1px">
+            <input type="text" name="shipping_items[]" class="form-control" />
+          </td>
+          <td style="padding: 1px">
+            <input type="number" name="shipping_prices[]" step=".01" class="form-control" />
+          </td>
+          <td style="padding: 1px">
+            <button class="btn btn-danger" type="button" onclick="onTableRowDelete(this)">-</button>
+          </td>
+        </tr>
       `)
     }
     function onSKUItemAdd(obj) {

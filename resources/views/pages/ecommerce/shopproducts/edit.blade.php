@@ -243,6 +243,40 @@
                 <button type="button" class="btn btn-primary" style="width: 200px" onclick="onSKUAdd()">Add SKU</button>
               </div>
             </div>
+            <hr />
+            <div class="row mb-1">
+              <label class="form-label">Shipping Options</label>
+              <div class="shipping-table-wrapper">
+                <table class="table mt-1">
+                  <thead>
+                    <tr>
+                      <th width="75%">Name</th>
+                      <th width="20%">Price</th>
+                      <th width="5%"></th>
+                    </tr>
+                  </thead>
+                  <tbody class="shipping-body">
+                    @foreach ($entry->shipping as $shippingItem)
+                    <tr>
+                      <td style="padding: 1px">
+                        <input type="text" name="shipping_items[]" class="form-control" value="{{ $shippingItem->option }}" />
+                      </td>
+                      <td style="padding: 1px">
+                        <input type="number" name="shipping_prices[]" step=".01" class="form-control" value="{{ $shippingItem->price }}" />
+                      </td>
+                      <td style="padding: 1px">
+                        <input type="hidden" name="shipping_ids[]" step=".01" class="form-control" value="{{ $shippingItem->id }}" />
+                        <button class="btn btn-danger" type="button" onclick="onTableRowDelete(this)">-</button>
+                      </td>
+                    </tr>
+                    @endforeach
+                  </tbody>
+                </table>
+              </div>
+              <div class="d-flex mt-1">
+                <button type="button" class="btn btn-primary" style="width: 200px" onclick="onShippingAdd()">Add Option</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -333,6 +367,23 @@
           </td>
           <td style="padding: 1px">
             <input type="hidden" name="sku_item_ids[${idx}][]" value="0">
+            <button class="btn btn-danger" type="button" onclick="onTableRowDelete(this)">-</button>
+          </td>
+        </tr>
+      `)
+    }
+    function onShippingAdd(obj) {
+      const tbody = $('.shipping-body')
+      tbody.append(`
+        <tr>
+          <td style="padding: 1px">
+            <input type="text" name="shipping_items[]" class="form-control" />
+          </td>
+          <td style="padding: 1px">
+            <input type="number" name="shipping_prices[]" step=".01" class="form-control" />
+          </td>
+          <td style="padding: 1px">
+            <input type="hidden" name="shipping_ids[]" value="0">
             <button class="btn btn-danger" type="button" onclick="onTableRowDelete(this)">-</button>
           </td>
         </tr>

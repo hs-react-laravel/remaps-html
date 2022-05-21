@@ -98,6 +98,9 @@ $(function () {
     if ($('#order_status').val() == 2) {
       wizard.to(3);
     }
+    if ($('#order_status').val() == 3) {
+      wizard.to(4);
+    }
   }
 
   // checkout quantity counter

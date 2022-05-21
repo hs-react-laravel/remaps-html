@@ -6,6 +6,11 @@ use App\Http\Controllers\MasterController;
 use Illuminate\Http\Request;
 use App\Models\Shop\ShopOrder;
 use App\Models\Shop\ShopProduct;
+use PayPalCheckoutSdk\Core\PayPalHttpClient;
+use PayPalCheckoutSdk\Core\SandboxEnvironment;
+use PayPalCheckoutSdk\Core\ProductionEnvironment;
+use PayPalCheckoutSdk\Payments\CapturesRefundRequest;
+use Stripe\StripeClient;
 
 class ShopOrderController extends MasterController
 {
@@ -64,6 +69,78 @@ class ShopOrderController extends MasterController
         $order = ShopOrder::find($id);
         $order->status = 'delivered';
         $order->save();
+        return redirect()->route('shoporders.index');
+    }
+
+    public function refund($id)
+    {
+        try {
+            $order = ShopOrder::find($id);
+            $request = new CapturesRefundRequest($order->transaction);
+            $request->body = "{}";
+            if ($order->payment_method == 'paypal') {
+                // $env = new ProductionEnvironment($this->company->paypal_client_id, $this->company->paypal_secret);
+                $env = new SandboxEnvironment('AdibmcjffSYZR9TSS5DuKIQpnf80KfY-3pBGd30JKz2Ar1xHIipwijo4eZOJvbDCFpfmOBItDqZoiHmM', 'EEPRF__DLqvkwnnpi2Hi3paQ-9SZFRqypUH-u0fr4zAzvv7hWtz1bJHF0CEwvrvZpHyLeKSTO_FwAeO_');
+                $paypal_client = new PayPalHttpClient($env);
+                $response = $paypal_client->execute($request);
+                if ($response->result->status == "COMPLETED") {
+                    $order = ShopOrder::find($id);
+                    foreach($order->items as $item) {
+                        $product = ShopProduct::find($item->product_id);
+                        $product->stock = $product->stock + $item->amount;
+                        $product->save();
+                    }
+                    $order->update([
+                        'status' => '5'
+                    ]);
+                }
+            } else if ($order->payment_method == 'stripe') {
+                $stripe = new StripeClient($this->user->company->stripe_secret);
+                $result = $stripe->refunds->create([
+                    'charge' => $order->transaction
+                ]);
+                if ($result->status == 'succeeded') {
+                    $order = ShopOrder::find($id);
+                    foreach($order->items as $item) {
+                        $product = ShopProduct::find($item->product_id);
+                        $product->stock = $product->stock + $item->amount;
+                        $product->save();
+                    }
+                    $order->update([
+                        'status' => '5'
+                    ]);
+                }
+            }
+            return redirect()->route('shoporders.index');
+        } catch (\Exception $ex) {
+            session()->flash('error', $ex->getMessage());
+            return redirect()->route('shoporders.index');
+        }
+    }
+
+    public function process(Request $request, $id) {
+        $order = ShopOrder::find($id);
+        $request->request->add([
+            'status' => 6
+        ]);
+        $order->update($request->all());
+        return redirect()->route('shoporders.index');
+    }
+
+    public function dispatched(Request $request, $id) {
+        $order = ShopOrder::find($id);
+        $request->request->add([
+            'status' => 7
+        ]);
+        $order->update($request->all());
+        return redirect()->route('shoporders.index');
+    }
+
+    public function completed($id) {
+        $order = ShopOrder::find($id);
+        $order->update([
+            'status' => 8
+        ]);
         return redirect()->route('shoporders.index');
     }
 

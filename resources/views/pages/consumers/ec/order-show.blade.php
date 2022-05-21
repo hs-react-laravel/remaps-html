@@ -71,6 +71,14 @@
               <div class="item-quantity">
                 <span class="quantity-title">Qty: <b>{{ $item->amount }}</b></span>
               </div>
+              @php
+                $shipObj = json_decode($item->shipping_detail);
+              @endphp
+              @if ($shipObj)
+                <div>
+                  <span>Shipping: <b>{{ $shipObj->option }}({{ '+'.$currencyCode.$shipObj->price }})</b></span>
+                </div>
+              @endif
             </div>
             <div class="item-options text-center">
               <div class="item-wrapper">
@@ -82,21 +90,23 @@
               </div>
             </div>
           </div>
-          <div class="card-footer">
-            @if ($item->comment)
-              <div class="product-readonly-ratings mb-1"></div>
-              <input type="hidden" class="counter" name="rating" value="{{ $item->comment->rating }}">
-              <span>{{ $item->comment->comment }}</span>
-            @else
-              <form action="{{ route('customer.shop.comment.save', ['id' => $item->id]) }}" method="POST">
-                @csrf
-                <div class="product-ratings mb-1"></div>
-                <input type="hidden" class="counter" name="rating">
-                <textarea class="form-control mb-1" name="comment" rows="3"></textarea>
-                <button type="submit" class="btn btn-primary">Leave Comment</button>
-              </form>
-            @endif
-          </div>
+          @if ($order->status == 8)
+            <div class="card-footer">
+              @if ($item->comment)
+                <div class="product-readonly-ratings mb-1"></div>
+                <input type="hidden" class="counter" name="rating" value="{{ $item->comment->rating }}">
+                <span>{{ $item->comment->comment }}</span>
+              @else
+                <form action="{{ route('customer.shop.comment.save', ['id' => $item->id]) }}" method="POST">
+                  @csrf
+                  <div class="product-ratings mb-1"></div>
+                  <input type="hidden" class="counter" name="rating">
+                  <textarea class="form-control mb-1" name="comment" rows="3"></textarea>
+                  <button type="submit" class="btn btn-primary">Leave Comment</button>
+                </form>
+              @endif
+            </div>
+          @endif
         </div>
 
       @endforeach
@@ -109,10 +119,36 @@
               <li class="price-detail">
                 <div class="detail-title"><b>Status</b></div>
                 <div style="text-transform: uppercase">
-                  {{ $order->status }}
+                  {{ $orderStatus[$order->status] }}
                 </div>
               </li>
             </ul>
+            @if ($order->status == 6)
+              <ul class="list-unstyled">
+                <li class="price-detail">
+                  <div class="detail-title"><b>Estimate Dispatch Date</b></div>
+                  <div style="text-transform: uppercase">
+                    {{ $order->dispatch_date }}
+                  </div>
+                </li>
+              </ul>
+            @endif
+            @if ($order->status == 7)
+              <ul class="list-unstyled">
+                <li class="price-detail">
+                  <div class="detail-title"><b>Estimate Delivery Date</b></div>
+                  <div style="text-transform: uppercase">
+                    {{ $order->delivery_date }}
+                  </div>
+                </li>
+                <li class="price-detail">
+                  <div class="detail-title"><b>Tracking Number</b></div>
+                  <div style="text-transform: uppercase">
+                    {{ $order->tracking_number }}
+                  </div>
+                </li>
+              </ul>
+            @endif
             <h6 class="price-title">Price Details</h6>
             <ul class="list-unstyled">
               <li class="price-detail">
@@ -122,7 +158,7 @@
                 </div>
               </li>
               <li class="price-detail">
-                <div class="detail-title">Estimated Tax</div>
+                <div class="detail-title">TAX / VAT</div>
                 <div class="detail-amt amt-tax">
                   {{ $currencyCode.number_format($order->tax, 2) }}
                 </div>

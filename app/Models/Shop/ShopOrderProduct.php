@@ -15,6 +15,7 @@ class ShopOrderProduct extends Model
         'price',
         'amount',
         'sku_detail',
+        'shipping_detail'
     ];
 
     public function product() {

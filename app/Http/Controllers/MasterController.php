@@ -149,6 +149,18 @@ class MasterController extends BaseController
                     // Share all menuData to all the views
                     view()->share('menuData', [$verticalMenuData, $horizontalMenuData]);
 
+                    // Share Shop Order Status
+                    view()->share('orderStatus', array(
+                        '1' => 'Placed',
+                        '2' => 'Addressed',
+                        '3' => 'Shipping Setting',
+                        '4' => 'Paid',
+                        '5' => 'Cancelled',
+                        '6' => 'In Process',
+                        '7' => 'Dispatched',
+                        '8' => 'Completed'
+                    ));
+
                     $data = [
                         'mainLayoutType' => 'vertical',
                         'theme' => 'dark',

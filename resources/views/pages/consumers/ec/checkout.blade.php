@@ -51,6 +51,20 @@
       <div class="line">
         <i data-feather="chevron-right" class="font-medium-2"></i>
       </div>
+      <div class="step" data-target="#step-shipping" role="tab" id="step-shipping-trigger" style="pointer-events: none !important">
+        <button type="button" class="step-trigger">
+          <span class="bs-stepper-box">
+            <i data-feather="truck" class="font-medium-3"></i>
+          </span>
+          <span class="bs-stepper-label">
+            <span class="bs-stepper-title">Shipping</span>
+            <span class="bs-stepper-subtitle">Select shipping option</span>
+          </span>
+        </button>
+      </div>
+      <div class="line">
+        <i data-feather="chevron-right" class="font-medium-2"></i>
+      </div>
       <div class="step" data-target="#step-payment" role="tab" id="step-payment-trigger" style="pointer-events: none !important">
         <button type="button" class="step-trigger">
           <span class="bs-stepper-box">
@@ -158,7 +172,7 @@
                       </div>
                     </li>
                     <li class="price-detail">
-                      <div class="detail-title">Estimated Tax</div>
+                      <div class="detail-title">TAX / VAT</div>
                       <div class="detail-amt amt-tax">
                         {{ $currencyCode.number_format($isVatCalculation ? $totalCartAmount * ($company->vat_percentage ?? 0) / 100 : 0, 2) }}
                       </div>
@@ -316,6 +330,93 @@
         @endif
 
       </div>
+
+      <div id="step-shipping" class="content" role="tabpanel" aria-labelledby="step-shipping-trigger">
+        @if (isset($order))
+        {{ Form::model($order, array('route' => array('customer.shop.order.ship', $order ? $order->id : ''), 'method' => 'POST', 'id' => "checkout-shipment", 'class' => "list-view product-checkout")) }}
+          @csrf
+          <div class="checkout-items">
+            @foreach ($order->items as $item)
+              <div class="card ecommerce-card sc-cart-card">
+                <div class="item-img">
+                  <a href="{{ route('customer.shop.detail', ['id' => $item->product->id]) }}">
+                    <img src="{{ $item->product->thumb
+                      ? asset('storage/uploads/products/thumbnails/'.$item->product->thumb)
+                      : 'https://via.placeholder.com/350x250.png?text=Product'}}" />
+                  </a>
+                </div>
+                <div class="card-body">
+                  <div class="item-name">
+                    <h6 class="mb-0"><a href="{{ route('customer.shop.detail', ['id' => $item->product->id]) }}" class="text-body">{{ $item->product->title }}</a></h6>
+                  </div>
+                  <input type="hidden" name="shipping_object_id[]" value="0" class="shipping_object_id">
+                  <span class="text-muted mt-2">Shipping Option</span>
+                  <select class="form-control shipping-option" style="width: 250px; margin-top: .7rem">
+                    <option value="">--Select Shipping option--</option>
+                    @foreach ($item->product->shipping as $shipping)
+                      <option value="{{ $shipping->id }}:{{ $shipping->price }}">{{ $shipping->option }}</option>
+                    @endforeach
+                  </select>
+                </div>
+                <div class="item-options text-center">
+                  <div class="item-wrapper">
+                    <div class="item-cost">
+                      <h4 class="item-price">
+                        {{ $currencyCode }}{{ number_format($item->price * $item->amount, 2) }}
+                      </h4>
+                      <p class="card-text shipping-price">
+                        <span class="badge rounded-pill badge-light-success">Free Shipping</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            @endforeach
+          </div>
+          <div class="checkout-options">
+            <div class="card">
+              <div class="card-body">
+                <div class="price-details">
+                  <h6 class="price-title">Price Details</h6>
+                  <ul class="list-unstyled">
+                    <li class="price-detail">
+                      <div class="detail-title">Total MRP</div>
+                      <div class="detail-amt amt-total">
+                        {{ $currencyCode.number_format($order->amount, 2) }}
+                      </div>
+                    </li>
+                    <li class="price-detail">
+                      <div class="detail-title">TAX / VAT</div>
+                      <div class="detail-amt amt-tax">
+                        {{ $currencyCode.number_format($order->tax, 2) }}
+                      </div>
+                    </li>
+                    <li class="price-detail">
+                      <div class="detail-title">Shipping</div>
+                      <div class="detail-amt amt-shipping">
+                        {{ $currencyCode.number_format(0, 2) }}
+                      </div>
+                    </li>
+                  </ul>
+                  <hr />
+                  <ul class="list-unstyled">
+                    <li class="price-detail">
+                      <div class="detail-title detail-total">Total</div>
+                      <div class="detail-amt fw-bolder amt-order">
+                        {{ $currencyCode.number_format($order->amount + $order->tax, 2) }}
+                      </div>
+                    </li>
+                  </ul>
+                  <button type="submit" class="btn btn-primary w-100 place-order">Apply shipping options</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        {{ Form::close() }}
+        @endif
+      </div>
+
       <div id="step-payment" class="content" role="tabpanel" aria-labelledby="step-payment-trigger">
         @if (isset($order))
         <div id="checkout-payment" class="list-view product-checkout">
@@ -421,13 +522,19 @@
                       {{ $currencyCode.number_format($order->tax, 2) }}
                     </div>
                   </li>
+                  <li class="price-detail">
+                    <div class="detail-title">Shipping</div>
+                    <div class="detail-amt text-success amt-shipping">
+                      {{ $currencyCode.number_format($order->shipPrice(), 2) }}
+                    </div>
+                  </li>
                 </ul>
                 <hr />
                 <ul class="list-unstyled price-details">
                   <li class="price-detail">
                     <div class="details-title">Total Price</div>
                     <div class="detail-amt fw-bolder amt-order">
-                      {{ $currencyCode.number_format($order->amount + $order->tax, 2) }}
+                      {{ $currencyCode.number_format($order->amount + $order->tax + $order->shipPrice(), 2) }}
                     </div>
                   </li>
                 </ul>
@@ -548,5 +655,27 @@
         $form.get(0).submit();
       }
     }
+    @if (isset($order))
+    $('.shipping-option').change(function(){
+      const id_price = $(this).val().split(':')
+      if (id_price.length == 2) {
+        const id = id_price[0]
+        const price = id_price[1]
+        $(this).closest('.ecommerce-card').find('.shipping-price span').html('{{ $currencyCode }}' + price)
+        $(this).closest('.ecommerce-card').find('.shipping_object_id').val(id)
+      } else {
+        $(this).closest('.ecommerce-card').find('.shipping-price span').html('Free Shipping')
+      }
+      let totalShipping = 0;
+      $('.shipping-option').each((idx, ele) => {
+        const id_price = $(ele).val().split(':')
+        if (id_price.length == 2) {
+          totalShipping += Number(id_price[1])
+        }
+      })
+      $('#step-shipping').find('.amt-shipping').html('{{ $currencyCode }}' + totalShipping.toFixed(2))
+      $('#step-shipping').find('.amt-order').html('{{ $currencyCode }}' + (totalShipping + Number('{{ $order->amount + $order->tax }}')).toFixed(2))
+    })
+    @endif
   </script>
 @endsection

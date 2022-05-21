@@ -28,13 +28,13 @@
               <tr @if(!$e->is_checked) class="ticket-open" @endif>
                 <td>{{ $e->created_at }}</td>
                 <td>{{ $e->user->full_name }}</td>
-                <td>{{ config('constants.currency_signs')[$company->paypal_currency_code].' '.($e->amount + $e->tax) }}</td>
-                <td style="text-transform: uppercase">{{ $e->status }}</td>
+                <td>{{ config('constants.currency_signs')[$company->paypal_currency_code].' '.($e->amount + $e->tax + $e->shipPrice()) }}</td>
+                <td style="text-transform: uppercase">{{ $orderStatus[$e->status] }}</td>
                 <td class="td-actions">
                   <a class="btn btn-icon btn-primary" href="{{ route('shoporders.show', ['shoporder' => $e->id]) }}">
                     <i data-feather="eye"></i>
                   </a>
-                  @if ($e->status < 3)
+                  @if ($e->status < 4)
                   <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $e->id }}" title="Delete">
                     <i data-feather="trash-2"></i>
                   </a>
@@ -42,6 +42,11 @@
                     <input type="hidden" name="_method" value="DELETE">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                   </form>
+                  @endif
+                  @if ($e->status == 4)
+                  <a class="btn btn-icon btn-danger" onclick="onRefund({{ $e->id }})" title="Cancel">
+                    <i data-feather="rotate-ccw"></i>
+                  </a>
                   @endif
                 </td>
               </tr>
@@ -83,6 +88,24 @@
     });
     if (swal_result.isConfirmed) {
       delete_form.submit();
+    }
+  }
+  async function onRefund(id) {
+    var swal_result = await Swal.fire({
+      title: 'Warning!',
+      text: 'Are you sure to cancel and refund this order?',
+      icon: 'warning',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-outline-danger ms-1'
+      },
+      showCancelButton: true,
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancel',
+      buttonsStyling: false
+    });
+    if (swal_result.isConfirmed) {
+      window.location.href = `/admin/shoporders/${id}/refund`
     }
   }
 </script>

@@ -25,7 +25,10 @@ class ShopOrder extends Model
         'payment_method',
         'status',
         'transaction',
-        'is_checked'
+        'is_checked',
+        'dispatch_date',
+        'delivery_date',
+        'tracking_number'
     ];
 
     public function items() {
@@ -35,5 +38,17 @@ class ShopOrder extends Model
     public function user()
     {
         return $this->belongsTo('App\Models\User', 'user_id');
+    }
+
+    public function shipPrice()
+    {
+        $sum = 0;
+        foreach ($this->items as $item) {
+            $obj = json_decode($item->shipping_detail);
+            if ($obj) {
+                $sum += $obj->price;
+            }
+        }
+        return $sum;
     }
 }

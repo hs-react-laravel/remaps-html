@@ -27,9 +27,9 @@
               <tr>
                   <td>{{ $e->created_at }}</td>
                   <td>{{ config('constants.currency_signs')[$company->paypal_currency_code].' '.($e->amount + $e->tax) }}</td>
-                  <td style="text-transform: uppercase">{{ $e->status }}</td>
+                  <td style="text-transform: uppercase">{{ $orderStatus[$e->status] }}</td>
                   <td>
-                    @if ($e->status != 'paid' && $e->status != 'delivered')
+                    @if ($e->status < 4)
                     <a class="btn btn-icon btn-primary" href="{{ route('customer.shop.checkout', ['order' => $e->id]) }}">
                       <i data-feather="edit"></i>
                     </a>

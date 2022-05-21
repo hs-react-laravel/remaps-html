@@ -126,7 +126,10 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::resource('shopproducts', ShopProductController::class);
     Route::resource('shoporders', ShopOrderController::class);
     Route::resource('shoppackages', ShopPackageController::class);
-    Route::get('shoporders/{id}/deliver', [ShopOrderController::class, 'deliver'])->name('shoporders.deliver');
+    Route::post('shoporders/{id}/dispatch', [ShopOrderController::class, 'dispatched'])->name('shoporders.dispatch');
+    Route::post('shoporders/{id}/process', [ShopOrderController::class, 'process'])->name('shoporders.process');
+    Route::get('shoporders/{id}/refund', [ShopOrderController::class, 'refund'])->name('shoporders.refund');
+    Route::get('shoporders/{id}/complete', [ShopOrderController::class, 'completed'])->name('shoporders.complete');
     Route::post('shopproducts/api/upload', [ShopProductController::class, 'uploadImageFile'])->name('shopproducts.files.api');
 
     Route::get('company-settings', [CompanySettingController::class, 'company_setting'])->name('company.setting');
@@ -275,6 +278,7 @@ Route::group(['middleware' => 'auth:customer', 'prefix'=>'customer'], function (
     Route::post('/shop/card/add', [ShopCustomerController::class, 'addCard'])->name('customer.shop.payment.card');
     Route::post('/shop/order/place', [ShopCustomerController::class, 'placeOrder'])->name('customer.shop.order.place');
     Route::post('/shop/order/{id}/address', [ShopCustomerController::class, 'setOrderAddress'])->name('customer.shop.order.address');
+    Route::post('/shop/order/{id}/shipment', [ShopCustomerController::class, 'setShippingOption'])->name('customer.shop.order.ship');
     Route::post('/shop/order/{id}/stripe-payment', [ShopCustomerController::class, 'payOrderByStripe'])->name('customer.shop.order.pay.stripe');
     Route::post('/shop/order/{id}/paypal-payment', [ShopCustomerController::class, 'payOrderByPaypal'])->name('customer.shop.order.pay.paypal');
     Route::get('/shop/order/{id}/paypal-payment/cancel', [ShopCustomerController::class, 'paypalPaymentCancel'])->name('customer.shop.order.pay.paypal.cancel');

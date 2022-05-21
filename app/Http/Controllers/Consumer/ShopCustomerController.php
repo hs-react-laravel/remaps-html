@@ -12,6 +12,7 @@ use App\Models\Shop\ShopOrder;
 use App\Models\Shop\ShopOrderProduct;
 use App\Models\Shop\ShopProduct;
 use App\Models\Shop\ShopProductSkuItem;
+use App\Models\Shop\ShopShippingOption;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -175,6 +176,7 @@ class ShopCustomerController extends MasterController
         if ($request->has('order')) {
             $order = ShopOrder::find($request->get('order'));
         }
+
         $isVatCalculation = ($this->company->vat_number != null) && ($this->company->vat_percentage != null) && ($this->user->add_tax);
         return view('pages.consumers.ec.checkout')->with(compact('order', 'isVatCalculation'));
     }
@@ -233,10 +235,29 @@ class ShopCustomerController extends MasterController
         return redirect()->route('customer.shop.checkout', ['order' => $order->id]);
     }
 
+    public function setShippingOption(Request $request, $id) {
+        $order = ShopOrder::find($id);
+        $shippingObjectIDs = $request->get('shipping_object_id');
+        $orderProducts = $order->items;
+        foreach ($shippingObjectIDs as $i => $sid) {
+            if ($sid > 0) {
+                $sop = ShopOrderProduct::find($orderProducts[$i]->id);
+                $shipObj = ShopShippingOption::find($sid);
+                $sop->shipping_detail = json_encode($shipObj);
+                $sop->save();
+            }
+        }
+        $request->request->add([
+            'status' => 3
+        ]);
+        $order->update($request->all());
+        return redirect()->route('customer.shop.checkout', ['order' => $order->id]);
+    }
+
     public function payOrderByStripe(Request $request, $id) {
         try {
             $order = ShopOrder::find($id);
-            $total_amount = $order->amount + $order->tax;
+            $total_amount = $order->amount + $order->tax + $order->shipPrice();
             $stripe = new StripeClient($this->user->company->stripe_secret);
             $result = $stripe->charges->create([
                 'amount' => $total_amount * 100,
@@ -249,7 +270,7 @@ class ShopCustomerController extends MasterController
             }
             $order->update([
                 'payment_method' => 'stripe',
-                'status' => 3,
+                'status' => 4,
                 'transaction' => $result->id
             ]);
         } catch (\Exception $ex) {
@@ -261,7 +282,7 @@ class ShopCustomerController extends MasterController
     public function payOrderByPaypal(Request $request, $id) {
         try {
             $order = ShopOrder::find($id);
-            $total_amount = $order->amount + $order->tax;
+            $total_amount = number_format($order->amount + $order->tax + $order->shipPrice(), 2);
             $items = array();
             $isVatCalculation = ($this->company->vat_number != null) && ($this->company->vat_percentage != null) && ($this->user->add_tax);
             $tax = $isVatCalculation ? $this->company->vat_percentage : 0;
@@ -302,7 +323,7 @@ class ShopCustomerController extends MasterController
                                 ),
                                 'shipping' => array(
                                     'currency_code' => $this->company->paypal_currency_code,
-                                    'value' => 0
+                                    'value' => $order->shipPrice()
                                 ),
                                 'tax_total' => array(
                                     'currency_code' => $this->company->paypal_currency_code,
@@ -337,7 +358,8 @@ class ShopCustomerController extends MasterController
 
     public function paypalPaymentSuccess(Request $request, $id) {
         $order = ShopOrder::find($id);
-        $request = new OrdersCaptureRequest($request->session()->get('order_id'));
+        $paypal_order_id = $request->session()->get('order_id');
+        $request = new OrdersCaptureRequest($paypal_order_id);
         $request->body = "{}";
         // $env = new ProductionEnvironment($this->company->paypal_client_id, $this->company->paypal_secret);
         $env = new SandboxEnvironment('AdibmcjffSYZR9TSS5DuKIQpnf80KfY-3pBGd30JKz2Ar1xHIipwijo4eZOJvbDCFpfmOBItDqZoiHmM', 'EEPRF__DLqvkwnnpi2Hi3paQ-9SZFRqypUH-u0fr4zAzvv7hWtz1bJHF0CEwvrvZpHyLeKSTO_FwAeO_');
@@ -348,8 +370,8 @@ class ShopCustomerController extends MasterController
         if ($response->statusCode == 201) {
             $order->update([
                 'payment_method' => 'paypal',
-                'status' => 3,
-                'transaction' => $result->id
+                'status' => 4,
+                'transaction' => $result->purchase_units[0]->payments->captures[0]->id
             ]);
         }
         return redirect()->route('customer.shop');

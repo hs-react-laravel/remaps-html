@@ -411,7 +411,7 @@
                     <div class="detail-amt discount-amt text-success">-25$</div>
                   </li>
                   <li class="price-detail">
-                    <div class="detail-title">Estimated Tax</div>
+                    <div class="detail-title">TAX / VAT</div>
                     <div class="detail-amt">$1.3</div>
                   </li>
                   <li class="price-detail">

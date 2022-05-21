@@ -7,6 +7,7 @@ use App\Models\Shop\ShopCategory;
 use App\Models\Shop\ShopProduct;
 use App\Models\Shop\ShopProductSku;
 use App\Models\Shop\ShopProductSkuItem;
+use App\Models\Shop\ShopShippingOption;
 use Illuminate\Http\Request;
 
 class ShopProductController extends MasterController
@@ -45,7 +46,6 @@ class ShopProductController extends MasterController
 
     public function store(Request $request)
     {
-        // dd($request);
         $request->request->add([
             'company_id' => $this->company->id
         ]);
@@ -80,6 +80,17 @@ class ShopProductController extends MasterController
                 }
             }
         }
+        if ($request->has('shipping_items')) {
+            $shippingOptionNames = $request->get('shipping_items');
+            $shippingOptionValues = $request->get('shipping_prices');
+            foreach ($shippingOptionNames as $i => $sName) {
+                ShopShippingOption::create([
+                    'product_id' => $product->id,
+                    'option' => $sName,
+                    'price' => $shippingOptionValues[$i]
+                ]);
+            }
+        }
         return redirect()->route('shopproducts.index');
     }
 
@@ -109,6 +120,34 @@ class ShopProductController extends MasterController
             $request->request->add([
                 'thumb' => $filename
             ]);
+        }
+        // delete removed shipping options
+        $rShippingIDs = $request->get('shipping_ids') ?? [];
+        $dShippingIDs = $product->shipping->pluck('id')->toArray();
+        $deletedIDs = array_filter($dShippingIDs, function($it) use($rShippingIDs) {
+            return !in_array($it, $rShippingIDs);
+        });
+        ShopShippingOption::whereIn('id', $deletedIDs)->delete();
+        // update or create shipping options
+        if ($request->has('shipping_items')) {
+            $shippingNames = $request->get('shipping_items');
+            $shippingValues = $request->get('shipping_prices');
+            $shippingIDs = $request->get('shipping_ids');
+            foreach ($shippingNames as $i => $sName) {
+                if ($shippingIDs[$i] > 0) {
+                    $shipping = ShopShippingOption::find($shippingIDs[$i]);
+                    $shipping->update([
+                        'option' => $sName,
+                        'price' => $shippingValues[$i]
+                    ]);
+                } else {
+                    ShopShippingOption::create([
+                        'product_id' => $product->id,
+                        'option' => $sName,
+                        'price' => $shippingValues[$i]
+                    ]);
+                }
+            }
         }
         // delete removed sku
         $rskuIDs = $request->get('sku_ids') ?? [];

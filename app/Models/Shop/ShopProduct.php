@@ -18,6 +18,10 @@ class ShopProduct extends Model
         return $this->hasMany(ShopProductSku::class, 'product_id', 'id');
     }
 
+    public function shipping() {
+        return $this->hasMany(ShopShippingOption::class, 'product_id', 'id');
+    }
+
     public function comments() {
         return $this->hasMany(ShopComment::class, 'product_id', 'id');
     }
