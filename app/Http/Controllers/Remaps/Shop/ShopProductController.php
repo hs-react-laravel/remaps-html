@@ -22,12 +22,26 @@ class ShopProductController extends MasterController
         return $maxProductCt;
     }
 
+    private function checkMembership() {
+        $cpt = $this->getCurrentProductCount();
+        $mpt = $this->getMaxProductCount();
+        if ($cpt > $mpt) {
+            $products = ShopProduct::where('company_id', $this->company->id)->take($mpt)->pluck('id')->toArray();
+            ShopProduct::where('company_id', $this->company->id)
+                ->whereNotIn('id', $products)
+                ->update([
+                    'live' => 0
+                ]);
+        }
+    }
+
     private function getCurrentProductCount() {
         return ShopProduct::where('company_id', $this->company->id)->count();
     }
 
     public function index()
     {
+        $this->checkMembership();
         $entries = ShopProduct::where('company_id', $this->company->id)->paginate(20);
         $maxProductCt = $this->getMaxProductCount();
         return view('pages.ecommerce.shopproducts.index')->with(compact('entries', 'maxProductCt'));
