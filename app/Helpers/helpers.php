@@ -188,7 +188,7 @@ class Helper
     public static function generateAvatarColor($id)
     {
         $user = User::find($id);
-        return static::genColorCodeFromText($user->fullname);
+        return static::genColorCodeFromText($user ? $user->fullname : '');
     }
 
     public static function getInitialName($id)
