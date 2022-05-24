@@ -79,8 +79,8 @@ class ShopOrderController extends MasterController
             $request = new CapturesRefundRequest($order->transaction);
             $request->body = "{}";
             if ($order->payment_method == 'paypal') {
-                // $env = new ProductionEnvironment($this->company->paypal_client_id, $this->company->paypal_secret);
-                $env = new SandboxEnvironment('AdibmcjffSYZR9TSS5DuKIQpnf80KfY-3pBGd30JKz2Ar1xHIipwijo4eZOJvbDCFpfmOBItDqZoiHmM', 'EEPRF__DLqvkwnnpi2Hi3paQ-9SZFRqypUH-u0fr4zAzvv7hWtz1bJHF0CEwvrvZpHyLeKSTO_FwAeO_');
+                $env = new ProductionEnvironment($this->company->paypal_client_id, $this->company->paypal_secret);
+                // $env = new SandboxEnvironment('AdibmcjffSYZR9TSS5DuKIQpnf80KfY-3pBGd30JKz2Ar1xHIipwijo4eZOJvbDCFpfmOBItDqZoiHmM', 'EEPRF__DLqvkwnnpi2Hi3paQ-9SZFRqypUH-u0fr4zAzvv7hWtz1bJHF0CEwvrvZpHyLeKSTO_FwAeO_');
                 $paypal_client = new PayPalHttpClient($env);
                 $response = $paypal_client->execute($request);
                 if ($response->result->status == "COMPLETED") {

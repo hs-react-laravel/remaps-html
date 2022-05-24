@@ -335,8 +335,8 @@ class ShopCustomerController extends MasterController
                     )
                 )
             );
-            // $env = new ProductionEnvironment($this->company->paypal_client_id, $this->company->paypal_secret);
-            $env = new SandboxEnvironment('AdibmcjffSYZR9TSS5DuKIQpnf80KfY-3pBGd30JKz2Ar1xHIipwijo4eZOJvbDCFpfmOBItDqZoiHmM', 'EEPRF__DLqvkwnnpi2Hi3paQ-9SZFRqypUH-u0fr4zAzvv7hWtz1bJHF0CEwvrvZpHyLeKSTO_FwAeO_');
+            $env = new ProductionEnvironment($this->company->paypal_client_id, $this->company->paypal_secret);
+            // $env = new SandboxEnvironment('AdibmcjffSYZR9TSS5DuKIQpnf80KfY-3pBGd30JKz2Ar1xHIipwijo4eZOJvbDCFpfmOBItDqZoiHmM', 'EEPRF__DLqvkwnnpi2Hi3paQ-9SZFRqypUH-u0fr4zAzvv7hWtz1bJHF0CEwvrvZpHyLeKSTO_FwAeO_');
             $paypal_client = new PayPalHttpClient($env);
             $response = $paypal_client->execute($orderReq);
             $links = $response->result->links;
@@ -361,8 +361,8 @@ class ShopCustomerController extends MasterController
         $paypal_order_id = $request->session()->get('order_id');
         $request = new OrdersCaptureRequest($paypal_order_id);
         $request->body = "{}";
-        // $env = new ProductionEnvironment($this->company->paypal_client_id, $this->company->paypal_secret);
-        $env = new SandboxEnvironment('AdibmcjffSYZR9TSS5DuKIQpnf80KfY-3pBGd30JKz2Ar1xHIipwijo4eZOJvbDCFpfmOBItDqZoiHmM', 'EEPRF__DLqvkwnnpi2Hi3paQ-9SZFRqypUH-u0fr4zAzvv7hWtz1bJHF0CEwvrvZpHyLeKSTO_FwAeO_');
+        $env = new ProductionEnvironment($this->company->paypal_client_id, $this->company->paypal_secret);
+        // $env = new SandboxEnvironment('AdibmcjffSYZR9TSS5DuKIQpnf80KfY-3pBGd30JKz2Ar1xHIipwijo4eZOJvbDCFpfmOBItDqZoiHmM', 'EEPRF__DLqvkwnnpi2Hi3paQ-9SZFRqypUH-u0fr4zAzvv7hWtz1bJHF0CEwvrvZpHyLeKSTO_FwAeO_');
         $paypal_client = new PayPalHttpClient($env);
         $response = $paypal_client->execute($request);
         $result = $response->result;
