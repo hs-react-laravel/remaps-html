@@ -154,8 +154,11 @@ class Ticket extends Model
 			return $this->fileService->user->first_name.' '.$this->fileService->user->last_name;
 		}else{
 			//changes
-				$receiverID = @$this->receiver_id;
-				return $this->sender->first_name.' '.$this->sender->last_name;
+            $receiverID = @$this->receiver_id;
+            if ($this->sender)
+                return $this->sender->first_name.' '.$this->sender->last_name;
+            else
+                return '';
 		}
 	}
 
