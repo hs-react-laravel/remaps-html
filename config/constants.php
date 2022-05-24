@@ -32,7 +32,10 @@ return [
         'new-company-apply'=>'New Company apply',
         'file-service-upload-limited'=>'File Service Upload Limited',
         'staff-job-assigned'=>'Job assigned for staff',
-        'new-notification'=>'New Notification Email'
+        'new-notification'=>'New Notification Email',
+        'shoporder-processed'=>'Shop order is processed',
+        'shoporder-dispatched'=>'Shop order is dispatched',
+        'shoporder-delivered'=>'Shop order is delivered',
     ],
 
     'currency_sign'=>'£',
