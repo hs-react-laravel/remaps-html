@@ -38,6 +38,9 @@ class BuyTuningCreditsController extends MasterController
     {
         $tuningCreditGroup = TuningCreditGroup::find($request->group_id);
         $groupCreditTires  = $this->user->tuningCreditGroup->tuningCreditTires()->withPivot('from_credit', 'for_credit')->wherePivot('from_credit', '!=', 0.00);
+        if ($request->type == 'evc') {
+            $groupCreditTires  = $this->user->tuningEVCCreditGroup->tuningCreditTires()->withPivot('from_credit', 'for_credit')->wherePivot('from_credit', '!=', 0.00);
+        }
         $tire = $groupCreditTires->where('id', $request->tire_id)->first();
 
         $isVatCalculation = ($this->company->vat_number != null) && ($this->company->vat_percentage != null) && ($this->user->add_tax);

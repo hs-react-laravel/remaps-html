@@ -62,6 +62,7 @@
                 @csrf
                 <input type="hidden" name="group_id" value="{{ $tuningCreditGroup->id }}">
                 <input type="hidden" name="tire_id" value="{{ $tire->id }}">
+                <input type="hidden" name="type" value="normal">
               </form>
             </div>
           </div>
@@ -119,6 +120,7 @@
               @csrf
               <input type="hidden" name="group_id" value="{{ $tuningEVCCreditGroup->id }}">
               <input type="hidden" name="tire_id" value="{{ $tire->id }}">
+              <input type="hidden" name="type" value="evc">
             </form>
           </div>
         </div>
