@@ -109,7 +109,7 @@
               class="btn btn-outline-warning"
               data-bs-toggle="modal"
               data-bs-target="#addNewCard"
-              data-group="{{ $tuningCreditGroup->id }}"
+              data-group="{{ $tuningEVCCreditGroup->id }}"
               data-tire="{{ $tire->id }}"
               onclick="onStripeButton(this)">
               Stripe
@@ -117,7 +117,7 @@
             @endif
             <form action="{{ route('consumer.buy-credits.handle') }}" method="POST" class="paypal-form">
               @csrf
-              <input type="hidden" name="group_id" value="{{ $tuningCreditGroup->id }}">
+              <input type="hidden" name="group_id" value="{{ $tuningEVCCreditGroup->id }}">
               <input type="hidden" name="tire_id" value="{{ $tire->id }}">
             </form>
           </div>
