@@ -59,7 +59,7 @@
                 <select class="select form-select" id="tuning_evc_credit_group_id" name="tuning_evc_credit_group_id">
                   <option value=""> </option>
                   @foreach ($evcTuningGroups as $id => $name)
-                    <option value="{{ $id }}">{{ $name }}</option>
+                    <option value="{{ $id }}" @if($customer->tuning_evc_credit_group_id == $id) selected @endif>{{ $name }}</option>
                   @endforeach
                 </select>
               </div>
