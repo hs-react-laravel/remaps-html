@@ -10,6 +10,7 @@ use App\Http\Requests\ChangePasswordRequest;
 use App\Models\CustomerRating;
 use App\Models\Company;
 use App\Models\NotificationRead;
+use App\Models\TuningCreditGroup;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -180,12 +181,17 @@ class DashboardController extends MasterController
             $response = curl_exec($ch);
             if (strpos($response, 'customer added') !== FALSE || strpos($response, 'customer already exists') !== FALSE) {
                 $this->user->reseller_id = $request->reseller_id;
+                $evcdefaultGroup = TuningCreditGroup::where('company_id', $this->company->id)
+                    ->where('group_type', 'evc')
+                    ->where('set_default_tier', 1)->first();
+                $this->user->tuning_evc_credit_group_id = $evcdefaultGroup->id;
                 $this->user->save();
             } else {
                 return redirect(route('dashboard.customer'))->with('error', __('admin.opps').'\r\n'.$response);
             }
         } else {
             $this->user->reseller_id = '';
+            $this->user->tuning_evc_credit_group_id = null;
             $this->user->save();
         }
 

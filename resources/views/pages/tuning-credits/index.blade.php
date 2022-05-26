@@ -15,7 +15,7 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">{{ ($group_type == 'evc' ? 'EVC' : '').__('locale.menu_TuningCredit') }}</h4>
+        <h4 class="card-title">{{ ($group_type == 'evc' ? 'EVC ' : '').__('locale.menu_TuningCredit') }}</h4>
         <div>
           @if ($group_type == 'normal')
             <a href="{{ route('tuning-tires.create') }}" class="btn btn-icon btn-primary" style="float: right">
