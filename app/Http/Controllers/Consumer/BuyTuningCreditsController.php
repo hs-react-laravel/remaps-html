@@ -22,6 +22,7 @@ class BuyTuningCreditsController extends MasterController
     public function index()
     {
         $tuningCreditGroup = $this->user->tuningCreditGroup;
+        $tuningEVCCreditGroup = $this->user->tuningEVCCreditGroup;
         $groupCreditTires  = $tuningCreditGroup
             ? $this->user->tuningCreditGroup->tuningCreditTires()->withPivot('from_credit', 'for_credit')->wherePivot('from_credit', '!=', 0.00)->orderBy('amount', 'ASC')->get()
             : [];
@@ -31,7 +32,7 @@ class BuyTuningCreditsController extends MasterController
         $isVatCalculation = ($this->company->vat_number != null) && ($this->company->vat_percentage != null) && ($this->user->add_tax);
         // $stripeKey = "pk_test_bRcRJEVm0RNqTW3Ge72Cmlfv00qvW84uiQ";
         $stripeKey = $this->company->stripe_key;
-        return view('pages.consumers.bc.index', compact('groupCreditTires', 'groupEVCCreditTires', 'isVatCalculation', 'tuningCreditGroup', 'stripeKey'));
+        return view('pages.consumers.bc.index', compact('groupCreditTires', 'groupEVCCreditTires', 'isVatCalculation', 'tuningCreditGroup', 'tuningEVCCreditGroup', 'stripeKey'));
     }
     public function handlePayment(Request $request)
     {
