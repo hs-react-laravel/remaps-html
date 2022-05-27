@@ -32,7 +32,7 @@ class TicketController extends MasterController
      */
     public function create()
     {
-        return view('pages.consumers.tk.create');
+        // return view('pages.consumers.tk.create');
     }
 
     /**
@@ -44,17 +44,17 @@ class TicketController extends MasterController
     public function store(TicketRequest $request)
     {
         // create ticket
-        $request->request->add([
-            'sender_id'=> $this->user->id,
-            'receiver_id'=> $this->user->company->owner->id
-        ]);
-        $ticket = Ticket::create($request->all());
-        try{
-			Mail::to($this->user->company->owner->email)->send(new TicketCreated($this->user,$request->all()['subject']));
-		}catch(\Exception $e){
-			session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
-		}
-        return redirect(route('tk.edit', ['tk' => $ticket->id]));
+        // $request->request->add([
+        //     'sender_id'=> $this->user->id,
+        //     'receiver_id'=> $this->user->company->owner->id
+        // ]);
+        // $ticket = Ticket::create($request->all());
+        // try{
+		// 	Mail::to($this->user->company->owner->email)->send(new TicketCreated($this->user,$request->all()['subject']));
+		// }catch(\Exception $e){
+		// 	session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
+		// }
+        // return redirect(route('tk.edit', ['tk' => $ticket->id]));
     }
 
     /**
