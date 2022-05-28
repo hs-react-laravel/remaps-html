@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\ChatEvent;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -49,6 +50,10 @@ use App\Http\Controllers\Staff\TicketController as StaffTicketController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/chattest', function() {
+    event(new ChatEvent('hello world'));
+});
 
 // Remaps
 Route::group(['domain' => 'remapdash.com'], function () {

@@ -29,6 +29,20 @@ data-textdirection="{{ env('MIX_CONTENT_DIRECTION') === 'rtl' ? 'rtl' : 'ltr' }}
   {{-- Include core + vendor Styles --}}
   @include('panels/styles')
 
+  <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+  <script>
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('fac85360afc52d12009f', {
+      cluster: 'eu'
+    });
+
+    var channel = pusher.subscribe('chat-channel');
+    channel.bind('chat-event', function(data) {
+      alert(JSON.stringify(data));
+    });
+  </script>
 </head>
 <!-- END: Head-->
 
@@ -108,14 +122,3 @@ data-textdirection="{{ env('MIX_CONTENT_DIRECTION') === 'rtl' ? 'rtl' : 'ltr' }}
       return initials.toUpperCase();
     }
 </script>
-<!-- Smartsupp Live Chat script -->
-{{-- <script type="text/javascript">
-  var _smartsupp = _smartsupp || {};
-  _smartsupp.key = '80aa4692088acd7179a641751d35479e74faec3e';
-  window.smartsupp||(function(d) {
-    var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
-    s=d.getElementsByTagName('script')[0];c=d.createElement('script');
-    c.type='text/javascript';c.charset='utf-8';c.async=true;
-    c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
-  })(document);
-  </script> --}}
