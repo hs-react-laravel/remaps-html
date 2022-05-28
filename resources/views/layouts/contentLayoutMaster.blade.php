@@ -109,7 +109,7 @@ data-textdirection="{{ env('MIX_CONTENT_DIRECTION') === 'rtl' ? 'rtl' : 'ltr' }}
     }
 </script>
 <!-- Smartsupp Live Chat script -->
-<script type="text/javascript">
+{{-- <script type="text/javascript">
   var _smartsupp = _smartsupp || {};
   _smartsupp.key = '80aa4692088acd7179a641751d35479e74faec3e';
   window.smartsupp||(function(d) {
@@ -118,4 +118,4 @@ data-textdirection="{{ env('MIX_CONTENT_DIRECTION') === 'rtl' ? 'rtl' : 'ltr' }}
     c.type='text/javascript';c.charset='utf-8';c.async=true;
     c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
   })(document);
-  </script>
+  </script> --}}
