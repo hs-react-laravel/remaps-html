@@ -97,14 +97,25 @@ data-textdirection="{{ env('MIX_CONTENT_DIRECTION') === 'rtl' ? 'rtl' : 'ltr' }}
     document.getElementsByTagName('head')[0].appendChild(link);
 
     function getInitials(name) {
-        let initials = name.split(' ');
+      let initials = name.split(' ');
 
-        if(initials.length > 1) {
-            initials = initials.shift().charAt(0) + initials.shift().charAt(0);
-        } else {
-            initials = name.substring(0, 2);
-        }
+      if(initials.length > 1) {
+        initials = initials.shift().charAt(0) + initials.shift().charAt(0);
+      } else {
+        initials = name.substring(0, 2);
+      }
 
-        return initials.toUpperCase();
+      return initials.toUpperCase();
     }
 </script>
+<!-- Smartsupp Live Chat script -->
+<script type="text/javascript">
+  var _smartsupp = _smartsupp || {};
+  _smartsupp.key = '80aa4692088acd7179a641751d35479e74faec3e';
+  window.smartsupp||(function(d) {
+    var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+    s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+    c.type='text/javascript';c.charset='utf-8';c.async=true;
+    c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+  })(document);
+  </script>
