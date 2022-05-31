@@ -35,6 +35,12 @@
         "slug": "",
         "submenu": [
             {
+                "url": "admin/tuning-credits",
+                "name": "menu_TuningCredit",
+                "icon": "dollar-sign",
+                "slug": "tuning-credits.index"
+            },
+            {
                 "url": "admin/orders",
                 "name": "menu_Orders",
                 "icon": "file-text",
@@ -45,12 +51,6 @@
                 "name": "menu_Transactions",
                 "icon": "credit-card",
                 "slug": "transactions.index"
-            },
-            {
-                "url": "admin/tuning-credits",
-                "name": "menu_TuningCredit",
-                "icon": "dollar-sign",
-                "slug": "tuning-credits.index"
             }
         ]
     },

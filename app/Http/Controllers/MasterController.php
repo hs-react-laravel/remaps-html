@@ -119,7 +119,7 @@ class MasterController extends BaseController
                         $evc_menu->icon = "dollar-sign";
                         $evc_menu->slug = "evc-tuning-credits.index";
                         // dd($verticalMenuData->menu);
-                        array_splice($verticalMenuData->menu[5]->submenu, 4, 0, [$evc_menu]);
+                        array_splice($verticalMenuData->menu[5]->submenu, 1, 0, [$evc_menu]);
                     }
 
                     if ($this->role == 'customer') {
