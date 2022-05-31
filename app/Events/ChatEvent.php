@@ -9,22 +9,28 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class ChatEvent implements ShouldBroadcast
 {
-  use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable, InteractsWithSockets, SerializesModels;
 
-  public $message;
+    public $message;
 
-  public function __construct($message)
-  {
-      $this->message = $message;
-  }
+    public $from;
 
-  public function broadcastOn()
-  {
-      return ['chat-channel'];
-  }
+    public $to;
 
-  public function broadcastAs()
-  {
-      return 'chat-event';
-  }
+    public function __construct($from, $to, $message)
+    {
+        $this->message = $message;
+        $this->from = $from;
+        $this->to = $to;
+    }
+
+    public function broadcastOn()
+    {
+        return ['chat-channel'];
+    }
+
+    public function broadcastAs()
+    {
+        return 'chat-event';
+    }
 }

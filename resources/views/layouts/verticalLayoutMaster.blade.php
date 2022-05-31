@@ -58,10 +58,12 @@ data-asset-path="{{ asset('/')}}">
   <!-- BEGIN: Customizer-->
   @if($user->is_admin || $user->is_staff)
   @include('content/pages/customizer')
+  @else
+    <!-- Buynow Button-->
+  @include('content/pages/buy-now')
   @endif
   <!-- End: Customizer-->
-  <!-- Buynow Button-->
-  {{-- @include('content/pages/buy-now') --}}
+
   @endif
 
   <div class="sidenav-overlay"></div>

@@ -29,16 +29,30 @@
         "slug": "tickets.index"
     },
     {
-        "url": "admin/orders",
-        "name": "menu_Orders",
-        "icon": "file-text",
-        "slug": "orders.index"
-    },
-    {
-        "url": "admin/transactions",
-        "name": "menu_Transactions",
+        "name": "menu_Credits",
         "icon": "credit-card",
-        "slug": "transactions.index"
+        "url" : "",
+        "slug": "",
+        "submenu": [
+            {
+                "url": "admin/orders",
+                "name": "menu_Orders",
+                "icon": "file-text",
+                "slug": "orders.index"
+            },
+            {
+                "url": "admin/transactions",
+                "name": "menu_Transactions",
+                "icon": "credit-card",
+                "slug": "transactions.index"
+            },
+            {
+                "url": "admin/tuning-credits",
+                "name": "menu_TuningCredit",
+                "icon": "dollar-sign",
+                "slug": "tuning-credits.index"
+            }
+        ]
     },
     {
         "url": "admin/email-templates",
@@ -46,12 +60,7 @@
         "icon": "mail",
         "slug": "email-templates.index"
     },
-    {
-        "url": "admin/tuning-credits",
-        "name": "menu_TuningCredit",
-        "icon": "dollar-sign",
-        "slug": "tuning-credits.index"
-    },
+
     {
         "url": "admin/tuning-types",
         "name": "menu_TuningTypes",
@@ -65,21 +74,15 @@
         "slug": "staffs.index"
     },
     {
-        "url": "admin/company-settings",
-        "name": "menu_CompanySettings",
-        "icon": "settings",
-        "slug": "company.setting"
-    },
-    {
-        "url": "admin/cars",
-        "name": "menu_BrowseSpecs",
-        "icon": "search",
-        "slug": "admin.cars.index"
-    },
-    {
         "url": "admin/notifications",
         "name": "menu_Notifications",
         "icon": "bell",
+        "slug": "notifications.index"
+    },
+    {
+        "url": "admin/chats",
+        "name": "menu_Chats",
+        "icon": "message-square",
         "slug": "notifications.index"
     },
     {
@@ -114,6 +117,18 @@
                 "slug": "shoppackages.index"
             }
         ]
+    },
+    {
+        "url": "admin/company-settings",
+        "name": "menu_CompanySettings",
+        "icon": "settings",
+        "slug": "company.setting"
+    },
+    {
+        "url": "admin/cars",
+        "name": "menu_BrowseSpecs",
+        "icon": "search",
+        "slug": "admin.cars.index"
     },
     {
         "navheader": "Admin Functions",
