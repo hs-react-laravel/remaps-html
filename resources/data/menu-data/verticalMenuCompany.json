@@ -41,16 +41,16 @@
                 "slug": "tuning-credits.index"
             },
             {
-                "url": "admin/orders",
-                "name": "menu_Orders",
-                "icon": "file-text",
-                "slug": "orders.index"
-            },
-            {
                 "url": "admin/transactions",
                 "name": "menu_Transactions",
                 "icon": "credit-card",
                 "slug": "transactions.index"
+            },
+            {
+                "url": "admin/orders",
+                "name": "menu_Orders",
+                "icon": "file-text",
+                "slug": "orders.index"
             }
         ]
     },
