@@ -39,9 +39,9 @@
           <a href="{{ route('tk.read.all') }}" class="btn btn-icon btn-secondary">
             Mark All as Read
           </a>
-          {{-- <a href="{{ route('tk.create') }}" class="btn btn-icon btn-primary">
+          <a href="{{ route('tk.create') }}" class="btn btn-icon btn-primary">
             Create a ticket
-          </a> --}}
+          </a>
         </div>
       </div>
       <div class="table-responsive m-1 mt-0">
