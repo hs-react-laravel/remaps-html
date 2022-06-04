@@ -15,7 +15,7 @@
           <div class="plan-interval"></div>
         </div>
         <div class="plan-body free">
-          <div class="plan-product-count">10 Products</div>
+          <div class="plan-product-count">3 Products</div>
           <div class="plan-text">Enjoy free subscription plan.</div>
           <a
             class="plan-subscribe"
