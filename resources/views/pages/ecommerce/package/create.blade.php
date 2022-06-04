@@ -58,6 +58,27 @@
                 ></textarea>
               </div>
             </div>
+            <div class="row mb-1">
+              <div class="col-12">
+                <label class="form-label" for="color">Card Color</label>
+                <ul class="list-inline unstyled-list">
+                  <li class="color-box bg-white border selected" data-color=""></li>
+                  <li class="color-box bg-primary" data-color="primary"></li>
+                  <li class="color-box bg-secondary" data-color="secondary"></li>
+                  <li class="color-box bg-success" data-color="success"></li>
+                  <li class="color-box bg-danger" data-color="danger"></li>
+                  <li class="color-box bg-info" data-color="info"></li>
+                  <li class="color-box bg-warning" data-color="warning"></li>
+                  <li class="color-box bg-dark" data-color="dark"></li>
+                  <li class="color-box bg-dblue" data-color="dblue"></li>
+                  <li class="color-box bg-dgreen" data-color="dgreen"></li>
+                  <li class="color-box bg-soil" data-color="soil"></li>
+                  <li class="color-box bg-dred" data-color="dred"></li>
+                  <li class="color-box bg-tred" data-color="tred"></li>
+                </ul>
+                <input type="hidden" name="color" id="color" value="">
+              </div>
+            </div>
             <button type="submit" class="btn btn-primary me-1">Submit</button>
             <button type="button" class="btn btn-flat-secondary me-1" onclick="history.back(-1)">Cancel</button>
           </div>
@@ -80,7 +101,12 @@
   <script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
   <script type="text/javascript">
     $(document).ready(function () {
-        CKEDITOR.replace('body');
+      CKEDITOR.replace('body');
     });
+    $('.color-box').click(function() {
+      $('.color-box').removeClass('selected')
+      $(this).addClass('selected')
+      $('#color').val($(this).data('color'))
+    })
   </script>
 @endsection

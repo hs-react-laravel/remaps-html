@@ -12,6 +12,7 @@ use DB;
 
 use App\Models\Styling;
 use App\Models\Company;
+use App\Models\Guide;
 use App\Models\NotificationRead;
 use App\Models\Shop\ShopOrder;
 
@@ -144,6 +145,19 @@ class MasterController extends BaseController
                         })->where('is_checked', 0)->count();
                         view()->share('unchecked_orders', $uncheckedOrders);
                     }
+
+                    if ($this->role == 'company') {
+                        if (!$this->company->is_open_shop) {
+                            array_pop($verticalMenuData->menu);
+                            $shop_menu = new \stdClass();
+                            $shop_menu->url = "admin/shop/open";
+                            $shop_menu->name = "menu_Shop";
+                            $shop_menu->icon = "shopping-cart";
+                            $shop_menu->slug = "shop.open";
+                            array_push($verticalMenuData->menu, $shop_menu);
+                        }
+                    }
+
                     $currencyCode = config('constants.currency_signs')[$this->company->paypal_currency_code];
                     view()->share('currencyCode', $currencyCode);
 
@@ -185,6 +199,10 @@ class MasterController extends BaseController
                         $data = (array)json_decode($styleObj->data);
                     }
                     view()->share('styling', $data);
+
+                    $shopGuide = Guide::where('message_id', 'shop_guide')->first();
+                    if (!$shopGuide) $shopGuide = new Guide;
+                    view()->share('shopGuide', $shopGuide);
                 }
             } catch (\Exception $ex) {
                 session()->flash('error', $ex->getMessage());

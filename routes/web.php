@@ -34,6 +34,7 @@ use App\Http\Controllers\Remaps\SliderManagerController;
 use App\Http\Controllers\Remaps\TuningEVCCreditController;
 use App\Http\Controllers\PaypalWebhookController;
 use App\Http\Controllers\Remaps\Shop\ShopCategoryController;
+use App\Http\Controllers\Remaps\Shop\ShopGuideController;
 use App\Http\Controllers\Remaps\Shop\ShopOrderController;
 use App\Http\Controllers\Remaps\Shop\ShopPackageController;
 use App\Http\Controllers\Remaps\Shop\ShopProductController;
@@ -50,10 +51,6 @@ use App\Http\Controllers\Staff\TicketController as StaffTicketController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/chattest', function() {
-    event(new ChatEvent('hello world'));
-});
 
 // Remaps
 Route::group(['domain' => 'remapdash.com'], function () {
@@ -192,6 +189,9 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::get('shop/subscriptions/{id}/cancel', [ShopSubscriptionController::class, 'cancelSubscription'])->name('shop.subscriptions.cancel');
     Route::get('shop/subscriptions/{id}/suspend', [ShopSubscriptionController::class, 'immediateCancelSubscription'])->name('shop.subscriptions.suspend');
     Route::get('shop/subscriptions/{id}/reactive', [ShopSubscriptionController::class, 'reactiveSubscription'])->name('shop.subscriptions.reactive');
+    Route::get('shop/guide', [ShopGuideController::class, 'index'])->name('shop.guide');
+    Route::post('shop/guide', [ShopGuideController::class, 'store'])->name('shop.guide.store');
+    Route::get('shop/open', [ShopSubscriptionController::class, 'open'])->name('shop.guide');
 
     Route::resource('staffs', StaffController::class);
 

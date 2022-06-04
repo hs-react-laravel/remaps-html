@@ -115,6 +115,7 @@ return [
     'menu_Shop'=> 'Shop',
     'menu_Shop_categories'=> 'Categories',
     'menu_Shop_products'=> 'Products',
+    'menu_Shop_guide' => 'Shopping Guide',
     'menu_Customer_Shop'=> 'Shop',
     'menu_Customer_Shop_Order'=> 'Orders',
 

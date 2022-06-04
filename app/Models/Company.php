@@ -78,7 +78,9 @@ class Company extends Model
         'open_check',
         'style_background',
         'style_theme',
-        'timezone'
+        'timezone',
+        'is_first_shop',
+        'is_open_shop'
     ];
 
     public function users()

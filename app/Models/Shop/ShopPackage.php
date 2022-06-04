@@ -14,7 +14,7 @@ class ShopPackage extends Model
      * @var array
      */
     protected $fillable = [
-        'pay_plan_id', 'name', 'billing_interval', 'amount', 'description', 'is_active', 'product_count'
+        'pay_plan_id', 'name', 'billing_interval', 'amount', 'description', 'is_active', 'product_count', 'color'
     ];
 
     /**

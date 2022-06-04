@@ -5,36 +5,34 @@
 
 @section('content')
 <section id="basic-input">
-  <h4 class="card-title">Choose a subscription package</h4>
-  <div class="row match-height">
+  <h4 class="card-title">Ecommerce Plans</h4>
+  <div class="d-flex plan-row">
+    <div class="plan-card">
+      <div class="card bg-white">
+        <div class="plan-header">
+          <div class="plan-name">Free Plan</div>
+          <div class="plan-price">Free</div>
+          <div class="plan-interval"></div>
+        </div>
+        <div class="plan-body free">
+          <div class="plan-product-count">10 Products</div>
+          <div class="plan-text">Enjoy free subscription plan.</div>
+          <a class="plan-subscribe">GET PLAN</a>
+        </div>
+      </div>
+    </div>
     @foreach ($packages as $package)
-      <div class="col-sm-12 col-md-6 col-xl-4">
-        <div class="card">
-          <div class="card-header">
-            <h4 class="card-title">{{ $package->name }}</h4>
+      <div class="plan-card">
+        <div class="card bg-{{ $package->color }}">
+          <div class="plan-header">
+            <div class="plan-name">{{ $package->name }}</div>
+            <div class="plan-price">{{ $package->amount_with_current_sign }}</div>
+            <div class="plan-interval">Per {{ $package->billing_interval }}</div>
           </div>
-          <div class="card-body">
-            <table class="table">
-              <tr>
-                <th>Billing Interval</th>
-                <td>{{ $package->billing_interval }}</td>
-              </tr>
-              <tr>
-                <th>Amount</th>
-                <td>{{ $package->amount_with_current_sign }}</td>
-              </tr>
-              <tr>
-                <th>Product Count</th>
-                <td>{{ $package->product_count }}</td>
-              </tr>
-              <tr>
-                <th>Description</th>
-                <td>{!! $package->description !!}</td>
-              </tr>
-            </table>
-          </div>
-          <div class="card-footer">
-            <a class="btn btn-primary me-1" href="{{ route('shop.subscribe.paypal', ['id' => $package->id]) }}">Subscribe Plan</a>
+          <div class="plan-body @if (!$package->color) free @endif">
+            <div class="plan-product-count">{{ $package->product_count }} Products</div>
+            <div class="plan-text">{!! $package->description !!}</div>
+            <a class="plan-subscribe color-{{ $package->color }}">GET PLAN</a>
           </div>
         </div>
       </div>

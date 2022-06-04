@@ -71,6 +71,36 @@
 @endsection
 @section('page-script')
 <script>
+    window.onload = checkSwal;
+    async function checkSwal() {
+        @if (!$company->is_first_shop && !$company->owner->is_master)
+        var swalRes = await Swal.fire({
+            icon: 'info',
+            title: '{{ $shopGuide->title }}',
+            text: '{{ $shopGuide->content }}',
+            showCancelButton: true,
+            confirmButtonText: 'OK',
+            cancelButtonText: "Don't show again",
+            customClass: {
+                confirmButton: 'btn btn-primary',
+                cancelButton: 'btn btn-outline-danger ms-1'
+            },
+            buttonsStyling: false
+        })
+        if (swalRes.isDismissed && swalRes.dismiss == 'cancel') {
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('api.shop.readguide') }}",
+                data: {
+                    id: '{{ $company->id }}'
+                },
+                success: function(result) {
+                    console.log(result);
+                }
+            })
+        }
+        @endif
+    }
   async function onDelete(obj) {
     var delete_form = $(obj).closest('.td-actions').children('.delete-form')
     var swal_result = await Swal.fire({

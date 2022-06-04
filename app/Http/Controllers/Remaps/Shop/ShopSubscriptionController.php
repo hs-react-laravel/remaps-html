@@ -337,4 +337,7 @@ class ShopSubscriptionController extends MasterController
             throw $e;
         }
     }
+    public function open() {
+        return view('pages.ecommerce.open');
+    }
 }

@@ -88,4 +88,16 @@ class ApiController extends Controller
         $styling->save();
         return $request->input('value');
     }
+
+    public function readShopGuide(Request $request) {
+        $company = Company::find($request->id);
+        $company->is_first_shop = 1;
+        $company->save();
+    }
+
+    public function openShop(Request $request) {
+        $company = Company::find($request->id);
+        $company->is_open_shop = 1;
+        $company->save();
+    }
 }

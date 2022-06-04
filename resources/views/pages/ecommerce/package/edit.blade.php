@@ -57,6 +57,27 @@
                 >{{ $entry->description }}</textarea>
               </div>
             </div>
+            <div class="row mb-1">
+              <div class="col-12">
+                <label class="form-label" for="color">Card Color</label>
+                <ul class="list-inline unstyled-list">
+                  <li class="color-box bg-white border @if(!$entry->color) selected @endif" data-color=""></li>
+                  <li class="color-box bg-primary @if($entry->color == "primary") selected @endif" data-color="primary"></li>
+                  <li class="color-box bg-secondary @if($entry->color == "secondary") selected @endif" data-color="secondary"></li>
+                  <li class="color-box bg-success @if($entry->color == "success") selected @endif" data-color="success"></li>
+                  <li class="color-box bg-danger @if($entry->color == "danger") selected @endif" data-color="danger"></li>
+                  <li class="color-box bg-info @if($entry->color == "info") selected @endif" data-color="info"></li>
+                  <li class="color-box bg-warning @if($entry->color == "warning") selected @endif" data-color="warning"></li>
+                  <li class="color-box bg-dark @if($entry->color == "dark") selected @endif" data-color="dark"></li>
+                  <li class="color-box bg-dblue @if($entry->color == "dblue") selected @endif" data-color="dblue"></li>
+                  <li class="color-box bg-dgreen @if($entry->color == "dgreen") selected @endif" data-color="dgreen"></li>
+                  <li class="color-box bg-soil @if($entry->color == "soil") selected @endif" data-color="soil"></li>
+                  <li class="color-box bg-dred @if($entry->color == "dred") selected @endif" data-color="dred"></li>
+                  <li class="color-box bg-tred @if($entry->color == "tred") selected @endif" data-color="tred"></li>
+                </ul>
+                <input type="hidden" name="color" id="color" value="{{ $entry->color }}">
+              </div>
+            </div>
             <button type="submit" class="btn btn-primary me-1">Submit</button>
             <button type="button" class="btn btn-flat-secondary me-1" onclick="history.back(-1)">Cancel</button>
           </div>
@@ -79,7 +100,12 @@
   <script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
   <script type="text/javascript">
     $(document).ready(function () {
-        CKEDITOR.replace('body');
+      CKEDITOR.replace('body');
     });
+    $('.color-box').click(function() {
+      $('.color-box').removeClass('selected')
+      $(this).addClass('selected')
+      $('#color').val($(this).data('color'))
+    })
   </script>
 @endsection

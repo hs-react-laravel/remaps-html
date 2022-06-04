@@ -24,3 +24,5 @@ Route::get('/tuning-type-options/{id}', [ApiController::class, 'tuning_type_opti
 Route::post('/carquery', [ApiController::class, 'car_query'])->name('api.car.query');
 Route::post('/carid', [ApiController::class, 'car_id'])->name('api.car.id');
 Route::post('/styling', [ApiController::class, 'change_style'])->name('api.style');
+Route::post('/read-shop-guide', [ApiController::class, 'readShopGuide'])->name('api.shop.readguide');
+Route::post('/open-shop', [ApiController::class, 'openShop'])->name('api.shop.open');
