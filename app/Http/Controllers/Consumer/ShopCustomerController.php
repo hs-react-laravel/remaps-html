@@ -178,6 +178,7 @@ class ShopCustomerController extends MasterController
         }
 
         $isVatCalculation = ($this->company->vat_number != null) && ($this->company->vat_percentage != null) && ($this->user->add_tax);
+
         return view('pages.consumers.ec.checkout')->with(compact('order', 'isVatCalculation'));
     }
 
@@ -276,6 +277,7 @@ class ShopCustomerController extends MasterController
         } catch (\Exception $ex) {
 
         }
+        session()->flash('message', 'Payment is completed. Thank you for your order');
         return redirect()->route('customer.shop.order.list');
     }
 
@@ -374,6 +376,7 @@ class ShopCustomerController extends MasterController
                 'transaction' => $result->purchase_units[0]->payments->captures[0]->id
             ]);
         }
+        session()->flash('message', 'Payment is completed. Thank you for your order');
         return redirect()->route('customer.shop');
     }
 

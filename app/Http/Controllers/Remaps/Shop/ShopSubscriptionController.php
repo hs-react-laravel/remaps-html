@@ -43,7 +43,8 @@ class ShopSubscriptionController extends MasterController
 
     public function choose() {
         $packages = ShopPackage::get();
-        return view('pages.ecommerce.package.choose', compact('packages'));
+        $sub = $this->company->getActiveShopSubscription();
+        return view('pages.ecommerce.package.choose', compact('packages', 'sub'));
     }
 
     public function subscribeSubscription($id) {

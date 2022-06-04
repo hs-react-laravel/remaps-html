@@ -17,7 +17,11 @@
         <div class="plan-body free">
           <div class="plan-product-count">10 Products</div>
           <div class="plan-text">Enjoy free subscription plan.</div>
-          <a class="plan-subscribe">GET PLAN</a>
+          <a
+            class="plan-subscribe"
+            href="{{ $sub ? route('shop.subscriptions.cancel', ['id' => $sub->id]) : '#' }}">
+            {{ $sub ? 'GET PLAN' : 'MY PLAN' }}
+          </a>
         </div>
       </div>
     </div>
@@ -32,7 +36,11 @@
           <div class="plan-body @if (!$package->color) free @endif">
             <div class="plan-product-count">{{ $package->product_count }} Products</div>
             <div class="plan-text">{!! $package->description !!}</div>
-            <a class="plan-subscribe color-{{ $package->color }}">GET PLAN</a>
+            <a
+              class="plan-subscribe color-{{ $package->color }}"
+              href="{{ $sub && $sub->package->id == $package->id ? '#' : route('shop.subscribe.paypal', ['id' => $package->id]) }}">
+              {{ $sub && $sub->package->id == $package->id ? 'MY PLAN' : 'GET PLAN' }}
+            </a>
           </div>
         </div>
       </div>
