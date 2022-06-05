@@ -179,6 +179,7 @@ class ShopPackageController extends MasterController
      */
     public function destroy($id)
     {
-        //
+        $package = ShopPackage::find($id)->delete();
+        return redirect(route('shoppackages.index'));
     }
 }
