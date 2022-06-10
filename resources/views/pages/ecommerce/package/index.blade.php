@@ -67,8 +67,8 @@
 @section('page-script')
 <script>
     async function onDelete(obj) {
-        var delete_form = $(obj).closest('.td-actions').children('.delete-form')
-        var swal_result = await Swal.fire({
+      var delete_form = $(obj).closest('.td-actions').children('.delete-form')
+      var swal_result = await Swal.fire({
         title: 'Warning!',
         text: 'Are you sure to delete this package?',
         icon: 'warning',
@@ -80,10 +80,10 @@
         confirmButtonText: 'OK',
         cancelButtonText: 'Cancel',
         buttonsStyling: false
-        });
-        if (swal_result.isConfirmed) {
+      });
+      if (swal_result.isConfirmed) {
         delete_form.submit();
-        }
+      }
     }
 </script>
 @endsection

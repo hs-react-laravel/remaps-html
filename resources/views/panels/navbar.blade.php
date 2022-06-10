@@ -132,11 +132,18 @@
           data-feather="{{ $configData['theme'] === 'dark' ? 'sun' : 'moon' }}"></i></a></li> --}}
     @if ($role == "customer")
 
-    @if ($company->id == 1 || $company->id == 88)
+
     <li class="nav-item dropdown dropdown-cart me-25">
       @include('pages.consumers.ec.cart-top')
     </li>
-    @endif
+
+
+    <li class="nav-item dropdown dropdown-notification me-25">
+      <a class="nav-link" href="javascript:void(0);" data-bs-toggle="dropdown">
+        <i class="ficon" data-feather="message-circle"></i>
+        <span class="badge rounded-pill bg-danger badge-up">2</span>
+      </a>
+    </li>
 
     <li class="nav-item dropdown dropdown-notification me-25">
       <a class="nav-link" href="javascript:void(0);" data-bs-toggle="dropdown">

@@ -5,7 +5,10 @@
 <!DOCTYPE html>
 @php
 $routeName = Route::current()->getName();
-$configData = Helper::applClasses($routeName == 'customer.shop');
+$app = '';
+if ($routeName == 'customer.shop') $app = 'ecommerce';
+if ($routeName == 'chats.index') $app = 'chat';
+$configData = Helper::applClasses($app);
 @endphp
 
 <html class="loading {{ ($configData['theme'] === 'light') ? '' : $configData['layoutTheme']}}"

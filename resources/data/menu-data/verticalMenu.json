@@ -83,7 +83,8 @@
         "url": "admin/chats",
         "name": "menu_Chats",
         "icon": "message-square",
-        "slug": "chats.index"
+        "slug": "chats.index",
+        "beta": true
     },
     {
         "name": "menu_Shop",

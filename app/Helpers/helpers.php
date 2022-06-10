@@ -11,7 +11,7 @@ use App\Models\Styling;
 
 class Helper
 {
-    public static function applClasses($ec = false)
+    public static function applClasses($app = '')
     {
         $company = Company::where('v2_domain_link', url(''))->first();
         $DefaultData = [
@@ -137,9 +137,15 @@ class Helper
             $layoutClasses['blankPageClass'] = "blank-page";
         }
 
-        if ($ec) {
+        if ($app === 'ecommerce') {
             $layoutClasses['contentLayout'] = 'content-left-sidebar';
             $layoutClasses['pageClass'] = 'ecommerce-application';
+            $layoutClasses['contentsidebarClass'] = 'content-detached content-right';
+        }
+
+        if ($app === 'chat') {
+            $layoutClasses['contentLayout'] = 'content-left-sidebar';
+            $layoutClasses['pageClass'] = 'chat-application';
             $layoutClasses['contentsidebarClass'] = 'content-detached content-right';
         }
 

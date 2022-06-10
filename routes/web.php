@@ -33,6 +33,7 @@ use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Remaps\SliderManagerController;
 use App\Http\Controllers\Remaps\TuningEVCCreditController;
 use App\Http\Controllers\PaypalWebhookController;
+use App\Http\Controllers\Remaps\ChatController;
 use App\Http\Controllers\Remaps\Shop\ShopCategoryController;
 use App\Http\Controllers\Remaps\Shop\ShopGuideController;
 use App\Http\Controllers\Remaps\Shop\ShopOrderController;
@@ -192,6 +193,8 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::get('shop/guide', [ShopGuideController::class, 'index'])->name('shop.guide');
     Route::post('shop/guide', [ShopGuideController::class, 'store'])->name('shop.guide.store');
     Route::get('shop/open', [ShopSubscriptionController::class, 'open'])->name('shop.guide');
+
+    Route::get('chats', [ChatController::class, 'index'])->name('chats.index');
 
     Route::resource('staffs', StaffController::class);
 
