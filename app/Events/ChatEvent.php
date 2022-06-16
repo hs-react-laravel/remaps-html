@@ -2,6 +2,8 @@
 
 namespace App\Events;
 
+use App\Helpers\Helper;
+use App\Models\Company;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -12,16 +14,23 @@ class ChatEvent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $message;
+    public $avatar;
 
-    public $from;
-
-    public $to;
-
-    public function __construct($from, $to, $message)
+    public function __construct($message)
     {
         $this->message = $message;
-        $this->from = $from;
-        $this->to = $to;
+        if ($message->to) { // customer message
+            $this->avatar = [
+                'color' => Helper::generateAvatarColor($message->target),
+                'name' => Helper::getInitialName($message->target)
+            ];
+        } else { // company message
+            $company = Company::find($message->company_id);
+            $this->avatar = [
+                'color' => Helper::generateAvatarColor($company->owner->id),
+                'name' => Helper::getInitialNameCompany($message->company_id)
+            ];
+        }
     }
 
     public function broadcastOn()

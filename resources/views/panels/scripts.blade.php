@@ -103,6 +103,34 @@
             }
         })
     }
+
+    $('#button-message-send').on('click', function() {
+        sendMessageNav()
+    });
+    $('#message-box').on('keypress', function(e) {
+        if (e.key === 'Enter') {
+            sendMessageNav()
+        }
+    })
+
+    function sendMessageNav() {
+        const msg = $('#message-box').val();
+        if (!msg) return
+
+        $.ajax({
+            type: 'POST',
+            url: "{{ route('api.chat.send') }}",
+            data: {
+                company_id: "{{ isset($company) ? $company->id : '' }}",
+                target: "{{ isset($user) ? $user->id : '' }}",
+                to: 1,
+                message: msg
+            },
+            success: function(result) {
+                $('#message-box').val('');
+            }
+        })
+    }
 </script>
 <!-- END: Theme JS-->
 <!-- BEGIN: Page JS-->

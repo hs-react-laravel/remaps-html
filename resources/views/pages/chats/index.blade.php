@@ -18,7 +18,7 @@
 <!-- Main chat area -->
 <section class="chat-app-window">
   <!-- To load Conversation -->
-  <div class="start-chat-area">
+  <div class="start-chat-area" style="background: transparent">
     <div class="mb-1 start-chat-icon">
       <i data-feather="message-square"></i>
     </div>
@@ -69,9 +69,9 @@
     <!--/ Chat Header -->
 
     <!-- User Chat messages -->
-    <div class="user-chats">
+    <div class="user-chats" style="background: transparent">
       <div class="chats">
-        <div class="chat">
+        {{-- <div class="chat">
           <div class="chat-avatar">
             <span class="avatar box-shadow-1 cursor-pointer">
               <img
@@ -106,103 +106,13 @@
         </div>
         <div class="divider">
           <div class="divider-text">Yesterday</div>
-        </div>
-        <div class="chat">
-          <div class="chat-avatar">
-            <span class="avatar box-shadow-1 cursor-pointer">
-              <img
-                src="{{asset('images/portrait/small/avatar-s-11.jpg')}}"
-                alt="avatar"
-                height="36"
-                width="36"
-              />
-            </span>
-          </div>
-          <div class="chat-body">
-            <div class="chat-content">
-              <p>Absolutely!</p>
-            </div>
-            <div class="chat-content">
-              <p>Vuexy admin is the responsive bootstrap 4 admin template.</p>
-            </div>
-          </div>
-        </div>
-        <div class="chat chat-left">
-          <div class="chat-avatar">
-            <span class="avatar box-shadow-1 cursor-pointer">
-              <img src="{{asset('images/portrait/small/avatar-s-7.jpg')}}" alt="avatar" height="36" width="36" />
-            </span>
-          </div>
-          <div class="chat-body">
-            <div class="chat-content">
-              <p>Looks clean and fresh UI. 😃</p>
-            </div>
-            <div class="chat-content">
-              <p>It's perfect for my next project.</p>
-            </div>
-            <div class="chat-content">
-              <p>How can I purchase it?</p>
-            </div>
-          </div>
-        </div>
-        <div class="chat">
-          <div class="chat-avatar">
-            <span class="avatar box-shadow-1 cursor-pointer">
-              <img
-                src="{{asset('images/portrait/small/avatar-s-11.jpg')}}"
-                alt="avatar"
-                height="36"
-                width="36"
-              />
-            </span>
-          </div>
-          <div class="chat-body">
-            <div class="chat-content">
-              <p>Thanks, from ThemeForest.</p>
-            </div>
-          </div>
-        </div>
-        <div class="chat chat-left">
-          <div class="chat-avatar">
-            <span class="avatar box-shadow-1 cursor-pointer">
-              <img src="{{asset('images/portrait/small/avatar-s-7.jpg')}}" alt="avatar" height="36" width="36" />
-            </span>
-          </div>
-          <div class="chat-body">
-            <div class="chat-content">
-              <p>I will purchase it for sure. 👍</p>
-            </div>
-            <div class="chat-content">
-              <p>Thanks.</p>
-            </div>
-          </div>
-        </div>
-        <div class="chat">
-          <div class="chat-avatar">
-            <span class="avatar box-shadow-1 cursor-pointer">
-              <img
-                src="{{asset('images/portrait/small/avatar-s-11.jpg')}}"
-                alt="avatar"
-                height="36"
-                width="36"
-              />
-            </span>
-          </div>
-          <div class="chat-body">
-            <div class="chat-content">
-              <p>Great, Feel free to get in touch on</p>
-            </div>
-            <div class="chat-content">
-              <p>https://pixinvent.ticksy.com/</p>
-            </div>
-          </div>
-        </div>
+        </div> --}}
       </div>
     </div>
     <!-- User Chat messages -->
 
     <!-- Submit Chat form -->
-    <form class="chat-app-form" action="javascript:void(0);" onsubmit="enterChat();">
+    <form class="chat-app-form" action="javascript:void(0);" onsubmit="sendChat();">
       <div class="input-group input-group-merge me-1 form-send-message">
         <span class="speech-to-text input-group-text"><i data-feather="mic" class="cursor-pointer"></i></span>
         <input type="text" class="form-control message" placeholder="Type your message or use speech to text" />
@@ -212,7 +122,7 @@
             <input type="file" id="attach-doc" hidden /> </label
         ></span>
       </div>
-      <button type="button" class="btn btn-primary send" onclick="enterChat();">
+      <button type="button" class="btn btn-primary send" onclick="sendChat();">
         <i data-feather="send" class="d-lg-none"></i>
         <span class="d-none d-lg-block">Send</span>
       </button>
@@ -294,10 +204,210 @@
     <!--/ User's Links -->
   </div>
 </div>
+<input type="hidden" id="currentUser">
 <!--/ User Chat profile right area -->
 @endsection
 
 @section('page-script')
 <!-- Page js files -->
 <script src="{{ asset(mix('js/scripts/pages/app-chat.js')) }}"></script>
+<script>
+    loadChatUsers()
+    function loadChatUsers() {
+        $.ajax({
+            type: 'GET',
+            url: "{{ route('api.chat.users') }}",
+            data: {
+                company_id: "{{ isset($company) ? $company->id : '' }}"
+            },
+            success: function(result) {
+                let filterKey = $('#chat-search').val()
+                result.m.forEach(user => {
+                    $('.chat-list').append(
+                        `<li style="align-items:center" data-id="${user.id}">
+                            <span class="avatar" style="width:32px; height:32px">
+                                <div class="avatar" style="background-color: #${user.avatar.color}; width:32px; height:32px">
+                                    <div class="avatar-content">${user.avatar.name}</div>
+                                </div>
+                            </span>
+                            <div class="chat-info flex-grow-1">
+                            <h5 class="mb-0">${user.name}</h5>
+                            <p class="card-text text-truncate">
+                                ${user.msg}
+                            </p>
+                            </div>
+                            <div class="chat-meta text-nowrap">
+                            <small class="float-end mb-25 chat-time">${user.date}</small>
+                            <span class="badge bg-danger rounded-pill float-end">${user.count > 0 ? user.count : ''}</span>
+                            </div>
+                        </li>`
+                    )
+                });
+                result.c.forEach(user => {
+                    $('.contact-list').append(
+                    `<li style="align-items:center">
+                        <span class="avatar" style="width:32px; height:32px">
+                            <div class="avatar" style="background-color: #${user.avatar.color}; width:32px; height:32px">
+                                <div class="avatar-content">${user.avatar.name}</div>
+                            </div>
+                        </span>
+                        <div class="chat-info">
+                        <h5 class="mb-0">${user.name}</h5>
+                        </div>
+                    </li>`)
+                })
+            }
+        })
+    }
+    function sendChat(source) {
+        var message = $('.message').val();
+        $('.message').val('');
+        if (/\S/.test(message)) {
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('api.chat.send') }}",
+                data: {
+                    company_id: "{{ isset($company) ? $company->id : '' }}",
+                    target: $('#currentUser').val(),
+                    to: 0,
+                    message: message
+                },
+                success: function(result) {
+                    $('.user-chats').scrollTop($('.user-chats > .chats').height());
+                }
+            })
+        }
+    }
+    let lastSide = ''
+    $('.chat-application .chat-user-list-wrapper').on('click', 'ul li', function() {
+        $('#currentUser').val($(this).data('id'))
+        $.ajax({
+            type: 'GET',
+            url: "{{ route('api.chat.messages') }}",
+            data: {
+                company_id: "{{ isset($company) ? $company->id : '' }}",
+                target: $('#currentUser').val(),
+            },
+            success: function(result) {
+                let msgHtml = '';
+                for(const [key, msgDateGroup] of Object.entries(result.message)) {
+                    msgDateGroup.forEach(msgUserGroup => {
+                        if (msgUserGroup[0].to) {
+                            msgHtml += `
+                            <div class="chat chat-left">
+                                <div class="chat-avatar">
+                                    <div class="avatar" style="background-color: #${result.avatarU.color}">
+                                        <div class="avatar-content">${result.avatarU.name}</div>
+                                    </div>
+                                </div>
+                                <div class="chat-body">
+                                    ${msgUserGroup.map(msg =>
+                                        `<div class="chat-content">
+                                            <p>${msg.message}</p>
+                                        </div>`
+                                    ).join('')}
+                                </div>
+                            </div>
+                            `
+                        } else {
+                            msgHtml += `
+                            <div class="chat">
+                                <div class="chat-avatar">
+                                    <div class="avatar" style="background-color: #${result.avatarC.color}">
+                                        <div class="avatar-content">${result.avatarC.name}</div>
+                                    </div>
+                                </div>
+                                <div class="chat-body">
+                                    ${msgUserGroup.map(msg =>
+                                        `<div class="chat-content">
+                                            <p>${msg.message}</p>
+                                        </div>`
+                                    ).join('')}
+                                </div>
+                            </div>
+                            `
+                        }
+                        lastSide = msgUserGroup[0].to
+                    })
+                }
+                $('.chats').html(msgHtml);
+                const chatWrapperHeight = $('.user-chats').height()
+                const chatListHeight = $('.user-chats > .chats').height()
+                if (chatListHeight > chatWrapperHeight)
+                    $('.user-chats').scrollTop($('.user-chats > .chats').height());
+                else
+                    $('.user-chats').scrollTop(0);
+            }
+        })
+        $.ajax({
+            type: 'POST',
+            url: "{{ route('api.chat.read') }}",
+            data: {
+                company_id: "{{ isset($company) ? $company->id : '' }}",
+                target: $('#currentUser').val()
+            }
+        })
+    })
+    var pusher = new Pusher('fac85360afc52d12009f', {
+      cluster: 'eu'
+    });
+
+    var channel = pusher.subscribe('chat-channel');
+    channel.bind('chat-event', function(data) {
+        const message = data.message
+        if (message.company_id === {{ $company->id }}) {
+            if (message.to) {
+                if (message.to === lastSide) {
+                    const lastChatBlock = $('.chat').last()
+                    $(lastChatBlock).find('.chat-body').append(`
+                        <div class="chat-content">
+                            <p>${message.message}</p>
+                        </div>
+                    `)
+                } else {
+                    $('.chats').append(`
+                        <div class="chat chat-left">
+                            <div class="chat-avatar">
+                                <div class="avatar" style="background-color: #${data.avatar.color}">
+                                    <div class="avatar-content">${data.avatar.name}</div>
+                                </div>
+                            </div>
+                            <div class="chat-body">
+                                <div class="chat-content">
+                                    <p>${message.message}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `)
+                }
+            } else { // admin message
+                if (message.to === lastSide) {
+                    const lastChatBlock = $('.chat').last()
+                    $(lastChatBlock).find('.chat-body').append(`
+                        <div class="chat-content">
+                            <p>${message.message}</p>
+                        </div>
+                    `)
+                } else {
+                    $('.chats').append(`
+                        <div class="chat">
+                            <div class="chat-avatar">
+                                <div class="avatar" style="background-color: #${data.avatar.color}">
+                                    <div class="avatar-content">${data.avatar.name}</div>
+                                </div>
+                            </div>
+                            <div class="chat-body">
+                                <div class="chat-content">
+                                    <p>${message.message}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `)
+                }
+            }
+            lastSide = message.to
+        }
+        $('.user-chats').scrollTop($('.user-chats > .chats').height());
+    });
+</script>
 @endsection

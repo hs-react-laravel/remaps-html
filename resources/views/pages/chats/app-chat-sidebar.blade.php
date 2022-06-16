@@ -25,9 +25,7 @@
         id="textarea-counter"
         rows="5"
         placeholder="About User"
-      >
-Dessert chocolate cake lemon drops jujubes. Biscuit cupcake ice cream bear claw brownie brownie marshmallow.</textarea
-      >
+      >Dessert chocolate cake lemon drops jujubes. Biscuit cupcake ice cream bear claw brownie brownie marshmallow.</textarea>
       <small class="counter-value float-end"><span class="char-count">108</span> / 120 </small>
     </div>
     <!-- To set user status -->
@@ -123,13 +121,9 @@ Dessert chocolate cake lemon drops jujubes. Biscuit cupcake ice cream bear claw 
     <div class="d-flex align-items-center w-100">
       <div class="sidebar-profile-toggle">
         <div class="avatar avatar-border">
-          <img
-            src="{{asset('images/portrait/small/avatar-s-11.jpg')}}"
-            alt="user_avatar"
-            height="42"
-            width="42"
-          />
-          <span class="avatar-status-online"></span>
+          <div class="avatar" style="background-color: #{{ \App\Helpers\Helper::generateAvatarColor($company->owner->id) }}">
+            <div class="avatar-content">{{ \App\Helpers\Helper::getInitialNameCompany($company->id) }}</div>
+          </div>
         </div>
       </div>
       <div class="input-group input-group-merge ms-1 w-100">
@@ -151,217 +145,12 @@ Dessert chocolate cake lemon drops jujubes. Biscuit cupcake ice cream bear claw 
   <div id="users-list" class="chat-user-list-wrapper list-group">
     <h4 class="chat-list-title">Chats</h4>
     <ul class="chat-users-list chat-list media-list">
-      <li>
-        <span class="avatar" ><img
-            src="{{asset('images/portrait/small/avatar-s-3.jpg')}}"
-            height="42"
-            width="42"
-            alt="Generic placeholder image"
-          />
-          <span class="avatar-status-offline"></span>
-        </span>
-        <div class="chat-info flex-grow-1">
-          <h5 class="mb-0">Elizabeth Elliott</h5>
-          <p class="card-text text-truncate">
-            Cake pie jelly jelly beans. Marzipan lemon drops halvah cake. Pudding cookie lemon drops icing
-          </p>
-        </div>
-        <div class="chat-meta text-nowrap">
-          <small class="float-end mb-25 chat-time">4:14 PM</small>
-          <span class="badge bg-danger rounded-pill float-end">3</span>
-        </div>
-      </li>
-      <li>
-        <span class="avatar"
-          ><img
-            src="{{asset('images/portrait/small/avatar-s-7.jpg')}}"
-            height="42"
-            width="42"
-            alt="Generic placeholder image"
-          />
-          <span class="avatar-status-busy"></span>
-        </span>
-        <div class="chat-info flex-grow-1">
-          <h5 class="mb-0">Kristopher Candy</h5>
-          <p class="card-text text-truncate">
-            Cake pie jelly jelly beans. Marzipan lemon drops halvah cake. Pudding cookie lemon drops icing
-          </p>
-        </div>
-        <div class="chat-meta text-nowrap">
-          <small class="float-end mb-25 chat-time">9:09 AM</small>
-        </div>
-      </li>
-      <li>
-        <span class="avatar"
-          ><img
-            src="{{asset('images/portrait/small/avatar-s-8.jpg')}}"
-            height="42"
-            width="42"
-            alt="Generic placeholder image"
-          />
-          <span class="avatar-status-away"></span>
-        </span>
-        <div class="chat-info flex-grow-1">
-          <h5 class="mb-0">Sarah Woods</h5>
-          <p class="card-text text-truncate">
-            Cake pie jelly jelly beans. Marzipan lemon drops halvah cake. Pudding cookie lemon drops icing.
-          </p>
-        </div>
-        <div class="chat-meta text-nowrap">
-          <small class="float-end mb-25 chat-time">5:48 PM</small>
-        </div>
-      </li>
       <li class="no-results">
         <h6 class="mb-0">No Chats Found</h6>
       </li>
     </ul>
     <h4 class="chat-list-title">Contacts</h4>
     <ul class="chat-users-list contact-list media-list">
-      <li>
-        <span class="avatar"
-          ><img
-            src="{{asset('images/portrait/small/avatar-s-7.jpg')}}"
-            height="42"
-            width="42"
-            alt="Generic placeholder image"
-          />
-        </span>
-        <div class="chat-info">
-          <h5 class="mb-0">Jenny Perich</h5>
-          <p class="card-text text-truncate">
-            Tart dragée carrot cake chocolate bar. Chocolate cake jelly beans caramels tootsie roll candy canes.
-          </p>
-        </div>
-      </li>
-      <li>
-        <span class="avatar"
-          ><img
-            src="{{asset('images/portrait/small/avatar-s-5.jpg')}}"
-            height="42"
-            width="42"
-            alt="Generic placeholder image"
-          />
-        </span>
-        <div class="chat-info">
-          <h5 class="mb-0">Sarah Montgomery</h5>
-          <p class="card-text text-truncate">
-            Tootsie roll sesame snaps biscuit icing jelly-o biscuit chupa chups powder.
-          </p>
-        </div>
-      </li>
-      <li>
-        <span class="avatar"
-          ><img
-            src="{{asset('images/portrait/small/avatar-s-9.jpg')}}"
-            height="42"
-            width="42"
-            alt="Generic placeholder image"
-          />
-        </span>
-        <div class="chat-info">
-          <h5 class="mb-0">Heather Howell</h5>
-          <p class="card-text text-truncate">
-            Tart cookie dragée sesame snaps halvah. Fruitcake sugar plum gummies cheesecake toffee.
-          </p>
-        </div>
-      </li>
-      <li>
-        <span class="avatar"
-          ><img
-            src="{{asset('images/portrait/small/avatar-s-7.jpg')}}"
-            height="42"
-            width="42"
-            alt="Generic placeholder image"
-          />
-        </span>
-        <div class="chat-info">
-          <h5 class="mb-0">Kelly Reyes</h5>
-          <p class="card-text text-truncate">
-            Wafer toffee tart jelly cake croissant chocolate bar cupcake donut. Fruitcake gingerbread tiramisu sweet
-            jelly-o.
-          </p>
-        </div>
-      </li>
-      <li>
-        <span class="avatar"
-          ><img
-            src="{{asset('images/portrait/small/avatar-s-15.jpg')}}"
-            height="42"
-            width="42"
-            alt="Generic placeholder image"
-          />
-        </span>
-        <div class="chat-info">
-          <h5 class="mb-0">Kristopher Candy</h5>
-          <p class="card-text text-truncate">
-            Marzipan bonbon chocolate bar biscuit lemon drops muffin jelly-o sweet jujubes.
-          </p>
-        </div>
-      </li>
-      <li>
-        <span class="avatar"
-          ><img
-            src="{{asset('images/portrait/small/avatar-s-14.jpg')}}"
-            height="42"
-            width="42"
-            alt="Generic placeholder image"
-          />
-        </span>
-        <div class="chat-info">
-          <h5 class="mb-0">Vincent Nelson</h5>
-          <p class="card-text text-truncate">
-            Toffee gummi bears sugar plum gummi bears chocolate bar donut. Pudding cookie lemon drops icing
-          </p>
-        </div>
-      </li>
-      <li>
-        <span class="avatar"
-          ><img
-            src="{{asset('images/portrait/small/avatar-s-17.jpg')}}"
-            height="42"
-            width="42"
-            alt="Generic placeholder image"
-          />
-        </span>
-        <div class="chat-info">
-          <h5 class="mb-0">Jimmy Parker</h5>
-          <p class="card-text text-truncate">
-            Powder halvah jelly beans topping caramels muffin dragée lollipop oat cake.
-          </p>
-        </div>
-      </li>
-      <li>
-        <span class="avatar"
-          ><img
-            src="{{asset('images/portrait/small/avatar-s-3.jpg')}}"
-            height="42"
-            width="42"
-            alt="Generic placeholder image"
-          />
-        </span>
-        <div class="chat-info">
-          <h5 class="mb-0">Elizabeth Elliott</h5>
-          <p class="card-text text-truncate">
-            Candy canes ice cream jelly beans carrot cake chocolate bar pastry candy jelly-o.
-          </p>
-        </div>
-      </li>
-      <li>
-        <span class="avatar"
-          ><img
-            src="{{asset('images/portrait/small/avatar-s-13.jpg')}}"
-            height="42"
-            width="42"
-            alt="Generic placeholder image"
-          />
-        </span>
-        <div class="chat-info">
-          <h5 class="mb-0">Nelson D'souza</h5>
-          <p class="card-text text-truncate">
-            Macaroon candy canes apple pie soufflé lemon drops chocolate cake chocolate sweet roll.
-          </p>
-        </div>
-      </li>
       <li class="no-results">
         <h6 class="mb-0">No Contacts Found</h6>
       </li>

@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TuningType;
+use App\Events\ChatEvent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+use App\Helpers\Helper;
+use App\Models\TuningType;
 use App\Models\Car;
+use App\Models\ChatMessage;
 use App\Models\Company;
 use App\Models\Styling;
 use App\Models\User;
@@ -99,5 +104,118 @@ class ApiController extends Controller
         $company = Company::find($request->id);
         $company->is_open_shop = 1;
         $company->save();
+    }
+
+    public function sendIM(Request $request) {
+        $message = ChatMessage::create($request->all());
+        event(new ChatEvent($message));
+    }
+
+    public function getChatUsers(Request $request) {
+        $messageUserIDs = ChatMessage::where('company_id', $request->company_id)
+            ->select('target')
+            ->groupBy('target')
+            ->pluck('target')
+            ->toArray();
+        $mUsers = User::whereIn('id', $messageUserIDs)->get();
+        $cUsers = User::whereNotIn('id', $messageUserIDs)
+            ->where('company_id', $request->company_id)
+            ->where('is_admin', '!=', 1)
+            ->whereNull('is_staff')
+            ->get();
+
+        $mUserRes = array();
+        foreach($mUsers as $muser) {
+            $lastMessage = ChatMessage::where('target', $muser->id)
+                ->orderBy('created_at', 'DESC')
+                ->first();
+            $unreadCt = ChatMessage::where('target', $muser->id)
+                ->orderBy('created_at', 'DESC')
+                ->where('is_read', 0)
+                ->where('to', 1)
+                ->count();
+            array_push($mUserRes, [
+                'id' => $muser->id,
+                'name' => $muser->first_name.' '.$muser->last_name,
+                'msg' => $lastMessage->message,
+                'date' => \Carbon\Carbon::parse($lastMessage->created_at)->diffForHumans(),
+                'count' => $unreadCt,
+                'avatar' => [
+                    'color' => Helper::generateAvatarColor($muser->id),
+                    'name' => Helper::getInitialName($muser->id)
+                ]
+            ]);
+        }
+
+        $cUserRes = array();
+        foreach($cUsers as $cuser) {
+            array_push($cUserRes, [
+                'id' => $cuser->id,
+                'name' => $cuser->first_name.' '.$cuser->last_name,
+                'avatar' => [
+                    'color' => Helper::generateAvatarColor($cuser->id),
+                    'name' => Helper::getInitialName($cuser->id)
+                ]
+            ]);
+        }
+
+        return [
+            'm' => $mUserRes,
+            'c' => $cUserRes
+        ];
+    }
+
+    public function getChatMessages(Request $request) {
+        $day_key = 'Date(created_at)';
+        $messageDates = ChatMessage::where('company_id', $request->company_id)
+            ->where('target', $request->target)
+            ->orderBy('created_at', 'ASC')
+            ->groupBy(DB::raw($day_key))
+            ->select(DB::raw($day_key))
+            ->get();
+        $messageGroups = array();
+        foreach ($messageDates as $md) {
+            $msgs = ChatMessage::where('company_id', $request->company_id)
+                ->where('target', $request->target)
+                ->where('created_at', 'like', $md->$day_key.'%')
+                ->orderBy('created_at', 'ASC')
+                ->get();
+            $messageGroups[$md->$day_key] = array();
+            $groupDir = '';
+            $group = array();
+            foreach ($msgs as $msg) {
+                if ($msg->to != $groupDir && count($group) > 0) {
+                    array_push($messageGroups[$md->$day_key], $group);
+                    $group = array($msg);
+                } else {
+                    array_push($group, $msg);
+                }
+                $groupDir = $msg->to;
+            }
+            array_push($messageGroups[$md->$day_key], $group);
+        }
+
+        $company = Company::find($request->company_id);
+
+        return [
+            'message' => $messageGroups,
+            'avatarU' => [
+                'color' => Helper::generateAvatarColor($request->target),
+                'name' => Helper::getInitialName($request->target)
+            ],
+            'avatarC' => [
+                'color' => Helper::generateAvatarColor($company->owner->id),
+                'name' => Helper::getInitialNameCompany($request->company_id)
+            ]
+        ];
+    }
+
+    public function readAll(Request $request) {
+        ChatMessage::where('company_id', $request->company_id)
+            ->where('target', $request->target)
+            ->where('to', 1)
+            ->update([
+                'is_read' => 1
+            ]);
     }
 }

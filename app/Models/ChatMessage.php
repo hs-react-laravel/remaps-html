@@ -11,8 +11,8 @@ class ChatMessage extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'channel',
-        'from',
+        'company_id',
+        'target',
         'to',
         'message',
         'is_read'

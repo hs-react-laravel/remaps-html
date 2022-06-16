@@ -34,17 +34,7 @@ data-textdirection="{{ env('MIX_CONTENT_DIRECTION') === 'rtl' ? 'rtl' : 'ltr' }}
 
   <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
   <script>
-    // Enable pusher logging - don't include this in production
-    Pusher.logToConsole = true;
 
-    var pusher = new Pusher('fac85360afc52d12009f', {
-      cluster: 'eu'
-    });
-
-    var channel = pusher.subscribe('chat-channel');
-    channel.bind('chat-event', function(data) {
-      alert(JSON.stringify(data));
-    });
   </script>
 </head>
 <!-- END: Head-->

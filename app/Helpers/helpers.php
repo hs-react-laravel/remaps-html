@@ -146,7 +146,7 @@ class Helper
         if ($app === 'chat') {
             $layoutClasses['contentLayout'] = 'content-left-sidebar';
             $layoutClasses['pageClass'] = 'chat-application';
-            $layoutClasses['contentsidebarClass'] = 'content-detached content-right';
+            $layoutClasses['contentsidebarClass'] = 'content-detached';
         }
 
         return $layoutClasses;
@@ -201,6 +201,15 @@ class Helper
     {
         $user = User::find($id);
         return $user ? strtoupper(substr($user->first_name, 0, 1) . substr($user->last_name, 0, 1)) : '';
+    }
+
+    public static function getInitialNameCompany($id)
+    {
+        $company = Company::find($id);
+        $nameParts = explode(' ', trim($company->name));
+        $firstName = array_shift($nameParts);
+        $lastName = array_shift($nameParts);
+        return mb_substr($firstName, 0, 1).mb_substr($lastName, 0, 1);
     }
 
     public static function getCurrencySymbol($currencyCode, $locale = 'en_US')
