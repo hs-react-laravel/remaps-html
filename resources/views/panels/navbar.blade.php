@@ -143,39 +143,15 @@
         <i class="ficon" data-feather="message-circle"></i>
         <span class="badge rounded-pill bg-danger badge-up">2</span>
       </a>
-      <ul class="dropdown-menu dropdown-menu-media dropdown-menu-end">
+      <ul class="dropdown-menu dropdown-menu-media dropdown-menu-end dropdown-chat">
         <li class="dropdown-menu-header">
           <div class="dropdown-header d-flex">
             <h4 class="notification-title mb-0 me-auto">Live Chat</h4>
           </div>
         </li>
-        <li class="scrollable-container media-list">
-          <div class="chat">
-            <div class="chat-avatar">
-              <div class="avatar" style="background-color: #{{ \App\Helpers\Helper::generateAvatarColor($user->id) }}">
-                <div class="avatar-content">{{ \App\Helpers\Helper::getInitialName($user->id) }}</div>
-              </div>
-            </div>
-            <div class="chat-body">
-              <div class="chat-content">
-                <p>How can we help? We're here for you!</p>
-              </div>
-            </div>
-          </div>
-          <div class="chat chat-left">
-            <div class="chat-avatar">
-              <div class="avatar" style="background-color: #{{ \App\Helpers\Helper::generateAvatarColor($company->owner->id) }}">
-                <div class="avatar-content">{{ \App\Helpers\Helper::getInitialName($company->owner->id) }}</div>
-              </div>
-            </div>
-            <div class="chat-body">
-              <div class="chat-content">
-                <p>Hey John, I am looking for the best admin template.</p>
-              </div>
-              <div class="chat-content">
-                <p>It should be Bootstrap 4 compatible.</p>
-              </div>
-            </div>
+        <li class="scrollable-container media-list chat-list-scrollable">
+          <div class="chat-nav-wrapper">
+
           </div>
         </li>
         <li>

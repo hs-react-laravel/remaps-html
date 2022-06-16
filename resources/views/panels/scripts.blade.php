@@ -115,6 +115,7 @@
 
     function sendMessageNav() {
         const msg = $('#message-box').val();
+        $('#message-box').val('');
         if (!msg) return
 
         $.ajax({
@@ -125,11 +126,135 @@
                 target: "{{ isset($user) ? $user->id : '' }}",
                 to: 1,
                 message: msg
-            },
-            success: function(result) {
-                $('#message-box').val('');
             }
         })
+    }
+    var chatNavWrapper = $('.chat-nav-wrapper')
+    var chatListScroll = $('.chat-list-scrollable')
+    let lastSide = ''
+    if (chatNavWrapper.length > 0) {
+        $.ajax({
+            type: 'GET',
+            url: "{{ route('api.chat.messages') }}",
+            data: {
+                company_id: "{{ isset($company) ? $company->id : '' }}",
+                target: "{{ isset($user) ? $user->id : '' }}",
+            },
+            success: function(result) {
+                let msgHtml = '';
+                for(const [key, msgDateGroup] of Object.entries(result.message)) {
+                    msgDateGroup.forEach(msgUserGroup => {
+                        if (msgUserGroup[0].to) {
+                            msgHtml += `
+                            <div class="chat">
+                                <div class="chat-avatar">
+                                    <div class="avatar" style="background-color: #${result.avatarU.color}">
+                                        <div class="avatar-content">${result.avatarU.name}</div>
+                                    </div>
+                                </div>
+                                <div class="chat-body">
+                                    ${msgUserGroup.map(msg =>
+                                        `<div class="chat-content">
+                                            <p>${msg.message}</p>
+                                        </div>`
+                                    ).join('')}
+                                </div>
+                            </div>
+                            `
+                        } else {
+                            msgHtml += `
+                            <div class="chat chat-left">
+                                <div class="chat-avatar">
+                                    <div class="avatar" style="background-color: #${result.avatarC.color}">
+                                        <div class="avatar-content">${result.avatarC.name}</div>
+                                    </div>
+                                </div>
+                                <div class="chat-body">
+                                    ${msgUserGroup.map(msg =>
+                                        `<div class="chat-content">
+                                            <p>${msg.message}</p>
+                                        </div>`
+                                    ).join('')}
+                                </div>
+                            </div>
+                            `
+                        }
+                        lastSide = msgUserGroup[0].to
+                    })
+                }
+                $(chatNavWrapper).html(msgHtml);
+                const chatWrapperHeight = $(chatListScroll).height()
+                const chatListHeight = $(chatNavWrapper).height()
+                console.log(chatWrapperHeight, chatListHeight)
+                if (chatListHeight > chatWrapperHeight)
+                    $(chatListScroll).scrollTop($(chatListHeight).height());
+                else
+                    $(chatListScroll).scrollTop(0);
+            }
+        })
+
+        var pusher = new Pusher('fac85360afc52d12009f', {
+        cluster: 'eu'
+        });
+
+        var channel = pusher.subscribe('chat-channel');
+        channel.bind('chat-event', function(data) {
+            console.log(data)
+            const message = data.message
+            if (message.company_id === {{ $company->id }}) {
+                if (message.to) {
+                    if (message.to === lastSide) {
+                        const lastChatBlock = $('.chat').last()
+                        $(lastChatBlock).find('.chat-body').append(`
+                            <div class="chat-content">
+                                <p>${message.message}</p>
+                            </div>
+                        `)
+                    } else {
+                        $('.chats').append(`
+                            <div class="chat">
+                                <div class="chat-avatar">
+                                    <div class="avatar" style="background-color: #${data.avatar.color}">
+                                        <div class="avatar-content">${data.avatar.name}</div>
+                                    </div>
+                                </div>
+                                <div class="chat-body">
+                                    <div class="chat-content">
+                                        <p>${message.message}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        `)
+                    }
+                } else { // admin message
+                    if (message.to === lastSide) {
+                        const lastChatBlock = $('.chat').last()
+                        $(lastChatBlock).find('.chat-body').append(`
+                            <div class="chat-content">
+                                <p>${message.message}</p>
+                            </div>
+                        `)
+                    } else {
+                        $('.chats').append(`
+                            <div class="chat chat-left">
+                                <div class="chat-avatar">
+                                    <div class="avatar" style="background-color: #${data.avatar.color}">
+                                        <div class="avatar-content">${data.avatar.name}</div>
+                                    </div>
+                                </div>
+                                <div class="chat-body">
+                                    <div class="chat-content">
+                                        <p>${message.message}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        `)
+                    }
+                }
+                lastSide = message.to
+            }
+            $('.user-chats').scrollTop($('.user-chats > .chats').height());
+        });
     }
 </script>
 <!-- END: Theme JS-->
