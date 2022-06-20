@@ -28,12 +28,17 @@
         </tr>
         <tr>
           <th>Credits</th>
+          @if ($fileService->tuningType)
             @php
               $tuningTypeCredits = $fileService->tuningType->credits;
               $tuningTypeOptionsCredits = $fileService->tuningTypeOptions()->sum('credits');
               $credits = ($tuningTypeCredits+$tuningTypeOptionsCredits);
             @endphp
             <td>{{ number_format($credits, 2) }}</td>
+          @else
+            <td>-</td>
+          @endif
+
         </tr>
         <tr>
             <th>Original file</th>
