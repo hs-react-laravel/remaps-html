@@ -227,6 +227,7 @@
       // Dropdown submenu on small screen on click
       // --------------------------------------------------
       $('ul.dropdown-menu [data-bs-toggle=dropdown]').on('click', function (event) {
+          console.log('aaa')
         if ($(this).siblings('ul.dropdown-menu').length > 0) {
           event.preventDefault();
         }

@@ -199,7 +199,7 @@
 
         var channel = pusher.subscribe('chat-channel');
         channel.bind('chat-event', function(data) {
-            console.log(data)
+            console.log(data, lastSide)
             const message = data.message
             if (message.company_id === {{ $company->id }}) {
                 if (message.to) {
@@ -211,7 +211,7 @@
                             </div>
                         `)
                     } else {
-                        $('.chats').append(`
+                        $('.chat-nav-wrapper').append(`
                             <div class="chat">
                                 <div class="chat-avatar">
                                     <div class="avatar" style="background-color: #${data.avatar.color}">
@@ -235,7 +235,7 @@
                             </div>
                         `)
                     } else {
-                        $('.chats').append(`
+                        $('.chat-nav-wrapper').append(`
                             <div class="chat chat-left">
                                 <div class="chat-avatar">
                                     <div class="avatar" style="background-color: #${data.avatar.color}">

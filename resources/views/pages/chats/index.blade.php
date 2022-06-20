@@ -278,7 +278,6 @@
             })
         }
     }
-    let lastSide = ''
     $('.chat-application .chat-user-list-wrapper').on('click', 'ul li', function() {
         $('#currentUser').val($(this).data('id'))
         $.ajax({

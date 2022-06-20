@@ -144,10 +144,13 @@ class FileServiceController extends MasterController
         $fileService = FileService::find($id);
         $fileServiceUser = $fileService->user;
         if ($fileService->status != 'Completed') {
-            $tuningTypeCredits = $fileService->tuningType->credits;
-            $tuningTypeOptionsCredits = $fileService->tuningTypeOptions()->sum('credits');
-            $fileServicecredits = $tuningTypeCredits + $tuningTypeOptionsCredits;
-            $usersCredits = $fileServiceUser->tuning_credits + $fileServicecredits;
+            $tuningType = $fileService->tuningType;
+            if ($tuningType) {
+                $tuningTypeCredits = $fileService->tuningType->credits;
+                $tuningTypeOptionsCredits = $fileService->tuningTypeOptions()->sum('credits');
+                $fileServicecredits = $tuningTypeCredits + $tuningTypeOptionsCredits;
+                $usersCredits = $fileServiceUser->tuning_credits + $fileServicecredits;
+            }
         } else {
             $usersCredits = $fileServiceUser->tuning_credits;
         }

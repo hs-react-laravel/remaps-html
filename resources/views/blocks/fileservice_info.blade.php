@@ -20,7 +20,7 @@
         </tr>
         <tr>
           <th>Tuning type</th>
-          <td>{{ $fileService->tuningType->label }}</td>
+          <td>{{ $fileService->tuningType ? $fileService->tuningType->label : '' }}</td>
         </tr>
         <tr>
             <th>Tuning options</th>
