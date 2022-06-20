@@ -150,6 +150,8 @@ class FileServiceController extends MasterController
                 $tuningTypeOptionsCredits = $fileService->tuningTypeOptions()->sum('credits');
                 $fileServicecredits = $tuningTypeCredits + $tuningTypeOptionsCredits;
                 $usersCredits = $fileServiceUser->tuning_credits + $fileServicecredits;
+            } else {
+                $usersCredits = $fileServiceUser->tuning_credits;
             }
         } else {
             $usersCredits = $fileServiceUser->tuning_credits;
