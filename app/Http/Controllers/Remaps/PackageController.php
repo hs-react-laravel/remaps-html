@@ -109,7 +109,7 @@ class PackageController extends MasterController
                     'currency_code' => $this->company->paypal_currency_code
                 ],
                 'setup_fee_failure_action' => 'CONTINUE',
-                'payment_failure_threshold' => 3
+                'payment_failure_threshold' => 1
             ]
         ];
 
