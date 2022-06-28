@@ -132,6 +132,7 @@
     var chatNavWrapper = $('.chat-nav-wrapper')
     var chatListScroll = $('.chat-list-scrollable')
     let lastSide = ''
+    let chatBadgeCount = 0;
     if (chatNavWrapper.length > 0) {
         $.ajax({
             type: 'GET',
@@ -183,23 +184,20 @@
                     })
                 }
                 $(chatNavWrapper).html(msgHtml);
-                const chatWrapperHeight = $(chatListScroll).height()
-                const chatListHeight = $(chatNavWrapper).height()
-                console.log(chatWrapperHeight, chatListHeight)
-                if (chatListHeight > chatWrapperHeight)
-                    $(chatListScroll).scrollTop($(chatListHeight).height());
-                else
-                    $(chatListScroll).scrollTop(0);
+                if (result.unreadCt > 0) {
+                    chatBadgeCount = result.unreadCt
+                    $('.badge-chat-nav').html(chatBadgeCount)
+                    $('.badge-chat-nav').removeClass('d-none')
+                }
             }
         })
 
         var pusher = new Pusher('fac85360afc52d12009f', {
-        cluster: 'eu'
+            cluster: 'eu'
         });
 
         var channel = pusher.subscribe('chat-channel');
         channel.bind('chat-event', function(data) {
-            console.log(data, lastSide)
             const message = data.message
             if (message.company_id === {{ $company->id }}) {
                 if (message.to) {
@@ -227,6 +225,25 @@
                         `)
                     }
                 } else { // admin message
+                    if (!$('.dropdown-menu.dropdown-chat').attr('class').includes('show')) {
+                        $('.badge-chat-nav').html(++chatBadgeCount)
+                        $('.badge-chat-nav').removeClass('d-none')
+                        console.log('add badge number')
+                    } else {
+                        $.ajax({
+                            type: 'POST',
+                            url: "{{ route('api.chat.read') }}",
+                            data: {
+                                company_id: "{{ isset($company) ? $company->id : '' }}",
+                                target: "{{ isset($user) ? $user->id : '' }}",
+                                to: 0
+                            },
+                            success: function(result) {
+                                $('.badge-chat-nav').addClass('d-none')
+                            }
+                        })
+                        console.log('read it immediately')
+                    }
                     if (message.to === lastSide) {
                         const lastChatBlock = $('.chat').last()
                         $(lastChatBlock).find('.chat-body').append(`
@@ -253,8 +270,42 @@
                 }
                 lastSide = message.to
             }
-            $('.user-chats').scrollTop($('.user-chats > .chats').height());
+            scrollingMessageBoard();
         });
+
+        function scrollingMessageBoard() {
+            const chatWrapperHeight = $(chatListScroll).height()
+            const chatListHeight = $(chatNavWrapper).height()
+            if (chatListHeight > chatWrapperHeight)
+                $(chatListScroll).scrollTop(chatListHeight);
+            else
+                $(chatListScroll).scrollTop(0);
+        }
+
+        $('.nav-item.dropdown-chat').click(function() {
+            let classlist = $('.dropdown-menu.dropdown-chat').attr('class')
+            if (classlist.includes('show')) {
+                const chatWrapperHeight = $(chatListScroll).height()
+                const chatListHeight = $(chatNavWrapper).height()
+                if (chatListHeight > chatWrapperHeight)
+                    $(chatListScroll).scrollTop(chatListHeight);
+                else
+                    $(chatListScroll).scrollTop(0);
+
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ route('api.chat.read') }}",
+                    data: {
+                        company_id: "{{ isset($company) ? $company->id : '' }}",
+                        target: "{{ isset($user) ? $user->id : '' }}",
+                        to: 0
+                    },
+                    success: function(result) {
+                        $('.badge-chat-nav').addClass('d-none')
+                    }
+                })
+            }
+        })
     }
 </script>
 <!-- END: Theme JS-->

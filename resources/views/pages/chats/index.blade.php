@@ -343,7 +343,8 @@
             url: "{{ route('api.chat.read') }}",
             data: {
                 company_id: "{{ isset($company) ? $company->id : '' }}",
-                target: $('#currentUser').val()
+                target: $('#currentUser').val(),
+                to: 1
             }
         })
     })

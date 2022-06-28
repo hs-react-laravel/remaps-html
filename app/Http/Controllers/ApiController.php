@@ -196,6 +196,11 @@ class ApiController extends Controller
         }
 
         $company = Company::find($request->company_id);
+        $unreadCt = ChatMessage::where('company_id', $request->company_id)
+            ->where('target', $request->target)
+            ->where('to', 0)
+            ->where('is_read', 0)
+            ->count();
 
         return [
             'message' => $messageGroups,
@@ -206,14 +211,15 @@ class ApiController extends Controller
             'avatarC' => [
                 'color' => Helper::generateAvatarColor($company->owner->id),
                 'name' => Helper::getInitialNameCompany($request->company_id)
-            ]
+            ],
+            'unreadCt' => $unreadCt
         ];
     }
 
     public function readAll(Request $request) {
         ChatMessage::where('company_id', $request->company_id)
             ->where('target', $request->target)
-            ->where('to', 1)
+            ->where('to', $request->to)
             ->update([
                 'is_read' => 1
             ]);
