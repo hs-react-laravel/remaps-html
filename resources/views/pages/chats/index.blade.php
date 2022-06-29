@@ -31,7 +31,7 @@
     <!-- Chat Header -->
     <div class="chat-navbar">
       <header class="chat-header">
-        <div class="d-flex align-items-center">
+        {{-- <div class="d-flex align-items-center">
           <div class="sidebar-toggle d-block d-lg-none me-1">
             <i data-feather="menu" class="font-medium-5"></i>
           </div>
@@ -63,7 +63,7 @@
               <a class="dropdown-item" href="#">Report</a>
             </div>
           </div>
-        </div>
+        </div> --}}
       </header>
     </div>
     <!--/ Chat Header -->
@@ -71,42 +71,7 @@
     <!-- User Chat messages -->
     <div class="user-chats" style="background: transparent">
       <div class="chats">
-        {{-- <div class="chat">
-          <div class="chat-avatar">
-            <span class="avatar box-shadow-1 cursor-pointer">
-              <img
-                src="{{asset('images/portrait/small/avatar-s-11.jpg')}}"
-                alt="avatar"
-                height="36"
-                width="36"
-              />
-            </span>
-          </div>
-          <div class="chat-body">
-            <div class="chat-content">
-              <p>How can we help? We're here for you! 😄</p>
-            </div>
-          </div>
-        </div>
-        <div class="chat chat-left">
-          <div class="chat-avatar">
-            <span class="avatar box-shadow-1 cursor-pointer">
-              <img src="{{asset('images/portrait/small/avatar-s-7.jpg')}}" alt="avatar" height="36" width="36" />
-            </span>
-          </div>
-          <div class="chat-body">
-            <div class="chat-content">
-              <p>Hey John, I am looking for the best admin template.</p>
-              <p>Could you please help me to find it out? 🤔</p>
-            </div>
-            <div class="chat-content">
-              <p>It should be Bootstrap 4 compatible.</p>
-            </div>
-          </div>
-        </div>
-        <div class="divider">
-          <div class="divider-text">Yesterday</div>
-        </div> --}}
+
       </div>
     </div>
     <!-- User Chat messages -->
@@ -204,7 +169,6 @@
     <!--/ User's Links -->
   </div>
 </div>
-<input type="hidden" id="currentUser">
 <!--/ User Chat profile right area -->
 @endsection
 
@@ -212,8 +176,10 @@
 <!-- Page js files -->
 <script src="{{ asset(mix('js/scripts/pages/app-chat.js')) }}"></script>
 <script>
-    loadChatUsers()
+    let currentUser = ""
+    let currentUserType = ""
     function loadChatUsers() {
+        console.log('loadChatUsers')
         $.ajax({
             type: 'GET',
             url: "{{ route('api.chat.users') }}",
@@ -222,9 +188,10 @@
             },
             success: function(result) {
                 let filterKey = $('#chat-search').val()
+                $(`.chat-application .chat-user-list-wrapper ul li.li-user`).remove();
                 result.m.forEach(user => {
                     $('.chat-list').append(
-                        `<li style="align-items:center" data-id="${user.id}">
+                        `<li class="li-user li-user-chat" style="align-items:center" data-id="${user.id}" data-type="chat">
                             <span class="avatar" style="width:32px; height:32px">
                                 <div class="avatar" style="background-color: #${user.avatar.color}; width:32px; height:32px">
                                     <div class="avatar-content">${user.avatar.name}</div>
@@ -245,7 +212,7 @@
                 });
                 result.c.forEach(user => {
                     $('.contact-list').append(
-                    `<li style="align-items:center">
+                    `<li class="li-user li-user-contact" style="align-items:center" data-type="contact" data-id="${user.id}">
                         <span class="avatar" style="width:32px; height:32px">
                             <div class="avatar" style="background-color: #${user.avatar.color}; width:32px; height:32px">
                                 <div class="avatar-content">${user.avatar.name}</div>
@@ -256,6 +223,8 @@
                         </div>
                     </li>`)
                 })
+                if (currentUser)
+                  $(`.chat-application .chat-user-list-wrapper ul li[data-id=${currentUser}][data-type="chat"]`).addClass('active')
             }
         })
     }
@@ -268,7 +237,7 @@
                 url: "{{ route('api.chat.send') }}",
                 data: {
                     company_id: "{{ isset($company) ? $company->id : '' }}",
-                    target: $('#currentUser').val(),
+                    target: currentUser,
                     to: 0,
                     message: message
                 },
@@ -277,18 +246,24 @@
                 }
             })
         }
+        if (currentUserType === 'contact') {
+          loadChatUsers()
+          currentUserType = 'chat'
+        }
     }
     $('.chat-application .chat-user-list-wrapper').on('click', 'ul li', function() {
-        $('#currentUser').val($(this).data('id'))
+        currentUser = $(this).data('id')
+        currentUserType = $(this).data('type')
         $.ajax({
             type: 'GET',
             url: "{{ route('api.chat.messages') }}",
             data: {
                 company_id: "{{ isset($company) ? $company->id : '' }}",
-                target: $('#currentUser').val(),
+                target: currentUser,
             },
             success: function(result) {
                 let msgHtml = '';
+                lastSide = '';
                 for(const [key, msgDateGroup] of Object.entries(result.message)) {
                     msgDateGroup.forEach(msgUserGroup => {
                         if (msgUserGroup[0].to) {
@@ -343,7 +318,7 @@
             url: "{{ route('api.chat.read') }}",
             data: {
                 company_id: "{{ isset($company) ? $company->id : '' }}",
-                target: $('#currentUser').val(),
+                target: currentUser,
                 to: 1
             }
         })
@@ -355,7 +330,7 @@
     var channel = pusher.subscribe('chat-channel');
     channel.bind('chat-event', function(data) {
         const message = data.message
-        if (message.company_id === {{ $company->id }}) {
+        if (message.company_id === {{ $company->id }} && message.target == currentUser) {
             if (message.to) {
                 if (message.to === lastSide) {
                     const lastChatBlock = $('.chat').last()
@@ -406,8 +381,27 @@
                 }
             }
             lastSide = message.to
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('api.chat.read') }}",
+                data: {
+                    company_id: "{{ isset($company) ? $company->id : '' }}",
+                    target: currentUser,
+                    to: 1
+                },
+                success: function(res) {
+                  loadChatUsers()
+                }
+            })
+        } else {
+          loadChatUsers()
         }
         $('.user-chats').scrollTop($('.user-chats > .chats').height());
     });
+    function minuteCheck() {
+      loadChatUsers()
+    }
+    minuteCheck()
+    setInterval(minuteCheck, 60 * 1000);
 </script>
 @endsection
