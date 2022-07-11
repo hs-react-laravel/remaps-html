@@ -91,6 +91,13 @@
         "slug": "notifications.index"
     },
     {
+        "url": "admin/chats",
+        "name": "menu_Chats",
+        "icon": "message-square",
+        "slug": "chats.index",
+        "beta": true
+    },
+    {
         "name": "menu_Shop",
         "icon": "shopping-cart",
         "url" : "",
