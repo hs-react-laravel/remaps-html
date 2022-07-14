@@ -95,7 +95,7 @@ class ShopPackageController extends MasterController
                     'value' => $request->amount,
                     'currency_code' => $this->company->paypal_currency_code
                 ],
-                'setup_fee_failure_action' => 'CONTINUE',
+                'setup_fee_failure_action' => 'CANCEL',
                 'payment_failure_threshold' => 1
             ]
         ];
