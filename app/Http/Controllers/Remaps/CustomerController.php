@@ -104,8 +104,8 @@ class CustomerController extends MasterController
             Mail::to($user->email)->send(new WelcomeCustomer($user, $token));
         }catch(\Exception $e){
             session()->flash('error', __('admin.opps'));
-            return redirect(url('admin/customer'));
         }
+        return redirect(url('admin/customer'));
     }
 
     /**
