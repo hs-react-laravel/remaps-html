@@ -105,7 +105,7 @@ class CustomerController extends MasterController
         }catch(\Exception $e){
             session()->flash('error', __('admin.opps'));
         }
-        return redirect(url('admin/customer'));
+        return redirect(route('customers.index'));
     }
 
     /**
