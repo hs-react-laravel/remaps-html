@@ -191,7 +191,7 @@
           <a class="btn btn-icon btn-success" href="${data['route.tr']}" title="Transactions">
             ${feather.icons['credit-card'].toSvg()}
           </a>
-          <a class="btn btn-icon btn-success" title="Send Password Reset Link">
+          <a class="btn btn-icon btn-success" href="${data['route.rp']}" title="Send Password Reset Link">
             ${feather.icons['mail'].toSvg()}
           </a>
           <a class="btn btn-icon btn-danger" onclick="onDelete(this)" title="Delete">

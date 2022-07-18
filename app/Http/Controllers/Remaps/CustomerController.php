@@ -83,6 +83,7 @@ class CustomerController extends MasterController
                 'route.fs' => route('customer.fs', ['id' => $entry->id]), // file service route
                 'route.sa' => route('customer.sa', ['id' => $entry->id]), // switch account route
                 'route.tr' => route('customer.tr', ['id' => $entry->id]), // transaction route
+                'route.rp' => route('customer.rp', ['id' => $entry->id]), // transaction route
                 'route.destroy' => route('customers.destroy', $entry->id) // destroy route
             ]);
         }
@@ -94,6 +95,17 @@ class CustomerController extends MasterController
         );
 
         return response()->json($json_data);
+    }
+
+    public function resetPasswordLink($id) {
+        try{
+            $user = User::find($id);
+            $token = app('auth.password.broker')->createToken($user);
+            Mail::to($user->email)->send(new WelcomeCustomer($user, $token));
+        }catch(\Exception $e){
+            session()->flash('error', __('admin.opps'));
+            return redirect(url('admin/customer'));
+        }
     }
 
     /**

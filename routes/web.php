@@ -147,6 +147,7 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::post('customers/{id}/transactions',[CustomerController::class, 'transactions_post'])->name('customer.tr.post');
     Route::post('customers/{id}/transactions/evc',[CustomerController::class, 'transactions_post_evc'])->name('customer.tr.evc.post');
     Route::get('customers/{id}/switch-account',[CustomerController::class, 'switchAccount'])->name('customer.sa');
+    Route::get('customers/{id}/reset-password',[CustomerController::class, 'resetPasswordLink'])->name('customer.rp');
     Route::post('customers/api', [CustomerController::class, 'api'])->name('customer.api');
 
     Route::resource('notifications', NotificationController::class);
