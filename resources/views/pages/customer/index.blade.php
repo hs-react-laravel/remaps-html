@@ -90,10 +90,14 @@
   var dt_ajax;
   $(window).on('load', function() {
     var dt_ajax_table = $('.table-data')
+    var urlParams = new URLSearchParams(window.location.search)
+    var pageNum = urlParams.get('page') ? Number(urlParams.get('page')) : 0
+    console.log(pageNum)
     dt_ajax = dt_ajax_table.DataTable({
       processing: true,
       serverSide: true,
-    //   bSort: false,
+      displayStart: 15 * pageNum,
+      // bSort: false,
       dom: '<"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-end align-items-baseline"f<"dt-action-buttons text-end ms-1"B>>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       buttons: [
         {
@@ -211,6 +215,15 @@
         }
       }
     });
+
+    $('.table-data').on('page.dt', function() {
+      var info = dt_ajax.page.info()
+      window.history.replaceState(null, null, `?page=${info.page}`)
+    })
+    $('.table-data').on('init.dt', function() {
+        console.log('init')
+        dt_ajax.page(pageNum).draw('page')
+    })
   })
 </script>
 @endsection
