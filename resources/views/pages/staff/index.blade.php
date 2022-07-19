@@ -18,7 +18,7 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">Customers</h4>
+        <h4 class="card-title">Staff</h4>
         <a href="{{ route('staffs.create') }}" class="btn btn-icon btn-primary">
           <i data-feather="user-plus"></i>
         </a>
