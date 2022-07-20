@@ -82,7 +82,7 @@ class CustomerRequest extends FormRequest
                         'county'          => 'required|string|max:191',
                         'town'            => 'required|string|max:191',
                         'post_code'       => 'nullable|string|max:191',
-                        'email'           => 'required|email|'.Rule::unique('users')->where('company_id', $admin->company->id)->whereNull('deleted_at')
+                        'email'           => 'required|email|'.Rule::unique('users')->whereNot('id', $user->id)->where('company_id', $admin->company->id)->whereNull('deleted_at')
                     ];
 
                 }
