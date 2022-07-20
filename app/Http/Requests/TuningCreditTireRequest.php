@@ -42,7 +42,7 @@ class TuningCreditTireRequest extends FormRequest
                 }
             case 'POST': {
                     return [
-                        'amount' =>'required|'.Rule::unique('tuning_credit_tires')->where('company_id', $this->user->company_id)->where('group_type', 'normal').'|regex:/^\d*(\.\d{1,2})?$/|max:8',
+                        'amount' =>'required|'.Rule::unique('tuning_credit_tires')->where('company_id', $this->user->company_id)->where('group_type', 'normal')->whereNull('deleted_at').'|regex:/^\d*(\.\d{1,2})?$/|max:8',
                     ];
                 }
             case 'PUT':
