@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\User;
 use App\Http\Requests\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -64,7 +65,7 @@ class CustomerRequest extends FormRequest
                         'county'          => 'required|string|max:191',
                         'town'            => 'required|string|max:191',
                         'post_code'       => 'nullable|string|max:191',
-                        'email'           => 'required|email|unique:users,email,NULL,id,company_id,'.$admin->company->id
+                        'email'           => 'required|email|'.Rule::unique('users')->where('company_id', $admin->company->id)->whereNull('deleted_at')
                     ];
                 }
             case 'PUT':
@@ -81,8 +82,9 @@ class CustomerRequest extends FormRequest
                         'county'          => 'required|string|max:191',
                         'town'            => 'required|string|max:191',
                         'post_code'       => 'nullable|string|max:191',
-                        'email'           => 'required|email|unique:users,email,'.$user->id.',id,company_id,'.$admin->company->id,
+                        'email'           => 'required|email|'.Rule::unique('users')->where('company_id', $admin->company->id)->whereNull('deleted_at')
                     ];
+
                 }
             default:break;
         }
