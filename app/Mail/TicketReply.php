@@ -50,6 +50,7 @@ class TicketReply extends Mailable
             $body = str_replace('##APP_LOGO', asset('uploads/logo/'. $this->user->company->owner->logo), $body);
 			$body = str_replace('##CUSTOMER_NAME', ucwords($this->user->first_name.' '.$this->user->last_name), $body);
 			$body = str_replace('##MESSAGE', ucfirst($this->jobDetail), $body);
+            $body = str_replace('##TEST', asset('uploads/logo/'. $this->user->company->owner->logo), $body);
 
             $this->subject($subject)
                 ->view('emails.layout')
