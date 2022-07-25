@@ -20,6 +20,7 @@ class TicketReply extends Mailable
      */
 
     public $fileService,$jobDetail;
+    public $user;
 
     /**
      * Create a new message instance.
