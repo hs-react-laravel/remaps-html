@@ -14,12 +14,13 @@ class TicketCreated extends Mailable
     use Queueable, SerializesModels;
 
     /**
-     * The file service instance.
+     * The user instance.
      *
-     * @var FileService
+     * @var User
      */
+    public $user;
 
-    public $fileService,$jobDetail;
+    public $jobDetail;
 
     /**
      * Create a new message instance.

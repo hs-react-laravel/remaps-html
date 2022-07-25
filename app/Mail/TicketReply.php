@@ -14,13 +14,13 @@ class TicketReply extends Mailable
     use Queueable, SerializesModels;
 
     /**
-     * The file service instance.
+     * The user instance.
      *
-     * @var FileService
+     * @var User
      */
-
-    public $fileService,$jobDetail;
     public $user;
+
+    public $jobDetail;
 
     /**
      * Create a new message instance.
