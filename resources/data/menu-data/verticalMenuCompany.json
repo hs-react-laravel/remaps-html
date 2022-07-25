@@ -55,6 +55,12 @@
         ]
     },
     {
+        "url": "admin/email-templates",
+        "name": "menu_EmailTemplates",
+        "icon": "mail",
+        "slug": "email-templates.index"
+    },
+    {
         "url": "admin/tuning-types",
         "name": "menu_TuningTypes",
         "icon": "columns",
