@@ -159,7 +159,7 @@
 
 <!-- E-commerce Pagination Starts -->
 <section id="ecommerce-pagination">
-  {{ $products->links() }}
+  {{ $products->appends($_GET)->links() }}
 </section>
 <!-- E-commerce Pagination Ends -->
 @endsection
