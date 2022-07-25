@@ -48,8 +48,8 @@ class TicketCreated extends Mailable
 
 			$subject = str_replace('##CUSTOMER_NAME', ucwords($this->user->first_name.' '.$this->user->last_name), $subject);
 
-            $body = str_replace('##APP_NAME', $this->user->company->owner->name, $body);
-            $body = str_replace('##APP_LOGO', asset('uploads/logo/'. $this->user->company->owner->logo), $body);
+            $body = str_replace('##APP_NAME', $this->user->company->name, $body);
+            $body = str_replace('##APP_LOGO', asset('storage/uploads/logo/'. $this->user->company->logo), $body);
 			$body = str_replace('##CUSTOMER_NAME', ucwords($this->user->first_name.' '.$this->user->last_name), $body);
 			$body = str_replace('##MESSAGE', ucfirst($this->jobDetail), $body);
             $this->subject($subject)
