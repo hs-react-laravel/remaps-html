@@ -63,7 +63,7 @@ class AdminFileServiceRequest extends FormRequest
             }
             if($user){
                 if(!$user->company->owner->is_master){
-                    if(!$user->hasActiveSubscription()){
+                    if(!$user->company->owner->hasActiveSubscription()){
                         $validator->errors()->add('user', 'You havn\'t subscribed any plan or your plan hasn\'t active. Please subscribe any plan first.');
                     }
                 }
