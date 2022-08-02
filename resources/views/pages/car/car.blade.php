@@ -189,6 +189,7 @@
           <div class="col-md-12 col-xl-6">
             <canvas class="line-chart-ex chartjs" data-height="350"></canvas>
             <canvas class="line-chart-ex-2 chartjs-2" data-height="350"></canvas>
+            <p style="text-align: end; padding-right: 50px">Graph for illustration only</p>
           </div>
         </div>
 
