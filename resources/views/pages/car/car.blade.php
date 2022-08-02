@@ -27,45 +27,164 @@
       <div class="card-body">
         <div class="row">
           <div class="col-md-12 col-xl-6">
-            <h4 class="card-title"><img src="{{ $logofile }}" style="width: 100px; height: 100px; margin:20px; padding:0" />{{ $car->title }}</h4>
-            <p>Estimated {{ round((intval($car->tuned_bhp) - intval($car->std_bhp)) / intval($car->std_bhp) * 100) }}% more power and
-                {{ round((intval($car->tuned_torque) - intval($car->std_torque)) / intval($car->std_torque) * 100) }}% more torque</p>
-            <div class="row" style="color: white; justify-content: center; font-size: 10px;">
-              <div class="col-3 param-wrapper"><div class="param-header bg-light-warning">Parameter</div></div>
-              <div class="col-3 param-wrapper">
-                <div class="param-header bg-light-info">STANDARD</div>
-              </div>
-              <div class="col-3 param-wrapper">
-                <div class="param-header bg-light-info">CHIPTUNING</div>
-              </div>
-              <div class="col-3 param-wrapper">
-                <div class="param-header bg-light-info">DIFFERENCE</div>
-              </div>
-              <div class="col-3 param-wrapper">
-                <div class="param-item bg-light-primary">BHP</div>
-              </div>
-              <div class="col-3 param-wrapper">
-                <div class="param-item bg-secondary">{{ $car->std_bhp }}</div>
-              </div>
-              <div class="col-3 param-wrapper">
-                <div class="param-item bg-dark">{{ $car->tuned_bhp }}</div>
-              </div>
-              <div class="col-3 param-wrapper">
-                <div class="param-item bg-black">{{ intval($car->tuned_bhp) - intval($car->std_bhp) }} hp</div>
-              </div>
-              <div class="col-3 param-wrapper">
-                <div class="param-item bg-light-danger">TORQUE</div>
-              </div>
-              <div class="col-3 param-wrapper">
-                <div class="param-item bg-secondary">{{ $car->std_torque }}</div>
-              </div>
-              <div class="col-3 param-wrapper">
-                <div class="param-item bg-dark">{{ $car->tuned_torque }}</div>
-              </div>
-              <div class="col-3 param-wrapper">
-                <div class="param-item bg-black">{{ intval($car->tuned_torque) - intval($car->std_torque) }} Nm</div>
+            <h4 class="card-title">
+              <img src="{{ $logofile }}" style="width: 100px; height: 100px; margin:20px; padding:0" />
+              {{ $car->title }}
+            </h4>
+            @if ($car->tuned_bhp_2)
+            <div class="card-body">
+              <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                  <a
+                    class="nav-link active"
+                    id="home-tab"
+                    data-bs-toggle="tab"
+                    href="#stage1"
+                    aria-controls="home"
+                    role="tab"
+                    aria-selected="true"
+                    >Stage 1</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link"
+                    id="profile-tab"
+                    data-bs-toggle="tab"
+                    href="#stage2"
+                    aria-controls="profile"
+                    role="tab"
+                    aria-selected="false"
+                    >Stage 2</a
+                  >
+                </li>
+              </ul>
+
+              <div class="tab-content">
+                <div class="tab-pane active" id="stage1" aria-labelledby="stage1-tab" role="tabpanel">
+                  <p>Estimated {{ round((intval($car->tuned_bhp) - intval($car->std_bhp)) / intval($car->std_bhp) * 100) }}% more power and
+                    {{ round((intval($car->tuned_torque) - intval($car->std_torque)) / intval($car->std_torque) * 100) }}% more torque</p>
+                  <div class="row" style="color: white; justify-content: center; font-size: 10px;">
+                    <div class="col-3 param-wrapper"><div class="param-header bg-light-warning">Parameter</div></div>
+                    <div class="col-3 param-wrapper">
+                      <div class="param-header bg-light-info">STANDARD</div>
+                    </div>
+                    <div class="col-3 param-wrapper">
+                      <div class="param-header bg-light-info">CHIPTUNING</div>
+                    </div>
+                    <div class="col-3 param-wrapper">
+                      <div class="param-header bg-light-info">DIFFERENCE</div>
+                    </div>
+                    <div class="col-3 param-wrapper">
+                      <div class="param-item bg-light-primary">BHP</div>
+                    </div>
+                    <div class="col-3 param-wrapper">
+                      <div class="param-item bg-secondary">{{ $car->std_bhp }}</div>
+                    </div>
+                    <div class="col-3 param-wrapper">
+                      <div class="param-item bg-dark">{{ $car->tuned_bhp }}</div>
+                    </div>
+                    <div class="col-3 param-wrapper">
+                      <div class="param-item bg-black">{{ intval($car->tuned_bhp) - intval($car->std_bhp) }} hp</div>
+                    </div>
+                    <div class="col-3 param-wrapper">
+                      <div class="param-item bg-light-danger">TORQUE</div>
+                    </div>
+                    <div class="col-3 param-wrapper">
+                      <div class="param-item bg-secondary">{{ $car->std_torque }}</div>
+                    </div>
+                    <div class="col-3 param-wrapper">
+                      <div class="param-item bg-dark">{{ $car->tuned_torque }}</div>
+                    </div>
+                    <div class="col-3 param-wrapper">
+                      <div class="param-item bg-black">{{ intval($car->tuned_torque) - intval($car->std_torque) }} Nm</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane" id="stage2" aria-labelledby="stage2-tab" role="tabpanel">
+                  <p>Estimated {{ round((intval($car->tuned_bhp_2) - intval($car->std_bhp)) / intval($car->std_bhp) * 100) }}% more power and
+                    {{ round((intval($car->tuned_torque_2) - intval($car->std_torque)) / intval($car->std_torque) * 100) }}% more torque.
+                  </p>
+                  <div class="row" style="color: white; justify-content: center; font-size: 10px;">
+                    <div class="col-3 param-wrapper"><div class="param-header bg-light-warning">Parameter</div></div>
+                    <div class="col-3 param-wrapper">
+                      <div class="param-header bg-light-info">STANDARD</div>
+                    </div>
+                    <div class="col-3 param-wrapper">
+                      <div class="param-header bg-light-info">CHIPTUNING</div>
+                    </div>
+                    <div class="col-3 param-wrapper">
+                      <div class="param-header bg-light-info">DIFFERENCE</div>
+                    </div>
+                    <div class="col-3 param-wrapper">
+                      <div class="param-item bg-light-primary">BHP</div>
+                    </div>
+                    <div class="col-3 param-wrapper">
+                      <div class="param-item bg-secondary">{{ $car->std_bhp }}</div>
+                    </div>
+                    <div class="col-3 param-wrapper">
+                      <div class="param-item bg-dark">{{ $car->tuned_bhp_2 }}</div>
+                    </div>
+                    <div class="col-3 param-wrapper">
+                      <div class="param-item bg-black">{{ intval($car->tuned_bhp_2) - intval($car->std_bhp) }} hp</div>
+                    </div>
+                    <div class="col-3 param-wrapper">
+                      <div class="param-item bg-light-danger">TORQUE</div>
+                    </div>
+                    <div class="col-3 param-wrapper">
+                      <div class="param-item bg-secondary">{{ $car->std_torque }}</div>
+                    </div>
+                    <div class="col-3 param-wrapper">
+                      <div class="param-item bg-dark">{{ $car->tuned_torque_2 }}</div>
+                    </div>
+                    <div class="col-3 param-wrapper">
+                      <div class="param-item bg-black">{{ intval($car->tuned_torque_2) - intval($car->std_torque) }} Nm</div>
+                    </div>
+                  </div>
+                  <b>Stage 2 may require hardware upgrades to achieve these figures, Contact your tuner for information.</b>
+                </div>
               </div>
             </div>
+            @else
+              <p>Estimated {{ round((intval($car->tuned_bhp) - intval($car->std_bhp)) / intval($car->std_bhp) * 100) }}% more power and
+                {{ round((intval($car->tuned_torque) - intval($car->std_torque)) / intval($car->std_torque) * 100) }}% more torque</p>
+              <div class="row" style="color: white; justify-content: center; font-size: 10px;">
+                <div class="col-3 param-wrapper"><div class="param-header bg-light-warning">Parameter</div></div>
+                <div class="col-3 param-wrapper">
+                  <div class="param-header bg-light-info">STANDARD</div>
+                </div>
+                <div class="col-3 param-wrapper">
+                  <div class="param-header bg-light-info">CHIPTUNING</div>
+                </div>
+                <div class="col-3 param-wrapper">
+                  <div class="param-header bg-light-info">DIFFERENCE</div>
+                </div>
+                <div class="col-3 param-wrapper">
+                  <div class="param-item bg-light-primary">BHP</div>
+                </div>
+                <div class="col-3 param-wrapper">
+                  <div class="param-item bg-secondary">{{ $car->std_bhp }}</div>
+                </div>
+                <div class="col-3 param-wrapper">
+                  <div class="param-item bg-dark">{{ $car->tuned_bhp }}</div>
+                </div>
+                <div class="col-3 param-wrapper">
+                  <div class="param-item bg-black">{{ intval($car->tuned_bhp) - intval($car->std_bhp) }} hp</div>
+                </div>
+                <div class="col-3 param-wrapper">
+                  <div class="param-item bg-light-danger">TORQUE</div>
+                </div>
+                <div class="col-3 param-wrapper">
+                  <div class="param-item bg-secondary">{{ $car->std_torque }}</div>
+                </div>
+                <div class="col-3 param-wrapper">
+                  <div class="param-item bg-dark">{{ $car->tuned_torque }}</div>
+                </div>
+                <div class="col-3 param-wrapper">
+                  <div class="param-item bg-black">{{ intval($car->tuned_torque) - intval($car->std_torque) }} Nm</div>
+                </div>
+              </div>
+            @endif
           </div>
           <div class="col-md-12 col-xl-6">
             <canvas class="line-chart-ex chartjs" data-height="350"></canvas>
@@ -200,7 +319,7 @@
                   zeroLineColor: grid_line_color
                 },
                 ticks: {
-                  fontColor: labelColor
+                  display: false
                 }
               }
             ],
