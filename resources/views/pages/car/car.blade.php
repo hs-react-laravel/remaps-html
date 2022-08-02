@@ -43,8 +43,8 @@
                     aria-controls="home"
                     role="tab"
                     aria-selected="true"
-                    >Stage 1</a
-                  >
+                    onClick="onStage(1)"
+                    >Stage 1</a>
                 </li>
                 <li class="nav-item">
                   <a
@@ -55,8 +55,8 @@
                     aria-controls="profile"
                     role="tab"
                     aria-selected="false"
-                    >Stage 2</a
-                  >
+                    onClick="onStage(2)"
+                    >Stage 2</a>
                 </li>
               </ul>
 
@@ -188,6 +188,7 @@
           </div>
           <div class="col-md-12 col-xl-6">
             <canvas class="line-chart-ex chartjs" data-height="350"></canvas>
+            <canvas class="line-chart-ex-2 chartjs-2" data-height="350"></canvas>
           </div>
         </div>
 
@@ -271,16 +272,13 @@
     if (lineChartEx.length) {
       var lineExample = new Chart(lineChartEx, {
         type: 'line',
-        plugins: [
-          // to add spacing between legends and chart
-          {
-              beforeInit: function (chart) {
-                  chart.legend.afterFit = function () {
-                      this.height += 20;
-                  };
-              }
+        plugins: [{
+          beforeInit: function (chart) {
+            chart.legend.afterFit = function () {
+              this.height += 20;
+            };
           }
-        ],
+        }],
         options: {
           responsive: true,
           maintainAspectRatio: false,
@@ -297,13 +295,6 @@
             backgroundColor: window.colors.solid.white,
             titleFontColor: window.colors.solid.black,
             bodyFontColor: window.colors.solid.black
-          },
-          layout: {
-            padding: {
-            //   top: -15,
-            //   bottom: -25,
-            //   left: -15
-            }
           },
           scales: {
             xAxes: [
@@ -370,102 +361,309 @@
             position: 'top',
             align: 'start',
             labels: {
-            //   usePointStyle: true,
+              // usePointStyle: true,
               padding: 25,
               boxWidth: 2
             }
           }
         },
-    data: {
-    labels: [0, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500],
-    datasets: [
-        {
-            data: tordata,
-            label: 'OEM Torque',
-            borderColor: lineChartDanger,
-            // borderDash: [5],
-            lineTension: 0.5,
-            pointStyle: 'circle',
-            backgroundColor: lineChartDanger,
-            fill: false,
-            pointRadius: 1,
-            pointHoverRadius: 5,
-            pointHoverBorderWidth: 5,
-            pointBorderColor: 'transparent',
-            pointHoverBorderColor: window.colors.solid.white,
-            pointHoverBackgroundColor: lineChartDanger,
-            pointShadowOffsetX: 1,
-            pointShadowOffsetY: 1,
-            pointShadowBlur: 5,
-            pointShadowColor: tooltipShadow,
-            yAxisID: 'y-right'
-        },
-        {
-            data: bhpdata,
-            label: 'OEM Power',
-            borderColor: lineChartPrimary,
-            lineTension: 0.5,
-            pointStyle: 'circle',
-            backgroundColor: lineChartPrimary,
-            fill: false,
-            pointRadius: 1,
-            pointHoverRadius: 5,
-            pointHoverBorderWidth: 5,
-            pointBorderColor: 'transparent',
-            pointHoverBorderColor: window.colors.solid.white,
-            pointHoverBackgroundColor: lineChartPrimary,
-            pointShadowOffsetX: 1,
-            pointShadowOffsetY: 1,
-            pointShadowBlur: 5,
-            pointShadowColor: tooltipShadow,
-            yAxisID: 'y-left'
-        },
-        {
-            data: tordata_tuned,
-            label: 'Tuned Torque',
-            borderColor: lineChartDanger,
-            borderDash: [2],
-            lineTension: 0.5,
-            pointStyle: 'circle',
-            backgroundColor: lineChartDanger,
-            fill: false,
-            pointRadius: 1,
-            pointHoverRadius: 5,
-            pointHoverBorderWidth: 5,
-            pointBorderColor: 'transparent',
-            pointHoverBorderColor: window.colors.solid.white,
-            pointHoverBackgroundColor: lineChartDanger,
-            pointShadowOffsetX: 1,
-            pointShadowOffsetY: 1,
-            pointShadowBlur: 5,
-            pointShadowColor: tooltipShadow,
-            yAxisID: 'y-right'
-        },
-        {
-            data: bhpdata_tuned,
-            label: 'Tuned Power',
-            borderColor: lineChartPrimary,
-            borderDash: [2],
-            lineTension: 0.5,
-            pointStyle: 'circle',
-            backgroundColor: lineChartPrimary,
-            fill: false,
-            pointRadius: 1,
-            pointHoverRadius: 5,
-            pointHoverBorderWidth: 5,
-            pointBorderColor: 'transparent',
-            pointHoverBorderColor: window.colors.solid.white,
-            pointHoverBackgroundColor: lineChartPrimary,
-            pointShadowOffsetX: 1,
-            pointShadowOffsetY: 1,
-            pointShadowBlur: 5,
-            pointShadowColor: tooltipShadow,
-            yAxisID: 'y-left'
+        data: {
+          labels: [0, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500],
+          datasets: [
+            {
+              data: tordata,
+              label: 'OEM Torque',
+              borderColor: lineChartDanger,
+              // borderDash: [5],
+              lineTension: 0.5,
+              pointStyle: 'circle',
+              backgroundColor: lineChartDanger,
+              fill: false,
+              pointRadius: 1,
+              pointHoverRadius: 5,
+              pointHoverBorderWidth: 5,
+              pointBorderColor: 'transparent',
+              pointHoverBorderColor: window.colors.solid.white,
+              pointHoverBackgroundColor: lineChartDanger,
+              pointShadowOffsetX: 1,
+              pointShadowOffsetY: 1,
+              pointShadowBlur: 5,
+              pointShadowColor: tooltipShadow,
+              yAxisID: 'y-right'
+            },
+            {
+              data: bhpdata,
+              label: 'OEM Power',
+              borderColor: lineChartPrimary,
+              lineTension: 0.5,
+              pointStyle: 'circle',
+              backgroundColor: lineChartPrimary,
+              fill: false,
+              pointRadius: 1,
+              pointHoverRadius: 5,
+              pointHoverBorderWidth: 5,
+              pointBorderColor: 'transparent',
+              pointHoverBorderColor: window.colors.solid.white,
+              pointHoverBackgroundColor: lineChartPrimary,
+              pointShadowOffsetX: 1,
+              pointShadowOffsetY: 1,
+              pointShadowBlur: 5,
+              pointShadowColor: tooltipShadow,
+              yAxisID: 'y-left'
+            },
+            {
+              data: tordata_tuned,
+              label: 'Tuned Torque',
+              borderColor: lineChartDanger,
+              borderDash: [2],
+              lineTension: 0.5,
+              pointStyle: 'circle',
+              backgroundColor: lineChartDanger,
+              fill: false,
+              pointRadius: 1,
+              pointHoverRadius: 5,
+              pointHoverBorderWidth: 5,
+              pointBorderColor: 'transparent',
+              pointHoverBorderColor: window.colors.solid.white,
+              pointHoverBackgroundColor: lineChartDanger,
+              pointShadowOffsetX: 1,
+              pointShadowOffsetY: 1,
+              pointShadowBlur: 5,
+              pointShadowColor: tooltipShadow,
+              yAxisID: 'y-right'
+            },
+            {
+              data: bhpdata_tuned,
+              label: 'Tuned Power',
+              borderColor: lineChartPrimary,
+              borderDash: [2],
+              lineTension: 0.5,
+              pointStyle: 'circle',
+              backgroundColor: lineChartPrimary,
+              fill: false,
+              pointRadius: 1,
+              pointHoverRadius: 5,
+              pointHoverBorderWidth: 5,
+              pointBorderColor: 'transparent',
+              pointHoverBorderColor: window.colors.solid.white,
+              pointHoverBackgroundColor: lineChartPrimary,
+              pointShadowOffsetX: 1,
+              pointShadowOffsetY: 1,
+              pointShadowBlur: 5,
+              pointShadowColor: tooltipShadow,
+              yAxisID: 'y-left'
+            }
+          ]
         }
-    ]
+      });
     }
-});
-}
 
-  </script>
+    var chartWrapper2 = $('.chartjs-2');
+    var lineChartEx2 = $('.line-chart-ex-2');
+    if (chartWrapper2.length) {
+      chartWrapper2.each(function () {
+        $(this).wrap($('<div style="height:' + this.getAttribute('data-height') + 'px; display: none"></div>'));
+      });
+    }
+    if (lineChartEx2.length) {
+      var bhpdata_tuned_2 = [0, 22.85, 40, 52.85, 67.14, 77.14, 87.14, 97.14, 97.85, 100, 100, 80, 0, 0].map((v) => Math.round(v / 100 * {{ intval($car->tuned_bhp_2) }}) );
+      var tordata_tuned_2 = [0, 58.18, 87.27, 98.78, 100, 95.75, 92.27, 90.30, 87.27, 84.24, 78.78, 60, 0, 0].map((v) => Math.round(v / 100 * {{ intval($car->tuned_torque_2) }}));
+      var lineExample2 = new Chart(lineChartEx2, {
+        type: 'line',
+        plugins: [{
+          beforeInit: function (chart) {
+            chart.legend.afterFit = function () {
+              this.height += 20;
+            };
+          }
+        }],
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          backgroundColor: false,
+          hover: {
+            mode: 'label'
+          },
+          tooltips: {
+            // Updated default tooltip UI
+            shadowOffsetX: 1,
+            shadowOffsetY: 1,
+            shadowBlur: 8,
+            shadowColor: tooltipShadow,
+            backgroundColor: window.colors.solid.white,
+            titleFontColor: window.colors.solid.black,
+            bodyFontColor: window.colors.solid.black
+          },
+          scales: {
+            xAxes: [
+              {
+                display: true,
+                scaleLabel: {
+                  display: true,
+                  labelString: 'RPM'
+                },
+                gridLines: {
+                  display: true,
+                  color: grid_line_color,
+                  zeroLineColor: grid_line_color
+                },
+                ticks: {
+                  display: false
+                }
+              }
+            ],
+            yAxes: [
+              {
+                id: 'y-left',
+                display: true,
+                position: 'left',
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Power(hp)'
+                },
+                ticks: {
+                    stepSize: yAxisMaxLeft * 100 / 5,
+                    min: 0,
+                    max: yAxisMaxLeft * 100,
+                    fontColor: labelColor
+                },
+                gridLines: {
+                    display: true,
+                    color: grid_line_color,
+                    zeroLineColor: grid_line_color
+                }
+              },
+              {
+                id: 'y-right',
+                display: true,
+                position: 'right',
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Torque(Nm)'
+                },
+                ticks: {
+                    stepSize: yAxisMaxRight * 100 / 5,
+                    min: 0,
+                    max: yAxisMaxRight * 100,
+                    fontColor: labelColor
+                },
+                gridLines: {
+                    display: true,
+                    color: grid_line_color,
+                    zeroLineColor: grid_line_color
+                }
+              }
+            ]
+          },
+          legend: {
+            position: 'top',
+            align: 'start',
+            labels: {
+              // usePointStyle: true,
+              padding: 25,
+              boxWidth: 2
+            }
+          }
+        },
+        data: {
+          labels: [0, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500],
+          datasets: [
+            {
+              data: tordata,
+              label: 'OEM Torque',
+              borderColor: lineChartDanger,
+              // borderDash: [5],
+              lineTension: 0.5,
+              pointStyle: 'circle',
+              backgroundColor: lineChartDanger,
+              fill: false,
+              pointRadius: 1,
+              pointHoverRadius: 5,
+              pointHoverBorderWidth: 5,
+              pointBorderColor: 'transparent',
+              pointHoverBorderColor: window.colors.solid.white,
+              pointHoverBackgroundColor: lineChartDanger,
+              pointShadowOffsetX: 1,
+              pointShadowOffsetY: 1,
+              pointShadowBlur: 5,
+              pointShadowColor: tooltipShadow,
+              yAxisID: 'y-right'
+            },
+            {
+              data: bhpdata,
+              label: 'OEM Power',
+              borderColor: lineChartPrimary,
+              lineTension: 0.5,
+              pointStyle: 'circle',
+              backgroundColor: lineChartPrimary,
+              fill: false,
+              pointRadius: 1,
+              pointHoverRadius: 5,
+              pointHoverBorderWidth: 5,
+              pointBorderColor: 'transparent',
+              pointHoverBorderColor: window.colors.solid.white,
+              pointHoverBackgroundColor: lineChartPrimary,
+              pointShadowOffsetX: 1,
+              pointShadowOffsetY: 1,
+              pointShadowBlur: 5,
+              pointShadowColor: tooltipShadow,
+              yAxisID: 'y-left'
+            },
+            {
+              data: tordata_tuned_2,
+              label: 'Tuned Torque',
+              borderColor: lineChartDanger,
+              borderDash: [2],
+              lineTension: 0.5,
+              pointStyle: 'circle',
+              backgroundColor: lineChartDanger,
+              fill: false,
+              pointRadius: 1,
+              pointHoverRadius: 5,
+              pointHoverBorderWidth: 5,
+              pointBorderColor: 'transparent',
+              pointHoverBorderColor: window.colors.solid.white,
+              pointHoverBackgroundColor: lineChartDanger,
+              pointShadowOffsetX: 1,
+              pointShadowOffsetY: 1,
+              pointShadowBlur: 5,
+              pointShadowColor: tooltipShadow,
+              yAxisID: 'y-right'
+            },
+            {
+              data: bhpdata_tuned_2,
+              label: 'Tuned Power',
+              borderColor: lineChartPrimary,
+              borderDash: [2],
+              lineTension: 0.5,
+              pointStyle: 'circle',
+              backgroundColor: lineChartPrimary,
+              fill: false,
+              pointRadius: 1,
+              pointHoverRadius: 5,
+              pointHoverBorderWidth: 5,
+              pointBorderColor: 'transparent',
+              pointHoverBorderColor: window.colors.solid.white,
+              pointHoverBackgroundColor: lineChartPrimary,
+              pointShadowOffsetX: 1,
+              pointShadowOffsetY: 1,
+              pointShadowBlur: 5,
+              pointShadowColor: tooltipShadow,
+              yAxisID: 'y-left'
+            }
+          ]
+        }
+      });
+    }
+
+    function onStage(stage) {
+      if (stage == 1) {
+        $('.chartjs').parent().show();
+        $('.chartjs-2').parent().hide();
+      } else if (stage == 2) {
+        $('.chartjs').parent().hide();
+        $('.chartjs-2').parent().show();
+      }
+    }
+</script>
 @endsection
