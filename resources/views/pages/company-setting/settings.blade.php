@@ -79,8 +79,7 @@
                 role="tab"
                 aria-controls="evc-fill"
                 aria-selected="@if($tab == 'evc') true @else false @endif"
-                >EVC Credits</a
-              >
+                >EVC Credits</a>
             </li>
             <li class="nav-item">
               <a
@@ -91,8 +90,7 @@
                 role="tab"
                 aria-controls="opens-fill"
                 aria-selected="@if($tab == 'openhours') true @else false @endif"
-                >Opening Hours</a
-              >
+                >Opening Hours</a>
             </li>
             <li class="nav-item">
               <a
@@ -103,8 +101,18 @@
                 role="tab"
                 aria-controls="styling-fill"
                 aria-selected="@if($tab == 'styling') true @else false @endif"
-                >Styling</a
-              >
+                >Styling</a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link @if($tab == 'tc') active @endif"
+                id="tc-tab-fill"
+                data-bs-toggle="tab"
+                href="#tc-fill"
+                role="tab"
+                aria-controls="tc-fill"
+                aria-selected="@if($tab == 'tc') true @else false @endif"
+                >Terms &amp; Conditions</a>
             </li>
           </ul>
 
@@ -117,6 +125,7 @@
             @include('pages.company-setting.evc')
             @include('pages.company-setting.openhours')
             @include('pages.company-setting.styling')
+            @include('pages.company-setting.tc')
           </div>
         </div>
       </div>

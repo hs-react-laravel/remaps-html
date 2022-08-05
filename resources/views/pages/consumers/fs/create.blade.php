@@ -216,7 +216,16 @@
                 <span class="text-danger">Drag and drop file here</span>
               </div>
             </div>
-
+            @if($company->is_tc)
+            <div class="row mb-1">
+              <div class="col-12 mb-1">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="is_tc" name="is_tc" required/>
+                  <label class="form-check-label" for="is_tc">I agree to the <a target="_blank" href="{{ asset('storage/uploads/tc/'.$company->tc_pdf) }}">terms and conditions</a></label>
+                </div>
+              </div>
+            </div>
+            @endif
             <button type="submit" class="btn btn-primary me-1">Submit</button>
             <button type="button" class="btn btn-flat-secondary me-1" onclick="history.back(-1)">Cancel</button>
 

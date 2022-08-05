@@ -80,7 +80,9 @@ class Company extends Model
         'style_theme',
         'timezone',
         'is_first_shop',
-        'is_open_shop'
+        'is_open_shop',
+        'is_tc',
+        'tc_pdf'
     ];
 
     public function users()

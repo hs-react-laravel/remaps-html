@@ -32,6 +32,12 @@ class CompanySettingController extends MasterController
                 $file->move(storage_path('app/public/uploads/styling'), $filename);
                 $request->request->add(['style_background' => $filename]);
             }
+            if ($request->file('tc_pdf_file')) {
+                $file = $request->file('tc_pdf_file');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $file->move(storage_path('app/public/uploads/tc'), $filename);
+                $request->request->add(['tc_pdf' => $filename]);
+            }
             if($request->reseller_id && $request->reseller_password) {
                 $url = "https://evc.de/services/api_resellercredits.asp";
                 $dataArray = array(
