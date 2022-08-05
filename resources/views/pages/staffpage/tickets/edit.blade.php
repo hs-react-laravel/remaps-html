@@ -10,6 +10,9 @@
       <div class="card" id="dropContainer">
         <div class="card-header">
           <h4 class="card-title">Support</h4>
+          <a href="{{ route('stafftk.close', ['id' => $entry->id]) }}" class="btn btn-icon btn-primary">
+            Close Ticket
+          </a>
         </div>
         <div class="card-body">
           <hr>
