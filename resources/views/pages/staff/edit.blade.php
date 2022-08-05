@@ -19,9 +19,6 @@
         <div class="card">
           <div class="card-header">
             <h4 class="card-title">Edit staff</h4>
-            <a href="{{ route('stafftk.close', ['id' => $entry->id]) }}" class="btn btn-icon btn-primary">
-              Close Ticket
-            </a>
           </div>
           <div class="card-body">
             <div class="row mb-1">
