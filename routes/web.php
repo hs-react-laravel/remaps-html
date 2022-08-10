@@ -295,6 +295,8 @@ Route::group(['middleware' => 'auth:customer', 'prefix'=>'customer'], function (
     Route::get('/shop/order/list', [ShopCustomerController::class, 'orderList'])->name('customer.shop.order.list');
     Route::get('/shop/order/{id}/show', [ShopCustomerController::class, 'orderShow'])->name('customer.shop.order.show');
     Route::post('/shop/comment/{id}', [ShopCustomerController::class, 'commentProduct'])->name('customer.shop.comment.save');
+
+    Route::get('chats', [CustomerChatController::class, 'index'])->name('customer.chats.index');
 });
 Route::group(['middleware' => 'check.common'], function () {
 

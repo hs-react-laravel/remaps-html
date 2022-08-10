@@ -25,9 +25,15 @@
                 <p class="badge bg-dark badge-custom">
                   {{ $entry->message }} <br>
                   @if ($entry->document)
-                    <a href="{{ route('tickets.download', ['id' => $entry->id]) }}">
-                        <i data-feather="file"></i> {{ $entry->sender->is_reserve_filename && !empty($entry->remain_file) ? $entry->remain_file : $entry->document }}
+                    @if ($user->is_staff)
+                    <a href="{{ route('stafftk.download', ['id' => $entry->id]) }}">
+                      <i data-feather="file"></i> {{ $entry->sender->is_reserve_filename && !empty($entry->remain_file) ? $entry->remain_file : $entry->document }}
                     </a>
+                    @else
+                    <a href="{{ route('tickets.download', ['id' => $entry->id]) }}">
+                      <i data-feather="file"></i> {{ $entry->sender->is_reserve_filename && !empty($entry->remain_file) ? $entry->remain_file : $entry->document }}
+                    </a>
+                    @endif
                   @endif
                 </p>
                 @php
@@ -44,9 +50,15 @@
                   <p class="badge bg-dark badge-custom">
                     {{ $msg->message }} <br>
                     @if ($msg->document)
+                      @if ($user->is_staff)
+                      <a href="{{ route('stafftk.download', ['id' => $msg->id]) }}">
+                        <i data-feather="file"></i> {{ $msg->sender->is_reserve_filename && !empty($msg->remain_file) ? $msg->remain_file : $msg->document }}
+                      </a>
+                      @else
                       <a href="{{ route('tickets.download', ['id' => $msg->id]) }}">
                         <i data-feather="file"></i> {{ $msg->sender->is_reserve_filename && !empty($msg->remain_file) ? $msg->remain_file : $msg->document }}
                       </a>
+                      @endif
                     @endif
                   </p>
                 </div>

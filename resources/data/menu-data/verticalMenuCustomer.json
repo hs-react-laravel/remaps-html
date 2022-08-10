@@ -44,7 +44,7 @@
         "url": "customer/chats",
         "name": "menu_Chats",
         "icon": "message-square",
-        "slug": "chats.index",
+        "slug": "customer.chats.index",
         "beta": true
     },
     {
