@@ -200,7 +200,7 @@ class Helper
     public static function getInitialName($id)
     {
         $user = User::find($id);
-        return $user ? strtoupper(substr($user->first_name, 0, 1) . substr($user->last_name, 0, 1)) : '';
+        return $user ? mb_strtoupper(mb_substr($user->first_name, 0, 1) . mb_substr($user->last_name, 0, 1)) : '';
     }
 
     public static function getInitialNameCompany($id)
