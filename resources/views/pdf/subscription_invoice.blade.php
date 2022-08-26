@@ -11,8 +11,8 @@
       <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
           <td valign="top">
-            @if(\File::exists(public_path('uploads/logo/' . $company->logo)))
-              <img src="{{ public_path('uploads/logo/' . $company->logo) }}" alt="" style="width:280px" />
+            @if(\File::exists('storage/uploads/logo/' . $company->logo))
+              <img src="{{ asset('storage/uploads/logo/' . $company->logo) }}" alt="" style="width:280px" />
             @endif
           </td>
           <td align="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -57,10 +57,10 @@
         <tr>
           <td valign="top">&nbsp;</td>
           <td>&nbsp;</td>
-         
+
       <td style="color:#cccccc; font-size:50px; font-family:Arial, Helvetica, sans-serif; text-align:right">Invoice</td>
-     
-          </tr>  
+
+          </tr>
         <tr>
           <td valign="top">&nbsp;</td>
           <td>&nbsp;</td>
@@ -170,7 +170,7 @@
             <tr>
               <td>&nbsp;</td>
             </tr>
-                  
+
             </table></td>
           </tr>
       </table></td>
@@ -194,7 +194,7 @@
                       </tr>
                     </table></td>
       </tr>
-    
+
     <tr>
       <td>&nbsp;</td>
     </tr>
