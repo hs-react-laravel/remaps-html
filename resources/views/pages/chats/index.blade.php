@@ -402,6 +402,6 @@
       loadChatUsers()
     }
     minuteCheck()
-    setInterval(minuteCheck, 60 * 1000);
+    // setInterval(minuteCheck, 60 * 1000);
 </script>
 @endsection
