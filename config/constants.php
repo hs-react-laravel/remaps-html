@@ -119,9 +119,9 @@ return [
     ],
 
     'file_service_gearbox'=>[
-        1=>5,
-        2=>6,
-        15=>7,
+        1=>'5 Speed',
+        2=>'6 Speed',
+        15=>'7 Speed',
         3=>'Automatic Transmission',
         13=>'CVT',
         4=>'DSG',
