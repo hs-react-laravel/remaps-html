@@ -73,6 +73,9 @@ class SubscriptionController extends MasterController
         $subscription_payment = SubscriptionPayment::find($id);
         $pdf = new Dompdf;
         $invoiceName = 'invoice_'.$subscription_payment->id.'.pdf';
+        $options = $pdf->getOptions();
+        $options->setIsRemoteEnabled(true);
+        $pdf->setOptions($options);
         $pdf->loadHtml(
             view('pdf.subscription_invoice')->with(['subscription_payment'=>$subscription_payment, 'company'=>$this->company, 'user'=>$this->user])->render()
         );
