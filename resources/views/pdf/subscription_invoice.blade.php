@@ -12,7 +12,7 @@
         <tr>
           <td valign="top">
             @if(\File::exists('storage/uploads/logo/'.$company->logo))
-              <img src="https://tuning-server.com/storage/uploads/logo/1651316100.jfif" alt="" style="width:280px" />
+              <img src="https://apt.remapdash.com/storage/uploads/logo/1542745913.png" alt="" style="width:280px" />
             @endif
           </td>
           <td align="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
