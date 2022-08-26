@@ -76,8 +76,9 @@ class SubscriptionController extends MasterController
         $options = $pdf->getOptions();
         $options->setIsRemoteEnabled(true);
         $pdf->setOptions($options);
+        $masterCompany = \App\Models\Company::where('is_default', 1)->first();
         $pdf->loadHtml(
-            view('pdf.subscription_invoice')->with(['subscription_payment'=>$subscription_payment, 'company'=>$this->company, 'user'=>$this->user])->render()
+            view('pdf.subscription_invoice')->with(['subscription_payment'=>$subscription_payment, 'company'=>$masterCompany, 'user'=>$this->user])->render()
         );
         $pdf->setPaper('A4', 'landscape');
         $pdf->render();
