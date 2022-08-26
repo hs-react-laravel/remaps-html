@@ -41,13 +41,6 @@
         "slug": "tr.index"
     },
     {
-        "url": "customer/chats",
-        "name": "menu_Chats",
-        "icon": "message-square",
-        "slug": "customer.chats.index",
-        "beta": true
-    },
-    {
         "url": "customer/cars",
         "name": "menu_BrowseSpecs",
         "icon": "search",
