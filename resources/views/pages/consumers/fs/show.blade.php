@@ -29,7 +29,7 @@
               <tr><th>ECU</th><td>{{ $entry->ecu }}</td></tr>
               <tr><th>Engine HP</th><td>{{ $entry->engine_hp }}</td></tr>
               <tr><th>Year of Manufacture</th><td>{{ $entry->year }}</td></tr>
-              <tr><th>Gearbox</th><td>{{ $entry->gearbox }}</td></tr>
+              <tr><th>Gearbox</th><td>{{ config('constants.file_service_gearbox')[$entry->gearbox] }}</td></tr>
               <tr><th>Fuel Type</th><td>{{ $entry->fuel_type }}</td></tr>
               <tr><th>Reading Tool</th><td>{{ $entry->reading_tool }}</td></tr>
               <tr><th>License plate</th><td>{{ $entry->license_plate }}</td></tr>
