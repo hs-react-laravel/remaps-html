@@ -12,9 +12,8 @@
         <tr>
           <td valign="top">
             @if(\File::exists('storage/uploads/logo/'.$company->logo))
-              <img src="{{ asset('storage/uploads/logo/'.$company->logo) }}" alt="" style="width:280px" />
+              <img src="https://tuning-server.com/storage/uploads/logo/1651316100.jfif" alt="" style="width:280px" />
             @endif
-            {{asset('storage/uploads/logo/'.$company->logo)}}
           </td>
           <td align="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
             <tr>
