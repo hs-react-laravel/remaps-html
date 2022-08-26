@@ -307,3 +307,7 @@
 .chat .chat-body .chat-content p {
     margin: 0;
 }
+
+.chat-time-text-small {
+    font-size: 10px;
+}

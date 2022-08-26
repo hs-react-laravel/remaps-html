@@ -204,7 +204,7 @@
                             </p>
                             </div>
                             <div class="chat-meta text-nowrap">
-                            <small class="float-end mb-25 chat-time">${user.date}</small>
+                            <small class="float-end mb-25 chat-time chat-time-text-small">${user.date}</small>
                             <span class="badge bg-danger rounded-pill float-end">${user.count > 0 ? user.count : ''}</span>
                             </div>
                         </li>`
