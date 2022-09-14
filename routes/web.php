@@ -198,6 +198,7 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::get('chats', [ChatController::class, 'index'])->name('chats.index');
 
     Route::resource('staffs', StaffController::class);
+    Route::get('staffs/{id}/set_semi_admin', [StaffController::class, 'set_semi_admin'])->name('staffs.semi.set');
 
     Route::get('/cars', [CarBrowserController::class, 'index'])->name('admin.cars.index');
     Route::post('/cars/category', [CarBrowserController::class, 'category'])->name('admin.cars.category');

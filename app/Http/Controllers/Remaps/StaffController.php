@@ -121,4 +121,25 @@ class StaffController extends MasterController
         User::find($id)->delete();
         return redirect(route('staffs.index'));
     }
+
+    public function set_semi_admin($id)
+    {
+        $staff = User::find($id);
+        if (!$staff->is_semi_admin) {
+            User::where('company_id', $this->user->company_id)
+                ->where('is_admin', 0)
+                ->where('is_staff', 1)
+                ->update([
+                    'is_semi_admin' => 0
+                ]);
+            $staff->update([
+                'is_semi_admin' => 1
+            ]);
+        } else {
+            $staff->update([
+                'is_semi_admin' => 0
+            ]);
+        }
+        return redirect(route('staffs.index'));
+    }
 }

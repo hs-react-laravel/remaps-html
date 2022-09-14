@@ -46,6 +46,11 @@
                       <a class="btn btn-icon btn-primary" href="{{ route('staffs.edit', ['staff' => $entry->id]) }}" title="Edit">
                         <i data-feather="edit"></i>
                       </a>
+                      <a
+                        class="btn btn-icon @if($entry->is_semi_admin) btn-dark @else btn-success @endif"
+                        href="{{ route('staffs.semi.set', ['id' => $entry->id]) }}" title="Set Semi Admin">
+                        <i data-feather="check-circle"></i>
+                      </a>
                       <a class="btn btn-icon btn-success" target="_blank" href="{{ route('customer.sa', ['id' => $entry->id]) }}" title="Login as Staff">
                         <i data-feather="user"></i>
                       </a>
