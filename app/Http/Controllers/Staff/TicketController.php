@@ -197,6 +197,9 @@ class TicketController extends MasterController
         $query = Ticket::where('parent_chat_id', 0)->where(function($query) use($user){
             return $query->where('receiver_id', $user->company->owner->id)->orWhere('sender_id', $user->company->owner->id);
         });
+        if (!$user->is_semi_admin) {
+            $query = $query->where('assign_id', $user->id);
+        }
         $totalRecords = $query->count();
 
         if ($request->unread == "true") {

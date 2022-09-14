@@ -262,6 +262,9 @@ class FileServiceController extends MasterController
         $query = FileService::whereHas('user', function($query) use($user) {
             $query->where('company_id', $user->company_id);
         });
+        if (!$user->is_semi_admin) {
+            $query = $query->where('assign_id', $user->id);
+        }
         $totalRecords = $query->count();
         if($request->staffstatus) {
             $query = $query->where('assign_id', $user->id)->where('status', $request->staffstatus);
