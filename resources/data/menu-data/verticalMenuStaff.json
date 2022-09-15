@@ -21,6 +21,13 @@
         "name": "menu_SupportTickets",
         "icon": "message-circle",
         "slug": "stafftk.index"
+    },
+    {
+        "url": "staff/chats",
+        "name": "menu_Chats",
+        "icon": "message-square",
+        "slug": "staff.chats.index",
+        "beta": true
     }
   ]
 }

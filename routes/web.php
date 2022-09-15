@@ -42,6 +42,7 @@ use App\Http\Controllers\Remaps\Shop\ShopProductController;
 use App\Http\Controllers\Remaps\Shop\ShopSubscriptionController;
 use App\Http\Controllers\Staff\FileServiceController as StaffFileServiceController;
 use App\Http\Controllers\Staff\TicketController as StaffTicketController;
+use App\Http\Controllers\Staff\ChatController as StaffChatController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -220,6 +221,8 @@ Route::group(['prefix'=>'staff', 'middleware' => 'check.customerstaff'], functio
 
     Route::get('edit-password', [DashboardController::class, 'edit_password'])->name('staff.password.edit');
     Route::post('edit-password', [DashboardController::class, 'edit_password_post'])->name('staff.password.edit.post');
+
+    Route::get('chats', [StaffChatController::class, 'index'])->name('staff.chats.index');
 });
 Route::group(['prefix'=>'staff', 'middleware' => 'check.onlystaff'], function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboardStaff'])->name('dashboard.staff');

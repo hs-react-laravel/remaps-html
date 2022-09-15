@@ -158,6 +158,12 @@ class MasterController extends BaseController
                         }
                     }
 
+                    if ($this->role == 'staff') {
+                        if (!$this->user->is_semi_admin) {
+                            array_splice($verticalMenuData->menu, 4, 1);
+                        }
+                    }
+
                     $currencyCode = config('constants.currency_signs')[$this->company->paypal_currency_code];
                     view()->share('currencyCode', $currencyCode);
 
