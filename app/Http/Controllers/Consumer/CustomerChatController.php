@@ -13,14 +13,14 @@ class CustomerChatController extends MasterController
     //
     public function index()
     {
-        // $messageUserIDs = ChatMessage::where('company_id', $this->company->id)
-        //     ->select('target')
-        //     ->groupBy('target')
-        //     ->pluck('target')
-        //     ->toArray();
-        // $mUsers = User::whereIn('id', $messageUserIDs)->get();
-        // $cUsers = User::whereNotIn('id', $messageUserIDs)->get();
+        $messageUserIDs = ChatMessage::where('company_id', $this->company->id)
+            ->select('target')
+            ->groupBy('target')
+            ->pluck('target')
+            ->toArray();
+        $mUsers = User::whereIn('id', $messageUserIDs)->get();
+        $cUsers = User::whereNotIn('id', $messageUserIDs)->get();
 
-        // return view('pages.chats.index')->with(compact('mUsers', 'cUsers'));
+        return view('pages.consumers.chat.index')->with(compact('mUsers', 'cUsers'));
     }
 }

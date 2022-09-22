@@ -93,24 +93,27 @@ class User extends Authenticatable implements MustVerifyEmail
     }
     public function getUnreadTicketsAttribute() {
         $user = $this;
-        if ($this->is_admin) {
-            return $this->company->owner->tickets()
-                ->where('parent_chat_id', 0)
-                ->whereNull('assign_id')
-                ->where('is_read', 0)->count()
-            + $this->company->owner->tickets()->whereHas('parent', function($query) use($user){
-                $query->whereNull('assign_id');
-            })->where('is_read', 0)->count();
-        } else if ($this->is_staff) {
-            return $this->company->owner->tickets()
-                ->where('parent_chat_id', 0)
-                ->where('assign_id', $user->id)
-                ->where('is_read', 0)->count()
-            + $this->company->owner->tickets()->whereHas('parent', function($query) use($user){
-                $query->where('assign_id', $user->id);
-            })->where('is_read', 0)->count();
+        if ($this->is_admin || $this->is_staff && $this->is_semi_admin) {
+            $receiverIDs = $this->company->staffs->where('is_semi_admin', 1)->pluck('id')->toArray();
+            array_push($receiverIDs, $user->id);
+
+            return $this->company->tickets()
+                ->where(function($query) use($receiverIDs){
+                    return $query->whereHas('childrens', function($query) use($receiverIDs){
+                        return $query->whereIn('receiver_id', $receiverIDs)->where('is_read', 0);
+                    })->orWhere(function ($query) use($receiverIDs) {
+                        return $query->whereIn('receiver_id', $receiverIDs)->where('is_read', 0);
+                    });
+                })->count();
         } else {
-            return $this->tickets()->where('is_read', 0)->count();
+            return $this->company->tickets()
+                ->where(function($query) use($user){
+                    return $query->whereHas('childrens', function($query) use($user){
+                        return $query->where('receiver_id', $user)->where('is_read', 0);
+                    })->orWhere(function ($query) use($user) {
+                        return $query->where('receiver_id', $user)->where('is_read', 0);
+                    });
+                })->count();
         }
     }
     public function fileServices()

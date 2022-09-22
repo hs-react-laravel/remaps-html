@@ -7,7 +7,7 @@
 $routeName = Route::current()->getName();
 $app = '';
 if ($routeName == 'customer.shop') $app = 'ecommerce';
-if ($routeName == 'chats.index' || $routeName == 'staff.chats.index') $app = 'chat';
+if ($routeName == 'chats.index' || $routeName == 'staff.chats.index' || $routeName == 'customer.chats.index') $app = 'chat';
 $configData = Helper::applClasses($app);
 @endphp
 

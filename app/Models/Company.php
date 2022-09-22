@@ -97,6 +97,14 @@ class Company extends Model
     {
         return $this->hasOne('App\Models\User')->where('is_admin', 1);
     }
+    public function tickets()
+    {
+        $receiverIDs = $this->staffs->pluck('id')->toArray();
+        array_push($receiverIDs, $this->owner->id);
+        return Ticket::where('parent_chat_id', 0)->where(function($query) use($receiverIDs){
+            return $query->whereIn('receiver_id', $receiverIDs)->orWhereIn('sender_id', $receiverIDs);
+        });
+    }
     public function styling()
     {
         return $this->hasOne('App\Models\Styling');

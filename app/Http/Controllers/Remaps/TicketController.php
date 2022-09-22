@@ -72,7 +72,10 @@ class TicketController extends MasterController
             $fileService = FileService::where('id', $entry->file_servcie_id)->first();
         }
 
-        Ticket::where('receiver_id',$this->user->id)->where(function($query) use($entry){
+        $receiverIDs = $this->user->company->staffs->pluck('id')->toArray();
+        array_push($receiverIDs, $this->user->id);
+
+        Ticket::whereIn('receiver_id', $receiverIDs)->where(function($query) use($entry){
             return $query->where('parent_chat_id',$entry->id)->orWhere('id', $entry->id);
         })->update(['is_read'=>1]);
 
@@ -201,18 +204,17 @@ class TicketController extends MasterController
         $searchValue = $search_arr['value']; // Search value
 
         $user = User::find($request->id);
-        $query = Ticket::where('parent_chat_id', 0)->where(function($query) use($user){
-            return $query->where('receiver_id', $user->id)->orWhere('sender_id', $user->id);
-        });
+        $receiverIDs = $user->company->staffs->pluck('id')->toArray();
+        array_push($receiverIDs, $user->id);
+        $query = $user->company->tickets();
         $totalRecords = $query->count();
 
         if ($request->unread == "true") {
-            $query = $query->whereNull('assign_id')
-            ->where(function($query) use($user){
-                return $query->whereHas('childrens', function($query) use($user){
-                    return $query->where('receiver_id', $user->id)->where('is_read', 0);
-                })->orWhere(function ($query) use($user) {
-                    return $query->where('receiver_id', $user->id)->where('is_read', 0);
+            $query = $query->where(function($query) use($receiverIDs){
+                return $query->whereHas('childrens', function($query) use($receiverIDs){
+                    return $query->whereIn('receiver_id', $receiverIDs)->where('is_read', 0);
+                })->orWhere(function ($query) use($receiverIDs) {
+                    return $query->whereIn('receiver_id', $receiverIDs)->where('is_read', 0);
                 });
             });
         }

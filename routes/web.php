@@ -43,6 +43,7 @@ use App\Http\Controllers\Remaps\Shop\ShopSubscriptionController;
 use App\Http\Controllers\Staff\FileServiceController as StaffFileServiceController;
 use App\Http\Controllers\Staff\TicketController as StaffTicketController;
 use App\Http\Controllers\Staff\ChatController as StaffChatController;
+use App\Http\Controllers\Consumer\CustomerChatController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
