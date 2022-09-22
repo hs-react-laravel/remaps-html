@@ -58,7 +58,8 @@ class MasterController extends BaseController
                     $this->user->last_login = \Carbon\Carbon::now()->format('Y-m-d H:i:s');
                     $this->user->save();
                     $this->is_evc = !!$this->company->reseller_id;
-                    $this->tickets = $this->user->unread_tickets;
+                    // $this->tickets = $this->user->unread_tickets;
+                    $this->tickets = 0;
 
                     if ($this->company->mail_host && $this->company->mail_port
                         && $this->company->mail_username && $this->company->mail_password) {
