@@ -97,14 +97,11 @@ class Ticket extends Model
 	public function getUnreadMessage($user) {
         $count = 0;
         $children = $this->childrens();
-        if ($user->is_admin) {
+        $receiverIDs = $user->company->staffs->pluck('id')->toArray();
+        if ($user->is_admin || $user->is_staff && $user->is_semi_admin) {
             if ($this->assign_id) return 1;
             $count = $this->receiver_id == $user->id && $this->is_read == 0 ? 1 : 0;
-            $count += $children->where('receiver_id', $user->id)->where('is_read', 0)->count();
-        } else if ($user->is_staff) {
-            if ($this->assign_id != $user->id) return 1;
-            $count = $this->receiver_id == $user->company->owner->id && $this->is_read == 0 ? 1 : 0;
-            $count += $children->where('receiver_id', $user->company->owner->id)->where('is_read', 0)->count();
+            $count += $children->whereIn('receiver_id', $receiverIDs)->where('is_read', 0)->count();
         } else {
             $count = $this->receiver_id == $user->id && $this->is_read == 0 ? 1 : 0;
             $count += $children->where('receiver_id', $user->id)->where('is_read', 0)->count();
