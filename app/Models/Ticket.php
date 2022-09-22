@@ -98,6 +98,7 @@ class Ticket extends Model
         $count = 0;
         $children = $this->childrens();
         $receiverIDs = $user->company->staffs->pluck('id')->toArray();
+        array_push($receiverIDs, $user->id);
         if ($user->is_admin || $user->is_staff && $user->is_semi_admin) {
             if ($this->assign_id) return 1;
             $count = $this->receiver_id == $user->id && $this->is_read == 0 ? 1 : 0;
