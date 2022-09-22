@@ -85,7 +85,7 @@
               </div>
               @endif
             </div>
-            <button type="submit" class="btn btn-primary me-1">Save</button>
+            <button id="fs-save" type="submit" class="btn btn-primary me-1">Save</button>
             <button type="button" class="btn btn-flat-secondary me-1" onclick="history.back(-1)">Cancel</button>
           {{ Form::close() }}
           {{ Form::open(array('id' => 'uploadForm', 'method' => 'POST', 'enctype' => 'multipart/form-data')) }}
@@ -130,6 +130,7 @@
       submitFile()
     }
   $("#uploadForm").on('submit', function(e){
+    $('#fs-save').prop('disabled', true);
     e.preventDefault();
     $.ajax({
       xhr: function() {
@@ -163,6 +164,7 @@
           $('#remain_modified_file').val(resp.remain);
         }else{
         }
+        $('#fs-save').prop('disabled', false);
       }
     });
   })
