@@ -46,7 +46,7 @@
           <a href="{{ route('tickets.read.all') }}" class="btn btn-icon btn-secondary">
             Mark All as Read
           </a>
-          <a href="{{ route('tickets.delete.closed') }}" class="btn btn-icon btn-secondary">
+          <a class="btn btn-icon btn-secondary" onclick="onDeleteClosed()">
             Delete Closed Tickets
           </a>
         </div>
@@ -110,6 +110,25 @@
       delete_form.submit();
     }
   }
+  async function onDeleteClosed() {
+    var swal_result = await Swal.fire({
+      title: 'Warning!',
+      text: 'Are you sure to delete?',
+      icon: 'warning',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-outline-danger ms-1'
+      },
+      showCancelButton: true,
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancel',
+      buttonsStyling: false
+    });
+    if (swal_result.isConfirmed) {
+      window.location = "{{ route('tickets.delete.closed') }}"
+    }
+  }
+
   $(window).on('load', function() {
     var dt_ajax_table = $('.table-data')
     var dt_ajax = dt_ajax_table.DataTable({
