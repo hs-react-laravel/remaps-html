@@ -77,7 +77,7 @@ class TicketController extends MasterController
 
         Ticket::whereIn('receiver_id', $receiverIDs)->where(function($query) use($entry){
             return $query->where('parent_chat_id',$entry->id)->orWhere('id', $entry->id);
-        })->update(['is_read'=>1]);
+        })->update(['is_read' => 1]);
 
         return view('pages.tickets.edit', [
             'entry' => $entry,
@@ -116,11 +116,11 @@ class TicketController extends MasterController
             $ticket->save();
 
             $user = User::find($new_ticket->receiver_id);
-            try{
-                Mail::to($user->email)->send(new TicketFileCreated($user,$ticket->subject));
-            }catch(\Exception $e){
-                session()->flash('message', __('admin.ticket_saved'));
-            }
+            // try{
+            //     Mail::to($user->email)->send(new TicketFileCreated($user,$ticket->subject));
+            // }catch(\Exception $e){
+            //     session()->flash('message', __('admin.ticket_saved'));
+            // }
         } else {
             $ticket->assign_id = $request->assign;
             $ticket->save();
@@ -188,6 +188,13 @@ class TicketController extends MasterController
         return redirect(route('tickets.index'));
     }
 
+    public function delete_closed()
+    {
+        $closed_tickets = $this->user->company->tickets()->where('is_closed', 1);
+        $closed_tickets->delete();
+        return redirect(route('tickets.index'));
+    }
+
     public function getTickets(Request $request) {
         $draw = $request->get('draw');
         $start = $request->get('start');
@@ -209,14 +216,9 @@ class TicketController extends MasterController
         $query = $user->company->tickets();
         $totalRecords = $query->count();
 
+        $unread_ids = $user->unread_tickets;
         if ($request->unread == "true") {
-            $query = $query->where(function($query) use($receiverIDs){
-                return $query->whereHas('childrens', function($query) use($receiverIDs){
-                    return $query->whereIn('receiver_id', $receiverIDs)->where('is_read', 0);
-                })->orWhere(function ($query) use($receiverIDs) {
-                    return $query->whereIn('receiver_id', $receiverIDs)->where('is_read', 0);
-                });
-            });
+            $query = $query->whereIn('id', $unread_ids);
         }
 
         if ($request->open == "true") {
@@ -237,7 +239,7 @@ class TicketController extends MasterController
                 'actions' => '',
                 'route.edit' => route('tickets.edit', ['ticket' => $entry->id]), // edit route
                 'route.destroy' => route('tickets.destroy', $entry->id), // destroy route
-                'unread_message' => $entry->getUnreadMessage($user),
+                'unread_message' => in_array($entry->id, $unread_ids) ? 0 : 1,
             ]);
         }
 

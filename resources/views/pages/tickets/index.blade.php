@@ -46,6 +46,9 @@
           <a href="{{ route('tickets.read.all') }}" class="btn btn-icon btn-secondary">
             Mark All as Read
           </a>
+          <a href="{{ route('tickets.delete.closed') }}" class="btn btn-icon btn-secondary">
+            Delete Closed Tickets
+          </a>
         </div>
       </div>
       <div class="table-responsive m-1 mt-0">

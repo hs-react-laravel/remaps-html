@@ -112,6 +112,7 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::get('tickets/{id}/download-document', [TicketController::class, 'download_document'])->name('tickets.download');
     Route::get('tickets/{id}/close', [TicketController::class, 'close_ticket'])->name('tickets.close');
     Route::get('ticket/ra', [TicketController::class, 'read_all'])->name('tickets.read.all');
+    Route::get('ticket/dc', [TicketController::class, 'delete_closed'])->name('tickets.delete.closed');
     Route::post('tickets/api', [TicketController::class, 'getTickets'])->name('tickets.api');
     Route::post('tickets/api/upload/ticket', [TicketController::class, 'uploadTicketFile'])->name('tickets.api.upload');
 

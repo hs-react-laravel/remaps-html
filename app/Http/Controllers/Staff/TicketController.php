@@ -72,9 +72,18 @@ class TicketController extends MasterController
             $fileService = FileService::where('id', $entry->file_servcie_id)->first();
         }
 
-        // Ticket::where('receiver_id',$this->user->id)->where(function($query) use($entry){
-        //     return $query->where('parent_chat_id',$entry->id)->orWhere('id', $entry->id);
-        // })->update(['is_read'=>1]);
+        if ($this->user->is_semi_admin) {
+            $user = $this->user;
+            Ticket::where(function($query) use($user) {
+                return $query->where('receiver_id', $user->id)->orWhere('receiver_id', $user->company->owner->id);
+            })->where(function($query) use($entry){
+                return $query->where('parent_chat_id',$entry->id)->orWhere('id', $entry->id);
+            })->update(['is_read'=> 1]);
+        } else {
+            Ticket::where('receiver_id', $this->user->id)->where(function($query) use($entry){
+                return $query->where('parent_chat_id',$entry->id)->orWhere('id', $entry->id);
+            })->update(['is_read'=> 1]);
+        }
 
         return view('pages.staffpage.tickets.edit', [
             'entry' => $entry,
@@ -108,11 +117,11 @@ class TicketController extends MasterController
             $ticket->save();
 
             $user = User::find($new_ticket->receiver_id);
-            try{
-                Mail::to($user->email)->send(new TicketFileCreated($user,$ticket->subject));
-            }catch(\Exception $e){
-                session()->flash('message', __('admin.ticket_saved'));
-            }
+            // try{
+            //     Mail::to($user->email)->send(new TicketFileCreated($user,$ticket->subject));
+            // }catch(\Exception $e){
+            //     session()->flash('message', __('admin.ticket_saved'));
+            // }
         }
         if ($request->assign){
             $ticket->assign_id = $request->assign;
@@ -197,20 +206,16 @@ class TicketController extends MasterController
         $query = Ticket::where('parent_chat_id', 0)->where(function($query) use($user){
             return $query->where('receiver_id', $user->company->owner->id)->orWhere('sender_id', $user->company->owner->id);
         });
+        $unread_ids = $user->unread_tickets;
         if (!$user->is_semi_admin) {
             $query = $query->where('assign_id', $user->id);
+        } else {
+            $unread_ids = $user->company->owner->unread_tickets;
         }
         $totalRecords = $query->count();
 
         if ($request->unread == "true") {
-            $query = $query->where('assign_id', $user->id)
-            ->where(function($query) use($user){
-                return $query->whereHas('childrens', function($query) use($user){
-                    return $query->where('receiver_id', $user->company->owner->id)->where('is_read', 0);
-                })->orWhere(function ($query) use($user) {
-                    return $query->where('receiver_id', $user->company->owner->id)->where('is_read', 0);
-                });
-            });
+            $query = $query->whereIn('id', $unread_ids);
         }
 
         if ($request->open == "true") {
@@ -231,7 +236,7 @@ class TicketController extends MasterController
                 'actions' => '',
                 'route.edit' => route('stafftk.edit', ['stafftk' => $entry->id]), // edit route
                 'route.destroy' => route('stafftk.destroy', $entry->id), // destroy route
-                'unread_message' => $entry->getUnreadMessage($user),
+                'unread_message' => in_array($entry->id, $unread_ids) ? 0 : 1,
             ]);
         }
 

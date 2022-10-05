@@ -49,11 +49,11 @@ class TicketController extends MasterController
             'receiver_id'=> $this->user->company->owner->id
         ]);
         $ticket = Ticket::create($request->all());
-        try{
-			Mail::to($this->user->company->owner->email)->send(new TicketCreated($this->user,$request->all()['subject']));
-		}catch(\Exception $e){
-			session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
-		}
+        // try{
+		// 	Mail::to($this->user->company->owner->email)->send(new TicketCreated($this->user,$request->all()['subject']));
+		// }catch(\Exception $e){
+		// 	session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
+		// }
         return redirect(route('tk.edit', ['tk' => $ticket->id]));
     }
 
@@ -84,7 +84,7 @@ class TicketController extends MasterController
             $fileService = FileService::where('id', $entry->file_servcie_id)->first();
         }
 
-        Ticket::where('receiver_id',$this->user->id)->where(function($query) use($entry){
+        Ticket::where('receiver_id', $this->user->id)->where(function($query) use($entry){
             return $query->where('parent_chat_id', $entry->id)->orWhere('id', $entry->id);
         })->update(['is_read' => 1]);
 
@@ -109,7 +109,7 @@ class TicketController extends MasterController
         $new_ticket = new Ticket();
         $new_ticket->parent_chat_id = $ticket->id;
         $new_ticket->sender_id = $this->user->id;
-        $new_ticket->receiver_id = $this->company->owner->id;
+        $new_ticket->receiver_id = $ticket->assign_id ?? $this->company->owner->id;
         $new_ticket->message = $request->message;
         $new_ticket->subject = $ticket->subject;
         $new_ticket->document = $request->document;
@@ -120,15 +120,15 @@ class TicketController extends MasterController
         $ticket->save();
 
         $mailing = $this->user->company->owner->email;
-        if ($ticket->assign_id) {
-            $mailing = User::find($ticket->assign_id)->email;
-        }
+        // if ($ticket->assign_id) {
+        //     $mailing = User::find($ticket->assign_id)->email;
+        // }
 
-        try{
-            Mail::to($mailing)->send(new TicketReply($this->user,$ticket->subject));
-        }catch(\Exception $e){
-            session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
-        }
+        // try{
+        //     Mail::to($mailing)->send(new TicketReply($this->user,$ticket->subject));
+        // }catch(\Exception $e){
+        //     session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
+        // }
 
         return redirect(route('tk.edit', ['tk' => $id]));
     }
@@ -199,12 +199,9 @@ class TicketController extends MasterController
         });
         $totalRecords = $query->count();
 
+        $unread_ids = $user->unread_tickets;
         if ($request->unread == "true") {
-            $query = $query->whereHas('childrens', function($query) use($user){
-                return $query->where('receiver_id', $user->id)->where('is_read', 0);
-            })->orWhere(function($query) use($user){
-                return $query->where('receiver_id', $user->id)->where('is_read', 0);
-            });
+            $query = $query->whereIn('id', $unread_ids);
         }
 
         if ($request->open == "true") {
@@ -224,7 +221,7 @@ class TicketController extends MasterController
                 'created_at' => $entry->created_at,
                 'actions' => '',
                 'route.edit' => route('tk.edit', ['tk' => $entry->id]), // edit route
-                'unread_message' => $entry->getUnreadMessage($user),
+                'unread_message' => in_array($entry->id, $unread_ids) ? 0 : 1,
             ]);
         }
 

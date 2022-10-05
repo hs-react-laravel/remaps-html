@@ -94,26 +94,31 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getUnreadTicketsAttribute() {
         $user = $this;
         if ($this->is_admin || $this->is_staff && $this->is_semi_admin) {
-            $receiverIDs = $this->company->staffs->where('is_semi_admin', 1)->pluck('id')->toArray();
-            array_push($receiverIDs, $user->id);
+            $receiverIDs = $this->company->staffs->pluck('id')->toArray();
+            array_push($receiverIDs, $this->id, $this->company->owner->id);
+            $receiverIDs = array_unique($receiverIDs);
 
-            return $this->company->tickets()
-                ->where(function($query) use($receiverIDs){
-                    return $query->whereHas('childrens', function($query) use($receiverIDs){
-                        return $query->whereIn('receiver_id', $receiverIDs)->where('is_read', 0);
-                    })->orWhere(function ($query) use($receiverIDs) {
-                        return $query->whereIn('receiver_id', $receiverIDs)->where('is_read', 0);
-                    });
-                })->count();
+            $parent_ids = Ticket::where(function($query) use($receiverIDs){
+                return $query->whereIn('receiver_id', $receiverIDs);
+            })->where('is_read', 0)->where('parent_chat_id', 0)->pluck('id')->toArray();
+            $child_parent_ids = Ticket::where(function($query) use($receiverIDs){
+                return $query->whereIn('receiver_id', $receiverIDs);
+            })->where('is_read', 0)->where('parent_chat_id', '!=' , 0)->pluck('parent_chat_id')->toArray();
+            $child_parent_ids = array_unique($child_parent_ids);
+            $unread_ids = array_merge($parent_ids, $child_parent_ids);
+            return $unread_ids;
         } else {
-            return $this->company->tickets()
-                ->where(function($query) use($user){
-                    return $query->whereHas('childrens', function($query) use($user){
-                        return $query->where('receiver_id', $user)->where('is_read', 0);
-                    })->orWhere(function ($query) use($user) {
-                        return $query->where('receiver_id', $user)->where('is_read', 0);
-                    });
-                })->count();
+            $parent_ids = Ticket::where('receiver_id', $this->id)
+                ->where('is_read', 0)
+                ->where('parent_chat_id', 0)
+                ->pluck('id')->toArray();
+            $child_parent_ids = Ticket::where('receiver_id', $this->id)
+                ->where('is_read', 0)
+                ->where('parent_chat_id', '!=' , 0)
+                ->pluck('parent_chat_id')->toArray();
+            $child_parent_ids = array_unique($child_parent_ids);
+            $unread_ids = array_merge($parent_ids, $child_parent_ids);
+            return $unread_ids;
         }
     }
     public function fileServices()
