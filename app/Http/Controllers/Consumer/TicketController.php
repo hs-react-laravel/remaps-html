@@ -120,15 +120,15 @@ class TicketController extends MasterController
         $ticket->save();
 
         $mailing = $this->user->company->owner->email;
-        // if ($ticket->assign_id) {
-        //     $mailing = User::find($ticket->assign_id)->email;
-        // }
+        if ($ticket->assign_id) {
+            $mailing = User::find($ticket->assign_id)->email;
+        }
 
-        // try{
-        //     Mail::to($mailing)->send(new TicketReply($this->user,$ticket->subject));
-        // }catch(\Exception $e){
-        //     session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
-        // }
+        try{
+            Mail::to($mailing)->send(new TicketReply($this->user,$ticket->subject));
+        }catch(\Exception $e){
+            session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
+        }
 
         return redirect(route('tk.edit', ['tk' => $id]));
     }
