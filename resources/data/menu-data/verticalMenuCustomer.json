@@ -23,6 +23,12 @@
         "slug": "tk.index"
     },
     {
+        "url": "customer/chats",
+        "name": "menu_Chats",
+        "icon": "message-square",
+        "slug": "customer.chats.index"
+    },
+    {
         "url": "customer/buy-credits",
         "name": "menu_BuyTuningCredits",
         "icon": "plus",

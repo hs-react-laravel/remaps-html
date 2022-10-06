@@ -121,6 +121,20 @@ class User extends Authenticatable implements MustVerifyEmail
             return $unread_ids;
         }
     }
+    public function getUnreadChatsAttribute() {
+        if ($this->is_admin || $this->is_staff && $this->is_semi_admin) {
+            return ChatMessage::where('company_id', $this->company->id)
+                ->where('to', 1)
+                ->where('is_read', 0)
+                ->count();
+        } else {
+            return ChatMessage::where('company_id', $this->company->id)
+                ->where('to', 0)
+                ->where('target', $this->id)
+                ->where('is_read', 0)
+                ->count();
+        }
+    }
     public function fileServices()
     {
         return $this->hasMany('App\Models\FileService');

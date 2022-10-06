@@ -138,7 +138,7 @@
     </li>
 
 
-    <li class="nav-item dropdown dropdown-notification dropdown-chat me-25">
+    {{-- <li class="nav-item dropdown dropdown-notification dropdown-chat me-25">
       <a class="nav-link" href="javascript:void(0);" data-bs-toggle="dropdown">
         <i class="ficon" data-feather="message-circle"></i>
         <span class="badge rounded-pill bg-danger badge-up badge-chat-nav d-none"></span>
@@ -167,7 +167,7 @@
           </div>
         </li>
       </ul>
-    </li>
+    </li> --}}
 
     <li class="nav-item dropdown dropdown-notification me-25">
       <a class="nav-link" href="javascript:void(0);" data-bs-toggle="dropdown">

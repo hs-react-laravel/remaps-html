@@ -10,7 +10,7 @@
 @endsection
 
 @section('content-sidebar')
-@include('pages/chats/app-chat-sidebar')
+@include('pages/consumers/chat/app-chat-sidebar')
 @endsection
 
 @section('content')
@@ -64,79 +64,6 @@
   <!--/ Active Chat -->
 </section>
 <!--/ Main chat area -->
-
-<!-- User Chat profile right area -->
-<div class="user-profile-sidebar">
-  <header class="user-profile-header">
-    <span class="close-icon">
-      <i data-feather="x"></i>
-    </span>
-    <!-- User Profile image with name -->
-    <div class="header-profile-sidebar">
-      <div class="avatar box-shadow-1 avatar-border avatar-xl">
-        <img src="{{asset('images/portrait/small/avatar-s-7.jpg')}}" alt="user_avatar" height="70" width="70" />
-        <span class="avatar-status-busy avatar-status-lg"></span>
-      </div>
-      <h4 class="chat-user-name">Kristopher Candy</h4>
-      <span class="user-post">UI/UX Designer 👩🏻‍💻</span>
-    </div>
-    <!--/ User Profile image with name -->
-  </header>
-  <div class="user-profile-sidebar-area">
-    <!-- About User -->
-    <h6 class="section-label mb-1">About</h6>
-    <p>Toffee caramels jelly-o tart gummi bears cake I love ice cream lollipop.</p>
-    <!-- About User -->
-    <!-- User's personal information -->
-    <div class="personal-info">
-      <h6 class="section-label mb-1 mt-3">Personal Information</h6>
-      <ul class="list-unstyled">
-        <li class="mb-1">
-          <i data-feather="mail" class="font-medium-2 me-50"></i>
-          <span class="align-middle">kristycandy@email.com</span>
-        </li>
-        <li class="mb-1">
-          <i data-feather="phone-call" class="font-medium-2 me-50"></i>
-          <span class="align-middle">+1(123) 456 - 7890</span>
-        </li>
-        <li>
-          <i data-feather="clock" class="font-medium-2 me-50"></i>
-          <span class="align-middle">Mon - Fri 10AM - 8PM</span>
-        </li>
-      </ul>
-    </div>
-    <!--/ User's personal information -->
-
-    <!-- User's Links -->
-    <div class="more-options">
-      <h6 class="section-label mb-1 mt-3">Options</h6>
-      <ul class="list-unstyled">
-        <li class="cursor-pointer mb-1">
-          <i data-feather="tag" class="font-medium-2 me-50"></i>
-          <span class="align-middle">Add Tag</span>
-        </li>
-        <li class="cursor-pointer mb-1">
-          <i data-feather="star" class="font-medium-2 me-50"></i>
-          <span class="align-middle">Important Contact</span>
-        </li>
-        <li class="cursor-pointer mb-1">
-          <i data-feather="image" class="font-medium-2 me-50"></i>
-          <span class="align-middle">Shared Media</span>
-        </li>
-        <li class="cursor-pointer mb-1">
-          <i data-feather="trash" class="font-medium-2 me-50"></i>
-          <span class="align-middle">Delete Contact</span>
-        </li>
-        <li class="cursor-pointer">
-          <i data-feather="slash" class="font-medium-2 me-50"></i>
-          <span class="align-middle">Block Contact</span>
-        </li>
-      </ul>
-    </div>
-    <!--/ User's Links -->
-  </div>
-</div>
-<!--/ User Chat profile right area -->
 @endsection
 
 @section('page-script')
@@ -144,54 +71,38 @@
 <script src="{{ asset(mix('js/scripts/pages/app-chat.js')) }}"></script>
 <script>
     let currentUser = ""
-    let currentUserType = ""
-    function loadChatUsers() {
-        console.log('loadChatUsers')
+    function loadAdminUser() {
         $.ajax({
             type: 'GET',
-            url: "{{ route('api.chat.users') }}",
+            url: "{{ route('api.chat.users.admin') }}",
             data: {
-                company_id: "{{ isset($company) ? $company->id : '' }}"
+                company_id: "{{ isset($company) ? $company->id : '' }}",
+                user_id: "{{ isset($user) ? $user->id : '' }}",
             },
             success: function(result) {
-                let filterKey = $('#chat-search').val()
+                let user = result[0]
                 $(`.chat-application .chat-user-list-wrapper ul li.li-user`).remove();
-                result.m.forEach(user => {
-                    $('.chat-list').append(
-                        `<li class="li-user li-user-chat" style="align-items:center" data-id="${user.id}" data-type="chat">
-                            <span class="avatar" style="width:32px; height:32px">
-                                <div class="avatar" style="background-color: #${user.avatar.color}; width:32px; height:32px">
-                                    <div class="avatar-content">${user.avatar.name}</div>
-                                </div>
-                            </span>
-                            <div class="chat-info flex-grow-1">
-                            <h5 class="mb-0">${user.name}</h5>
-                            <p class="card-text text-truncate">
-                                ${user.msg}
-                            </p>
-                            </div>
-                            <div class="chat-meta text-nowrap">
-                            <small class="float-end mb-25 chat-time chat-time-text-small">${user.date}</small>
-                            <span class="badge bg-danger rounded-pill float-end">${user.count > 0 ? user.count : ''}</span>
-                            </div>
-                        </li>`
-                    )
-                });
-                result.c.forEach(user => {
-                    $('.contact-list').append(
-                    `<li class="li-user li-user-contact" style="align-items:center" data-type="contact" data-id="${user.id}">
+                $('.chat-list').append(
+                    `<li class="li-user li-user-chat" style="align-items:center" data-id="${user.id}" data-type="chat">
                         <span class="avatar" style="width:32px; height:32px">
                             <div class="avatar" style="background-color: #${user.avatar.color}; width:32px; height:32px">
                                 <div class="avatar-content">${user.avatar.name}</div>
                             </div>
                         </span>
-                        <div class="chat-info">
+                        <div class="chat-info flex-grow-1">
                         <h5 class="mb-0">${user.name}</h5>
+                        <p class="card-text text-truncate">
+                            ${user.msg}
+                        </p>
                         </div>
-                    </li>`)
-                })
+                        <div class="chat-meta text-nowrap">
+                        <small class="float-end mb-25 chat-time chat-time-text-small">${user.date}</small>
+                        <span class="badge bg-danger rounded-pill float-end">${user.count > 0 ? user.count : ''}</span>
+                        </div>
+                    </li>`
+                )
                 if (currentUser)
-                  $(`.chat-application .chat-user-list-wrapper ul li[data-id=${currentUser}][data-type="chat"]`).addClass('active')
+                    $(`.chat-application .chat-user-list-wrapper ul li[data-id=${currentUser}][data-type="chat"]`).addClass('active')
             }
         })
     }
@@ -204,18 +115,14 @@
                 url: "{{ route('api.chat.send') }}",
                 data: {
                     company_id: "{{ isset($company) ? $company->id : '' }}",
-                    target: currentUser,
-                    to: 0,
+                    target: "{{ isset($user) ? $user->id : '' }}",
+                    to: 1,
                     message: message
                 },
                 success: function(result) {
                     $('.user-chats').scrollTop($('.user-chats > .chats').height());
                 }
             })
-        }
-        if (currentUserType === 'contact') {
-          loadChatUsers()
-          currentUserType = 'chat'
         }
     }
     $('.chat-application .chat-user-list-wrapper').on('click', 'ul li', function() {
@@ -226,19 +133,19 @@
             url: "{{ route('api.chat.messages') }}",
             data: {
                 company_id: "{{ isset($company) ? $company->id : '' }}",
-                target: currentUser,
+                target: "{{ isset($user) ? $user->id : '' }}",
             },
             success: function(result) {
                 let msgHtml = '';
                 lastSide = '';
                 for(const [key, msgDateGroup] of Object.entries(result.message)) {
                     msgDateGroup.forEach(msgUserGroup => {
-                        if (msgUserGroup[0].to) {
+                        if (!msgUserGroup[0].to) {
                             msgHtml += `
                             <div class="chat chat-left">
                                 <div class="chat-avatar">
-                                    <div class="avatar" style="background-color: #${result.avatarU.color}">
-                                        <div class="avatar-content">${result.avatarU.name}</div>
+                                    <div class="avatar" style="background-color: #${result.avatarC.color}">
+                                        <div class="avatar-content">${result.avatarC.name}</div>
                                     </div>
                                 </div>
                                 <div class="chat-body">
@@ -254,8 +161,8 @@
                             msgHtml += `
                             <div class="chat">
                                 <div class="chat-avatar">
-                                    <div class="avatar" style="background-color: #${result.avatarC.color}">
-                                        <div class="avatar-content">${result.avatarC.name}</div>
+                                    <div class="avatar" style="background-color: #${result.avatarU.color}">
+                                        <div class="avatar-content">${result.avatarU.name}</div>
                                     </div>
                                 </div>
                                 <div class="chat-body">
@@ -285,8 +192,8 @@
             url: "{{ route('api.chat.read') }}",
             data: {
                 company_id: "{{ isset($company) ? $company->id : '' }}",
-                target: currentUser,
-                to: 1
+                target: "{{ isset($user) ? $user->id : '' }}",
+                to: 0
             }
         })
     })
@@ -297,7 +204,7 @@
     var channel = pusher.subscribe('chat-channel');
     channel.bind('chat-event', function(data) {
         const message = data.message
-        if (message.company_id === {{ $company->id }} && message.target == currentUser) {
+        if (message.company_id === {{ $company->id }} && message.target == {{ $user->id }}) {
             if (message.to) {
                 if (message.to === lastSide) {
                     const lastChatBlock = $('.chat').last()
@@ -308,7 +215,7 @@
                     `)
                 } else {
                     $('.chats').append(`
-                        <div class="chat chat-left">
+                        <div class="chat">
                             <div class="chat-avatar">
                                 <div class="avatar" style="background-color: #${data.avatar.color}">
                                     <div class="avatar-content">${data.avatar.name}</div>
@@ -332,7 +239,7 @@
                     `)
                 } else {
                     $('.chats').append(`
-                        <div class="chat">
+                        <div class="chat chat-left">
                             <div class="chat-avatar">
                                 <div class="avatar" style="background-color: #${data.avatar.color}">
                                     <div class="avatar-content">${data.avatar.name}</div>
@@ -357,16 +264,16 @@
                     to: 1
                 },
                 success: function(res) {
-                  loadChatUsers()
+                  loadAdminUser()
                 }
             })
         } else {
-          loadChatUsers()
+            loadAdminUser()
         }
         $('.user-chats').scrollTop($('.user-chats > .chats').height());
     });
     function minuteCheck() {
-      loadChatUsers()
+      loadAdminUser()
     }
     minuteCheck()
     setInterval(minuteCheck, 60 * 1000);

@@ -59,6 +59,7 @@ class MasterController extends BaseController
                     $this->user->save();
                     $this->is_evc = !!$this->company->reseller_id;
                     $this->tickets = count($this->user->unread_tickets);
+                    $this->chats = $this->user->unread_chats;
                     // $this->tickets = 0;
 
                     if ($this->company->mail_host && $this->company->mail_port
@@ -108,6 +109,7 @@ class MasterController extends BaseController
                     view()->share('role', $this->role);
                     view()->share('is_evc', $this->is_evc);
                     view()->share('tickets_count', $this->tickets);
+                    view()->share('chat_count', $this->chats);
 
                     $verticalMenuJson = file_get_contents(base_path('resources/data/menu-data/'.$verticalMenu));
                     $verticalMenuData = json_decode($verticalMenuJson);

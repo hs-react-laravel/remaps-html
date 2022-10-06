@@ -100,15 +100,13 @@
         "url": "admin/chats",
         "name": "menu_Chats",
         "icon": "message-square",
-        "slug": "chats.index",
-        "beta": true
+        "slug": "chats.index"
     },
     {
         "name": "menu_Shop",
         "icon": "shopping-cart",
         "url" : "",
         "slug": "",
-        "beta": true,
         "submenu": [
             {
                 "url": "admin/shopproducts",

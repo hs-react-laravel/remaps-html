@@ -111,6 +111,29 @@ class ApiController extends Controller
         event(new ChatEvent($message));
     }
 
+    public function getAdminUsers(Request $request) {
+        $admin = User::find(Company::find($request->company_id)->owner->id);
+        $lastMessage = ChatMessage::where('target', $request->user_id)
+                ->orderBy('created_at', 'DESC')
+                ->first();
+        $unreadCt = ChatMessage::where('target', $request->user_id)
+            ->orderBy('created_at', 'DESC')
+            ->where('is_read', 0)
+            ->where('to', 0)
+            ->count();
+        return [[
+            'id' => $admin->id,
+            'name' => $admin->first_name.' '.$admin->last_name,
+            'msg' => $lastMessage ? $lastMessage->message : '',
+            'date' => $lastMessage ? \Carbon\Carbon::parse($lastMessage->created_at)->diffForHumans() : '',
+            'count' => $unreadCt,
+            'avatar' => [
+                'color' => Helper::generateAvatarColor($admin->id),
+                'name' => Helper::getInitialName($admin->id)
+            ]
+        ]];
+    }
+
     public function getChatUsers(Request $request) {
         $messageUserIDs = ChatMessage::where('company_id', $request->company_id)
             ->select('target')
@@ -223,5 +246,10 @@ class ApiController extends Controller
             ->update([
                 'is_read' => 1
             ]);
+    }
+
+    public function unreadCount(Request $request) {
+        $user = User::find($request->user_id);
+        return $user->unread_chats;
     }
 }

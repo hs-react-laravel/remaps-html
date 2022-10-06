@@ -70,6 +70,12 @@ $configData = Helper::applClasses();
               @if ($menu->url == 'admin/shoporders' && $unchecked_orders > 0)
               <span class="{{ isset($menu->badgeClass) ? $menu->badgeClass : $badgeClasses }}">{{ $unchecked_orders }}</span>
               @endif
+              @if ($menu->name == 'menu_Chats')
+              <span
+                id="badge-chat"
+                class="{{ isset($menu->badgeClass) ? $menu->badgeClass : $badgeClasses }}"
+                style="display: {{ $chat_count > 0 ? 'block' : 'none' }}">{{ $chat_count }}</span>
+              @endif
             </a>
             @if(isset($menu->submenu))
             @include('panels/submenu', ['menu' => $menu->submenu])
