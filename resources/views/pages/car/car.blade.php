@@ -235,7 +235,13 @@
             </div>
           @endif
         </div>
-
+        @if(isset($engine))
+        <div class="row">
+          <div class="card col-md-6 col-lg-3">
+            <a class="btn btn-dark" onclick="onPrint()">Print</a>
+          </div>
+        </div>
+        @endif
       </div>
     </div>
   </div>
@@ -656,7 +662,7 @@
         }
       });
     }
-
+    let currentStage = 1;
     function onStage(stage) {
       if (stage == 1) {
         $('.chartjs').parent().show();
@@ -665,6 +671,10 @@
         $('.chartjs').parent().hide();
         $('.chartjs-2').parent().show();
       }
+      currentStage = stage
+    }
+    function onPrint() {
+      window.open(`{{ route('cars.print.customer') }}?car={{ $car->id }}&stage=${currentStage}`)
     }
 </script>
 @endsection

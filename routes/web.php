@@ -274,6 +274,7 @@ Route::group(['middleware' => 'auth:customer', 'prefix'=>'customer'], function (
     Route::get('/cars', [CarBrowserController::class, 'index'])->name('cars.index');
     Route::post('/cars/category', [CarBrowserController::class, 'category'])->name('cars.category');
     Route::get('/cars/category', [CarBrowserController::class, 'category'])->name('cars.category');
+    Route::get('/cars/print/customer', [CarBrowserController::class, 'print_customer'])->name('cars.print.customer');
 
     Route::get('/profile', [DashboardController::class, 'profile'])->name('dashboard.profile');
     Route::put('/profile_post', [DashboardController::class, 'profile_post'])->name('dashboard.profile.post');

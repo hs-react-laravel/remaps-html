@@ -104,10 +104,14 @@ class FileServiceController extends MasterController
             $request->request->remove('modified_file');
         }
         if ($request->status == 'C') {
-            try{
-                Mail::to($fs->user->email)->send(new FileServiceModified($fs));
-            }catch(\Exception $e){
-                session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
+            if ($request->is_delay) {
+                $request->request->add(['status' => 'W']);
+            } else {
+                try{
+                    Mail::to($fs->user->email)->send(new FileServiceModified($fs));
+                }catch(\Exception $e){
+                    session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
+                }
             }
         }
         //assign to staff

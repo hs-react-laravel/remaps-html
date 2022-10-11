@@ -83,6 +83,21 @@
                   </select>
                 </div>
               </div>
+              <div class="col-12 mb-1" id="is_delay_wrapper" style="display: none">
+                <div class="form-check form-check-inline">
+                  <input type="hidden" name="is_delay" value="0" />
+                  <input class="form-check-input" type="checkbox" id="is_delay" name="is_delay" value="1"/>
+                  <label class="form-check-label" for="is_delay">Delay Complete</label>
+                </div>
+              </div>
+              <div class="col-12 mb-1" id="delay_time_wrapper" style="display: none">
+                <label class="form-label" for="delay_time">Delay Time</label>
+                <select class="form-select" id="delay_time" name="delay_time">
+                  @for ($i = 1; $i <= 6; $i++)
+                    <option value="{{$i * 10}}">{{$i * 10}} min</option>
+                  @endfor
+                </select>
+              </div>
               @endif
             </div>
             <button id="fs-save" type="submit" class="btn btn-primary me-1">Save</button>
@@ -110,25 +125,35 @@
     $('#hidden_upload').trigger('click');
   }
   function submitFile() {
-      const [file] = hidden_upload.files
-      if (file) {
-        $('#file_name').val(file.name)
-        $("#uploadForm").submit();
-      }
+    const [file] = hidden_upload.files
+    if (file) {
+      $('#file_name').val(file.name)
+      $("#uploadForm").submit();
     }
-    dropContainer.ondragover = dropContainer.ondragenter = function(evt) {
-      evt.preventDefault()
+  }
+  dropContainer.ondragover = dropContainer.ondragenter = function(evt) {
+    evt.preventDefault()
+  }
+  dropContainer.ondrop = function(evt) {
+    const dT = new DataTransfer();
+    dT.items.add(evt.dataTransfer.files[0]);
+    hidden_upload.files = dT.files
+    evt.preventDefault()
+    submitFile()
+  }
+  hidden_upload.onchange = evt => {
+    submitFile()
+  }
+  $('#status').change(function(e) {
+    if (e.target.value == 'C') {
+      $('#is_delay_wrapper').show()
     }
-    dropContainer.ondrop = function(evt) {
-      const dT = new DataTransfer();
-      dT.items.add(evt.dataTransfer.files[0]);
-      hidden_upload.files = dT.files
-      evt.preventDefault()
-      submitFile()
+  })
+  $('#is_delay').change(function(e) {
+    if ($(this).prop('checked')) {
+      $('#delay_time_wrapper').show()
     }
-    hidden_upload.onchange = evt => {
-      submitFile()
-    }
+  })
   $("#uploadForm").on('submit', function(e){
     e.preventDefault();
     $('#fs-save').prop('disabled', true);

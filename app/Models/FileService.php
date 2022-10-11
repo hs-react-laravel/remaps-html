@@ -37,7 +37,9 @@ class FileService extends Model
         'notes_by_engineer',
         'status',
         'displayable_id',
-        'assign_id'
+        'assign_id',
+        'is_delay',
+        'delay_time'
     ];
 
 

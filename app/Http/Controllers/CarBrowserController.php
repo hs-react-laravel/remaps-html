@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Dompdf\Dompdf;
 use App\Models\Car;
 
 class CarBrowserController extends MasterController
@@ -69,6 +70,34 @@ class CarBrowserController extends MasterController
                 ]);
             }
             return view('pages.car.brands')->with('brands', $res);
+        }
+    }
+
+    public function print_customer(Request $request) {
+        try{
+            $car = Car::find($request->car);
+            $stage = $request->stage;
+            $pdf = new Dompdf;
+            $pdfName = 'test.pdf';
+            $options = $pdf->getOptions();
+            $options->setIsRemoteEnabled(true);
+            $pdf->setOptions($options);
+
+            // dd(asset('storage/uploads/logo/'.$this->user->logo));
+
+            $pdf->loadHtml(
+                view('pdf.car')->with([
+                    'car' => $car,
+                    'company' => $this->company,
+                    'user' => $this->user
+                ])->render()
+            );
+            $pdf->setPaper('A4', 'portrait');
+            $pdf->render();
+            return $pdf->stream($pdfName);
+        }catch(\Exception $e){
+            dd($e);
+            // return redirect(url('admin/order'));
         }
     }
 }

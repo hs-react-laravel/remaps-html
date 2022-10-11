@@ -3,12 +3,14 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 use App\Models\FileService;
 use App\Models\Timezone;
 use App\Mail\FileServiceOpened;
+use App\Mail\FileServiceModified;
 
 class MinuteUpdate extends Command
 {
@@ -66,6 +68,29 @@ class MinuteUpdate extends Command
                 } else {
                     $entry->update(['status' => 'O']);
                     $this->line('found on non-checking company');
+                }
+            }
+        }
+
+        $delayEntries = FileService::where('status', 'W')->where('is_delay', 1)->get();
+        $this->info(count($delayEntries));
+        foreach($delayEntries as $entry) {
+            $updatedTime = strtotime($entry->updated_at);
+            $now = strtotime('now');
+            if (($now - $updatedTime) / 60 > 1) {
+                $entry->status = 'C';
+                $entry->save();
+                Config::set('mail.default', 'smtp');
+                Config::set('mail.mailers.smtp.host', 'mail.remapdash.com');
+                Config::set('mail.mailers.smtp.port', 25);
+                Config::set('mail.mailers.smtp.encryption', '');
+                Config::set('mail.mailers.smtp.username', 'no-reply@remapdash.com');
+                Config::set('mail.mailers.smtp.password', '6%3d5ohF');
+                Config::set('mail.from.address', 'no-reply@remapdash.com');
+                try{
+                    Mail::to($entry->user->email)->send(new FileServiceModified($entry));
+                }catch(\Exception $e){
+                    session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
                 }
             }
         }
