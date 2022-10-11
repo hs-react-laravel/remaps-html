@@ -4,7 +4,7 @@
 
 @section('content')
 <section>
-  <form action="{{ $post_link }}" method="post">
+  <form action="{{ $post_link }}" method="post" enctype="multipart/form-data">
   @csrf
   <input type="hidden" name="user_id" value="{{ $user->id }}">
   <input type="hidden" name="_method" value="put" />
@@ -91,6 +91,33 @@
             >{{ $user->tools }}</textarea>
           </div>
         </div>
+        @if (!$user->is_admin && !$user->is_staff)
+        <div class="row">
+          <div class="col-8 mb-1">
+            <div class="border rounded p-1">
+              <h4 class="mb-1">Logo Image</h4>
+              <div class="d-flex flex-column flex-md-row">
+                <img
+                  src="{{ $user->logo ?
+                    asset('storage/uploads/logo/'.$user->logo) :
+                    'https://via.placeholder.com/250x110.png?text=Logo+Here'
+                  }}"
+                  id="logo"
+                  class="rounded me-2 mb-1 mb-md-0"
+                  width="250"
+                  height="110"
+                  alt="Logo Image"
+                />
+                <div class="featured-info">
+                  <div class="d-inline-block">
+                    <input class="form-control" type="file" id="imageLogo" name="upload_file" accept="image/*" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        @endif
         @if ($user->is_admin)
         <div class="row mb-1">
           <div class="form-group col-md-12">

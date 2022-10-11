@@ -209,6 +209,14 @@ class DashboardController extends MasterController
     }
 
     public function profile_post(AccountInfoRequest $request) {
+        if($request->hasFile('upload_file')){
+            if($request->file('upload_file')->isValid()){
+                $file = $request->file('upload_file');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $file->move(storage_path('app/public/uploads/logo'), $filename);
+                $request->request->add(['logo' => $filename]);
+            }
+        }
         $this->user->update($request->all());
         if ($this->user->is_admin) {
             return redirect(route('admin.dashboard.profile'))->withInput();

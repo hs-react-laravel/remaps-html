@@ -49,7 +49,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'private',
         'vat_number',
         'add_tax',
-        'is_reserve_filename'
+        'is_reserve_filename',
+        'logo'
     ];
 
     /**
