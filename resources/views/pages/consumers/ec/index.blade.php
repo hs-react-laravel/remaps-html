@@ -18,7 +18,9 @@
 @section('content-sidebar')
 @include('pages.consumers.ec.sidebar')
 @endsection
-
+@php
+  $tab = isset($_GET['tab']) ? $_GET['tab'] : 'tool';
+@endphp
 @section('content')
 <!-- E-commerce Content Section Starts -->
 <section id="ecommerce-header">
@@ -32,31 +34,11 @@
           <div class="search-results">{{ $products->total() }} results found</div>
         </div>
         <div class="view-options d-flex">
-          <div class="btn-group dropdown-sort">
-            <button
-              type="button"
-              class="btn btn-outline-primary dropdown-toggle me-1"
-              data-bs-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              <span class="active-sorting">Featured</span>
-            </button>
-            <div class="dropdown-menu">
-              <a class="dropdown-item" href="#">Featured</a>
-              <a class="dropdown-item" href="#">Lowest</a>
-              <a class="dropdown-item" href="#">Highest</a>
-            </div>
-          </div>
           <div class="btn-group" role="group">
-            <input type="radio" class="btn-check" name="radio_options" id="radio_option1" autocomplete="off" checked />
-            <label class="btn btn-icon btn-outline-primary view-btn grid-view-btn" for="radio_option1"
-              ><i data-feather="grid" class="font-medium-3"></i
-            ></label>
-            <input type="radio" class="btn-check" name="radio_options" id="radio_option2" autocomplete="off" />
-            <label class="btn btn-icon btn-outline-primary view-btn list-view-btn" for="radio_option2"
-              ><i data-feather="list" class="font-medium-3"></i
-            ></label>
+            <input type="radio" class="btn-check" name="radio_options" id="radio_option1" autocomplete="off" @if($tab == 'tool') checked @endif />
+            <label class="btn btn-icon btn-outline-primary view-btn grid-view-btn" for="radio_option1" onclick="onTool()">Tool</label>
+            <input type="radio" class="btn-check" name="radio_options" id="radio_option2" autocomplete="off" @if($tab == 'digital') checked @endif />
+            <label class="btn btn-icon btn-outline-primary view-btn list-view-btn" for="radio_option2" onclick="onDigital()">Digital</label>
           </div>
         </div>
       </div>
@@ -92,67 +74,11 @@
 <!-- E-commerce Products Starts -->
 <section id="ecommerce-products" class="grid-view">
   @foreach ($products as $product)
-  <div class="card ecommerce-card">
-    <div class="item-img text-center justify-content-center">
-      <a href="{{ route('customer.shop.detail', ['id' => $product->id]) }}">
-        <img
-          class="img-fluid card-img-top"
-          src="{{$product->thumb ? asset('storage/uploads/products/thumbnails/'.$product->thumb) : 'https://via.placeholder.com/350x250.png?text=Product'}}"
-          alt="img-placeholder"
-          style="max-height: 250px"
-      /></a>
-    </div>
-    <div class="card-body">
-      <div class="item-wrapper">
-        <div class="item-rating">
-          @php $avgRating = round($product->avgRating()); @endphp
-          @include('pages.consumers.ec.rating')
-        </div>
-        <div>
-          <h6 class="item-price">{{ config('constants.currency_signs')[$company->paypal_currency_code] }}{{ $product->price }}</h6>
-        </div>
-      </div>
-      <h6 class="item-name">
-        <a class="text-body" href="{{ route('customer.shop.detail', ['id' => $product->id]) }}">{{ $product->title }}</a>
-        @php
-            // dd($product->brand)
-        @endphp
-        @if ($product->brand)
-        <span class="card-text item-company">By <a href="#" class="company-name">{{ $product->brand }}</a></span>
-        @endif
-      </h6>
-      <p class="card-text item-description">
-        {{ $product->description }}
-      </p>
-    </div>
-    <div class="item-options text-center">
-      <div class="item-wrapper">
-        <div class="item-cost">
-          <h4 class="item-price">{{ config('constants.currency_signs')[$company->paypal_currency_code] }}{{ $product->price }}</h4>
-        </div>
-      </div>
-      <button
-        class="btn btn-primary"
-        style="border-radius: 5px; width: 100%;"
-        onclick="onAddCartInline(this)"
-        data-link="{{ count($product->sku) > 0 ? 1 : 0 }}"
-        data-proid="{{ $product->id }}"
-        @if($product->stock <= 0) disabled @endif>
-        <i data-feather="shopping-cart"></i>
-        <span class="add-to-cart">
-          @if ($product->stock <= 0)
-            Out of stock
-          @else
-            {{ count($product->sku) > 0 ? 'Customize' : 'Add to cart' }}
-          @endif
-        </span>
-      </button>
-      <form class="add-cart-inline-form" action="{{ route('customer.shop.cart.add') }}" method="POST">
-        @csrf
-        <input type="hidden" name="product_id" value="{{ $product->id }}">
-      </form>
-    </div>
-  </div>
+    @if ($tab == 'tool')
+    @include('pages.consumers.ec.product-tool-thumb')
+    @elseif ($tab == 'digital')
+    @include('pages.consumers.ec.product-digital-thumb')
+    @endif
   @endforeach
 </section>
 <!-- E-commerce Products Ends -->
@@ -173,5 +99,13 @@
 @section('page-script')
 <!-- Page js files -->
 <script src="{{ asset('js/scripts/pages/app-ecommerce.js') }}"></script>
+<script>
+  function onTool() {
+    window.location.href = "{{route('customer.shop', ['tab' => 'tool'])}}";
+  }
+  function onDigital() {
+    window.location.href = "{{route('customer.shop', ['tab' => 'digital'])}}";
+  }
+</script>
 @endsection
 

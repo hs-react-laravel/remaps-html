@@ -91,7 +91,7 @@
                     <a href="{{ route('customer.shop.detail', ['id' => $item->product->id]) }}">
                       <img src="{{ $item->product->thumb
                         ? asset('storage/uploads/products/thumbnails/'.$item->product->thumb)
-                        : 'https://via.placeholder.com/350x250.png?text=Product'}}" />
+                        : 'https://via.placeholder.com/350x250.png?text='.($item->product->digital_id ? 'Digital File' : 'Image')}}" />
                     </a>
                   </div>
                   <div class="card-body">
@@ -105,10 +105,12 @@
                         @include('pages.consumers.ec.rating')
                       </div>
                     </div>
-                    @if ($item->product->stock > 0)
-                    <span class="text-success mb-1">In Stock</span>
-                    @else
-                    <span class="text-danger mb-1">Out of Stock</span>
+                    @if (!$item->product->digital_id)
+                      @if ($item->product->stock > 0)
+                      <span class="text-success mb-1">In Stock</span>
+                      @else
+                      <span class="text-danger mb-1">Out of Stock</span>
+                      @endif
                     @endif
                     @if ($item->sku_detail)
                     <div>
@@ -126,6 +128,7 @@
                       @endforeach
                     </div>
                     @endif
+                    @if (!$item->product->digital_id)
                     <div class="item-quantity">
                       <span class="quantity-title">Qty:</span>
                       <div class="quantity-counter-wrapper">
@@ -134,6 +137,7 @@
                         </div>
                       </div>
                     </div>
+                    @endif
                     {{-- <span class="delivery-date text-muted">Delivery by, Wed Apr 25</span>
                     <span class="text-success">17% off 4 offers Available</span> --}}
                   </div>

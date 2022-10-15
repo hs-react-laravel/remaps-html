@@ -22,6 +22,8 @@ use PayPalCheckoutSdk\Core\SandboxEnvironment;
 use PayPalCheckoutSdk\Core\ProductionEnvironment;
 use PayPalCheckoutSdk\Orders\OrdersCreateRequest;
 use PayPalCheckoutSdk\Orders\OrdersCaptureRequest;
+use ZipArchive;
+use File;
 
 class ShopCustomerController extends MasterController
 {
@@ -29,6 +31,12 @@ class ShopCustomerController extends MasterController
     {
         $products = ShopProduct::where('company_id', $this->company->id)->where('live', 1);
 
+        $tab = request()->get('tab') ?? 'tool';
+        if ($tab == 'tool') {
+            $products = $products->whereNull('digital_id');
+        } else {
+            $products = $products->whereNotNull('digital_id');
+        }
         if ($request->has('category_filter')) {
             $products = $products->whereIn('category_id', $request->get('category_filter'));
         }
@@ -83,7 +91,11 @@ class ShopCustomerController extends MasterController
     public function detail($id)
     {
         $product = ShopProduct::find($id);
-        return view('pages.consumers.ec.detail')->with(compact('product'));
+        if ($product->digital_id) {
+            return view('pages.consumers.ec.detail-digital')->with(compact('product'));
+        } else {
+            return view('pages.consumers.ec.detail')->with(compact('product'));
+        }
     }
 
     public function add2cart(Request $request) {
@@ -188,6 +200,8 @@ class ShopCustomerController extends MasterController
 
     public function placeOrder(Request $request) {
         DB::beginTransaction();
+        $digital_count = 0;
+        $non_digital_count = 0;
         try {
             $cartProducts = ShopCart::where('user_id', $this->user->id)->get();
             $totalCartAmount = 0;
@@ -212,12 +226,23 @@ class ShopCustomerController extends MasterController
                     'sku_detail' => $item->sku_detail,
                 ]);
                 $product = ShopProduct::find($item->product_id);
-                if ($product->stock < $item->amount) {
-                    throw new Exception('Exceeds stock of '. $item->product->title);
+                if (!$product->digital_id) {
+                    if ($product->stock < $item->amount) {
+                        throw new Exception('Exceeds stock of '. $item->product->title);
+                    }
+                    $product->stock = $product->stock - $item->amount;
+                    $product->save();
+                    $non_digital_count++;
+                } else {
+                    $digital_count++;
                 }
-                $product->stock = $product->stock - $item->amount;
-                $product->save();
             }
+            if ($non_digital_count == 0 && $digital_count > 0) {
+                $order->update([
+                    'status' => 3
+                ]);
+            }
+
             ShopCart::where('user_id', $this->user->id)->delete();
             DB::commit();
         } catch (\Exception $e) {
@@ -274,6 +299,25 @@ class ShopCustomerController extends MasterController
                 'status' => 4,
                 'transaction' => $result->id
             ]);
+            $digital_files = array();
+            $digital_count = 0;
+            foreach($order->items as $item) {
+                if ($item->product->digital_id) {
+                    $digital_count++;
+                    array_push($digital_files, storage_path('app/public/uploads/products/digital/'.$item->product->digital->document));
+                }
+            }
+            if (count($digital_files) > 0) {
+                $zip      = new ZipArchive;
+                $fileName = 'storage/downloads/'.time().'.zip';
+                if ($zip->open(public_path($fileName), ZipArchive::CREATE) === TRUE) {
+                    foreach ($digital_files as $file) {
+                      $zip->addFile($file, basename($file));
+                    }
+                    $zip->close();
+                }
+                session()->flash('download.in.the.next.request', asset($fileName));
+            }
         } catch (\Exception $ex) {
 
         }
@@ -376,6 +420,27 @@ class ShopCustomerController extends MasterController
                 'transaction' => $result->purchase_units[0]->payments->captures[0]->id
             ]);
         }
+
+        $digital_files = array();
+        $digital_count = 0;
+        foreach($order->items as $item) {
+            if ($item->product->digital_id) {
+                $digital_count++;
+                array_push($digital_files, storage_path('app/public/uploads/products/digital/'.$item->product->digital->document));
+            }
+        }
+        if (count($digital_files) > 0) {
+            $zip      = new ZipArchive;
+            $fileName = 'storage/downloads/'.time().'.zip';
+            if ($zip->open(public_path($fileName), ZipArchive::CREATE) === TRUE) {
+                foreach ($digital_files as $file) {
+                    $zip->addFile($file, basename($file));
+                }
+                $zip->close();
+            }
+            session()->flash('download.in.the.next.request', asset($fileName));
+        }
+
         session()->flash('message', 'Payment is completed. Thank you for your order');
         return redirect()->route('customer.shop');
     }

@@ -130,6 +130,11 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::resource('slidermanagers', SliderManagerController::class);
     Route::resource('shopcategories', ShopCategoryController::class);
     Route::resource('shopproducts', ShopProductController::class);
+    Route::get('shopproduct/digital/create', [ShopProductController::class, 'create_digital'])->name('shopproducts.digital.create');
+    Route::post('shopproduct/digital/store', [ShopProductController::class, 'store_digital'])->name('shopproducts.digital.store');
+    Route::get('shopproduct/digital/{id}/edit', [ShopProductController::class, 'edit_digital'])->name('shopproducts.digital.edit');
+    Route::put('shopproduct/digital/{id}/update', [ShopProductController::class, 'update_digital'])->name('shopproducts.digital.update');
+    Route::delete('shopproduct/digital/{id}/delete', [ShopProductController::class, 'delete_digital'])->name('shopproducts.digital.delete');
     Route::resource('shoporders', ShopOrderController::class);
     Route::resource('shoppackages', ShopPackageController::class);
     Route::post('shoporders/{id}/dispatch', [ShopOrderController::class, 'dispatched'])->name('shoporders.dispatch');

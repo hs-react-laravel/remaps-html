@@ -29,7 +29,7 @@
           </h6>
           {{-- <small class="cart-item-by">By Apple</small> --}}
         </div>
-        <div class="cart-item-qty">
+        <div class="cart-item-qty" style="visibility: {{ $item->product->digital_id ? 'hidden' : 'visible' }}">
           <div class="input-group">
             <input
               class="touchspin-cart"

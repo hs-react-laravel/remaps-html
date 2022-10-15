@@ -2,6 +2,7 @@
 
 namespace App\Models\Shop;
 
+use App\Models\Shop\ShopProductDigital;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -11,7 +12,7 @@ class ShopProduct extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'company_id', 'title', 'description', 'category_id', 'brand', 'details', 'price', 'image', 'thumb', 'stock', 'live', 'rating'
+        'company_id', 'title', 'description', 'category_id', 'brand', 'details', 'price', 'image', 'thumb', 'stock', 'live', 'rating', 'digital_id'
     ];
 
     public function sku() {
@@ -28,5 +29,9 @@ class ShopProduct extends Model
 
     public function avgRating() {
         return $this->comments->avg('rating');
+    }
+
+    public function digital() {
+        return $this->hasOne(ShopProductDigital::class, 'product_id', 'id');
     }
 }

@@ -32,3 +32,4 @@ Route::post('/send-message', [ApiController::class, 'sendIM'])->name('api.chat.s
 Route::get('/chat-messages', [ApiController::class, 'getChatMessages'])->name('api.chat.messages');
 Route::post('/read-message', [ApiController::class, 'readAll'])->name('api.chat.read');
 Route::get('/chat-count', [ApiController::class, 'unreadCount'])->name('api.chat.count');
+Route::post('/upload/product/digital', [ApiController::class, 'uploadDigital'])->name('api.upload.product.digital');

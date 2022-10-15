@@ -4,8 +4,10 @@
 @section('title', __('locale.menu_Shop_products'))
 
 @section('content')
-<!-- Basic Tables start -->
-<div class="row" id="basic-table">
+@php
+  $tab = isset($_GET['tab']) ? $_GET['tab'] : 'tool';
+@endphp
+<div class="row">
   <div class="col-12">
     <div class="card">
       <div class="card-header">
@@ -19,54 +21,26 @@
             @endif
           @endif
         </h4>
+        <div class="btn-group" role="group" aria-label="Basic example">
+          <button type="button" class="btn {{ $tab == 'tool' ? 'btn-primary' : 'btn-outline-secondary' }}" onclick="onTool()">Tool</button>
+          <button type="button" class="btn {{ $tab == 'digital' ? 'btn-primary' : 'btn-outline-secondary' }}" onclick="onDigital()">Digital</button>
+        </div>
         @if ($entries->total() < $maxProductCt || $user->is_master)
-        <a href="{{ route('shopproducts.create') }}" class="btn btn-icon btn-primary">
-          New Product
-        </a>
+        <div>
+          <a href="{{ $tab == 'tool' ? route('shopproducts.create') : route('shopproducts.digital.create') }}" class="btn btn-icon btn-primary">
+            <i data-feather="plus"></i>
+          </a>
+        </div>
         @endif
       </div>
-      <div class="table-responsive p-1">
-        <table class="table">
-          <thead>
-            <tr>
-              <th width="20%">{{__('locale.tb_header_Name')}}</th>
-              <th width="20%">{{__('locale.tb_header_Price')}}</th>
-              <th width="5%">{{__('locale.tb_header_Actions')}}</th>
-            </tr>
-          </thead>
-          <tbody>
-            @if (count($entries) > 0)
-            @foreach ($entries as $i => $entry)
-              <tr>
-                <td>{{ $entry->title }}</td>
-                <td>{{ $currencyCode.number_format($entry->price, 2) }}</td>
-                <td class="td-actions">
-                  @if ($i < $maxProductCt || $user->is_master)
-                  <a class="btn btn-icon btn-primary" href="{{ route('shopproducts.edit', ['shopproduct' => $entry->id]) }}" title="Edit">
-                    <i data-feather="edit"></i>
-                  </a>
-                  @endif
-                  <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}" title="Delete"><i data-feather="trash-2"></i></a>
-                  <form action="{{ route('shopproducts.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
-                    <input type="hidden" name="_method" value="DELETE">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                  </form>
-                </td>
-              </tr>
-            @endforeach
-            @else
-              <tr>
-                <td colspan="3">No matching records found</td>
-              </tr>
-            @endif
-          </tbody>
-        </table>
-      </div>
+      @if ($tab == 'tool')
+        @include('pages.ecommerce.shopproducts.tool')
+      @else
+      @include('pages.ecommerce.shopproducts.digital')
+      @endif
     </div>
-    {{ $entries->links() }}
   </div>
 </div>
-<!-- Basic Tables end -->
 @endsection
 @section('vendor-script')
   <script src="{{ asset(mix('vendors/js/extensions/sweetalert2.all.min.js')) }}"></script>
@@ -74,6 +48,12 @@
 @endsection
 @section('page-script')
 <script>
+  function onTool() {
+    window.location.href = "{{route('shopproducts.index', ['tab' => 'tool'])}}";
+  }
+  function onDigital() {
+    window.location.href = "{{route('shopproducts.index', ['tab' => 'digital'])}}";
+  }
   async function onDelete(obj) {
     var delete_form = $(obj).closest('.td-actions').children('.delete-form')
     var swal_result = await Swal.fire({

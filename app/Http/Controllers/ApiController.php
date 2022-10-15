@@ -252,4 +252,27 @@ class ApiController extends Controller
         $user = User::find($request->user_id);
         return $user->unread_chats;
     }
+
+    public function uploadDigital(Request $request) {
+        if($request->hasFile('file')){
+            if($request->file('file')->isValid()){
+                $file = $request->file('file');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $org_filename = $file->getClientOriginalName();
+                if($file->move(storage_path('app/public/uploads/products/digital/'), $filename)){
+                    return response()->json([
+                        'status'=> TRUE,
+                        'file' => $filename,
+                        'remain' => $org_filename
+                    ], 200);
+                }else{
+                    return response()->json(['status'=> FALSE], 404);
+                }
+            }else{
+                return response()->json(['status'=> FALSE], 404);
+            }
+        }else{
+            return response()->json(['status'=> FALSE], 404);
+        }
+    }
 }
