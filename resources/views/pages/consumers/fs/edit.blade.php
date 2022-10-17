@@ -156,7 +156,7 @@
                     <th>Original file</th>
                     <td><a href="{{ route('fs.download.original', ['id' => $entry->id]) }}">download</a></td>
                 </tr>
-                @if((($entry->status == 'Completed') || ($entry->status == 'Waiting')) && ($entry->modified_file != ""))
+                @if(($entry->status == 'Completed') && ($entry->modified_file != ""))
                   <tr>
                       <th>Modified file</th>
                       <td>
