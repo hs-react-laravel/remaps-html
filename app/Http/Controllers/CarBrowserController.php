@@ -83,8 +83,6 @@ class CarBrowserController extends MasterController
             $options->setIsRemoteEnabled(true);
             $pdf->setOptions($options);
 
-            // dd(asset('storage/uploads/logo/'.$this->user->logo));
-
             $pdf->loadHtml(
                 view('pdf.car')->with([
                     'car' => $car,
@@ -97,7 +95,6 @@ class CarBrowserController extends MasterController
             return $pdf->stream($pdfName);
         }catch(\Exception $e){
             dd($e);
-            // return redirect(url('admin/order'));
         }
     }
 }

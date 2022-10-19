@@ -7,11 +7,11 @@
 <body>
     <div>
         <div>
-            {{-- @if(\File::exists('storage/uploads/logo/'.$user->logo)) --}}
+            @if(\File::exists('storage/uploads/logo/'.$user->logo))
                 <img src="{{ asset('storage/uploads/logo/'.$user->logo) }}" alt="" style="width:280px" />
-            {{-- @else
+            @else
                 <img src="{{ asset('storage/uploads/logo/'.$company->logo) }}" alt="" style="width:280px" />
-            @endif --}}
+            @endif
         </div>
     </div>
 </body>
