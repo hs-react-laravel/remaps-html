@@ -68,21 +68,29 @@
             </td>
         </tr>
     </table>
+    @if ($car->tuned_bhp_2)
     <table style="width: 170px" border="0" cellspacing="0" cellpadding="0">
         <tr>
-            <td style="width: 85px; height: 30px; color:#575757; border-bottom: 3px solid #575757">
+            <td style="width: 85px; height: 30px; color:#575757; @if($stage == 1) border-bottom: 3px solid #575757 @endif">
                 <div style="width: 85px; height: 38px; text-align:center; line-height: 30px">Stage 1</div>
             </td>
-            <td style="width: 85px; height: 30px; color:#575757;">
+            <td style="width: 85px; height: 30px; color:#575757; @if($stage == 2) border-bottom: 3px solid #575757 @endif">
                 <div style="width: 85px; height: 38px; text-align:center; line-height: 30px">Stage 2</div>
             </td>
         </tr>
     </table>
+    @endif
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
             <p style="font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#575757;">
+                @if($stage == 1)
                 Estimated {{ round((intval($car->tuned_bhp) - intval($car->std_bhp)) / intval($car->std_bhp) * 100) }}% more power and
-                {{ round((intval($car->tuned_torque) - intval($car->std_torque)) / intval($car->std_torque) * 100) }}% more torque</p>
+                {{ round((intval($car->tuned_torque) - intval($car->std_torque)) / intval($car->std_torque) * 100) }}% more torque
+                @elseif ($stage == 2)
+                Estimated {{ round((intval($car->tuned_bhp_2) - intval($car->std_bhp)) / intval($car->std_bhp) * 100) }}% more power and
+                {{ round((intval($car->tuned_torque_2) - intval($car->std_torque)) / intval($car->std_torque) * 100) }}% more torque.
+                @endif
+            </p>
         </tr>
     </table>
     <table style="width: 720px; font-family:Arial, Helvetica, sans-serif;" border="0" cellspacing="0" cellpadding="0">
@@ -153,6 +161,15 @@
             </td>
         </tr>
     </table>
+    @if ($stage == 2)
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <p style="font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#575757;">
+                <b>Stage 2 may require hardware upgrades to achieve these figures, Contact your tuner for information.</b>
+            </p>
+        </tr>
+    </table>
+    @endif
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
             <td>
