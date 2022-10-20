@@ -93,6 +93,7 @@ class CarBrowserController extends MasterController
             $pdf->loadHtml(
                 view('pdf.car')->with([
                     'car' => $car,
+                    'stage' => $stage,
                     'company' => $this->company,
                     'user' => $this->user
                 ])->render()
