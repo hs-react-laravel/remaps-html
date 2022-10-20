@@ -163,10 +163,8 @@
     </table>
     @if ($stage == 2)
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-            <p style="font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#575757;">
-                <b>Stage 2 may require hardware upgrades to achieve these figures, Contact your tuner for information.</b>
-            </p>
+        <tr style="font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#575757;">
+            <b>Stage 2 may require hardware upgrades to achieve these figures, Contact your tuner for information.</b>
         </tr>
     </table>
     @endif
