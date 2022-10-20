@@ -78,7 +78,6 @@ class CarBrowserController extends MasterController
         try{
             $car = Car::find($request->car_id);
             $stage = $request->stage;
-            // dd($request->blob);
             $base64_image = $request->blob; // your base64 encoded
             list($type, $file_data) = explode(';', $base64_image);
             list(, $file_data) = explode(',', $file_data);
@@ -95,7 +94,8 @@ class CarBrowserController extends MasterController
                     'car' => $car,
                     'stage' => $stage,
                     'company' => $this->company,
-                    'user' => $this->user
+                    'user' => $this->user,
+                    'vehicle' => $request->vehicle_reg
                 ])->render()
             );
             $pdf->setPaper('A4', 'portrait');

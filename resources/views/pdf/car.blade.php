@@ -7,6 +7,8 @@
 @php
     $logofile = str_replace(" ", "-", strtolower($car->brand));
     $logofile = asset('images/carlogo/'.$logofile.'.jpg');
+
+    $graphfile = asset('storage/uploads/graph/'.$car->id.'-'.$stage.'.png');
 @endphp
 <body>
     <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-bottom: 2px solid black">
@@ -14,23 +16,23 @@
             <td align="top">
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
-                    <td style="font-family:Arial, Helvetica, sans-serif; font-size:15px; height:22px; color:#575757; "><strong>{{ $company->name }}</strong></td>
+                    <td style="font-family:Arial, Helvetica, sans-serif; font-size:15px; height:18px; color:#575757; "><strong>{{ $company->name }}</strong></td>
                     </tr>
                     <tr>
-                    <td style="font-family:Arial, Helvetica, sans-serif; font-size:13px; height:22px; color:#575757; ">{{ $company->address_line_1 }}</td>
+                    <td style="font-family:Arial, Helvetica, sans-serif; font-size:13px; height:18px; color:#575757; ">{{ $company->address_line_1 }}</td>
                     </tr>
                     @if($company->address_line_2 != null)
                     <tr>
-                    <td style="font-family:Arial, Helvetica, sans-serif; font-size:13px; height:22px; color:#575757; ">{{ $company->address_line_2 }}</td>
+                    <td style="font-family:Arial, Helvetica, sans-serif; font-size:13px; height:18px; color:#575757; ">{{ $company->address_line_2 }}</td>
                     </tr>
                     @endif
                     @if($company->country != null)
                     <tr>
-                    <td style="font-family:Arial, Helvetica, sans-serif; font-size:13px; height:22px; color:#575757; ">{{ $company->country }}</td>
+                    <td style="font-family:Arial, Helvetica, sans-serif; font-size:13px; height:18px; color:#575757; ">{{ $company->country }}</td>
                     </tr>
                     @endif
                     <tr>
-                    <td style="font-family:Arial, Helvetica, sans-serif; font-size:13px; height:22px; color:#575757; "><a href="mailto:{{ $company->support_email_address }}">{{ $company->support_email_address }}</a></td>
+                    <td style="font-family:Arial, Helvetica, sans-serif; font-size:13px; height:18px; color:#575757; "><a href="mailto:{{ $company->support_email_address }}">{{ $company->support_email_address }}</a></td>
                     </tr>
                     <tr><td style="height: 10px"></td></tr>
                 </table>
@@ -52,9 +54,120 @@
             <td align="left" style="font-family:Arial, Helvetica, sans-serif; font-size:16px; height:22px; color:#575757;">
                 {{ $car->brand }} {{ $car->model }} {{ $car->year }} {{ $car->engine_type }}
             </td>
-            <td align="right">
+            <td align="right" style="font-family:Arial, Helvetica, sans-serif; font-size:16px; color:#575757;">
                 <p>Date: {{ \Carbon\Carbon::now()->format('d M Y h:i A') }}</p>
-                <p>Vehicle reg: 12345</p>
+                <p>Vehicle reg: {{ $vehicle }}</p>
+            </td>
+        </tr>
+    </table>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr><td><img src="{{ $graphfile }}" alt="" style="height: 350px; width: 650px; margin-left: 30px" /></td></tr>
+        <tr style="font-family:Arial, Helvetica, sans-serif; font-size:16px; color:#575757;">
+            <td align="right">
+                Graph for illustration only
+            </td>
+        </tr>
+    </table>
+    <table style="width: 170px" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td style="width: 85px; height: 30px; color:#575757; border-bottom: 3px solid #575757">
+                <div style="width: 85px; height: 38px; text-align:center; line-height: 30px">Stage 1</div>
+            </td>
+            <td style="width: 85px; height: 30px; color:#575757;">
+                <div style="width: 85px; height: 38px; text-align:center; line-height: 30px">Stage 2</div>
+            </td>
+        </tr>
+    </table>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <p style="font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#575757;">
+                Estimated {{ round((intval($car->tuned_bhp) - intval($car->std_bhp)) / intval($car->std_bhp) * 100) }}% more power and
+                {{ round((intval($car->tuned_torque) - intval($car->std_torque)) / intval($car->std_torque) * 100) }}% more torque</p>
+        </tr>
+    </table>
+    <table style="width: 720px; font-family:Arial, Helvetica, sans-serif;" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td>
+                <div style="background: #ff9f431f; height: 35px; margin: 3px; color: #ff9f43; text-align: center; line-height: 30px; font-size: 14px">
+                    Parameter
+                </div>
+            </td>
+            <td>
+                <div style="background: #00cfe81f; height: 35px; margin: 3px; color: #00cfe8; text-align: center; line-height: 30px; font-size: 14px; text-transform: uppercase">
+                    Standard
+                </div>
+            </td>
+            <td>
+                <div style="background: #00cfe81f; height: 35px; margin: 3px; color: #00cfe8; text-align: center; line-height: 30px; font-size: 14px; text-transform: uppercase">
+                    Chiptuning
+                </div>
+            </td>
+            <td>
+                <div style="background: #00cfe81f; height: 35px; margin: 3px; color: #00cfe8; text-align: center; line-height: 30px; font-size: 14px; text-transform: uppercase">
+                    Difference
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div style="background: #7367f01f; height: 35px; margin: 3px; color: #7367f0; text-align: center; line-height: 30px; font-size: 14px; text-transform: uppercase">
+                    BHP
+                </div>
+            </td>
+            <td>
+                <div style="background: #82868b; height: 35px; margin: 3px; color: #fff; text-align: center; line-height: 30px; font-size: 14px">
+                    {{ $car->std_bhp }}
+                </div>
+            </td>
+            <td>
+                <div style="background: #4b4b4b; height: 35px; margin: 3px; color: #fff; text-align: center; line-height: 30px; font-size: 14px">
+                    {{ $car->tuned_bhp }}
+                </div>
+            </td>
+            <td>
+                <div style="background: #000; height: 35px; margin: 3px; color: #fff; text-align: center; line-height: 30px; font-size: 14px">
+                    {{ intval($car->tuned_bhp) - intval($car->std_bhp) }} hp
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div style="background: #ea54551f; height: 35px; margin: 3px; color: #ea5455; text-align: center; line-height: 30px; font-size: 14px; text-transform: uppercase">
+                    Torque
+                </div>
+            </td>
+            <td>
+                <div style="background: #82868b; height: 35px; margin: 3px; color: #fff; text-align: center; line-height: 30px; font-size: 14px">
+                    {{ $car->std_torque }}
+                </div>
+            </td>
+            <td>
+                <div style="background: #4b4b4b; height: 35px; margin: 3px; color: #fff; text-align: center; line-height: 30px; font-size: 14px">
+                    {{ $car->tuned_torque }}
+                </div>
+            </td>
+            <td>
+                <div style="background: #000; height: 35px; margin: 3px; color: #fff; text-align: center; line-height: 30px; font-size: 14px">
+                    {{ intval($car->tuned_torque) - intval($car->std_torque) }} Nm
+                </div>
+            </td>
+        </tr>
+    </table>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td>
+            <p style="font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#575757;">
+                The development of each {{ $car->title }} tuning file is the result of perfection and dedication by {{ $company->name }} programmers.
+                The organization only uses the latest technologies and has many years experience in ECU remapping software.
+                Many (chiptuning) organizations around the globe download their tuning files for {{ $car->title }} at {{ $company->name }} for the best possible result.
+                All {{ $car->title }} tuning files deliver the best possible performance and results within the safety margins.
+            </p>
+            <ul style="font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#575757;">
+                <li>100% custom made tuning file guarantee</li>
+                <li>Tested and developed via a 4x4 Dynometer</li>
+                <li>Best possible performance and results, within the safety margins</li>
+                <li>Reduced fuel consumption</li>
+            </ul>
             </td>
         </tr>
     </table>

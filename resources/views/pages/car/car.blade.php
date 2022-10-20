@@ -251,12 +251,14 @@
     <input type="hidden" name="car_id" id="car_id" value="{{ isset($car) ? $car->id : '' }}" />
     <input type="hidden" name="stage" id="stage" />
     <input type="hidden" name="blob" id="blob" />
+    <input type="hidden" name="vehicle_reg" id="vehicle_reg">
 </form>
 @endsection
 
 @section('vendor-script')
   <!-- vendor files -->
   <script src="{{ asset(mix('vendors/js/charts/chart.min.js')) }}"></script>
+  <script src="{{ asset(mix('vendors/js/extensions/sweetalert2.all.min.js')) }}"></script>
 @endsection
 @section('page-script')
   <script>
@@ -681,7 +683,11 @@
       }
       currentStage = stage
     }
-    function onPrint() {
+    async function onPrint() {
+        const { value } = await Swal.fire({
+            title: 'Enter your vehicle reg',
+            input: 'text'
+        })
         let base64Img;
         if (currentStage === 1) {
             base64Img = lineExample.toBase64Image()
@@ -690,6 +696,7 @@
         }
         $('#stage').val(currentStage)
         $('#blob').val(base64Img)
+        $('#vehicle_reg').val(value)
         $('#form_print').submit()
     }
 </script>
