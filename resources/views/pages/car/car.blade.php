@@ -246,6 +246,12 @@
     </div>
   </div>
 </div>
+<form id="form_print" action="{{ route('cars.print.customer') }}" method="POST">
+@csrf
+    <input type="hidden" name="car_id" id="car_id" value="{{ isset($car) ? $car->id : '' }}" />
+    <input type="hidden" name="stage" id="stage" />
+    <input type="hidden" name="blob" id="blob" />
+</form>
 @endsection
 
 @section('vendor-script')
@@ -276,8 +282,9 @@
     tooltipShadow = 'rgba(0, 0, 0, 0.25)', lineChartPrimary = '#666ee8',
     lineChartDanger = '#ff4961', labelColor = '#6e6b7b',
     grid_line_color = 'rgba(200, 200, 200, 0.2)'; // RGBA color helps in dark layout
+    let lineExample;
     if (lineChartEx.length) {
-      var lineExample = new Chart(lineChartEx, {
+      lineExample = new Chart(lineChartEx, {
         type: 'line',
         plugins: [{
           beforeInit: function (chart) {
@@ -472,10 +479,11 @@
         $(this).wrap($('<div style="height:' + this.getAttribute('data-height') + 'px; display: none"></div>'));
       });
     }
+    let lineExample2;
     if (lineChartEx2.length) {
       var bhpdata_tuned_2 = [0, 22.85, 40, 52.85, 67.14, 77.14, 87.14, 97.14, 97.85, 100, 100, 80, 0, 0].map((v) => Math.round(v / 100 * {{ intval($car->tuned_bhp_2) }}) );
       var tordata_tuned_2 = [0, 58.18, 87.27, 98.78, 100, 95.75, 92.27, 90.30, 87.27, 84.24, 78.78, 60, 0, 0].map((v) => Math.round(v / 100 * {{ intval($car->tuned_torque_2) }}));
-      var lineExample2 = new Chart(lineChartEx2, {
+      lineExample2 = new Chart(lineChartEx2, {
         type: 'line',
         plugins: [{
           beforeInit: function (chart) {
@@ -674,7 +682,15 @@
       currentStage = stage
     }
     function onPrint() {
-      window.open(`{{ route('cars.print.customer') }}?car={{ $car->id }}&stage=${currentStage}`)
+        let base64Img;
+        if (currentStage === 1) {
+            base64Img = lineExample.toBase64Image()
+        } else {
+            base64Img = lineExample2.toBase64Image()
+        }
+        $('#stage').val(currentStage)
+        $('#blob').val(base64Img)
+        $('#form_print').submit()
     }
 </script>
 @endsection

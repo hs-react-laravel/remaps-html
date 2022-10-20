@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Dompdf\Dompdf;
 use App\Models\Car;
+use Illuminate\Support\Facades\Storage;
 
 class CarBrowserController extends MasterController
 {
@@ -75,8 +76,14 @@ class CarBrowserController extends MasterController
 
     public function print_customer(Request $request) {
         try{
-            $car = Car::find($request->car);
+            $car = Car::find($request->car_id);
             $stage = $request->stage;
+            // dd($request->blob);
+            $base64_image = $request->blob; // your base64 encoded
+            list($type, $file_data) = explode(';', $base64_image);
+            list(, $file_data) = explode(',', $file_data);
+            $data = base64_decode($file_data);
+            Storage::put('/public/uploads/graph/'.$car->id.'-'.$stage.'.png', $data);
             $pdf = new Dompdf;
             $pdfName = 'test.pdf';
             $options = $pdf->getOptions();
