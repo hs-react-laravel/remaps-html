@@ -84,11 +84,11 @@
         <tr>
             <p style="font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#575757;">
                 @if($stage == 1)
-                Estimated {{ round((intval($car->tuned_bhp) - intval($car->std_bhp)) / intval($car->std_bhp) * 100) }}% more power and
-                {{ round((intval($car->tuned_torque) - intval($car->std_torque)) / intval($car->std_torque) * 100) }}% more torque
+                Estimated {{ round((intval($tuned_bhp) - intval($std_bhp)) / intval($std_bhp) * 100) }}% more power and
+                {{ round((intval($tuned_torque) - intval($std_torque)) / intval($std_torque) * 100) }}% more torque
                 @elseif ($stage == 2)
-                Estimated {{ round((intval($car->tuned_bhp_2) - intval($car->std_bhp)) / intval($car->std_bhp) * 100) }}% more power and
-                {{ round((intval($car->tuned_torque_2) - intval($car->std_torque)) / intval($car->std_torque) * 100) }}% more torque.
+                Estimated {{ round((intval($tuned_bhp_2) - intval($std_bhp)) / intval($std_bhp) * 100) }}% more power and
+                {{ round((intval($tuned_torque_2) - intval($std_torque)) / intval($std_torque) * 100) }}% more torque.
                 @endif
             </p>
         </tr>
@@ -124,17 +124,17 @@
             </td>
             <td>
                 <div style="background: #82868b; height: 35px; margin: 3px; color: #fff; text-align: center; line-height: 30px; font-size: 14px">
-                    {{ $car->std_bhp }}
+                    {{ $std_bhp }}
                 </div>
             </td>
             <td>
                 <div style="background: #4b4b4b; height: 35px; margin: 3px; color: #fff; text-align: center; line-height: 30px; font-size: 14px">
-                    {{ $car->tuned_bhp }}
+                    {{ $stage == 1 ? $tuned_bhp : $tuned_bhp_2 }}
                 </div>
             </td>
             <td>
                 <div style="background: #000; height: 35px; margin: 3px; color: #fff; text-align: center; line-height: 30px; font-size: 14px">
-                    {{ intval($car->tuned_bhp) - intval($car->std_bhp) }} hp
+                    {{ intval($stage == 1 ? $tuned_bhp : $tuned_bhp_2) - intval($std_bhp) }} hp
                 </div>
             </td>
         </tr>
@@ -146,17 +146,17 @@
             </td>
             <td>
                 <div style="background: #82868b; height: 35px; margin: 3px; color: #fff; text-align: center; line-height: 30px; font-size: 14px">
-                    {{ $car->std_torque }}
+                    {{ $std_torque }}
                 </div>
             </td>
             <td>
                 <div style="background: #4b4b4b; height: 35px; margin: 3px; color: #fff; text-align: center; line-height: 30px; font-size: 14px">
-                    {{ $car->tuned_torque }}
+                    {{ $stage == 1 ? $tuned_torque : $tuned_torque_2 }}
                 </div>
             </td>
             <td>
                 <div style="background: #000; height: 35px; margin: 3px; color: #fff; text-align: center; line-height: 30px; font-size: 14px">
-                    {{ intval($car->tuned_torque) - intval($car->std_torque) }} Nm
+                    {{ intval($stage == 1 ? $tuned_torque : $tuned_torque_2) - intval($car->std_torque) }} Nm
                 </div>
             </td>
         </tr>

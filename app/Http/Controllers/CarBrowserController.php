@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Dompdf\Dompdf;
 use App\Models\Car;
+use App\Models\Company;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 
 class CarBrowserController extends MasterController
@@ -76,6 +78,8 @@ class CarBrowserController extends MasterController
 
     public function print_customer(Request $request) {
         try{
+            $company = Company::find($request->company_id);
+            $user = User::find($request->user_id);
             $car = Car::find($request->car_id);
             $stage = $request->stage;
             $base64_image = $request->blob; // your base64 encoded
@@ -93,9 +97,15 @@ class CarBrowserController extends MasterController
                 view('pdf.car')->with([
                     'car' => $car,
                     'stage' => $stage,
-                    'company' => $this->company,
-                    'user' => $this->user,
-                    'vehicle' => $request->vehicle_reg
+                    'company' => $company,
+                    'user' => $user,
+                    'vehicle' => $request->vehicle_reg,
+                    'std_bhp' => $request->std_bhp,
+                    'std_torque' => $request->std_torque,
+                    'tuned_bhp' => $request->tuned_bhp,
+                    'tuned_torque' => $request->tuned_torque,
+                    'tuned_bhp_2' => $request->tuned_bhp_2,
+                    'tuned_torque_2' => $request->tuned_torque_2,
                 ])->render()
             );
             $pdf->setPaper('A4', 'portrait');
