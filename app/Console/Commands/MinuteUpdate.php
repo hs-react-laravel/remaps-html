@@ -79,7 +79,7 @@ class MinuteUpdate extends Command
             $now = strtotime('now');
             Log::info($entry->getRawOriginal('updated_at'));
             Log::info("delayed time difference ".$now.' '.$updatedTime);
-            if (($now - $updatedTime) / 60 > 1) {
+            if (($now - $updatedTime) / 60 > $entry->delay_time) {
                 $entry->status = 'C';
                 $entry->save();
                 Config::set('mail.default', 'smtp');
