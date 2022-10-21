@@ -88,7 +88,7 @@ class CarBrowserController extends MasterController
             $data = base64_decode($file_data);
             Storage::put('/public/uploads/graph/'.$car->id.'-'.$stage.'.png', $data);
             $pdf = new Dompdf;
-            $pdfName = 'test.pdf';
+            $pdfName = time().'_car.pdf';
             $options = $pdf->getOptions();
             $options->setIsRemoteEnabled(true);
             $pdf->setOptions($options);
