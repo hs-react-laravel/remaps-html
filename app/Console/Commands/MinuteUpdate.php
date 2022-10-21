@@ -75,9 +75,9 @@ class MinuteUpdate extends Command
         $delayEntries = FileService::where('status', 'W')->where('is_delay', 1)->get();
         Log::info("delayed file services: ".count($delayEntries));
         foreach($delayEntries as $entry) {
-            $updatedTime = strtotime($entry->updated_at);
+            $updatedTime = strtotime($entry->getRawOriginal('updated_at'));
             $now = strtotime('now');
-            Log::info($entry->updated_at);
+            Log::info($entry->getRawOriginal('updated_at'));
             Log::info("delayed time difference ".$now.' '.$updatedTime);
             if (($now - $updatedTime) / 60 > 1) {
                 $entry->status = 'C';
