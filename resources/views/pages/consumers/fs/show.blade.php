@@ -80,12 +80,12 @@
                     <th>Original file</th>
                     <td><a href="{{ route('fs.download.original', ['id' => $entry->id]) }}">download</a></td>
                 </tr>
-                @if((($entry->status == 'Completed') || ($entry->status == 'Waiting')) && ($entry->modified_file != ""))
+                @if((($entry->status == 'Completed')) && ($entry->modified_file != ""))
                   <tr>
                       <th>Modified file</th>
                       <td>
                         <a href="{{ route('fs.download.modified', ['id' => $entry->id]) }}">download</a>
-                        @if($entry->status == 'Waiting')
+                        @if($entry->status == 'Waiting' && $user->is_admin)
                           &nbsp;&nbsp;<a href="{{ route('fs.delete.modified', ['id' => $entry->id]) }}">delete</a>
                         @endif
                       </td>
