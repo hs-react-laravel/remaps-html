@@ -77,6 +77,7 @@ class MinuteUpdate extends Command
         foreach($delayEntries as $entry) {
             $updatedTime = strtotime($entry->updated_at);
             $now = strtotime('now');
+            Log::info("delayed time difference ".$now.' '.$updatedTime);
             if (($now - $updatedTime) / 60 > 1) {
                 $entry->status = 'C';
                 $entry->save();
