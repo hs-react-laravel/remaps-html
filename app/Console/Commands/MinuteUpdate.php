@@ -73,7 +73,7 @@ class MinuteUpdate extends Command
         }
 
         $delayEntries = FileService::where('status', 'W')->where('is_delay', 1)->get();
-        $this->info(count($delayEntries));
+        Log::info("delayed file services: ".count($delayEntries));
         foreach($delayEntries as $entry) {
             $updatedTime = strtotime($entry->updated_at);
             $now = strtotime('now');
