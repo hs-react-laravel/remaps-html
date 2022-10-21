@@ -16,23 +16,27 @@
             <td align="top">
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
-                    <td style="font-family:Arial, Helvetica, sans-serif; font-size:15px; height:18px; color:#575757; "><strong>{{ $company->name }}</strong></td>
+                    <td style="font-family:Arial, Helvetica, sans-serif; font-size:15px; height:18px; color:#575757; "><strong>{{ $user->is_admin ? $company->name : $user->business_name }}</strong></td>
                     </tr>
                     <tr>
-                    <td style="font-family:Arial, Helvetica, sans-serif; font-size:13px; height:18px; color:#575757; ">{{ $company->address_line_1 }}</td>
+                    <td style="font-family:Arial, Helvetica, sans-serif; font-size:13px; height:18px; color:#575757; ">{{ $user->is_admin ? $company->address_line_1 : $user->address_line_1 }}</td>
                     </tr>
                     @if($company->address_line_2 != null)
                     <tr>
-                    <td style="font-family:Arial, Helvetica, sans-serif; font-size:13px; height:18px; color:#575757; ">{{ $company->address_line_2 }}</td>
+                    <td style="font-family:Arial, Helvetica, sans-serif; font-size:13px; height:18px; color:#575757; ">{{ $user->is_admin ? $company->address_line_2 : $company->address_line_1 }}</td>
                     </tr>
                     @endif
                     @if($company->country != null)
                     <tr>
-                    <td style="font-family:Arial, Helvetica, sans-serif; font-size:13px; height:18px; color:#575757; ">{{ $company->country }}</td>
+                    <td style="font-family:Arial, Helvetica, sans-serif; font-size:13px; height:18px; color:#575757; ">{{ $user->is_admin ? $company->country : $user->county }}</td>
                     </tr>
                     @endif
                     <tr>
-                    <td style="font-family:Arial, Helvetica, sans-serif; font-size:13px; height:18px; color:#575757; "><a href="mailto:{{ $company->support_email_address }}">{{ $company->support_email_address }}</a></td>
+                    <td style="font-family:Arial, Helvetica, sans-serif; font-size:13px; height:18px; color:#575757; ">
+                        <a href="mailto:{{ $user->is_admin ? $company->support_email_address : $user->email }}">
+                            {{ $user->is_admin ? $company->support_email_address : $user->email }}
+                        </a>
+                    </td>
                     </tr>
                     <tr><td style="height: 10px"></td></tr>
                 </table>
@@ -172,9 +176,9 @@
         <tr>
             <td>
             <p style="font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#575757;">
-                The development of each {{ $car->title }} tuning file is the result of perfection and dedication by {{ $company->name }} programmers.
+                The development of each {{ $car->title }} tuning file is the result of perfection and dedication by {{ $user->is_admin ? $company->name : $user->business_name }} programmers.
                 The organization only uses the latest technologies and has many years experience in ECU remapping software.
-                Many (chiptuning) organizations around the globe download their tuning files for {{ $car->title }} at {{ $company->name }} for the best possible result.
+                Many (chiptuning) organizations around the globe download their tuning files for {{ $car->title }} at {{ $user->is_admin ? $company->name : $user->business_name }} for the best possible result.
                 All {{ $car->title }} tuning files deliver the best possible performance and results within the safety margins.
             </p>
             <ul style="font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#575757;">
