@@ -43,9 +43,9 @@
             </td>
             <td valign="top" style="text-align: right">
                 @if($user->logo)
-                    <img src="{{ asset('storage/uploads/logo/'.$user->logo) }}" alt="" style="width:280px" />
+                    <img src="{{ asset('storage/uploads/logo/'.$user->logo) }}" alt="" style="height:120px" />
                 @else
-                    <img src="{{ asset('storage/uploads/logo/'.$company->logo) }}" alt="" style="width:280px" />
+                    <img src="{{ asset('storage/uploads/logo/'.$company->logo) }}" alt="" style="height:120px" />
                 @endif
             </td>
         </tr>
