@@ -124,12 +124,12 @@
             </td>
             <td>
                 <div style="background: #82868b; height: 35px; margin: 3px; color: #fff; text-align: center; line-height: 30px; font-size: 14px">
-                    {{ $std_bhp }}
+                    {{ $std_bhp }} hp
                 </div>
             </td>
             <td>
                 <div style="background: #4b4b4b; height: 35px; margin: 3px; color: #fff; text-align: center; line-height: 30px; font-size: 14px">
-                    {{ $stage == 1 ? $tuned_bhp : $tuned_bhp_2 }}
+                    {{ $stage == 1 ? $tuned_bhp : $tuned_bhp_2 }} hp
                 </div>
             </td>
             <td>
@@ -146,12 +146,12 @@
             </td>
             <td>
                 <div style="background: #82868b; height: 35px; margin: 3px; color: #fff; text-align: center; line-height: 30px; font-size: 14px">
-                    {{ $std_torque }}
+                    {{ $std_torque }} Nm
                 </div>
             </td>
             <td>
                 <div style="background: #4b4b4b; height: 35px; margin: 3px; color: #fff; text-align: center; line-height: 30px; font-size: 14px">
-                    {{ $stage == 1 ? $tuned_torque : $tuned_torque_2 }}
+                    {{ $stage == 1 ? $tuned_torque : $tuned_torque_2 }} Nm
                 </div>
             </td>
             <td>
