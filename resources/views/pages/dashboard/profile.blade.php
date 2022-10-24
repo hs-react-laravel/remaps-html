@@ -127,7 +127,6 @@
             </textarea>
           </div>
         </div>
-        @endif
         <div class="col-6 mb-1">
           <div class="form-check form-check-inline">
             <input type="hidden" name="is_reserve_filename" value="0" />
@@ -135,6 +134,7 @@
             <label class="form-check-label" for="is_reserve_filename">Retain file names</label>
           </div>
         </div>
+        @endif
         <button type="submit" class="btn btn-primary me-1">Submit</button>
         <button type="button" class="btn btn-flat-secondary me-1" onclick="history.back(-1)">Cancel</button>
       </div>
