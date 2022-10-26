@@ -41,7 +41,10 @@ class TuningTypeController extends MasterController
      */
     public function store(TuningTypeRequest $request)
     {
-        $request->request->add(['company_id'=> $this->company->id]);
+        $request->request->add([
+            'company_id'=> $this->company->id,
+            'order_as' => TuningType::where('company_id', $this->company->id)->count() + 1,
+        ]);
         TuningType::create($request->all());
         return redirect(route('tuning-types.index'));
     }
