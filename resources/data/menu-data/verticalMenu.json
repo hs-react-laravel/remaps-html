@@ -104,10 +104,10 @@
                 "slug": "shoporders.index"
             },
             {
-                "url": "admin/shopcategories",
+                "url": "admin/shopcategories/create",
                 "name": "menu_Shop_categories",
                 "icon": "columns",
-                "slug": "shopcategories.index"
+                "slug": "shopcategories.create"
             },
             {
                 "url": "admin/shoppackages",

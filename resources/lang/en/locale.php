@@ -70,6 +70,7 @@ return [
     'tb_header_Notification_To' => 'To',
     'tb_header_Notification_Type' => 'Type',
     'tb_header_Product_Count' => 'Product Count',
+    'tb_header_Product_Type' => 'Product Type',
     'tb_header_Package_Name' => 'Package',
 
     'btn_ViewAllFileServices' => 'View all file services',

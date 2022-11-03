@@ -49,39 +49,39 @@
                   <td>{{ $product->digital->make }}</td>
                 </tr>
                 <tr>
-                  <td>Model</td>
+                  <th>Model</th>
                   <td>{{ $product->digital->model }}</td>
                 </tr>
                 <tr>
-                  <td>Engine Code</td>
+                  <th>Engine Code</th>
                   <td>{{ $product->digital->engine_code }}</td>
                 </tr>
                 <tr>
-                  <td>Engine Displacement</td>
+                  <th>Engine Displacement</th>
                   <td>{{ $product->digital->engine_displacement }}</td>
                 </tr>
                 <tr>
-                  <td>Horsepower Stock</td>
+                  <th>Horsepower Stock</th>
                   <td>{{ $product->digital->hardware_stock }}</td>
                 </tr>
                 <tr>
-                  <td>Software Version</td>
+                  <th>Software Version</th>
                   <td>{{ $product->digital->software_version }}</td>
                 </tr>
                 <tr>
-                  <td>Software Number</td>
+                  <th>Software Number</th>
                   <td>{{ $product->digital->software_number }}</td>
                 </tr>
                 <tr>
-                  <td>Hardware Version</td>
+                  <th>Hardware Version</th>
                   <td>{{ $product->digital->hardware_version }}</td>
                 </tr>
                 <tr>
-                  <td>Checksum</td>
+                  <th>Checksum</th>
                   <td>{{ $product->digital->checksum }}</td>
                 </tr>
                 <tr>
-                  <td>Tuning Tool</td>
+                  <th>Tuning Tool</th>
                   <td>{{ $product->digital->tuning_tool }}</td>
                 </tr>
               </table>

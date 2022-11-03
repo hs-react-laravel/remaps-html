@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Remaps\Shop;
 
+use App\Helpers\Helper;
 use Illuminate\Http\Request;
 use App\Http\Controllers\MasterController;
 use App\Models\Shop\ShopCategory;
@@ -25,9 +26,11 @@ class ShopCategoryController extends MasterController
      *
      * @return \Illuminate\Http\Response
      */
+
     public function create()
     {
-        return view('pages.ecommerce.shopcategory.create');
+        $tree = Helper::categoryTree($this->company->id);
+        return view('pages.ecommerce.shopcategory.create')->with(compact('tree'));
     }
 
     /**

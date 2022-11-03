@@ -35,15 +35,19 @@
                   @endforeach
                 </select>
               </div>
-            </div>
-            <div class="row mb-1">
               <div class="col-xl-4 col-md-6 col-12">
                 <label class="form-label" for="name">Amount</label>
                 <input type="number" class="form-control" id="amount" name="amount" disabled value="{{ $entry->amount }}" />
               </div>
+            </div>
+            <div class="row mb-1">
               <div class="col-xl-4 col-md-6 col-12">
                 <label class="form-label" for="name">Product Count</label>
                 <input type="number" class="form-control" id="product_count" name="product_count" required value="{{ $entry->product_count }}" />
+              </div>
+              <div class="col-xl-4 col-md-6 col-12">
+                <label class="form-label" for="name">Digital Count</label>
+                <input type="number" class="form-control" id="digital_count" name="digital_count" required value="{{ $entry->digital_count }}" />
               </div>
             </div>
             <div class="row mb-1">

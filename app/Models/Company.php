@@ -152,29 +152,34 @@ class Company extends Model
         return \Carbon\Carbon::parse($value)->tz($tz->name)->format('d M Y h:i A');
     }
 
-    public function hasActiveShopSubscription(){
-        $subscription = $this->owner->shopSubscriptions()->orderBy('id', 'DESC')->first();
-        if($subscription){
-            if(strtolower($subscription->status) == strtolower('Active')){
+    public function hasActiveShopSubscription($mode = 1){
+        $subscription = $this->owner->shopSubscriptions()->whereHas('package', function($query) use($mode) {
+            $query->where('mode', $mode);
+        })->orderBy('id', 'DESC')->first();
+        if($subscription) {
+            if(strtolower($subscription->status) == strtolower('Active')) {
                 return TRUE;
-            }else if(strtolower($subscription->status) == strtolower('Suspended') || strtolower($subscription->status) == strtolower('Cancelled')){
+            } else if (strtolower($subscription->status) == strtolower('Suspended') || strtolower($subscription->status) == strtolower('Cancelled')) {
                 $subscriptionPayment = $subscription->subscriptionPayments()->orderBy('id', 'DESC')->first();
-                if(isset($subscriptionPayment) && isset($subscriptionPayment->next_billing_date)){
-                    if(!\Carbon\Carbon::parse($subscriptionPayment->next_billing_date)->isPast()){
+                if(isset($subscriptionPayment) && isset($subscriptionPayment->next_billing_date)) {
+                    if(!\Carbon\Carbon::parse($subscriptionPayment->next_billing_date)->isPast()) {
                         return FALSE;
                     }
-                }else{
+                } else {
                     return FALSE;
                 }
-            }else{
+            } else {
                 return FALSE;
             }
         }
         return FALSE;
     }
 
-    public function getActiveShopSubscription() {
+    public function getActiveShopSubscription($mode = 1) {
         $subscription = $this->owner->shopSubscriptions()
+            ->whereHas('package', function($query) use($mode) {
+                $query->where('mode', $mode);
+            })
             ->where('status', "ACTIVE")
             ->orderBy('id', 'DESC')
             ->first();

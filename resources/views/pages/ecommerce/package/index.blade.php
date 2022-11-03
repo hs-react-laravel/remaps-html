@@ -18,10 +18,11 @@
         <table class="table">
           <thead>
             <tr>
-              <th width="30%">Name</th>
-              <th width="15%">Billing Interval</th>
-              <th width="15%">Amount</th>
-              <th width="15%">Product Count</th>
+              <th width="35%">Name</th>
+              <th width="10%">Billing Interval</th>
+              <th width="10%">Amount</th>
+              <th width="10%">Product Count</th>
+              <th width="10%">Product Type</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -33,6 +34,7 @@
                   <td>{{ $e->billing_interval }}</td>
                   <td>{{ $e->amount_with_current_sign }}</td>
                   <td>{{ $e->product_count }}</td>
+                  <td>{{ $e->mode == 1 ? 'Tool' : 'Digital' }}</td>
                   <td class="td-actions">
                     <a class="btn btn-icon btn-primary" href="{{ route('shoppackages.edit', ['shoppackage' => $e->id]) }}">
                       <i data-feather="edit"></i>

@@ -6,6 +6,11 @@
 @section('vendor-style')
   <!-- vendor css files -->
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
+  <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/jstree.min.css'))}}">
+@endsection
+@section('page-style')
+  <!-- Page css files -->
+  <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/extensions/ext-component-tree.css')) }}">
 @endsection
 
 @section('content')
@@ -116,64 +121,17 @@
           <div class="card-body">
             <div class="row mb-1">
               <div class="col-12">
-                <label class="form-label" for="price">Price({{ $currencyCode }})</label>
-                <input type="number" class="form-control" id="price" name="price" step=".01" value="{{ $product->price }}" required />
+                <label class="form-label" for="category">Category</label>
+                <input type="hidden" name="category_id" id="category_id">
+                <div class="card-body">
+                  <div id="jstree-basic"></div>
+                </div>
               </div>
             </div>
-            <hr />
             <div class="row mb-1">
-              <label class="form-label">SKU</label>
-              <div class="sku-table-wrapper">
-                @foreach ($product->sku as $i => $sku)
-                <div class="mt-1 sku-table-div">
-                  <div class="d-flex">
-                    <div class="col-6 px-1">
-                      <label class="form-label">Name</label>
-                      <input type="text" class="form-control" name="sku_names[]" value="{{ $sku->title }}" required />
-                      <input type="hidden" name="sku_ids[]" value="{{ $sku->id }}" />
-                    </div>
-                    <div class="col-6 px-1">
-                      <label class="form-label">Type</label>
-                      <select class="form-control" name="sku_types[]">
-                        <option value="option" @if($sku->type == 'option') selected @endif>Single Choice</option>
-                        <option value="check" @if($sku->type == 'check') selected @endif>Multiple Choice</option>
-                      </select>
-                    </div>
-                  </div>
-                  <table class="table mt-1">
-                    <thead>
-                      <tr>
-                        <th width="75%">Name</th>
-                        <th width="20%">Price</th>
-                        <th width="5%"></th>
-                      </tr>
-                    </thead>
-                    <tbody class="sku-body">
-                      @foreach ($sku->items as $j => $sitem)
-                        <tr>
-                          <td style="padding: 1px">
-                            <input type="text" name="sku_items[{{$i}}][]" class="form-control" value="{{ $sitem->title }}" />
-                          </td>
-                          <td style="padding: 1px">
-                            <input type="number" name="sku_prices[{{$i}}][]" step=".01" class="form-control" value="{{ $sitem->price }}" />
-                          </td>
-                          <td style="padding: 1px">
-                            <input type="hidden" name="sku_item_ids[{{$i}}][]" value="{{ $sitem->id }}">
-                            <button class="btn btn-danger" type="button" onclick="onTableRowDelete(this)">-</button>
-                          </td>
-                        </tr>
-                      @endforeach
-                    </tbody>
-                  </table>
-                  <div class="d-flex justify-content-end mt-1">
-                    <button type="button" class="btn btn-danger me-1" onclick="onSKUDelete(this)">Remove SKU</button>
-                    <button type="button" class="btn btn-primary" onclick="onSKUItemAdd(this)">Add Item</button>
-                  </div>
-                </div>
-              @endforeach
-              </div>
-              <div class="d-flex mt-1">
-                <button type="button" class="btn btn-primary" style="width: 200px" onclick="onSKUAdd()">Add SKU</button>
+              <div class="col-12">
+                <label class="form-label" for="price">Price({{ $currencyCode }})</label>
+                <input type="number" class="form-control" id="price" name="price" step=".01" value="{{ $product->price }}" required />
               </div>
             </div>
           </div>
@@ -196,6 +154,7 @@
 @section('vendor-script')
   <!-- vendor files -->
   <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
+  <script src="{{ asset(mix('vendors/js/extensions/jstree.min.js')) }}"></script>
 @endsection
 @section('page-script')
   <!-- Page js files -->
@@ -355,6 +314,44 @@
           }
         }
       });
+    })
+    var treeBasic = $('#jstree-basic')
+    var data = @json($categoryTree);
+    var treeObj;
+    var selectedNode;
+    if (treeBasic.length) {
+      initTree(data)
+    }
+    function initTree(data) {
+      treeObj = treeBasic.jstree({
+        core: {
+          check_callback: true,
+          data: data
+        },
+        types: {
+          default: {
+            icon: 'far fa-folder'
+          },
+          html: {
+            icon: 'fab fa-html5 text-danger'
+          },
+          css: {
+            icon: 'fab fa-css3-alt text-info'
+          },
+          img: {
+            icon: 'far fa-file-image text-success'
+          },
+          js: {
+            icon: 'fab fa-node-js text-warning'
+          }
+        }
+      });
+    }
+    $('#jstree-basic').on('changed.jstree', function (e, data) {
+      if (data.action == "select_node") {
+        selectedNode = data.node
+        $('#category_id').val(selectedNode.id)
+      }
     })
   </script>
 @endsection

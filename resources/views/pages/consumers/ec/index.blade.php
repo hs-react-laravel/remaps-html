@@ -7,12 +7,14 @@
 <!-- Vendor css files -->
 <link rel="stylesheet" href="{{ asset('vendors/css/extensions/nouislider.min.css') }}">
 <link rel="stylesheet" href="{{ asset('vendors/css/extensions/toastr.min.css') }}">
+<link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/jstree.min.css'))}}">
 @endsection
 @section('page-style')
 <!-- Page css files -->
 <link rel="stylesheet" href="{{ asset('css/base/plugins/extensions/ext-component-sliders.css') }}">
 <link rel="stylesheet" href="{{ asset('css/base/pages/app-ecommerce.css') }}">
 <link rel="stylesheet" href="{{ asset('css/base/plugins/extensions/ext-component-toastr.css') }}">
+<link rel="stylesheet" href="{{ asset(mix('css/base/plugins/extensions/ext-component-tree.css')) }}">
 @endsection
 
 @section('content-sidebar')
@@ -21,6 +23,12 @@
 @php
   $tab = isset($_GET['tab']) ? $_GET['tab'] : 'tool';
 @endphp
+<style>
+    .jstree .jstree-container-ul .jstree-anchor.jstree-clicked {
+        background: transparent !important;
+        color: #6e6b7b !important;
+    }
+</style>
 @section('content')
 <!-- E-commerce Content Section Starts -->
 <section id="ecommerce-header">
@@ -33,14 +41,6 @@
           </button>
           <div class="search-results">{{ $products->total() }} results found</div>
         </div>
-        <div class="view-options d-flex">
-          <div class="btn-group" role="group">
-            <input type="radio" class="btn-check" name="radio_options" id="radio_option1" autocomplete="off" @if($tab == 'tool') checked @endif />
-            <label class="btn btn-icon btn-outline-primary view-btn grid-view-btn" for="radio_option1" onclick="onTool()">Tool</label>
-            <input type="radio" class="btn-check" name="radio_options" id="radio_option2" autocomplete="off" @if($tab == 'digital') checked @endif />
-            <label class="btn btn-icon btn-outline-primary view-btn list-view-btn" for="radio_option2" onclick="onDigital()">Digital</label>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -52,6 +52,7 @@
 <!-- background Overlay when sidebar is shown  ends-->
 
 <!-- E-commerce Search Bar Starts -->
+<form action="{{ route('customer.shop') }}">
 <section id="ecommerce-searchbar" class="ecommerce-searchbar">
   <div class="row mt-1">
     <div class="col-sm-12">
@@ -63,22 +64,21 @@
           placeholder="Search Product"
           aria-label="Search..."
           aria-describedby="shop-search"
+          name="keyword"
+          value="{{ $keyword }}"
         />
         <span class="input-group-text"><i data-feather="search" class="text-muted"></i></span>
       </div>
     </div>
   </div>
 </section>
+</form>
 <!-- E-commerce Search Bar Ends -->
 
 <!-- E-commerce Products Starts -->
 <section id="ecommerce-products" class="grid-view">
   @foreach ($products as $product)
-    @if ($tab == 'tool')
     @include('pages.consumers.ec.product-tool-thumb')
-    @elseif ($tab == 'digital')
-    @include('pages.consumers.ec.product-digital-thumb')
-    @endif
   @endforeach
 </section>
 <!-- E-commerce Products Ends -->
@@ -95,6 +95,7 @@
 <script src="{{ asset('vendors/js/extensions/wNumb.min.js') }}"></script>
 <script src="{{ asset('vendors/js/extensions/nouislider.min.js') }}"></script>
 <script src="{{ asset('vendors/js/extensions/toastr.min.js') }}"></script>
+<script src="{{ asset(mix('vendors/js/extensions/jstree.min.js')) }}"></script>
 @endsection
 @section('page-script')
 <!-- Page js files -->
@@ -106,6 +107,51 @@
   function onDigital() {
     window.location.href = "{{route('customer.shop', ['tab' => 'digital'])}}";
   }
+  var treeBasic = $('#jstree-checkbox')
+  var data = @json($tree);
+  var treeObj;
+  var selectedNode;
+  var selectedArray = []
+  if (treeBasic.length) {
+    initTree(data)
+  }
+  function initTree(data) {
+    treeObj = treeBasic.jstree({
+      core: {
+        check_callback: true,
+        data: data
+      },
+      checkbox: {
+        tie_selection: false
+      },
+      plugins: ['checkbox'],
+      types: {
+        default: {
+          icon: 'far fa-folder'
+        },
+        html: {
+          icon: 'fab fa-html5 text-danger'
+        },
+        css: {
+          icon: 'fab fa-css3-alt text-info'
+        },
+        img: {
+          icon: 'far fa-file-image text-success'
+        },
+        js: {
+          icon: 'fab fa-node-js text-warning'
+        }
+      }
+    });
+  }
+  $('#jstree-checkbox').on('check_node.jstree', function (e, data) {
+    const selectedIDs = treeBasic.jstree().get_checked()
+    $('#category_filter').val(selectedIDs.join(','));
+  })
+  $('#jstree-checkbox').on('uncheck_node.jstree', function (e, data) {
+    const selectedIDs = treeBasic.jstree().get_checked()
+    $('#category_filter').val(selectedIDs.join(','));
+  })
 </script>
 @endsection
 

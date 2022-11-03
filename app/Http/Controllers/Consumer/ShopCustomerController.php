@@ -13,6 +13,7 @@ use App\Models\Shop\ShopOrderProduct;
 use App\Models\Shop\ShopProduct;
 use App\Models\Shop\ShopProductSkuItem;
 use App\Models\Shop\ShopShippingOption;
+use App\Helpers\Helper;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -31,14 +32,13 @@ class ShopCustomerController extends MasterController
     {
         $products = ShopProduct::where('company_id', $this->company->id)->where('live', 1);
 
-        $tab = request()->get('tab') ?? 'tool';
-        if ($tab == 'tool') {
-            $products = $products->whereNull('digital_id');
-        } else {
-            $products = $products->whereNotNull('digital_id');
-        }
+        $tree = Helper::categoryTree($this->company->id);
+        $selected = [];
+
         if ($request->has('category_filter')) {
-            $products = $products->whereIn('category_id', $request->get('category_filter'));
+            $selected = explode(',', $request->get('category_filter'));
+            $tree = Helper::categoryTree($this->company->id, 'all', $selected);
+            $products = $products->whereIn('category_id', $selected);
         }
         if ($request->has('product_brands')) {
             $products = $products->whereIn('brand', $request->get('product_brands'));
@@ -49,15 +49,26 @@ class ShopCustomerController extends MasterController
         if ($request->has('max_selected_price')) {
             $products = $products->where('price', '<=', $request->get('max_selected_price'));
         }
-
         if ($request->has('rating')) {
             $products = $products->where('rating', '>=', $request->get('rating'));
+        }
+        $keyword = '';
+        if ($request->has('keyword')) {
+            $keyword = $request->get('keyword');
+            $products = $products->where(function($query) use($keyword) {
+                $query->where('title', 'like', '%'.$keyword.'%')
+                    ->orWhere('brand', 'like', '%'.$keyword.'%')
+                    ->orWhere('description', 'like', '%'.$keyword.'%');
+            });
         }
 
         $products = $products->paginate(9);
 
         $maxPrice = ShopProduct::where('company_id', $this->company->id)->where('live', 1)->max('price');
         $minPrice = ShopProduct::where('company_id', $this->company->id)->where('live', 1)->min('price');
+        if ($minPrice == $maxPrice) {
+            $minPrice = 0;
+        }
         $categories = ShopCategory::where('company_id', $this->company->id)->get();
         $brandNames = ShopProduct::where('company_id', $this->company->id)
             ->select('id', 'brand')
@@ -85,7 +96,7 @@ class ShopCustomerController extends MasterController
                     ->count()
             ]);
         }
-        return view('pages.consumers.ec.index')->with(compact('products', 'categories', 'maxPrice', 'minPrice', 'brands', 'ratings'));
+        return view('pages.consumers.ec.index')->with(compact('products', 'categories', 'maxPrice', 'minPrice', 'brands', 'ratings', 'tree', 'selected', 'keyword'));
     }
 
     public function detail($id)

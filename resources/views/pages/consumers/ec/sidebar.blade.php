@@ -30,22 +30,10 @@
       <!-- Categories Starts -->
       <div id="product-categories">
         <h6 class="filter-title">Categories</h6>
-        <ul class="list-unstyled categories-list">
-          @foreach ($categories as $cat)
-          <li>
-            <div class="form-check">
-              <input
-                type="checkbox"
-                id="category-{{ $cat->id }}"
-                name="category_filter[]"
-                class="form-check-input"
-                value="{{ $cat->id }}"
-                @if (in_array($cat->id, $sCategories)) checked @endif />
-              <label class="form-check-label" for="category-{{ $cat->id }}">{{ $cat->name }}</label>
-            </div>
-          </li>
-          @endforeach
-        </ul>
+        <div class="card-body">
+          <div id="jstree-checkbox"></div>
+          <input type="hidden" name="category_filter" id="category_filter" value="{{ implode(',', $selected) }}">
+        </div>
       </div>
       <!-- Categories Ends -->
 

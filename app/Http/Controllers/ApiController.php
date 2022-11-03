@@ -14,6 +14,7 @@ use App\Models\Company;
 use App\Models\Styling;
 use App\Models\User;
 use App\Models\FileService;
+use App\Models\Shop\ShopCategory;
 
 class ApiController extends Controller
 {
@@ -274,5 +275,48 @@ class ApiController extends Controller
         }else{
             return response()->json(['status'=> FALSE], 404);
         }
+    }
+
+    public function currentTree(Request $request) {
+        $categories = ShopCategory::where('company_id', $request->company_id)->get()->toArray();
+        $roots = ShopCategory::where('parent_category', 0)->get()->toArray();
+        $categories = array_merge($categories, $roots);
+        $tree = function ($elements, $parentId = 0) use (&$tree) {
+            $branch = array();
+            foreach ($elements as $element) {
+                if ($element['parent_category'] == $parentId) {
+                    $children = $tree($elements, $element['id']);
+                    if ($children) {
+                        $element['children'] = $children;
+                    } else {
+                        $element['children'] = [];
+                    }
+                    $element['text'] = $element['name'];
+                    $element['state'] = [
+                        'opened' => true
+                    ];
+                    $branch[] = $element;
+                }
+            }
+            return $branch;
+        };
+        $tree = $tree($categories);
+        return $tree;
+    }
+
+    public function createShopCategory(Request $request) {
+        ShopCategory::create($request->all());
+        return $this->currentTree($request);
+    }
+
+    public function deleteShopCategory(Request $request) {
+        ShopCategory::find($request->id)->delete();
+        return $this->currentTree($request);
+    }
+
+    public function updateParentShopCategory(Request $request) {
+        ShopCategory::whereIn('id', $request->ids)->update([
+            'parent_category' => $request->parent_category
+        ]);
     }
 }

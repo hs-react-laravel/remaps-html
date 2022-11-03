@@ -28,8 +28,9 @@
           <thead>
             <tr>
               <th width="15%">{{__('locale.tb_header_AggreeId')}}</th>
-              <th width="10%">{{__('locale.tb_header_Package_Name')}}</th>
+              <th width="5%">{{__('locale.tb_header_Package_Name')}}</th>
               <th width="5%">{{__('locale.tb_header_Product_Count')}}</th>
+              <th width="5%">{{__('locale.tb_header_Product_Type')}}</th>
               <th width="10%">{{__('locale.tb_header_Description')}}</th>
               <th width="15%">{{__('locale.tb_header_StartedAt')}}</th>
               <th width="15%">{{__('locale.tb_header_NextBillingDate')}}</th>
@@ -47,6 +48,7 @@
                   <td>{{ $entry->package->name }}</td>
                   <td>{{ $entry->package->product_count }}</td>
                   @endif
+                  <td>{{ $entry->package->mode == 1 ? 'Tool' : 'Digital' }}</td>
                   <td>{{ $entry->description }}</td>
                   <td>{{ $entry->created_at }}</td>
                   <td>{{ $entry->is_trial

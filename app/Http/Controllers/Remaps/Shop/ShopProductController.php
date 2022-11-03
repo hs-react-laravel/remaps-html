@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Remaps\Shop;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\MasterController;
 use App\Models\Shop\ShopCategory;
 use App\Models\Shop\ShopProduct;
@@ -13,21 +14,26 @@ use Illuminate\Http\Request;
 
 class ShopProductController extends MasterController
 {
-    private function getMaxProductCount() {
+    private function getMaxProductCount($mode) {
         $maxProductCt = 3;
-        $isActive = $this->company->hasActiveShopSubscription();
+        $isActive = $this->company->hasActiveShopSubscription($mode);
         if ($isActive) {
-            $sub = $this->company->getActiveShopSubscription();
+            $sub = $this->company->getActiveShopSubscription($mode);
             $maxProductCt = $sub->package->product_count;
         }
         return $maxProductCt;
     }
 
-    private function checkMembership() {
-        $cpt = $this->getCurrentProductCount();
-        $mpt = $this->getMaxProductCount();
+    private function checkMembership($mode) {
+        $cpt = $this->getCurrentProductCount($mode);
+        $mpt = $this->getMaxProductCount($mode);
         if ($cpt > $mpt) {
-            $products = ShopProduct::where('company_id', $this->company->id)->take($mpt)->pluck('id')->toArray();
+            $products = ShopProduct::where('company_id', $this->company->id);
+            if ($mode == 1) {
+                $products = $products->whereNull('digital_id')->take($mpt)->pluck('id')->toArray();
+            } else if ($mode == 2) {
+                $products = $products->whereNotNull('digital_id')->take($mpt)->pluck('id')->toArray();
+            }
             ShopProduct::where('company_id', $this->company->id)
                 ->whereNotIn('id', $products)
                 ->update([
@@ -36,16 +42,20 @@ class ShopProductController extends MasterController
         }
     }
 
-    private function getCurrentProductCount() {
-        return ShopProduct::where('company_id', $this->company->id)->count();
+    private function getCurrentProductCount($mode) {
+        if ($mode == 1)
+            return ShopProduct::where('company_id', $this->company->id)->whereNull('digital_id')->count();
+        else
+            return ShopProduct::where('company_id', $this->company->id)->whereNotNull('digital_id')->count();
     }
 
     public function index()
     {
-        $this->checkMembership();
-        $maxProductCt = $this->getMaxProductCount();
-
         $tab = request()->get('tab') ?? 'tool';
+        $mode = $tab == 'tool' ? 1 : 2;
+
+        $this->checkMembership($mode);
+        $maxProductCt = $this->getMaxProductCount($mode);
         $entries = ShopProduct::where('company_id', $this->company->id)->whereNull('digital_id')->paginate(10);
         if ($tab == 'digital') {
             $entries = ShopProduct::where('company_id', $this->company->id)->whereNotNull('digital_id')->paginate(10);
@@ -56,12 +66,12 @@ class ShopProductController extends MasterController
 
     public function create()
     {
-        $categories = ShopCategory::where('company_id', $this->company->id)->get();
-        if ($this->getMaxProductCount() <= $this->getCurrentProductCount() && !$this->user->is_master) {
+        $categoryTree = Helper::categoryTree($this->company->id, 'tool');
+        if ($this->getMaxProductCount(1) <= $this->getCurrentProductCount(1) && !$this->user->is_master) {
             return redirect()->route('shopproducts.index');
         }
         return view('pages.ecommerce.shopproducts.create')->with([
-            'categories' => $categories
+            'categoryTree' => $categoryTree
         ]);
     }
 
@@ -123,8 +133,8 @@ class ShopProductController extends MasterController
     public function edit($id)
     {
         $entry = ShopProduct::find($id);
-        $categories = ShopCategory::where('company_id', $this->company->id)->get();
-        return view('pages.ecommerce.shopproducts.edit')->with(compact('entry', 'categories'));
+        $categoryTree = Helper::categoryTree($this->company->id, 'tool', [$entry->category_id]);
+        return view('pages.ecommerce.shopproducts.edit')->with(compact('entry', 'categoryTree'));
     }
 
     public function update(Request $request, $id)
@@ -267,12 +277,12 @@ class ShopProductController extends MasterController
 
     public function create_digital()
     {
-        if ($this->getMaxProductCount() <= $this->getCurrentProductCount() && !$this->user->is_master) {
+        if ($this->getMaxProductCount(2) <= $this->getCurrentProductCount(2) && !$this->user->is_master) {
             return redirect()->route('shopproducts.index', ['tab' => 'digital']);
         }
-        $categories = ShopCategory::where('company_id', $this->company->id)->get();
+        $categoryTree = Helper::categoryTree($this->company->id, 'digital');
         return view('pages.ecommerce.shopproducts.create-digital')->with([
-            'categories' => $categories
+            'categoryTree' => $categoryTree
         ]);
     }
 
@@ -280,7 +290,9 @@ class ShopProductController extends MasterController
         $product = ShopProduct::create([
             'company_id' => $this->company->id,
             'title' => $request->title,
+            'brand' => $request->make,
             'live' => $request->live,
+            'category_id' => $request->category_id,
             'price' => $request->price
         ]);
         $request->request->add([
@@ -290,35 +302,15 @@ class ShopProductController extends MasterController
         $product->digital_id = $digital_info->id;
         $product->save();
 
-        if ($request->has('sku_names')) {
-            $skuNames = $request->get('sku_names');
-            $skuTypes = $request->get('sku_types');
-            $skuItems = $request->get('sku_items');
-            $skuPrices = $request->get('sku_prices');
-            foreach ($skuNames as $i => $sName) {
-                $sku = ShopProductSku::create([
-                    'product_id' => $product->id,
-                    'title' => $sName,
-                    'type' => $skuTypes[$i]
-                ]);
-                if (isset($skuItems) && isset($skuItems[$i])) {
-                    foreach($skuItems[$i] as $j => $si) {
-                        ShopProductSkuItem::create([
-                            'product_sku_id' => $sku->id,
-                            'title' => $si,
-                            'price' => $skuPrices[$i][$j]
-                        ]);
-                    }
-                }
-            }
-        }
         return redirect()->route('shopproducts.index', ['tab' => 'digital']);
     }
 
     public function edit_digital($id) {
         $product = ShopProduct::find($id);
+        $categoryTree = Helper::categoryTree($this->company->id, 'digital', [$product->category_id]);
         return view('pages.ecommerce.shopproducts.edit-digital')->with([
-            'product' => $product
+            'product' => $product,
+            'categoryTree' => $categoryTree
         ]);
     }
 
@@ -327,7 +319,8 @@ class ShopProductController extends MasterController
         $product->update([
             'title' => $request->title,
             'live' => $request->live,
-            'price' => $request->price
+            'price' => $request->price,
+            'category_id' => $request->category_id,
         ]);
         // update digital info
         $digital_info = ShopProductDigital::find($product->digital_id);
@@ -335,64 +328,6 @@ class ShopProductController extends MasterController
             $request->request->remove('document');
         }
         $digital_info->update($request->all());
-        // delete removed sku
-        $rskuIDs = $request->get('sku_ids') ?? [];
-        $dskuIDs = $product->sku->pluck('id')->toArray();
-        $deletedIds = array_filter($dskuIDs, function($it) use($rskuIDs) {
-            return !in_array($it, $rskuIDs);
-        });
-        $willRemovedSkus = ShopProductSku::whereIn('id', $deletedIds)->get();
-        foreach($willRemovedSkus as $sk) {
-            $sk->items()->delete();
-            $sk->delete();
-        }
-        // update or create sku
-        if ($request->has('sku_names')) {
-            $skuNames = $request->get('sku_names');
-            $skuTypes = $request->get('sku_types');
-            $skuItems = $request->get('sku_items');
-            $skuPrices = $request->get('sku_prices');
-            $skuIDs = $request->get('sku_ids');
-            $skuItemIDs = $request->get('sku_item_ids');
-            foreach ($skuNames as $i => $skuName) {
-                if ($skuIDs[$i] > 0) {
-                    $sku = ShopProductSku::find($skuIDs[$i]);
-                    $sku->update([
-                        'title' => $skuName,
-                        'type' => $skuTypes[$i]
-                    ]);
-                    $rskuItemIDs = $skuItemIDs[$i] ?? [];
-                    $dskuItemIDs = $sku->items->pluck('id')->toArray();
-                    $deletedIds = array_filter($dskuItemIDs, function($it) use($rskuItemIDs) {
-                        return !in_array($it, $rskuItemIDs);
-                    });
-                    ShopProductSkuItem::whereIn('id', $deletedIds)->delete();
-                } else {
-                    $sku = ShopProductSku::create([
-                        'product_id' => $product->id,
-                        'title' => $skuName,
-                        'type' => $skuTypes[$i]
-                    ]);
-                }
-                if (isset($skuItems) && isset($skuItems[$i])) {
-                    foreach($skuItems[$i] as $j => $si) {
-                        if ($skuItemIDs[$i][$j] > 0) {
-                            $dSkuItem = ShopProductSkuItem::find($skuItemIDs[$i][$j]);
-                            $dSkuItem->update([
-                                'title' => $si,
-                                'price' => $skuPrices[$i][$j]
-                            ]);
-                        } else {
-                            ShopProductSkuItem::create([
-                                'product_sku_id' => $sku->id,
-                                'title' => $si,
-                                'price' => $skuPrices[$i][$j]
-                            ]);
-                        }
-                    }
-                }
-            }
-        }
         return redirect()->route('shopproducts.index', ['tab' => 'digital']);
     }
 

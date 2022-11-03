@@ -36,15 +36,19 @@
                   @endforeach
                 </select>
               </div>
-            </div>
-            <div class="row mb-1">
               <div class="col-xl-4 col-md-6 col-12">
                 <label class="form-label" for="name">Amount</label>
                 <input type="number" class="form-control" id="amount" name="amount" required />
               </div>
+            </div>
+            <div class="row mb-1">
               <div class="col-xl-4 col-md-6 col-12">
                 <label class="form-label" for="name">Product Count</label>
                 <input type="number" class="form-control" id="product_count" name="product_count" required />
+              </div>
+              <div class="col-xl-4 col-md-6 col-12">
+                <label class="form-label" for="name">Digital Count</label>
+                <input type="number" class="form-control" id="digital_count" name="digital_count" required />
               </div>
             </div>
             <div class="row mb-1">

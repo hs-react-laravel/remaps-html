@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\Company;
 use App\Models\Styling;
+use App\Models\Shop\ShopCategory;
 
 class Helper
 {
@@ -222,5 +223,46 @@ class Helper
     {
         $company = Company::where('v2_domain_link', url(''))->first();
         return $company->timezone;
+    }
+
+    public static function categoryTree($company_id, $mode = 'all', $selected = [])
+    {
+        $categories = ShopCategory::where('company_id', $company_id)->get()->toArray();
+        $roots = [];
+        if ($mode == 'all') {
+            $roots = ShopCategory::where('parent_category', 0)->get()->toArray();
+        } else if ($mode == 'tool') {
+            $roots = ShopCategory::where('id', 1)->get()->toArray();
+        } else if ($mode == 'digital') {
+            $roots = ShopCategory::where('id', 2)->get()->toArray();
+        }
+        $categories = array_merge($categories, $roots);
+        $tree = function ($elements, $parentId = 0) use (&$tree, $selected) {
+            $branch = array();
+            foreach ($elements as $element) {
+                if ($element['parent_category'] == $parentId) {
+                    $children = $tree($elements, $element['id']);
+                    if ($children) {
+                        $element['children'] = $children;
+                    } else {
+                        $element['children'] = [];
+                    }
+                    $element['text'] = $element['name'];
+                    $element['state'] = [
+                        'opened' => true
+                    ];
+                    if ($selected != null && in_array($element['id'], $selected)) {
+                        $element['state'] = [
+                            'opened' => true,
+                            'checked' => true,
+                        ];
+                    }
+                    $branch[] = $element;
+                }
+            }
+            return $branch;
+        };
+        $tree = $tree($categories);
+        return $tree;
     }
 }

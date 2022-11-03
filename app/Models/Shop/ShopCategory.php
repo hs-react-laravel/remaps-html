@@ -11,6 +11,6 @@ class ShopCategory extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'company_id'
+        'name', 'company_id', 'parent_category'
     ];
 }

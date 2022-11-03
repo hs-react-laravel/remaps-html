@@ -6,6 +6,11 @@
 @section('vendor-style')
   <!-- vendor css files -->
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
+  <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/jstree.min.css'))}}">
+@endsection
+@section('page-style')
+  <!-- Page css files -->
+  <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/extensions/ext-component-tree.css')) }}">
 @endsection
 
 @section('content')
@@ -161,12 +166,10 @@
             <div class="row mb-1">
               <div class="col-12">
                 <label class="form-label" for="category">Category</label>
-                <select class="form-select" id="category" name="category_id">
-                  <option value="">-Select Product Category-</option>
-                  @foreach ($categories as $cat)
-                    <option value="{{ $cat->id }}" @if($entry->category_id == $cat->id) selected @endif>{{ $cat->name }}</option>
-                  @endforeach
-                </select>
+                <input type="hidden" name="category_id" id="category_id">
+                <div class="card-body">
+                  <div id="jstree-basic"></div>
+                </div>
               </div>
             </div>
             <div class="row mb-1">
@@ -294,6 +297,7 @@
 @section('vendor-script')
   <!-- vendor files -->
   <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
+  <script src="{{ asset(mix('vendors/js/extensions/jstree.min.js')) }}"></script>
 @endsection
 @section('page-script')
   <!-- Page js files -->
@@ -482,5 +486,43 @@
     $(document).ready(function () {
       CKEDITOR.replace('details');
     });
+    var treeBasic = $('#jstree-basic')
+    var data = @json($categoryTree);
+    var treeObj;
+    var selectedNode;
+    if (treeBasic.length) {
+      initTree(data)
+    }
+    function initTree(data) {
+      treeObj = treeBasic.jstree({
+        core: {
+          check_callback: true,
+          data: data
+        },
+        types: {
+          default: {
+            icon: 'far fa-folder'
+          },
+          html: {
+            icon: 'fab fa-html5 text-danger'
+          },
+          css: {
+            icon: 'fab fa-css3-alt text-info'
+          },
+          img: {
+            icon: 'far fa-file-image text-success'
+          },
+          js: {
+            icon: 'fab fa-node-js text-warning'
+          }
+        }
+      });
+    }
+    $('#jstree-basic').on('changed.jstree', function (e, data) {
+      if (data.action == "select_node") {
+        selectedNode = data.node
+        $('#category_id').val(selectedNode.id)
+      }
+    })
   </script>
 @endsection

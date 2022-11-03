@@ -87,7 +87,6 @@ $(function () {
       }
     });
     range.on('update', function(values, handle) {
-      console.log(values)
       $('#min-price-select').val(values[0])
       $('#max-price-select').val(values[1])
     })

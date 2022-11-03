@@ -1,9 +1,15 @@
+@php
+    $thumb = $product->thumb ? asset('storage/uploads/products/thumbnails/'.$product->thumb) : 'https://via.placeholder.com/350x250.png?text=Product';
+    if ($product->digital_id) {
+        $thumb = 'https://via.placeholder.com/350x250.png?text=Digital File';
+    }
+@endphp
 <div class="card ecommerce-card">
   <div class="item-img text-center justify-content-center">
     <a href="{{ route('customer.shop.detail', ['id' => $product->id]) }}">
       <img
         class="img-fluid card-img-top"
-        src="{{$product->thumb ? asset('storage/uploads/products/thumbnails/'.$product->thumb) : 'https://via.placeholder.com/350x250.png?text=Product'}}"
+        src="{{ $thumb }}"
         alt="img-placeholder"
         style="max-height: 250px"
     /></a>
@@ -40,10 +46,10 @@
       onclick="onAddCartInline(this)"
       data-link="{{ count($product->sku) > 0 ? 1 : 0 }}"
       data-proid="{{ $product->id }}"
-      @if($product->stock <= 0) disabled @endif>
+      @if($product->stock <= 0 && $product->digital_id == null) disabled @endif>
       <i data-feather="shopping-cart"></i>
       <span class="add-to-cart">
-        @if ($product->stock <= 0)
+        @if ($product->stock <= 0 && $product->digital_id == null)
           Out of stock
         @else
           {{ count($product->sku) > 0 ? 'Customize' : 'Add to cart' }}
