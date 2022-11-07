@@ -46,8 +46,11 @@
                 <input type="number" class="form-control" id="product_count" name="product_count" required value="{{ $entry->product_count }}" />
               </div>
               <div class="col-xl-4 col-md-6 col-12">
-                <label class="form-label" for="name">Digital Count</label>
-                <input type="number" class="form-control" id="digital_count" name="digital_count" required value="{{ $entry->digital_count }}" />
+                <label class="form-label" for="mode">Product Type</label>
+                <select class="form-select" id="mode" name="mode" required>
+                  <option value="1" @if($entry->mode == 1) selected @endif>Tool</option>
+                  <option value="2" @if($entry->mode == 2) selected @endif>Digital</option>
+                </select>
               </div>
             </div>
             <div class="row mb-1">
