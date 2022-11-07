@@ -47,8 +47,8 @@
                   @if (isset($entry->package))
                   <td>{{ $entry->package->name }}</td>
                   <td>{{ $entry->package->product_count }}</td>
-                  @endif
                   <td>{{ $entry->package->mode == 1 ? 'Tool' : 'Digital' }}</td>
+                  @endif
                   <td>{{ $entry->description }}</td>
                   <td>{{ $entry->created_at }}</td>
                   <td>{{ $entry->is_trial
