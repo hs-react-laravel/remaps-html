@@ -48,6 +48,10 @@
                   <td>{{ $entry->package->name }}</td>
                   <td>{{ $entry->package->product_count }}</td>
                   <td>{{ $entry->package->mode == 1 ? 'Tool' : 'Digital' }}</td>
+                  @else
+                  <td></td>
+                  <td></td>
+                  <td></td>
                   @endif
                   <td>{{ $entry->description }}</td>
                   <td>{{ $entry->created_at }}</td>
