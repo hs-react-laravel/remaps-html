@@ -12,7 +12,7 @@
     </div>
   </div>
   <div class="card">
-    <form action="{{ route('customer.shop') }}">
+    <form action="{{ $mode == 'tool' ? route('customer.shop.physical') : route('customer.shop.digital') }}">
     <div class="card-body">
       <!-- Price Slider starts -->
       <div class="price-slider">
@@ -65,7 +65,7 @@
         <h6 class="filter-title">Ratings</h6>
         @foreach ($ratings as $rating)
           <div class="ratings-list">
-            <a href="{{ route('customer.shop', ['rating' => $rating['rating']]) }}">
+            <a href="{{ route($mode == 'tool' ? 'customer.shop.physical' : 'customer.shop.digital', ['rating' => $rating['rating']]) }}">
               <ul class="unstyled-list list-inline">
                 @for ($i = 0; $i < $rating['rating']; $i++)
                   <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
@@ -84,8 +84,11 @@
 
       <!-- Clear Filters Starts -->
       <div id="clear-filters">
+        @if($mode == 'digital')
+        <button type="button" class="btn w-100 btn-primary mb-1" onclick="onMore()">Search More</button>
+        @endif
         <button type="submit" class="btn w-100 btn-primary">Search Products</button>
-        <a href="{{ route('customer.shop') }}" class="btn w-100 btn-primary mt-1">Clear Search Filter</a>
+        <a href="{{ route('customer.shop.physical') }}" class="btn w-100 btn-primary mt-1">Clear Search Filter</a>
       </div>
       <!-- Clear Filters Ends -->
     </div>

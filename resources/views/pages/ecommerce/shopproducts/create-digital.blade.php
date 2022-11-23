@@ -55,6 +55,14 @@
                 <label class="form-label" for="title">Horsepower Stock</label>
                 <input type="text" class="form-control" id="hp_stock" name="hp_stock" required />
               </div>
+              <div class="col-12 mb-1">
+                <label class="form-label" for="ecu_make">ECU Make</label>
+                <input type="text" class="form-control" id="ecu_make" name="ecu_make" required />
+              </div>
+              <div class="col-12 mb-1">
+                <label class="form-label" for="ecu_model">ECU Model</label>
+                <input type="text" class="form-control" id="ecu_model" name="ecu_model" required />
+              </div>
               <div class="col-6 mb-1">
                 <label class="form-label" for="title">Software Version</label>
                 <input type="text" class="form-control" id="software_version" name="software_version" required />
@@ -133,6 +141,12 @@
               <div class="col-12">
                 <label class="form-label" for="price">Price({{ $currencyCode }})</label>
                 <input type="number" class="form-control" id="price" name="price" step=".01" required />
+              </div>
+            </div>
+            <div class="row mb-1">
+              <div class="col-12">
+                <label class="form-label" for="description">Description</label>
+                <textarea type="text" class="form-control" id="description" name="description" required></textarea>
               </div>
             </div>
           </div>

@@ -289,7 +289,8 @@ Route::group(['middleware' => 'auth:customer', 'prefix'=>'customer'], function (
     Route::get('/notifications', [DashboardController::class, 'notifications'])->name('dashboard.notifications');
     Route::post('/notifications/read', [DashboardController::class, 'notification_read_one'])->name('dashboard.notifications.read');
 
-    Route::get('/shop', [ShopCustomerController::class, 'index'])->name('customer.shop');
+    Route::get('/shop/physical', [ShopCustomerController::class, 'physical_list'])->name('customer.shop.physical');
+    Route::get('/shop/digital', [ShopCustomerController::class, 'digital_list'])->name('customer.shop.digital');
     Route::get('/shop/checkout', [ShopCustomerController::class, 'checkout'])->name('customer.shop.checkout');
     Route::get('/shop/product/{id}', [ShopCustomerController::class, 'detail'])->name('customer.shop.detail');
     Route::post('/shop/cart/add', [ShopCustomerController::class, 'add2cart'])->name('customer.shop.cart.add');

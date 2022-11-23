@@ -293,7 +293,8 @@ class ShopProductController extends MasterController
             'brand' => $request->make,
             'live' => $request->live,
             'category_id' => $request->category_id,
-            'price' => $request->price
+            'price' => $request->price,
+            'description' => $request->description,
         ]);
         $request->request->add([
             'product_id' => $product->id
@@ -321,6 +322,7 @@ class ShopProductController extends MasterController
             'live' => $request->live,
             'price' => $request->price,
             'category_id' => $request->category_id,
+            'description' => $request->description,
         ]);
         // update digital info
         $digital_info = ShopProductDigital::find($product->digital_id);

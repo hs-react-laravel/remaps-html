@@ -28,16 +28,16 @@ use File;
 
 class ShopCustomerController extends MasterController
 {
-    public function index(Request $request)
-    {
+    public function physical_list(Request $request) {
+        $mode = 'tool';
         $products = ShopProduct::where('company_id', $this->company->id)->where('live', 1);
-
-        $tree = Helper::categoryTree($this->company->id);
+        $products = $products->whereNull('digital_id');
+        $tree = Helper::categoryTree($this->company->id, 'tool');
         $selected = [];
 
         if ($request->has('category_filter')) {
             $selected = explode(',', $request->get('category_filter'));
-            $tree = Helper::categoryTree($this->company->id, 'all', $selected);
+            $tree = Helper::categoryTree($this->company->id, 'tool', $selected);
             $products = $products->whereIn('category_id', $selected);
         }
         if ($request->has('product_brands')) {
@@ -96,9 +96,199 @@ class ShopCustomerController extends MasterController
                     ->count()
             ]);
         }
-        return view('pages.consumers.ec.index')->with(compact('products', 'categories', 'maxPrice', 'minPrice', 'brands', 'ratings', 'tree', 'selected', 'keyword'));
+
+        $d_make = '';
+        $d_model = '';
+        $d_engine_code = '';
+        $d_engine_disp = '';
+        $d_hp = '';
+        $d_ecu_make = '';
+        $d_ecu_model = '';
+        $d_soft_num = '';
+        $d_soft_ver = '';
+        $d_hard_ver = '';
+        $d_checksum = '';
+        $d_tuning_tool = '';
+        return view('pages.consumers.ec.index')->with(compact(
+            'mode',
+            'products',
+            'categories',
+            'maxPrice',
+            'minPrice',
+            'brands',
+            'ratings',
+            'tree',
+            'selected',
+            'keyword',
+            'd_make', 'd_model','d_engine_code', 'd_engine_disp','d_hp', 'd_ecu_make','d_ecu_model', 'd_soft_ver','d_soft_num', 'd_hard_ver','d_checksum', 'd_tuning_tool',
+        ));
     }
 
+    public function digital_list(Request $request) {
+        $mode = 'digital';
+        $products = ShopProduct::where('company_id', $this->company->id)->where('live', 1);
+        $products = $products->whereNotNull('digital_id');
+        $tree = Helper::categoryTree($this->company->id, 'digital');
+        $selected = [];
+
+        if ($request->has('category_filter')) {
+            $selected = explode(',', $request->get('category_filter'));
+            $tree = Helper::categoryTree($this->company->id, 'digital', $selected);
+            $products = $products->whereIn('category_id', $selected);
+        }
+        if ($request->has('product_brands')) {
+            $products = $products->whereIn('brand', $request->get('product_brands'));
+        }
+        if ($request->has('min_selected_price')) {
+            $products = $products->where('price', '>=', $request->get('min_selected_price'));
+        }
+        if ($request->has('max_selected_price')) {
+            $products = $products->where('price', '<=', $request->get('max_selected_price'));
+        }
+        if ($request->has('rating')) {
+            $products = $products->where('rating', '>=', $request->get('rating'));
+        }
+        $keyword = '';
+        if ($request->has('keyword')) {
+            $keyword = $request->get('keyword');
+            $products = $products->where(function($query) use($keyword) {
+                $query->where('title', 'like', '%'.$keyword.'%')
+                    ->orWhere('brand', 'like', '%'.$keyword.'%')
+                    ->orWhere('description', 'like', '%'.$keyword.'%');
+            });
+        }
+        $d_make = $request->get('d_make');
+        $d_model = $request->get('d_model');
+        $d_engine_code = $request->get('d_engine_code');
+        $d_engine_disp = $request->get('d_engine_disp');
+        $d_hp = $request->get('d_hp');
+        $d_ecu_make = $request->get('d_ecu_make');
+        $d_ecu_model = $request->get('d_ecu_model');
+        $d_soft_num = $request->get('d_soft_num');
+        $d_soft_ver = $request->get('d_soft_ver');
+        $d_hard_ver = $request->get('d_hard_ver');
+        $d_checksum = $request->get('d_checksum');
+        $d_tuning_tool = $request->get('d_tuning_tool');
+
+        if ($d_make) {
+            $products = $products->whereHas('digital', function($query) use($d_make) {
+                $query->where('make', 'like', '%'.$d_make.'%');
+            });
+        }
+        if ($request->has('d_model')) {
+            $products = $products->whereHas('digital', function($query) use($d_model) {
+                $query->where('model', 'like', '%'.$d_model.'%');
+            });
+        }
+
+        if ($request->has('d_engine_code')) {
+            $products = $products->whereHas('digital', function($query) use($d_engine_code) {
+                $query->where('engine_code', 'like', '%'.$d_engine_code.'%');
+            });
+        }
+
+        if ($request->has('d_engine_disp')) {
+            $products = $products->whereHas('digital', function($query) use($d_engine_disp) {
+                $query->where('engine_displacement', 'like', '%'.$d_engine_disp.'%');
+            });
+        }
+
+        if ($request->has('d_hp')) {
+            $products = $products->whereHas('digital', function($query) use($d_hp) {
+                $query->where('hp_stock', 'like', '%'.$d_hp.'%');
+            });
+        }
+
+        if ($request->has('d_ecu_make')) {
+            $products = $products->whereHas('digital', function($query) use($d_ecu_make) {
+                $query->where('ecu_make', 'like', '%'.$d_ecu_make.'%');
+            });
+        }
+
+        if ($request->has('d_ecu_model')) {
+            $products = $products->whereHas('digital', function($query) use($d_ecu_model) {
+                $query->where('ecu_model', 'like', '%'.$d_ecu_model.'%');
+            });
+        }
+
+        if ($request->has('d_soft_ver')) {
+            $products = $products->whereHas('digital', function($query) use($d_soft_ver) {
+                $query->where('software_version', 'like', '%'.$d_soft_ver.'%');
+            });
+        }
+
+        if ($request->has('d_soft_num')) {
+            $products = $products->whereHas('digital', function($query) use($d_soft_num) {
+                $query->where('software_number', 'like', '%'.$d_soft_num.'%');
+            });
+        }
+
+        if ($request->has('d_hard_ver')) {
+            $products = $products->whereHas('digital', function($query) use($d_hard_ver) {
+                $query->where('make', 'hardware_version', '%'.$d_hard_ver.'%');
+            });
+        }
+
+        if ($request->has('d_checksum')) {
+            $products = $products->whereHas('digital', function($query) use($d_checksum) {
+                $query->where('checksum', 'like', '%'.$d_checksum.'%');
+            });
+        }
+
+        if ($request->has('d_tuning_tool')) {
+            $products = $products->whereHas('digital', function($query) use($d_tuning_tool) {
+                $query->where('tuning_tool', 'like', '%'.$d_tuning_tool.'%');
+            });
+        }
+
+        $products = $products->paginate(9);
+
+        $maxPrice = ShopProduct::where('company_id', $this->company->id)->where('live', 1)->max('price');
+        $minPrice = ShopProduct::where('company_id', $this->company->id)->where('live', 1)->min('price');
+        if ($minPrice == $maxPrice) {
+            $minPrice = 0;
+        }
+        $categories = ShopCategory::where('company_id', $this->company->id)->get();
+        $brandNames = ShopProduct::where('company_id', $this->company->id)
+            ->select('id', 'brand')
+            ->groupBy('brand')
+            ->pluck('brand');
+        $brands = array();
+        foreach($brandNames as $bn) {
+            $count = ShopProduct::where('company_id', $this->company->id)
+                ->where('brand', $bn)
+                ->where('live', 1)
+                ->count();
+            array_push($brands, [
+                'title' => $bn,
+                'count' => $count
+            ]);
+        }
+        $ratingValues = [4, 3, 2, 1];
+        $ratings = array();
+        foreach($ratingValues as $rv) {
+            array_push($ratings, [
+                'rating' => $rv,
+                'count' => ShopProduct::where('company_id', $this->company->id)
+                    ->where('live', 1)
+                    ->where('rating', '>=', $rv)
+                    ->count()
+            ]);
+        }
+        return view('pages.consumers.ec.index')->with(compact(
+            'mode',
+            'products',
+            'categories',
+            'maxPrice',
+            'minPrice',
+            'brands',
+            'ratings',
+            'tree',
+            'selected',
+            'keyword',
+            'd_make', 'd_model','d_engine_code', 'd_engine_disp','d_hp', 'd_ecu_make','d_ecu_model', 'd_soft_ver','d_soft_num', 'd_hard_ver','d_checksum', 'd_tuning_tool',
+        ));
+    }
     public function detail($id)
     {
         $product = ShopProduct::find($id);
@@ -141,7 +331,7 @@ class ShopCustomerController extends MasterController
             'sku_detail' => $sku_detail
         ]);
 
-        return redirect()->route('customer.shop');
+        return redirect()->route('customer.shop.physical');
     }
 
     public function updateCartItem(Request $request) {
@@ -344,7 +534,7 @@ class ShopCustomerController extends MasterController
             $isVatCalculation = ($this->company->vat_number != null) && ($this->company->vat_percentage != null) && ($this->user->add_tax);
             $tax = $isVatCalculation ? $this->company->vat_percentage : 0;
             foreach($order->items as $item) {
-                $reqItem = array(
+                $orderItem = array(
                     'name' => $item->product->title,
                     'description' => $this->company->name,
                     'unit_amount' => array(
@@ -357,7 +547,7 @@ class ShopCustomerController extends MasterController
                     ),
                     'quantity' => $item->amount,
                 );
-                array_push($items, $reqItem);
+                array_push($items, $orderItem);
             }
 
             $orderReq = new OrdersCreateRequest();
@@ -453,7 +643,7 @@ class ShopCustomerController extends MasterController
         }
 
         session()->flash('message', 'Payment is completed. Thank you for your order');
-        return redirect()->route('customer.shop');
+        return redirect()->route('customer.shop.physical');
     }
 
     public function paypalPaymentCancel($id) {

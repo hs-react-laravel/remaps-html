@@ -65,7 +65,7 @@
         "slug": "",
         "submenu": [
             {
-                "url": "customer/shop",
+                "url": "customer/shop/physical",
                 "name": "menu_Shop_products",
                 "icon": "shopping-cart",
                 "slug": "customer.shop",

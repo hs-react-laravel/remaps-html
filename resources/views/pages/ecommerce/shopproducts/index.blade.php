@@ -22,8 +22,8 @@
           @endif
         </h4>
         <div class="btn-group" role="group" aria-label="Basic example">
-          <button type="button" class="btn {{ $tab == 'tool' ? 'btn-primary' : 'btn-outline-secondary' }}" onclick="onTool()">Tool</button>
-          <button type="button" class="btn {{ $tab == 'digital' ? 'btn-primary' : 'btn-outline-secondary' }}" onclick="onDigital()">Digital</button>
+          <button type="button" class="btn {{ $tab == 'tool' ? 'btn-primary' : 'btn-outline-secondary' }}" onclick="onTool()">Physical Products</button>
+          <button type="button" class="btn {{ $tab == 'digital' ? 'btn-primary' : 'btn-outline-secondary' }}" onclick="onDigital()">Digital Products</button>
         </div>
         @if ($entries->total() < $maxProductCt || $user->is_master)
         <div>

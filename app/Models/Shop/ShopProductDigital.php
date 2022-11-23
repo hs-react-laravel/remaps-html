@@ -17,6 +17,8 @@ class ShopProductDigital extends Model
         'engine_code',
         'engine_displacement',
         'hp_stock',
+        'ecu_make',
+        'ecu_model',
         'software_version',
         'software_number',
         'hardware_version',

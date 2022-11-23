@@ -62,7 +62,15 @@
                 </tr>
                 <tr>
                   <th>Horsepower Stock</th>
-                  <td>{{ $product->digital->hardware_stock }}</td>
+                  <td>{{ $product->digital->hp_stock }}</td>
+                </tr>
+                <tr>
+                  <th>ECU Make</th>
+                  <td>{{ $product->digital->ecu_make }}</td>
+                </tr>
+                <tr>
+                  <th>ECU Model</th>
+                  <td>{{ $product->digital->ecu_model }}</td>
                 </tr>
                 <tr>
                   <th>Software Version</th>
@@ -85,53 +93,9 @@
                   <td>{{ $product->digital->tuning_tool }}</td>
                 </tr>
               </table>
-              {{-- <ul class="product-features list-unstyled">
-                <li><i data-feather="shopping-cart"></i> <span>Free Shipping</span></li>
-                <li>
-                  <i data-feather="dollar-sign"></i>
-                  <span>EMI options available</span>
-                </li>
-              </ul> --}}
-              @foreach ($product->sku as $i => $sku)
-                <hr/>
-                <div class="sku-wrapper">
-                  <h5>{{ $sku->title }}</h5>
-                  @if ($sku->type == 'option')
-                    @foreach ($sku->items as $j => $skuItem)
-                    <div class="form-check form-check-inline mb-1">
-                      <input
-                        class="form-check-input"
-                        type="radio"
-                        name="sku_selection[{{ $i }}][]"
-                        id="sku_selection-{{ $i }}-{{ $j }}"
-                        value="{{ $skuItem->id }}"
-                        @if ($company->notify_check == 1) checked @endif
-                      />
-                      <label class="form-check-label" for="sku_selection-{{ $i }}-{{ $j }}">
-                        {{ $skuItem->title }}
-                        <b>(+{{ $currencyCode.number_format($skuItem->price, 2) }})</b>
-                      </label>
-                    </div>
-                    @endforeach
-                  @elseif ($sku->type == 'check')
-                    @foreach ($sku->items as $j => $skuItem)
-                    <div class="form-check form-check-inline mb-1">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        id="sku_selection-{{ $i }}-{{ $j }}"
-                        name="sku_selection[{{ $i }}][]"
-                        value="{{ $skuItem->id }}"/>
-                      <label class="form-check-label" for="sku_selection-{{ $i }}-{{ $j }}">
-                        {{ $skuItem->title }}
-                        <b>(+{{ $currencyCode.number_format($skuItem->price, 2) }})</b>
-                      </label>
-                    </div>
-                    @endforeach
-                  @endif
-                </div>
-              @endforeach
               <hr />
+              <h5>Description</h5>
+              <p>{{ $product->description }}</p>
               <div class="d-flex flex-column flex-sm-row pt-1">
                 <button class="btn btn-primary me-0 me-sm-1 mb-1 mb-sm-0">
                   <i data-feather="shopping-cart" class="me-50"></i>
