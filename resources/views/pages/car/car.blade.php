@@ -166,10 +166,10 @@
                   <div class="param-item bg-secondary">{{ $car->std_bhp }}</div>
                 </div>
                 <div class="col-3 param-wrapper">
-                  <div class="param-item bg-dark">{{ $car->tuned_bhp }}</div>
+                  <div class="param-item bg-dark" id="cell_tuned_bhp">{{ $car->tuned_bhp }}</div>
                 </div>
                 <div class="col-3 param-wrapper">
-                  <div class="param-item bg-black">{{ intval($car->tuned_bhp) - intval($car->std_bhp) }} hp</div>
+                  <div class="param-item bg-black" id="cell_diff_bhp">{{ intval($car->tuned_bhp) - intval($car->std_bhp) }} hp</div>
                 </div>
                 <div class="col-3 param-wrapper">
                   <div class="param-item bg-light-danger">TORQUE</div>
@@ -178,10 +178,10 @@
                   <div class="param-item bg-secondary">{{ $car->std_torque }}</div>
                 </div>
                 <div class="col-3 param-wrapper">
-                  <div class="param-item bg-dark">{{ $car->tuned_torque }}</div>
+                  <div class="param-item bg-dark" id="cell_tuned_torque">{{ $car->tuned_torque }}</div>
                 </div>
                 <div class="col-3 param-wrapper">
-                  <div class="param-item bg-black">{{ intval($car->tuned_torque) - intval($car->std_torque) }} Nm</div>
+                  <div class="param-item bg-black" id="cell_diff_torque">{{ intval($car->tuned_torque) - intval($car->std_torque) }} Nm</div>
                 </div>
               </div>
             @endif
