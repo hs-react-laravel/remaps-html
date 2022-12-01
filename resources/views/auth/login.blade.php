@@ -104,9 +104,13 @@
               <label class="form-check-label" for="remember-me"> Remember Me</label>
             </div>
           </div>
-          <div class="g-recaptcha" data-sitekey="6LcKMEojAAAAAIXo8RiKOqN5BsR8vETAp_GajO6O"></div>
           <br />
-          <button class="btn {{ 'btn-'.substr($configData['navbarColor'], 3) }} w-100" tabindex="4">Sign in</button>
+          <button
+            class="btn {{ 'btn-'.substr($configData['navbarColor'], 3) }} w-100 g-recaptcha"
+            data-sitekey="6LcKMEojAAAAAIXo8RiKOqN5BsR8vETAp_GajO6O"
+            tabindex="4"
+            data-callback="onSubmit"
+          >Sign in</button>
         </form>
         <p class="text-center mt-2">
           <span>New on our platform?</span>
@@ -124,4 +128,9 @@
 
 @section('page-script')
 <script src="{{asset('js/scripts/pages/auth-login.js')}}"></script>
+<script>
+    function onSubmit(token) {
+        $('.auth-login-form').submit();
+    }
+</script>
 @endsection
