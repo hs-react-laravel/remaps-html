@@ -9,6 +9,7 @@
   {{-- Page Css files --}}
   <link rel="stylesheet" href="{{ asset('css/base/plugins/forms/form-validation.css') }}">
   <link rel="stylesheet" href="{{ asset('css/base/pages/authentication.css') }}">
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 @endsection
 
 @section('content')
@@ -57,6 +58,7 @@
         <p class="card-text mb-2">Please sign-in to your account and start the adventure</p>
         <form class="auth-login-form mt-2" action="{{ route('login') }}" method="POST">
           @csrf
+          <div class="g-recaptcha" data-sitekey="6LcKMEojAAAAAIXo8RiKOqN5BsR8vETAp_GajO6O"></div>
           <div class="mb-1">
             <label class="form-label" for="login-email">Email</label>
             <input
