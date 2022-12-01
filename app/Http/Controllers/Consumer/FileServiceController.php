@@ -47,10 +47,10 @@ class FileServiceController extends MasterController
      */
     public function create()
     {
-        $tuningTypes = TuningType::where('company_id', $this->user->company_id)->orderBy('order_as', 'ASC')->pluck('label', 'id')->toArray();
+        $tuningTypes = TuningType::where('company_id', $this->user->company_id)->orderBy('order_as', 'ASC')->get();
         $tuningOptions = [];
-        foreach($tuningTypes as $id => $label) {
-            $tuningOptions[$id] = TuningType::find($id)->tuningTypeOptions->pluck('label', 'id');
+        foreach($tuningTypes as $opt) {
+            $tuningOptions[$opt->id] = TuningType::find($opt->id)->tuningTypeOptions->pluck('label', 'id');
         }
         return view('pages.consumers.fs.create', [
             'tuningTypes' => $tuningTypes,

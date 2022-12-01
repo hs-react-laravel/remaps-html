@@ -159,15 +159,15 @@
               <div class="col-xl-4 col-md-6 col-12" class="tuning-type-div">
                 <div id="clone" style="display: none" class="mt-1">
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input tuning-option-check" type="checkbox" name="tuning_type_options[]" value="1" />
+                    <input class="form-check-input tuning-option-check" type="checkbox" name="tuning_type_options[]" value="1" data-price="0" />
                     <label class="form-check-label tuning-option-label">A</label>
                   </div>
                 </div>
                 <label class="form-label" for="tuning_type_id">Tuning Type</label>
                 <select class="form-select" id="tuning_type_id" name="tuning_type_id" required>
-                  <option value="">Select Tuning Type</option>
-                  @foreach ($tuningTypes as $key => $title)
-                    <option value="{{ $key }}">{{ $title }}</option>
+                  <option value="" data-price="0">Select Tuning Type</option>
+                  @foreach ($tuningTypes as $opt)
+                    <option value="{{ $opt->id }}" data-price="{{ $opt->credits }}">{{ $opt->label }}</option>
                   @endforeach
                 </select>
                 <div class="mt-1">
@@ -226,7 +226,7 @@
               </div>
             </div>
             @endif
-            <button type="submit" class="btn btn-primary me-1">Submit</button>
+            <button type="submit" class="btn btn-primary me-1" id="btnSubmit">Submit</button>
             <button type="button" class="btn btn-flat-secondary me-1" onclick="history.back(-1)">Cancel</button>
 
           </div>
@@ -251,8 +251,14 @@
   <script src="{{ asset(mix('js/scripts/forms/form-tooltip-valid.js'))}}"></script>
   <script src="{{ asset(mix('js/scripts/forms/form-select2.js')) }}"></script>
   <script>
-    $('#tuning_type_id').on('change', function(){
+    var orgPrice = 0;
+    var totalPrice = 0;
+    var checkItem = [];
+    $('#tuning_type_id').on('change', function(e){
       var id = $(this).val();
+      var price = e.target.options[e.target.selectedIndex].dataset.price;
+      orgPrice = Number(price);
+      totalPrice = Number(price);
       $.ajax({
         url: `/api/tuning-type-options/${id}`,
         type: 'GET',
@@ -262,21 +268,33 @@
         dataType: 'JSON',
         success: function (data) {
           $('.tuning-options-wrapper').html('');
-          console.log(data);
+          checkItem = [];
           data.forEach((item) => {
             var newItem = $('#clone').clone();
             newItem.show();
             $(newItem).find('.tuning-option-label').html(`${item.label} (${item.credits} credits)`);
             $(newItem).find('.tuning-option-label').data('id', item.id);
             $(newItem).find('.tuning-option-check').val(item.id);
+            $(newItem).find('.tuning-option-check').data('price', item.credits);
             $('.tuning-options-wrapper').append(newItem);
+            checkItem.push($(newItem).find('.tuning-option-check'));
           })
+          $('#btnSubmit').html(`Submit (${totalPrice.toFixed(2)} credits)`);
         }
       });
     });
     $('body').on('click', 'label.tuning-option-label', function(){
       var parent = $(this).parent();
       $(parent).find('.tuning-option-check').trigger('click');
+    })
+    $('body').on('change', '.tuning-options-wrapper .tuning-option-check', function(){
+      totalPrice = orgPrice;
+      checkItem.forEach(ci => {
+        if($(ci).prop('checked')) {
+          totalPrice += Number($(ci).data('price'));
+        }
+      })
+      $('#btnSubmit').html(`Submit (${totalPrice.toFixed(2)} credits)`);
     })
   function onUpload() {
     $('#hidden_upload').trigger('click');
