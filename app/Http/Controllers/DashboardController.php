@@ -30,6 +30,7 @@ class DashboardController extends MasterController
             $do['customer'] = $o->customer;
             $do['amount_with_sign'] = $o->amount_with_sign;
             $do['status'] = $o->status;
+            $do['document'] = $o->document;
             array_push($data['orders'], $do);
         }
         $data['fs_pending'] = \App\Models\FileService::whereHas('user', function($query) use($user){

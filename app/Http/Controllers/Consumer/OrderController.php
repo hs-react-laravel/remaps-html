@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\MasterController;
 use App\Models\Order;
 use Dompdf\Dompdf;
+use Illuminate\Support\Facades\File;
 
 class OrderController extends MasterController
 {
@@ -105,6 +106,20 @@ class OrderController extends MasterController
             $pdf->render();
             return $pdf->stream($invoiceName);
         }catch(\Exception $e){
+            return redirect(url('customer/od'));
+        }
+    }
+
+    public function download($id) {
+        try {
+            $order = Order::find($id);
+            $file = storage_path('app/public/uploads/invoice/').$order->document;
+            if (File::exists($file)) {
+                $fileName = 'invoice_'.$order->displayable_id.'.pdf';
+                return response()->download($file, $fileName);
+            }
+        } catch (\Exception $ex) {
+            session()->flash('error', $ex->getMessage());
             return redirect(url('customer/od'));
         }
     }

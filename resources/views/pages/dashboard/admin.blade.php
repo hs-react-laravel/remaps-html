@@ -131,6 +131,10 @@
     </div>
   </div>
 </section>
+{{ Form::open(array('id' => 'uploadForm', 'route' => 'api.order.upload', 'method' => 'POST', 'enctype' => 'multipart/form-data')) }}
+  <input type="file" name="file" id="hidden_upload" style="display: none" />
+  <input type="hidden" name="order" id="order_id" />
+{{ Form::close() }}
 <!-- Dashboard Ecommerce ends -->
 @endsection
 
@@ -163,9 +167,31 @@
                   <td>{{ config('constants.currency_signs')[$company->paypal_currency_code] }} ${o.amount_with_sign}</td>
                   <td>${o.status}</td>
                   <td>
+                  @if (!$company->is_invoice_pdf)
                     <a class="btn btn-icon btn-success" href="/admin/orders/${o.id}/invoice" title="Download Invoice">
                       ${feather.icons['file'].toSvg()}
                     </a>
+                  @endif
+                  @if ($company->is_invoice_pdf)
+                    <a class="btn btn-icon btn-success" id="download-link-${o.id}" href="/admin/orders/${o.id}/download" title="Download Invoice" style="${o.document ? '' : 'display: none'}">
+                      ${feather.icons['file'].toSvg()}
+                    </a>
+                  @endif
+                  @if ($company->is_invoice_pdf)
+                    <button class="btn btn-icon btn-success" title="Upload Invoice PDF" onclick="onUpload(${o.id})">
+                      ${feather.icons['upload'].toSvg()}
+                    </button>
+                  @endif
+                  <div class="progress progress-bar-{{ substr($styling['navbarColor'], 3) }}" style="margin-top: 3px; display:none" id="progress-${o.id}">
+                    <div
+                      class="progress-bar progress-bar-striped progress-bar-animated"
+                      id="progress-bar-${o.id}"
+                      role="progressbar"
+                      aria-valuenow="0"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                    ></div>
+                  </div>
                   </td>
                 </tr>
               `
@@ -182,6 +208,54 @@
       setInterval(() => {
         fetchInfo()
       }, 5 * 1000);
+    })
+
+    function onUpload(id) {
+      $('#hidden_upload').trigger('click');
+      $('#order_id').val(id);
+      $('#hidden_upload').change(function (e) {
+        $('#uploadForm').submit();
+      })
+    }
+    $("#uploadForm").on('submit', function(e){
+      var id = $('#order_id').val();
+      e.preventDefault();
+      $.ajax({
+        xhr: function() {
+          var xhr = new window.XMLHttpRequest();
+          xhr.upload.addEventListener("progress", function(evt) {
+            if (evt.lengthComputable) {
+              var percentComplete = Math.round((evt.loaded / evt.total) * 100);
+              $("#progress-bar-" + id).width(percentComplete + '%');
+              $("#progress-bar-" + id).html(percentComplete+'%');
+            }
+          }, false);
+          return xhr;
+        },
+        type: 'POST',
+        url: "{{ route('api.order.upload') }}",
+        data: new FormData(this),
+        contentType: false,
+        cache: false,
+        processData:false,
+        beforeSend: function(){
+          $("#progress-bar-" + id).width('0%');
+          $("#progress-" + id).show();
+        },
+        error:function(){
+
+        },
+        success: function(resp){
+          if(resp.status){
+            $('#uploadForm')[0].reset();
+            setTimeout(() => {
+              $("#progress-" + id).hide();
+              $("#download-link-" + id).show();
+            }, 2000);
+          }else{
+          }
+        }
+      });
     })
   </script>
 @endsection

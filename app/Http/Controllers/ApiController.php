@@ -15,6 +15,7 @@ use App\Models\Styling;
 use App\Models\User;
 use App\Models\FileService;
 use App\Models\Shop\ShopCategory;
+use App\Models\Order;
 
 class ApiController extends Controller
 {
@@ -318,5 +319,32 @@ class ApiController extends Controller
         ShopCategory::whereIn('id', $request->ids)->update([
             'parent_category' => $request->parent_category
         ]);
+    }
+
+    public function uploadInvoicePdf(Request $request) {
+        if($request->hasFile('file')){
+            if($request->file('file')->isValid()){
+                $file = $request->file('file');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $org_filename = $file->getClientOriginalName();
+                if($file->move(storage_path('app/public/uploads/invoice/'), $filename)){
+                    $order = Order::find($request->get('order'));
+                    $order->update([
+                        'document' => $filename
+                    ]);
+                    return response()->json([
+                        'status'=> TRUE,
+                        'file' => $filename,
+                        'id' => $order->id,
+                    ], 200);
+                }else{
+                    return response()->json(['status'=> FALSE], 404);
+                }
+            }else{
+                return response()->json(['status'=> FALSE], 404);
+            }
+        }else{
+            return response()->json(['status'=> FALSE], 404);
+        }
     }
 }

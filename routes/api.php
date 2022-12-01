@@ -36,3 +36,4 @@ Route::post('shop/upload/product/digital', [ApiController::class, 'uploadDigital
 Route::post('shop/category/create', [ApiController::class, 'createShopCategory'])->name('api.shop.createcategory');
 Route::post('shop/category/delete', [ApiController::class, 'deleteShopCategory'])->name('api.shop.deletecategory');
 Route::post('shop/category/move', [ApiController::class, 'updateParentShopCategory'])->name('api.shop.movecategory');
+Route::post('/order/upload-invoice', [ApiController::class, 'uploadInvoicePdf'])->name('api.order.upload');

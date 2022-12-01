@@ -27,16 +27,24 @@
             @if (count($entries) > 0)
               @foreach ($entries as $e)
               <tr>
-                  <td>{{ $e->created_at }}</td>
-                  <td>{{ $e->customer_company }}</td>
-                  <td>{{ config('constants.currency_signs')[$company->paypal_currency_code].' '.$e->amount_with_sign }}</td>
-                  <td>{{ $e->status }}</td>
-                  <td>{{ $e->displayable_id }}</td>
-                  <td>
-                  <a class="btn btn-icon btn-success" href="{{ route('customer.order.invoice', ['id' => $e->id]) }}" title="Download Invoice">
-                      <i data-feather="file"></i>
-                  </a>
-                  </td>
+                <td>{{ $e->created_at }}</td>
+                <td>{{ $e->customer_company }}</td>
+                <td>{{ config('constants.currency_signs')[$company->paypal_currency_code].' '.$e->amount_with_sign }}</td>
+                <td>{{ $e->status }}</td>
+                <td>{{ $e->displayable_id }}</td>
+                <td>
+                @if (!$company->is_invoice_pdf)
+                <a class="btn btn-icon btn-success" href="{{ route('customer.order.invoice', ['id' => $e->id]) }}" title="Download Invoice">
+                  <i data-feather="file"></i>
+                </a>
+                @else
+                <a class="btn btn-icon @if($e->document) btn-success @else btn-secondary @endif"
+                    href="{{ $e->document ? route('customer.order.download', ['id' => $e->id]) : '#' }}"
+                    title="Download Invoice">
+                  <i data-feather="file"></i>
+                </a>
+                @endif
+                </td>
               </tr>
               @endforeach
               @else

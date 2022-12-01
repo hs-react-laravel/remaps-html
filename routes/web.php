@@ -148,6 +148,7 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
 
     Route::resource('orders', OrderController::class);
     Route::get('orders/{id}/invoice', [OrderController::class, 'invoice'])->name('order.invoice');
+    Route::get('orders/{id}/download', [OrderController::class, 'download'])->name('order.download');
 
     Route::resource('customers', CustomerController::class);
     Route::get('customers/{id}/file-services',[CustomerController::class, 'fileServices'])->name('customer.fs');
@@ -271,6 +272,7 @@ Route::group(['middleware' => 'auth:customer', 'prefix'=>'customer'], function (
     Route::get('/buy-credits/success', [BuyTuningCreditsController::class, 'paymentSuccess'])->name('consumer.buy-credits.success');
     Route::post('/buy-credits/stripe-post', [BuyTuningCreditsController::class, 'stripePost'])->name('consumer.buy-credits.stripe-post');
     Route::get('orders/{id}/invoice', [ODController::class, 'invoice'])->name('customer.order.invoice');
+    Route::get('orders/{id}/download', [ODController::class, 'download'])->name('customer.order.download');
     // Main Page Route
     // Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard');
     Route::post('/customer-rate', [DashboardController::class, 'addRating'])->name('dashboard.rate');

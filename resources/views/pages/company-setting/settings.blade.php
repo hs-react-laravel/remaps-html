@@ -101,7 +101,7 @@
                 role="tab"
                 aria-controls="styling-fill"
                 aria-selected="@if($tab == 'styling') true @else false @endif"
-                >Styling</a>
+                >Preference</a>
             </li>
             <li class="nav-item">
               <a
