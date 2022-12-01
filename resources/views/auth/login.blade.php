@@ -58,7 +58,6 @@
         <p class="card-text mb-2">Please sign-in to your account and start the adventure</p>
         <form class="auth-login-form mt-2" action="{{ route('login') }}" method="POST">
           @csrf
-          <div class="g-recaptcha" data-sitekey="6LcKMEojAAAAAIXo8RiKOqN5BsR8vETAp_GajO6O"></div>
           <div class="mb-1">
             <label class="form-label" for="login-email">Email</label>
             <input
@@ -105,6 +104,7 @@
               <label class="form-check-label" for="remember-me"> Remember Me</label>
             </div>
           </div>
+          <div class="g-recaptcha" data-sitekey="6LcKMEojAAAAAIXo8RiKOqN5BsR8vETAp_GajO6O"></div>
           <button class="btn {{ 'btn-'.substr($configData['navbarColor'], 3) }} w-100" tabindex="4">Sign in</button>
         </form>
         <p class="text-center mt-2">
