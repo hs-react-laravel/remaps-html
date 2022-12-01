@@ -105,6 +105,7 @@
             </div>
           </div>
           <div class="g-recaptcha" data-sitekey="6LcKMEojAAAAAIXo8RiKOqN5BsR8vETAp_GajO6O"></div>
+          <br />
           <button class="btn {{ 'btn-'.substr($configData['navbarColor'], 3) }} w-100" tabindex="4">Sign in</button>
         </form>
         <p class="text-center mt-2">
