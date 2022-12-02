@@ -59,7 +59,12 @@ class FileServiceController extends MasterController
             $minTuningCreditTire = TuningCreditTire::where('company_id', $this->user->company_id)->orderBy('amount', 'ASC')->first();
             $tcValues = $minTuningCreditTire->tuningCreditGroups()->where('tuning_credit_group_id', $this->user->tuning_credit_group_id)
                 ->withPivot('from_credit', 'for_credit')->first();
-            $creditPrice = $tcValues->pivot->from_credit / $minTuningCreditTire->amount;
+            $creditPrice = 1;
+            if ($minTuningCreditTire->amount == 0) {
+                $creditPrice = 0;
+            } else {
+                $creditPrice = $tcValues->pivot->from_credit / $minTuningCreditTire->amount;
+            }
 
             return view('pages.consumers.fs.create', [
                 'tuningTypes' => $tuningTypes,
