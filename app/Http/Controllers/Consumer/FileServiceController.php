@@ -18,6 +18,7 @@ use App\Models\Transaction;
 use App\Models\Ticket;
 use App\Models\User;
 use App\Models\Timezone;
+use App\Models\TuningCreditTire;
 
 class FileServiceController extends MasterController
 {
@@ -47,15 +48,28 @@ class FileServiceController extends MasterController
      */
     public function create()
     {
-        $tuningTypes = TuningType::where('company_id', $this->user->company_id)->orderBy('order_as', 'ASC')->get();
-        $tuningOptions = [];
-        foreach($tuningTypes as $opt) {
-            $tuningOptions[$opt->id] = TuningType::find($opt->id)->tuningTypeOptions->pluck('label', 'id');
+        try {
+            $tuningTypes = TuningType::where('company_id', $this->user->company_id)->orderBy('order_as', 'ASC')->get();
+            $tuningOptions = [];
+            foreach($tuningTypes as $opt) {
+                $tuningOptions[$opt->id] = TuningType::find($opt->id)->tuningTypeOptions->pluck('label', 'id');
+            }
+
+            // find minimum tuning credit tire
+            $minTuningCreditTire = TuningCreditTire::where('company_id', $this->user->company_id)->orderBy('amount', 'ASC')->first();
+            $tcValues = $minTuningCreditTire->tuningCreditGroups()->where('tuning_credit_group_id', $this->user->tuning_credit_group_id)
+                ->withPivot('from_credit', 'for_credit')->first();
+            $creditPrice = $tcValues->pivot->from_credit / $minTuningCreditTire->amount;
+
+            return view('pages.consumers.fs.create', [
+                'tuningTypes' => $tuningTypes,
+                'tuningOptions' => $tuningOptions,
+                'creditPrice' => $creditPrice
+            ]);
+        } catch (\Exception $ex) {
+            session()->flash('error', $ex->getMessage());
         }
-        return view('pages.consumers.fs.create', [
-            'tuningTypes' => $tuningTypes,
-            'tuningOptions' => $tuningOptions,
-        ]);
+        return redirect(route('fs.index'));
     }
 
     /**

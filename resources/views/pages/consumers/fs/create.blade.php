@@ -254,6 +254,8 @@
     var orgPrice = 0;
     var totalPrice = 0;
     var checkItem = [];
+    var creditPrice = {{ $creditPrice }};
+    var currencyCode = "{{ config('constants.currency_signs')[$company->paypal_currency_code] }}";
     $('#tuning_type_id').on('change', function(e){
       var id = $(this).val();
       var price = e.target.options[e.target.selectedIndex].dataset.price;
@@ -279,7 +281,7 @@
             $('.tuning-options-wrapper').append(newItem);
             checkItem.push($(newItem).find('.tuning-option-check'));
           })
-          $('#btnSubmit').html(`Submit (${totalPrice.toFixed(2)} credits)`);
+          $('#btnSubmit').html(`Submit (${totalPrice.toFixed(2)} credits : ${currencyCode} ${(creditPrice * totalPrice).toFixed(2)})`);
         }
       });
     });
@@ -294,7 +296,7 @@
           totalPrice += Number($(ci).data('price'));
         }
       })
-      $('#btnSubmit').html(`Submit (${totalPrice.toFixed(2)} credits)`);
+      $('#btnSubmit').html(`Submit (${totalPrice.toFixed(2)} credits : ${currencyCode} ${(creditPrice * totalPrice).toFixed(2)})`);
     })
   function onUpload() {
     $('#hidden_upload').trigger('click');
