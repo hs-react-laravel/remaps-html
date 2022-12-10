@@ -17,16 +17,16 @@
         "slug": "fs.index"
     },
     {
-        "url": "customer/tk",
-        "name": "menu_SupportTickets",
-        "icon": "message-circle",
-        "slug": "tk.index"
-    },
-    {
         "url": "customer/chats",
         "name": "menu_Chats",
         "icon": "message-square",
         "slug": "customer.chats.index"
+    },
+    {
+        "url": "customer/tk",
+        "name": "menu_SupportTickets",
+        "icon": "message-circle",
+        "slug": "tk.index"
     },
     {
         "url": "customer/buy-credits",
