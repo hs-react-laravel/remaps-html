@@ -148,7 +148,8 @@ return [
     ],
 
     'file_service_reading_tool' => [
-        'Alientech_Kess' => 'Alientech Kess',
+        'Alientech_Kess' => 'Alientech Kess V2',
+        'Alientech_Kess V3' => 'Alientech_Kess V3',
         'Alientech_KTAG' => 'Alientech KTAG',
         'Alientech_Powergate' => 'Alientech Powergate',
         'Autotuner_Bench' => 'Autotuner Bench',
