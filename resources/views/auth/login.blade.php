@@ -111,6 +111,7 @@
             tabindex="4"
             data-callback="onSubmit"
           >Sign in</button>
+          {{-- <button class="btn {{ 'btn-'.substr($configData['navbarColor'], 3) }} w-100" onclick="onSubmit('')">Sign in</button> --}}
         </form>
         <p class="text-center mt-2">
           <span>New on our platform?</span>

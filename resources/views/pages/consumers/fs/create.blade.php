@@ -90,6 +90,7 @@
               <div class="col-xl-4 col-md-6 col-12">
                 <label class="form-label" for="year">Year of Manufacture</label>
                 <select class="select2 form-select" id="year" name="year" required>
+                  <option value="">Choose</option>
                   @for ($i = 1990; $i <= date('Y'); $i++)
                     <option value="{{ $i }}">{{ $i }}</option>
                   @endfor
@@ -97,7 +98,8 @@
               </div>
               <div class="col-xl-4 col-md-6 col-12">
                 <label class="form-label" for="gearbox">Gearbox</label>
-                <select class="select2 form-select" id="gearbox" name="gearbox">
+                <select class="select2 form-select" id="gearbox" name="gearbox" required>
+                  <option value="">Choose</option>
                   @foreach (config('constants.file_service_gearbox') as $key => $title)
                     <option value="{{ $key }}">{{ $title }}</option>
                   @endforeach
@@ -108,7 +110,8 @@
             <div class="row mb-1">
               <div class="col-xl-4 col-md-6 col-12">
                 <label class="form-label" for="fuel_type">Fuel Type</label>
-                <select class="select2 form-select" id="fuel_type" name="fuel_type">
+                <select class="select2 form-select" id="fuel_type" name="fuel_type" required>
+                  <option value="">Choose</option>
                   @foreach (config('constants.file_service_fuel_type') as $key => $title)
                     <option value="{{ $key }}">{{ $title }}</option>
                   @endforeach
@@ -116,7 +119,8 @@
               </div>
               <div class="col-xl-4 col-md-6 col-12">
                 <label class="form-label" for="reading_tool">Reading Tool</label>
-                <select class="select2 form-select" id="reading_tool" name="reading_tool">
+                <select class="select2 form-select" id="reading_tool" name="reading_tool" required>
+                  <option value="">Choose</option>
                   @foreach (config('constants.file_service_reading_tool') as $key => $title)
                     <option value="{{ $key }}">{{ $title }}</option>
                   @endforeach
