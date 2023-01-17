@@ -232,6 +232,17 @@ Route::group(['prefix'=>'staff', 'middleware' => 'check.customerstaff'], functio
 
     Route::get('chats', [StaffChatController::class, 'index'])->name('staff.chats.index');
 });
+Route::group(['middleware' => 'web', 'prefix'=>'staff'], function(){
+	Route::get('login', '\App\Http\Controllers\Auth\Staff\LoginController@showLoginForm')->name('staff.auth.show.login');
+	Route::post('login', '\App\Http\Controllers\Auth\Staff\LoginController@login')->name('staff.auth.login');
+	Route::post('logout', '\App\Http\Controllers\Auth\Staff\LoginController@logout')->name('staff.auth.logout');
+	Route::get('password/reset', '\App\Http\Controllers\Auth\Staff\ForgotPasswordController@showLinkRequestForm')->name('staff.auth.show.password.reset');
+	Route::post('password/reset', '\App\Http\Controllers\Auth\Staff\ResetPasswordController@reset')->name('staff.auth.password.reset');
+	Route::get('password/reset/{token}', '\App\Http\Controllers\Auth\Staff\ResetPasswordController@showResetForm')->name('staff.auth.password.reset.form');
+	Route::post('password/email', '\App\Http\Controllers\Auth\Staff\ForgotPasswordController@sendResetLinkEmail')->name('staff.auth.password.email');
+	Route::get('{id}/switch-account','\App\Http\Controllers\Auth\Staff\LoginController@switchAsCompany')->name('staff.auth.switch-account');
+    Route::get('{id}/redirect-from-master','\App\Http\Controllers\Auth\Staff\LoginController@redirectFromMaster')->name('staff.auth.redirect-from-master');
+});
 Route::group(['prefix'=>'staff', 'middleware' => 'check.onlystaff'], function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboardStaff'])->name('dashboard.staff');
     Route::resource('stafffs', StaffFileServiceController::class);

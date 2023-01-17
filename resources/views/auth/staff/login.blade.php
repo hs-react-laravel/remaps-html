@@ -22,9 +22,9 @@
           <img src="{{ asset('storage/uploads/logo/'.$company->logo) }}" style="width: 100%; height: 100%; border-radius: 5px"></a>
         </a>
 
-        <h4 class="card-title mb-1">Company Login</h4>
+        <h4 class="card-title mb-1">Staff Login</h4>
 
-        <form class="auth-login-form mt-2" action="{{ route('admin.auth.login') }}" method="POST">
+        <form class="auth-login-form mt-2" action="{{ route('staff.auth.login') }}" method="POST">
           @csrf
           <div class="mb-1">
             <label for="login-email" class="form-label">Email</label>
@@ -43,7 +43,7 @@
           <div class="mb-1">
             <div class="d-flex justify-content-between">
               <label class="form-label" for="login-password">Password</label>
-              <a href="{{route('admin.auth.show.password.reset')}}">
+              <a href="{{route('staff.auth.show.password.reset')}}">
                 <small>Forgot Password?</small>
               </a>
             </div>
@@ -67,7 +67,7 @@
             </div>
           </div>
           <div class="mb-1">
-            <p><a href="{{ route('staff.auth.show.login') }}"><span>Login as Staff</span></a></p>
+            <p><a href="{{ route('admin.auth.show.login') }}"><span>Login as Company Owner</span></a></p>
           </div>
           <button class="btn {{ 'btn-'.substr($configData['navbarColor'], 3) }} w-100" tabindex="4">Sign in</button>
         </form>

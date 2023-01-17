@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Auth\Staff;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
@@ -30,7 +30,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/customer/dashboard';
+    protected $redirectTo = '/staff/dashboard';
 
     /**
      * Create a new controller instance.
@@ -48,7 +48,12 @@ class LoginController extends Controller
     }
     protected function guard()
     {
-        return Auth::guard('customer');
+        return Auth::guard('staff');
+    }
+    public function showLoginForm()
+    {
+        session()->put('url', [ "intended" => "/staff/dashboard" ]);
+        return view('auth.staff.login');
     }
     public function login(Request $request) {
 
@@ -63,10 +68,7 @@ class LoginController extends Controller
         $user = User::where($this->username(), $email)->where('company_id', $this->company->id)->first();
         if (!empty($user)) {
             if ($user->is_admin == 1) {
-                return redirect()->route('login')->with(['status'=>'error', 'error'=>__('auth.invalid_user_privilege')]);
-            }
-            if ($user->is_staff == 1) {
-                return redirect()->route('login')->with(['status'=>'error', 'error'=>__('auth.invalid_user_privilege')]);
+                return redirect()->route('login')->with(['status'=>'error', 'error'=>__('auth.invalid_customer_privilege')]);
             }
         }
 
@@ -81,7 +83,7 @@ class LoginController extends Controller
 
     protected function attemptLogin(Request $request)
     {
-        // $email = $request->get($this->username());
+        $email = $request->get($this->username());
         // $user = User::where($this->username(), $email)->where('company_id', $this->company->id)->first();
         return $this->guard()->attempt(
             $this->credentials($request), $request->filled('remember')
@@ -90,6 +92,12 @@ class LoginController extends Controller
 
     protected function credentials(Request $request) {
         $credentials = $request->only($this->username(), 'password');
+
+        $email = $request->get($this->username());
+        $user = User::where($this->username(), $email)->where('company_id', $this->company->id)->first();
+        if ($user && $user->is_staff) {
+            $credentials['is_staff'] = 1;
+        }
         $credentials['company_id'] = $this->company->id;
         return $credentials;
     }
@@ -100,8 +108,10 @@ class LoginController extends Controller
 
         $this->clearLoginAttempts($request);
 
-        $this->redirectTo = '/customer/dashboard';
-        if ($response = $this->authenticated($request, $this->guard()->user())) {
+        // $email = $request->get($this->username());
+        // $user = User::where($this->username(), $email)->where('company_id', $this->company->id)->first();
+
+        if ($response = $this->authenticated($request, Auth::guard('staff')->user())) {
             return $response;
         }
 
@@ -112,6 +122,6 @@ class LoginController extends Controller
 
     public function logout(Request $request) {
         $this->guard()->logout($request);
-        return redirect()->route('login')->with(['status' => 'success', 'message' => __('auth.logged_out')]);
+        return redirect()->route('staff.auth.show.login')->with(['status' => 'success', 'message' => __('auth.logged_out')]);
     }
 }

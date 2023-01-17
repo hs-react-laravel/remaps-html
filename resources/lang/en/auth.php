@@ -18,6 +18,7 @@ return [
     'failed_inactive' => 'Your account is\'t active yet. Contact with administrator.',
     'invalid_admin_privilege' => 'You haven\'t right privilege to access admin panel.',
     'invalid_customer_privilege' => 'You haven\'t right privilege to access customer panel directly.',
+    'invalid_user_privilege' => 'You haven\'t right privilege to access this account.',
     'logged_out' => 'You have been successfully logged out!',
     'password_changed' => 'Your password has been changed.',
     'invalid_domain' => 'We can\'t find a user with that e-mail address.',

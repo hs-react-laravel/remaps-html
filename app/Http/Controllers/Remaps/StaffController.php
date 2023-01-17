@@ -126,12 +126,12 @@ class StaffController extends MasterController
     {
         $staff = User::find($id);
         if (!$staff->is_semi_admin) {
-            User::where('company_id', $this->user->company_id)
-                ->where('is_admin', 0)
-                ->where('is_staff', 1)
-                ->update([
-                    'is_semi_admin' => 0
-                ]);
+            // User::where('company_id', $this->user->company_id)
+            //     ->where('is_admin', 0)
+            //     ->where('is_staff', 1)
+            //     ->update([
+            //         'is_semi_admin' => 0
+            //     ]);
             $staff->update([
                 'is_semi_admin' => 1
             ]);

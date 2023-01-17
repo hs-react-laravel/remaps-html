@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Auth\Admin;
 
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\User;
-use View;
 
 class LoginController extends Controller
 {
@@ -86,7 +86,7 @@ class LoginController extends Controller
 		$email = $request->get($this->username());
         $user = User::where($this->username(), $email)->where('company_id', $this->company->id)->first();
         if (!empty($user)) {
-            if ($user->is_admin == 0 && $user->is_staff == null) {
+            if ($user->is_admin == 0) {
                 return redirect('admin/login')->with(['status'=>'error', 'error'=>__('auth.invalid_admin_privilege')]);
             }
 			if ($user->is_active == 0) {
