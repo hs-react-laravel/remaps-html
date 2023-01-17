@@ -82,13 +82,24 @@ class MinuteUpdate extends Command
             if (($now - $updatedTime) / 60 > $entry->delay_time) {
                 $entry->status = 'C';
                 $entry->save();
-                Config::set('mail.default', 'smtp');
-                Config::set('mail.mailers.smtp.host', 'mail.remapdash.com');
-                Config::set('mail.mailers.smtp.port', 25);
-                Config::set('mail.mailers.smtp.encryption', '');
-                Config::set('mail.mailers.smtp.username', 'no-reply@remapdash.com');
-                Config::set('mail.mailers.smtp.password', '6%3d5ohF');
-                Config::set('mail.from.address', 'no-reply@remapdash.com');
+                $company = $entry->user->company;
+                if ($company->mail_host && $company->mail_port && $company->mail_username && $company->mail_password) {
+                    Config::set('mail.default', $company->mail_driver);
+                    Config::set('mail.mailers.smtp.host', $company->mail_host);
+                    Config::set('mail.mailers.smtp.port', $company->mail_port);
+                    Config::set('mail.mailers.smtp.encryption', $company->mail_encryption);
+                    Config::set('mail.mailers.smtp.username', $company->mail_username);
+                    Config::set('mail.mailers.smtp.password', $company->mail_password);
+                    Config::set('mail.from.address',$company->mail_username );
+                } else {
+                    Config::set('mail.default', 'smtp');
+                    Config::set('mail.mailers.smtp.host', 'mail.remapdash.com');
+                    Config::set('mail.mailers.smtp.port', 25);
+                    Config::set('mail.mailers.smtp.encryption', '');
+                    Config::set('mail.mailers.smtp.username', 'no-reply@remapdash.com');
+                    Config::set('mail.mailers.smtp.password', '6%3d5ohF');
+                    Config::set('mail.from.address', 'no-reply@remapdash.com');
+                }
                 try{
                     Mail::to($entry->user->email)->send(new FileServiceModified($entry));
                 }catch(\Exception $e){
