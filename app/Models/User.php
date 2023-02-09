@@ -107,6 +107,7 @@ class User extends Authenticatable implements MustVerifyEmail
             })->where('is_read', 0)->where('parent_chat_id', '!=' , 0)->pluck('parent_chat_id')->toArray();
             $child_parent_ids = array_unique($child_parent_ids);
             $unread_ids = array_merge($parent_ids, $child_parent_ids);
+            $unread_ids = Ticket::whereIn('id', $unread_ids)->whereNull('deleted_at')->pluck('id')->toArray();
             return $unread_ids;
         } else {
             $parent_ids = Ticket::where('receiver_id', $this->id)
@@ -119,6 +120,7 @@ class User extends Authenticatable implements MustVerifyEmail
                 ->pluck('parent_chat_id')->toArray();
             $child_parent_ids = array_unique($child_parent_ids);
             $unread_ids = array_merge($parent_ids, $child_parent_ids);
+            $unread_ids = Ticket::whereIn('id', $unread_ids)->whereNull('deleted_at')->pluck('id')->toArray();
             return $unread_ids;
         }
     }
