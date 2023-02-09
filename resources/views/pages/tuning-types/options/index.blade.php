@@ -19,7 +19,7 @@
       <div class="card-header">
         <h4 class="card-title">Tuning Type Options</h4>
         <div>
-          <a href="{{ route('tuning-credits.index') }}" class="btn btn-icon btn-secondary">
+          <a href="{{ route('tuning-types.index') }}" class="btn btn-icon btn-secondary">
             <i data-feather="arrow-left"></i>
           </a>
           <a href="{{ route('options.create', ['id' => $typeId]) }}" class="btn btn-icon btn-primary">
