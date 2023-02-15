@@ -297,6 +297,7 @@
       totalPrice = orgPrice;
       checkItem.forEach(ci => {
         if($(ci).prop('checked')) {
+            console.log($(ci).data('price'))
           totalPrice += Number($(ci).data('price'));
         }
       })
