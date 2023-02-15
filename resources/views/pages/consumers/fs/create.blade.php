@@ -281,7 +281,7 @@
             $(newItem).find('.tuning-option-label').html(`${item.label} (${item.credits} credits)`);
             $(newItem).find('.tuning-option-label').data('id', item.id);
             $(newItem).find('.tuning-option-check').val(item.id);
-            $(newItem).find('.tuning-option-check').data('price', Number(item.credits));
+            $(newItem).find('.tuning-option-check').data('price', item.credits.replace(",", ""));
             $('.tuning-options-wrapper').append(newItem);
             checkItem.push($(newItem).find('.tuning-option-check'));
           })
