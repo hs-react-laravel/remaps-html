@@ -28,6 +28,7 @@ return [
     'tb_header_License' => 'License Plate',
     'tb_header_Aktionen' => 'Aktionen',
     'tb_header_Company' => 'Company',
+    'tb_header_Email' => 'Email',
     'tb_header_FileService' => 'File Service',
     'tb_header_TicketStatus' => 'Ticket Status',
     'tb_header_Description' => 'Description',

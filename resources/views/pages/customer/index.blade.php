@@ -33,6 +33,7 @@
             <tr>
               <th width="10%">{{__('locale.tb_header_Name')}}</th>
               <th width="10%">{{__('locale.tb_header_Company')}}</th>
+              <th width="10%">{{__('locale.tb_header_Email')}}</th>
               <th width="5%">{{__('locale.tb_header_TuningCredits')}}</th>
               <th width="10%">{{__('locale.tb_header_TuningPriceGroup')}}</th>
               @if ($user->company->reseller_id)
@@ -161,6 +162,7 @@
       columns: [
         { data: 'name'},
         { data: 'company' },
+        { data: 'email' },
         { data: 'tuning_credits' },
         { data: 'tuning_price_group' },
         @if ($user->company->reseller_id) { data: 'evc_tuning_price_group' }, @endif
@@ -180,8 +182,8 @@
       lengthMenu: [[15, 25, 50], [15, 25, 50]],
       createdRow: function(row, data, index) {
         $('td', row).addClass('td-actions')
-        @if ($user->company->reseller_id) $('td', row).eq(7).html(`
-        @else ($user->company->reseller_id) $('td', row).eq(6).html(`
+        @if ($user->company->reseller_id) $('td', row).eq(8).html(`
+        @else ($user->company->reseller_id) $('td', row).eq(7).html(`
         @endif
           <a class="btn btn-icon btn-primary" href="${data['route.edit']}" title="Edit">
             ${feather.icons['edit'].toSvg()}

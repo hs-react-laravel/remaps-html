@@ -72,6 +72,7 @@ class CustomerController extends MasterController
         foreach($entries as $entry) {
             array_push($return_data, [
                 'name' => $entry->fullName,
+                'email' => $entry->email,
                 'company' => $entry->business_name,
                 'tuning_credits' => number_format($entry->tuning_credits, 2),
                 'tuning_price_group' => $entry->tuningPriceGroup,

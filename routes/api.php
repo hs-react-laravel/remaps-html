@@ -1,9 +1,12 @@
 <?php
 
-use App\Http\Controllers\ApiController;
-use App\Http\Controllers\PaypalWebhookController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\ApiController;
+use App\Http\Controllers\PaypalWebhookController;
+use App\Http\Controllers\PassportAuthController;
+use App\Http\Controllers\PassportCarApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,3 +40,11 @@ Route::post('shop/category/create', [ApiController::class, 'createShopCategory']
 Route::post('shop/category/delete', [ApiController::class, 'deleteShopCategory'])->name('api.shop.deletecategory');
 Route::post('shop/category/move', [ApiController::class, 'updateParentShopCategory'])->name('api.shop.movecategory');
 Route::post('/order/upload-invoice', [ApiController::class, 'uploadInvoicePdf'])->name('api.order.upload');
+
+Route::post('login', [PassportAuthController::class, 'login']);
+Route::middleware('auth:api')->group(function() {
+    Route::post('makes', [PassportCarApiController::class, 'getMakes']);
+    Route::post('models', [PassportCarApiController::class, 'getModels']);
+    Route::post('generations', [PassportCarApiController::class, 'getGenerations']);
+    Route::post('engines', [PassportCarApiController::class, 'getEngines']);
+});

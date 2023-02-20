@@ -176,7 +176,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         // custom theme menu provider
         App\Providers\MenuServiceProvider::class,
-        Srmklive\PayPal\Providers\PayPalServiceProvider::class
+        Srmklive\PayPal\Providers\PayPalServiceProvider::class,
+        Laravel\Passport\PassportServiceProvider::class
     ],
 
     /*
