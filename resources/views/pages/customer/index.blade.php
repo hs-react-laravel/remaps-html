@@ -172,14 +172,14 @@
       ],
       columnDefs: [{
         @if ($user->company->reseller_id)
-        targets: [5, 7],
+        targets: [6, 8],
         @else
-        targets: [4, 6],
+        targets: [5, 7],
         @endif
         orderable: false,
         searchable: false,
       }],
-      lengthMenu: [[15, 25, 50], [15, 25, 50]],
+      lengthMenu: [[15, 25, 50, 1000], [15, 25, 50, 'All']],
       createdRow: function(row, data, index) {
         $('td', row).addClass('td-actions')
         @if ($user->company->reseller_id) $('td', row).eq(8).html(`
