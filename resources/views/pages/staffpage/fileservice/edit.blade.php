@@ -145,7 +145,7 @@
         return xhr;
       },
       type: 'POST',
-      url: "{{ route('fileservices.api.upload') }}",
+      url: "{{ route('stafffs.api.upload') }}",
       data: new FormData(this),
       contentType: false,
       cache: false,

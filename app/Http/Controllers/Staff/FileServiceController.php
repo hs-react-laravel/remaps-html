@@ -317,4 +317,27 @@ class FileServiceController extends MasterController
 
         return response()->json($json_data);
     }
+
+    public function uploadFile(Request $request){
+        if($request->hasFile('file')){
+            if($request->file('file')->isValid()){
+                $file = $request->file('file');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $org_filename = $file->getClientOriginalName();
+                if($file->move(storage_path('app/public/uploads/file-services/modified/'), $filename)){
+                    return response()->json([
+                        'status'=> TRUE,
+                        'file' => $filename,
+                        'remain' => $org_filename
+                    ], 200);
+                }else{
+                    return response()->json(['status'=> FALSE], 404);
+                }
+            }else{
+                return response()->json(['status'=> FALSE], 404);
+            }
+        }else{
+            return response()->json(['status'=> FALSE], 404);
+        }
+    }
 }

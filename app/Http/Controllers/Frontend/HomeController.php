@@ -16,7 +16,10 @@ class HomeController extends Controller
 		return view('Frontend.inner_home',compact('slider','packages'));
 	}
 	public function index() {
-		return view('Frontend.home');
+        $packages = [];
+		$packages = Package::all()->toArray();
+		$slider = SliderManager::all()->toArray();
+		return view('Frontend.home',compact('slider','packages'));
 	}
 
 }

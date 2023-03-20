@@ -56,10 +56,11 @@ use App\Http\Controllers\Consumer\CustomerChatController;
 */
 
 // Remaps
-Route::group(['domain' => 'remapdash.com'], function () {
+Route::group(['domain' => 'localhost:8081'], function () {
     Route::get('/', function () {
         return redirect()->away('https://myremaps.com');
     });
+    // Route::get('/', [HomeController::class, 'index'])->name('innerhome');
 	// Route::get('register-as-a-remapping-file-supplier', [HomeController::class, 'innerhome'])->name('innerhome');
 	// Route::get('compare-prices', [FrontendCompanyController::class, 'companies'])->name('companies');
 	// Route::get('/register-account', [FrontendCompanyController::class, 'create'])->name('register-account.create');
@@ -249,6 +250,7 @@ Route::group(['prefix'=>'staff', 'middleware' => 'check.onlystaff'], function ()
     Route::get('stafffs/{id}/create-ticket', [StaffFileServiceController::class, 'create_ticket'])->name('stafffs.tickets.create');
     Route::post('stafffs/{id}/store-ticket', [StaffFileServiceController::class, 'store_ticket'])->name('stafffs.tickets.store');
     Route::post('stafffs/api', [StaffFileServiceController::class, 'getFileServices'])->name('stafffs.api');
+    Route::post('stafffs/api/upload', [StaffFileServiceController::class, 'uploadFile'])->name('stafffs.api.upload');
 
     Route::resource('stafftk', StaffTicketController::class);
     Route::get('stafftk/{id}/download-document', [StaffTicketController::class, 'download_document'])->name('stafftk.download');
