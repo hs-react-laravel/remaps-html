@@ -56,7 +56,7 @@ use App\Http\Controllers\Consumer\CustomerChatController;
 */
 
 // Remaps
-Route::group(['domain' => 'localhost:8081'], function () {
+Route::group(['domain' => 'remapdash.com'], function () {
     Route::get('/', function () {
         return redirect()->away('https://myremaps.com');
     });
