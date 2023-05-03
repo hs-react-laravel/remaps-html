@@ -148,7 +148,7 @@ class Ticket extends Model
      * Get the Customer's Name attribute.
     */
   	 public function getClientAttribute() {
-		if($this->fileService != null) {
+		if($this->fileService != null && $this->fileService->user != null) {
 			return $this->fileService->user->first_name.' '.$this->fileService->user->last_name;
 		}else{
 			//changes
