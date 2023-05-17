@@ -44,9 +44,9 @@ class ForgotPasswordController extends Controller
             Config::set('mail.mailers.host', 'mail.remapdash.com');
             Config::set('mail.mailers.port', 25);
             Config::set('mail.mailers.encryption', '');
-            Config::set('mail.mailers.username', 'no-reply@remapdash.com');
-            Config::set('mail.mailers.password', '6%3d5ohF');
-            Config::set('mail.from.address', 'no-reply@remapdash.com');
+            Config::set('mail.mailers.username', 'passwrd-reset@remapdash.com');
+            Config::set('mail.mailers.password', '4s29ih0L&');
+            Config::set('mail.from.address', 'passwrd-reset@remapdash.com');
         }
         Config::set('mail.from.name', $this->company->name);
         Config::set('app.name', $this->company->name);
