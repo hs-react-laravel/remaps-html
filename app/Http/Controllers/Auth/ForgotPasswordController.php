@@ -43,11 +43,11 @@ class ForgotPasswordController extends Controller
             Log::info("Using db smtp");
         } else {
             Config::set('mail.default', 'smtp');
-            Config::set('mail.mailers.host', 'mail.remapdash.com');
-            Config::set('mail.mailers.port', 25);
-            Config::set('mail.mailers.encryption', '');
-            Config::set('mail.mailers.username', 'passwrd-reset@remapdash.com');
-            Config::set('mail.mailers.password', '4s29ih0L&');
+            Config::set('mail.mailers.smtp.host', 'mail.remapdash.com');
+            Config::set('mail.mailers.smtp.port', 25);
+            Config::set('mail.mailers.smtp.encryption', '');
+            Config::set('mail.mailers.smtp.username', 'passwrd-reset@remapdash.com');
+            Config::set('mail.mailers.smtp.password', '4s29ih0L&');
             Config::set('mail.from.address', 'passwrd-reset@remapdash.com');
             Log::info("Using default smtp");
         }
