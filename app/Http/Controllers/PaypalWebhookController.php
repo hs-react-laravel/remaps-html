@@ -35,11 +35,11 @@ class PaypalWebhookController extends Controller{
         $this->master = Company::where('is_default', 1)->first();
         if($this->master){
             Config::set('mail.default', 'smtp');
-            Config::set('mail.mailers.host', 'mail.remapdash.com');
-            Config::set('mail.mailers.port', 25);
-            Config::set('mail.mailers.encryption', '');
-            Config::set('mail.mailers.username', 'no-reply@remapdash.com');
-            Config::set('mail.mailers.password', '6%3d5ohF');
+            Config::set('mail.mailers.smtp.host', 'mail.remapdash.com');
+            Config::set('mail.mailers.smtp.port', 25);
+            Config::set('mail.mailers.smtp.encryption', '');
+            Config::set('mail.mailers.smtp.username', 'no-reply@remapdash.com');
+            Config::set('mail.mailers.smtp.password', '6%3d5ohF');
             Config::set('mail.from.address', 'no-reply@remapdash.com');
             Config::set('mail.from.address', $this->master->main_email_address);
             Config::set('mail.from.name', $this->master->name);

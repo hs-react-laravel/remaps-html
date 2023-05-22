@@ -34,11 +34,11 @@ class ForgotPasswordController extends Controller
         if ($this->company->mail_host && $this->company->mail_port && $this->company->mail_encryption
             && $this->company->mail_username && $this->company->mail_password) {
             Config::set('mail.default', $this->company->mail_driver);
-            Config::set('mail.mailers.host', $this->company->mail_host);
-            Config::set('mail.mailers.port', $this->company->mail_port);
-            Config::set('mail.mailers.encryption', $this->company->mail_encryption);
-            Config::set('mail.mailers.username', $this->company->mail_username);
-            Config::set('mail.mailers.password', $this->company->mail_password);
+            Config::set('mail.mailers.smtp.host', $this->company->mail_host);
+            Config::set('mail.mailers.smtp.port', $this->company->mail_port);
+            Config::set('mail.mailers.smtp.encryption', $this->company->mail_encryption);
+            Config::set('mail.mailers.smtp.username', $this->company->mail_username);
+            Config::set('mail.mailers.smtp.password', $this->company->mail_password);
             Config::set('mail.from.address',$this->company->mail_username );
             Log::info("Using db smtp");
         } else {

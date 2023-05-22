@@ -114,11 +114,11 @@ class CompanyController extends Controller
 				$mainCompany = Company::where('id', '1')->first()->toArray();
 
                 Config::set('mail.default', 'smtp');
-                Config::set('mail.mailers.host', 'mail.remapdash.com');
-                Config::set('mail.mailers.port', 25);
-                Config::set('mail.mailers.encryption', '');
-                Config::set('mail.mailers.username', 'no-reply@remapdash.com');
-                Config::set('mail.mailers.password', '6%3d5ohF');
+                Config::set('mail.mailers.smtp.host', 'mail.remapdash.com');
+                Config::set('mail.mailers.smtp.port', 25);
+                Config::set('mail.mailers.smtp.encryption', '');
+                Config::set('mail.mailers.smtp.username', 'no-reply@remapdash.com');
+                Config::set('mail.mailers.smtp.password', '6%3d5ohF');
                 Config::set('mail.from.address', $mainCompany['mail_username']);
                 Config::set('mail.from.name', $mainCompany['name']);
                 Config::set('app.name', $mainCompany['name']);
