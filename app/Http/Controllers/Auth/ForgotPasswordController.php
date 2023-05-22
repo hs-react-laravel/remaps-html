@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 use App\Models\Company;
 
 class ForgotPasswordController extends Controller
@@ -39,6 +40,7 @@ class ForgotPasswordController extends Controller
             Config::set('mail.mailers.username', $this->company->mail_username);
             Config::set('mail.mailers.password', $this->company->mail_password);
             Config::set('mail.from.address',$this->company->mail_username );
+            Log::info("Using db smtp");
         } else {
             Config::set('mail.default', 'smtp');
             Config::set('mail.mailers.host', 'mail.remapdash.com');
@@ -47,6 +49,7 @@ class ForgotPasswordController extends Controller
             Config::set('mail.mailers.username', 'no-reply@remapdash.com');
             Config::set('mail.mailers.password', '73B#6lbt9');
             Config::set('mail.from.address', 'no-reply@remapdash.com');
+            Log::info("Using default smtp");
         }
         Config::set('mail.from.name', $this->company->name);
         Config::set('app.name', $this->company->name);
