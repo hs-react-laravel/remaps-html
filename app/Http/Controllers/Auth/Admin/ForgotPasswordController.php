@@ -39,12 +39,12 @@ class ForgotPasswordController extends Controller
             abort(400, 'No such domain('.url("").') is registerd with system. Please contact to webmaster.');
         }
         Config::set('mail.default', 'smtp');
-        Config::set('mail.mailers.smtp.host', 'mail.remapdash.com');
+        Config::set('mail.mailers.smtp.host', 'smtp.gmail.com');
         Config::set('mail.mailers.smtp.port', 25);
         Config::set('mail.mailers.smtp.encryption', '');
-        Config::set('mail.mailers.smtp.username', 'passwrd-reset@remapdash.com');
-        Config::set('mail.mailers.smtp.password', '4s29ih0L&');
-        Config::set('mail.from.address', 'passwrd-reset@remapdash.com');
+        Config::set('mail.mailers.smtp.username', 'remapdash@gmail.com');
+        Config::set('mail.mailers.smtp.password', 'jznbtxaiqadigbuz');
+        Config::set('mail.from.address', 'remapdash@gmail.com');
         Config::set('mail.from.name', $this->company->name);
         Config::set('app.name', $this->company->name);
         Config::set('app.url', $this->company->v2_domain_link);
