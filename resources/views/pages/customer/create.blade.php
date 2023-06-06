@@ -54,7 +54,7 @@
                   @endforeach
                 </select>
               </div>
-              @if ($user->company->reseller_id)
+              @if ($user->company->reseller_id && $evcdefaultGroup)
               <div class="col-xl-4 col-md-6 col-12">
                 <label class="form-label" for="tuning_evc_credit_group_id">EVC Tuning price type</label>
                 <select class="select form-select" id="tuning_evc_credit_group_id" name="tuning_evc_credit_group_id">
