@@ -42,7 +42,7 @@ return [
             // 'username' => 'no-reply@remapdash.com',
             // 'password' => '6%3d5ohF',
             'username' => 'remapdash@gmail.com',
-            'password' => 'jznbtxaiqadigbuz',
+            'password' => 'tmiayjpxmslklwxo',
             'timeout' => null,
             'auth_mode' => null,
         ],
