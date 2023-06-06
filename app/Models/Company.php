@@ -83,7 +83,8 @@ class Company extends Model
         'is_open_shop',
         'is_tc',
         'tc_pdf',
-        'is_invoice_pdf'
+        'is_invoice_pdf',
+        'is_show_car_data'
     ];
 
     public function users()

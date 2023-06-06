@@ -126,6 +126,19 @@ class MasterController extends BaseController
                         array_splice($verticalMenuData->menu[5]->submenu, 1, 0, [$evc_menu]);
                     }
 
+                    if (!$this->company->is_show_car_data) {
+                        $idx = -1;
+                        for ($i = 0; $i < count($verticalMenuData->menu); $i++) {
+                            $slug = $verticalMenuData->menu[$i]->slug;
+                            if ($slug == 'admin.cars.index' || $slug == 'cars.index') {
+                                $idx = $i;
+                            }
+                        }
+                        if ($idx >= 0) {
+                            array_splice($verticalMenuData->menu, $idx, 1);
+                        }
+                    }
+
                     if ($this->role == 'customer') {
                         $notifies = array_filter($this->user->notifies->toArray(), function($obj){
                             $readObj = NotificationRead::where('notification_id', $obj['id'])->where('user_id', $this->user->id)->first();

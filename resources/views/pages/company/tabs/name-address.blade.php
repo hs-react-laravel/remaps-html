@@ -119,7 +119,7 @@
       </div>
       <div class="col-md-4 col-12"></div>
 
-      <div class="col-md-4 col-12">
+      <div class="col-md-8 col-12">
         <div class="mb-1">
           <label class="form-label" for="copyright">Copy right text</label>
           <input
@@ -129,6 +129,13 @@
             placeholder="Copy right text"
             name="copy_right_text"
             value="{{ $entry->copy_right_text }}" />
+        </div>
+      </div>
+      <div class="col-12 mb-1">
+        <div class="form-check form-check-inline">
+          <input type="hidden" name="is_show_car_data" value="0" />
+          <input class="form-check-input" type="checkbox" id="is_show_car_data" name="is_show_car_data" value="1" @if($entry->is_show_car_data) checked @endif/>
+          <label class="form-check-label" for="is_show_car_data">Show Tuning Data</label>
         </div>
       </div>
       <div class="col-12">
