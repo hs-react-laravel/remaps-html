@@ -36,8 +36,8 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => env('MAIL_HOST', 'smtp.gmail.com'),
-            'port' => env('MAIL_PORT', 465),
+            'host' => 'smtp.gmail.com',
+            'port' => 465,
             'encryption' => 'ssl',
             // 'username' => 'no-reply@remapdash.com',
             // 'password' => '6%3d5ohF',
