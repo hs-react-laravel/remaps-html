@@ -33,8 +33,8 @@ class ForgotPasswordController extends Controller
         }
         Config::set('mail.default', 'smtp');
         Config::set('mail.mailers.smtp.host', 'smtp.gmail.com');
-        Config::set('mail.mailers.smtp.port', 587);
-        Config::set('mail.mailers.smtp.encryption', 'tls');
+        Config::set('mail.mailers.smtp.port', 465);
+        Config::set('mail.mailers.smtp.encryption', 'ssl');
         Config::set('mail.mailers.smtp.username', 'remapdash@gmail.com');
         Config::set('mail.mailers.smtp.password', 'tmiayjpxmslklwxo');
         Config::set('mail.from.address', 'remapdash@gmail.com');
