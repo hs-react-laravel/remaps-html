@@ -19,6 +19,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="customjs/front/jquery.contact.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+    <script src="https://kit.fontawesome.com/0daacdc723.js" crossorigin="anonymous"></script>
     <style type="text/css">.fancybox-margin{margin-right:17px;}</style></head>
 
     <body>
@@ -31,7 +32,8 @@
              <li><a href="#home" class="">Home</a></li>
               <li><a href="#howitworks" class="">How it works</a></li>
               <li><a href="#features" class="">Features</a></li>
-              <li><a href="#price" class="active">Price</a></li>
+              <li><a href="#price">Price</a></li>
+              <li><a href="/compare-prices">Companies</a></li>
               <li><a href="#about" class="">About</a></li>
             </ul>
           </nav>
@@ -97,6 +99,9 @@
         <div class="row">
             <div class="col-md-4 col-sm-6 col-xs-12">
                 <div class="serviceBox">
+                    <div class="service-icon">
+                        <i class="fa fa-solid fa-box"></i>
+                    </div>
                     <h3 class="title">Select your package</h3>
                     <p class="description">
                         Choose from monthly, yearly payments. Even host on your own domain if you choose.
@@ -105,6 +110,9 @@
             </div>
             <div class="col-md-4 col-sm-6 col-xs-12">
                 <div class="serviceBox">
+                    <div class="service-icon">
+                        <i class="fa fa-solid fa-circle-info"></i>
+                    </div>
                     <h3 class="title">Enter your basic details</h3>
                     <p class="description">
                         Fill in your company details which prefills your file panel.
@@ -113,6 +121,9 @@
             </div>
             <div class="col-md-4 col-sm-6 col-xs-12">
                 <div class="serviceBox">
+                    <div class="service-icon">
+                        <i class="fa fa-solid fa-dollar-sign"></i>
+                    </div>
                     <h3 class="title">Pay</h3>
                     <p class="description">
                         Make your payment and you are up and running in minutes
@@ -138,7 +149,7 @@
                        <img class="main-slider-img" src="storage/uploads/logo/{{ $slide['image'] }}" alt="banner">
                    </div>
                  @endif
-                   <div class="content-block">
+                   <div class="content-block p-2">
                        <h1>{{ $slide['title'] }}</h1>
                        <p>{{ $slide['description'] }}</p>
                      @if($slide['button_text'])
@@ -312,38 +323,6 @@
         </div><!-- /.container -->
     </section>
 
-    <section id="testimonials" class="section testimonials">
-       <div class="container">
-            <div class="row">
-                <div class="col-md-offset-3 col-md-6">
-                    <div id="testimonial-slider" class="owl-carousel owl-theme" style="opacity: 1; display: block;">
-                        <div class="owl-wrapper-outer"><div class="owl-wrapper" style="width: 2220px; left: 0px; display: block; transition: all 0ms ease 0s; transform: translate3d(-555px, 0px, 0px); transform-origin: 832.5px center; perspective-origin: 832.5px center;"><div class="owl-item" style="width: 555px;"><div class="testimonial">
-                            <div class="pic">
-                                <img src="images/ct-1.jpg" alt="testimonial">
-                            </div>
-                            <h3 class="testimonial-title">Williamson</h3>
-                            <small class="post">Client</small>
-                            <p class="description">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at ornare eros. Proin nec pulvinar augue, at.
-                            </p>
-                        </div></div><div class="owl-item" style="width: 555px;"><div class="testimonial">
-                            <div class="pic">
-                                <img src="images/ct-2.jpg" alt="testimonial">
-                            </div>
-                            <h3 class="testimonial-title">kristiana</h3>
-                            <small class="post">Client</small>
-                            <p class="description">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at ornare eros. Proin nec pulvinar augue, at.
-                            </p>
-                        </div></div></div></div>
-
-
-                    <div class="owl-controls clickable"><div class="owl-buttons"><div class="owl-prev"></div><div class="owl-next"></div></div></div></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <footer class="footer_area">
         <div class="container">
             <div class="footer_row row col-md-10 col-md-offset-1 col-sm-12">
@@ -387,10 +366,10 @@
         owl.owlCarousel({
             items:1,
             loop:true,
-            autoplayTimeout:5000,
+            autoplayTimeout:1000,
             autoplayHoverPause:true,
             margin:0,
-            autoplay:true,
+            autoPlay:true,
             responsive: {
                 0: {
                     items: 1
@@ -402,6 +381,9 @@
                     items: 1
                 }
             }
+        });
+        $(function() {
+            $('body').scrollTop(1);
         });
     </script>
     </body>

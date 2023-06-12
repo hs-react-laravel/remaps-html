@@ -532,7 +532,7 @@ ul li {
 	margin-top: 30px;
 }
 .serviceBox{
-    padding: 30px 30px 30px 30px;
+    padding: 30px 30px 30px 90px;
     height: 180px;
     background: #f8f8f8;
     color: #333;
@@ -597,10 +597,10 @@ ul li {
 	$intro
 ========================================================================== */
 .intro {
-    background:  -moz-linear-gradient(rgba(46, 45, 47, 0.74), rgba(7, 7, 7, 0.65)),url(../images/intro.jpg);
-    background:  -webkit-linear-gradient(rgba(46, 45, 47, 0.74), rgba(7, 7, 7, 0.65)),url(../images/intro.jpg);
-    background:  -ms-linear-gradient(rgba(46, 45, 47, 0.74), rgba(7, 7, 7, 0.65)),url(../images/intro.jpg);
-    background:  linear-gradient(rgba(46, 45, 47, 0.74), rgba(7, 7, 7, 0.65)),url(../images/intro.jpg);
+    background:  -moz-linear-gradient(rgba(46, 45, 47, 0.74), rgba(7, 7, 7, 0.65)),url(../front/images/intro.jpg);
+    background:  -webkit-linear-gradient(rgba(46, 45, 47, 0.74), rgba(7, 7, 7, 0.65)),url(../front/images/intro.jpg);
+    background:  -ms-linear-gradient(rgba(46, 45, 47, 0.74), rgba(7, 7, 7, 0.65)),url(../front/images/intro.jpg);
+    background:  linear-gradient(rgba(46, 45, 47, 0.74), rgba(7, 7, 7, 0.65)),url(../front/images/intro.jpg);
     position: relative;
     z-index: 1;
     background-position: bottom center;
@@ -704,7 +704,10 @@ color: #fec400;
 }
 
 .content-block {
-
+    padding: 50px;
+}
+.content-block h1 {
+    color: white;
 }
 /* ------------------------------------------------------------------------------
 	 Serives
