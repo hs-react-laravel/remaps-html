@@ -120,7 +120,7 @@
 								$i=1;
 
 						@endphp
-						@foreach($company as $val)
+						@foreach($companies as $val)
 							@php
 								$childTable = $val['tuning_credit_groups'];
 								$j =0;

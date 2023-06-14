@@ -45,9 +45,9 @@ class CompanyController extends Controller
 		}
 		//$company = Company::all();
 		//with('tuningCreditGroups')
-		$company = Company::where('is_public', '1')->with('tuningCreditGroups', 'tuningCreditGroups.tuningCreditTires')->get()->toArray();
+		$companies = Company::where('is_public', '1')->with('tuningCreditGroups', 'tuningCreditGroups.tuningCreditTires')->get()->toArray();
 		//dd($company);
-		return view('Frontend.companies',compact('company'));
+		return view('Frontend.companies',compact('companies'));
 	}
 
     /**

@@ -62,7 +62,7 @@ Route::group(['domain' => 'remapdash.com'], function () {
     // });
     Route::get('/', [HomeController::class, 'index'])->name('innerhome');
 	Route::get('register-as-a-remapping-file-supplier', [HomeController::class, 'innerhome'])->name('innerhome');
-	Route::get('compareprices', [FrontendCompanyController::class, 'companies'])->name('companies');
+	Route::get('compare-prices', [FrontendCompanyController::class, 'companies'])->name('companies');
 	Route::get('/register-account', [FrontendCompanyController::class, 'create'])->name('register-account.create');
 	Route::get('thankyou', [FrontendCompanyController::class, 'thankyou'])->name('thankyou');
 
