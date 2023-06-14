@@ -38,7 +38,7 @@ class CompanyController extends Controller
 {
 
 	public function companies(Request $request){
-        dd('companies');
+        try {
 		$qry = $request->all();
 		if(!empty($qry) && isset($qry['keyword']) && isset($qry['sort'])  ){
 			$keyword = $qry['keyword'];
@@ -48,6 +48,9 @@ class CompanyController extends Controller
 		$companies = Company::where('is_public', '1')->with('tuningCreditGroups', 'tuningCreditGroups.tuningCreditTires')->get()->toArray();
 		dd($companies);
 		return view('Frontend.companies',compact('companies'));
+        } catch (\Exception $ex) {
+            dd($ex);
+        }
 	}
 
     /**
