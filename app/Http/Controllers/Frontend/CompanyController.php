@@ -38,6 +38,7 @@ class CompanyController extends Controller
 {
 
 	public function companies(Request $request){
+        dd('companies');
 		$qry = $request->all();
 		if(!empty($qry) && isset($qry['keyword']) && isset($qry['sort'])  ){
 			$keyword = $qry['keyword'];
