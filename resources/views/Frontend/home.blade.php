@@ -15,10 +15,10 @@
     <link rel="stylesheet" href="customcss/front/animate.min.css">
     <link rel="stylesheet" type="text/css" href="customcss/front/style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="http://cdn.bootcss.com/animate.css/3.5.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/animate.css/3.5.1/animate.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="customjs/front/jquery.contact.js"></script>
-    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
     <script src="https://kit.fontawesome.com/0daacdc723.js" crossorigin="anonymous"></script>
     <style type="text/css">.fancybox-margin{margin-right:17px;}</style></head>
 
