@@ -150,7 +150,7 @@
                    </div>
                  @endif
                    <div class="content-block p-2">
-                       <h1>{{ $slide['title'] }}</h1>
+                       <h3>{{ $slide['title'] }}</h3>
                        <p>{{ $slide['description'] }}</p>
                      @if($slide['button_text'])
                        <div class="btn-outer">
