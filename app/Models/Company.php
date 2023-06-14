@@ -153,9 +153,13 @@ class Company extends Model
 
     }
     public function getUpdatedAtAttribute($value) {
-        $timezone = Helper::companyTimeZone();
-        $tz = Timezone::find($timezone ?? 1);
-        return \Carbon\Carbon::parse($value)->tz($tz->name)->format('d M Y h:i A');
+        try {
+            $timezone = Helper::companyTimeZone();
+            $tz = Timezone::find($timezone ?? 1);
+            return \Carbon\Carbon::parse($value)->tz($tz->name)->format('d M Y h:i A');
+        } catch (\Exception $ex) {
+            return \Carbon\Carbon::parse($value)->format('d M Y h:i A');
+        }
     }
 
     public function hasActiveShopSubscription($mode = 1){
