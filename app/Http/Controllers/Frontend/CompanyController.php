@@ -43,10 +43,9 @@ class CompanyController extends Controller
 			$keyword = $qry['keyword'];
 			$sort = $qry['sort'];
 		}
-		//$company = Company::all();
-		//with('tuningCreditGroups')
+
 		$companies = Company::where('is_public', '1')->with('tuningCreditGroups', 'tuningCreditGroups.tuningCreditTires')->get()->toArray();
-		//dd($company);
+		dd($companies);
 		return view('Frontend.companies',compact('companies'));
 	}
 
