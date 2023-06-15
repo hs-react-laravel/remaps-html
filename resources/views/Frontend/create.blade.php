@@ -1,8 +1,47 @@
-@extends('layouts.appnew')
+<html lang="en" class="js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome Myremap</title>
+    <link rel="icon" href="images/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="customcss/front/bootstrap.min.css">
+    <link rel="stylesheet" href="customcss/front/owl.carousel.min.css">
+    <link rel="stylesheet" href="customcss/front/owl.theme.min.css">
+    <link rel="stylesheet" href="customcss/front/owl.transitions.css">
+    <link rel="stylesheet" href="customcss/front/flexslider.css">
+    <link rel="stylesheet" href="customcss/front/jquery.fancybox.css">
+    <link rel="stylesheet" href="customcss/front/main.css">
+    <link rel="stylesheet" href="customcss/front/responsive.css">
+    <link rel="stylesheet" href="customcss/front/font-icon.css">
+    <link rel="stylesheet" href="customcss/front/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="customcss/front/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/animate.css/3.5.1/animate.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="customjs/front/jquery.contact.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+    <script src="https://kit.fontawesome.com/0daacdc723.js" crossorigin="anonymous"></script>
+    <style type="text/css">.fancybox-margin{margin-right:17px;}</style></head>
 
-@section('content')
+    <body>
+    <!-- header section -->
+    <section class="banner" role="banner" id="home" style="height: 108px;">
+      <header id="header" class="fixed">
+        <div class="header-content clearfix"> <a class="logo" href="index.html"><img src="customcss/front/images/logo.png" alt="logo"></a>
+          <nav class="navigation" role="navigation">
+            <ul class="primary-nav">
+             <li><a href="#home" class="">Home</a></li>
+              <li><a href="#howitworks" class="">How it works</a></li>
+              <li><a href="#features" class="">Features</a></li>
+              <li><a href="#price">Price</a></li>
+              <li><a href="/compare-prices">Companies</a></li>
+              <li><a href="#about" class="">About</a></li>
+            </ul>
+          </nav>
+          <a href="#" class="nav-toggle">Menu<span></span></a> </div>
+      </header>
 
-	<script src='https://www.google.com/recaptcha/api.js'></script>
+    </section>
+
     <div class="container">
         <div class="register-col">
             <div class="box box-default">
@@ -36,7 +75,7 @@
 				@endif
 
                 <div class="box-body">
-                   <a  class="view-btn back-btn" href="/">Back</a>
+                   <a  class="btn btn-primary my-4" href="/">Back</a>
 					{!! Form::open(array('route' => ('pay.with.paypal.main'), 'method' => 'POST', 'autocomplete' => "off")) !!}
 
 						<div class="form-group">
@@ -131,30 +170,68 @@
         </div>
     </div>
 
-
-@endsection
-
-
-@section('after_scripts')
-	<script>
-		$("#btnSubmit").click(function () {
-
-			var response = grecaptcha.getResponse();
-			html ='';
-			$("#error").hide();
-			$("#error").html(html);
-			if(response.length != 0){ //validation successful
-				return true;
-			}else{
-
-				var html = '<span class="alert alert-danger">';
-						html += 'Invalid captcha code. Please try again.';
-					html += '</span>';
-				$("#error").show();
-				$("#error").html(html);
-				return false;
-			}
-
-		});
-	</script>
-@endsection
+    <footer class="footer_area">
+        <div class="container">
+            <div class="footer_row row col-md-10 col-md-offset-1 col-sm-12">
+                <div class="col-md-6 col-sm-6 footer_about">
+                    <h2>ABOUT COMPANY</h2>
+                    <p>
+                        Remapdash.com is a remapping file comparison site which brings together some of
+                        Europe's most experienced tuning companies all under one roof. <br/>
+                        Discover which tuning company suits your needs and register directly on their file portal.
+                        Its Quick, Simple to use and hassle free.
+                    </p>
+                </div>
+                <div class="col-md-6 col-sm-6 footer_about">
+                    <h2>CONTACT US</h2>
+                    <address>
+                        <p>Have questions, comments or just want to say hello:</p>
+                        <ul class="my_address">
+                            <li><a href="mailto:sales@remapdash.com"><i class="fa fa-envelope" aria-hidden="true"></i>sales@remapdash.com</a></li>
+                            <li><a href="skype:chris-asaprint?chat"><i class="fa fa-skype" aria-hidden="true"></i>chris-asaprint</a></li>
+                            <li><a href="https://www.facebook.com/remappingfileportal"><i class="fa fa-facebook" aria-hidden="true"></i>Remapping File Portal</a></li>
+                        </ul>
+                    </address>
+                </div>
+            </div>
+        </div>
+        <div class="copyright_area">
+            Copyright © 2023 <a href="#">My Remaps</a>. All Rights Reserved
+        </div>
+    </footer>
+    <!-- Footer section -->
+    <!-- JS FILES -->
+    <script src="customjs/front/bootstrap.min.js"></script>
+    <script src="customjs/front/jquery.flexslider-min.js"></script>
+    <script src="customjs/front/jquery.fancybox.pack.js"></script>
+    <script src="customjs/front/owl.carousel.min.js"></script>
+    <script src="customjs/front/retina.min.js"></script>
+    <script src="customjs/front/modernizr.js"></script>
+    <script src="customjs/front/main.js"></script>
+    <script>
+        var owl = $('.banner-silder');
+        owl.owlCarousel({
+            items:1,
+            loop:true,
+            autoplayTimeout:1000,
+            autoplayHoverPause:true,
+            margin:0,
+            autoPlay:true,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                600: {
+                    items: 1
+                },
+                1000: {
+                    items: 1
+                }
+            }
+        });
+        $(function() {
+            $('body').scrollTop(1);
+        });
+    </script>
+    </body>
+</html>

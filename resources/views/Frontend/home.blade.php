@@ -227,6 +227,14 @@
       </div>
     </section>
 
+    @php
+        $totlPackages = count($packages);
+        $classDiv = 'col-md-4';
+        if($totlPackages%2 ==0){
+            $classDiv = 'col-md-6';
+        }
+    @endphp
+
     <section id="price">
         <div id="pricing5" data-section="pricing-5" class="data-section">
             <div class="container">
@@ -235,66 +243,16 @@
                     <p class="wow fadeInDown animated">MY REMAPS FILE SERVICE PORTAL</p>
                 </div>
                  <div class="row col-md-10 col-md-offset-1">
-                     <div class="col-md-6">
-                         <div class="table long-table">
-                             <h3 class="editContent">Standard Monthly</h3>
-                             <h2 class="editContent">£ 49</h2>
-                             <p class="editContent">PAYG with this Monthly PayPal Subscription of £49</p>
-                             <ul class="table-content">
-                                <li class="editContent">Pay us NO commision per file</li>
-                                <li class="editContent">Free E commerce shop. (Sell tools)</li>
-                                <li class="editContent">Makes Job Mangement Simple</li>
-                                <li class="editContent">Designed by tuners for tuners</li>
-                                <li class="editContent">Encrypted Secure File Storage</li>
-                                <li class="editContent">Your own personal Firewall</li>
-                                <li class="editContent">Full featured Remapping File Shop</li>
-                                <li class="editContent">Multi Language</li>
-                                <li class="editContent">EVC Reseller Official Support</li>
-                                <li class="editContent">PayPal and Stripe Credit Handling</li>
-                                <li class="editContent">Integrated support ticket system</li>
-                                <li class="editContent">Instant messaging to customers</li>
-                                <li class="editContent">Email notifications when file is ready</li>
-                                <li class="editContent">Automatic invoicing to customers</li>
-                                <li class="editContent">Multiple Currencies, Euro, GBP and more</li>
-                                <li class="editContent">FREE LISTING ON  MARKETPLACE</li>
-                             </ul>
-
-                             <div class="text-center text-uppercase">
-                                 <a href="#" class="btn btn-default-blue-tiny editContent">Get Started</a>
-                             </div>
-                         </div>
-                     </div>
-                     <div class="col-md-6">
-                        <div class="table long-table">
-                            <h3 class="editContent">Monthly on own Domain</h3>
-                            <h2 class="editContent">£ 59</h2>
-                            <p class="editContent">PAYG with this Monthly PayPal Subscription of £59</p>
-                            <ul class="table-content">
-                                <li class="editContent">Host on your own domain or subdomain.</li>
-                                <li class="editContent">Free E commerce to sell tools</li>
-                                <li class="editContent">Includes email & web hosting for your main domain</li>
-                                <li class="editContent">Pay us NO commision per file processed</li>
-                                <li class="editContent">Makes Job Mangement Simple</li>
-                                <li class="editContent">Designed by tuners for tuners</li>
-                                <li class="editContent">Encrypted Secure File Storage</li>
-                                <li class="editContent">Your own personal Firewall</li>
-                                <li class="editContent">Full featured Remapping File Shop</li>
-                                <li class="editContent">Multi Language</li>
-                                <li class="editContent">EVC Reseller Official Support</li>
-                                <li class="editContent">PayPal and Stripe Credit Handling</li>
-                                <li class="editContent">Integrated support ticket system</li>
-                                <li class="editContent">Instant messaging to customers</li>
-                                <li class="editContent">Email notifications when file is ready</li>
-                                <li class="editContent">Automatic invoicing to customers</li>
-                                <li class="editContent">Multiple Currencies, Euro, GBP and more</li>
-                                <li class="editContent">FREE LISTING ON  MARKETPLACE</li>
-                            </ul>
-
-                            <div class="text-center text-uppercase">
-                                <a href="#" class="btn btn-default-blue-tiny editContent">Get Started</a>
+                    @foreach($packages as $val)
+					    <div class="@php echo $classDiv @endphp">
+                            <div class="table long-table text-center">
+                                <h3 class="editContent">{{ $val['name'] }}</h3>
+                                <h2 class="editContent">£ {{ $val['amount'] }}</h2>
+                                {!! $val['description'] !!}
+                                <a href="/register-account?domain={{strpos($val['name'], 'own') !== false ? 'own' : 'regular'}};" class="btn btn-default-blue-tiny editContent">GET STARTED</a>
                             </div>
                         </div>
-                    </div>
+                    @endforeach
                  </div>
             </div>
         </div>

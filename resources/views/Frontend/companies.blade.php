@@ -315,6 +315,9 @@
                 }
             }
         });
+        $(function() {
+            $('body').scrollTop(1);
+        });
     </script>
     </body>
 </html>

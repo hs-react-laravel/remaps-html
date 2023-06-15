@@ -686,8 +686,11 @@ color: #fec400;
 	font-weight: 400;
 	color: #898989;
 }
-#pricing5 ul.table-content li{
+#pricing5 li{
 	line-height:35px;
+    font-size: 14px;
+	font-weight: 400;
+	color: #898989;
 }
 
 /* .img-block {
