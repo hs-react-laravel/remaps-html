@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Config;
 use App\Models\Company;
+use Log;
 
 class ForgotPasswordController extends Controller
 {

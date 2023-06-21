@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Http\Request;
 use View;
+use Log;
 
 class ForgotPasswordController extends Controller
 {
