@@ -57,9 +57,6 @@ use App\Http\Controllers\Consumer\CustomerChatController;
 
 // Remaps
 Route::group(['domain' => 'remapdash.com'], function () {
-    Route::get('/', function () {
-        return redirect()->away('https://myremaps.com');
-    });
     Route::get('/', [HomeController::class, 'index'])->name('innerhome');
 	Route::get('compare-prices', [FrontendCompanyController::class, 'companies'])->name('frontend.companies');
 	Route::get('register-account', [FrontendCompanyController::class, 'create'])->name('register-account.create');
