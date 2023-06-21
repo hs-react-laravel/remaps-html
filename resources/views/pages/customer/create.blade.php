@@ -45,24 +45,22 @@
             </div>
             @endif
             <div class="row mb-1">
-              @if ($tuningGroups)
               <div class="col-xl-4 col-md-6 col-12">
                 <label class="form-label" for="tuning_credit_group_id">Tuning price type</label>
                 <select class="select form-select" id="tuning_credit_group_id" name="tuning_credit_group_id">
                   <option value=""> </option>
                   @foreach ($tuningGroups as $id => $name)
-                    <option value="{{ $id }}" @if($id == $defaultGroup->id) selected @endif>{{ $name }}</option>
+                    <option value="{{ $id }}" @if($defaultGroup && $id == $defaultGroup->id) selected @endif>{{ $name }}</option>
                   @endforeach
                 </select>
               </div>
-              @endif
-              @if ($user->company->reseller_id && $evcdefaultGroup)
+              @if ($user->company->reseller_id)
               <div class="col-xl-4 col-md-6 col-12">
                 <label class="form-label" for="tuning_evc_credit_group_id">EVC Tuning price type</label>
                 <select class="select form-select" id="tuning_evc_credit_group_id" name="tuning_evc_credit_group_id">
                   <option value=""> </option>
                   @foreach ($evcTuningGroups as $id => $name)
-                    <option value="{{ $id }}" @if($id == $evcdefaultGroup->id) selected @endif>{{ $name }}</option>
+                    <option value="{{ $id }}" @if($evcdefaultGroup && $id == $evcdefaultGroup->id) selected @endif>{{ $name }}</option>
                   @endforeach
                 </select>
               </div>
