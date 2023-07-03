@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Email Template')
+@section('title', 'Template')
 
 @section('content')
 <section>
@@ -9,7 +9,7 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title">Edit Email Template</h4>
+          <h4 class="card-title">Edit Template</h4>
         </div>
         <div class="card-body">
           <div class="row mb-1">
