@@ -38,7 +38,7 @@
     },
     {
         "url": "admin/email-templates",
-        "name": "Email Templates",
+        "name": "Templates",
         "icon": "mail",
         "slug": "email-templates.index"
     },

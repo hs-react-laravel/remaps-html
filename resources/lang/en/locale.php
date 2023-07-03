@@ -103,7 +103,7 @@ return [
     'menu_Transactions' => 'Transactions',
     'menu_Customers' => 'Customers',
     'menu_Staffs' => 'Staff',
-    'menu_EmailTemplates' => 'Email Templates',
+    'menu_EmailTemplates' => 'Templates',
     'menu_TuningCredit' => 'Tuning credit prices',
     'menu_EVCTuningCredit' => 'EVC Tuning credit prices',
     'menu_TuningTypes' => 'Tuning types',
