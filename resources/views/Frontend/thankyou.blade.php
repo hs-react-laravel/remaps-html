@@ -41,7 +41,7 @@
     <body>
     <!-- header section -->
     <section class="banner" role="banner" id="home" style="height: 108px;">
-        @include('Frontend.header')
+        {{-- @include('Frontend.header') --}}
     </section>
 
     <div class="container my-4">

@@ -168,14 +168,27 @@ class CompanyController extends MasterController
                         $emailTemplates = \App\Models\EmailTemplate::where('company_id', $this->company->id)
                             ->whereIn('label', [
                                 'customer-welcome-email',
-                                'new-file-service-created-email',
                                 'file-service-opened-email',
+                                'new-file-service-created-email',
                                 'file-service-modified-email',
                                 'file-service-processed-email',
+                                'new-subscription-email',
+                                'subscription-cancelled',
+                                'payment-completed',
+                                'payment-denied',
+                                'payment-pending',
                                 'new-ticket-created',
                                 'new-file-ticket-created',
                                 'reply-to-your-ticket',
-                                'file-service-upload-limited'
+                                'customer-activate-email',
+                                'new-company-apply',
+                                'file-service-upload-limited',
+                                'staff-job-assigned',
+                                'new-notification',
+                                'shoporder-processed',
+                                'shoporder-dispatched',
+                                'shoporder-delivered',
+                                'car-data-text'
                             ])->get();
 
 						if($emailTemplates->count() > 0){
@@ -370,13 +383,27 @@ class CompanyController extends MasterController
                         $emailTemplates = \App\Models\EmailTemplate::where('company_id', $this->company->id)
                             ->whereIn('label', [
                                 'customer-welcome-email',
-                                'new-file-service-created-email',
                                 'file-service-opened-email',
+                                'new-file-service-created-email',
                                 'file-service-modified-email',
                                 'file-service-processed-email',
+                                'new-subscription-email',
+                                'subscription-cancelled',
+                                'payment-completed',
+                                'payment-denied',
+                                'payment-pending',
                                 'new-ticket-created',
                                 'new-file-ticket-created',
-                                'reply-to-your-ticket'
+                                'reply-to-your-ticket',
+                                'customer-activate-email',
+                                'new-company-apply',
+                                'file-service-upload-limited',
+                                'staff-job-assigned',
+                                'new-notification',
+                                'shoporder-processed',
+                                'shoporder-dispatched',
+                                'shoporder-delivered',
+                                'car-data-text'
                             ])->get();
 
                         if($emailTemplates->count() > 0){

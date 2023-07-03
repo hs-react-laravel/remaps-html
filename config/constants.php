@@ -36,6 +36,7 @@ return [
         'shoporder-processed'=>'Shop order is processed',
         'shoporder-dispatched'=>'Shop order is dispatched',
         'shoporder-delivered'=>'Shop order is delivered',
+        'car-data-text' => 'Car Data Description'
     ],
 
     'currency_sign'=>'£',

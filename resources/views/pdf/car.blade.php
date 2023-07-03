@@ -175,7 +175,8 @@
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
             <td>
-            <p style="font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#575757;">
+                {!! $body !!}
+            {{-- <p style="font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#575757;">
                 The development of each {{ $car->title }} tuning file is the result of perfection and dedication by {{ $user->is_admin ? $company->name : $user->business_name }} programmers.
                 The organization only uses the latest technologies and has many years experience in ECU remapping software.
                 Many (chiptuning) organizations around the globe download their tuning files for {{ $car->title }} at {{ $user->is_admin ? $company->name : $user->business_name }} for the best possible result.
@@ -186,7 +187,7 @@
                 <li>Tested and developed via a 4x4 Dynometer</li>
                 <li>Best possible performance and results, within the safety margins</li>
                 <li>Reduced fuel consumption</li>
-            </ul>
+            </ul> --}}
             </td>
         </tr>
     </table>

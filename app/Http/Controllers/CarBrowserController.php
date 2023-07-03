@@ -7,7 +7,9 @@ use Dompdf\Dompdf;
 use App\Models\Car;
 use App\Models\Company;
 use App\Models\User;
+use App\Models\EmailTemplate;
 use Illuminate\Support\Facades\Storage;
+
 
 class CarBrowserController extends MasterController
 {
@@ -27,7 +29,13 @@ class CarBrowserController extends MasterController
             $car = $engines = Car::find($engine);
             $logofile = str_replace(" ", "-", strtolower($car->brand));
             $logofile = asset('images/carlogo/'.$logofile.'.jpg');
-            return view('pages.car.car', compact('car', 'logofile', 'make', 'model', 'generation', 'engine'));
+
+            $template = EmailTemplate::where('company_id', $this->user->company->id)->where('label', 'car-data-text')->first(['subject', 'body']);
+            $body =$template->body;
+            $body = str_replace('##COMPANY_NAME', $this->user->company->name, $body);
+            $body = str_replace('##CAR_MODEL', $car->title, $body);
+
+            return view('pages.car.car', compact('car', 'logofile', 'make', 'model', 'generation', 'engine', 'body'));
         } else if ($generation) {
             $engines = Car::where('brand', $make)
                 ->where('model', $model)
@@ -92,6 +100,11 @@ class CarBrowserController extends MasterController
             $options = $pdf->getOptions();
             $options->setIsRemoteEnabled(true);
             $pdf->setOptions($options);
+
+            $template = EmailTemplate::where('company_id', $this->user->company->id)->where('label', 'car-data-text')->first(['subject', 'body']);
+            $body = $template->body;
+            $body = str_replace('##COMPANY_NAME', $this->user->company->name, $body);
+            $body = str_replace('##CAR_MODEL', $car->title, $body);
 
             $pdf->loadHtml(
                 view('pdf.car')->with([

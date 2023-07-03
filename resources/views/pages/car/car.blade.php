@@ -192,19 +192,8 @@
           </div>
         </div>
 
-        <div class="row mb-2 mt-2 col-md-12 col-xl-8">
-          <p>
-            The development of each {{ $car->title }} tuning file is the result of perfection and dedication by {{ $company->name }} programmers.
-            The organization only uses the latest technologies and has many years experience in ECU remapping software.
-            Many (chiptuning) organizations around the globe download their tuning files for {{ $car->title }} at {{ $company->name }} for the best possible result.
-            All {{ $car->title }} tuning files deliver the best possible performance and results within the safety margins.
-          </p>
-          <ul class="ms-2">
-            <li>100% custom made tuning file guarantee</li>
-            <li>Tested and developed via a 4x4 Dynometer</li>
-            <li>Best possible performance and results, within the safety margins</li>
-            <li>Reduced fuel consumption</li>
-          </ul>
+        <div class="row mb-2 mt-2 col-md-12 col-xl-8 ms-1">
+            {!! $body !!}
         </div>
         <div class="row">
           @if(isset($make))
