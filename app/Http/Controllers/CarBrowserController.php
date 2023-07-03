@@ -101,9 +101,9 @@ class CarBrowserController extends MasterController
             $options->setIsRemoteEnabled(true);
             $pdf->setOptions($options);
 
-            $template = EmailTemplate::where('company_id', $this->user->company->id)->where('label', 'car-data-text')->first(['subject', 'body']);
+            $template = EmailTemplate::where('company_id', $company->id)->where('label', 'car-data-text')->first(['subject', 'body']);
             $body = $template->body;
-            $body = str_replace('##COMPANY_NAME', $this->user->company->name, $body);
+            $body = str_replace('##COMPANY_NAME', $company->name, $body);
             $body = str_replace('##CAR_MODEL', $car->title, $body);
 
             $pdf->loadHtml(
