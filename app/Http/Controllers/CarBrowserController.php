@@ -119,6 +119,7 @@ class CarBrowserController extends MasterController
                     'tuned_torque' => $request->tuned_torque,
                     'tuned_bhp_2' => $request->tuned_bhp_2,
                     'tuned_torque_2' => $request->tuned_torque_2,
+                    'body' => $body
                 ])->render()
             );
             $pdf->setPaper('A4', 'portrait');
