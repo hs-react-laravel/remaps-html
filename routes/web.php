@@ -44,6 +44,9 @@ use App\Http\Controllers\Staff\FileServiceController as StaffFileServiceControll
 use App\Http\Controllers\Staff\TicketController as StaffTicketController;
 use App\Http\Controllers\Staff\ChatController as StaffChatController;
 use App\Http\Controllers\Consumer\CustomerChatController;
+use App\Http\Controllers\Remaps\Api\ApiInterfaceController;
+use App\Http\Controllers\Remaps\Api\ApiUserController;
+use App\Http\Controllers\Remaps\Api\ApiSubscriptionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -215,6 +218,20 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
 
     Route::get('/edit-password', [DashboardController::class, 'edit_password'])->name('admin.password.edit');
     Route::post('/edit-password', [DashboardController::class, 'edit_password_post'])->name('admin.password.edit.post');
+
+    Route::get('/api/package', [ApiInterfaceController::class, 'package_edit'])->name('admin.api.package');
+    Route::post('/api/package', [ApiInterfaceController::class, 'package_edit_post'])->name('admin.api.package.post');
+
+    Route::resource('apiusers', ApiUserController::class);
+    Route::post('apiusers/api', [ApiUserController::class, 'api'])->name('apiusers.api');
+    Route::get('apiuser/token', [ApiUserController::class, 'generateToken'])->name('apiuser.api.generate');
+
+    Route::get('api/subscriptions', [ApiSubscriptionController::class, 'index'])->name('api.subscription.index');
+    Route::get('api/subscriptions/{id}/payments', [ApiSubscriptionController::class, 'payments'])->name('api.subscriptions.payments');
+    Route::get('api/subscriptions/{id}/invoice', [ApiSubscriptionController::class, 'invoice'])->name('api.subscriptions.invoice');
+    Route::get('api/subscriptions/{id}/cancel', [ApiSubscriptionController::class, 'cancelSubscription'])->name('api.subscriptions.cancel');
+    Route::get('api/subscriptions/{id}/suspend', [ApiSubscriptionController::class, 'immediateCancelSubscription'])->name('api.subscriptions.suspend');
+    Route::get('api/subscriptions/{id}/reactive', [ApiSubscriptionController::class, 'reactiveSubscription'])->name('api.subscriptions.reactive');
 });
 Route::group(['prefix'=>'staff', 'middleware' => 'check.customerstaff'], function () {
     Route::get('stafffs/{id}/download-original', [StaffFileServiceController::class, 'download_original'])->name('stafffs.download.original');

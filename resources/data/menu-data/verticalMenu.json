@@ -152,6 +152,26 @@
         "slug": "packages.index"
     },
     {
+        "name": "menu_API",
+        "icon": "link",
+        "url" : "",
+        "slug": "",
+        "submenu": [
+            {
+                "url": "admin/api/package",
+                "name": "menu_API_Packages",
+                "icon": "package",
+                "slug": "admin.api.package"
+            },
+            {
+                "url": "admin/apiusers",
+                "name": "menu_API_Users",
+                "icon": "users",
+                "slug": "apiusers.index"
+            }
+        ]
+    },
+    {
         "url": "admin/slidermanagers",
         "name": "menu_Slider_Manager",
         "icon": "image",

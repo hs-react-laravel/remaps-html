@@ -120,7 +120,11 @@ return [
     'menu_Shop_guide' => 'Shopping Guide',
     'menu_Customer_Shop'=> 'Shop',
     'menu_Customer_Shop_Order'=> 'Orders',
-
+    'menu_API'=>'API',
+    'menu_API_Packages'=>'Package',
+    'menu_API_Users'=>'Users',
+    'menu_API_Subscriptions'=>'Subscriptions',
+    'menu_API_Payments'=>'Payments',
 
 //    dashboard top title
     'dash_PendingFileService' => 'Out of Hours',
