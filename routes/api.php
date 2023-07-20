@@ -42,7 +42,8 @@ Route::post('shop/category/move', [ApiController::class, 'updateParentShopCatego
 Route::post('/order/upload-invoice', [ApiController::class, 'uploadInvoicePdf'])->name('api.order.upload');
 
 Route::post('login', [PassportAuthController::class, 'login']);
-Route::middleware('auth:api')->group(function() {
+
+Route::group(['domain' => 'remapdash.com'], function () {
     Route::post('makes', [PassportCarApiController::class, 'getMakes']);
     Route::post('models', [PassportCarApiController::class, 'getModels']);
     Route::post('generations', [PassportCarApiController::class, 'getGenerations']);

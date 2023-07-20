@@ -1,0 +1,196 @@
+{
+	"info": {
+		"name": "Remaps API",
+		"_postman_id": "552e3806-08e2-4805-8d79-3d163b61b16d",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://remapdash.com/api/makes",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "O1P9aHWvGFLcArOEkrmMmzg8B84kX3cK0318exlNBjXWuHeFfu",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://remapdash.com/api/makes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"makes"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "https://remapdash.com/api/models",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "O1P9aHWvGFLcArOEkrmMmzg8B84kX3cK0318exlNBjXWuHeFfu",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "make",
+							"value": "Alfa Romeo",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://remapdash.com/api/models",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"models"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "https://remapdash.com/api/generations",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "O1P9aHWvGFLcArOEkrmMmzg8B84kX3cK0318exlNBjXWuHeFfu",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "make",
+							"value": "Alfa Romeo",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "model",
+							"value": "147",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://remapdash.com/api/generations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"generations"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "https://remapdash.com/api/engines",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "O1P9aHWvGFLcArOEkrmMmzg8B84kX3cK0318exlNBjXWuHeFfu",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "make",
+							"value": "Alfa Romeo",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "model",
+							"value": "147",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "generation",
+							"value": "2005  ...",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://remapdash.com/api/engines",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"engines"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "O1P9aHWvGFLcArOEkrmMmzg8B84kX3cK0318exlNBjXWuHeFfu",
+				"type": "string"
+			}
+		]
+	}
+}

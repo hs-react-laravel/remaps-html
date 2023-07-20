@@ -34,6 +34,10 @@ use PayPal\Api\PatchRequest;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
 
+use App\Models\Api\ApiUser;
+use App\Models\Api\ApiPackage;
+use Illuminate\Support\Str;
+
 class CompanyController extends Controller
 {
 
@@ -136,4 +140,226 @@ class CompanyController extends Controller
         $msg = 'Regististration received, Please wait for your application to be processed';
 		return view('Frontend.thankyou', compact('msg'));
 	}
+
+    public function api_intro() {
+        $token = session('api_token');
+        $apiUser = ApiUser::where('api_token', $token)->first();
+        if ($apiUser) {
+            return redirect()->route('frontend.api.dashboard');
+        }
+
+        return view('Frontend.api_intro');
+    }
+
+    public function api_login() {
+        $token = session('api_token');
+        $apiUser = ApiUser::where('api_token', $token)->first();
+        if ($apiUser) {
+            return redirect()->route('frontend.api.dashboard');
+        }
+
+        return view('Frontend.api_login');
+    }
+
+    public function api_login_post(Request $request) {
+        $apiUser = Apiuser::where('email', $request->email)->first();
+        if (!$apiUser || !Hash::check($request->new_password, $apiUser->password)) {
+            session()->flash('error', 'These credentials do not match our records.');
+            return redirect()->route('frontend.api.login');
+        }
+
+        session(['api_token' => $apiUser->api_token]);
+        return redirect()->route('frontend.api.dashboard');
+    }
+
+    public function api_dashboard(Request $request) {
+        $token = session('api_token');
+        $apiUser = ApiUser::where('api_token', $token)->first();
+        if (!$apiUser) {
+            return redirect()->route('frontend.api.login');
+        }
+
+        return view('Frontend.api_dashboard', compact('apiUser'));
+    }
+
+    public function api_reg(Request $request) {
+        $exist = ApiUser::where('email', $request->email)->first();
+        if ($exist) {
+            session()->flash('error', 'Email already exists.');
+            return redirect()->route('frontend.api.intro');
+        }
+
+        $token = Str::random(50);
+        $request->request->add([
+            'api_token'=> $token,
+            'password' => Hash::make($request->new_password)
+        ]);
+        $user = ApiUser::create($request->all());
+        return redirect()->route('frontend.api.sub', ['token' => $token]);
+    }
+
+    public function api_subscription(Request $request, $token) {
+        $apiUser = ApiUser::where('api_token', $token)->first();
+        if (!$apiUser) {
+            return redirect()->route('frontend.api.intro');
+        }
+
+        try {
+            $package = ApiPackage::first();
+            $accessToken = $this->getAccessToken();
+            return $this->curlSubscription($package, $apiUser, $accessToken);
+        } catch (\Exception $ex) {
+            dd($ex);
+            return redirect()->route('frontend.api.intro');
+        }
+    }
+
+    public function curlSubscription($package, $apiUser, $accessToken) {
+        $startDate = '';
+
+        switch ($package->billing_interval) {
+            case 'Day':
+                $startDate = \Carbon\Carbon::now()->addDay()->format('Y-m-d\TH:i:s\Z');
+                break;
+            case 'Week':
+                $startDate = \Carbon\Carbon::now()->addWeek()->format('Y-m-d\TH:i:s\Z');
+                break;
+            case 'Month':
+                $startDate = \Carbon\Carbon::now()->addMonth()->format('Y-m-d\TH:i:s\Z');
+                break;
+            case 'Year':
+                $startDate = \Carbon\Carbon::now()->addYear()->format('Y-m-d\TH:i:s\Z');
+                break;
+            default:
+                $startDate = \Carbon\Carbon::now()->addMinutes(5)->format('Y-m-d\TH:i:s\Z');
+                break;
+        }
+
+        $url = "https://api.paypal.com/v1/billing/subscriptions";
+        // $url = "https://api-m.sandbox.paypal.com/v1/billing/subscriptions";
+
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_POST, true);;
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+        $headers = array(
+            'Accept: application/json',
+            'Authorization: '."Bearer ". $accessToken,
+            'PayPal-Request-Id: '."SUBSCRIPTION-".$startDate,
+            'Prefer: return=representation',
+            'Content-Type: application/json',
+        );
+
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+
+        $data = array(
+            'plan_id' => $package->pay_plan_id,
+            'start_time' => $startDate,
+            'subscriber' => array(
+                'name' => array(
+                    'given_name' => $apiUser->last_name,
+                    'surname' => $apiUser->first_name
+                ),
+                'email_address' => $apiUser->email
+            ),
+            'application_context' => array(
+                'brand_name' => 'Tuning Service Subscription',
+                'locale' => 'en-UK',
+                'shipping_preference' => 'SET_PROVIDED_ADDRESS',
+                'user_action' => 'SUBSCRIBE_NOW',
+                'payment_method' => array(
+                    'payer_selected' => 'PAYPAL',
+                    'payee_preferred' => 'IMMEDIATE_PAYMENT_REQUIRED',
+                ),
+                'return_url' => route('frontend.subscription.execute').'?success=true&apiuser='.$apiUser->id,
+                'cancel_url' => route('frontend.subscription.execute').'?success=false&apiuser='.$apiUser->id,
+            )
+        );
+
+        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+
+        //for debug only!
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+        $resp = curl_exec($curl);
+        curl_close($curl);
+
+        $respObj = json_decode($resp);
+        return redirect()->away($respObj->links[0]->href);
+    }
+
+    public function executeSubscription () {
+        if ($request->has('success') && $request->query('success') == 'true') {
+            $id = $request->subscription_id;
+            $url = "https://api.paypal.com/v1/billing/subscriptions/{$id}";
+            // $url = "https://api-m.sandbox.paypal.com/v1/billing/subscriptions/{$id}";
+
+            $curl = curl_init($url);
+            curl_setopt($curl, CURLOPT_URL, $url);
+            curl_setopt($curl, CURLOPT_HTTPGET, true);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+            $headers = array(
+                'Accept: application/json',
+                'Authorization: '."Bearer ". $this->getAccessToken(),
+                'Prefer: return=representation',
+                'Content-Type: application/json',
+            );
+            curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+
+            $resp = curl_exec($curl);
+            curl_close($curl);
+
+            $subscriptionDetail = json_decode($resp);
+            $currencySymbol = '£';
+
+            try {
+                // Execute agreement
+                $subscription = new ApiSubscription();
+                $subscription->user_id = $request->apiuser;
+                $subscription->pay_agreement_id = $id;
+                $subscription->description = 'Amount: '.$currencySymbol.round($subscriptionDetail->billing_info->last_payment->amount->value);
+                $subscription->start_date = \Carbon\Carbon::parse($subscriptionDetail->start_time)->format('Y-m-d H:i:s');
+                $subscription->status = $subscriptionDetail->status;
+                $subscription->save();
+                // \Alert::success(__('admin.company_subscribed'))->flash();
+            } catch (\Exception $ex) {
+                // \Alert::error($ex->getMessage())->flash();
+            }
+        }else {
+            // \Alert::error(__('admin.company_not_subscribed'))->flash();
+        }
+        return redirect(url('admin/dashboard'));
+    }
+
+    public function getAccessToken() {
+        $ch = curl_init();
+
+        $company = \App\Models\Company::where('is_default', 1)->first();
+        if(!$company) return;
+
+        $clientId = $company->paypal_client_id;
+        $secret = $company->paypal_secret;
+        // $clientId = config('paypal.sandbox.client_id');
+        // $secret = config('paypal.sandbox.client_secret');
+
+        $api_url = "https://api.paypal.com/v1/oauth2/token";
+        // $api_url = "https://api-m.sandbox.paypal.com/v1/oauth2/token";
+
+        curl_setopt($ch, CURLOPT_URL, $api_url);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_USERPWD, $clientId.":".$secret);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, "grant_type=client_credentials");
+
+        $result = curl_exec($ch);
+        curl_close($ch);
+
+        $json = json_decode($result);
+        return $json->access_token;
+    }
 }

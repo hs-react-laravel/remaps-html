@@ -6,6 +6,7 @@ use App\Models\Api\ApiUser;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
 class ApiUserController extends MasterController
 {
@@ -39,7 +40,10 @@ class ApiUserController extends MasterController
      */
     public function store(Request $request)
     {
-        $request->request->add(['api_token'=> Str::random(50)]);
+        $request->request->add([
+            'api_token'=> Str::random(50),
+            'password' => Hash::make($request->new_password)
+        ]);
         $user = ApiUser::create($request->all());
         return redirect(route('apiusers.index'));
     }
@@ -76,6 +80,9 @@ class ApiUserController extends MasterController
      */
     public function update(Request $request, $id)
     {
+        $request->request->add([
+            'password' => Hash::make($request->new_password)
+        ]);
         $apiuser = ApiUser::find($id);
         $apiuser->update($request->all());
         return redirect(route('apiusers.index'));

@@ -72,6 +72,14 @@ Route::group(['domain' => 'remapdash.com'], function () {
 
 	Route::get('paypal/subscribe/execute', [FrontendCompanyController::class, 'executeSubscription'])->name('paypal.execute.subscription');
 	Route::get('paypal/subscribe/{package}', [FrontendCompanyController::class, 'subscribeSubscription'])->name('paypal.subscribe.subscription');
+
+    Route::get('api-intro', [FrontendCompanyController::class, 'api_intro'])->name('frontend.api.intro');
+    Route::post('api-intro', [FrontendCompanyController::class, 'api_reg'])->name('frontend.api.register');
+    Route::get('api-login', [FrontendCompanyController::class, 'api_login'])->name('frontend.api.login');
+    Route::post('api-login', [FrontendCompanyController::class, 'api_login_post'])->name('frontend.api.login.post');
+    Route::get('api-sub/{token}', [FrontendCompanyController::class, 'api_subscription'])->name('frontend.api.sub');
+    Route::get('api/execute', [FrontendCompanyController::class, 'executeSubscription'])->name('frontend.subscription.execute');
+    Route::get('api-dashboard', [FrontendCompanyController::class, 'api_dashboard'])->name('frontend.api.dashboard');
 });
 
 Auth::routes();
