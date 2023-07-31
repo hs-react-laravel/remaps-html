@@ -128,8 +128,10 @@ class FileServiceRequest extends FormRequest
                     }else{
                         $tuningTypeOptions = \App\Models\TuningTypeOption::find($this->get('tuning_type_options'));
                         if($tuningTypeOptions){
-                            $tuningTypeOptionsCredits = $tuningTypeOptions->sum('credits');
-                            $totalFilecredits = ($tuningTypeCredits+$tuningTypeOptionsCredits);
+                            $tuningTypeOptionsCredits = $tuningTypeOptions->sum(function($item) {
+                                return (float)str_replace(',', '', $item->credits);
+                            });
+                            $totalFilecredits = ($tuningTypeCredits + $tuningTypeOptionsCredits);
                             if($user->tuning_credits < $totalFilecredits){
                                 $validator->errors()->add('user', __('customer.not_enough_credits'));
                             }
