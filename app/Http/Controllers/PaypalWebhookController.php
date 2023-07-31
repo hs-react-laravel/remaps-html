@@ -41,7 +41,7 @@ class PaypalWebhookController extends Controller{
             Config::set('mail.mailers.smtp.port', 25);
             Config::set('mail.mailers.smtp.encryption', '');
             Config::set('mail.mailers.smtp.username', 'no-reply@remapdash.com');
-            Config::set('mail.mailers.smtp.password', '73B#6lbt9');
+            Config::set('mail.mailers.smtp.password', '5Cp38@gj2');
             Config::set('mail.from.address', 'no-reply@remapdash.com');
             Config::set('mail.from.address', $this->master->main_email_address);
             Config::set('mail.from.name', $this->master->name);

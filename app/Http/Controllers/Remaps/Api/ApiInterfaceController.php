@@ -54,10 +54,14 @@ class ApiInterfaceController extends MasterController
         $company = \App\Models\Company::where('is_default', 1)->first();
         if(!$company) return;
 
-        $clientId = $company->paypal_client_id;
-        $secret = $company->paypal_secret;
+        // $clientId = $company->paypal_client_id;
+        // $secret = $company->paypal_secret;
 
-        $api_url = "https://api.paypal.com/v1/oauth2/token";
+        $clientId = "AdibmcjffSYZR9TSS5DuKIQpnf80KfY-3pBGd30JKz2Ar1xHIipwijo4eZOJvbDCFpfmOBItDqZoiHmM";
+        $secret = "EEPRF__DLqvkwnnpi2Hi3paQ-9SZFRqypUH-u0fr4zAzvv7hWtz1bJHF0CEwvrvZpHyLeKSTO_FwAeO_";
+
+        // $api_url = "https://api.paypal.com/v1/oauth2/token";
+        $api_url = "https://api-m.sandbox.paypal.com/v1/oauth2/token";
 
         curl_setopt($ch, CURLOPT_URL, $api_url);
         curl_setopt($ch, CURLOPT_HEADER, false);

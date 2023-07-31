@@ -165,7 +165,7 @@
           <a class="btn btn-icon btn-primary" href="${data['route.edit']}" title="Edit">
             ${feather.icons['edit'].toSvg()}
           </a>
-          <a class="btn btn-icon btn-success" href="${data['route.subscription']}" title="File Services">
+          <a class="btn btn-icon btn-success" href="${data['route.subscription']}" title="Subscription">
             ${feather.icons['award'].toSvg()}
           </a>
           <a class="btn btn-icon btn-danger" onclick="onDelete(this)" title="Delete">

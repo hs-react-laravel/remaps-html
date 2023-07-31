@@ -35,6 +35,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
 
 use App\Models\Api\ApiUser;
+use App\Models\Api\ApiUserReg;
 use App\Models\Api\ApiPackage;
 use Illuminate\Support\Str;
 
@@ -120,7 +121,7 @@ class CompanyController extends Controller
                 Config::set('mail.mailers.smtp.port', 25);
                 Config::set('mail.mailers.smtp.encryption', '');
                 Config::set('mail.mailers.smtp.username', 'no-reply@remapdash.com');
-                Config::set('mail.mailers.smtp.password', '73B#6lbt9');
+                Config::set('mail.mailers.smtp.password', '5Cp38@gj2');
                 Config::set('mail.from.address', $mainCompany['mail_username']);
                 Config::set('mail.from.name', $mainCompany['name']);
                 Config::set('app.name', $mainCompany['name']);
@@ -194,12 +195,12 @@ class CompanyController extends Controller
             'api_token'=> $token,
             'password' => Hash::make($request->new_password)
         ]);
-        $user = ApiUser::create($request->all());
+        $user = ApiUserReg::create($request->all());
         return redirect()->route('frontend.api.sub', ['token' => $token]);
     }
 
     public function api_subscription(Request $request, $token) {
-        $apiUser = ApiUser::where('api_token', $token)->first();
+        $apiUser = ApiUserReg::where('api_token', $token)->first();
         if (!$apiUser) {
             return redirect()->route('frontend.api.intro');
         }
@@ -235,8 +236,8 @@ class CompanyController extends Controller
                 break;
         }
 
-        $url = "https://api.paypal.com/v1/billing/subscriptions";
-        // $url = "https://api-m.sandbox.paypal.com/v1/billing/subscriptions";
+        // $url = "https://api.paypal.com/v1/billing/subscriptions";
+        $url = "https://api-m.sandbox.paypal.com/v1/billing/subscriptions";
 
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -316,9 +317,18 @@ class CompanyController extends Controller
             $currencySymbol = '£';
 
             try {
+                $apiReg = ApiUserReg::find($request->apiuser);
+                $apiUser = ApiUser::create([
+                    'first_name' => $apiReg->first_name,
+                    'last_name' => $apiReg->last_name,
+                    'email' => $apiReg->email,
+                    'password' => $apiReg->password,
+                    'phone' => $apiReg->phone,
+                    'api_token' => $apiReg->api_token,
+                ]);
                 // Execute agreement
                 $subscription = new ApiSubscription();
-                $subscription->user_id = $request->apiuser;
+                $subscription->user_id = $apiUser->id;
                 $subscription->pay_agreement_id = $id;
                 $subscription->description = 'Amount: '.$currencySymbol.round($subscriptionDetail->billing_info->last_payment->amount->value);
                 $subscription->start_date = \Carbon\Carbon::parse($subscriptionDetail->start_time)->format('Y-m-d H:i:s');
@@ -340,13 +350,14 @@ class CompanyController extends Controller
         $company = \App\Models\Company::where('is_default', 1)->first();
         if(!$company) return;
 
-        $clientId = $company->paypal_client_id;
-        $secret = $company->paypal_secret;
-        // $clientId = config('paypal.sandbox.client_id');
-        // $secret = config('paypal.sandbox.client_secret');
+        // $clientId = $company->paypal_client_id;
+        // $secret = $company->paypal_secret;
 
-        $api_url = "https://api.paypal.com/v1/oauth2/token";
-        // $api_url = "https://api-m.sandbox.paypal.com/v1/oauth2/token";
+        $clientId = "AdibmcjffSYZR9TSS5DuKIQpnf80KfY-3pBGd30JKz2Ar1xHIipwijo4eZOJvbDCFpfmOBItDqZoiHmM";
+        $secret = "EEPRF__DLqvkwnnpi2Hi3paQ-9SZFRqypUH-u0fr4zAzvv7hWtz1bJHF0CEwvrvZpHyLeKSTO_FwAeO_";
+
+        // $api_url = "https://api.paypal.com/v1/oauth2/token";
+        $api_url = "https://api-m.sandbox.paypal.com/v1/oauth2/token";
 
         curl_setopt($ch, CURLOPT_URL, $api_url);
         curl_setopt($ch, CURLOPT_HEADER, false);

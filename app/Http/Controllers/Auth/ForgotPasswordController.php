@@ -36,7 +36,7 @@ class ForgotPasswordController extends Controller
         Config::set('mail.mailers.smtp.port', 465);
         Config::set('mail.mailers.smtp.encryption', 'ssl');
         Config::set('mail.mailers.smtp.username', 'no-reply@remapdash.com');
-        Config::set('mail.mailers.smtp.password', '73B#6lbt9');
+        Config::set('mail.mailers.smtp.password', '5Cp38@gj2');
         Config::set('mail.from.address', 'no-reply@remapdash.com');
         Config::set('mail.from.name', $this->company->name);
         Config::set('app.name', $this->company->name);

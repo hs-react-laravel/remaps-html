@@ -36,13 +36,13 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => 'smtp.gmail.com',
-            'port' => 465,
-            'encryption' => 'ssl',
+            'host' => 'mail.remapdash.com',
+            'port' => 25,
+            // 'encryption' => 'ssl',
             // 'username' => 'no-reply@remapdash.com',
             // 'password' => '6%3d5ohF',
             'username' => 'no-reply@remapdash.com',
-            'password' => '73B#6lbt9',
+            'password' => '5Cp38@gj2',
             'timeout' => null,
             'auth_mode' => null,
         ],

@@ -259,7 +259,25 @@
                  </div>
             </div>
         </div>
-
+        <div id="pricing5" data-section="pricing-5" class="data-section">
+            <div class="container">
+             <div class="section-header">
+                    <p class="wow fadeInDown animated">API</p>
+                </div>
+                 <div class="row col-md-10 col-md-offset-1">
+                    @foreach($packages as $val)
+					    <div class="@php echo $classDiv @endphp">
+                            <div class="table long-table text-center">
+                                <h3 class="editContent">{{ $val['name'] }}</h3>
+                                <h2 class="editContent">£ {{ $val['amount'] }}</h2>
+                                {!! $val['description'] !!}
+                                <a href="/register-account?domain={{strpos($val['name'], 'own') !== false ? 'own' : 'regular'}};" class="btn btn-default-blue-tiny editContent">GET STARTED</a>
+                            </div>
+                        </div>
+                    @endforeach
+                 </div>
+            </div>
+        </div>
     </section>
 
     <section id="about" class="content-block data-section nopad content-3-10">
