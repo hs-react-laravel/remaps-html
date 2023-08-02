@@ -9,7 +9,7 @@ class ApiUser extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['first_name', 'last_name', 'email', 'password', 'phone', 'api_token'];
+    protected $fillable = ['first_name', 'last_name', 'email', 'password', 'phone', 'domain', 'api_token'];
 
     public function getFullNameAttribute() {
         return ucwords($this->first_name . ' ' . $this->last_name);

@@ -105,6 +105,11 @@
                             {!! Form::text('phone', '', ['class' => 'form-control', 'placeholder'=>'Phone']) !!}
                         </div>
 
+                        <div class="form-group">
+                            {!! Form::label('domain', 'Domain') !!}
+                            {!! Form::text('domain', '', ['class' => 'form-control', 'placeholder'=>'domain']) !!}
+                        </div>
+
 						<div class="form-group">
 							<div id="error"></div>
 						</div>

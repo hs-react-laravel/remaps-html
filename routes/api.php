@@ -43,9 +43,14 @@ Route::post('/order/upload-invoice', [ApiController::class, 'uploadInvoicePdf'])
 
 Route::post('login', [PassportAuthController::class, 'login']);
 
-Route::group(['domain' => 'remapdash.com'], function () {
+// Route::group(['domain' => 'remapdash.com'], function () {
     Route::post('makes', [PassportCarApiController::class, 'getMakes']);
     Route::post('models', [PassportCarApiController::class, 'getModels']);
     Route::post('generations', [PassportCarApiController::class, 'getGenerations']);
     Route::post('engines', [PassportCarApiController::class, 'getEngines']);
-});
+    Route::get('snippetjs', [ApiController::class, 'snippet'])->name('api.snippet.js');
+    Route::get('snippet', [ApiController::class, 'showsnippet'])->name('api.snippet.show');
+    Route::get('snippet-search', [ApiController::class, 'snippet_search'])->name('api.snippet.search');
+    Route::post('snippet-search', [ApiController::class, 'snippet_search_post'])->name('api.snippet.search.post');
+    Route::get('error', [ApiController::class, 'bug'])->name('api.snippet.error');
+// });

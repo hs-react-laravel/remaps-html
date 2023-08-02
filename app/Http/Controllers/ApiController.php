@@ -16,6 +16,7 @@ use App\Models\User;
 use App\Models\FileService;
 use App\Models\Shop\ShopCategory;
 use App\Models\Order;
+use App\Models\EmailTemplate;
 
 class ApiController extends Controller
 {
@@ -346,5 +347,55 @@ class ApiController extends Controller
         }else{
             return response()->json(['status'=> FALSE], 404);
         }
+    }
+
+    public function snippet(Request $request) {
+        $userid = $request->id;
+        return view('snippet.js')->with([
+            'uid' => $userid
+        ]);
+    }
+
+    public function showsnippet(Request $request) {
+        $res = array();
+        $brands = Car::groupBy('brand')->pluck('brand');
+        foreach($brands as $i => $b) {
+            array_push($res, [
+                'brand' => $b,
+                'logo' => asset('images/carlogo/'.str_replace(" ", "-", strtolower($b)).'.jpg')
+            ]);
+        }
+        return view('snippet.content')->with([
+            'brands' => $res
+        ]);
+    }
+
+    public function snippet_search(Request $request) {
+        $make = $request->brand;
+        $models = Car::where('brand', $make)->groupBy('model')->pluck('id', 'model');
+        return view('snippet.search', compact('models', 'make'));
+    }
+
+    public function snippet_search_post(Request $request) {
+        $engine = $request->engine;
+        $car = $engines = Car::find($engine);
+        $logofile = str_replace(" ", "-", strtolower($car->brand));
+        $logofile = asset('images/carlogo/'.$logofile.'.jpg');
+
+        $company = Company::where('v2_domain_link', $request->domain)->first();
+
+        if (!$company) {
+            return redirect()->route('api.snippet.error');
+        }
+
+        $template = EmailTemplate::where('company_id', $company->id)->where('label', 'car-data-text')->first(['subject', 'body']);
+        $body =$template->body;
+        $body = str_replace('##COMPANY_NAME', $company->name, $body);
+        $body = str_replace('##CAR_MODEL', $car->title, $body);
+        return view('snippet.searchresult', compact('car', 'logofile'));
+    }
+
+    public function bug() {
+        return view('snippet.bug');
     }
 }
