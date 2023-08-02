@@ -294,8 +294,8 @@ class CompanyController extends Controller
     public function executeSubscription () {
         if ($request->has('success') && $request->query('success') == 'true') {
             $id = $request->subscription_id;
-            $url = "https://api.paypal.com/v1/billing/subscriptions/{$id}";
-            // $url = "https://api-m.sandbox.paypal.com/v1/billing/subscriptions/{$id}";
+            // $url = "https://api.paypal.com/v1/billing/subscriptions/{$id}";
+            $url = "https://api-m.sandbox.paypal.com/v1/billing/subscriptions/{$id}";
 
             $curl = curl_init($url);
             curl_setopt($curl, CURLOPT_URL, $url);
