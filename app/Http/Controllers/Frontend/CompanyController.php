@@ -325,6 +325,7 @@ class CompanyController extends Controller
                     'email' => $apiReg->email,
                     'password' => $apiReg->password,
                     'phone' => $apiReg->phone,
+                    'domain' => $apiReg->domain,
                     'api_token' => $apiReg->api_token,
                 ]);
                 // Execute agreement
@@ -335,6 +336,7 @@ class CompanyController extends Controller
                 $subscription->start_date = \Carbon\Carbon::parse($subscriptionDetail->start_time)->format('Y-m-d H:i:s');
                 $subscription->status = $subscriptionDetail->status;
                 $subscription->save();
+                session(['api_token' => $apiUser->api_token]);
                 // \Alert::success(__('admin.company_subscribed'))->flash();
             } catch (\Exception $ex) {
                 // \Alert::error($ex->getMessage())->flash();
@@ -342,7 +344,7 @@ class CompanyController extends Controller
         }else {
             // \Alert::error(__('admin.company_not_subscribed'))->flash();
         }
-        return redirect(url('admin/dashboard'));
+        return redirect()->route('frontend.api.dashboard');
     }
 
     public function getAccessToken() {
