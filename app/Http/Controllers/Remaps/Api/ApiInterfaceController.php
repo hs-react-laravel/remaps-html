@@ -36,6 +36,8 @@ class ApiInterfaceController extends MasterController
 
         $plan_obj = json_decode($result);
 
+        $price = $plan_obj ? $plan_obj->payment_preferences->setup_fee->value : 0;
+
         $entry = ApiPackage::find($request->pkg_id);
 
         $entry->update([
