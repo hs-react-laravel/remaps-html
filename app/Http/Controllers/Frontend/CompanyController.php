@@ -288,6 +288,7 @@ class CompanyController extends Controller
         curl_close($curl);
 
         $respObj = json_decode($resp);
+        dd($respObj);
         return redirect()->away($respObj->links[0]->href);
     }
 
