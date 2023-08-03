@@ -154,7 +154,7 @@ class LoginController extends Controller
 
         $email = $request->get($this->username());
         $user = User::where($this->username(), $email)->where('company_id', $this->company->id)->first();
-        if ($user->is_master) {
+        if ($user && $user->is_master) {
             $credentials['is_master'] = 1;
             $credentials['is_admin'] = 1;
         } else {
