@@ -37,6 +37,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Models\Api\ApiUser;
 use App\Models\Api\ApiUserReg;
 use App\Models\Api\ApiPackage;
+use App\Models\Api\ApiSubscription;
 use Illuminate\Support\Str;
 
 class CompanyController extends Controller
