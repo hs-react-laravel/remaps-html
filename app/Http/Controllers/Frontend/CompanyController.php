@@ -291,7 +291,7 @@ class CompanyController extends Controller
         return redirect()->away($respObj->links[0]->href);
     }
 
-    public function executeSubscription () {
+    public function executeSubscription (Request $request) {
         if ($request->has('success') && $request->query('success') == 'true') {
             $id = $request->subscription_id;
             // $url = "https://api.paypal.com/v1/billing/subscriptions/{$id}";
