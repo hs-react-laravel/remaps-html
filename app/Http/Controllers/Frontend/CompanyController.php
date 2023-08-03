@@ -340,6 +340,7 @@ class CompanyController extends Controller
                 // \Alert::success(__('admin.company_subscribed'))->flash();
             } catch (\Exception $ex) {
                 // \Alert::error($ex->getMessage())->flash();
+                dd($ex);
             }
         }else {
             // \Alert::error(__('admin.company_not_subscribed'))->flash();
