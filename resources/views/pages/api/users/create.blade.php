@@ -48,6 +48,12 @@
                 <input type="text" class="form-control" id="phone" name="phone" />
               </div>
             </div>
+            <div class="row mb-1">
+                <div class="col-xl-4 col-md-6 col-12">
+                  <label class="form-label" for="domain">Domain</label>
+                  <input type="text" class="form-control" id="domain" name="domain" />
+                </div>
+            </div>
             {{-- <div class="row mb-1">
               <div class="col-xl-4 col-md-6 col-12">
                 <label class="form-label" for="token">Token</label>
