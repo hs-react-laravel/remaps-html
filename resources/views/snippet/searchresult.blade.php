@@ -214,6 +214,7 @@
                         </div>
                 </div>
               </div>
+              <a class="btn btn-dark" href="{{ route('api.snippet.show') }}">Back to Search</a>
 		</div>
         <input type="hidden" name="std_bhp" id="std_bhp" value="{{ intval($car->std_bhp) }}">
         <input type="hidden" name="std_torque" id="std_torque" value="{{ intval($car->std_torque) }}">
