@@ -382,17 +382,13 @@ class ApiController extends Controller
         $logofile = str_replace(" ", "-", strtolower($car->brand));
         $logofile = asset('images/carlogo/'.$logofile.'.jpg');
 
-        $company = Company::where('v2_domain_link', $request->domain)->first();
-
-        if (!$company) {
-            return redirect()->route('api.snippet.error');
-        }
+        $company = Company::where('is_default', 1)->first();
 
         $template = EmailTemplate::where('company_id', $company->id)->where('label', 'car-data-text')->first(['subject', 'body']);
-        $body =$template->body;
+        $body = $template->body;
         $body = str_replace('##COMPANY_NAME', $company->name, $body);
         $body = str_replace('##CAR_MODEL', $car->title, $body);
-        return view('snippet.searchresult', compact('car', 'logofile'));
+        return view('snippet.searchresult', compact('car', 'logofile', 'body'));
     }
 
     public function bug() {

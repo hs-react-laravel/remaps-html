@@ -93,7 +93,7 @@
     </div>
 
     </section>
-    <script src="http://localhost:8081/api/snippetjs?id=12"></script>
+    <script src="http://localhost:8080/api/snippetjs?id=12"></script>
     <section id="howitworks" class="features features-section">
       <div class="container">
         <div class="section-header">
