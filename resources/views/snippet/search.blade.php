@@ -5,13 +5,20 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     </head>
+    <style>
+        @media (max-width: 576px) {
+            .search-control {
+                padding-bottom: 1rem;
+            }
+        }
+    </style>
     <body>
-        <div class="container-fluid">
+        <div class="container-fluid py-2">
             <h5>Search your vehicle</h5>
             <form action="{{ route('api.snippet.search.post') }}" method="post" id="frm">
                 <input type="hidden" name="domain" id="domain">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-4 search-control">
                         <select class="form-select" id="model" name="model">
                             <option value="">--Choose a Model--</option>
                             @foreach ($models as $model => $id)
@@ -19,18 +26,18 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 search-control">
                         <select class="form-select" id="generation" name="generation">
                         <option value="">--Choose a Generation--</option>
                         </select>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 search-control">
                         <select class="form-select" id="engine" name="engine">
                         <option value="">--Choose a Engine--</option>
                         </select>
                     </div>
                 </div>
-                <div class="d-flex justify-content-center my-3">
+                <div class="d-flex justify-content-center my-2">
                     <button id="btnSubmit" class="btn btn-dark" type="button" disabled onclick="onSubmit()">Search</button>
                 </div>
             </form>

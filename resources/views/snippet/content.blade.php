@@ -34,6 +34,11 @@
           object-fit: cover; /* Equivalent of the background-size: cover; of a background-image */
           object-position: center;
         }
+        @media (max-width: 576px) {
+            .brand-item {
+                width: 25%;
+            }
+        }
     </style>
     <body>
         <div class="container-fluid">
