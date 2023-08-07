@@ -51,6 +51,6 @@ Route::post('login', [PassportAuthController::class, 'login']);
     Route::get('snippetjs', [ApiController::class, 'snippet'])->name('api.snippet.js');
     Route::get('snippet', [ApiController::class, 'showsnippet'])->name('api.snippet.show');
     Route::get('snippet-search', [ApiController::class, 'snippet_search'])->name('api.snippet.search');
-    Route::post('snippet-search', [ApiController::class, 'snippet_search_post'])->name('api.snippet.search.post');
+    Route::post('snippet-search-result', [ApiController::class, 'snippet_search_post'])->name('api.snippet.search.post');
     Route::get('error', [ApiController::class, 'bug'])->name('api.snippet.error');
 // });

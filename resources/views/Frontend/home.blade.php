@@ -93,8 +93,8 @@
     </div>
 
     </section>
-    {{-- <script src="https://remapdash.com/api/snippetjs?id=12"></script> --}}
-    <script src="http://localhost:8080/api/snippetjs?id=12"></script>
+    <script src="https://remapdash.com/api/snippetjs"></script>
+    {{-- <script src="http://localhost:8080/api/snippetjs?id=12"></script> --}}
     <section id="howitworks" class="features features-section">
       <div class="container">
         <div class="section-header">
@@ -265,17 +265,13 @@
              <div class="section-header">
                     <p class="wow fadeInDown animated">API</p>
                 </div>
-                 <div class="row col-md-10 col-md-offset-1">
-                    @foreach($packages as $val)
-					    <div class="@php echo $classDiv @endphp">
-                            <div class="table long-table text-center">
-                                <h3 class="editContent">{{ $val['name'] }}</h3>
-                                <h2 class="editContent">£ {{ $val['amount'] }}</h2>
-                                {!! $val['description'] !!}
-                                <a href="/register-account?domain={{strpos($val['name'], 'own') !== false ? 'own' : 'regular'}};" class="btn btn-default-blue-tiny editContent">GET STARTED</a>
-                            </div>
-                        </div>
-                    @endforeach
+                 <div class="row col-md-6 col-md-offset-3">
+                    <div class="table long-table text-center">
+                        <h3 class="editContent">{{ $apiPackage->name }}</h3>
+                        <h2 class="editContent">£ {{ $apiPackage->amount }}</h2>
+                        {!! $apiPackage->description !!}
+                        <a href="{{ route('frontend.api.intro') }}" class="btn btn-default-blue-tiny editContent">GET STARTED</a>
+                    </div>
                  </div>
             </div>
         </div>

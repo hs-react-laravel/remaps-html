@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
     <head>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     </head>
@@ -40,13 +40,13 @@
             }
         }
     </style>
-    <body>
-        <div class="container-fluid">
-            <h5>Please select the make of your car below.</h5>
+    <body data-bs-theme="{{ $theme }}" style="background: #{{ $background }}">
+        <div class="container-fluid py-2">
+            <h5 style="color: #{{ $color }}">Please select the make of your car below.</h5>
             <div class="row">
                 @foreach($brands as $brand)
                 <div class="brand-item col-sm-4 col-md-2 col-xl-1">
-                    <a href="{{ route('api.snippet.search', ['brand' => $brand['brand']]) }}" class="brand-link">
+                    <a href="{{ route('api.snippet.search', ['brand' => $brand['brand'], 'theme' => $theme, 'color' => $color, 'btextcolor' => $btextcolor, 'background' => $background]) }}" class="brand-link">
                         <img class="brand-img" src="{{ $brand['logo'] }}">
                     </a>
                 </div>
@@ -55,4 +55,5 @@
 		</div>
     </body>
     <script src="{{ asset('customjs/iframeResizer.contentWindow.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </html>

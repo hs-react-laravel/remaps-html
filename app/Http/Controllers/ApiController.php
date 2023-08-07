@@ -365,15 +365,55 @@ class ApiController extends Controller
                 'logo' => asset('images/carlogo/'.str_replace(" ", "-", strtolower($b)).'.jpg')
             ]);
         }
+
+        $theme = 'dark';
+        if ($request->has('theme')) {
+            $theme = $request->get('theme');
+        }
+        $color = $theme == 'light' ? '212529' : 'ffffff';
+        if ($request->has('color')) {
+            $color = $request->get('color');
+        }
+        $btextcolor = $theme == 'dark' ? '212529' : 'ffffff';
+        if ($request->has('btextcolor')) {
+            $btextcolor = $request->get('btextcolor');
+        }
+        $background = '00000000';
+        if ($request->has('background')) {
+            $background = $request->get('background');
+        }
+
         return view('snippet.content')->with([
-            'brands' => $res
+            'brands' => $res,
+            'theme' => $theme,
+            'color' => $color,
+            'btextcolor' => $btextcolor,
+            'background' => $background
         ]);
     }
 
     public function snippet_search(Request $request) {
         $make = $request->brand;
         $models = Car::where('brand', $make)->groupBy('model')->pluck('id', 'model');
-        return view('snippet.search', compact('models', 'make'));
+
+        $theme = 'dark';
+        if ($request->has('theme')) {
+            $theme = $request->get('theme');
+        }
+        $color = $theme == 'light' ? '212529' : 'ffffff';
+        if ($request->has('color')) {
+            $color = $request->get('color');
+        }
+        $btextcolor = $theme == 'dark' ? '212529' : 'ffffff';
+        if ($request->has('btextcolor')) {
+            $btextcolor = $request->get('btextcolor');
+        }
+        $background = '00000000';
+        if ($request->has('background')) {
+            $background = $request->get('background');
+        }
+
+        return view('snippet.search', compact('models', 'make', 'theme', 'color', 'btextcolor', 'background'));
     }
 
     public function snippet_search_post(Request $request) {
@@ -388,7 +428,25 @@ class ApiController extends Controller
         $body = $template->body;
         $body = str_replace('##COMPANY_NAME', $company->name, $body);
         $body = str_replace('##CAR_MODEL', $car->title, $body);
-        return view('snippet.searchresult', compact('car', 'logofile', 'body'));
+
+        $theme = 'dark';
+        if ($request->has('theme')) {
+            $theme = $request->get('theme');
+        }
+        $color = $theme == 'light' ? '212529' : 'ffffff';
+        if ($request->has('color')) {
+            $color = $request->get('color');
+        }
+        $btextcolor = $theme == 'dark' ? '212529' : 'ffffff';
+        if ($request->has('btextcolor')) {
+            $btextcolor = $request->get('btextcolor');
+        }
+        $background = '00000000';
+        if ($request->has('background')) {
+            $background = $request->get('background');
+        }
+
+        return view('snippet.searchresult', compact('car', 'logofile', 'body', 'theme', 'color', 'btextcolor', 'background'));
     }
 
     public function bug() {

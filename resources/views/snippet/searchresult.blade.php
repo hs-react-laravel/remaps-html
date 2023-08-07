@@ -7,6 +7,14 @@
         <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
     </head>
     <style>
+        .btn-custom {
+            border-color: #{{ $color }} !important;
+            background: #{{ $color }} !important;
+            color: #{{ $btextcolor }} !important;
+        }
+        .btn-custom:hover {
+            background: #{{ $color }}80 !important;
+        }
         .param-wrapper {
             padding: 2.5px;
         }
@@ -40,7 +48,7 @@
             color: #ea5455!important;
         }
     </style>
-    <body>
+    <body data-bs-theme="{{ $theme }}" style="background: #{{ $background }}">
         <div class="container-fluid py-2">
             <div class="row">
                 <div class="col-12">
@@ -48,7 +56,7 @@
                         <div class="col-md-12 col-xl-6">
                           <h4 class="card-title">
                             <img src="{{ $logofile }}" style="width: 100px; height: 100px; margin:20px; padding:0" />
-                            {{ $car->title }}
+                            <span style="color: #{{ $color }}">{{ $car->title }}</span>
                           </h4>
                           @if ($car->tuned_bhp_2)
                           <div class="card-body">
@@ -99,7 +107,7 @@
                                     <div class="param-item bg-secondary">{{ $car->std_bhp }}</div>
                                   </div>
                                   <div class="col-3 param-wrapper">
-                                    <div class="param-item bg-dark" id="cell_tuned_bhp">{{ $car->tuned_bhp }}</div>
+                                    <div class="param-item" style="background: #303030" id="cell_tuned_bhp">{{ $car->tuned_bhp }}</div>
                                   </div>
                                   <div class="col-3 param-wrapper">
                                     <div class="param-item bg-black" id="cell_diff_bhp">{{ intval($car->tuned_bhp) - intval($car->std_bhp) }} hp</div>
@@ -111,7 +119,7 @@
                                     <div class="param-item bg-secondary">{{ $car->std_torque }}</div>
                                   </div>
                                   <div class="col-3 param-wrapper">
-                                    <div class="param-item bg-dark" id="cell_tuned_torque">{{ $car->tuned_torque }}</div>
+                                    <div class="param-item" style="background: #303030" id="cell_tuned_torque">{{ $car->tuned_torque }}</div>
                                   </div>
                                   <div class="col-3 param-wrapper">
                                     <div class="param-item bg-black" id="cell_diff_torque">{{ intval($car->tuned_torque) - intval($car->std_torque) }} Nm</div>
@@ -140,7 +148,7 @@
                                     <div class="param-item bg-secondary">{{ $car->std_bhp }}</div>
                                   </div>
                                   <div class="col-3 param-wrapper">
-                                    <div class="param-item bg-dark" id="cell_tuned_bhp_2">{{ $car->tuned_bhp_2 }}</div>
+                                    <div class="param-item" style="background: #303030" id="cell_tuned_bhp_2">{{ $car->tuned_bhp_2 }}</div>
                                   </div>
                                   <div class="col-3 param-wrapper">
                                     <div class="param-item bg-black" id="cell_diff_bhp_2">{{ intval($car->tuned_bhp_2) - intval($car->std_bhp) }} hp</div>
@@ -152,7 +160,7 @@
                                     <div class="param-item bg-secondary">{{ $car->std_torque }}</div>
                                   </div>
                                   <div class="col-3 param-wrapper">
-                                    <div class="param-item bg-dark" id="cell_tuned_torque_2">{{ $car->tuned_torque_2 }}</div>
+                                    <div class="param-item" style="background: #303030" id="cell_tuned_torque_2">{{ $car->tuned_torque_2 }}</div>
                                   </div>
                                   <div class="col-3 param-wrapper">
                                     <div class="param-item bg-black" id="cell_diff_torque_2">{{ intval($car->tuned_torque_2) - intval($car->std_torque) }} Nm</div>
@@ -183,7 +191,7 @@
                                 <div class="param-item bg-secondary">{{ $car->std_bhp }}</div>
                               </div>
                               <div class="col-3 param-wrapper">
-                                <div class="param-item bg-dark" id="cell_tuned_bhp">{{ $car->tuned_bhp }}</div>
+                                <div class="param-item" style="background: #303030" id="cell_tuned_bhp">{{ $car->tuned_bhp }}</div>
                               </div>
                               <div class="col-3 param-wrapper">
                                 <div class="param-item bg-black" id="cell_diff_bhp">{{ intval($car->tuned_bhp) - intval($car->std_bhp) }} hp</div>
@@ -195,7 +203,7 @@
                                 <div class="param-item bg-secondary">{{ $car->std_torque }}</div>
                               </div>
                               <div class="col-3 param-wrapper">
-                                <div class="param-item bg-dark" id="cell_tuned_torque">{{ $car->tuned_torque }}</div>
+                                <div class="param-item" style="background: #303030" id="cell_tuned_torque">{{ $car->tuned_torque }}</div>
                               </div>
                               <div class="col-3 param-wrapper">
                                 <div class="param-item bg-black" id="cell_diff_torque">{{ intval($car->tuned_torque) - intval($car->std_torque) }} Nm</div>
@@ -214,8 +222,8 @@
                         </div>
                 </div>
               </div>
-              <a class="btn btn-dark" href="{{ route('api.snippet.show') }}">Back to Makes</a>
-              <a class="btn btn-dark" href="{{ route('api.snippet.search', ['brand' => $car->brand]) }}">Back to {{ $car->brand }}</a>
+              <a class="btn btn-dark btn-custom" href="{{ route('api.snippet.show', ['theme' => $theme, 'color' => $color, 'btextcolor' => $btextcolor, 'background' => $background]) }}">Back to Makes</a>
+              <a class="btn btn-dark btn-custom" href="{{ route('api.snippet.search', ['brand' => $car->brand, 'theme' => $theme, 'color' => $color, 'btextcolor' => $btextcolor, 'background' => $background]) }}">Back to {{ $car->brand }}</a>
 		</div>
         <input type="hidden" name="std_bhp" id="std_bhp" value="{{ intval($car->std_bhp) }}">
         <input type="hidden" name="std_torque" id="std_torque" value="{{ intval($car->std_torque) }}">

@@ -1,22 +1,33 @@
 <!doctype html>
 <html>
     <head>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     </head>
     <style>
+        .btn-custom {
+            border-color: #{{ $color }} !important;
+            background: #{{ $color }} !important;
+            color: #{{ $btextcolor }} !important;
+        }
+        .btn-custom:hover {
+            background: #{{ $color }}80 !important;
+        }
         @media (max-width: 576px) {
             .search-control {
                 padding-bottom: 1rem;
             }
         }
     </style>
-    <body>
+    <body data-bs-theme="{{ $theme }}" style="background: #{{ $background }}">
         <div class="container-fluid py-2">
-            <h5>Search your vehicle</h5>
+            <h5 style="color: #{{ $color }}">Search your vehicle</h5>
             <form action="{{ route('api.snippet.search.post') }}" method="post" id="frm">
                 <input type="hidden" name="domain" id="domain">
+                <input type="hidden" name="theme" value="{{ $theme }}">
+                <input type="hidden" name="color" value="{{ $color }}">
+                <input type="hidden" name="btextcolor" value="{{ $btextcolor }}">
                 <div class="row">
                     <div class="col-md-4 search-control">
                         <select class="form-select" id="model" name="model">
@@ -38,13 +49,14 @@
                     </div>
                 </div>
                 <div class="d-flex justify-content-center my-2">
-                    <button id="btnSubmit" class="btn btn-dark" type="button" disabled onclick="onSubmit()">Search</button>
+                    <button id="btnSubmit" class="btn btn-dark btn-custom" type="button" onclick="onSubmit()" disabled>Search</button>
                 </div>
             </form>
 		</div>
     </body>
     <script src="{{ asset('customjs/iframeResizer.contentWindow.min.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <script>
         $('#model').change(function() {
             updateNextOption('model', 'generation');
