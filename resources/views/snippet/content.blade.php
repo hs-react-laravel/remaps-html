@@ -40,13 +40,14 @@
             }
         }
     </style>
+
     <body data-bs-theme="{{ $theme }}" style="background: #{{ $background }}">
         <div class="container-fluid py-2">
             <h5 style="color: #{{ $color }}">Please select the make of your car below.</h5>
             <div class="row">
                 @foreach($brands as $brand)
                 <div class="brand-item col-sm-4 col-md-2 col-xl-1">
-                    <a href="{{ route('api.snippet.search', ['brand' => $brand['brand'], 'theme' => $theme, 'color' => $color, 'btextcolor' => $btextcolor, 'background' => $background]) }}" class="brand-link">
+                    <a href="{{ route('api.snippet.search', ['id' => $id,'brand' => $brand['brand'], 'theme' => $theme, 'color' => $color, 'btextcolor' => $btextcolor, 'background' => $background]) }}" class="brand-link">
                         <img class="brand-img" src="{{ $brand['logo'] }}">
                     </a>
                 </div>

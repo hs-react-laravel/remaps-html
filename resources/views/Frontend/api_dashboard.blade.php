@@ -1,28 +1,46 @@
-<html lang="en" class="js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths"><head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome Myremap</title>
-    <link rel="icon" href="images/favicon.png" type="image/x-icon">
-    <link rel="stylesheet" href="customcss/front/bootstrap.min.css">
-    <link rel="stylesheet" href="customcss/front/owl.carousel.min.css">
-    <link rel="stylesheet" href="customcss/front/owl.theme.min.css">
-    <link rel="stylesheet" href="customcss/front/owl.transitions.css">
-    <link rel="stylesheet" href="customcss/front/flexslider.css">
-    <link rel="stylesheet" href="customcss/front/jquery.fancybox.css">
-    <link rel="stylesheet" href="customcss/front/main.css">
-    <link rel="stylesheet" href="customcss/front/responsive.css">
-    <link rel="stylesheet" href="customcss/front/font-icon.css">
-    <link rel="stylesheet" href="customcss/front/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="customcss/front/style.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdn.bootcss.com/animate.css/3.5.1/animate.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="customjs/front/jquery.contact.js"></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
-    <script src="https://kit.fontawesome.com/0daacdc723.js" crossorigin="anonymous"></script>
-    <style type="text/css">.fancybox-margin{margin-right:17px;}</style></head>
-
-    <body>
+<html lang="en" class="js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Welcome Myremap</title>
+        <link rel="icon" href="images/favicon.png" type="image/x-icon">
+        <link rel="stylesheet" href="customcss/front/bootstrap.min.css">
+        <link rel="stylesheet" href="customcss/front/owl.carousel.min.css">
+        <link rel="stylesheet" href="customcss/front/owl.theme.min.css">
+        <link rel="stylesheet" href="customcss/front/owl.transitions.css">
+        <link rel="stylesheet" href="customcss/front/flexslider.css">
+        <link rel="stylesheet" href="customcss/front/jquery.fancybox.css">
+        <link rel="stylesheet" href="customcss/front/main.css">
+        <link rel="stylesheet" href="customcss/front/responsive.css">
+        <link rel="stylesheet" href="customcss/front/font-icon.css">
+        <link rel="stylesheet" href="customcss/front/animate.min.css">
+        <link rel="stylesheet" type="text/css" href="customcss/front/style.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdn.bootcss.com/animate.css/3.5.1/animate.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="customjs/front/jquery.contact.js"></script>
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+        <script src="https://kit.fontawesome.com/0daacdc723.js" crossorigin="anonymous"></script>
+        <style type="text/css">
+            .fancybox-margin{margin-right:17px;}
+            .card {
+                border: 1px solid #ffffff26;
+                border-radius: 6px;
+            }
+            .card-header {
+                padding: 8px 16px;
+                border-radius: 5px 5px 0 0;
+                border-bottom: 1px solid #ffffff26;
+            }
+            .card-header h5 {
+                color: white;
+            }
+            .card-body {
+                padding: 16px;
+            }
+        </style>
+    </head>
+    <body data-bs-theme="dark">
     <!-- header section -->
     <section class="banner" role="banner" id="home" style="height: 108px;">
         <header id="header" class="fixed">
@@ -89,6 +107,165 @@
                                 For details of api usage, <a href="/Remaps API.postman_collection.json" download>Download Postman Collection</a>
                             </p>
                         @endif
+
+                        <h5 style="color:white" class="mt-md-5 mb-4"><i class="fa-solid fa-code"></i>  Embed code</h5>
+                        <div class="card mb-2 p-3">
+                            <div class="card-body">
+                                <pre class="mb-0 text-danger-emphasis">&lt;script src="{{ route('api.snippet.js', ['id' => $apiUser->id]) }}"&gt;&lt;/script&gt;</pre>
+                            </div>
+                        </div>
+                        <h5 style="color:white" class="mt-md-5 mb-4"><i class="fa-solid fa-palette"></i>  Color Customization</h5>
+                        <div class="card mb-4">
+                            <div class="card-header"><h5 class="mb-0">Theme</h5></div>
+                            <div class="card-body">
+                                <p>The theme of the widget, dark or light. Defaults to <span class="badge text-bg-dark border">light</span></p>
+                                <hr>
+                                <strong>URL variable:</strong> <span class="badge text-info bg-info-subtle border border-info">theme</span><br>
+                                <strong>Accepted parameters:</strong> <span class="badge bg-light-subtle text-body border">light</span> or <span class="badge bg-light-subtle text-body border">dark</span>
+                            </div>
+                        </div>
+                        <div class="card mb-4">
+                            <div class="card-header"><h5 class="mb-0">Highlight colour</h5></div>
+                            <div class="card-body">
+                                <p>The accent colour defaults to <span class="badge text-white" style="background: #ffffff;">white</span></p>
+                                <hr>
+                                <strong>URL variable:</strong> <span class="badge text-info bg-info-subtle border border-info">color</span><br>
+                                <strong>Accepted parameters:</strong> 6 character colour hex code without preceding hash. EG: <span class="badge bg-light-subtle text-body border">ff0000</span>.
+                            </div>
+                        </div>
+                        <div class="card mb-4">
+                            <div class="card-header"><h5 class="mb-0">Button text colour</h5></div>
+                            <div class="card-body">
+                                <p>This specifies the colour of the text within the buttons.</p>
+                                <hr>
+                                <strong>URL variable:</strong> <span class="badge text-info bg-info-subtle border border-info">buttontext</span><br>
+                                <strong>Accepted parameters:</strong> 6 character colour hex code without preceding hash. EG: <span class="badge bg-light-subtle text-body border">ffffff</span>.
+                            </div>
+                        </div>
+                        <div class="card mb-4">
+                            <div class="card-header"><h5 class="mb-0">Background colour</h5></div>
+                            <div class="card-body">
+                                <p>The background colour defaults to <span class="badge text-info bg-info-subtle border border-info">transparent</span> when not specified.</p>
+                                <hr>
+                                <strong>URL variable:</strong> <span class="badge text-info bg-info-subtle border border-info">bgcolor</span><br>
+                                <strong>Accepted parameters:</strong> 6 character colour hex code without preceding hash. EG: <span class="badge bg-light-subtle text-body border">ffffff</span>.
+                            </div>
+                        </div>
+                        <h5 style="color:white" class="mt-md-5 mb-4"><i class="fa-solid fa-plug"></i></i>  Rest API</h5>
+                        <p>
+                            When you make API calls, replace ACCESS-TOKEN with your access token in the authorization header
+                            <span class="badge">-H Authorization: Bearer ACCESS-TOKEN</span>.
+                        </p>
+                        <div class="card mb-4">
+                            <div class="card-header"><h5 class="mb-0" style="text-transform: none">{{ route('api.rest.makes') }}  <span class="badge text-info bg-info-subtle border border-info">POST</span></h5></div>
+                            <div class="card-body">
+                                <p>Request</p>
+                                <hr>
+                                <p>Response</p>
+<pre>
+[
+    {
+        "make": "Alfa Romeo",
+        "logo": "https://remapdash.com/images/carlogo/alfa-romeo.jpg"
+    },
+    {
+        "make": "Alpina",
+        "logo": "http://remapdash.com/images/carlogo/alpina.jpg"
+    },
+    ...
+]
+</pre>
+                            </div>
+                        </div>
+                        <div class="card mb-4">
+                            <div class="card-header"><h5 class="mb-0" style="text-transform: none">{{ route('api.rest.models') }}  <span class="badge text-info bg-info-subtle border border-info">POST</span></h5></div>
+                            <div class="card-body">
+                                <p>Request</p>
+                                <p><span class="badge">make</span>&nbsp;: &nbsp;&nbsp;string</p>
+                                <hr>
+                                <p>Response</p>
+<pre>
+{
+    "make": "Alfa Romeo",
+    "models": [
+        "147",
+        "156",
+        "159",
+        "166",
+        "4C",
+        "Brera",
+        "CrossWagon",
+        "Giulia",
+        "Giulietta",
+        "GT",
+        "MiTo",
+        "Spider",
+        "Stelvio"
+    ]
+}
+</pre>
+                            </div>
+                        </div>
+                        <div class="card mb-4">
+                            <div class="card-header"><h5 class="mb-0" style="text-transform: none">{{ route('api.rest.engines') }}  <span class="badge text-info bg-info-subtle border border-info">POST</span></h5></div>
+                            <div class="card-body">
+                                <p>Request</p>
+                                <p><span class="badge">make</span>&nbsp;: &nbsp;&nbsp;string</p>
+                                <p><span class="badge">model</span>&nbsp;: &nbsp;&nbsp;string</p>
+                                <hr>
+                                <p>Response</p>
+<pre>
+{
+    "make": "Alfa Romeo",
+    "model": "147",
+    "generations": [
+        "2001  2005",
+        "2005  ..."
+    ]
+}
+</pre>
+                            </div>
+                        </div>
+                        <div class="card mb-4">
+                            <div class="card-header"><h5 class="mb-0" style="text-transform: none">{{ route('api.rest.generations') }}  <span class="badge text-info bg-info-subtle border border-info">POST</span></h5></div>
+                            <div class="card-body">
+                                <p>Request</p>
+                                <p><span class="badge">make</span>&nbsp;: &nbsp;&nbsp;string</p>
+                                <p><span class="badge">model</span>&nbsp;: &nbsp;&nbsp;string</p>
+                                <hr>
+                                <p>Response</p>
+<pre>
+{
+    "make": "Alfa Romeo",
+    "model": "147",
+    "generation": "2005  ...",
+    "engines": [
+        {
+            "engine_type": "2.0  TS",
+            "title": "Alfa Romeo 147 2005  ... 2.0  TS",
+            "std_bhp": "150 hp",
+            "tuned_bhp": "165 hp",
+            "tuned_bhp_2": null,
+            "std_torque": "181 Nm",
+            "tuned_torque": "200 Nm",
+            "tuned_torque_2": null
+        },
+        {
+            "engine_type": "3.2  V6 GTA",
+            "title": "Alfa Romeo 147 2005  ... 3.2  V6 GTA",
+            "std_bhp": "250 hp",
+            "tuned_bhp": "275 hp",
+            "tuned_bhp_2": null,
+            "std_torque": "300 Nm",
+            "tuned_torque": "325 Nm",
+            "tuned_torque_2": null
+        },
+        ...
+    ]
+}
+</pre>
+                            </div>
+                        </div>
                    </div>
                 </div>
             </div>
@@ -135,26 +312,6 @@
     <script src="customjs/front/modernizr.js"></script>
     <script src="customjs/front/main.js"></script>
     <script>
-        var owl = $('.banner-silder');
-        owl.owlCarousel({
-            items:1,
-            loop:true,
-            autoplayTimeout:1000,
-            autoplayHoverPause:true,
-            margin:0,
-            autoPlay:true,
-            responsive: {
-                0: {
-                    items: 1
-                },
-                600: {
-                    items: 1
-                },
-                1000: {
-                    items: 1
-                }
-            }
-        });
         $(function() {
             $('body').scrollTop(1);
         });

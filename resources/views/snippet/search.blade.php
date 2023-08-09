@@ -24,6 +24,7 @@
         <div class="container-fluid py-2">
             <h5 style="color: #{{ $color }}">Search your vehicle</h5>
             <form action="{{ route('api.snippet.search.post') }}" method="post" id="frm">
+                <input type="hidden" name="id" value="{{ $id }}">
                 <input type="hidden" name="domain" id="domain">
                 <input type="hidden" name="theme" value="{{ $theme }}">
                 <input type="hidden" name="color" value="{{ $color }}">

@@ -17,6 +17,7 @@ use App\Models\FileService;
 use App\Models\Shop\ShopCategory;
 use App\Models\Order;
 use App\Models\EmailTemplate;
+use App\Models\Api\ApiUser;
 
 class ApiController extends Controller
 {
@@ -383,7 +384,21 @@ class ApiController extends Controller
             $background = $request->get('background');
         }
 
+        $userid = $request->id;
+        $apiuser = ApiUser::find($userid);
+
+        try {
+            $orgDomain = parse_url($apiuser->domain)['host'];
+            $curDomain = parse_url($_SERVER['HTTP_REFERER'])['host'];
+            if ($orgDomain != $curDomain) {
+                return redirect()->route('api.snippet.error');
+            }
+        } catch (\Exception $ex){
+            return redirect()->route('api.snippet.error');
+        }
+
         return view('snippet.content')->with([
+            'id' => $userid,
             'brands' => $res,
             'theme' => $theme,
             'color' => $color,
@@ -413,7 +428,19 @@ class ApiController extends Controller
             $background = $request->get('background');
         }
 
-        return view('snippet.search', compact('models', 'make', 'theme', 'color', 'btextcolor', 'background'));
+        $id = $request->id;
+        $apiuser = ApiUser::find($id);
+        try {
+            $orgDomain = parse_url($apiuser->domain)['host'];
+            $curDomain = parse_url($_SERVER['HTTP_REFERER'])['host'];
+            if ($orgDomain != $curDomain) {
+                return redirect()->route('api.snippet.error');
+            }
+        } catch (\Exception $ex){
+            return redirect()->route('api.snippet.error');
+        }
+
+        return view('snippet.search', compact('id', 'models', 'make', 'theme', 'color', 'btextcolor', 'background'));
     }
 
     public function snippet_search_post(Request $request) {
@@ -446,7 +473,20 @@ class ApiController extends Controller
             $background = $request->get('background');
         }
 
-        return view('snippet.searchresult', compact('car', 'logofile', 'body', 'theme', 'color', 'btextcolor', 'background'));
+        $id = $request->id;
+        $apiuser = ApiUser::find($id);
+
+        try {
+            $orgDomain = parse_url($apiuser->domain)['host'];
+            $curDomain = parse_url($_SERVER['HTTP_REFERER'])['host'];
+            if ($orgDomain != $curDomain) {
+                return redirect()->route('api.snippet.error');
+            }
+        } catch (\Exception $ex){
+            return redirect()->route('api.snippet.error');
+        }
+
+        return view('snippet.searchresult', compact('id', 'car', 'logofile', 'body', 'theme', 'color', 'btextcolor', 'background'));
     }
 
     public function bug() {
