@@ -93,7 +93,7 @@
     </div>
 
     </section>
-    <script src="https://remapdash.com/api/snippetjs?id=1"></script>
+    <script src="https://remapdash.com/api/snippetjs?id=6"></script>
     {{-- <script src="http://localhost:8080/api/snippetjs?id=1"></script> --}}
     <section id="howitworks" class="features features-section">
       <div class="container">
