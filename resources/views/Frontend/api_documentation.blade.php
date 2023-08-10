@@ -96,176 +96,209 @@
 
                 <div class="box-body">
                    <div class="footer_about">
-                        <p>Name: <span style="color: #fec400">{{ $apiUser->fullName }}</span></p>
-                        <p>API Token:<br/>
-                            <span style="color: #fec400">{{ $apiUser->api_token }}</span></p>
+                        <h4 style="color:white" class="mt-md-5 mb-4"><i class="fa-solid fa-plug"></i></i>  Rest API</h4>
+                        <h5 style="color:white; padding-top: 12px">API Base URL</h5>
+                        <p>
+                            All api endpoints must be prefixed with the api base url.
+                            <pre>https://remapdash.com/api/*</pre>
                         </p>
-                        @if (!$apiUser->hasActiveSubscription())
-                            You haven't subscribed yet. <a class="custome-link" href="{{route('frontend.api.sub', ['token' => $apiUser->api_token])}}">Click here</a>
-                        @else
-                            <p>You have active subscription payment. <br/>
-                                For details of api usage, <a href="/api-doc">click here</a>
-                            </p>
-                        @endif
-
-                        <h5 style="color:white" class="mt-md-5 mb-4"><i class="fa-solid fa-code"></i>  Embed code</h5>
-                        <div class="card mb-2 p-3">
-                            <div class="card-body">
-                                <pre class="mb-0 text-danger-emphasis">&lt;script src="{{ route('api.snippet.js', ['id' => $apiUser->id]) }}"&gt;&lt;/script&gt;</pre>
-                            </div>
-                        </div>
-                        <h5 style="color:white" class="mt-md-5 mb-4"><i class="fa-solid fa-palette"></i>  Color Customization</h5>
-                        <div class="card mb-4">
-                            <div class="card-header"><h5 class="mb-0">Theme</h5></div>
-                            <div class="card-body">
-                                <p>The theme of the widget, dark or light. Defaults to <span class="badge text-bg-dark border">light</span></p>
-                                <hr>
-                                <strong>URL variable:</strong> <span class="badge text-info bg-info-subtle border border-info">theme</span><br>
-                                <strong>Accepted parameters:</strong> <span class="badge bg-light-subtle text-body border">light</span> or <span class="badge bg-light-subtle text-body border">dark</span>
-                            </div>
-                        </div>
-                        <div class="card mb-4">
-                            <div class="card-header"><h5 class="mb-0">Highlight colour</h5></div>
-                            <div class="card-body">
-                                <p>The accent colour defaults to <span class="badge text-white" style="background: #ffffff; color: black;">white</span></p>
-                                <hr>
-                                <strong>URL variable:</strong> <span class="badge text-info bg-info-subtle border border-info">color</span><br>
-                                <strong>Accepted parameters:</strong> 6 character colour hex code without preceding hash. EG: <span class="badge bg-light-subtle text-body border">ff0000</span>.
-                            </div>
-                        </div>
-                        <div class="card mb-4">
-                            <div class="card-header"><h5 class="mb-0">Button text colour</h5></div>
-                            <div class="card-body">
-                                <p>This specifies the colour of the text within the buttons.</p>
-                                <hr>
-                                <strong>URL variable:</strong> <span class="badge text-info bg-info-subtle border border-info">buttontext</span><br>
-                                <strong>Accepted parameters:</strong> 6 character colour hex code without preceding hash. EG: <span class="badge bg-light-subtle text-body border">ffffff</span>.
-                            </div>
-                        </div>
-                        <div class="card mb-4">
-                            <div class="card-header"><h5 class="mb-0">Background colour</h5></div>
-                            <div class="card-body">
-                                <p>The background colour defaults to <span class="badge text-info bg-info-subtle border border-info">transparent</span> when not specified.</p>
-                                <hr>
-                                <strong>URL variable:</strong> <span class="badge text-info bg-info-subtle border border-info">bgcolor</span><br>
-                                <strong>Accepted parameters:</strong> 6 character colour hex code without preceding hash. EG: <span class="badge bg-light-subtle text-body border">ffffff</span>.
-                            </div>
-                        </div>
-                        <h5 style="color:white" class="mt-md-5 mb-4"><i class="fa-solid fa-plug"></i></i>  Rest API</h5>
+                        <h5 style="color:white; padding-top: 12px">Authentication</h5>
                         <p>
                             When you make API calls, replace ACCESS-TOKEN with your access token in the authorization header
                             <span class="badge">-H Authorization: Bearer ACCESS-TOKEN</span>.
                         </p>
-                        {{-- <div class="card mb-4">
-                            <div class="card-header"><h5 class="mb-0" style="text-transform: none">{{ route('api.rest.makes') }}  <span class="badge text-info bg-info-subtle border border-info">POST</span></h5></div>
+                        <h5 style="color:white; padding-top: 12px">Standard API Calls</h5>
+
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0" style="text-transform: none"><span class="badge text-info bg-info-subtle border border-info">GET</span> /makes</h5>
+                                <p>List All Makes</p>
+                            </div>
                             <div class="card-body">
                                 <p>Request</p>
                                 <hr>
-                                <p>Response</p>
+                                <p>Response <span class="badge">application/json</span></p>
 <pre>
 [
     {
+        "id": 1,
         "make": "Alfa Romeo",
-        "logo": "https://remapdash.com/images/carlogo/alfa-romeo.jpg"
-    },
-    {
-        "make": "Alpina",
-        "logo": "http://remapdash.com/images/carlogo/alpina.jpg"
+        "logo": "http://localhost:8080/images/carlogo/alfa-romeo.jpg"
     },
     ...
 ]
 </pre>
                             </div>
                         </div>
+
                         <div class="card mb-4">
-                            <div class="card-header"><h5 class="mb-0" style="text-transform: none">{{ route('api.rest.models') }}  <span class="badge text-info bg-info-subtle border border-info">POST</span></h5></div>
+                            <div class="card-header">
+                                <h5 class="mb-0" style="text-transform: none"><span class="badge text-info bg-info-subtle border border-info">GET</span> /make/{makeid}</h5>
+                                <p>View a Make</p>
+                            </div>
                             <div class="card-body">
                                 <p>Request</p>
-                                <p><span class="badge">make</span>&nbsp;: &nbsp;&nbsp;string</p>
+                                <p><span class="badge">makeid</span>&nbsp;: &nbsp;&nbsp;integer</p>
                                 <hr>
-                                <p>Response</p>
+                                <p>Response <span class="badge">application/json</span></p>
 <pre>
 {
+    "id": 1,
     "make": "Alfa Romeo",
-    "models": [
-        "147",
-        "156",
-        "159",
-        "166",
-        "4C",
-        "Brera",
-        "CrossWagon",
-        "Giulia",
-        "Giulietta",
-        "GT",
-        "MiTo",
-        "Spider",
-        "Stelvio"
-    ]
+    "logo": "http://localhost:8080/images/carlogo/alfa-romeo.jpg"
 }
 </pre>
                             </div>
                         </div>
+
                         <div class="card mb-4">
-                            <div class="card-header"><h5 class="mb-0" style="text-transform: none">{{ route('api.rest.engines') }}  <span class="badge text-info bg-info-subtle border border-info">POST</span></h5></div>
+                            <div class="card-header">
+                                <h5 class="mb-0" style="text-transform: none"><span class="badge text-info bg-info-subtle border border-info">GET</span> /make/{makeid}/models</h5>
+                                <p>List all Models of a Make</p>
+                            </div>
                             <div class="card-body">
                                 <p>Request</p>
-                                <p><span class="badge">make</span>&nbsp;: &nbsp;&nbsp;string</p>
-                                <p><span class="badge">model</span>&nbsp;: &nbsp;&nbsp;string</p>
+                                <p><span class="badge">makeid</span>&nbsp;: &nbsp;&nbsp;integer</p>
                                 <hr>
-                                <p>Response</p>
+                                <p>Response <span class="badge">application/json</span></p>
+<pre>
+[
+    {
+        "id": 1,
+        "make": "Alfa Romeo",
+        "model": "147"
+    },
+    ...
+]
+</pre>
+                            </div>
+                        </div>
+
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0" style="text-transform: none"><span class="badge text-info bg-info-subtle border border-info">GET</span> /model/{modelid}</h5>
+                                <p>View a Model</p>
+                            </div>
+                            <div class="card-body">
+                                <p>Request</p>
+                                <p><span class="badge">modelid</span>&nbsp;: &nbsp;&nbsp;integer</p>
+                                <hr>
+                                <p>Response <span class="badge">application/json</span></p>
 <pre>
 {
+    "id": 1,
     "make": "Alfa Romeo",
-    "model": "147",
-    "generations": [
-        "2001  2005",
-        "2005  ..."
-    ]
+    "model": "147"
 }
 </pre>
                             </div>
                         </div>
+
                         <div class="card mb-4">
-                            <div class="card-header"><h5 class="mb-0" style="text-transform: none">{{ route('api.rest.generations') }}  <span class="badge text-info bg-info-subtle border border-info">POST</span></h5></div>
+                            <div class="card-header">
+                                <h5 class="mb-0" style="text-transform: none"><span class="badge text-info bg-info-subtle border border-info">GET</span> /model/{modelid}/generations</h5>
+                                <p>List all generations of a Model</p>
+                            </div>
                             <div class="card-body">
                                 <p>Request</p>
-                                <p><span class="badge">make</span>&nbsp;: &nbsp;&nbsp;string</p>
-                                <p><span class="badge">model</span>&nbsp;: &nbsp;&nbsp;string</p>
+                                <p><span class="badge">modelid</span>&nbsp;: &nbsp;&nbsp;integer</p>
                                 <hr>
-                                <p>Response</p>
+                                <p>Response <span class="badge">application/json</span></p>
+<pre>
+[
+    {
+        "id": 1,
+        "make": "Alfa Romeo",
+        "model": "147",
+        "generation": "2001  2005"
+    },
+    ...
+]
+</pre>
+                            </div>
+                        </div>
+
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0" style="text-transform: none"><span class="badge text-info bg-info-subtle border border-info">GET</span> /generation/{generationid}</h5>
+                                <p>View a Generation</p>
+                            </div>
+                            <div class="card-body">
+                                <p>Request</p>
+                                <p><span class="badge">generationid</span>&nbsp;: &nbsp;&nbsp;integer</p>
+                                <hr>
+                                <p>Response <span class="badge">application/json</span></p>
 <pre>
 {
+    "id": 1,
     "make": "Alfa Romeo",
     "model": "147",
-    "generation": "2005  ...",
-    "engines": [
-        {
-            "engine_type": "2.0  TS",
-            "title": "Alfa Romeo 147 2005  ... 2.0  TS",
-            "std_bhp": "150 hp",
-            "tuned_bhp": "165 hp",
-            "tuned_bhp_2": null,
-            "std_torque": "181 Nm",
-            "tuned_torque": "200 Nm",
-            "tuned_torque_2": null
-        },
-        {
-            "engine_type": "3.2  V6 GTA",
-            "title": "Alfa Romeo 147 2005  ... 3.2  V6 GTA",
-            "std_bhp": "250 hp",
-            "tuned_bhp": "275 hp",
-            "tuned_bhp_2": null,
-            "std_torque": "300 Nm",
-            "tuned_torque": "325 Nm",
-            "tuned_torque_2": null
-        },
-        ...
-    ]
+    "generation": "2001  2005"
 }
 </pre>
                             </div>
-                        </div> --}}
+                        </div>
+
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0" style="text-transform: none"><span class="badge text-info bg-info-subtle border border-info">GET</span> /generation/{generationid}/engines</h5>
+                                <p>List all Engine types of a Generation</p>
+                            </div>
+                            <div class="card-body">
+                                <p>Request</p>
+                                <p><span class="badge">generationid</span>&nbsp;: &nbsp;&nbsp;integer</p>
+                                <hr>
+                                <p>Response <span class="badge">application/json</span></p>
+<pre>
+[
+    {
+        "id": 1,
+        "make": "Alfa Romeo",
+        "model": "147",
+        "generation": "2001  2005",
+        "engine": "2.0  TS",
+        "std_bhp": "150 hp",
+        "tuned_bhp": "165 hp",
+        "tuned_bhp_2": null,
+        "std_torque": "172 Nm",
+        "tuned_torque": "192 Nm",
+        "tuned_torque_2": null
+    },
+    ...
+]
+</pre>
+                            </div>
+                        </div>
+
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0" style="text-transform: none"><span class="badge text-info bg-info-subtle border border-info">GET</span> /engine/{engineid}</h5>
+                                <p>View details of a Engine</p>
+                            </div>
+                            <div class="card-body">
+                                <p>Request</p>
+                                <p><span class="badge">engineid</span>&nbsp;: &nbsp;&nbsp;integer</p>
+                                <hr>
+                                <p>Response <span class="badge">application/json</span></p>
+<pre>
+{
+    "id": 1,
+    "make": "Alfa Romeo",
+    "model": "147",
+    "generation": "2001  2005",
+    "engine": "2.0  TS",
+    "std_bhp": "150 hp",
+    "tuned_bhp": "165 hp",
+    "tuned_bhp_2": null,
+    "std_torque": "172 Nm",
+    "tuned_torque": "192 Nm",
+    "tuned_torque_2": null,
+    "title": "Alfa Romeo 147 2001  2005 2.0  TS"
+}
+</pre>
+                            </div>
+                        </div>
+
                    </div>
                 </div>
             </div>

@@ -184,6 +184,10 @@ class CompanyController extends Controller
         return view('Frontend.api_dashboard', compact('apiUser'));
     }
 
+    public function api_document(Request $request) {
+        return view('Frontend.api_documentation');
+    }
+
     public function api_reg(Request $request) {
         $exist = ApiUser::where('email', $request->email)->first();
         if ($exist) {
@@ -237,8 +241,8 @@ class CompanyController extends Controller
                 break;
         }
 
-        // $url = "https://api.paypal.com/v1/billing/subscriptions";
-        $url = "https://api-m.sandbox.paypal.com/v1/billing/subscriptions";
+        $url = "https://api.paypal.com/v1/billing/subscriptions";
+        // $url = "https://api-m.sandbox.paypal.com/v1/billing/subscriptions";
 
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -295,8 +299,8 @@ class CompanyController extends Controller
     public function executeSubscription (Request $request) {
         if ($request->has('success') && $request->query('success') == 'true') {
             $id = $request->subscription_id;
-            // $url = "https://api.paypal.com/v1/billing/subscriptions/{$id}";
-            $url = "https://api-m.sandbox.paypal.com/v1/billing/subscriptions/{$id}";
+            $url = "https://api.paypal.com/v1/billing/subscriptions/{$id}";
+            // $url = "https://api-m.sandbox.paypal.com/v1/billing/subscriptions/{$id}";
 
             $curl = curl_init($url);
             curl_setopt($curl, CURLOPT_URL, $url);
@@ -354,14 +358,14 @@ class CompanyController extends Controller
         $company = \App\Models\Company::where('is_default', 1)->first();
         if(!$company) return;
 
-        // $clientId = $company->paypal_client_id;
-        // $secret = $company->paypal_secret;
+        $clientId = $company->paypal_client_id;
+        $secret = $company->paypal_secret;
 
-        $clientId = "AdibmcjffSYZR9TSS5DuKIQpnf80KfY-3pBGd30JKz2Ar1xHIipwijo4eZOJvbDCFpfmOBItDqZoiHmM";
-        $secret = "EEPRF__DLqvkwnnpi2Hi3paQ-9SZFRqypUH-u0fr4zAzvv7hWtz1bJHF0CEwvrvZpHyLeKSTO_FwAeO_";
+        // $clientId = "AdibmcjffSYZR9TSS5DuKIQpnf80KfY-3pBGd30JKz2Ar1xHIipwijo4eZOJvbDCFpfmOBItDqZoiHmM";
+        // $secret = "EEPRF__DLqvkwnnpi2Hi3paQ-9SZFRqypUH-u0fr4zAzvv7hWtz1bJHF0CEwvrvZpHyLeKSTO_FwAeO_";
 
-        // $api_url = "https://api.paypal.com/v1/oauth2/token";
-        $api_url = "https://api-m.sandbox.paypal.com/v1/oauth2/token";
+        $api_url = "https://api.paypal.com/v1/oauth2/token";
+        // $api_url = "https://api-m.sandbox.paypal.com/v1/oauth2/token";
 
         curl_setopt($ch, CURLOPT_URL, $api_url);
         curl_setopt($ch, CURLOPT_HEADER, false);
