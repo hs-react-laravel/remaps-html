@@ -47,66 +47,176 @@ class PassportCarApiController extends Controller
     public function getMakes(Request $request)
     {
         $this->logging($request->bearerToken(), 'makes');
-        $brands = Car::groupBy('brand')->pluck('brand');
+        $brands = Car::groupBy('brand')->get();
 
         $res = array();
         foreach($brands as $b) {
             $logo = asset('images/carlogo/'.str_replace("+", "-", urlencode(strtolower($b))).'.jpg');
             array_push($res, [
-                'make' => $b,
-                'logo' => $logo
+                'id' => $b->id,
+                'make' => $b->brand,
+                'logo' => $b->logo
+            ]);
+        }
+
+        return response()->json($res, 200);
+    }
+    public function getMake(Request $request, $id)
+    {
+        $this->logging($request->bearerToken(), 'make-'.$id);
+        $car = Car::find($id);
+        if (!$car) {
+            return response()->json(['error' => 'Not Found'], 404);
+        }
+
+        $res = new \stdClass();
+        $res->id = $car->id;
+        $res->make = $car->brand;
+        $res->logo = $car->logo;
+
+        return response()->json($res, 200);
+    }
+
+    public function getModels(Request $request, $mid)
+    {
+        $this->logging($request->bearerToken(), 'models');
+
+        $car = Car::find($mid);
+        if (!$car) {
+            return response()->json(['error' => 'Not Found'], 404);
+        }
+
+        $models = Car::where('brand', $car->brand)->groupBy('model')->get();
+        $res = array();
+        foreach($models as $m) {
+            array_push($res, [
+                'id' => $m->id,
+                'make' => $m->brand,
+                'model' => $m->model
             ]);
         }
 
         return response()->json($res, 200);
     }
 
-    public function getModels(Request $request)
+    public function getModel(Request $request, $nid)
     {
-        $this->logging($request->bearerToken(), 'models');
-        $make = request()->make;
-        $models = Car::where('brand', $make)
-                ->groupBy('model')
-                ->pluck('model');
+        $this->logging($request->bearerToken(), 'model-'.$nid);
 
-        return response()->json([
-            'make' => $make,
-            'models' => $models
-        ]);
+        $car = Car::find($nid);
+        if (!$car) {
+            return response()->json(['error' => 'Not Found'], 404);
+        }
+
+        $model = new \stdClass();
+        $model->id = $car->id;
+        $model->make = $car->brand;
+        $model->model = $car->model;
+
+        return response()->json($model, 200);
     }
 
-    public function getGenerations(Request $request)
+    public function getGenerations(Request $request, $nid)
     {
         $this->logging($request->bearerToken(), 'generations');
-        $make = request()->make;
-        $model = request()->model;
-        $generations = Car::where('brand', $make)
-                ->where('model', $model)
-                ->groupBy('year')
-                ->pluck('year');
-        return response()->json([
-            'make' => $make,
-            'model' => $model,
-            'generations' => $generations
-        ]);
+
+        $car = Car::find($nid);
+        if (!$car) {
+            return response()->json(['error' => 'Not Found'], 404);
+        }
+
+        $generations = Car::where('brand', $car->brand)
+            ->where('model', $car->model)
+            ->groupBy('year')->get();
+
+        $res = array();
+        foreach($generations as $g) {
+            array_push($res,  [
+                'id' => $g->id,
+                'make' => $g->brand,
+                'model' => $g->model,
+                'generation' => $g->year
+            ]);
+        }
+        return response()->json($res, 200);
     }
 
-    public function getEngines(Request $request)
+    public function getGeneration(Request $request, $gid)
+    {
+        $this->logging($request->bearerToken(), 'generation-'.$gid);
+
+        $car = Car::find($gid);
+        if (!$car) {
+            return response()->json(['error' => 'Not Found'], 404);
+        }
+
+        $generation = new \stdClass();
+        $generation->id = $car->id;
+        $generation->make = $car->brand;
+        $generation->model = $car->model;
+        $generation->generation = $car->year;
+
+        return response()->json($generation, 200);
+    }
+
+    public function getEngines(Request $request, $gid)
     {
         $this->logging($request->bearerToken(), 'engines');
-        $make = request()->make;
-        $model = request()->model;
-        $generation = request()->generation;
-        $engines = Car::where('brand', $make)
-                ->where('model', $model)
-                ->where('year', $generation)
-                ->select('engine_type', 'title', 'std_bhp', 'tuned_bhp', 'tuned_bhp_2', 'std_torque', 'tuned_torque', 'tuned_torque_2')
-                ->get();
-        return response()->json([
-            'make' => $make,
-            'model' => $model,
-            'generation' => $generation,
-            'engines' => $engines
-        ]);
+
+        $car = Car::find($gid);
+        if (!$car) {
+            return response()->json(['error' => 'Not Found'], 404);
+        }
+
+        $engines = Car::where('brand', $car->brand)
+            ->where('model', $car->model)
+            ->where('year', $car->year)
+            ->groupBy('engine_type')
+            ->orderBy('id')->get();
+
+        $res = array();
+        foreach($engines as $g) {
+            array_push($res,  [
+                'id' => $g->id,
+                'make' => $g->brand,
+                'model' => $g->model,
+                'generation' => $g->year,
+                'engine' => $g->engine_type,
+                'std_bhp' => $g->std_bhp,
+                'tuned_bhp' => $g->tuned_bhp,
+                'tuned_bhp_2' => $g->tuned_bhp_2,
+                'std_torque' => $g->std_torque,
+                'tuned_torque' => $g->tuned_torque,
+                'tuned_torque_2' => $g->tuned_torque_2,
+            ]);
+        }
+
+        return response()->json($res, 200);
+    }
+
+    public function getEngine(Request $request, $eid)
+    {
+        $this->logging($request->bearerToken(), 'engine-'.$eid);
+
+        $car = Car::find($eid);
+        if (!$car) {
+            return response()->json(['error' => 'Not Found'], 404);
+        }
+
+        $engine = new \stdClass();
+        $engine->id = $car->id;
+        $engine->make = $car->brand;
+        $engine->model = $car->model;
+        $engine->generation = $car->year;
+        $engine->engine = $car->engine_type;
+        $engine->std_bhp = $car->std_bhp;
+        $engine->tuned_bhp = $car->tuned_bhp;
+        $engine->tuned_bhp_2 = $car->tuned_bhp_2;
+        $engine->std_torque = $car->std_torque;
+        $engine->tuned_torque = $car->tuned_torque;
+        $engine->tuned_torque_2 = $car->tuned_torque_2;
+        $engine->title = $car->title;
+
+        return response()->json($engine, 200);
     }
 }

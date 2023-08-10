@@ -44,13 +44,18 @@ Route::post('/order/upload-invoice', [ApiController::class, 'uploadInvoicePdf'])
 Route::post('login', [PassportAuthController::class, 'login']);
 
 Route::group(['domain' => 'remapdash.com'], function () {
-    Route::post('makes', [PassportCarApiController::class, 'getMakes'])->name('api.rest.makes');
-    Route::post('models', [PassportCarApiController::class, 'getModels'])->name('api.rest.models');
-    Route::post('generations', [PassportCarApiController::class, 'getGenerations'])->name('api.rest.generations');
-    Route::post('engines', [PassportCarApiController::class, 'getEngines'])->name('api.rest.engines');
     Route::get('snippetjs', [ApiController::class, 'snippet'])->name('api.snippet.js');
     Route::get('snippet', [ApiController::class, 'showsnippet'])->name('api.snippet.show');
     Route::get('snippet-search', [ApiController::class, 'snippet_search'])->name('api.snippet.search');
     Route::post('snippet-search-result', [ApiController::class, 'snippet_search_post'])->name('api.snippet.search.post');
     Route::get('error', [ApiController::class, 'bug'])->name('api.snippet.error');
+
+    Route::get('makes', [PassportCarApiController::class, 'getMakes'])->name('api.rest.makes');
+    Route::get('make/{id}', [PassportCarApiController::class, 'getMake'])->name('api.rest.make');
+    Route::get('make/{mid}/models', [PassportCarApiController::class, 'getModels'])->name('api.rest.models');
+    Route::get('model/{nid}', [PassportCarApiController::class, 'getModel'])->name('api.rest.model');
+    Route::get('model/{nid}/generations', [PassportCarApiController::class, 'getGenerations'])->name('api.rest.generations');
+    Route::get('generation/{gid}', [PassportCarApiController::class, 'getGeneration'])->name('api.rest.generation');
+    Route::get('generation/{gid}/engines', [PassportCarApiController::class, 'getEngines'])->name('api.rest.engines');
+    Route::get('engine/{eid}', [PassportCarApiController::class, 'getEngine'])->name('api.rest.engine');
 });

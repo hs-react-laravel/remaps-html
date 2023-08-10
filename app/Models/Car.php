@@ -14,4 +14,10 @@ class Car extends Model {
     protected $fillable = [
         'brand', 'model', 'year', 'engine_type', 'std_bhp', 'tuned_bhp', 'tuned_bhp_2', 'std_torque', 'tuned_torque', 'tuned_torque_2','title'
     ];
+
+    protected $hidden = ['deleted_at'];
+
+    public function getLogoAttribute() {
+        return asset('images/carlogo/'.str_replace("+", "-", urlencode(strtolower($this->brand))).'.jpg');
+    }
 }
