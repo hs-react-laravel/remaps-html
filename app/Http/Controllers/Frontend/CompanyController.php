@@ -201,7 +201,17 @@ class CompanyController extends Controller
             'password' => Hash::make($request->new_password)
         ]);
         $user = ApiUserReg::create($request->all());
-        return redirect()->route('frontend.api.sub', ['token' => $token]);
+        return redirect()->route('frontend.api.register.confirm', ['token' => $token]);
+        // return redirect()->route('frontend.api.sub', ['token' => $token]);
+    }
+
+    public function api_reg_confirm(Request $request) {
+        $token = $request->token;
+        return view('Frontend.api_intro_confirm', compact('token'));
+    }
+
+    public function api_tc(Request $request) {
+        return view('Frontend.api_tc');
     }
 
     public function api_subscription(Request $request, $token) {
