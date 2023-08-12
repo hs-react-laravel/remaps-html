@@ -565,8 +565,8 @@ class CompanyController extends MasterController
         Config::set('mail.mailers.smtp.host', 'mail.myremaps.com');
         Config::set('mail.mailers.smtp.port', 25);
         Config::set('mail.mailers.smtp.encryption', '');
-        Config::set('mail.mailers.smtp.username', 'sales@myremaps.com');
+        Config::set('mail.mailers.smtp.username', 'sales@remapdash.com');
         Config::set('mail.mailers.smtp.password', '#1Te8tm0');
-        Config::set('mail.from.address', 'sales@myremaps.com');
+        Config::set('mail.from.address', 'sales@remapdash.com');
     }
 }

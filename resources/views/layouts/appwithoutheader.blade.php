@@ -43,7 +43,7 @@
 		<p>Copyright © 2021 My Remaps. All Rights Reserved</p>
 		<ul class="social">
 		 <li><a href="https://www.facebook.com/remappingfileportal" target="_blank"><i class="fa fa-facebook-f"></i></a></li>
-		 <li><a href="mailto:sales@myremaps.com"><i class="fa fa-envelope"></i></a></li>
+		 <li><a href="mailto:sales@remapdash.com"><i class="fa fa-envelope"></i></a></li>
 		</ul>
 	</div>
 </footer>

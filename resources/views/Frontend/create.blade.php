@@ -168,7 +168,7 @@
 
                 </div>
             </div>
-			<p>If you need any help, please contact to <a class="custom-link" href="mailto:support@myremaps.com">support@myremaps.com</a></p>
+			<p>If you need any help, please contact to <a class="custom-link" href="mailto:support@remapdash.com">support@remapdash.com</a></p>
         </div>
     </div>
 
