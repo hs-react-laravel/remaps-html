@@ -58,8 +58,8 @@
                 <div class="item slide1">
                     <div class="row"><div class="container">
                         <div class="col-md-9 text-left">
-                            <h3 data-animation="animated bounceInDown" class="">High-quality chiptuning files</h3>
-                            <h4 data-animation="animated bounceInUp" class="">tested on our own dynamometer test bench</h4>
+                            <h3 data-animation="animated bounceInDown" class="">Your own full featured Remapping File Portal</h3>
+                            <h4 data-animation="animated bounceInUp" class="">All for one Low Monthly Price</h4>
                          </div>
                     </div></div>
                  </div>
@@ -67,8 +67,8 @@
                 <div class="item slide2">
                     <div class="row"><div class="container">
                         <div class="col-md-7 text-left">
-                            <h3 data-animation="animated bounceInDown" class="">Global specialist</h3>
-                            <h4 data-animation="animated bounceInUp" class="">a worldwide network of chiptuning specialists</h4>
+                            <h3 data-animation="animated bounceInDown" class="">No Hosting Fees to pay</h3>
+                            <h4 data-animation="animated bounceInUp" class="">Hosting, maintenance and support fees are Free!</h4>
                          </div>
                     </div></div>
                 </div>
@@ -76,8 +76,8 @@
                 <div class="item slide3 active">
                     <div class="row"><div class="container">
                         <div class="col-md-7 text-left">
-                            <h3 data-animation="animated bounceInDown" class="">The best software guarantee</h3>
-                            <h4 data-animation="animated bounceInUp" class="animated bounceInUp">we promise to consistently deliver high quality</h4>
+                            <h3 data-animation="animated bounceInDown" class="">Safe &amp; Secure with</h3>
+                            <h4 data-animation="animated bounceInUp" class="animated bounceInUp">SSL encryption as Standard</h4>
                          </div>
                     </div></div>
                 </div>
