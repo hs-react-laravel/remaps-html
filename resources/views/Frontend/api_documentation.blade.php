@@ -2,7 +2,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Welcome Myremap</title>
+        <title>Welcome Remapdash</title>
         <link rel="icon" href="images/favicon.png" type="image/x-icon">
         <link rel="stylesheet" href="customcss/front/bootstrap.min.css">
         <link rel="stylesheet" href="customcss/front/owl.carousel.min.css">
