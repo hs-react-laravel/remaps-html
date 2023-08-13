@@ -151,6 +151,12 @@
                                 <strong>Accepted parameters:</strong> 6 character colour hex code without preceding hash. EG: <span class="badge bg-light-subtle text-body border">ffffff</span>.
                             </div>
                         </div>
+                        <h5 style="color:white" class="mt-md-5 mb-4"><i class="fa-solid fa-code"></i>  Here's an example of your embed code with customised colours:</h5>
+                        <div class="card mb-2 p-3">
+                            <div class="card-body">
+                                <pre class="mb-0 text-danger-emphasis">&lt;script src="{{ route('api.snippet.js', ['id' => $apiUser->id, 'theme' => 'light', 'color' => 'CB5252']) }}"&gt;&lt;/script&gt;</pre>
+                            </div>
+                        </div>
                    </div>
                 </div>
             </div>

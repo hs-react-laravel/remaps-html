@@ -6,6 +6,7 @@ use App\Mail\BillingSubscriptionCancelled;
 use App\Mail\BillingSubscriptionCreated;
 use PayPal\Auth\OAuthTokenCredential;
 use App\Mail\BillingPaymentCompleted;
+use App\Mail\APIBillingPaymentCompleted;
 use App\Mail\BillingPaymentPending;
 use App\Mail\BillingPaymentDenied;
 use App\Http\Controllers\Controller;
@@ -291,7 +292,8 @@ class PaypalWebhookController extends Controller{
                     $subscriptionPayment->status = $resource['state'];
 
                     if($subscriptionPayment->save()){
-                        Mail::to($this->master->owner->email)->send(new BillingPaymentCompleted($apiSubscription));
+                        Mail::to($this->master->owner->email)->send(new APIBillingPaymentCompleted($apiSubscription));
+                        Mail::to($subscription->user->email)->send(new APIBillingPaymentCompleted($apiSubscription));
                     }
                     Log::info('PAYMENT.SALE.COMPLETED:: Payment sale completed.');
                 }
