@@ -76,8 +76,8 @@
                 <div class="item slide3 active">
                     <div class="row"><div class="container">
                         <div class="col-md-7 text-left">
-                            <h3 data-animation="animated bounceInDown" class="">Safe &amp; Secure with</h3>
-                            <h4 data-animation="animated bounceInUp" class="animated bounceInUp">SSL encryption as Standard</h4>
+                            <h3 data-animation="animated bounceInDown" class="">Simple and easy to use !</h3>
+                            <h4 data-animation="animated bounceInUp" class="animated bounceInUp">Makes your file service stress free and easy</h4>
                          </div>
                     </div></div>
                 </div>
