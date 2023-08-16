@@ -156,6 +156,19 @@
                                 <strong>Accepted parameters:</strong> 6 character colour hex code without preceding hash. EG: <span class="badge bg-light-subtle text-body border">ffffff</span>.
                             </div>
                         </div>
+                        <div class="card mb-4">
+                            <div class="card-header"><h5 class="mb-0">Padding</h5></div>
+                            <div class="card-body">
+                                <p>Padding pixels inside frame. Defaults to <span class="badge">10</span></p>
+                                <hr>
+                                <strong>URL variable:</strong> <span class="badge text-info bg-info-subtle border border-info">px</span><br>
+                                <strong>Accepted parameters:</strong> Number EG: <span class="badge bg-light-subtle text-body border">10</span>.
+                                <br/>
+                                <br/>
+                                <strong>URL variable:</strong> <span class="badge text-info bg-info-subtle border border-info">py</span><br>
+                                <strong>Accepted parameters:</strong> Number EG: <span class="badge bg-light-subtle text-body border">10</span>.
+                            </div>
+                        </div>
                         <h5 style="color:white" class="mt-md-5 mb-4"><i class="fa-solid fa-code"></i>  Here's an example of your embed code with customised colours:</h5>
                         <div class="card mb-2 p-3">
                             <div class="card-body">

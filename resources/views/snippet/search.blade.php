@@ -20,7 +20,7 @@
             }
         }
     </style>
-    <body data-bs-theme="{{ $theme }}" style="background: #{{ $background }}">
+    <body data-bs-theme="{{ $theme }}" style="background: #{{ $background }}; padding: {{ $py }}px {{ $px }}px">
         <div class="container-fluid py-2">
             <h5 style="color: #{{ $color }}">Search your vehicle</h5>
             <form action="{{ route('api.snippet.search.post') }}" method="post" id="frm">
@@ -29,6 +29,8 @@
                 <input type="hidden" name="theme" value="{{ $theme }}">
                 <input type="hidden" name="color" value="{{ $color }}">
                 <input type="hidden" name="btextcolor" value="{{ $btextcolor }}">
+                <input type="hidden" name="px" value="{{ $px }}">
+                <input type="hidden" name="py" value="{{ $py }}">
                 <div class="row">
                     <div class="col-md-4 search-control">
                         <select class="form-select" id="model" name="model">

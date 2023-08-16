@@ -352,8 +352,45 @@ class ApiController extends Controller
 
     public function snippet(Request $request) {
         $userid = $request->id;
+
+        $theme = 'dark';
+        if ($request->has('theme')) {
+            $theme = $request->get('theme');
+        }
+        $color = $theme == 'light' ? '212529' : 'ffffff';
+        if ($request->has('color')) {
+            $color = $request->get('color');
+        }
+        $btextcolor = $theme == 'dark' ? '212529' : 'ffffff';
+        if ($request->has('btextcolor')) {
+            $btextcolor = $request->get('btextcolor');
+        }
+        $background = '00000000';
+        if ($request->has('background')) {
+            $background = $request->get('background');
+        }
+        $px = 0;
+        if ($request->has('px')) {
+            $px = $request->get('px');
+        }
+        $py = 0;
+        if ($request->has('py')) {
+            $py = $request->get('py');
+        }
+
+        $snippetRoute = route('api.snippet.show', [
+            'id' => $userid,
+            'theme' => $theme,
+            'color' => $color,
+            'btextcolor' => $btextcolor,
+            'background' => $background,
+            'px' => $px,
+            'py' => $py
+        ]);
+
         return view('snippet.js')->with([
-            'uid' => $userid
+            'uid' => $userid,
+            'snippetRoute' => $snippetRoute
         ]);
     }
 
@@ -383,6 +420,14 @@ class ApiController extends Controller
         if ($request->has('background')) {
             $background = $request->get('background');
         }
+        $px = 10;
+        if ($request->has('px')) {
+            $px = $request->get('px');
+        }
+        $py = 10;
+        if ($request->has('py')) {
+            $py = $request->get('py');
+        }
 
         $userid = $request->id;
         $apiuser = ApiUser::find($userid);
@@ -403,7 +448,9 @@ class ApiController extends Controller
             'theme' => $theme,
             'color' => $color,
             'btextcolor' => $btextcolor,
-            'background' => $background
+            'background' => $background,
+            'px' => $px,
+            'py' => $py
         ]);
     }
 
@@ -427,6 +474,14 @@ class ApiController extends Controller
         if ($request->has('background')) {
             $background = $request->get('background');
         }
+        $px = 10;
+        if ($request->has('px')) {
+            $px = $request->get('px');
+        }
+        $py = 10;
+        if ($request->has('py')) {
+            $py = $request->get('py');
+        }
 
         $id = $request->id;
         $apiuser = ApiUser::find($id);
@@ -440,7 +495,7 @@ class ApiController extends Controller
             return redirect()->route('api.snippet.error');
         }
 
-        return view('snippet.search', compact('id', 'models', 'make', 'theme', 'color', 'btextcolor', 'background'));
+        return view('snippet.search', compact('id', 'models', 'make', 'theme', 'color', 'btextcolor', 'background', 'px', 'py'));
     }
 
     public function snippet_search_post(Request $request) {
@@ -479,6 +534,14 @@ class ApiController extends Controller
         if ($request->has('background')) {
             $background = $request->get('background');
         }
+        $px = 10;
+        if ($request->has('px')) {
+            $px = $request->get('px');
+        }
+        $py = 10;
+        if ($request->has('py')) {
+            $py = $request->get('py');
+        }
 
         try {
             $orgDomain = parse_url($apiuser->domain)['host'];
@@ -490,7 +553,7 @@ class ApiController extends Controller
             return redirect()->route('api.snippet.error');
         }
 
-        return view('snippet.searchresult', compact('id', 'car', 'logofile', 'body', 'theme', 'color', 'btextcolor', 'background'));
+        return view('snippet.searchresult', compact('id', 'car', 'logofile', 'body', 'theme', 'color', 'btextcolor', 'background', 'px', 'py'));
     }
 
     public function bug() {

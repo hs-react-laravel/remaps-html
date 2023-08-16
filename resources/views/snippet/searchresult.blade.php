@@ -48,7 +48,7 @@
             color: #ea5455!important;
         }
     </style>
-    <body data-bs-theme="{{ $theme }}" style="background: #{{ $background }}">
+    <body data-bs-theme="{{ $theme }}" style="background: #{{ $background }}; padding: {{ $py }}px {{ $px }}px">
         <div class="container-fluid py-2">
             <div class="row">
                 <div class="col-12">
@@ -222,8 +222,8 @@
                         </div>
                 </div>
               </div>
-              <a class="btn btn-dark btn-custom" href="{{ route('api.snippet.show', ['id' => $id, 'theme' => $theme, 'color' => $color, 'btextcolor' => $btextcolor, 'background' => $background]) }}">Back to Makes</a>
-              <a class="btn btn-dark btn-custom" href="{{ route('api.snippet.search', ['id' => $id,'brand' => $car->brand, 'theme' => $theme, 'color' => $color, 'btextcolor' => $btextcolor, 'background' => $background]) }}">Back to {{ $car->brand }}</a>
+              <a class="btn btn-dark btn-custom" href="{{ route('api.snippet.show', ['id' => $id, 'theme' => $theme, 'color' => $color, 'btextcolor' => $btextcolor, 'background' => $background, 'px' => $px, 'py' => $py]) }}">Back to Makes</a>
+              <a class="btn btn-dark btn-custom" href="{{ route('api.snippet.search', ['id' => $id,'brand' => $car->brand, 'theme' => $theme, 'color' => $color, 'btextcolor' => $btextcolor, 'background' => $background, 'px' => $px, 'py' => $py]) }}">Back to {{ $car->brand }}</a>
 		</div>
         <input type="hidden" name="std_bhp" id="std_bhp" value="{{ intval($car->std_bhp) }}">
         <input type="hidden" name="std_torque" id="std_torque" value="{{ intval($car->std_torque) }}">
