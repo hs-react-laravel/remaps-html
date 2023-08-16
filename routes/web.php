@@ -78,11 +78,13 @@ Route::group(['domain' => 'remapdash.com'], function () {
     Route::get('api-intro-confirm', [FrontendCompanyController::class, 'api_reg_confirm'])->name('frontend.api.register.confirm');
     Route::get('api-login', [FrontendCompanyController::class, 'api_login'])->name('frontend.api.login');
     Route::post('api-login', [FrontendCompanyController::class, 'api_login_post'])->name('frontend.api.login.post');
+    Route::get('api-logout', [FrontendCompanyController::class, 'api_logout'])->name('frontend.api.logout');
     Route::get('api-sub/{token}', [FrontendCompanyController::class, 'api_subscription'])->name('frontend.api.sub');
     Route::get('api/execute', [FrontendCompanyController::class, 'executeSubscription'])->name('frontend.subscription.execute');
     Route::get('api-dashboard', [FrontendCompanyController::class, 'api_dashboard'])->name('frontend.api.dashboard');
     Route::get('api-doc', [FrontendCompanyController::class, 'api_document'])->name('frontend.api.document');
     Route::get('api-tc', [FrontendCompanyController::class, 'api_tc'])->name('frontend.api.tc');
+    Route::post('api-save-template', [FrontendCompanyController::class, 'api_save_template'])->name('frontend.api.template.save');
 });
 
 Auth::routes();

@@ -456,6 +456,13 @@ class ApiController extends Controller
         $body = str_replace('##COMPANY_NAME', $company->name, $body);
         $body = str_replace('##CAR_MODEL', $car->title, $body);
 
+        $id = $request->id;
+        $apiuser = ApiUser::find($id);
+        if (!$apiuser->body_default) {
+            $body = $apiuser->body;
+            $body = str_replace('##CAR_MODEL', $car->title, $body);
+        }
+
         $theme = 'dark';
         if ($request->has('theme')) {
             $theme = $request->get('theme');
@@ -473,9 +480,6 @@ class ApiController extends Controller
             $background = $request->get('background');
         }
 
-        $id = $request->id;
-        $apiuser = ApiUser::find($id);
-
         try {
             $orgDomain = parse_url($apiuser->domain)['host'];
             $curDomain = parse_url($_SERVER['HTTP_REFERER'])['host'];
@@ -491,5 +495,11 @@ class ApiController extends Controller
 
     public function bug() {
         return view('snippet.bug');
+    }
+
+    public function getCarTextTemplate() {
+        $company = Company::where('is_default', 1)->first();
+        $template = \App\Models\EmailTemplate::where('company_id', $company->id)->where('label', 'car-data-text')->first(['subject', 'body']);
+        return $template->body;
     }
 }

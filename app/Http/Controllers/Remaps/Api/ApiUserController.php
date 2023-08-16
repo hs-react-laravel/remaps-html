@@ -42,6 +42,7 @@ class ApiUserController extends MasterController
     {
         $request->request->add([
             'api_token'=> Str::random(50),
+            'body_default' => 1,
             'password' => Hash::make($request->new_password)
         ]);
         $user = ApiUser::create($request->all());

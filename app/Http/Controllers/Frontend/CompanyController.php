@@ -174,13 +174,28 @@ class CompanyController extends Controller
         return redirect()->route('frontend.api.dashboard');
     }
 
+    public function api_logout(Request $request) {
+        session()->forget('api_token');
+        return redirect()->route('frontend.api.login');
+    }
+
     public function api_dashboard(Request $request) {
         $token = session('api_token');
         $apiUser = ApiUser::where('api_token', $token)->first();
+
         if (!$apiUser) {
             return redirect()->route('frontend.api.login');
         }
 
+        return view('Frontend.api_dashboard', compact('apiUser'));
+    }
+
+    public function api_save_template(Request $request) {
+        $apiUser = ApiUser::find($request->id);
+        $apiUser->update([
+            'body_default' => $request->body_default,
+            'body' => $request->body
+        ]);
         return view('Frontend.api_dashboard', compact('apiUser'));
     }
 
@@ -341,6 +356,7 @@ class CompanyController extends Controller
                     'phone' => $apiReg->phone,
                     'domain' => $apiReg->domain,
                     'api_token' => $apiReg->api_token,
+                    'body_default' => 1,
                 ]);
                 // Execute agreement
                 $subscription = new ApiSubscription();

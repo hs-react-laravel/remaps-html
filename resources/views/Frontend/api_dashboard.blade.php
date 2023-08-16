@@ -21,6 +21,7 @@
         <script src="customjs/front/jquery.contact.js"></script>
         <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
         <script src="https://kit.fontawesome.com/0daacdc723.js" crossorigin="anonymous"></script>
+        <script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
         <style type="text/css">
             .fancybox-margin{margin-right:17px;}
             .card {
@@ -108,6 +109,10 @@
                             </p>
                         @endif
 
+                        <p>
+                            <a href="{{ route('frontend.api.logout') }}" style="color: #D85E00">Log out</a>
+                        </p>
+
                         <h5 style="color:white" class="mt-md-5 mb-4"><i class="fa-solid fa-code"></i>  Embed code</h5>
                         <div class="card mb-2 p-3">
                             <div class="card-body">
@@ -157,6 +162,28 @@
                                 <pre class="mb-0 text-danger-emphasis">&lt;script src="{{ route('api.snippet.js', ['id' => $apiUser->id, 'theme' => 'light', 'color' => 'CB5252']) }}"&gt;&lt;/script&gt;</pre>
                             </div>
                         </div>
+                        <h5 style="color:white" class="mt-md-5 mb-4"><i class="fa-regular fa-file-lines"></i>  Text Customization</h5>
+                        <div class="card mb-4">
+                            <div class="card-header"><h5 class="mb-0">Information Text</h5></div>
+                            <div class="card-body">
+                                {!! Form::open(array('route' => ('frontend.api.template.save'), 'method' => 'POST')) !!}
+                                <div>
+                                    <input type="hidden" name="id" value="{{ $apiUser->id }}">
+                                    <input type="hidden" name="body_default" value="0" />
+                                    <input type="checkbox" id="chktc" name="body_default" value="1" @if($apiUser->body_default) checked @endif>
+                                    <label for="vehicle1">Use Vendor's default text</label>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer" onclick="onPasteTemplate()">Paste default template</a>
+                                </div>
+                                <textarea
+                                    class="form-control"
+                                    id="cked"
+                                    rows="20"
+                                    name="body"
+                                >{{ $apiUser->body }}</textarea>
+                                <button id="btnSubmit" class="btn btn-success view-btn" style="margin-top: 20px;" type="submit">Save</button>
+                                {!! Form::close() !!}
+                            </div>
+                        </div>
                    </div>
                 </div>
             </div>
@@ -203,9 +230,40 @@
     <script src="customjs/front/modernizr.js"></script>
     <script src="customjs/front/main.js"></script>
     <script>
-        $(function() {
+        $(window).on('load', function (){
             $('body').scrollTop(1);
         });
+    </script>
+
+    <script type="text/javascript">
+        $(window).on('load', function (){
+            CKEDITOR.replace('cked');
+            @if($apiUser->body_default)
+                CKEDITOR.config.readOnly = true;
+            @endif
+        });
+        function onPasteTemplate() {
+            if ($('#chktc').is(':checked')) {
+                return
+            }
+            $.ajax({
+                url: `/api/car-text-template`,
+                type: 'GET',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                },
+                success: function (data) {
+                    CKEDITOR.instances.cked.setData(data);
+                }
+            });
+        }
+        $('#chktc').change(function(){
+            if ($(this).is(':checked')) {
+                CKEDITOR.instances.cked.setReadOnly(true);
+            } else {
+                CKEDITOR.instances.cked.setReadOnly(false);
+            }
+        })
     </script>
     </body>
 </html>
