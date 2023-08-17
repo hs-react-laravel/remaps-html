@@ -35,7 +35,7 @@
                   <li><a href="#price">Price</a></li>
                   <li><a href="#about" class="">About</a></li>
                   <li><a href="/compare-prices">Companies</a></li>
-                  <li><a href="/api-intro">API</a></li>
+                  <li><a href="/api-intro">Data API</a></li>
                 </ul>
               </nav>
               <a href="#" class="nav-toggle">Menu<span></span></a>
