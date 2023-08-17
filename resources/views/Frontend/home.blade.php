@@ -244,7 +244,7 @@
             <div class="container">
              <div class="section-header">
                     <h2 class="wow fadeInDown animated">Price</h2>
-                    <p class="wow fadeInDown animated">MY REMAPS FILE SERVICE PORTAL</p>
+                    <p class="wow fadeInDown animated">TUNING PORTAL PRICES</p>
                 </div>
                  <div class="row col-md-10 col-md-offset-1">
                     @foreach($packages as $val)
@@ -263,7 +263,7 @@
         <div id="pricing5" data-section="pricing-5" class="data-section">
             <div class="container">
              <div class="section-header">
-                    <p class="wow fadeInDown animated">API</p>
+                    <p class="wow fadeInDown animated">Tuning Data API</p>
                 </div>
                  <div class="row col-md-6 col-md-offset-3">
                     <div class="table long-table text-center">
