@@ -24,7 +24,7 @@
 
     <body>
     <!-- header section -->
-    <section class="banner" role="banner" id="home" style="height: 108px;">
+    <section class="banner" role="banner" id="home" style="height: 142px;">
         <header id="header" class="fixed">
             <div class="header-content clearfix"> <a class="logo" href="/"><img src="customcss/front/images/logo.png" alt="logo"></a>
               <nav class="navigation" role="navigation">
