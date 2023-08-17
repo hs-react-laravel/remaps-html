@@ -105,7 +105,7 @@
 						  {!! Form::label('domain_prefix', 'Choose your preferred subdomain (yourname.remapdash.com)') !!}
 						  <div style="display: flex">
 						  {!! Form::text('domain_prefix', '', ['class' => 'form-control', 'id' => 'domain_prefix', 'placeholder'=>'Eg: yourname']) !!}
-						  {!! Form::text('domain_suffix', '.remapdash.com', ['class' => 'form-control', 'readonly' => 'true', 'style' => 'width: 200px;']) !!}
+						  {!! Form::text('domain_suffix', '.remapdash.com', ['class' => 'form-control', 'readonly' => 'true', 'style' => 'width: 150px;']) !!}
 						  </div>
 						</div>
 						@endif
