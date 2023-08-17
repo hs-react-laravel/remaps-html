@@ -253,7 +253,7 @@
                                 <h3 class="editContent">{{ $val['name'] }}</h3>
                                 <h2 class="editContent">£ {{ $val['amount'] }}</h2>
                                 {!! $val['description'] !!}
-                                <a href="/register-account?domain={{strpos($val['name'], 'own') !== false ? 'own' : 'regular'}};" class="btn btn-default-blue-tiny editContent">GET STARTED</a>
+                                <a href="/register-account?domain={{strpos($val['name'], 'own') !== false ? 'own' : 'regular'}}" class="btn btn-default-blue-tiny editContent">GET STARTED</a>
                             </div>
                         </div>
                     @endforeach

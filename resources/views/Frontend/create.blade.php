@@ -102,10 +102,10 @@
 
 						@if($_GET['domain'] == 'regular')
 						<div class="form-group">
-						  {!! Form::label('domain_prefix', 'Choose your preferred subdomain (yourname.myremaps.com)') !!}
-						  <div class="d-flex d-flex-custom">
+						  {!! Form::label('domain_prefix', 'Choose your preferred subdomain (yourname.remapdash.com)') !!}
+						  <div style="display: flex">
 						  {!! Form::text('domain_prefix', '', ['class' => 'form-control', 'id' => 'domain_prefix', 'placeholder'=>'Eg: yourname']) !!}
-						  {!! Form::text('domain_suffix', '.pbxphonesystems.co.uk', ['class' => 'form-control', 'readonly' => 'true']) !!}
+						  {!! Form::text('domain_suffix', '.remapdash.com', ['class' => 'form-control', 'readonly' => 'true', 'style' => 'width: 200px;']) !!}
 						  </div>
 						</div>
 						@endif
@@ -234,6 +234,9 @@
         $(function() {
             $('body').scrollTop(1);
         });
+        $('#domain_prefix').change(function (){
+            $('#v2_domain_link').val($(this).val() + ".remapdash.com");
+        })
     </script>
     </body>
 </html>
