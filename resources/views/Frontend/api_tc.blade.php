@@ -26,7 +26,7 @@
     <!-- header section -->
     <section class="banner" role="banner" id="home" style="height: 108px;">
         <header id="header" class="fixed">
-            <div class="header-content clearfix"> <a class="logo" href="/" style="font-family: daysone; font-size: 14px">
+            <div class="header-content clearfix"> <a class="logo" href="/" style="font-family: daysone; font-size: 28px; margin-top: -10px">
                 <span style="color: white;">REMAP</span><span style="color: BB6133;">DASH</span>
             </a>
               <nav class="navigation" role="navigation">
