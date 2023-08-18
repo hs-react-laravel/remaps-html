@@ -32,6 +32,11 @@
 	Slider Images URL
 -------------------------------------------------------------------------------*/
 
+@font-face {
+    font-family: daysone;
+    src: url('fonts/DaysOne-Regular.ttf')
+}
+
 #first-slider .slide1 {
     background-image: url('./images/slides/1.jpg');
     background-size: cover;
@@ -177,7 +182,7 @@ ul li {
 	text-decoration:none;
 	text-transform:uppercase;
 	letter-spacing: 0px;
-	margin-top: -10px;
+	/* margin-top: -10px; */
 }
 #header.fixed {
 	background-color: #222222;

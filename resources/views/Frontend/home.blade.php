@@ -26,10 +26,13 @@
     <!-- header section -->
     <section class="banner" role="banner" id="home">
         <header id="header" class="fixed">
-            <div class="header-content clearfix"> <a class="logo" href="/"><img src="customcss/front/images/logo.png" alt="logo"></a>
+            <div class="header-content clearfix">
+            <a class="logo" href="/" style="font-family: daysone; font-size: 14px">
+                <span style="color: white;">REMAP</span><span style="color: BB6133;">DASH</span>
+            </a>
               <nav class="navigation" role="navigation">
                 <ul class="primary-nav">
-                 <li><a href="#home" class="">Home</a></li>
+                  <li><a href="#home" class="">Home</a></li>
                   <li><a href="#howitworks" class="">How it works</a></li>
                   <li><a href="#features" class="">Features</a></li>
                   <li><a href="#price">Price</a></li>
