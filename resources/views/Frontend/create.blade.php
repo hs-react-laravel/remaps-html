@@ -140,10 +140,10 @@
 						  {!! Form::text('country', '', ['class' => 'form-control', 'placeholder'=>'Country']) !!}
 						</div>
 
-						<div class="form-group">
+						{{-- <div class="form-group">
 						  {!! Form::label('vat_number', 'VAT Number (optional)') !!}
 						  {!! Form::text('vat_number', '', ['class' => 'form-control', 'placeholder'=>'VAT Number']) !!}
-						</div>
+						</div> --}}
 
 						<div class="form-group">
 							@php /*
