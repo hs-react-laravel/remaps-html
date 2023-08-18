@@ -263,7 +263,7 @@
         <div id="pricing5" data-section="pricing-5" class="data-section">
             <div class="container">
              <div class="section-header">
-                    <p class="wow fadeInDown animated">Tuning Data API</p>
+                    <p class="wow fadeInDown animated">Data API</p>
                 </div>
                  <div class="row col-md-6 col-md-offset-3">
                     <div class="table long-table text-center">
