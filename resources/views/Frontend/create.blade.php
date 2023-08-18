@@ -236,6 +236,9 @@
         });
         $('#domain_prefix').change(function (){
             $('#v2_domain_link').val($(this).val() + ".remapdash.com");
+        });
+        $('#own_domain').change(function () {
+            $('#v2_domain_link').val($(this).val());
         })
     </script>
     </body>
