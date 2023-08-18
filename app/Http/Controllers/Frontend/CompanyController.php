@@ -150,7 +150,7 @@ class CompanyController extends Controller
             return redirect()->route('frontend.api.dashboard');
         }
 
-        return view('Frontend.api_intro');
+        return view('Frontend.api_reg');
     }
 
     public function api_login() {
@@ -201,6 +201,10 @@ class CompanyController extends Controller
 
     public function api_document(Request $request) {
         return view('Frontend.api_documentation');
+    }
+
+    public function api_desc() {
+        return view('Frontend.api_intro');
     }
 
     public function api_reg(Request $request) {
