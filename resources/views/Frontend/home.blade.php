@@ -33,7 +33,7 @@
               <nav class="navigation" role="navigation">
                 <ul class="primary-nav">
                   <li><a href="#home" class="">Home</a></li>
-                  <li><a href="#howitworks" class="">How it works</a></li>
+                  <li><a href="#howitworks" class="">TUNING PORTAL</a></li>
                   <li><a href="#features" class="">Features</a></li>
                   <li><a href="#price">Price</a></li>
                   <li><a href="#about" class="">About</a></li>
