@@ -29,6 +29,8 @@ class ApiInterfaceController extends MasterController
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         $result = curl_exec($ch);
 
+        dd($result);
+
         if (curl_errno($ch)) {
             echo 'Error:' . curl_error($ch);
         }
