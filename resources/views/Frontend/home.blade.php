@@ -265,17 +265,17 @@
         </div>
         <div id="pricing5" data-section="pricing-5" class="data-section">
             <div class="container">
-             <div class="section-header">
-                    <p class="wow fadeInDown animated">Data API</p>
+                <div class="section-header">
+                    <h2 class="wow fadeInDown animated">Data API</h2>
                 </div>
-                 <div class="row col-md-6 col-md-offset-3">
+                <div class="row col-md-6 col-md-offset-3">
                     <div class="table long-table text-center">
                         <h3 class="editContent">{{ $apiPackage->name }}</h3>
                         <h2 class="editContent">£ {{ $apiPackage->amount }}</h2>
                         {!! $apiPackage->description !!}
                         <a href="{{ route('frontend.api.intro') }}" class="btn btn-default-blue-tiny editContent">Register</a>
                     </div>
-                 </div>
+                </div>
             </div>
         </div>
     </section>
