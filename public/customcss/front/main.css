@@ -37,6 +37,12 @@
     src: url('fonts/DaysOne-Regular.ttf')
 }
 
+@media (min-width: 1200px) {
+    .container-form {
+        width: 750px;
+    }
+}
+
 #first-slider .slide1 {
     background-image: url('./images/slides/1.jpg');
     background-size: cover;

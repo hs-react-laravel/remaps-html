@@ -46,7 +46,7 @@
 
     </section>
 
-    <div class="container">
+    <div class="container container-form">
         <div class="register-col">
             <div class="box box-default">
 

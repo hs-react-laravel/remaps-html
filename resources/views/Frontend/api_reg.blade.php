@@ -21,7 +21,6 @@
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
     <script src="https://kit.fontawesome.com/0daacdc723.js" crossorigin="anonymous"></script>
     <style type="text/css">.fancybox-margin{margin-right:17px;}</style></head>
-
     <body>
     <!-- header section -->
     <section class="banner" role="banner" id="home" style="height: 142px;">
@@ -46,7 +45,7 @@
 
     </section>
 
-    <div class="container">
+    <div class="container container-form">
         <div class="register-col">
             <div class="box box-default">
 
@@ -124,6 +123,7 @@
                 </div>
             </div>
             <p>Already have an account? <a class="custom-link" href="{{ route('frontend.api.login') }}">Click Here</a></p>
+            <p>Looking for PORTAL registration? <a class="custom-link" href="{{ route('register-account.create', ['domain' => 'regular']) }}">Click Here</a></p>
 			<p>If you need any help, please contact to <a class="custom-link" href="mailto:support@remapdash.com">support@remapdash.com</a></p>
         </div>
     </div>
