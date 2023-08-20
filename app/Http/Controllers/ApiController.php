@@ -353,6 +353,12 @@ class ApiController extends Controller
     public function snippet(Request $request) {
         $userid = $request->id;
 
+        $apiuser = ApiUser::find($userid);
+
+        // if (!$apiuser->hasActiveSubscription()) {
+        //     return redirect()->route('api.snippet.error');
+        // }
+
         $theme = 'dark';
         if ($request->has('theme')) {
             $theme = $request->get('theme');
@@ -431,6 +437,9 @@ class ApiController extends Controller
 
         $userid = $request->id;
         $apiuser = ApiUser::find($userid);
+        if (!$apiuser->hasActiveSubscription()) {
+            return redirect()->route('api.snippet.error');
+        }
 
         try {
             $orgDomain = parse_url($apiuser->domain)['host'];
@@ -485,6 +494,10 @@ class ApiController extends Controller
 
         $id = $request->id;
         $apiuser = ApiUser::find($id);
+        if (!$apiuser->hasActiveSubscription()) {
+            return redirect()->route('api.snippet.error');
+        }
+
         try {
             $orgDomain = parse_url($apiuser->domain)['host'];
             $curDomain = parse_url($_SERVER['HTTP_REFERER'])['host'];
@@ -513,6 +526,10 @@ class ApiController extends Controller
 
         $id = $request->id;
         $apiuser = ApiUser::find($id);
+        if (!$apiuser->hasActiveSubscription()) {
+            return redirect()->route('api.snippet.error');
+        }
+
         if (!$apiuser->body_default) {
             $body = $apiuser->body;
             $body = str_replace('##CAR_MODEL', $car->title, $body);

@@ -10,7 +10,7 @@
 			<div class="alert alert-warning text-center">
 				<p class="mb-2 fs-2"><i class="bi bi-exclamation-triangle"></i></p>
 				<h4 class="text-warning">This website doesn’t have permission to use this application</h4>
-				<p class="mb-0"><span class="badge text-bg-warning">Couldn’t authorise referring domain: </span></p>
+				<p class="mb-0"><span class="badge text-bg-warning">Couldn’t authorise referring domain</span></p>
 			</div>
 		</div>
     </body>
