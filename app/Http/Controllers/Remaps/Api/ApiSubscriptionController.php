@@ -42,7 +42,7 @@ class ApiSubscriptionController extends MasterController
         }catch(\Exception $e){
             session()->flash('error', $e->getMessage());
         }
-        return redirect(route('shop.subscription.index'));
+        return redirect(route('api.subscription.index'));
     }
 
     private function curlCancelSubscription($id) {
@@ -117,7 +117,7 @@ class ApiSubscriptionController extends MasterController
         }catch(\Exception $e){
             // \Alert::error($e->getMessage())->flash();
         }
-        return redirect(route('shop.subscription.index'));
+        return redirect(route('api.subscription.index'));
     }
 
     public function reactiveSubscription($id){
@@ -155,7 +155,7 @@ class ApiSubscriptionController extends MasterController
         }catch(\Exception $e){
             // \Alert::error($e->getMessage())->flash();
         }
-        return redirect(route('shop.subscription.index'));
+        return redirect(route('api.subscription.index'));
     }
 
     public function getAccessToken() {
