@@ -21,6 +21,7 @@
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
     <script src="https://kit.fontawesome.com/0daacdc723.js" crossorigin="anonymous"></script>
     <style type="text/css">.fancybox-margin{margin-right:17px;}</style></head>
+
     <body>
     <!-- header section -->
     <section class="banner" role="banner" id="home" style="height: 142px;">
@@ -78,52 +79,19 @@
 				@endif
 
                 <div class="box-body">
-                    <h4 class="wow fadeInDown animated" style="color: #fec400">Tuning Data API</h4>
-					{!! Form::open(array('route' => ('frontend.api.register'), 'method' => 'POST', 'autocomplete' => "off")) !!}
-
-						<div class="form-group">
-						    {!! Form::label('first_name', 'First Name') !!}
-						    {!! Form::text('first_name', '', ['class' => 'form-control', 'placeholder'=>'First Name']) !!}
-						</div>
-
-						<div class="form-group">
-                            {!! Form::label('last_name', 'Last Name') !!}
-                            {!! Form::text('last_name', '', ['class' => 'form-control', 'placeholder'=>'Last Name']) !!}
-                        </div>
-
+                    <h4 class="wow fadeInDown animated" style="color: #fec400">Forgot Password</h4>
+					{!! Form::open(array('route' => ('frontend.api.forgot.post'), 'method' => 'POST', 'autocomplete' => "off")) !!}
                         <div class="form-group">
                             {!! Form::label('email', 'Email') !!}
                             {!! Form::text('email', '', ['class' => 'form-control', 'placeholder'=>'Email']) !!}
                         </div>
-
-                        <div class="form-group">
-                            {!! Form::label('new_password', 'Password') !!}
-                            {!! Form::password('new_password', ['class' => 'form-control', 'placeholder'=>'Password']) !!}
-                        </div>
-
-                        <div class="form-group">
-                            {!! Form::label('phone', 'Phone') !!}
-                            {!! Form::text('phone', '', ['class' => 'form-control', 'placeholder'=>'Phone']) !!}
-                        </div>
-
-                        <div class="form-group">
-                            {!! Form::label('domain', 'Domain') !!}
-                            {!! Form::text('domain', '', ['class' => 'form-control', 'placeholder'=>'https://abc.com']) !!}
-                        </div>
-
 						<div class="form-group">
 							<div id="error"></div>
 						</div>
-						<button id="btnSubmit" class="btn btn-success view-btn" type="submit">Submit</button>
-
-
+						<button id="btnSubmit" class="btn btn-success view-btn" type="submit">Send Reset Link</button>
 					{!! Form::close() !!}
-
-
                 </div>
             </div>
-            <p>Already have an account? <a class="custom-link" href="{{ route('frontend.api.login') }}">Click Here</a></p>
-            <p>Looking for PORTAL registration? <a class="custom-link" href="{{ route('register-account.create', ['domain' => 'regular']) }}">Click Here</a></p>
 			<p>If you need any help, please contact to <a class="custom-link" href="mailto:support@remapdash.com">support@remapdash.com</a></p>
         </div>
     </div>

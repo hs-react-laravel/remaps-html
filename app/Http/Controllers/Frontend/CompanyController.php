@@ -163,6 +163,14 @@ class CompanyController extends Controller
         return view('Frontend.api_login');
     }
 
+    public function api_forgot() {
+        return view('Frontend.api_forgot');
+    }
+
+    public function api_forgot_post(Request $request) {
+        // dd($request);
+    }
+
     public function api_login_post(Request $request) {
         $apiUser = Apiuser::where('email', $request->email)->first();
         if (!$apiUser || !Hash::check($request->new_password, $apiUser->password)) {

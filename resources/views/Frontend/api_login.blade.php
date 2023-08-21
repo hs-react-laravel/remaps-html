@@ -79,7 +79,7 @@
 				@endif
 
                 <div class="box-body">
-                   <a  class="btn btn-primary my-4" href="/">Back</a>
+                    <h4 class="wow fadeInDown animated" style="color: #fec400">Login to API User Dashboard</h4>
 					{!! Form::open(array('route' => ('frontend.api.login.post'), 'method' => 'POST', 'autocomplete' => "off")) !!}
                         <div class="form-group">
                             {!! Form::label('email', 'Email') !!}
@@ -92,6 +92,7 @@
 						<div class="form-group">
 							<div id="error"></div>
 						</div>
+                        <p><a class="custom-link" href="{{ route('frontend.api.forgot') }}">Forgot password?</a></p>
 						<button id="btnSubmit" class="btn btn-success view-btn" type="submit">Sign in</button>
 					{!! Form::close() !!}
                 </div>
