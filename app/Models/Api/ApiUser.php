@@ -25,15 +25,6 @@ class ApiUser extends Model
         if($subscription) {
             if(strtolower($subscription->status) == strtolower('Active')) {
                 return TRUE;
-            } else if (strtolower($subscription->status) == strtolower('Suspended') || strtolower($subscription->status) == strtolower('Cancelled')) {
-                $subscriptionPayment = $subscription->subscriptionPayments()->orderBy('id', 'DESC')->first();
-                if(isset($subscriptionPayment) && isset($subscriptionPayment->next_billing_date)) {
-                    if(!\Carbon\Carbon::parse($subscriptionPayment->next_billing_date)->isPast()) {
-                        return FALSE;
-                    }
-                } else {
-                    return FALSE;
-                }
             } else {
                 return FALSE;
             }
