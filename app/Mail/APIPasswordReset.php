@@ -2,7 +2,7 @@
 
 namespace App\Mail;
 
-use App\Models\User;
+use App\Models\Api\ApiUser;
 use App\Models\EmailTemplate;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -16,7 +16,7 @@ class APIPasswordReset extends Mailable
     /**
      * The user instance.
      *
-     * @var User
+     * @var ApiUser
      */
 
     public $user;
@@ -34,7 +34,7 @@ class APIPasswordReset extends Mailable
      *
      * @return void
      */
-    public function __construct(User $user, $token)
+    public function __construct(ApiUser $user, $token)
     {
         $this->user = $user;
         $this->token = $token;
