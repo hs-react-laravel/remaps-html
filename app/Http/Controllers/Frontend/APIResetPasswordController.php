@@ -30,10 +30,10 @@ class APIResetPasswordController extends Controller
      *
      * @return mix
      */
-    public function showResetForm(Request $request, $token = null)
+    public function showResetForm(Request $request)
     {
         return view('Frontend.api_forgot_reset')->with(
-            ['token' => $token, 'email' => $request->email]
+            ['token' => $request->token, 'email' => $request->email]
         );
     }
 }

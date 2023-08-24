@@ -55,7 +55,7 @@ class APIPasswordReset extends Mailable
             $body = $emailTemplate->body;
 
             $body = str_replace('##APP_LOGO', asset('storage/uploads/logo/'. $company->logo), $body);
-            $body = str_replace('##LINK', 'https://remapdash.com/api-password-reset/'.$this->token.'?email='.$this->user->email, $body);
+            $body = str_replace('##LINK', 'https://remapdash.com/api-password-reset?token='.$this->token.'&email='.$this->user->email, $body);
             $body = str_replace('##USER_NAME', $this->user->full_name, $body);
 
             $this->subject($subject)

@@ -85,7 +85,7 @@ Route::group(['domain' => 'remapdash.com'], function () {
 
     Route::get('api-password-forgot', [APIForgotPasswordController::class, 'showLinkRequestForm'])->name('frontend.api.forgot');
     Route::post('api-password-email', [APIForgotPasswordController::class, 'sendResetLinkEmail'])->name('frontend.api.password.email');
-    Route::get('api-password-reset/{token}', [APIResetPasswordController::class, 'showResetForm'])->name('frontend.api.reset.form');
+    Route::get('api-password-reset', [APIResetPasswordController::class, 'showResetForm'])->name('frontend.api.reset.form');
     Route::post('api-password-reset', [APIResetPasswordController::class, 'reset'])->name('frontend.api.forgot.reset');
 
     Route::get('api-logout', [FrontendCompanyController::class, 'api_logout'])->name('frontend.api.logout');
