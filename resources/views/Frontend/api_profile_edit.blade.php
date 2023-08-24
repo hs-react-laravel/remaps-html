@@ -83,22 +83,22 @@
 					{!! Form::open(array('route' => ('frontend.api.profile.save'), 'method' => 'POST', 'autocomplete' => "off")) !!}
                         <div class="form-group">
                             {!! Form::label('first_name', 'First Name') !!}
-                            {!! Form::text('first_name', '', ['class' => 'form-control', 'placeholder'=>'First Name']) !!}
+                            {!! Form::text('first_name', '', ['class' => 'form-control', 'placeholder' => 'First Name', 'value' => $user->first_name]) !!}
                         </div>
 
                         <div class="form-group">
                             {!! Form::label('last_name', 'Last Name') !!}
-                            {!! Form::text('last_name', '', ['class' => 'form-control', 'placeholder'=>'Last Name']) !!}
+                            {!! Form::text('last_name', '', ['class' => 'form-control', 'placeholder' => 'Last Name']) !!}
                         </div>
 
                         <div class="form-group">
                             {!! Form::label('phone', 'Phone') !!}
-                            {!! Form::text('phone', '', ['class' => 'form-control', 'placeholder'=>'Phone']) !!}
+                            {!! Form::text('phone', '', ['class' => 'form-control', 'placeholder' => 'Phone']) !!}
                         </div>
 
                         <div class="form-group">
                             {!! Form::label('company', 'Company') !!}
-                            {!! Form::text('company', '', ['class' => 'form-control', 'placeholder'=>'Company']) !!}
+                            {!! Form::text('company', '', ['class' => 'form-control', 'placeholder' => 'Company']) !!}
                         </div>
 
                         <div class="form-group">

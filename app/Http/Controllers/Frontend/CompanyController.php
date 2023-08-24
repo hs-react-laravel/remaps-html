@@ -282,7 +282,11 @@ class CompanyController extends Controller
     }
 
     public function api_edit_profile() {
-
+        $token = session('api_token');
+        $apiUser = ApiUser::where('api_token', $token)->first();
+        return view('Frontend.api_profile_edit')->with([
+            'user' => $apiUser
+        ]);
     }
 
     public function api_edit_profile_save(Request $request) {
