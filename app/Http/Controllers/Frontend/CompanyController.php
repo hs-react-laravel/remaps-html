@@ -211,7 +211,6 @@ class CompanyController extends Controller
         }
 
         $body = $apiUser->body;
-
         if (!$body) {
             $company = Company::where('is_default', 1)->first();
             $template = \App\Models\EmailTemplate::where('company_id', $company->id)->where('label', 'car-data-text')->first(['subject', 'body']);
@@ -227,6 +226,13 @@ class CompanyController extends Controller
             'body_default' => $request->body_default,
             'body' => $request->body
         ]);
+
+        $body = $apiUser->body;
+        if (!$body) {
+            $company = Company::where('is_default', 1)->first();
+            $template = \App\Models\EmailTemplate::where('company_id', $company->id)->where('label', 'car-data-text')->first(['subject', 'body']);
+            $body = $template->body;
+        }
         return view('Frontend.api_dashboard', compact('apiUser'));
     }
 

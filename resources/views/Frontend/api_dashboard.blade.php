@@ -186,7 +186,7 @@
                             <div class="card-header"><h5 class="mb-0">Information Text</h5></div>
                             <div class="card-body">
                                 {!! Form::open(array('route' => ('frontend.api.template.save'), 'method' => 'POST')) !!}
-                                <div>
+                                <div style="margin-bottom: 10px">
                                     <input type="hidden" name="id" value="{{ $apiUser->id }}">
                                     <a style="cursor: pointer" onclick="onPasteTemplate()">Paste default template</a>
                                 </div>
