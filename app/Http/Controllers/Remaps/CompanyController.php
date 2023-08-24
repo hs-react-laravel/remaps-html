@@ -563,7 +563,7 @@ class CompanyController extends MasterController
 
     public function setCompanyMailSender() {
         Config::set('mail.default', 'smtp');
-        Config::set('mail.mailers.smtp.host', 'mail.myremaps.com');
+        Config::set('mail.mailers.smtp.host', 'mail.remapdash.com');
         Config::set('mail.mailers.smtp.port', 25);
         Config::set('mail.mailers.smtp.encryption', '');
         Config::set('mail.mailers.smtp.username', 'sales@remapdash.com');
