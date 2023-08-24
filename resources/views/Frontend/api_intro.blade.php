@@ -98,7 +98,7 @@
                         For more experienced developers, use our option JSON API and call the data directly
                         into your own custom built configurator.  Instructions supplied.<br/>
 
-                        <h5 style="color: #fec400">All for a single £49 per month subscription, cancel anytime.</h5>
+                        <h5 style="color: #fec400">All for a single £{{ $price }} per month subscription, cancel anytime.</h5>
                    </p>
                    <div class="banner-slider-outer">
                         <div class="container">

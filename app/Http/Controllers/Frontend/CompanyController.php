@@ -243,10 +243,12 @@ class CompanyController extends Controller
     public function api_desc() {
         $token = session('api_token');
         $apiUser = ApiUser::where('api_token', $token)->first();
+        $package = ApiPackage::first();
+        $price = $package->amount;
         if ($apiUser) {
             return redirect()->route('frontend.api.dashboard');
         }
-        return view('Frontend.api_intro');
+        return view('Frontend.api_intro')->with(compact('price'));
     }
 
     public function api_reg(Request $request) {
