@@ -210,7 +210,15 @@ class CompanyController extends Controller
             return redirect()->route('frontend.api.login');
         }
 
-        return view('Frontend.api_dashboard', compact('apiUser'));
+        $body = $apiUser->body;
+
+        if (!$body) {
+            $company = Company::where('is_default', 1)->first();
+            $template = \App\Models\EmailTemplate::where('company_id', $company->id)->where('label', 'car-data-text')->first(['subject', 'body']);
+            $body = $template->body;
+        }
+
+        return view('Frontend.api_dashboard', compact('apiUser', 'body'));
     }
 
     public function api_save_template(Request $request) {

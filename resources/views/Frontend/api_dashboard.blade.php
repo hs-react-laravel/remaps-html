@@ -188,14 +188,14 @@
                                 {!! Form::open(array('route' => ('frontend.api.template.save'), 'method' => 'POST')) !!}
                                 <div>
                                     <input type="hidden" name="id" value="{{ $apiUser->id }}">
-                                    &nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer" onclick="onPasteTemplate()">Paste default template</a>
+                                    <a style="cursor: pointer" onclick="onPasteTemplate()">Paste default template</a>
                                 </div>
                                 <textarea
                                     class="form-control"
                                     id="cked"
                                     rows="20"
                                     name="body"
-                                >{{ $apiUser->body }}</textarea>
+                                >{{ $body }}</textarea>
                                 <button id="btnSubmit" class="btn btn-success view-btn" style="margin-top: 20px;" type="submit">Save</button>
                                 {!! Form::close() !!}
                             </div>
