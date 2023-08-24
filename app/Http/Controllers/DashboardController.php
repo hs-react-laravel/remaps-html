@@ -105,6 +105,7 @@ class DashboardController extends MasterController
                 }
             }
         }
+        return redirect()->route('dashboard.admin');
     }
     public function dashboardStaff()
     {

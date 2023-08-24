@@ -37,7 +37,8 @@ return [
         'shoporder-dispatched'=>'Shop order is dispatched',
         'shoporder-delivered'=>'Shop order is delivered',
         'car-data-text' => 'Car Data Description',
-        'api-welcome-email' => 'API Customer welcome email'
+        'api-welcome-email' => 'API Customer welcome email',
+        'api-reset-email' => 'Reset api user password'
     ],
 
     'currency_sign'=>'£',

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use View;
 
-class ResetPasswordController extends Controller
+class APIResetPasswordController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -29,7 +29,7 @@ class ResetPasswordController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/api-dashboard';
     protected $company;
 
     /**
@@ -39,11 +39,9 @@ class ResetPasswordController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest:admin');
-        $this->company = \App\Models\Company::where('v2_domain_link', url(''))->first();
-        if(!$this->company){
-            abort(400, 'No such domain('.url("").') is registerd with system. Please contact to webmaster.');
-        }
+        $this->middleware('guest:apiusers');
+        $this->company = \App\Models\Company::where('is_default', 1)->first();
+
         view()->share('company', $this->company);
     }
 
@@ -54,7 +52,7 @@ class ResetPasswordController extends Controller
      */
     public function guard()
     {
-        return Auth::guard('admin');
+        return Auth::guard('apiusers');
     }
 
     /**
@@ -64,7 +62,7 @@ class ResetPasswordController extends Controller
      */
     public function showResetForm(Request $request, $token = null)
     {
-        return view('auth.admin.reset')->with(
+        return view('Frontend.api_forgot_reset')->with(
             ['token' => $token, 'email' => $request->email]
         );
     }
@@ -75,6 +73,6 @@ class ResetPasswordController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function broker() {
-        return Password::broker('admins');
+        return Password::broker('apiusers');
     }
 }

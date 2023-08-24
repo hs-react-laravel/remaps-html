@@ -48,6 +48,7 @@ use App\Http\Controllers\Remaps\Api\ApiInterfaceController;
 use App\Http\Controllers\Remaps\Api\ApiUserController;
 use App\Http\Controllers\Remaps\Api\ApiSubscriptionController;
 use App\Http\Controllers\Frontend\APIForgotPasswordController;
+use App\Http\Controllers\Frontend\APIResetPasswordController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -82,10 +83,10 @@ Route::group(['domain' => 'remapdash.com'], function () {
     Route::get('api-login', [FrontendCompanyController::class, 'api_login'])->name('frontend.api.login');
     Route::post('api-login', [FrontendCompanyController::class, 'api_login_post'])->name('frontend.api.login.post');
 
-    Route::get('api-password-reset', [APIForgotPasswordController::class, 'showLinkRequestForm'])->name('frontend.api.forgot');
-    // Route::post('api-password-reset', '\App\Http\Controllers\Auth\Admin\ResetPasswordController@reset')->name('frontend.api.forgot.reset');
-    // Route::get('api-password-reset/{token}', '\App\Http\Controllers\Auth\Admin\ResetPasswordController@showResetForm')->name('admin.auth.password.reset.form');
+    Route::get('api-password-forgot', [APIForgotPasswordController::class, 'showLinkRequestForm'])->name('frontend.api.forgot');
     Route::post('api-password-email', [APIForgotPasswordController::class, 'sendResetLinkEmail'])->name('frontend.api.password.email');
+    Route::get('api-password-reset/{token}', [APIResetPasswordController::class, 'showResetForm'])->name('admin.auth.password.reset.form');
+    Route::post('api-password-reset', [APIResetPasswordController::class, 'reset'])->name('frontend.api.forgot.reset');
 
     Route::get('api-logout', [FrontendCompanyController::class, 'api_logout'])->name('frontend.api.logout');
 

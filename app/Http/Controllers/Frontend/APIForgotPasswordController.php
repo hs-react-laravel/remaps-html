@@ -10,6 +10,11 @@ use Illuminate\Http\Request;
 use View;
 use Log;
 use App\Models\Api\ApiUser;
+use Illuminate\Support\Str;
+use DB;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\APIPasswordReset;
 
 class APIForgotPasswordController extends Controller
 {
@@ -23,8 +28,6 @@ class APIForgotPasswordController extends Controller
     | your application to your users. Feel free to explore this trait.
     |
     */
-
-    use SendsPasswordResetEmails;
 
     protected $company;
 
@@ -66,31 +69,24 @@ class APIForgotPasswordController extends Controller
     public function sendResetLinkEmail(Request $request)
     {
 
-        $this->validate($request, ['email' => 'required|email']);
+        $this->validate($request, ['email' => 'required|email|exists:api_users']);
 
-        $user_check = ApiUser::where('email', $request->email)->first();
+        $token = Str::random(64);
 
-        $response = $this->broker()->sendResetLink(
-                    $request->only('email')
-                );
+        DB::table('password_resets')->insert([
+            'email' => $request->email,
+            'token' => $token,
+            'created_at' => Carbon::now()
+        ]);
 
-        if ($response === Password::RESET_LINK_SENT) {
-            return back()->with(['status'=>'success', 'message'=>trans($response)]);
+        $user = ApiUser::where('email', $request->email)->first();
+
+        try{
+            Mail::to($user->email)->send(new APIPasswordReset($user, $token));
+        }catch(\Exception $e) {
+            return back()->with('error', $e->getMessage());
         }
 
-        return back()->withErrors(
-            ['email' => trans($response)]
-        );
-    }
-
-
-    /**
-     * Reset password broker.
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
-     */
-    public function broker() {
-
-        return Password::broker('apiusers');
+        return back()->with('success', 'We have e-mailed your password reset link!');
     }
 }
