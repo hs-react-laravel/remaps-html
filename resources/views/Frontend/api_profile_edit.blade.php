@@ -109,12 +109,10 @@
 						<div class="form-group">
 							<div id="error"></div>
 						</div>
-                        <p><a class="custom-link" href="{{ route('frontend.api.forgot') }}">Forgot password?</a></p>
-						<button id="btnSubmit" class="btn btn-success view-btn" type="submit">Sign in</button>
+						<button id="btnSubmit" class="btn btn-success view-btn" type="submit">Update</button>
 					{!! Form::close() !!}
                 </div>
             </div>
-            <p>New on our API? <a class="custom-link" href="{{ route('frontend.api.reg') }}">Create an account</a></p>
 			<p>If you need any help, please contact to <a class="custom-link" href="mailto:support@remapdash.com">support@remapdash.com</a></p>
         </div>
     </div>
