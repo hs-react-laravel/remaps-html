@@ -88,7 +88,6 @@
 
                 <div class="box-body">
                    <h4 class="wow fadeInDown animated" style="color: #fec400">Tuning Data API</h4>
-                   <h5 style="color: #fec400">All for a single £49 per month subscription, cancel anytime.</h5>
                    <p>
                         This API gives you the ability to display before and after Stage 1 and 2
                         expected gains on your website.<br/>
@@ -99,7 +98,7 @@
                         For more experienced developers, use our option JSON API and call the data directly
                         into your own custom built configurator.  Instructions supplied.<br/>
 
-                        All for a single £49 per month subscription, cancel anytime.
+                        <h5 style="color: #fec400">All for a single £49 per month subscription, cancel anytime.</h5>
                    </p>
                    <div class="banner-slider-outer">
                         <div class="container">
