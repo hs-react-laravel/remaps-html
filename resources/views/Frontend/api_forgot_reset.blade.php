@@ -79,11 +79,17 @@
 				@endif
 
                 <div class="box-body">
-                    <h4 class="wow fadeInDown animated" style="color: #fec400">Forgot Password</h4>
-					{!! Form::open(array('route' => ('frontend.api.password.email'), 'method' => 'POST', 'autocomplete' => "off")) !!}
+                    <h4 class="wow fadeInDown animated" style="color: #fec400">Reset Your Password</h4>
+					{!! Form::open(array('route' => ('frontend.api.forgot.reset'), 'method' => 'POST', 'autocomplete' => "off")) !!}
+                        <input type="hidden" name="email" value="{{ $email }}">
+                        <input type="hidden" name="token" value="{{ $token }}">
                         <div class="form-group">
-                            {!! Form::label('email', 'Email') !!}
-                            {!! Form::text('email', '', ['class' => 'form-control', 'placeholder'=>'Email']) !!}
+                            {!! Form::label('password', 'Password') !!}
+                            {!! Form::text('password', '', ['class' => 'form-control', 'placeholder'=>'Password']) !!}
+                        </div>
+                        <div class="form-group">
+                            {!! Form::label('password_confirmation', 'Password Confirmation') !!}
+                            {!! Form::text('password_confirmation', '', ['class' => 'form-control', 'placeholder'=>'Password Confirmation']) !!}
                         </div>
 						<div class="form-group">
 							<div id="error"></div>
