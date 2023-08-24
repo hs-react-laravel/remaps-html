@@ -290,7 +290,10 @@ class CompanyController extends Controller
     }
 
     public function api_edit_profile_save(Request $request) {
-
+        $token = session('api_token');
+        $apiUser = ApiUser::where('api_token', $token)->first();
+        $apiUser->update($request->all());
+        return redirect()->route('frontend.api.dashboard');
     }
 
     public function curlSubscription($package, $apiUser, $accessToken) {
