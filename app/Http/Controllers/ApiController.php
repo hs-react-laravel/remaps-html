@@ -519,21 +519,20 @@ class ApiController extends Controller
 
         $company = Company::where('is_default', 1)->first();
 
-        $template = EmailTemplate::where('company_id', $company->id)->where('label', 'car-data-text')->first(['subject', 'body']);
-        $body = $template->body;
-        $body = str_replace('##COMPANY_NAME', $company->name, $body);
-        $body = str_replace('##CAR_MODEL', $car->title, $body);
-
         $id = $request->id;
         $apiuser = ApiUser::find($id);
+
         if (!$apiuser->hasActiveSubscription()) {
             return redirect()->route('api.snippet.error');
         }
 
-        if (!$apiuser->body_default) {
-            $body = $apiuser->body;
-            $body = str_replace('##CAR_MODEL', $car->title, $body);
+        $body = $apiuser->body;
+        if (!$body) {
+            $template = EmailTemplate::where('company_id', $company->id)->where('label', 'car-data-text')->first(['subject', 'body']);
+            $body = $template->body;
         }
+        $body = str_replace('##COMPANY_NAME', $apiuser->company, $body);
+        $body = str_replace('##CAR_MODEL', $car->title, $body);
 
         $theme = 'dark';
         if ($request->has('theme')) {
