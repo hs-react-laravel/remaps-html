@@ -188,9 +188,6 @@
                                 {!! Form::open(array('route' => ('frontend.api.template.save'), 'method' => 'POST')) !!}
                                 <div>
                                     <input type="hidden" name="id" value="{{ $apiUser->id }}">
-                                    <input type="hidden" name="body_default" value="0" />
-                                    <input type="checkbox" id="chktc" name="body_default" value="1" @if($apiUser->body_default) checked @endif>
-                                    <label for="vehicle1">Use Vendor's default text</label>
                                     &nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer" onclick="onPasteTemplate()">Paste default template</a>
                                 </div>
                                 <textarea
