@@ -94,7 +94,7 @@
 						<div class="form-group">
 							<div id="error"></div>
 						</div>
-						<button id="btnSubmit" class="btn btn-success view-btn" type="submit">Send Reset Link</button>
+						<button id="btnSubmit" class="btn btn-success view-btn" type="submit">Reset Password</button>
 					{!! Form::close() !!}
                 </div>
             </div>
