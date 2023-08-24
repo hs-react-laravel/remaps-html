@@ -9,5 +9,5 @@ class ApiUserReg extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['first_name', 'last_name', 'email', 'password', 'phone', 'domain', 'api_token'];
+    protected $fillable = ['first_name', 'last_name', 'email', 'password', 'phone', 'company', 'domain', 'api_token'];
 }

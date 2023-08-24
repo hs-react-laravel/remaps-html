@@ -163,14 +163,6 @@ class CompanyController extends Controller
         return view('Frontend.api_login');
     }
 
-    public function api_forgot() {
-        return view('Frontend.api_forgot');
-    }
-
-    public function api_forgot_post(Request $request) {
-        // dd($request);
-    }
-
     public function api_login_post(Request $request) {
         $apiUser = Apiuser::where('email', $request->email)->first();
         if (!$apiUser || !Hash::check($request->new_password, $apiUser->password)) {
@@ -212,24 +204,33 @@ class CompanyController extends Controller
     }
 
     public function api_desc() {
+        $token = session('api_token');
+        $apiUser = ApiUser::where('api_token', $token)->first();
+        if ($apiUser) {
+            return redirect()->route('frontend.api.dashboard');
+        }
         return view('Frontend.api_intro');
     }
 
     public function api_reg(Request $request) {
-        $exist = ApiUser::where('email', $request->email)->first();
-        if ($exist) {
-            session()->flash('error', 'Email already exists.');
-            return redirect()->route('frontend.api.intro');
-        }
+        $validated = $request->validate([
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'email' => 'required|unique:api_users',
+            'password' => 'required|min:6',
+            'password_confirmation' => 'required|required_with:password|min:6|same:password',
+            'phone' => 'required|max:255',
+            'company' => 'required|max:255',
+            'domain' => 'required|max:255',
+        ]);
 
         $token = Str::random(50);
         $request->request->add([
             'api_token'=> $token,
-            'password' => Hash::make($request->new_password)
+            'password' => Hash::make($request->password)
         ]);
         $user = ApiUserReg::create($request->all());
         return redirect()->route('frontend.api.register.confirm', ['token' => $token]);
-        // return redirect()->route('frontend.api.sub', ['token' => $token]);
     }
 
     public function api_reg_confirm(Request $request) {
@@ -366,6 +367,7 @@ class CompanyController extends Controller
                     'email' => $apiReg->email,
                     'password' => $apiReg->password,
                     'phone' => $apiReg->phone,
+                    'company' => $apiReg->company,
                     'domain' => $apiReg->domain,
                     'api_token' => $apiReg->api_token,
                     'body_default' => 1,

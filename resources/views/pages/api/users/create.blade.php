@@ -50,6 +50,12 @@
             </div>
             <div class="row mb-1">
                 <div class="col-xl-4 col-md-6 col-12">
+                  <label class="form-label" for="company">Company</label>
+                  <input type="text" class="form-control" id="company" name="company" />
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-xl-4 col-md-6 col-12">
                   <label class="form-label" for="domain">Domain</label>
                   <input type="text" class="form-control" id="domain" name="domain" />
                 </div>

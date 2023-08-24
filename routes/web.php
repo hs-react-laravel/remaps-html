@@ -47,6 +47,7 @@ use App\Http\Controllers\Consumer\CustomerChatController;
 use App\Http\Controllers\Remaps\Api\ApiInterfaceController;
 use App\Http\Controllers\Remaps\Api\ApiUserController;
 use App\Http\Controllers\Remaps\Api\ApiSubscriptionController;
+use App\Http\Controllers\Frontend\APIForgotPasswordController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -77,16 +78,25 @@ Route::group(['domain' => 'remapdash.com'], function () {
     Route::post('api-reg-post', [FrontendCompanyController::class, 'api_reg'])->name('frontend.api.register');
     Route::get('api-reg', [FrontendCompanyController::class, 'api_intro'])->name('frontend.api.reg');
     Route::get('api-intro-confirm', [FrontendCompanyController::class, 'api_reg_confirm'])->name('frontend.api.register.confirm');
+
     Route::get('api-login', [FrontendCompanyController::class, 'api_login'])->name('frontend.api.login');
     Route::post('api-login', [FrontendCompanyController::class, 'api_login_post'])->name('frontend.api.login.post');
-    Route::get('api-forgot', [FrontendCompanyController::class, 'api_forgot'])->name('frontend.api.forgot');
-    Route::post('api-forgot', [FrontendCompanyController::class, 'api_forgot_post'])->name('frontend.api.forgot.post');
+
+    Route::get('api-password-reset', [APIForgotPasswordController::class, 'showLinkRequestForm'])->name('frontend.api.forgot');
+    // Route::post('api-password-reset', '\App\Http\Controllers\Auth\Admin\ResetPasswordController@reset')->name('frontend.api.forgot.reset');
+    // Route::get('api-password-reset/{token}', '\App\Http\Controllers\Auth\Admin\ResetPasswordController@showResetForm')->name('admin.auth.password.reset.form');
+    Route::post('api-password-email', [APIForgotPasswordController::class, 'sendResetLinkEmail'])->name('frontend.api.password.email');
+
     Route::get('api-logout', [FrontendCompanyController::class, 'api_logout'])->name('frontend.api.logout');
+
     Route::get('api-sub/{token}', [FrontendCompanyController::class, 'api_subscription'])->name('frontend.api.sub');
     Route::get('api/execute', [FrontendCompanyController::class, 'executeSubscription'])->name('frontend.subscription.execute');
+
     Route::get('api-dashboard', [FrontendCompanyController::class, 'api_dashboard'])->name('frontend.api.dashboard');
+
     Route::get('api-doc', [FrontendCompanyController::class, 'api_document'])->name('frontend.api.document');
     Route::get('api-tc', [FrontendCompanyController::class, 'api_tc'])->name('frontend.api.tc');
+
     Route::post('api-save-template', [FrontendCompanyController::class, 'api_save_template'])->name('frontend.api.template.save');
 });
 

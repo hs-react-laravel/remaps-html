@@ -80,7 +80,7 @@
 
                 <div class="box-body">
                     <h4 class="wow fadeInDown animated" style="color: #fec400">Forgot Password</h4>
-					{!! Form::open(array('route' => ('frontend.api.forgot.post'), 'method' => 'POST', 'autocomplete' => "off")) !!}
+					{!! Form::open(array('route' => ('frontend.api.password.email'), 'method' => 'POST', 'autocomplete' => "off")) !!}
                         <div class="form-group">
                             {!! Form::label('email', 'Email') !!}
                             {!! Form::text('email', '', ['class' => 'form-control', 'placeholder'=>'Email']) !!}

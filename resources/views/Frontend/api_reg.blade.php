@@ -97,13 +97,23 @@
                         </div>
 
                         <div class="form-group">
-                            {!! Form::label('new_password', 'Password') !!}
-                            {!! Form::password('new_password', ['class' => 'form-control', 'placeholder'=>'Password']) !!}
+                            {!! Form::label('password', 'Password') !!}
+                            {!! Form::password('password', ['class' => 'form-control', 'placeholder'=>'Password']) !!}
+                        </div>
+
+                        <div class="form-group">
+                            {!! Form::label('password_confirmation', 'Password Confirmation') !!}
+                            {!! Form::password('password_confirmation', ['class' => 'form-control', 'placeholder'=>'Password Confirmation']) !!}
                         </div>
 
                         <div class="form-group">
                             {!! Form::label('phone', 'Phone') !!}
                             {!! Form::text('phone', '', ['class' => 'form-control', 'placeholder'=>'Phone']) !!}
+                        </div>
+
+                        <div class="form-group">
+                            {!! Form::label('company', 'Company') !!}
+                            {!! Form::text('company', '', ['class' => 'form-control', 'placeholder'=>'Company']) !!}
                         </div>
 
                         <div class="form-group">

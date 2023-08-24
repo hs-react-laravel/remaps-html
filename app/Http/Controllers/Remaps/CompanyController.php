@@ -478,6 +478,7 @@ class CompanyController extends MasterController
 			try{
             	Mail::to($companyUser->email)->send((new CompanyActivateEmail($companyUser, $token)));
 			}catch(\Exception $e){
+                dd($e);
                 session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
 			}
 		}

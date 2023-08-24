@@ -66,6 +66,11 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+
+        'apiusers' => [
+            'driver' => 'session',
+            'provider' => 'apiusers',
+        ]
     ],
 
     /*
@@ -110,6 +115,11 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
+
+        'apiusers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Api\ApiUser::class,
+        ]
     ],
 
     /*
@@ -157,7 +167,13 @@ return [
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
-        ]
+        ],
+        'apiusers' => [
+            'provider' => 'apiusers',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
     ],
 
     /*
