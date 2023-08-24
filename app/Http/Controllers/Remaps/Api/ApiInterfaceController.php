@@ -34,8 +34,6 @@ class ApiInterfaceController extends MasterController
         }
         curl_close($ch);
 
-        dd($result);
-
         $plan_obj = json_decode($result);
 
         $price = $plan_obj ? $plan_obj->payment_preferences->setup_fee->value : 0;
