@@ -233,7 +233,7 @@ class CompanyController extends Controller
             $template = \App\Models\EmailTemplate::where('company_id', $company->id)->where('label', 'car-data-text')->first(['subject', 'body']);
             $body = $template->body;
         }
-        return view('Frontend.api_dashboard', compact('apiUser'));
+        return view('Frontend.api_dashboard', compact('apiUser', 'body'));
     }
 
     public function api_document(Request $request) {
