@@ -99,6 +99,9 @@ Route::group(['domain' => 'remapdash.com'], function () {
     Route::get('api-tc', [FrontendCompanyController::class, 'api_tc'])->name('frontend.api.tc');
 
     Route::post('api-save-template', [FrontendCompanyController::class, 'api_save_template'])->name('frontend.api.template.save');
+
+    Route::get('api-profile-edit', [FrontendCompanyController::class, 'api_edit_profile'])->name('frontend.api.profile');
+    Route::post('api-profile-edit', [FrontendCompanyController::class, 'api_edit_profile_save'])->name('frontend.api.profile.save');
 });
 
 Auth::routes();

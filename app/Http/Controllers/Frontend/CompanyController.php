@@ -281,6 +281,14 @@ class CompanyController extends Controller
         }
     }
 
+    public function api_edit_profile() {
+
+    }
+
+    public function api_edit_profile_save(Request $request) {
+
+    }
+
     public function curlSubscription($package, $apiUser, $accessToken) {
         $startDate = '';
 

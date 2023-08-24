@@ -112,6 +112,10 @@
                         @endif
 
                         <p>
+                            <a href="{{ route('frontend.api.profile') }}" style="color: #fec400">Edit Profile</a>
+                        </p>
+
+                        <p>
                             <a href="{{ route('frontend.api.logout') }}" style="color: #D85E00">Log out</a>
                         </p>
 
