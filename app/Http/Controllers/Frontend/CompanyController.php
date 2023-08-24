@@ -107,31 +107,54 @@ class CompanyController extends Controller
 			 $companyUser->is_active = 0;
 			 $companyUser->save();
 
-			 $emailTemplates = \App\Models\EmailTemplate::where('company_id', 1)->whereIn('label', ['customer-welcome-email', 'new-file-service-created-email', 'file-service-opened-email', 'file-service-modified-email', 'file-service-processed-email','new-ticket-created','new-file-ticket-created','reply-to-your-ticket'])->get();
-				 if($emailTemplates->count() > 0){
-					 foreach($emailTemplates as $emailTemplate){
-						 $userTemplate = $emailTemplate->replicate();
-						 $userTemplate->company_id = $company->id;
-						 $userTemplate->save();
-					 }
-				 }
-				$mainCompany = Company::where('id', '1')->first()->toArray();
+			 $emailTemplates = \App\Models\EmailTemplate::where('company_id', 1)->whereIn('label', [
+                'customer-welcome-email',
+                'file-service-opened-email',
+                'new-file-service-created-email',
+                'file-service-modified-email',
+                'file-service-processed-email',
+                'new-subscription-email',
+                'subscription-cancelled',
+                'payment-completed',
+                'payment-denied',
+                'payment-pending',
+                'new-ticket-created',
+                'new-file-ticket-created',
+                'reply-to-your-ticket',
+                'customer-activate-email',
+                'new-company-apply',
+                'file-service-upload-limited',
+                'staff-job-assigned',
+                'new-notification',
+                'shoporder-processed',
+                'shoporder-dispatched',
+                'shoporder-delivered',
+                'car-data-text'
+            ])->get();
+            if($emailTemplates->count() > 0){
+                foreach($emailTemplates as $emailTemplate){
+                    $userTemplate = $emailTemplate->replicate();
+                    $userTemplate->company_id = $company->id;
+                    $userTemplate->save();
+                }
+            }
+            $mainCompany = Company::where('id', '1')->first()->toArray();
 
-                Config::set('mail.default', 'smtp');
-                Config::set('mail.mailers.smtp.host', 'mail.remapdash.com');
-                Config::set('mail.mailers.smtp.port', 25);
-                Config::set('mail.mailers.smtp.encryption', '');
-                Config::set('mail.mailers.smtp.username', 'no-reply@remapdash.com');
-                Config::set('mail.mailers.smtp.password', '5Cp38@gj2');
-                Config::set('mail.from.address', $mainCompany['mail_username']);
-                Config::set('mail.from.name', $mainCompany['name']);
-                Config::set('app.name', $mainCompany['name']);
+            Config::set('mail.default', 'smtp');
+            Config::set('mail.mailers.smtp.host', 'mail.remapdash.com');
+            Config::set('mail.mailers.smtp.port', 25);
+            Config::set('mail.mailers.smtp.encryption', '');
+            Config::set('mail.mailers.smtp.username', 'no-reply@remapdash.com');
+            Config::set('mail.mailers.smtp.password', '5Cp38@gj2');
+            Config::set('mail.from.address', $mainCompany['mail_username']);
+            Config::set('mail.from.name', $mainCompany['name']);
+            Config::set('app.name', $mainCompany['name']);
 
-			 	try{
-					Mail::to($mainCompany['main_email_address'])->send(new NewCompanyApply($companyUser,$mainCompany));
-				}catch(\Exception $e){
-				}
-			 	return redirect()->route('thankyou')->with('Regististration received, Please wait for your application to be processed');
+            try{
+                Mail::to($mainCompany['main_email_address'])->send(new NewCompanyApply($companyUser,$mainCompany));
+            }catch(\Exception $e){
+            }
+            return redirect()->route('thankyou')->with('Regististration received, Please wait for your application to be processed');
 		}else{
 			return redirect()->back()->with('error', 'Unknown error occurred');
 		}

@@ -69,6 +69,43 @@ class DashboardController extends MasterController
             return view('pages.dashboard.admin', compact('data'));
         }
     }
+    public function dashboardAdminReset()
+    {
+        $user = $this->user;
+        if ($user->is_admin) {
+            $emailTemplates = \App\Models\EmailTemplate::where('company_id', 1)->whereIn('label', [
+                'customer-welcome-email',
+                'file-service-opened-email',
+                'new-file-service-created-email',
+                'file-service-modified-email',
+                'file-service-processed-email',
+                'new-subscription-email',
+                'subscription-cancelled',
+                'payment-completed',
+                'payment-denied',
+                'payment-pending',
+                'new-ticket-created',
+                'new-file-ticket-created',
+                'reply-to-your-ticket',
+                'customer-activate-email',
+                'new-company-apply',
+                'file-service-upload-limited',
+                'staff-job-assigned',
+                'new-notification',
+                'shoporder-processed',
+                'shoporder-dispatched',
+                'shoporder-delivered',
+                'car-data-text'
+            ])->get();
+            if($emailTemplates->count() > 0){
+                foreach($emailTemplates as $emailTemplate){
+                    $userTemplate = $emailTemplate->replicate();
+                    $userTemplate->company_id = $user->company->id;
+                    $userTemplate->save();
+                }
+            }
+        }
+    }
     public function dashboardStaff()
     {
         $user = $this->user;
