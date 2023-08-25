@@ -455,7 +455,7 @@ class ApiController extends Controller
                 }
                 $dm = $curDomain;
             } else {
-                if ($dm != $orgDomai) {
+                if ($dm != $orgDomain) {
                     return redirect()->route('api.snippet.error');
                 }
             }
