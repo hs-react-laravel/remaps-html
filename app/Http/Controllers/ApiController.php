@@ -499,12 +499,11 @@ class ApiController extends Controller
         }
 
         try {
-            $orgDomain = parse_url($apiuser->domain)['host'];
-            $curDomain = parse_url($_SERVER['HTTP_REFERER'])['host'];
-            dd($orgDomain, $curDomain);
-            if ($orgDomain != $curDomain) {
-                return redirect()->route('api.snippet.error');
-            }
+            // $orgDomain = parse_url($apiuser->domain)['host'];
+            // $curDomain = parse_url($_SERVER['HTTP_REFERER'])['host'];
+            // if ($orgDomain != $curDomain) {
+            //     return redirect()->route('api.snippet.error');
+            // }
         } catch (\Exception $ex){
             return redirect()->route('api.snippet.error');
         }
