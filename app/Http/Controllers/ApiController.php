@@ -469,7 +469,7 @@ class ApiController extends Controller
             'background' => $background,
             'px' => $px,
             'py' => $py,
-            'dm' => $curDomain
+            'dm' => $dm
         ]);
     }
 
