@@ -46,7 +46,7 @@
             <h5 style="color: #{{ $color }}">Please select the make of your car below.</h5>
             <div class="row">
                 @foreach($brands as $brand)
-                <div class="brand-item col-sm-4 col-md-2 col-xl-1">
+                <div class="brand-item col-sm-3 col-md-2 col-xl-1">
                     <a href="{{ route('api.snippet.search', ['id' => $id,'brand' => $brand['brand'], 'theme' => $theme, 'color' => $color, 'btextcolor' => $btextcolor, 'background' => $background, 'px' => $px, 'py' => $py, 'dm' => $dm]) }}" class="brand-link">
                         <img class="brand-img" src="{{ $brand['logo'] }}">
                     </a>
