@@ -20,7 +20,7 @@
             }
         }
     </style>
-    <body data-bs-theme="{{ $theme }}" style="background: #{{ $background }}; padding: {{ $py }}px {{ $px }}px">
+    <body data-bs-theme="{{ $theme }}" style="@if($background) background: #{{ $background }}; @endif padding: {{ $py }}px {{ $px }}px">
         <div class="container-fluid py-2">
             <h5 style="color: #{{ $color }}">Search your vehicle</h5>
             <form action="{{ route('api.snippet.search.post') }}" method="post" id="frm">

@@ -48,7 +48,7 @@
             color: #ea5455!important;
         }
     </style>
-    <body data-bs-theme="{{ $theme }}" style="background: #{{ $background }}; padding: {{ $py }}px {{ $px }}px">
+    <body data-bs-theme="{{ $theme }}" style="@if($background) background: #{{ $background }}; @endif padding: {{ $py }}px {{ $px }}px">
         <div class="container-fluid py-2">
             <div class="row">
                 <div class="col-12">
