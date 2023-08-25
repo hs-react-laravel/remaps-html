@@ -124,8 +124,8 @@
             return string.charAt(0).toUpperCase() + string.slice(1);
         }
         function onSubmit() {
-            var parentDomain = document.location.ancestorOrigins[0];
-            $('#domain').val(parentDomain);
+            // var parentDomain = document.location.ancestorOrigins[0];
+            // $('#domain').val(parentDomain);
             $('#frm').submit();
         }
     </script>
