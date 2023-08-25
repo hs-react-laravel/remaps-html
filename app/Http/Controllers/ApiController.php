@@ -444,7 +444,6 @@ class ApiController extends Controller
         try {
             $orgDomain = parse_url($apiuser->domain)['host'];
             $curDomain = parse_url($_SERVER['HTTP_REFERER'])['host'];
-            dd($orgDomain, $curDomain);
             if ($orgDomain != $curDomain) {
                 return redirect()->route('api.snippet.error');
             }
