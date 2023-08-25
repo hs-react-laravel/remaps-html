@@ -371,7 +371,7 @@ class ApiController extends Controller
         if ($request->has('btextcolor')) {
             $btextcolor = $request->get('btextcolor');
         }
-        $background = '00000000';
+        $background = '';
         if ($request->has('background')) {
             $background = $request->get('background');
         }
@@ -422,7 +422,7 @@ class ApiController extends Controller
         if ($request->has('btextcolor')) {
             $btextcolor = $request->get('btextcolor');
         }
-        $background = '00000000';
+        $background = '';
         if ($request->has('background')) {
             $background = $request->get('background');
         }

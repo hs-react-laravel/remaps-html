@@ -41,7 +41,7 @@
         }
     </style>
 
-    <body data-bs-theme="{{ $theme }}" style="background: #{{ $background }}; padding: {{ $py }}px {{ $px }}px">
+    <body data-bs-theme="{{ $theme }}" style="@if($background) background: #{{ $background }}; @endif padding: {{ $py }}px {{ $px }}px">
         <div class="container-fluid py-2">
             <h5 style="color: #{{ $color }}">Please select the make of your car below.</h5>
             <div class="row">
