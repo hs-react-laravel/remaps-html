@@ -459,7 +459,8 @@ class ApiController extends Controller
             'btextcolor' => $btextcolor,
             'background' => $background,
             'px' => $px,
-            'py' => $py
+            'py' => $py,
+            'domain' => $curDomain
         ]);
     }
 
@@ -499,7 +500,11 @@ class ApiController extends Controller
         }
 
         try {
-            // $orgDomain = parse_url($apiuser->domain)['host'];
+            $orgDomain = parse_url($apiuser->domain)['host'];
+            if (!$request->has('dm') || $request->get('dm') != $orgDomain) {
+                return redirect()->route('api.snippet.error');
+            }
+            //
             // $curDomain = parse_url($_SERVER['HTTP_REFERER'])['host'];
             // if ($orgDomain != $curDomain) {
             //     return redirect()->route('api.snippet.error');
