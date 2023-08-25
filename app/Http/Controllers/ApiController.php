@@ -453,8 +453,11 @@ class ApiController extends Controller
                 if ($orgDomain != $curDomain) {
                     return redirect()->route('api.snippet.error');
                 }
-            } else if ($dm != $orgDomain){
-                return redirect()->route('api.snippet.error');
+                $dm = $curDomain;
+            } else {
+                if ($dm != $orgDomai) {
+                    return redirect()->route('api.snippet.error');
+                }
             }
         } catch (\Exception $ex){
             return redirect()->route('api.snippet.error');
