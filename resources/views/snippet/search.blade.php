@@ -31,6 +31,7 @@
                 <input type="hidden" name="btextcolor" value="{{ $btextcolor }}">
                 <input type="hidden" name="px" value="{{ $px }}">
                 <input type="hidden" name="py" value="{{ $py }}">
+                <input type="hidden" name="dm" value="{{ $dm }}">
                 <div class="row">
                     <div class="col-md-4 search-control">
                         <select class="form-select" id="model" name="model">

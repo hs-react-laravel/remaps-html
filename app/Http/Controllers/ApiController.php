@@ -460,7 +460,7 @@ class ApiController extends Controller
             'background' => $background,
             'px' => $px,
             'py' => $py,
-            'domain' => $curDomain
+            'dm' => $curDomain
         ]);
     }
 
@@ -499,21 +499,19 @@ class ApiController extends Controller
             return redirect()->route('api.snippet.error');
         }
 
+        $dm = '';
+
         try {
             $orgDomain = parse_url($apiuser->domain)['host'];
             if (!$request->has('dm') || $request->get('dm') != $orgDomain) {
                 return redirect()->route('api.snippet.error');
             }
-            //
-            // $curDomain = parse_url($_SERVER['HTTP_REFERER'])['host'];
-            // if ($orgDomain != $curDomain) {
-            //     return redirect()->route('api.snippet.error');
-            // }
+            $dm = $request->get('dm');
         } catch (\Exception $ex){
             return redirect()->route('api.snippet.error');
         }
 
-        return view('snippet.search', compact('id', 'models', 'make', 'theme', 'color', 'btextcolor', 'background', 'px', 'py'));
+        return view('snippet.search', compact('id', 'models', 'make', 'theme', 'color', 'btextcolor', 'background', 'px', 'py', 'dm'));
     }
 
     public function snippet_search_post(Request $request) {
@@ -564,17 +562,18 @@ class ApiController extends Controller
             $py = $request->get('py');
         }
 
+        $dm = '';
         try {
             $orgDomain = parse_url($apiuser->domain)['host'];
-            $curDomain = parse_url($_SERVER['HTTP_REFERER'])['host'];
-            if ($orgDomain != $curDomain) {
+            if (!$request->has('dm') || $request->get('dm') != $orgDomain) {
                 return redirect()->route('api.snippet.error');
             }
+            $dm = $request->get('dm');
         } catch (\Exception $ex){
             return redirect()->route('api.snippet.error');
         }
 
-        return view('snippet.searchresult', compact('id', 'car', 'logofile', 'body', 'theme', 'color', 'btextcolor', 'background', 'px', 'py'));
+        return view('snippet.searchresult', compact('id', 'car', 'logofile', 'body', 'theme', 'color', 'btextcolor', 'background', 'px', 'py' ,'dm'));
     }
 
     public function bug() {
