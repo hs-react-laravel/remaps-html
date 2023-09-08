@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\ChatEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 use App\Helpers\Helper;
 use App\Models\TuningType;
@@ -438,6 +439,7 @@ class ApiController extends Controller
         $userid = $request->id;
         $apiuser = ApiUser::find($userid);
         if (!$apiuser->hasActiveSubscription()) {
+            Log::info('out of active subscription '.$userid);
             return redirect()->route('api.snippet.error');
         }
 
@@ -460,6 +462,7 @@ class ApiController extends Controller
                 }
             }
         } catch (\Exception $ex){
+            Log::info($ex->getMessage());
             return redirect()->route('api.snippet.error');
         }
 
