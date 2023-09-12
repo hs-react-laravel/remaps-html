@@ -585,7 +585,7 @@ class ApiController extends Controller
         try {
             $orgDomain = parse_url($apiuser->domain)['host'];
             $wwwDomain = 'www.'.$orgDomain;
-            if (!$request->has('dm') || $request->get('dm') != $orgDomain || $request->get('dm') != $wwwDomain) {
+            if (!$request->has('dm') || $request->get('dm') != $orgDomain && $request->get('dm') != $wwwDomain) {
                 return redirect()->route('api.snippet.error');
             }
             $dm = $request->get('dm');
