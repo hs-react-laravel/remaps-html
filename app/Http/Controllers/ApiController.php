@@ -453,11 +453,13 @@ class ApiController extends Controller
             if (!$dm) {
                 $curDomain = parse_url($_SERVER['HTTP_REFERER'])['host'];
                 if ($orgDomain != $curDomain) {
+                    Log::info('$orgDomain != $curDomain '.$orgDomain.' : '.$curDomain);
                     return redirect()->route('api.snippet.error');
                 }
                 $dm = $curDomain;
             } else {
                 if ($dm != $orgDomain) {
+                    Log::info('$dm != $curDomain '.$dm.' : '.$curDomain);
                     return redirect()->route('api.snippet.error');
                 }
             }
