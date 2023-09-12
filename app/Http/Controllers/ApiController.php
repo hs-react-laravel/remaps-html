@@ -450,7 +450,7 @@ class ApiController extends Controller
 
         try {
             $orgDomain = parse_url($apiuser->domain)['host'];
-            $wwwDomain = 'www'.$orgDomain;
+            $wwwDomain = 'www.'.$orgDomain;
             if (!$dm) {
                 $curDomain = parse_url($_SERVER['HTTP_REFERER'])['host'];
                 if ($orgDomain != $curDomain && $wwwDomain != $curDomain) {
