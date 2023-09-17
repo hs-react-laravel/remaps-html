@@ -153,7 +153,7 @@ class FileServiceController extends MasterController
             $daymark_to = substr($day, 0, 3).'_to';
 
             $day_close = substr($day, 0, 3).'_close';
-            if ($company->$day_close) return 2;
+            if ($company->$day_close) return ($company->notify_check == 0 ? 1 : 2);
 
             $today_start = date('Y-m-d ').$company->$daymark_from.':00';
             $today_end = date('Y-m-d ').$company->$daymark_to.':00';
