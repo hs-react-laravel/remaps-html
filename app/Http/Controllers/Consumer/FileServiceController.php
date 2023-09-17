@@ -152,6 +152,9 @@ class FileServiceController extends MasterController
             $daymark_from = substr($day, 0, 3).'_from';
             $daymark_to = substr($day, 0, 3).'_to';
 
+            $day_close = substr($day, 0, 3).'_close';
+            if (!$company->$day_close) return 2;
+
             $today_start = date('Y-m-d ').$company->$daymark_from.':00';
             $today_end = date('Y-m-d ').$company->$daymark_to.':00';
             $utc_from = Carbon::parse(new \DateTime($today_start, new \DateTimeZone($tz->name)))->tz('UTC')->format('Hi');
