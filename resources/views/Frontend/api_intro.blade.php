@@ -124,7 +124,7 @@
                 </div>
             </div>
             <p>Ready to buy? <a class="btn btn-success view-btn" style="margin-left: 20px;" href="{{ route('frontend.api.reg') }}">Register Now</a></p>
-            <p>Already have an account? <a class="custom-link" href="{{ route('frontend.api.login') }}">Click Here</a></p>
+            <p>Already have an account? <a class="btn btn-success view-btn" style="margin-left: 20px;" href="{{ route('frontend.api.login') }}">Click Here</a></p>
 			<p>If you need any help, please contact to <a class="custom-link" href="mailto:support@remapdash.com">support@remapdash.com</a></p>
         </div>
     </div>
