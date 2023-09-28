@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="{{ asset(mix('css/base/pages/app-chat-list.css')) }}">
   <style>
       .chat-content {
-          max-width: 700px;
+          max-width: 700px !important;
           word-wrap: break-word;
       }
   </style>
