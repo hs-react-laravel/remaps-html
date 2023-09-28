@@ -49,6 +49,16 @@
           <a class="btn btn-icon btn-secondary" onclick="onDeleteClosed()">
             Delete Closed Tickets
           </a>
+          {{-- <div class="btn-group">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+              Close Old TIckets
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="{{ route('tickets.close.days', ["days" => 30]) }}">30 Days</a>
+              <a class="dropdown-item" href="{{ route('tickets.close.days', ["days" => 60]) }}">60 Days</a>
+              <a class="dropdown-item" href="{{ route('tickets.close.days', ["days" => 90]) }}">90 Days</a>
+            </div>
+          </div> --}}
         </div>
       </div>
       <div class="table-responsive m-1 mt-0">
@@ -134,7 +144,7 @@
     var dt_ajax = dt_ajax_table.DataTable({
       processing: true,
       serverSide: true,
-      dom: '<"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-end align-items-baseline"<"dt-action-buttons text-end ms-1">>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+      dom: '<"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-end align-items-baseline"f<"dt-action-buttons text-end ms-1">>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       buttons: [
         {
           extend: 'collection',

@@ -7,6 +7,12 @@
   <!-- Page css files -->
   <link rel="stylesheet" href="{{ asset(mix('css/base/pages/app-chat.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('css/base/pages/app-chat-list.css')) }}">
+  <style>
+      .chat-content {
+          max-width: 700px;
+          word-wrap: break-word;
+      }
+  </style>
 @endsection
 
 @section('content-sidebar')

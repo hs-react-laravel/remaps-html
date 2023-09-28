@@ -146,6 +146,7 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::get('ticket/dc', [TicketController::class, 'delete_closed'])->name('tickets.delete.closed');
     Route::post('tickets/api', [TicketController::class, 'getTickets'])->name('tickets.api');
     Route::post('tickets/api/upload/ticket', [TicketController::class, 'uploadTicketFile'])->name('tickets.api.upload');
+    Route::get('tickets/{days}/closeold', [TicketController::class, 'close_old_tickets'])->name('tickets.close.days');
 
     Route::resource('transactions', TransactionController::class);
     Route::resource('email-templates', EmailTemplateController::class);

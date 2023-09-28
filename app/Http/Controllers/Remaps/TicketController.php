@@ -177,6 +177,11 @@ class TicketController extends MasterController
         return redirect(route('tickets.index'));
     }
 
+    public function close_old_tickets($days)
+    {
+
+    }
+
     public function read_all()
     {
         $user = $this->user;
