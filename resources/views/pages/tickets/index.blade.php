@@ -49,7 +49,7 @@
           <a class="btn btn-icon btn-secondary" onclick="onDeleteClosed()">
             Delete Closed Tickets
           </a>
-          {{-- <div class="btn-group">
+          <div class="btn-group">
             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
               Close Old TIckets
             </button>
@@ -58,7 +58,7 @@
               <a class="dropdown-item" href="{{ route('tickets.close.days', ["days" => 60]) }}">60 Days</a>
               <a class="dropdown-item" href="{{ route('tickets.close.days', ["days" => 90]) }}">90 Days</a>
             </div>
-          </div> --}}
+          </div>
         </div>
       </div>
       <div class="table-responsive m-1 mt-0">

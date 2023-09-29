@@ -9,6 +9,7 @@ use App\Models\Ticket;
 use App\Models\FileService;
 use App\Models\User;
 use App\Mail\TicketFileCreated;
+use Carbon\Carbon;
 
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\File;
@@ -179,7 +180,11 @@ class TicketController extends MasterController
 
     public function close_old_tickets($days)
     {
-
+        Ticket::where('created_at', '<=', Carbon::now()->subDays($days)->toDateTimeString())
+            ->update([
+                'is_closed' => 1
+            ]);
+        return redirect(route('tickets.index'));
     }
 
     public function read_all()
