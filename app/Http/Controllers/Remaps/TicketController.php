@@ -235,6 +235,16 @@ class TicketController extends MasterController
             $query = $query->where('is_closed', 0);
         }
 
+        if ($searchValue) {
+            $tids = $this->company->tickets()->where('parent_chat_id', '0')
+                    ->where('message', 'like', '%'.$searchValue.'%')->pluck('id')->toArray();
+            $ctids = $this->company->tickets()->whereHas('childrens', function($query) use($searchValue) {
+                $query->where('message', 'like', '%'.$searchValue.'%');
+            })->pluck('id')->toArray();
+            $searchIDs = array_unique(array_merge($tids, $ctids));
+            $query = $query->whereIn('id', $searchIDs);
+        }
+
         $totalRecordswithFilter = $query->count();
         $entries = $query->orderBy($columnName, $columnSortOrder)->skip($start)->take($rowperpage)->get();
 
