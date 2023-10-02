@@ -176,6 +176,12 @@
         "name": "menu_Slider_Manager",
         "icon": "image",
         "slug": "slidermanagers.index"
+    },
+    {
+        "url": "admin/adminupdates",
+        "name": "menu_Admin_Update",
+        "icon": "menu",
+        "slug": "adminupdates.index"
     }
   ]
 }

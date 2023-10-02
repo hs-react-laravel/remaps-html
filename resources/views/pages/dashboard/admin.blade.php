@@ -41,6 +41,12 @@
         @endif
       @endif
 
+      @foreach ($updateTickets as $ut)
+        <div class="alert alert-{{ $ut->theme }}" role="alert">
+            <div class="alert-body"><strong>{{ date_format($ut->updated_at, 'd/m/Y') }}</strong> {{ $ut->message }}</div>
+        </div>
+      @endforeach
+
       <div class="card card-statistics">
         <div class="card-header">
           <h4 class="card-title">{{ __('locale.menu_FileServices') }}</h4>
@@ -151,7 +157,6 @@
         type: 'GET',
         url: "{{ route('dashboard.admin.api') }}",
         success: function(result) {
-          console.log(result);
           $('#fs-pending').html(result.fs_pending);
           $('#fs-open').html(result.fs_open);
           $('#fs-waiting').html(result.fs_waiting);

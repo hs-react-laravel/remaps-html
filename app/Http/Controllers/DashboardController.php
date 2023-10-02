@@ -11,6 +11,7 @@ use App\Models\CustomerRating;
 use App\Models\Company;
 use App\Models\NotificationRead;
 use App\Models\TuningCreditGroup;
+use App\Models\AdminUpdate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -66,7 +67,10 @@ class DashboardController extends MasterController
             $data['fs_completed'] = \App\Models\FileService::whereHas('user', function($query) use($user){
                 $query->where('company_id', $user->company_id);
             })->where('status', 'C')->count();
-            return view('pages.dashboard.admin', compact('data'));
+
+            $updateTickets = AdminUpdate::where('closed', 0)->orderBy('updated_at', 'DESC')->get();
+
+            return view('pages.dashboard.admin', compact('data', 'updateTickets'));
         }
     }
     public function dashboardAdminReset()

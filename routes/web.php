@@ -22,6 +22,7 @@ use App\Http\Controllers\Remaps\TuningTypeOptionController;
 use App\Http\Controllers\Remaps\StaffController;
 use App\Http\Controllers\Remaps\SubscriptionController;
 use App\Http\Controllers\Remaps\NotificationController;
+use App\Http\Controllers\Remaps\AdminUpdateController;
 use App\Http\Controllers\Consumer\BuyTuningCreditsController;
 use App\Http\Controllers\Consumer\FileServiceController as FSController;
 use App\Http\Controllers\Consumer\TicketController as TKController;
@@ -264,6 +265,10 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::get('api/subscriptions/{id}/cancel', [ApiSubscriptionController::class, 'cancelSubscription'])->name('api.subscriptions.cancel');
     Route::get('api/subscriptions/{id}/suspend', [ApiSubscriptionController::class, 'immediateCancelSubscription'])->name('api.subscriptions.suspend');
     Route::get('api/subscriptions/{id}/reactive', [ApiSubscriptionController::class, 'reactiveSubscription'])->name('api.subscriptions.reactive');
+
+    Route::resource('adminupdates', AdminUpdateController::class);
+    Route::get('adminupdates/{id}/close', [AdminUpdateController::class, 'close'])->name('adminupdates.close');
+    Route::get('adminupdates/{id}/open', [AdminUpdateController::class, 'open'])->name('adminupdates.open');
 });
 Route::group(['prefix'=>'staff', 'middleware' => 'check.customerstaff'], function () {
     Route::get('stafffs/{id}/download-original', [StaffFileServiceController::class, 'download_original'])->name('stafffs.download.original');
