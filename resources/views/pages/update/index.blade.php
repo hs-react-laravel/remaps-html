@@ -25,9 +25,14 @@
     <div class="card">
       <div class="card-header">
         <h4 class="card-title">Updates</h4>
-        <a href="{{ route('adminupdates.create') }}" class="btn btn-icon btn-primary">
-          <i data-feather="plus"></i>
-        </a>
+        <div>
+            <a href="{{ route('adminupdates.bottom') }}" class="btn btn-icon btn-primary">
+                Bottom History
+            </a>
+            <a href="{{ route('adminupdates.create') }}" class="btn btn-icon btn-primary">
+                <i data-feather="plus"></i>
+            </a>
+        </div>
       </div>
       <div class="table-responsive">
         <table class="table">

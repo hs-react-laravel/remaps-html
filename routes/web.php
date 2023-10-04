@@ -269,6 +269,8 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::resource('adminupdates', AdminUpdateController::class);
     Route::get('adminupdates/{id}/close', [AdminUpdateController::class, 'close'])->name('adminupdates.close');
     Route::get('adminupdates/{id}/open', [AdminUpdateController::class, 'open'])->name('adminupdates.open');
+    Route::get('adminupdates-bottom', [AdminUpdateController::class, 'bottom'])->name('adminupdates.bottom');
+    Route::post('adminupdates-bottom', [AdminUpdateController::class, 'bottom_post'])->name('adminupdates.bottom.save');
 });
 Route::group(['prefix'=>'staff', 'middleware' => 'check.customerstaff'], function () {
     Route::get('stafffs/{id}/download-original', [StaffFileServiceController::class, 'download_original'])->name('stafffs.download.original');

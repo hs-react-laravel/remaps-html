@@ -12,6 +12,7 @@ use App\Models\Company;
 use App\Models\NotificationRead;
 use App\Models\TuningCreditGroup;
 use App\Models\AdminUpdate;
+use App\Models\Content;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -69,8 +70,9 @@ class DashboardController extends MasterController
             })->where('status', 'C')->count();
 
             $updateTickets = AdminUpdate::where('closed', 0)->orderBy('updated_at', 'DESC')->get();
+            $bottomUpdate = Content::where('key', 'BOTTOM_UPDATE')->first();
 
-            return view('pages.dashboard.admin', compact('data', 'updateTickets'));
+            return view('pages.dashboard.admin', compact('data', 'updateTickets', 'bottomUpdate'));
         }
     }
     public function dashboardAdminReset()

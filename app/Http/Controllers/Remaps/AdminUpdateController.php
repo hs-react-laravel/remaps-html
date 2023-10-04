@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Controllers\MasterController;
 use App\Models\AdminUpdate;
+use App\Models\Content;
 
 class AdminUpdateController extends MasterController
 {
@@ -108,6 +109,21 @@ class AdminUpdateController extends MasterController
     {
         AdminUpdate::find($id)->update([
             'closed' => 0
+        ]);
+        return redirect(route('adminupdates.index'));
+    }
+
+    public function bottom()
+    {
+        $entry = Content::where('key', 'BOTTOM_UPDATE')->first();
+        return view('pages.update.bottom')->with(compact('entry'));
+    }
+
+    public function bottom_post(Request $request)
+    {
+        $entry = Content::where('key', 'BOTTOM_UPDATE')->first();
+        $entry->update([
+            'body' => $request->body
         ]);
         return redirect(route('adminupdates.index'));
     }
