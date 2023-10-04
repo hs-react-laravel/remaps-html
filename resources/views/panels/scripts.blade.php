@@ -58,6 +58,124 @@
     @if($errors->any())
     toastr.error("{!! implode('', $errors->all('<div>:message</div>')) !!}");
     @endif
+
+    @if(isset($role) && $role == 'customer')
+    var notifiesArr = [];
+    function fetchNotifies() {
+        $.ajax({
+            type: 'GET',
+            url: "{{ route('api.notifies') }}",
+            data: {
+                userid: '{{ $user->id }}'
+            },
+            success: function(notifies) {
+                notifies = Object.keys(notifies).map(key => notifies[key]);
+                var newNotifies = notifies.map(x => x.id).filter(x => !notifiesArr.includes(x));
+                notifiesArr = notifiesArr.concat(newNotifies);
+                const showNotifies = notifies.filter(x => newNotifies.includes(x.id));
+                for (const n of showNotifies) {
+                    if (n.icon == 0) {
+                        toastr.error(n.body, n.subject, {
+                            closeButton : true,
+                            tapToDismiss : false,
+                            timeOut: 0,
+                            extendedTimeOut: 0,
+                            escapeHtml: false,
+                            onHidden: function() {
+                                $.ajax({
+                                    url: '{{ route("dashboard.notifications.read") }}',
+                                    type: 'POST',
+                                    data: {
+                                        _token: '{{ csrf_token() }}',
+                                        id: n.id
+                                    },
+                                    dataType: 'JSON',
+                                    success: function (data) {
+
+                                    }
+                                });
+                            }
+                        });
+                    } else if (n.icon == 1) {
+                        toastr.warning(n.body, n.subject, {
+                            closeButton : true,
+                            tapToDismiss : false,
+                            timeOut: 0,
+                            extendedTimeOut: 0,
+                            escapeHtml: false,
+                            onHidden: function() {
+                                $.ajax({
+                                    url: '{{ route("dashboard.notifications.read") }}',
+                                    type: 'POST',
+                                    data: {
+                                        _token: '{{ csrf_token() }}',
+                                        id: n.id
+                                    },
+                                    dataType: 'JSON',
+                                    success: function (data) {
+
+                                    }
+                                });
+                            }
+                        });
+                    } else if (n.icon == 2) {
+                        toastr.info(n.body, n.subject, {
+                            closeButton : true,
+                            tapToDismiss : false,
+                            timeOut: 0,
+                            extendedTimeOut: 0,
+                            escapeHtml: false,
+                            onHidden: function() {
+                                $.ajax({
+                                    url: '{{ route("dashboard.notifications.read") }}',
+                                    type: 'POST',
+                                    data: {
+                                        _token: '{{ csrf_token() }}',
+                                        id: n.id
+                                    },
+                                    dataType: 'JSON',
+                                    success: function (data) {
+
+                                    }
+                                });
+                            }
+                        });
+                    } else if (n.icon == 3) {
+                        toastr.success(n.body, n.subject, {
+                            closeButton : true,
+                            tapToDismiss : false,
+                            timeOut: 0,
+                            extendedTimeOut: 0,
+                            escapeHtml: false,
+                            onHidden: function() {
+                                $.ajax({
+                                    url: '{{ route("dashboard.notifications.read") }}',
+                                    type: 'POST',
+                                    data: {
+                                        _token: '{{ csrf_token() }}',
+                                        id: n.id
+                                    },
+                                    dataType: 'JSON',
+                                    success: function (data) {
+
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+            }
+        })
+    }
+
+    fetchNotifies()
+    $(document).ready(function($) {
+      setInterval(() => {
+        fetchNotifies()
+      }, 5 * 1000);
+    })
+
+    @endif
 </script>
 <script>
     $('.layout-name').on('click', function () {
@@ -104,233 +222,35 @@
         })
     }
 
-    // $('#button-message-send').on('click', function() {
-    //     sendMessageNav()
-    // });
-    // $('#message-box').on('keypress', function(e) {
-    //     if (e.key === 'Enter') {
-    //         sendMessageNav()
-    //     }
-    // })
+    var pusher = new Pusher('fac85360afc52d12009f', {
+        cluster: 'eu'
+    });
 
-    // function sendMessageNav() {
-    //     const msg = $('#message-box').val();
-    //     $('#message-box').val('');
-    //     if (!msg) return
-
-    //     $.ajax({
-    //         type: 'POST',
-    //         url: "{{ route('api.chat.send') }}",
-    //         data: {
-    //             company_id: "{{ isset($company) ? $company->id : '' }}",
-    //             target: "{{ isset($user) ? $user->id : '' }}",
-    //             to: 1,
-    //             message: msg
-    //         }
-    //     })
-    // }
-    // var chatNavWrapper = $('.chat-nav-wrapper')
-    // var chatListScroll = $('.chat-list-scrollable')
-    // let lastSide = ''
-    // let chatBadgeCount = 0;
-    // if (chatNavWrapper.length > 0) {
-    //     $.ajax({
-    //         type: 'GET',
-    //         url: "{{ route('api.chat.messages') }}",
-    //         data: {
-    //             company_id: "{{ isset($company) ? $company->id : '' }}",
-    //             target: "{{ isset($user) ? $user->id : '' }}",
-    //         },
-    //         success: function(result) {
-    //             let msgHtml = '';
-    //             for(const [key, msgDateGroup] of Object.entries(result.message)) {
-    //                 msgDateGroup.forEach(msgUserGroup => {
-    //                     if (msgUserGroup[0].to) {
-    //                         msgHtml += `
-    //                         <div class="chat">
-    //                             <div class="chat-avatar">
-    //                                 <div class="avatar" style="background-color: #${result.avatarU.color}">
-    //                                     <div class="avatar-content">${result.avatarU.name}</div>
-    //                                 </div>
-    //                             </div>
-    //                             <div class="chat-body">
-    //                                 ${msgUserGroup.map(msg =>
-    //                                     `<div class="chat-content">
-    //                                         <p>${msg.message}</p>
-    //                                     </div>`
-    //                                 ).join('')}
-    //                             </div>
-    //                         </div>
-    //                         `
-    //                     } else {
-    //                         msgHtml += `
-    //                         <div class="chat chat-left">
-    //                             <div class="chat-avatar">
-    //                                 <div class="avatar" style="background-color: #${result.avatarC.color}">
-    //                                     <div class="avatar-content">${result.avatarC.name}</div>
-    //                                 </div>
-    //                             </div>
-    //                             <div class="chat-body">
-    //                                 ${msgUserGroup.map(msg =>
-    //                                     `<div class="chat-content">
-    //                                         <p>${msg.message}</p>
-    //                                     </div>`
-    //                                 ).join('')}
-    //                             </div>
-    //                         </div>
-    //                         `
-    //                     }
-    //                     lastSide = msgUserGroup[0].to
-    //                 })
-    //             }
-    //             $(chatNavWrapper).html(msgHtml);
-    //             if (result.unreadCt > 0) {
-    //                 chatBadgeCount = result.unreadCt
-    //                 $('.badge-chat-nav').html(chatBadgeCount)
-    //                 $('.badge-chat-nav').removeClass('d-none')
-    //             }
-    //         }
-    //     })
-
-        var pusher = new Pusher('fac85360afc52d12009f', {
-            cluster: 'eu'
-        });
-
-        function updateChatBadge() {
-            $.ajax({
-                type: 'GET',
-                url: "{{ route('api.chat.count') }}",
-                data: {
-                    user_id: "{{ isset($user) ? $user->id : '' }}",
-                },
-                success: function(result) {
-                    if (result > 0) {
-                        $('#badge-chat').show()
-                        $('#badge-chat').html(result)
-                    }
-                    else
-                        $('#badge-chat').hide()
+    function updateChatBadge() {
+        $.ajax({
+            type: 'GET',
+            url: "{{ route('api.chat.count') }}",
+            data: {
+                user_id: "{{ isset($user) ? $user->id : '' }}",
+            },
+            success: function(result) {
+                if (result > 0) {
+                    $('#badge-chat').show()
+                    $('#badge-chat').html(result)
                 }
-            })
-        }
-        updateChatBadge()
-        var channel = pusher.subscribe('chat-channel');
-        channel.bind('chat-event', function(data) {
-            const message = data.message
-            if (message.company_id === {{ $company->id }}) {
-                updateChatBadge()
+                else
+                    $('#badge-chat').hide()
             }
         })
-        // channel.bind('chat-event', function(data) {
-        //     const message = data.message
-        //     if (message.company_id === {{ $company->id }}) {
-        //         if (message.to) {
-        //             if (message.to === lastSide) {
-        //                 const lastChatBlock = $('.chat').last()
-        //                 $(lastChatBlock).find('.chat-body').append(`
-        //                     <div class="chat-content">
-        //                         <p>${message.message}</p>
-        //                     </div>
-        //                 `)
-        //             } else {
-        //                 $('.chat-nav-wrapper').append(`
-        //                     <div class="chat">
-        //                         <div class="chat-avatar">
-        //                             <div class="avatar" style="background-color: #${data.avatar.color}">
-        //                                 <div class="avatar-content">${data.avatar.name}</div>
-        //                             </div>
-        //                         </div>
-        //                         <div class="chat-body">
-        //                             <div class="chat-content">
-        //                                 <p>${message.message}</p>
-        //                             </div>
-        //                         </div>
-        //                     </div>
-        //                 `)
-        //             }
-        //         } else { // admin message
-        //             if (!$('.dropdown-menu.dropdown-chat').attr('class').includes('show')) {
-        //                 $('.badge-chat-nav').html(++chatBadgeCount)
-        //                 $('.badge-chat-nav').removeClass('d-none')
-        //                 console.log('add badge number')
-        //             } else {
-        //                 $.ajax({
-        //                     type: 'POST',
-        //                     url: "{{ route('api.chat.read') }}",
-        //                     data: {
-        //                         company_id: "{{ isset($company) ? $company->id : '' }}",
-        //                         target: "{{ isset($user) ? $user->id : '' }}",
-        //                         to: 0
-        //                     },
-        //                     success: function(result) {
-        //                         $('.badge-chat-nav').addClass('d-none')
-        //                     }
-        //                 })
-        //                 console.log('read it immediately')
-        //             }
-        //             if (message.to === lastSide) {
-        //                 const lastChatBlock = $('.chat').last()
-        //                 $(lastChatBlock).find('.chat-body').append(`
-        //                     <div class="chat-content">
-        //                         <p>${message.message}</p>
-        //                     </div>
-        //                 `)
-        //             } else {
-        //                 $('.chat-nav-wrapper').append(`
-        //                     <div class="chat chat-left">
-        //                         <div class="chat-avatar">
-        //                             <div class="avatar" style="background-color: #${data.avatar.color}">
-        //                                 <div class="avatar-content">${data.avatar.name}</div>
-        //                             </div>
-        //                         </div>
-        //                         <div class="chat-body">
-        //                             <div class="chat-content">
-        //                                 <p>${message.message}</p>
-        //                             </div>
-        //                         </div>
-        //                     </div>
-        //                 `)
-        //             }
-        //         }
-        //         lastSide = message.to
-        //     }
-        //     scrollingMessageBoard();
-        // });
-
-        // function scrollingMessageBoard() {
-        //     const chatWrapperHeight = $(chatListScroll).height()
-        //     const chatListHeight = $(chatNavWrapper).height()
-        //     if (chatListHeight > chatWrapperHeight)
-        //         $(chatListScroll).scrollTop(chatListHeight);
-        //     else
-        //         $(chatListScroll).scrollTop(0);
-        // }
-
-        // $('.nav-item.dropdown-chat').click(function() {
-        //     let classlist = $('.dropdown-menu.dropdown-chat').attr('class')
-        //     if (classlist.includes('show')) {
-        //         const chatWrapperHeight = $(chatListScroll).height()
-        //         const chatListHeight = $(chatNavWrapper).height()
-        //         if (chatListHeight > chatWrapperHeight)
-        //             $(chatListScroll).scrollTop(chatListHeight);
-        //         else
-        //             $(chatListScroll).scrollTop(0);
-
-        //         $.ajax({
-        //             type: 'POST',
-        //             url: "{{ route('api.chat.read') }}",
-        //             data: {
-        //                 company_id: "{{ isset($company) ? $company->id : '' }}",
-        //                 target: "{{ isset($user) ? $user->id : '' }}",
-        //                 to: 0
-        //             },
-        //             success: function(result) {
-        //                 $('.badge-chat-nav').addClass('d-none')
-        //             }
-        //         })
-        //     }
-        // })
-    // }
+    }
+    updateChatBadge()
+    var channel = pusher.subscribe('chat-channel');
+    channel.bind('chat-event', function(data) {
+        const message = data.message
+        if (message.company_id === {{ $company->id }}) {
+            updateChatBadge()
+        }
+    })
 </script>
 <!-- END: Theme JS-->
 <!-- BEGIN: Page JS-->

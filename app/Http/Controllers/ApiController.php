@@ -19,6 +19,7 @@ use App\Models\Shop\ShopCategory;
 use App\Models\Order;
 use App\Models\EmailTemplate;
 use App\Models\Api\ApiUser;
+use App\Models\NotificationRead;
 
 class ApiController extends Controller
 {
@@ -604,5 +605,17 @@ class ApiController extends Controller
         $company = Company::where('is_default', 1)->first();
         $template = \App\Models\EmailTemplate::where('company_id', $company->id)->where('label', 'car-data-text')->first(['subject', 'body']);
         return $template->body;
+    }
+
+    public function getNotifies() {
+        $user = User::find(request()->userid);
+        $notifies = array_filter($user->notifies()->distinct()->get()->toArray(), function($obj) use($user){
+            $readObj = NotificationRead::where('notification_id', $obj['id'])->where('user_id', $user->id)->first();
+            if ($readObj->is_read == 1) {
+                return false;
+            }
+            return true;
+        });
+        return $notifies;
     }
 }

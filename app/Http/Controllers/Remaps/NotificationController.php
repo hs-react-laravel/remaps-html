@@ -63,11 +63,11 @@ class NotificationController extends MasterController
                         'is_read' => 0
                     ]);
 
-                    try{
-                        Mail::to($u->email)->send(new NewNotificationEmail($this->company, $u));
-                    }catch(\Exception $ex){
-                        session()->flash('error', $ex->getMessage());
-                    }
+                    // try{
+                    //     Mail::to($u->email)->send(new NewNotificationEmail($this->company, $u));
+                    // }catch(\Exception $ex){
+                    //     session()->flash('error', $ex->getMessage());
+                    // }
                 }
             } else {
                 $userIDs = $request->to;
@@ -78,11 +78,11 @@ class NotificationController extends MasterController
                         'is_read' => 0
                     ]);
                     $u = User::find($uID);
-                    try{
-                        Mail::to($u->email)->send(new NewNotificationEmail($this->company, $u));
-                    }catch(\Exception $ex){
-                        session()->flash('error', $ex->getMessage());
-                    }
+                    // try{
+                    //     Mail::to($u->email)->send(new NewNotificationEmail($this->company, $u));
+                    // }catch(\Exception $ex){
+                    //     session()->flash('error', $ex->getMessage());
+                    // }
                 }
             }
             return redirect(route('notifications.index'));

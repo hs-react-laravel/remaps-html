@@ -172,15 +172,15 @@
     <li class="nav-item dropdown dropdown-notification me-25">
       <a class="nav-link" href="javascript:void(0);" data-bs-toggle="dropdown">
         <i class="ficon" data-feather="bell"></i>
-        @if(count($notifies) > 0)
+        {{-- @if(count($notifies) > 0)
         <span class="badge rounded-pill bg-danger badge-up">{{ count($notifies) }}</span>
-        @endif
+        @endif --}}
       </a>
       <ul class="dropdown-menu dropdown-menu-media dropdown-menu-end">
         <li class="dropdown-menu-header">
           <div class="dropdown-header d-flex">
             <h4 class="notification-title mb-0 me-auto">Notifications</h4>
-            <div class="badge rounded-pill badge-light-primary">{{ count($notifies) }} New</div>
+            {{-- <div class="badge rounded-pill badge-light-primary">{{ count($notifies) }} New</div> --}}
           </div>
         </li>
         <li class="scrollable-container media-list">
@@ -208,14 +208,14 @@
               </div>
               <div class="list-item-body flex-grow-1">
                 <p class="media-heading">{{ $n['subject'] }}</p>
-                <small class="notification-text">{{ $n['body'] }}</small>
+                <small class="notification-text">{!! $n['body'] !!}</small>
               </div>
             </div>
           </a>
           @endforeach
         </li>
         <li class="dropdown-menu-footer">
-          <a class="btn btn-primary w-100" href="{{ route('dashboard.notifications') }}">Read all notifications</a>
+          <a class="btn btn-primary w-100" href="{{ route('dashboard.notifications') }}">All Notifications</a>
         </li>
       </ul>
     </li>
@@ -439,7 +439,5 @@
 <!-- END: Header-->
 
 <script>
-  function onCartChange(obj) {
 
-  }
 </script>

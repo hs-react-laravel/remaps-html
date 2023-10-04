@@ -14,7 +14,7 @@
   <form id="form-create" action="{{ route('notifications.store') }}" method="post">
     @csrf
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-8">
         <div class="card">
           <div class="card-header">
             <h4 class="card-title">Add a new notification</h4>
@@ -27,7 +27,7 @@
               </div>
               <div class="col-12">
                 <label class="form-label" for="body">Content</label>
-                <textarea type="text" class="form-control" id="body" name="body"></textarea>
+                <textarea type="text" class="form-control ckeditor" id="body" name="body"></textarea>
               </div>
               <div class="col-12 mt-1">
                 <div class="form-check form-check-inline">
@@ -84,5 +84,11 @@
         $('#to').attr('disabled', false)
       }
     })
+  </script>
+  <script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      CKEDITOR.replace('body');
+    });
   </script>
 @endsection

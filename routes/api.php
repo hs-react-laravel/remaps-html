@@ -41,6 +41,7 @@ Route::post('shop/category/delete', [ApiController::class, 'deleteShopCategory']
 Route::post('shop/category/move', [ApiController::class, 'updateParentShopCategory'])->name('api.shop.movecategory');
 Route::post('/order/upload-invoice', [ApiController::class, 'uploadInvoicePdf'])->name('api.order.upload');
 Route::get('/car-text-template', [ApiController::class, 'getCarTextTemplate'])->name('api.info.car-text');
+Route::get('/notifies', [ApiController::class, 'getNotifies'])->name('api.notifies');
 
 Route::post('login', [PassportAuthController::class, 'login']);
 

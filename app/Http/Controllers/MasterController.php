@@ -140,13 +140,7 @@ class MasterController extends BaseController
                     }
 
                     if ($this->role == 'customer') {
-                        $notifies = array_filter($this->user->notifies->toArray(), function($obj){
-                            $readObj = NotificationRead::where('notification_id', $obj['id'])->where('user_id', $this->user->id)->first();
-                            if ($readObj->is_read == 1) {
-                                return false;
-                            }
-                            return true;
-                        });
+                        $notifies = $this->user->notifies()->distinct()->get()->toArray();
                         $cartProducts = $this->user->cartProducts;
                         $totalCartAmount = 0;
                         foreach ($cartProducts as $item)  {

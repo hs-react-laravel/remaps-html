@@ -27,7 +27,7 @@
               </div>
               <div class="col-12">
                 <label class="form-label" for="body">Content</label>
-                <textarea type="text" class="form-control" id="body" name="body">{{ $data->body }}</textarea>
+                <textarea type="text" class="form-control ckeditor" id="body" name="body">{{ $data->body }}</textarea>
               </div>
               <div class="col-12 mt-1">
                 <div class="form-check form-check-inline">
@@ -85,4 +85,10 @@
       }
     })
   </script>
+    <script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        CKEDITOR.replace('body');
+      });
+    </script>
 @endsection
