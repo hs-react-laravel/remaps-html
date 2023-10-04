@@ -618,4 +618,14 @@ class ApiController extends Controller
         });
         return $notifies;
     }
+
+    public function getSideBarCounts() {
+        $user = User::find(request()->userid);
+        $tickets = count($user->unread_tickets);
+        $chats = $user->unread_chats;
+        return [
+            'tickets' => $tickets,
+            'chats' => $chats
+        ];
+    }
 }

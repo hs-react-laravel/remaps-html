@@ -59,6 +59,38 @@
     toastr.error("{!! implode('', $errors->all('<div>:message</div>')) !!}");
     @endif
 
+    @if(isset($role))
+    function fetchCounts() {
+        $.ajax({
+            type: 'GET',
+            url: "{{ route('api.sidebar.counts') }}",
+            data: {
+                userid: '{{ $user->id }}'
+            },
+            success: function(res) {
+                if (res.tickets > 0) {
+                    $('#ticket_badge').show();
+                    $('#ticket_badge').html(res.tickets);
+                } else {
+                    $('#ticket_badge').hide();
+                }
+                if (res.chats > 0) {
+                    $('#badge-chat').show();
+                    $('#badge-chat').html(res.chats);
+                } else {
+                    $('#badge-chat').hide();
+                }
+            }
+        })
+    }
+    fetchCounts()
+    $(document).ready(function($) {
+      setInterval(() => {
+        fetchCounts()
+      }, 5 * 1000);
+    })
+    @endif
+
     @if(isset($role) && $role == 'customer')
     var notifiesArr = [];
     function fetchNotifies() {
@@ -222,35 +254,7 @@
         })
     }
 
-    var pusher = new Pusher('fac85360afc52d12009f', {
-        cluster: 'eu'
-    });
 
-    function updateChatBadge() {
-        $.ajax({
-            type: 'GET',
-            url: "{{ route('api.chat.count') }}",
-            data: {
-                user_id: "{{ isset($user) ? $user->id : '' }}",
-            },
-            success: function(result) {
-                if (result > 0) {
-                    $('#badge-chat').show()
-                    $('#badge-chat').html(result)
-                }
-                else
-                    $('#badge-chat').hide()
-            }
-        })
-    }
-    updateChatBadge()
-    var channel = pusher.subscribe('chat-channel');
-    channel.bind('chat-event', function(data) {
-        const message = data.message
-        if (message.company_id === {{ $company->id }}) {
-            updateChatBadge()
-        }
-    })
 </script>
 <!-- END: Theme JS-->
 <!-- BEGIN: Page JS-->

@@ -46,7 +46,7 @@ $configData = Helper::applClasses();
               <i data-feather="{{ $menu->icon }}"></i>
               <span class="menu-title text-truncate">{{ __('locale.'.$menu->name) }}</span>
               @if (($menu->url == 'admin/tickets' || $menu->url == 'customer/tk' || $menu->url == 'staff/stafftk') && $tickets_count)
-              <span class="{{ isset($menu->badgeClass) ? $menu->badgeClass : $badgeClasses }}">{{$tickets_count}}</span>
+              <span id="ticket_badge" class="{{ isset($menu->badgeClass) ? $menu->badgeClass : $badgeClasses }}">{{$tickets_count}}</span>
               @endif
               @if (isset($menu->beta))
               <span class="{{ isset($menu->badgeClass) ? $menu->badgeClass : $badgeClasses }}">Beta</span>
