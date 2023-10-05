@@ -12,6 +12,7 @@ use App\Models\Company;
 use App\Models\NotificationRead;
 use App\Models\TuningCreditGroup;
 use App\Models\AdminUpdate;
+use App\Models\AdminupdateRead;
 use App\Models\Content;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -69,8 +70,16 @@ class DashboardController extends MasterController
                 $query->where('company_id', $user->company_id);
             })->where('status', 'C')->count();
 
-            $updateTickets = AdminUpdate::where('closed', 0)->orderBy('updated_at', 'DESC')->get();
             $bottomUpdate = Content::where('key', 'BOTTOM_UPDATE')->first();
+            $utArray = $user->company->adminupdates()->where('closed', 0)->orderBy('updated_at', 'DESC')->distinct()->get()->toArray();
+            $company = $user->company;
+            $updateTickets = array_filter($utArray, function($obj) use($company) {
+                $readObj = AdminupdateRead::where('adminupdate_id', $obj['id'])->where('company_id', $company->id)->first();
+                if ($readObj->is_read == 1) {
+                    return false;
+                }
+                return true;
+            });
 
             return view('pages.dashboard.admin', compact('data', 'updateTickets', 'bottomUpdate'));
         }
@@ -311,10 +320,10 @@ class DashboardController extends MasterController
     public function notification_read_one(Request $request) {
         $id = $request->id;
         NotificationRead::where('notification_id', $id)
-        ->where('user_id', $this->user->id)
-        ->first()
-        ->update([
-        'is_read' => 1
-        ]);
+            ->where('user_id', $this->user->id)
+            ->first()
+            ->update([
+                'is_read' => 1
+            ]);
     }
 }

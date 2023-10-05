@@ -42,8 +42,9 @@
       @endif
 
       @foreach ($updateTickets as $ut)
-        <div class="alert alert-{{ $ut->theme }}" role="alert">
-            <div class="alert-body"><strong>{{ date_format($ut->updated_at, 'd/m/Y') }}</strong> {{ $ut->message }}</div>
+        <div class="alert alert-{{ $ut['theme'] }} alert-dismissible" role="alert">
+            <div class="alert-body"><strong>{{ date('d/m/Y', strtotime($ut['updated_at'])) }}</strong> {{ $ut['message'] }}</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="onCloseAdminUpdate({{ $ut['id'] }})"></button>
         </div>
       @endforeach
 
@@ -272,5 +273,18 @@
         }
       });
     })
+    function onCloseAdminUpdate(id) {
+        $.ajax({
+            type: 'POST',
+            url: "{{ route('api.adminupdate.read') }}",
+            data: {
+                id: id,
+                company: '{{ $user->company->id }}'
+            },
+            success: function(result) {
+                console.log(result);
+            }
+        })
+    }
   </script>
 @endsection

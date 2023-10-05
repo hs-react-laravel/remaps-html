@@ -43,6 +43,7 @@ Route::post('/order/upload-invoice', [ApiController::class, 'uploadInvoicePdf'])
 Route::get('/car-text-template', [ApiController::class, 'getCarTextTemplate'])->name('api.info.car-text');
 Route::get('/notifies', [ApiController::class, 'getNotifies'])->name('api.notifies');
 Route::get('/sidebar-counts', [ApiController::class, 'getSideBarCounts'])->name('api.sidebar.counts');
+Route::post('/read-admin-update', [ApiController::class, 'adminupdate_read_one'])->name('api.adminupdate.read');
 
 Route::post('login', [PassportAuthController::class, 'login']);
 

@@ -99,6 +99,10 @@ class Company extends Model
     {
         return $this->hasOne('App\Models\User')->where('is_admin', 1);
     }
+    public function adminupdates()
+    {
+        return $this->belongsToMany(AdminUpdate::class, 'adminupdate_reads', 'company_id', 'adminupdate_id');
+    }
     public function tickets()
     {
         $receiverIDs = $this->staffs->pluck('id')->toArray();

@@ -20,6 +20,7 @@ use App\Models\Order;
 use App\Models\EmailTemplate;
 use App\Models\Api\ApiUser;
 use App\Models\NotificationRead;
+use App\Models\AdminupdateRead;
 
 class ApiController extends Controller
 {
@@ -627,5 +628,14 @@ class ApiController extends Controller
             'tickets' => $tickets,
             'chats' => $chats
         ];
+    }
+
+    public function adminupdate_read_one(Request $request) {
+        AdminupdateRead::where('adminupdate_id', $request->id)
+            ->where('company_id', $request->company)
+            ->first()
+            ->update([
+                'is_read' => 1
+            ]);
     }
 }

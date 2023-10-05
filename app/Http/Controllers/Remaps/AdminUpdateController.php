@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Controllers\MasterController;
 use App\Models\AdminUpdate;
+use App\Models\AdminupdateRead;
+use App\Models\Company;
 use App\Models\Content;
 
 class AdminUpdateController extends MasterController
@@ -41,11 +43,20 @@ class AdminUpdateController extends MasterController
      */
     public function store(Request $request)
     {
-        AdminUpdate::create([
+        $adminupdate = AdminUpdate::create([
             'message' => $request->message,
             'theme' => $request->theme,
             'closed' => 0
         ]);
+        $companies = Company::all();
+        foreach($companies as $c) {
+            AdminupdateRead::create([
+                'adminupdate_id' => $adminupdate->id,
+                'company_id' => $c->id,
+                'is_read' => 0
+            ]);
+        }
+
         return redirect(route('adminupdates.index'));
     }
 
@@ -81,7 +92,19 @@ class AdminUpdateController extends MasterController
      */
     public function update(Request $request, $id)
     {
-        AdminUpdate::find($id)->update($request->all());
+        $adminupdate = AdminUpdate::find($id);
+        $adminupdate->update($request->all());
+
+        AdminupdateRead::where('adminupdate_id', $id)->delete();
+        $companies = Company::all();
+        foreach($companies as $c) {
+            AdminupdateRead::create([
+                'adminupdate_id' => $adminupdate->id,
+                'company_id' => $c->id,
+                'is_read' => 0
+            ]);
+        }
+
         return redirect(route('adminupdates.index'));
     }
 
