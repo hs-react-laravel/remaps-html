@@ -266,7 +266,7 @@ class DashboardController extends MasterController
         if($request->hasFile('upload_file')){
             if($request->file('upload_file')->isValid()){
                 $file = $request->file('upload_file');
-                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $filename = time() . '.' . 'jpg';
                 $file->move(storage_path('app/public/uploads/logo'), $filename);
                 $request->request->add(['logo' => $filename]);
             }
