@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-wizard.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-validation.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('css/base/pages/authentication.css')) }}">
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 @endsection
 
 @php
@@ -226,7 +227,11 @@
                     </div>
                   </div>
                   <div class="col-12">
-                    <button type="submit" class="btn {{ 'btn-'.substr($configData['navbarColor'], 3) }}" style="float: right;">Submit</button>
+                    <button
+                      type="submit"
+                      class="btn {{ 'btn-'.substr($configData['navbarColor'], 3) }} g-recaptcha"
+                      data-sitekey="6LfxQ0ojAAAAAHCyLcqjeiUodaELsckXOuwZqv-Y"
+                      style="float: right;">Submit</button>
                   </div>
                 </div>
                 <p class="text-center">
