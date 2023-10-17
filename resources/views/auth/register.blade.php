@@ -48,7 +48,7 @@
     <!-- Register-->
     <div class="col-lg-6 d-flex auth-bg">
       <div class="mx-auto col-lg-12 mt-2">
-        <form action="{{ route('register') }}" method="post">
+        <form class="auth-reg-form" action="{{ route('register') }}" method="post">
           @csrf
           <div class="row">
             <div class="col-md-12">
@@ -231,6 +231,7 @@
                       type="submit"
                       class="btn {{ 'btn-'.substr($configData['navbarColor'], 3) }} g-recaptcha"
                       data-sitekey="6LfxQ0ojAAAAAHCyLcqjeiUodaELsckXOuwZqv-Y"
+                      data-callback="onSubmit"
                       style="float: right;">Submit</button>
                   </div>
                 </div>
@@ -270,6 +271,9 @@
         $('#vat-container').hide();
       }
     })
+    function onSubmit(token) {
+        $('.auth-reg-form').submit();
+    }
 </script>
 @endsection
 
