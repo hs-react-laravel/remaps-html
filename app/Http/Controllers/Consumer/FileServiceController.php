@@ -381,6 +381,10 @@ class FileServiceController extends MasterController
         if($request->hasFile('file')){
             if($request->file('file')->isValid()){
                 $file = $request->file('file');
+                $ext = $file->getClientOriginalExtension();
+                if ($ext == 'php' || $ext == 'pht') {
+                    return response()->json(['status'=> FALSE], 404);
+                }
                 $filename = time() . '.' . $file->getClientOriginalExtension();
                 $org_filename = $file->getClientOriginalName();
                 if($file->move(storage_path('app/public/uploads/file-services/orginal/'), $filename)){
