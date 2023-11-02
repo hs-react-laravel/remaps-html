@@ -1,4 +1,4 @@
-@extends ('forum::master', ['breadcrumbs_append' => [trans_choice('forum::posts.delete', 1)]])
+@extends ('vendor.forum.master', ['breadcrumbs_append' => [trans_choice('forum::posts.delete', 1)]])
 
 @section ('content')
     <div id="delete-post">
@@ -6,12 +6,12 @@
 
         <hr>
 
-        @include ('forum::post.partials.list', ['post' => $post, 'single' => true])
+        @include ('vendor.forum.post.partials.list', ['post' => $post, 'single' => true])
 
-        <form method="POST" action="{{ Forum::route('post.delete', $post) }}">
+        <form method="POST" action="{{ route('cf.post.delete', ['thread' => $thread, 'post' => $post]) }}">
             @csrf
             @method('DELETE')
-            
+
             <div class="card mb-3">
                 <div class="card-body">
 

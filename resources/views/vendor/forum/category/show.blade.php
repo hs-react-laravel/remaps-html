@@ -100,7 +100,7 @@
                                             <div class="mb-3" v-if="selectedAction == 'move'">
                                                 <label for="category-id">{{ trans_choice('forum::categories.category', 1) }}</label>
                                                 <select name="category_id" id="category-id" class="form-select">
-                                                    @include ('forum::category.partials.options', ['hide' => $category])
+                                                    @include ('vendor.forum.category.partials.options', ['hide' => $category])
                                                 </select>
                                             </div>
 

@@ -43,7 +43,7 @@
                 <div class="list-group-item">
                     <div class="row align-items-center text-center">
                         <div class="col-sm text-md-start">
-                            <a href="{{ Forum::route('category.show', $subcategory) }}" style="color: {{ $subcategory->color }};">{{ $subcategory->title }}</a>
+                            <a href="{{ route('cf.category.show', $subcategory) }}" style="color: {{ $subcategory->color }};">{{ $subcategory->title }}</a>
                             <div class="text-muted">{{ $subcategory->description }}</div>
                         </div>
                         <div class="col-sm-2 text-md-end">
@@ -58,14 +58,14 @@
                         <div class="col-sm text-md-end text-muted">
                             @if ($subcategory->newestThread)
                                 <div>
-                                    <a href="{{ Forum::route('thread.show', $subcategory->newestThread) }}">{{ $subcategory->newestThread->title }}</a>
-                                    @include ('forum::partials.timestamp', ['carbon' => $subcategory->newestThread->created_at])
+                                    <a href="{{ route('cf.thread.show', $subcategory->newestThread) }}">{{ $subcategory->newestThread->title }}</a>
+                                    @include ('vendor.forum.partials.timestamp', ['carbon' => $subcategory->newestThread->created_at])
                                 </div>
                             @endif
                             @if ($subcategory->latestActiveThread && $subcategory->latestActiveThread->post_count > 1)
                                 <div>
-                                    <a href="{{ Forum::route('thread.show', $subcategory->latestActiveThread->lastPost) }}">Re: {{ $subcategory->latestActiveThread->title }}</a>
-                                    @include ('forum::partials.timestamp', ['carbon' => $subcategory->latestActiveThread->lastPost->created_at])
+                                    <a href="{{ route('cf.thread.show', $subcategory->latestActiveThread->lastPost) }}">Re: {{ $subcategory->latestActiveThread->title }}</a>
+                                    @include ('vendor.forum.partials.timestamp', ['carbon' => $subcategory->latestActiveThread->lastPost->created_at])
                                 </div>
                             @endif
                         </div>

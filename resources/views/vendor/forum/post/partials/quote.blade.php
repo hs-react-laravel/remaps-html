@@ -2,7 +2,7 @@
     <div class="card-body">
         <div class="mb-2">
             <span class="float-end">
-                <a href="{{ Forum::route('thread.show', $post) }}" class="text-muted">#{{ $post->sequence }}</a>
+                <a href="{{ route('cf.thread.show', ['thread' => $post->thread, 'post' => $post]) }}" class="text-muted">#{{ $post->sequence }}</a>
             </span>
             {{ $post->authorName }} <span class="text-muted">{{ $post->posted }}</span>
         </div>

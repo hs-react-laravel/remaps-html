@@ -20,7 +20,7 @@
         <span class="text-muted">
             @include ('vendor.forum.partials.timestamp', ['carbon' => $post->created_at])
             @if ($post->hasBeenUpdated())
-                ({{ trans('forum::general.last_updated') }} @include ('forum::partials.timestamp', ['carbon' => $post->updated_at]))
+                ({{ trans('forum::general.last_updated') }} @include ('vendor.forum.partials.timestamp', ['carbon' => $post->updated_at]))
             @endif
         </span>
     </div>
@@ -54,12 +54,12 @@
                         <a href="{{ route('cf.post.edit', ['thread' => $thread, 'post' => $post]) }}" class="card-link">{{ trans('forum::general.edit') }}</a>
                     @endif
                     @if ($user->can('reply', $post->thread))
-                        <a href="{{ route('cf.post.create', $post) }}" class="card-link">{{ trans('forum::general.reply') }}</a>
+                        <a href="{{ route('cf.post.create', ['thread' => $post->thread, 'post' => $post]) }}" class="card-link">{{ trans('forum::general.reply') }}</a>
                     @endif
                 @else
                     @if ($user->can('restorePosts', $post->thread))
                         @if ($user->can('restore', $post))
-                            <a href="{{ route('cf.post.confirm-restore', $post) }}" class="card-link">{{ trans('forum::general.restore') }}</a>
+                            <a href="{{ route('cf.post.confirm-restore', ['thread' => $post->thread, 'post' => $post]) }}" class="card-link">{{ trans('forum::general.restore') }}</a>
                         @endif
                     @endif
                 @endif

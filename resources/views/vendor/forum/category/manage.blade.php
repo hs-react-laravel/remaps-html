@@ -1,16 +1,16 @@
-@extends ('forum::master', ['category' => null, 'thread' => null, 'breadcrumbs_append' => [trans('forum::general.manage')]])
+@extends ('vendor.forum.master', ['category' => null, 'thread' => null, 'breadcrumbs_append' => [trans('forum::general.manage')]])
 
 @section ('content')
     <div class="d-flex flex-row justify-content-between mb-2">
         <h2 class="flex-grow-1">{{ trans('forum::general.manage') }}</h2>
 
-        @can ('createCategories')
+        @if ($user->can('createCategories'))
             <button type="button" class="btn btn-primary" data-open-modal="create-category">
                 {{ trans('forum::categories.create') }}
             </button>
 
-            @include ('forum::category.modals.create')
-        @endcan
+            @include ('vendor.forum.category.modals.create')
+        @endif
     </div>
 
     <div class="v-manage-categories">
@@ -75,7 +75,7 @@
                 this.changesApplied = false;
 
                 var payload = { categories: this.categories };
-                axios.post('{{ route('forum.bulk.category.manage') }}', payload)
+                axios.post('{{ route('cf.bulk.category.manage') }}', payload)
                     .then(response => {
                         this.changesApplied = true;
                         setTimeout(() => this.changesApplied = false, 3000);

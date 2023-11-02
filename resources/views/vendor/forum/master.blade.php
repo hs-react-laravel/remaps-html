@@ -188,13 +188,13 @@
                         <a class="nav-link" href="{{ url(config('forum.web.router.prefix')) }}">{{ trans('forum::general.index') }}</a>
                     </li>
                     <li class="nav-item">
-                        {{-- <a class="nav-link" href="{{ route('forum.recent') }}">{{ trans('forum::threads.recent') }}</a> --}}
+                        <a class="nav-link" href="{{ route('cf.recent') }}">{{ trans('forum::threads.recent') }}</a>
                     </li>
-                    @auth
+                    @if ($user)
                         <li class="nav-item">
-                            {{-- <a class="nav-link" href="{{ route('forum.unread') }}">{{ trans('forum::threads.unread_updated') }}</a> --}}
+                            <a class="nav-link" href="{{ route('cf.unread') }}">{{ trans('forum::threads.unread_updated') }}</a>
                         </li>
-                    @endauth
+                    @endif
                     @if ($user->can('moveCategories'))
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('cf.category.manage') }}">{{ trans('forum::general.manage') }}</a>

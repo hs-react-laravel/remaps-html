@@ -1,4 +1,4 @@
-@extends ('forum::master', ['thread' => null, 'breadcrumbs_append' => [trans('forum::threads.recent')]])
+@extends ('vendor.forum.master', ['thread' => null, 'breadcrumbs_append' => [trans('forum::threads.recent')]])
 
 @section ('content')
     <div id="new-posts">
@@ -7,7 +7,7 @@
         @if (! $threads->isEmpty())
             <div class="threads list-group my-3 shadow-sm">
                 @foreach ($threads as $thread)
-                    @include ('forum::thread.partials.list')
+                    @include ('vendor.forum.thread.partials.list')
                 @endforeach
             </div>
         @else

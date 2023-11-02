@@ -1,4 +1,4 @@
-@extends ('forum::master', ['breadcrumbs_append' => [trans('forum::posts.edit')]])
+@extends ('vendor.forum.master', ['breadcrumbs_append' => [trans('forum::posts.edit')]])
 
 @section ('content')
     <div id="edit-post">
@@ -9,10 +9,10 @@
         @if ($post->parent)
             <h3>{{ trans('forum::general.response_to', ['item' => $post->parent->authorName]) }}...</h3>
 
-            @include ('forum::post.partials.list', ['post' => $post->parent, 'single' => true])
+            @include ('vendor.forum.post.partials.list', ['post' => $post->parent, 'single' => true])
         @endif
 
-        <form method="POST" action="{{ Forum::route('post.update', $post) }}">
+        <form method="POST" action="{{ route('cf.post.update', ['thread' => $thread, 'post' => $post]) }}">
             @csrf
             @method('PATCH')
 

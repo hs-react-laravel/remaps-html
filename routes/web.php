@@ -108,7 +108,8 @@ Route::group(['domain' => 'remapdash.com'], function () {
 
 Route::group([/*'domain' => 'remapdash.com',*/ 'prefix' => 'forum'], function () {
     Route::get('/', [CustomForumController::class, 'category_index'])->name('cf.category.index');
-    Route::get('/recent', [CustomForumController::class, 'category_index'])->name('cf.category.index');
+    Route::get('/recent', [CustomForumController::class, 'thread_recent'])->name('cf.recent');
+    Route::get('/unread', [CustomForumController::class, 'thread_unread'])->name('cf.unread');
     Route::get('/manage', [CustomForumController::class, 'category_manage'])->name('cf.category.manage');
     Route::post('category/create', [CustomForumController::class, 'category_create'])->name('cf.category.create');
 
@@ -145,7 +146,8 @@ Route::group([/*'domain' => 'remapdash.com',*/ 'prefix' => 'forum'], function ()
         Route::post('post/{post}/restore', [CustomForumController::class, 'post_restore'])->name('cf.post.restore');
     });
 
-    Route::group(['prefix' => 'bulk', 'as' => 'cf.bulk.', 'namespace' => 'Bulk'], function () {
+    Route::group(['prefix' => 'bulk', 'as' => 'cf.bulk.'], function () {
+        Route::post('category/manage', [CustomForumController::class, 'bulk_category_manage'])->name('category.manage');
         Route::group(['prefix' => 'thread', 'as' => 'thread.'], function () {
             Route::post('move', ['as' => 'move', 'uses' => 'CustomForumController@bulk_thread_move']);
             Route::post('lock', ['as' => 'lock', 'uses' => 'CustomForumController@bulk_thread_lock']);

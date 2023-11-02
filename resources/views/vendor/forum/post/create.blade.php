@@ -1,16 +1,16 @@
-@extends ('forum::master', ['breadcrumbs_append' => [trans('forum::general.new_reply')]])
+@extends ('vendor.forum.master', ['breadcrumbs_append' => [trans('forum::general.new_reply')]])
 
 @section ('content')
     <div id="create-post">
         <h2>{{ trans('forum::general.new_reply') }} ({{ $thread->title }})</h2>
 
-        @if (!$post === null && !$post->trashed())
+        @if (!($post === null) && !$post->trashed())
             <p>{{ trans('forum::general.replying_to', ['item' => $post->authorName]) }}:</p>
 
-            @include ('forum::post.partials.quote')
+            @include ('vendor.forum.post.partials.quote')
         @endif
 
-        <form method="POST" action="{{ Forum::route('post.store', $thread) }}">
+        <form method="POST" action="{{ route('cf.post.store', $thread) }}">
             {!! csrf_field() !!}
             @if ($post !== null)
                 <input type="hidden" name="post" value="{{ $post->id }}">

@@ -1,4 +1,4 @@
-@extends ('forum::master', ['breadcrumbs_append' => [trans_choice('forum::posts.restore', 1)]])
+@extends ('vendor.forum.master', ['breadcrumbs_append' => [trans_choice('forum::posts.restore', 1)]])
 
 @section ('content')
     <div id="delete-post">
@@ -6,12 +6,12 @@
 
         <hr>
 
-        @include ('forum::post.partials.list', ['post' => $post, 'single' => true])
+        @include ('vendor.forum.post.partials.list', ['post' => $post, 'single' => true])
 
-        <form method="POST" action="{{ Forum::route('post.restore', $post) }}">
+        <form method="POST" action="{{ route('cf.post.restore', ['thread' => $thread, 'post'=> $post]) }}">
             @csrf
             @method('POST')
-            
+
             <div class="card mb-3">
                 <div class="card-body">
                     {{ trans('forum::general.generic_confirm') }}

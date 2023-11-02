@@ -8,9 +8,11 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\View as ViewFactory;
 use TeamTeaTime\Forum\Support\CategoryPrivacy;
 use TeamTeaTime\Forum\Events\UserViewingIndex;
-use TeamTeaTime\Forum\Models\Category;
+use App\Models\ForumCategory as Category;
 use TeamTeaTime\Forum\Models\Thread;
+use TeamTeaTime\Forum\Models\Post;
 use TeamTeaTime\Forum\Support\Web\Forum;
+use Illuminate\Http\JsonResponse;
 
 use App\Models\User;
 
@@ -116,7 +118,43 @@ class CustomForumController extends Controller
 
         return new RedirectResponse(route('cf.category.show', $category));
     }
+    public function category_manage(Request $request)
+    {
+        $categories = Category::defaultOrder()->get();
+        $categories->makeHidden(['_lft', '_rgt', 'thread_count', 'post_count']);
 
+        return view('vendor.forum.category.manage', ['categories' => $categories->toTree()]);
+    }
+
+    public function thread_recent(Request $request)
+    {
+        $threads = Thread::recent()->with('category', 'author', 'lastPost', 'lastPost.author', 'lastPost.thread');
+
+        if ($request->has('category_id')) {
+            $threads = $threads->where('category_id', $request->input('category_id'));
+        }
+
+        $accessibleCategoryIds = CategoryPrivacy::getFilteredFor($this->user)->keys();
+
+        $threads = $threads->get()->filter(function ($thread) use ($request, $accessibleCategoryIds) {
+            return $accessibleCategoryIds->contains($thread->category_id) && (! $thread->category->is_private || $this->user && $this->user->can('view', $thread));
+        });
+
+        return view('vendor.forum.thread.recent', compact('threads'));
+    }
+    public function thread_unread(Request $request)
+    {
+        $threads = Thread::recent()->with('category', 'author', 'lastPost', 'lastPost.author', 'lastPost.thread');
+
+        $accessibleCategoryIds = CategoryPrivacy::getFilteredFor($this->user)->keys();
+
+        $threads = $threads->get()->filter(function ($thread) use ($request, $accessibleCategoryIds) {
+            return $thread->userReadStatus !== null
+                && (! $thread->category->is_private || $this->user && $accessibleCategoryIds->contains($thread->category_id) && $this->user->can('view', $thread));
+        });
+
+        return view('vendor.forum.thread.unread', compact('threads'));
+    }
     public function thread_create(Request $request, $category) {
         $category = Category::find($category);
 
@@ -160,7 +198,7 @@ class CustomForumController extends Controller
         return new RedirectResponse(route('cf.thread.show', $thread));
     }
     public function thread_show(Request $request, $thread) {
-        $thread = Thread::find($thread);
+        $thread = Thread::withTrashed()->find($thread);
 
         if (! $thread->category->isAccessibleTo($this->user)) {
             abort(404);
@@ -202,7 +240,7 @@ class CustomForumController extends Controller
     }
     public function thread_delete(Request $request, $thread)
     {
-        $thread = Thread::find($thread);
+        $thread = Thread::withTrashed()->find($thread);
 
         $threadAlreadyTrashed = $thread->trashed();
         $postsRemoved = $thread->postCount;
@@ -251,6 +289,27 @@ class CustomForumController extends Controller
         Forum::alert('success', 'threads.deleted');
 
         return new RedirectResponse(route('cf.category.show', $thread->category));
+    }
+    public function thread_restore(Request $request, $thread)
+    {
+        $thread = Thread::withTrashed()->find($thread);
+        if (! $thread->trashed()) {
+            return new RedirectResponse(route('cf.thread.show', $thread));
+        }
+
+        $thread->setTouchedRelations([])->restoreWithoutTouch();
+
+        $category = $thread->category;
+        $category->update([
+            'newest_thread_id' => max($thread->id, $category->newest_thread_id),
+            'latest_active_thread_id' => $category->getLatestActiveThreadId(),
+            'thread_count' => DB::raw('thread_count + 1'),
+            'post_count' => DB::raw("post_count + {$thread->postCount}"),
+        ]);
+
+        Forum::alert('success', 'threads.updated');
+
+        return new RedirectResponse(route('cf.thread.show', $thread));
     }
     public function thread_lock(Request $request, $thread)
     {
@@ -342,6 +401,30 @@ class CustomForumController extends Controller
         return new RedirectResponse(route('cf.thread.show', $thread));
     }
 
+
+    public function post_create(Request $request, $thread)
+    {
+        $thread = Thread::find($thread);
+
+        $post = $request->has('post') ? $thread->posts->find($request->input('post')) : null;
+
+        return view('vendor.forum.post.create', compact('thread', 'post'));
+    }
+    public function post_show(Request $request, $thread, $post)
+    {
+        $thread = Thread::find($thread);
+        $post = Post::find($post);
+
+        if (! $thread->category->isAccessibleTo($this->user)) {
+            abort(404);
+        }
+
+        if ($thread->category->is_private) {
+            $this->authorize('view', $thread);
+        }
+
+        return view('vendor.forum.post.show', compact('thread', 'post'));
+    }
     public function post_store(Request $request, $thread)
     {
         $thread = Thread::find($thread);
@@ -367,5 +450,121 @@ class CustomForumController extends Controller
         Forum::alert('success', 'general.reply_added');
 
         return new RedirectResponse(route('cf.thread.show', $thread));
+    }
+    public function post_edit(Request $request, $thread, $post)
+    {
+        $post = Post::find($post);
+
+        if ($post->trashed()) {
+            return abort(404);
+        }
+
+        // $this->authorize('edit', $post);
+
+        // UserEditingPost::dispatch($request->user(), $post);
+
+        $thread = $post->thread;
+        $category = $post->thread->category;
+
+        return view('vendor.forum.post.edit', compact('category', 'thread', 'post'));
+    }
+    public function post_update(Request $request, $thread, $post)
+    {
+        $thread = Thread::find($thread);
+        $post = Post::find($post);
+
+        $post->update(['content' => $request->content]);
+
+        Forum::alert('success', 'posts.updated');
+
+        return new RedirectResponse(route('cf.thread.show', ['thread' => $thread, 'post' => $post]));
+    }
+    public function post_confirmDelete(Request $request, $thread, $post)
+    {
+        $thread = Thread::find($thread);
+        $post = Post::find($post);
+
+        return view('vendor.forum.post.confirm-delete', ['category' => $thread->category, 'thread' => $thread, 'post' => $post]);
+    }
+    public function post_delete(Request $request, $thread, $post)
+    {
+        $thread = Thread::find($thread);
+        $post = Post::find($post);
+
+        if ($request->permaDelete) {
+            $post->forceDelete();
+        } else {
+            if ($post->trashed()) {
+                return null;
+            }
+
+            $post->deleteWithoutTouch();
+        }
+
+        $lastPostInThread = $post->thread->getLastPost();
+
+        $post->thread->updateWithoutTouch([
+            'last_post_id' => $lastPostInThread->id,
+            'updated_at' => $lastPostInThread->updated_at,
+            'reply_count' => DB::raw('reply_count - 1'),
+        ]);
+
+        $post->thread->category->updateWithoutTouch([
+            'latest_active_thread_id' => $post->thread->category->getLatestActiveThreadId(),
+            'post_count' => DB::raw('post_count - 1'),
+        ]);
+
+        if ($request->permaDelete && $post->children !== null) {
+            // Other posts reference this one; null their post IDs
+            $post->children()->update(['post_id' => null]);
+        }
+
+        // Update sequence numbers for all of the thread's posts
+        $post->thread->posts->each(function ($p) {
+            $p->updateWithoutTouch(['sequence' => $p->getSequenceNumber()]);
+        });
+
+        Forum::alert('success', 'posts.deleted', 1);
+
+        return new RedirectResponse(route('cf.thread.show', $post->thread));
+    }
+    public function post_confirmRestore(Request $request, $thread, $post)
+    {
+        $thread = Thread::find($thread);
+        $post = Post::withTrashed()->find($post);
+
+        return view('vendor.forum.post.confirm-restore', ['category' => $thread->category, 'thread' => $thread, 'post' => $post]);
+    }
+    public function post_restore(Request $request, $thread, $post)
+    {
+        $thread = Thread::find($thread);
+        $post = Post::withTrashed()->find($post);
+
+        if (! $post->trashed()) {
+            return new RedirectResponse(route('cf.thread.show', ['thread' => $thread, 'post' => $post]));
+        }
+
+        $post->restoreWithoutTouch();
+
+        $post->thread->updateWithoutTouch([
+            'last_post_id' => max($post->id, $post->thread->last_post_id),
+            'reply_count' => DB::raw('reply_count + 1'),
+        ]);
+
+        $post->thread->category->updateWithoutTouch([
+            'latest_active_thread_id' => $post->thread->category->getLatestActiveThreadId(),
+            'post_count' => DB::raw('post_count + 1'),
+        ]);
+
+        Forum::alert('success', 'posts.updated', 1);
+
+        return new RedirectResponse(route('cf.thread.show', ['thread' => $thread, 'post' => $post]));
+    }
+
+    public function bulk_category_manage(Request $request)
+    {
+        $categoryData = $request['categories'];
+        Category::rebuildTree($categoryData);
+        return new JsonResponse(['success' => true], 200);
     }
 }
