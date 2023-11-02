@@ -110,6 +110,7 @@ Route::group([/*'domain' => 'remapdash.com',*/ 'prefix' => 'forum'], function ()
     Route::get('/', [CustomForumController::class, 'category_index'])->name('cf.category.index');
     Route::get('/recent', [CustomForumController::class, 'thread_recent'])->name('cf.recent');
     Route::get('/unread', [CustomForumController::class, 'thread_unread'])->name('cf.unread');
+    Route::patch('unread/mark-as-read', [CustomForumController::class, 'markAsRead'])->name('cf.unread.mark-as-read');
     Route::get('/manage', [CustomForumController::class, 'category_manage'])->name('cf.category.manage');
     Route::post('category/create', [CustomForumController::class, 'category_create'])->name('cf.category.create');
 
@@ -149,17 +150,17 @@ Route::group([/*'domain' => 'remapdash.com',*/ 'prefix' => 'forum'], function ()
     Route::group(['prefix' => 'bulk', 'as' => 'cf.bulk.'], function () {
         Route::post('category/manage', [CustomForumController::class, 'bulk_category_manage'])->name('category.manage');
         Route::group(['prefix' => 'thread', 'as' => 'thread.'], function () {
-            Route::post('move', ['as' => 'move', 'uses' => 'CustomForumController@bulk_thread_move']);
-            Route::post('lock', ['as' => 'lock', 'uses' => 'CustomForumController@bulk_thread_lock']);
-            Route::post('unlock', ['as' => 'unlock', 'uses' => 'CustomForumController@bulk_thread_unlock']);
-            Route::post('pin', ['as' => 'pin', 'uses' => 'CustomForumController@bulk_thread_pin']);
-            Route::post('unpin', ['as' => 'unpin', 'uses' => 'CustomForumController@bulk_thread_unpin']);
-            Route::delete('/', ['as' => 'delete', 'uses' => 'CustomForumController@bulk_thread_delete']);
-            Route::post('restore', ['as' => 'restore', 'uses' => 'CustomForumController@bulk_thread_restore']);
+            Route::post('move', [CustomForumController::class, 'bulk_thread_move'])->name('move');
+            Route::post('lock', [CustomForumController::class, 'bulk_thread_lock'])->name('lock');
+            Route::post('unlock', [CustomForumController::class, 'bulk_thread_unlock'])->name('unlock');
+            Route::post('pin', [CustomForumController::class, 'bulk_thread_pin'])->name('pin');
+            Route::post('unpin', [CustomForumController::class, 'bulk_thread_unpin'])->name('unpin');
+            Route::delete('/', [CustomForumController::class, 'bulk_thread_delete'])->name('delete');
+            Route::post('restore', [CustomForumController::class, 'bulk_thread_restore'])->name('restore');
         });
         Route::group(['prefix' => 'post', 'as' => 'post.'], function () {
-            Route::delete('/', ['as' => 'delete', 'uses' => 'CustomForumController@post_delete']);
-            Route::post('restore', ['as' => 'restore', 'uses' => 'CustomForumController@post_restore']);
+            Route::delete('/', [CustomForumController::class, 'post_delete'])->name('delete');
+            Route::post('restore', [CustomForumController::class, 'post_restore'])->name('restore');
         });
     });
 });

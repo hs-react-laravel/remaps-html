@@ -8,7 +8,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\View as ViewFactory;
 use TeamTeaTime\Forum\Support\CategoryPrivacy;
 use TeamTeaTime\Forum\Events\UserViewingIndex;
-use App\Models\ForumCategory as Category;
+use App\Models\ForumCategory;
+use TeamTeaTime\Forum\Models\Category;
 use TeamTeaTime\Forum\Models\Thread;
 use TeamTeaTime\Forum\Models\Post;
 use TeamTeaTime\Forum\Support\Web\Forum;
@@ -120,7 +121,7 @@ class CustomForumController extends Controller
     }
     public function category_manage(Request $request)
     {
-        $categories = Category::defaultOrder()->get();
+        $categories = ForumCategory::defaultOrder()->get();
         $categories->makeHidden(['_lft', '_rgt', 'thread_count', 'post_count']);
 
         return view('vendor.forum.category.manage', ['categories' => $categories->toTree()]);
@@ -561,10 +562,300 @@ class CustomForumController extends Controller
         return new RedirectResponse(route('cf.thread.show', ['thread' => $thread, 'post' => $post]));
     }
 
+    public function markAsRead(Request $request)
+    {
+        $category = Category::find($request->input('category_id'));
+
+        $threads = Thread::recent();
+
+        if ($category !== null) {
+            $threads = $threads->where('category_id', $category->id);
+        }
+
+        $accessibleCategoryIds = CategoryPrivacy::getFilteredFor($this->user)->keys();
+
+        $threads = $threads->get()->filter(function ($thread) {
+            // @TODO: handle authorization check outside of action?
+            return $thread->userReadStatus != null
+                && (! $thread->category->is_private || ($accessibleCategoryIds->contains($thread->category_id) && $this->user->can('view', $thread)));
+        });
+
+        foreach ($threads as $thread) {
+            $thread->markAsRead($this->user->getKey());
+        }
+
+        if ($category !== null) {
+            Forum::alert('success', 'categories.marked_read', 1, ['category' => $category->title]);
+
+            return new RedirectResponse(route('cf.category.show', $category));
+        }
+
+        Forum::alert('success', 'threads.marked_read');
+
+        return new RedirectResponse(route('cf.unread'));
+    }
+
+    protected function bulkActionResponse(int $rowsAffected, string $transKey): RedirectResponse
+    {
+        Forum::alert('success', $transKey, $rowsAffected);
+
+        return redirect()->back();
+    }
     public function bulk_category_manage(Request $request)
     {
         $categoryData = $request['categories'];
         Category::rebuildTree($categoryData);
         return new JsonResponse(['success' => true], 200);
+    }
+    public function bulk_thread_move(Request $request)
+    {
+        $destinationCategory = Category::find($request->input('category_id'));
+        $threadIds = $request->input('threads');
+        $includeTrashed = $this->user->can('viewTrashedThreads');
+
+        $query = DB::table(Thread::getTableName())->where('category_id', '!=', $destinationCategory->id)->whereIn('id', $threadIds);
+
+        $threads = $includeTrashed
+            ? $query->get()
+            : $query->whereNull('deleted_at')->get();
+
+        // Return early if there are no eligible threads in the selection
+        if ($threads->count() == 0) {
+            return null;
+        }
+
+        $threadsByCategory = $threads->groupBy('category_id');
+        $sourceCategories = Category::whereIn('id', $threads->pluck('category_id'))->get();
+        $destinationCategory = $destinationCategory;
+
+        $query->update(['category_id' => $destinationCategory->id]);
+
+        $seen = [];
+        foreach ($sourceCategories as $category) {
+            if (in_array($category->id, $seen)) {
+                continue;
+            }
+
+            $categoryThreads = $threadsByCategory->get($category->id);
+            $threadCount = $categoryThreads->count();
+            $postCount = $threadCount + $categoryThreads->sum('reply_count');
+            $category->updateWithoutTouch([
+                'newest_thread_id' => $category->getNewestThreadId(),
+                'latest_active_thread_id' => $category->getLatestActiveThreadId(),
+                'thread_count' => DB::raw("thread_count - {$threadCount}"),
+                'post_count' => DB::raw("post_count - {$postCount}"),
+            ]);
+
+            $seen[] = $category->id;
+        }
+
+        $threadCount = $threads->count();
+        $postCount = $threads->count() + $threads->sum('reply_count');
+        $destinationCategory->updateWithoutTouch([
+            'newest_thread_id' => max($threads->max('id'), $destinationCategory->newest_thread_id),
+            'latest_active_thread_id' => $destinationCategory->getLatestActiveThreadId(),
+            'thread_count' => DB::raw("thread_count + {$threadCount}"),
+            'post_count' => DB::raw("post_count + {$postCount}"),
+        ]);
+
+        return $this->bulkActionResponse($threads->count(), 'threads.updated');
+    }
+    public function bulk_thread_lock(Request $request)
+    {
+        $threadIds = $request->input('threads');
+        $includeTrashed = $this->user->can('viewTrashedThreads');
+
+        $query = DB::table(Thread::getTableName())
+            ->whereIn('id', $threadIds)
+            ->where(['locked' => false]);
+
+        if (! $includeTrashed) {
+            $query = $query->whereNull(Thread::DELETED_AT);
+        }
+
+        $threads = $query->get();
+
+        // Return early if there are no eligible threads in the selection
+        if ($threads->count() == 0) {
+            return null;
+        }
+
+        $query->update(['locked' => true]);
+
+        return $this->bulkActionResponse($threads->count(), 'threads.updated');
+    }
+    public function bulk_thread_unlock(Request $request)
+    {
+        $threadIds = $request->input('threads');
+        $includeTrashed = $this->user->can('viewTrashedThreads');
+
+        $query = DB::table(Thread::getTableName())
+            ->whereIn('id', $threadIds)
+            ->where(['locked' => true]);
+
+        if (! $includeTrashed) {
+            $query = $query->whereNull(Thread::DELETED_AT);
+        }
+
+        $threads = $query->get();
+
+        // Return early if there are no eligible threads in the selection
+        if ($threads->count() == 0) {
+            return null;
+        }
+
+        $query->update(['locked' => false]);
+
+        return $this->bulkActionResponse($threads->count(), 'threads.updated');
+    }
+    public function bulk_thread_pin(Request $request)
+    {
+        $threadIds = $request->input('threads');
+        $includeTrashed = $this->user->can('viewTrashedThreads');
+
+        $query = DB::table(Thread::getTableName())
+            ->whereIn('id', $threadIds)
+            ->where(['locked' => true]);
+
+        if (! $includeTrashed) {
+            $query = $query->whereNull(Thread::DELETED_AT);
+        }
+
+        $threads = $query->get();
+
+        // Return early if there are no eligible threads in the selection
+        if ($threads->count() == 0) {
+            return null;
+        }
+
+        $query->update(['pinned' => true]);
+
+        return $this->bulkActionResponse($threads->count(), 'threads.updated');
+    }
+    public function bulk_thread_unpin(Request $request)
+    {
+        $threadIds = $request->input('threads');
+        $includeTrashed = $this->user->can('viewTrashedThreads');
+
+        $query = DB::table(Thread::getTableName())
+            ->whereIn('id', $threadIds)
+            ->where(['locked' => true]);
+
+        if (! $includeTrashed) {
+            $query = $query->whereNull(Thread::DELETED_AT);
+        }
+
+        $threads = $query->get();
+
+        // Return early if there are no eligible threads in the selection
+        if ($threads->count() == 0) {
+            return null;
+        }
+
+        $query->update(['pinned' => false]);
+
+        return $this->bulkActionResponse($threads->count(), 'threads.updated');
+    }
+    public function bulk_thread_delete(Request $request)
+    {
+        $threadIds = $request->input('threads');
+        $permaDelete = $request->input('permadelete');
+        $includeTrashed = $this->user->can('viewTrashedThreads');
+
+        $query = Thread::whereIn('id', $threadIds);
+
+        if ($includeTrashed) {
+            $threads = $query->withTrashed()->get();
+
+            // Return early if this is a soft-delete and the selected threads are already trashed,
+            // or there are no valid threads in the selection
+            if (! $permaDelete && $threads->whereNull(Thread::DELETED_AT)->count() == 0) {
+                return null;
+            }
+        } else {
+            $threads = $query->get();
+
+            // Return early if there are no valid threads in the selection
+            if ($threads->count() == 0) {
+                return null;
+            }
+        }
+
+        // Use the raw query builder to prevent touching updated_at
+        $query = DB::table(Thread::getTableName())->whereIn('id', $threadIds);
+
+        if ($permaDelete) {
+            $rowsAffected = $query->delete();
+
+            // Drop readers for the removed threads
+            DB::table(Thread::READERS_TABLE)->whereIn('thread_id', $threadIds)->delete();
+        } else {
+            $rowsAffected = $query->whereNull(Thread::DELETED_AT)->update([Thread::DELETED_AT => DB::raw('now()')]);
+        }
+
+        $threadsByCategory = $threads->groupBy('category_id');
+        foreach ($threadsByCategory as $categoryThreads) {
+            // Count only non-deleted threads for changes to category stats since soft-deleted threads
+            // are already represented
+            $threadCount = $categoryThreads->whereNull(Thread::DELETED_AT)->count();
+
+            // Sum of reply counts + thread count = total posts
+            $postCount = $categoryThreads->whereNull(Thread::DELETED_AT)->sum('reply_count') + $threadCount;
+
+            $category = $categoryThreads->first()->category;
+
+            $updates = [
+                'newest_thread_id' => $category->getNewestThreadId(),
+                'latest_active_thread_id' => $category->getLatestActiveThreadId(),
+            ];
+
+            if ($threadCount > 0) {
+                $updates['thread_count'] = DB::raw("thread_count - {$threadCount}");
+            }
+            if ($postCount > 0) {
+                $updates['post_count'] = DB::raw("post_count - {$postCount}");
+            }
+
+            $category->update($updates);
+        }
+
+        return $this->bulkActionResponse($threads->count(), 'threads.updated');
+    }
+    public function bulk_thread_restore(Request $request)
+    {
+        $threadIds = $request->input('threads');
+
+        $threads = Thread::whereIn('id', $threadIds)->onlyTrashed()->get();
+
+        // Return early if there are no eligible threads in the selection
+        if ($threads->count() == 0) {
+            return null;
+        }
+
+        // Use the raw query builder to prevent touching updated_at
+        $rowsAffected = DB::table(Thread::getTableName())
+            ->whereIn('id', $threadIds)
+            ->whereNotNull(Thread::DELETED_AT)
+            ->update([Thread::DELETED_AT => null]);
+
+        if ($rowsAffected == 0) {
+            return null;
+        }
+
+        $threadsByCategory = $threads->groupBy('category_id');
+        foreach ($threadsByCategory as $threads) {
+            $threadCount = $threads->count();
+            $postCount = $threads->sum('reply_count') + $threadCount; // count the first post of each thread
+            $category = $threads->first()->category;
+
+            $category->updateWithoutTouch([
+                'newest_thread_id' => max($threads->max('id'), $category->newest_thread_id),
+                'latest_active_thread_id' => $category->getLatestActiveThreadId(),
+                'thread_count' => DB::raw("thread_count + {$threadCount}"),
+                'post_count' => DB::raw("post_count + {$postCount}"),
+            ]);
+        }
+
+        return $this->bulkActionResponse($threads->count(), 'threads.updated');
     }
 }

@@ -41,7 +41,7 @@
                 </div>
 
                 @if (count($selectableThreadIds) > 0)
-                    @can ('manageThreads', $category)
+                    @if ($user->can('manageThreads', $category))
                         <form :action="actions[selectedAction]" method="POST">
                             @csrf
                             <input type="hidden" name="_method" :value="actionMethods[selectedAction]" />
@@ -54,7 +54,7 @@
                                     <input type="checkbox" value="" id="selectAllThreads" class="align-middle" @click="toggleAll" :checked="selectedThreads.length == selectableThreadIds.length">
                                 </div>
                             </div>
-                    @endcan
+                    @endif
                 @endif
 
                 <div class="threads list-group my-3 shadow-sm">
@@ -64,7 +64,7 @@
                 </div>
 
                 @if (count($selectableThreadIds) > 0)
-                    @can ('manageThreads', $category)
+                    @if ($user->can('manageThreads', $category))
                             <div class="fixed-bottom-right pb-xs-0 pr-xs-0 pb-sm-3 pr-sm-3 m-2" style="z-index: 1000;">
                                 <transition name="fade">
                                     <div class="card text-white bg-secondary shadow-sm" v-if="selectedThreads.length">
@@ -77,23 +77,23 @@
                                                     <label class="input-group-text" for="bulk-actions">{{ trans_choice('forum::general.actions', 1) }}</label>
                                                 </div>
                                                 <select class="form-select" id="bulk-actions" v-model="selectedAction">
-                                                    @can ('deleteThreads', $category)
+                                                    @if ($user->can('deleteThreads', $category))
                                                         <option value="delete">{{ trans('forum::general.delete') }}</option>
-                                                    @endcan
-                                                    @can ('restoreThreads', $category)
+                                                    @endif
+                                                    @if ($user->can('restoreThreads', $category))
                                                         <option value="restore">{{ trans('forum::general.restore') }}</option>
-                                                    @endcan
-                                                    @can ('moveThreadsFrom', $category)
+                                                    @endif
+                                                    @if ($user->can('moveThreadsFrom', $category))
                                                         <option value="move">{{ trans('forum::general.move') }}</option>
-                                                    @endcan
-                                                    @can ('lockThreads', $category)
+                                                    @endif
+                                                    @if ($user->can('lockThreads', $category))
                                                         <option value="lock">{{ trans('forum::threads.lock') }}</option>
                                                         <option value="unlock">{{ trans('forum::threads.unlock') }}</option>
-                                                    @endcan
-                                                    @can ('pinThreads', $category)
+                                                    @endif
+                                                    @if ($user->can('pinThreads', $category))
                                                         <option value="pin">{{ trans('forum::threads.pin') }}</option>
                                                         <option value="unpin">{{ trans('forum::threads.unpin') }}</option>
-                                                    @endcan
+                                                    @endif
                                                 </select>
                                             </div>
 
@@ -121,7 +121,7 @@
                                 </transition>
                             </div>
                         </form>
-                    @endcan
+                    @endif
                 @endif
             @else
                 <div class="card my-3">
@@ -151,7 +151,7 @@
     </div>
 
     @if (! $threads->isEmpty())
-        @can ('markThreadsAsRead')
+        @if ($user->can('markThreadsAsRead'))
             <div class="text-center mt-3">
                 <button class="btn btn-primary px-5" data-open-modal="mark-threads-as-read">
                     <i data-feather="book"></i> {{ trans('forum::general.mark_read') }}
@@ -159,7 +159,7 @@
             </div>
 
             @include ('vendor.forum.category.modals.mark-threads-as-read')
-        @endcan
+        @endif
     @endif
 
     @if ($user->can('manageCategories'))

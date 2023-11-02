@@ -1,7 +1,7 @@
 @component('vendor.forum.modal-form')
     @slot('key', 'mark-as-read')
     @slot('title', trans('forum::general.mark_read'))
-    @slot('route', route('unread.mark-as-read'))
+    @slot('route', route('cf.unread.mark-as-read'))
     @slot('method', 'PATCH')
 
     <p>{{ trans('forum::general.generic_confirm') }}</p>

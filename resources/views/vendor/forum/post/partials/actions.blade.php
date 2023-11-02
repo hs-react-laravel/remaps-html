@@ -8,11 +8,11 @@
             <div class="mb-3">
                 <label for="action">{{ trans_choice('forum::general.actions', 1) }}</label>
                 <select name="action" id="action" class="form-control">
-                    @can ('deletePosts', $post->thread)
-                        @can ('delete', $post)
+                    @if ($user->can('deletePosts', $post->thread))
+                        @if($user->can('delete', $post))
                             <option value="delete" data-confirm="true" data-method="delete">{{ trans('forum::general.delete') }}</option>
-                        @endcan
-                    @endcan
+                        @endif
+                    @endif
                 </select>
             </div>
         </div>

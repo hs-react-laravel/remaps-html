@@ -63,7 +63,7 @@
                             @endif
                         @endif
                     </div>
-                @endcan
+                @endif
             </div>
         </div>
 
