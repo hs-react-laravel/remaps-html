@@ -159,8 +159,8 @@ Route::group([/*'domain' => 'remapdash.com',*/ 'prefix' => 'forum'], function ()
             Route::post('restore', [CustomForumController::class, 'bulk_thread_restore'])->name('restore');
         });
         Route::group(['prefix' => 'post', 'as' => 'post.'], function () {
-            Route::delete('/', [CustomForumController::class, 'post_delete'])->name('delete');
-            Route::post('restore', [CustomForumController::class, 'post_restore'])->name('restore');
+            Route::delete('/', [CustomForumController::class, 'bulk_post_delete'])->name('delete');
+            Route::post('restore', [CustomForumController::class, 'bulk_post_restore'])->name('restore');
         });
     });
 });

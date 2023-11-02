@@ -819,7 +819,7 @@ class CustomForumController extends Controller
             $category->update($updates);
         }
 
-        return $this->bulkActionResponse($threads->count(), 'threads.updated');
+        return $this->bulkActionResponse($threads->count(), 'threads.deleted');
     }
     public function bulk_thread_restore(Request $request)
     {
@@ -857,5 +857,142 @@ class CustomForumController extends Controller
         }
 
         return $this->bulkActionResponse($threads->count(), 'threads.updated');
+    }
+
+    public function bulk_post_delete(Request $request)
+    {
+        $postIds = $request->input('posts');
+        $permaDelete = $request->input('permadelete');
+        $includeTrashed = $this->user->can('viewTrashedPosts');
+
+        $query = Post::whereIn('id', $postIds);
+
+        if ($includeTrashed) {
+            $posts = $query->withTrashed()->get();
+
+            // Return early if this is a soft-delete and the selected posts are already trashed,
+            // or there are no valid posts in the selection
+            if (! $permaDelete && $posts->whereNull(Post::DELETED_AT)->count() == 0) {
+                return null;
+            }
+        } else {
+            $posts = $query->get();
+
+            // Return early if there are no valid posts in the selection
+            if ($posts->count() == 0) {
+                return null;
+            }
+        }
+
+        $rowsAffected = $permaDelete
+            ? $query->forceDelete()
+            : $query->delete();
+
+        if ($rowsAffected == 0) {
+            return null;
+        }
+
+        $threads = $posts->pluck('thread')->unique();
+        $categories = $threads->pluck('category')->unique();
+
+        foreach ($categories as $category) {
+            $categoryThreadsRemoved = 0;
+            $categoryPostsRemoved = 0;
+
+            foreach ($threads->where('category_id', $category->id) as $thread) {
+                $threadPostsRemoved = $posts->where('thread_id', $thread->id)->whereNull('deleted_at')->count();
+                $categoryPostsRemoved += $threadPostsRemoved;
+
+                // Skip updates if the affected posts were already soft-deleted
+                // or there were no valid post IDs given for this thread
+                if ($threadPostsRemoved == 0) {
+                    continue;
+                }
+
+                if ($thread->posts()->count() == 0) {
+                    if (! $thread->trashed()) {
+                        // Thread has not been soft-deleted already;
+                        // it should count towards threads removed for this category
+                        $categoryThreadsRemoved++;
+                    }
+
+                    if ($thread->posts()->withTrashed()->count() == 0) {
+                        $thread->forceDelete();
+                    } else {
+                        $thread->delete();
+                    }
+                } else {
+                    $thread->updateWithoutTouch([
+                        'last_post_id' => $thread->getLastPost()->id,
+                        'reply_count' => DB::raw("reply_count - {$threadPostsRemoved}"),
+                    ]);
+
+                    $thread->posts->each(function ($p) {
+                        $p->updateWithoutTouch(['sequence' => $p->getSequenceNumber()]);
+                    });
+                }
+            }
+
+            $attributes = [
+                'latest_active_thread' => $category->getLatestActiveThreadId(),
+            ];
+
+            if ($categoryThreadsRemoved > 0) {
+                $attributes['thread_count'] = DB::raw("thread_count - {$categoryThreadsRemoved}");
+            }
+
+            if ($categoryPostsRemoved > 0) {
+                $attributes['post_count'] = DB::raw("post_count - {$categoryPostsRemoved}");
+            }
+
+            $category->updateWithoutTouch($attributes);
+        }
+
+        return $this->bulkActionResponse($posts->count(), 'posts.deleted');
+    }
+    public function bulk_post_restore(Request $request)
+    {
+        $postIds = $request->input('posts');
+        $posts = Post::whereIn('id', $postIds)->onlyTrashed()->get();
+
+        // Return early if there are no eligible threads in the selection
+        if ($posts->count() == 0) {
+            return null;
+        }
+
+        // Use the raw query builder to prevent touching updated_at
+        $rowsAffected = DB::table(Post::getTableName())
+            ->whereIn('id', $postIds)
+            ->whereNotNull(Post::DELETED_AT)
+            ->update([Post::DELETED_AT => null]);
+
+        if ($rowsAffected == 0) {
+            return null;
+        }
+
+        $threads = $posts->pluck('thread')->unique();
+        $postsByThread = $posts->groupBy('thread_id');
+
+        foreach ($threads as $thread) {
+            $threadPosts = $postsByThread->get($thread->id);
+            $thread->updateWithoutTouch([
+                'last_post_id' => $thread->getLastPost()->id,
+                'reply_count' => DB::raw("reply_count + {$threadPosts->count()}"),
+            ]);
+        }
+
+        $categories = $threads->pluck('category')->unique();
+        $threadsByCategory = $threads->groupBy('category_id');
+
+        foreach ($categories as $category) {
+            $categoryThreads = $threadsByCategory->get($category->id);
+            $postCount = $posts->whereIn('thread_id', $categoryThreads->pluck('id'))->count();
+            $category->updateWithoutTouch([
+                'latest_active_thread_id' => $category->getLatestActiveThreadId(),
+                'post_count' => DB::raw("post_count + {$postCount}"),
+            ]);
+        }
+
+        return $this->bulkActionResponse($posts->count(), 'posts.updated');
     }
 }
