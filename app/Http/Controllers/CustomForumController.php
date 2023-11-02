@@ -200,9 +200,146 @@ class CustomForumController extends Controller
 
         return view('vendor.forum.thread.show', compact('categories', 'category', 'thread', 'posts', 'selectablePosts'));
     }
-    public function thread_delete()
+    public function thread_delete(Request $request, $thread)
     {
+        $thread = Thread::find($thread);
 
+        $threadAlreadyTrashed = $thread->trashed();
+        $postsRemoved = $thread->postCount;
+
+        if ($request->has('permadelete') && $request->input('permadelete')) {
+            $thread->readers()->detach();
+            $thread->posts()->withTrashed()->forceDelete();
+            $thread->forceDelete();
+        } else {
+            // Return early if the thread was already trashed because there's nothing to do
+            if ($threadAlreadyTrashed) {
+                return null;
+            }
+
+            $thread->readers()->detach();
+            $thread->deleteWithoutTouch();
+        }
+
+        // The thread was already trashed - skip stat/attribute updates since they were done
+        // previously.
+        if ($threadAlreadyTrashed) {
+            Forum::alert('success', 'threads.deleted');
+
+            return new RedirectResponse(route('cf.category.show', $thread->category));
+        }
+
+        $attributes = [
+            'thread_count' => DB::raw('thread_count - 1'),
+        ];
+
+        if ($postsRemoved) {
+            $attributes['post_count'] = DB::raw("post_count - {$postsRemoved}");
+        }
+
+        $category = $thread->category;
+
+        if ($category->newest_thread_id === $thread->id) {
+            $attributes['newest_thread_id'] = $category->getNewestThreadId();
+        }
+        if ($category->latest_active_thread_id === $thread->id) {
+            $attributes['latest_active_thread_id'] = $category->getLatestActiveThreadId();
+        }
+
+        $category->update($attributes);
+
+        Forum::alert('success', 'threads.deleted');
+
+        return new RedirectResponse(route('cf.category.show', $thread->category));
+    }
+    public function thread_lock(Request $request, $thread)
+    {
+        $thread = Thread::find($thread);
+        $thread->updateWithoutTouch([
+            'locked' => true,
+        ]);
+
+        Forum::alert('success', 'threads.updated');
+
+        return new RedirectResponse(route('cf.thread.show', $thread));
+    }
+    public function thread_unlock(Request $request, $thread)
+    {
+        $thread = Thread::find($thread);
+        $thread->updateWithoutTouch([
+            'locked' => false,
+        ]);
+        Forum::alert('success', 'threads.updated');
+
+        return new RedirectResponse(route('cf.thread.show', $thread));
+    }
+    public function thread_pin(Request $request, $thread)
+    {
+        $thread = Thread::find($thread);
+        $thread->updateWithoutTouch([
+            'pinned' => true,
+        ]);
+        Forum::alert('success', 'threads.updated');
+
+        return new RedirectResponse(route('cf.thread.show', $thread));
+    }
+    public function thread_unpin(Request $request, $thread)
+    {
+        $thread = Thread::find($thread);
+        $thread->updateWithoutTouch([
+            'pinned' => false,
+        ]);
+        Forum::alert('success', 'threads.updated');
+
+        return new RedirectResponse(route('cf.thread.show', $thread));
+    }
+    public function thread_rename(Request $request, $thread)
+    {
+        $thread = Thread::find($thread);
+        $thread->updateWithoutTouch([
+            'title' => $request->input('title'),
+        ]);
+        Forum::alert('success', 'threads.updated');
+
+        return new RedirectResponse(route('cf.thread.show', $thread));
+    }
+    public function thread_move(Request $request, $thread)
+    {
+        $thread = Thread::find($thread);
+        $sourceCategory = $thread->category;
+        $destinationCategory = Category::find($request->input('category_id'));
+
+
+        if ($sourceCategory->id === $destinationCategory->id) {
+            return null;
+        }
+
+        $thread->updateWithoutTouch(['category_id' => $destinationCategory->id]);
+
+        $sourceCategoryValues = [];
+
+        if ($sourceCategory->newest_thread_id === $thread->id) {
+            $sourceCategoryValues['newest_thread_id'] = $sourceCategory->getNewestThreadId();
+        }
+        if ($sourceCategory->latest_active_thread_id === $thread->id) {
+            $sourceCategoryValues['latest_active_thread_id'] = $sourceCategory->getLatestActiveThreadId();
+        }
+
+        $sourceCategoryValues['thread_count'] = DB::raw('thread_count - 1');
+        $sourceCategoryValues['post_count'] = DB::raw("post_count - {$thread->postCount}");
+
+        $sourceCategory->updateWithoutTouch($sourceCategoryValues);
+
+        $destinationCategory->updateWithoutTouch([
+            'thread_count' => DB::raw('thread_count + 1'),
+            'post_count' => DB::raw("post_count + {$thread->postCount}"),
+            'newest_thread_id' => $destinationCategory->getNewestThreadId(),
+            'latest_active_thread_id' => $destinationCategory->getLatestActiveThreadId(),
+        ]);
+
+        Forum::alert('success', 'threads.updated');
+
+        return new RedirectResponse(route('cf.thread.show', $thread));
     }
 
     public function post_store(Request $request, $thread)

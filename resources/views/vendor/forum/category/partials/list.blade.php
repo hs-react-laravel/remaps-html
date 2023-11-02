@@ -22,14 +22,14 @@
                 @if ($category->accepts_threads)
                     @if ($category->newestThread)
                         <div>
-                            <a href="{{ Forum::route('thread.show', $category->newestThread) }}">{{ $category->newestThread->title }}</a>
-                            @include ('forum::partials.timestamp', ['carbon' => $category->newestThread->created_at])
+                            <a href="{{ route('cf.thread.show', $category->newestThread) }}">{{ $category->newestThread->title }}</a>
+                            @include ('vendor.forum.partials.timestamp', ['carbon' => $category->newestThread->created_at])
                         </div>
                     @endif
                     @if ($category->latestActiveThread && $category->latestActiveThread->post_count > 1)
                         <div>
-                            <a href="{{ Forum::route('thread.show', $category->latestActiveThread->lastPost) }}">Re: {{ $category->latestActiveThread->title }}</a>
-                            @include ('forum::partials.timestamp', ['carbon' => $category->latestActiveThread->lastPost->created_at])
+                            <a href="{{ route('cf.thread.show', $category->latestActiveThread->lastPost) }}">Re: {{ $category->latestActiveThread->title }}</a>
+                            @include ('vendor.forum.partials.timestamp', ['carbon' => $category->latestActiveThread->lastPost->created_at])
                         </div>
                     @endif
                 @endif
