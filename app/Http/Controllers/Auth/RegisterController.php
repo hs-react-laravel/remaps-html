@@ -124,6 +124,8 @@ class RegisterController extends Controller
         $model->is_verified             =   0;
 
 		$model->save();
+
+        return $model;
     }
 
     public function register(Request $request)
