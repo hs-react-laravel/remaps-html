@@ -70,7 +70,7 @@
                         value="{{ old('email') }}" />
                     </div>
                   </div>
-                  <div class="row mb-1">
+                  {{-- <div class="row mb-1">
                     <div class="col-xl-6 col-md-6 col-12">
                       <label class="form-label" for="password">Password</label>
                       <input
@@ -91,7 +91,7 @@
                         required
                         autocomplete="new-password" />
                     </div>
-                  </div>
+                  </div> --}}
                   <hr>
                   <div class="row mb-1">
                     <div class="col-xl-6 col-md-6 col-12">
