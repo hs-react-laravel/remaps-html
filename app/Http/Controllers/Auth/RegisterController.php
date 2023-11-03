@@ -102,6 +102,10 @@ class RegisterController extends Controller
 
 		$model = new User();
         $model->tuning_credit_group_id  =   $defaultGroup ? $defaultGroup->id : null;
+        $model->private                 =   $data['private'];
+        if ($model->private == 1) {
+            $model->vat_number          =   $data['vat_number'];
+        }
         $model->title                   =   $data['title'];
         $model->first_name              =   $data['first_name'];
         $model->last_name               =   $data['last_name'];
