@@ -14,6 +14,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Mail\WelcomeCustomer;
 
 class RegisterController extends Controller
 {
@@ -106,7 +107,7 @@ class RegisterController extends Controller
         $model->last_name               =   $data['last_name'];
         $model->lang                    =   $data['lang'];
         $model->email                   =   $data['email'];
-        $model->password                =   Hash::make($data['password']);
+        // $model->password                =   Hash::make($data['password']);
         $model->business_name           =   $data['business_name'];
         $model->address_line_1          =   $data['address_line_1'];
         $model->address_line_2          =   $data['address_line_2'];
@@ -116,6 +117,7 @@ class RegisterController extends Controller
         $model->phone                   =   $data['phone'];
         $model->tools                   =   $data['tools'];
         $model->company_id              =   $company->id;
+        $model->is_verified             =   0;
 
 		$model->save();
     }
@@ -129,6 +131,9 @@ class RegisterController extends Controller
         if ($response = $this->registered($request, $user)) {
             return $response;
         }
+
+        $token = app('auth.password.broker')->createToken($user);
+        Mail::to($user->email)->send(new WelcomeCustomer($user, $token));
 
         return $request->wantsJson()
                     ? new JsonResponse([], 201)
