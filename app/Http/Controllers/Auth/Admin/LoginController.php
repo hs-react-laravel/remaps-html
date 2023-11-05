@@ -87,22 +87,40 @@ class LoginController extends Controller
 
         if (!empty($user)) {
             if ($user->is_admin == 0) {
+                $this->company->update(['secret_2fa_verified' => null]);
                 return redirect('admin/login')->with(['status'=>'error', 'error'=>__('auth.invalid_admin_privilege')]);
             }
 			if ($user->is_active == 0) {
+                $this->company->update(['secret_2fa_verified' => null]);
 				return redirect('admin/login')->with(['status'=>'error', 'error'=>__('Your account is not verified yet, Please wait or Contact to administration. ')]);
 			}
             if (!Hash::check($password, $user->password)) {
+                $this->company->update(['secret_2fa_verified' => null]);
                 return redirect('admin/login')->with(['status'=>'error', 'error'=>__('auth.failed')]);
             }
         } else {
+            $this->company->update(['secret_2fa_verified' => null]);
             return redirect('admin/login')->with(['status'=>'error', 'error'=>__('auth.failed')]);
         }
 
-        session(['twofauser' => $user->id]);
-        session(['twofauserpw' => $password]);
+        $verifiedTime = strtotime($this->company->getRawOriginal('secret_2fa_verified'));
+        $now = strtotime('now');
 
-        return redirect()->route('admin.auth.twofa');
+        if (!$this->company->secret_2fa_verified ||
+            $this->company->secret_2fa_verified && (($now - $verifiedTime) / (60 * 60 * 24) > 30)) {
+            session(['twofauser' => $user->id]);
+            session(['twofauserpw' => $password]);
+
+            return redirect()->route('admin.auth.twofa');
+        } else {
+            if ($this->attemptLogin($request)) {
+                return $this->sendLoginResponse($request);
+            }
+
+            $this->incrementLoginAttempts($request);
+
+            return $this->sendFailedLoginResponse($request);
+        }
     }
 
     public function twofa(Request $request)
@@ -161,6 +179,8 @@ class LoginController extends Controller
         }
 
         if ($this->attemptLogin($request)) {
+            $this->company->secret_2fa_verified = \Carbon\Carbon::now();
+            $this->company->save();
             return $this->sendLoginResponse($request);
         }
 
