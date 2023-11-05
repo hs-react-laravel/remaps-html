@@ -14,6 +14,7 @@ use TeamTeaTime\Forum\Models\Thread;
 use TeamTeaTime\Forum\Models\Post;
 use TeamTeaTime\Forum\Support\Web\Forum;
 use Illuminate\Http\JsonResponse;
+use Hash;
 
 use App\Models\User;
 
@@ -21,8 +22,45 @@ class CustomForumController extends Controller
 {
     protected $user;
     public function __construct() {
-        $this->user = User::find(11);
-        view()->share('user', $this->user);
+        // $this->user = User::find(11);
+        // dd(session('forum_user'));
+        $this->middleware(function ($request, $next, $guard = null) {
+            $user_id = session('forum_user');
+            if ($user_id) {
+                $this->user = User::find($user_id);
+            }
+            view()->share('user', $this->user);
+            return $next($request);
+        });
+    }
+    public function show_login() {
+        return view('auth.forum.login');
+    }
+    public function login(Request $request) {
+        $email = $request->input('email');
+        $password = $request->input('password');
+        $user = User::where('email', $email)->first();
+
+        if (!empty($user)) {
+            if ($user->is_admin == 0) {
+                return redirect('forum/login')->with(['status'=>'error', 'error'=>__('auth.invalid_admin_privilege')]);
+            }
+			if ($user->is_active == 0) {
+				return redirect('forum/login')->with(['status'=>'error', 'error'=>__('Your account is not verified yet, Please wait or Contact to administration. ')]);
+			}
+            if (!Hash::check($password, $user->password)) {
+                return redirect('forum/login')->with(['status'=>'error', 'error'=>__('auth.failed')]);
+            }
+        } else {
+            return redirect('forum/login')->with(['status'=>'error', 'error'=>__('auth.failed')]);
+        }
+
+        session(['forum_user' => $user->id]);
+        return redirect()->route('cf.category.index');
+    }
+    public function logout(Request $request) {
+        session()->forget('forum_user');
+        return redirect()->route('cf.category.index');
     }
     public function category_index(Request $request) {
 

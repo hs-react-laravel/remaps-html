@@ -108,6 +108,9 @@ Route::group(['domain' => 'remapdash.com'], function () {
 
 Route::group(['domain' => 'remapdash.com', 'prefix' => 'forum'], function () {
     Route::get('/', [CustomForumController::class, 'category_index'])->name('cf.category.index');
+    Route::get('/login', [CustomForumController::class, 'show_login'])->name('cf.login.show');
+    Route::post('/login', [CustomForumController::class, 'login'])->name('cf.login');
+    Route::post('/logout', [CustomForumController::class, 'logout'])->name('cf.logout');
     Route::get('/recent', [CustomForumController::class, 'thread_recent'])->name('cf.recent');
     Route::get('/unread', [CustomForumController::class, 'thread_unread'])->name('cf.unread');
     Route::patch('unread/mark-as-read', [CustomForumController::class, 'markAsRead'])->name('cf.unread.mark-as-read');

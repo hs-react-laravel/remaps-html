@@ -3,9 +3,9 @@
 
 @section ('content')
     <div class="d-flex flex-row justify-content-between mb-2">
-        <h2 class="flex-grow-1">{{ trans('forum::general.index') }}</h2>
+        <h2 class="flex-grow-1">Home</h2>
 
-        @if ($user->can('moveCategories'))
+        @if ($user && $user->can('moveCategories'))
             <button type="button" class="btn btn-primary" data-open-modal="create-category">
                 {{ trans('forum::categories.create') }}
             </button>

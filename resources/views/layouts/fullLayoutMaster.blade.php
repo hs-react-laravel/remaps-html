@@ -15,7 +15,7 @@ data-textdirection="{{ env('MIX_CONTENT_DIRECTION') === 'rtl' ? 'rtl' : 'ltr' }}
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <meta name="description" content="Welcome to the {{ $company->name }} tuning file service. {{ $company->name }} provide high quality dyno tested tuning files for most makes and models.">
+  <meta name="description" content="Welcome to the {{ isset($company) ? $company->name : 'Remapdash' }} tuning file service. {{ isset($company) ? $company->name : 'Remapdash' }} provide high quality dyno tested tuning files for most makes and models.">
   <meta name="keywords" content="remap, dashboard, car, tuning, advanced, service">
   <meta name="author" content="PIXINVENT">
   <title>@yield('title')</title>
@@ -117,7 +117,7 @@ data-asset-path="{{ asset('/')}}">
     ctx.fillRect(0, 0, 32, 32);
     ctx.fillStyle = textColor;
     ctx.font = 'bold 20px sans-serif';
-    ctx.fillText(getInitials('{{ $company->name }}'), 3, 24);
+    ctx.fillText(getInitials('{{ isset($company) ? $company->name : "RD" }}'), 3, 24);
 
     var link = document.createElement('link');
     link.type = 'image/x-icon';

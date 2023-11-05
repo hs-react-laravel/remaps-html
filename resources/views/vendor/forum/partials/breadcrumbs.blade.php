@@ -1,6 +1,6 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ url(config('forum.web.router.prefix')) }}">{{ trans('forum::general.index') }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ url(config('forum.web.router.prefix')) }}">Home</a></li>
         @if (isset($category) && $category)
             @include ('vendor.forum.partials.breadcrumb-categories', ['category' => $category])
         @endif

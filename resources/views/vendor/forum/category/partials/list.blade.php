@@ -28,7 +28,7 @@
                     @endif
                     @if ($category->latestActiveThread && $category->latestActiveThread->post_count > 1)
                         <div>
-                            <a href="{{ route('cf.thread.show', $category->latestActiveThread->lastPost) }}">Re: {{ $category->latestActiveThread->title }}</a>
+                            <a href="{{ route('cf.thread.show', ['thread' => $category->latestActiveThread, 'post' => $category->latestActiveThread->lastPost]) }}">Re: {{ $category->latestActiveThread->title }}</a>
                             @include ('vendor.forum.partials.timestamp', ['carbon' => $category->latestActiveThread->lastPost->created_at])
                         </div>
                     @endif

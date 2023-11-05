@@ -178,14 +178,14 @@
 <body>
     <nav class="v-navbar navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="{{ url(config('forum.web.router.prefix')) }}">Laravel Forum</a>
+            <a class="navbar-brand" href="{{ url('/') }}">Remapdash</a>
             <button class="navbar-toggler" type="button" :class="{ collapsed: isCollapsed }" @click="isCollapsed = ! isCollapsed">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" :class="{ show: !isCollapsed }">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url(config('forum.web.router.prefix')) }}">{{ trans('forum::general.index') }}</a>
+                        <a class="nav-link" href="{{ url(config('forum.web.router.prefix')) }}">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('cf.recent') }}">{{ trans('forum::threads.recent') }}</a>
@@ -195,7 +195,7 @@
                             <a class="nav-link" href="{{ route('cf.unread') }}">{{ trans('forum::threads.unread_updated') }}</a>
                         </li>
                     @endif
-                    @if ($user->can('moveCategories'))
+                    @if ($user && $user->can('moveCategories'))
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('cf.category.manage') }}">{{ trans('forum::general.manage') }}</a>
                         </li>
@@ -211,17 +211,14 @@
                                 <a class="dropdown-item" href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     Log out
                                 </a>
-                                <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                <form id="logout-form" action="{{ route('cf.logout') }}" method="POST" style="display: none;">
                                     @csrf
                                 </form>
                             </div>
                         </li>
                     @else
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/login') }}">Log in</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/register') }}">Register</a>
+                            <a class="nav-link" href="{{ route('cf.login.show') }}">Log in</a>
                         </li>
                     @endif
                 </ul>

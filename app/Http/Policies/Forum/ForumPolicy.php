@@ -6,7 +6,7 @@ class ForumPolicy
 {
     public function createCategories($user): bool
     {
-        return true;
+        return $user->is_master;
     }
 
     public function manageCategories($user): bool
@@ -17,12 +17,12 @@ class ForumPolicy
 
     public function moveCategories($user): bool
     {
-        return true;
+        return $user->is_master;
     }
 
     public function renameCategories($user): bool
     {
-        return true;
+        return $user->is_master;
     }
 
     public function markThreadsAsRead($user): bool

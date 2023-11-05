@@ -14,13 +14,13 @@
     <div class="v-category-show">
         <div class="clearfix">
             @if ($category->accepts_threads)
-                @if($user->can('createThreads', $category))
+                @if($user && $user->can('createThreads', $category))
                     <a href="{{ route('cf.thread.create', $category) }}" class="btn btn-primary float-end">{{ trans('forum::threads.new_thread') }}</a>
                 @endif
             @endif
 
             <div class="btn-group" role="group">
-                @if ($user->can('manageCategories'))
+                @if ($user && $user->can('manageCategories'))
                     <button type="button" class="btn btn-secondary" data-open-modal="edit-category">
                         {{ trans('forum::general.edit') }}
                     </button>
@@ -41,7 +41,7 @@
                 </div>
 
                 @if (count($selectableThreadIds) > 0)
-                    @if ($user->can('manageThreads', $category))
+                    @if ($user && $user->can('manageThreads', $category))
                         <form :action="actions[selectedAction]" method="POST">
                             @csrf
                             <input type="hidden" name="_method" :value="actionMethods[selectedAction]" />
@@ -64,7 +64,7 @@
                 </div>
 
                 @if (count($selectableThreadIds) > 0)
-                    @if ($user->can('manageThreads', $category))
+                    @if ($user && $user->can('manageThreads', $category))
                             <div class="fixed-bottom-right pb-xs-0 pr-xs-0 pb-sm-3 pr-sm-3 m-2" style="z-index: 1000;">
                                 <transition name="fade">
                                     <div class="card text-white bg-secondary shadow-sm" v-if="selectedThreads.length">
@@ -77,20 +77,20 @@
                                                     <label class="input-group-text" for="bulk-actions">{{ trans_choice('forum::general.actions', 1) }}</label>
                                                 </div>
                                                 <select class="form-select" id="bulk-actions" v-model="selectedAction">
-                                                    @if ($user->can('deleteThreads', $category))
+                                                    @if ($user && $user->can('deleteThreads', $category))
                                                         <option value="delete">{{ trans('forum::general.delete') }}</option>
                                                     @endif
-                                                    @if ($user->can('restoreThreads', $category))
+                                                    @if ($user && $user->can('restoreThreads', $category))
                                                         <option value="restore">{{ trans('forum::general.restore') }}</option>
                                                     @endif
-                                                    @if ($user->can('moveThreadsFrom', $category))
+                                                    @if ($user && $user->can('moveThreadsFrom', $category))
                                                         <option value="move">{{ trans('forum::general.move') }}</option>
                                                     @endif
-                                                    @if ($user->can('lockThreads', $category))
+                                                    @if ($user && $user->can('lockThreads', $category))
                                                         <option value="lock">{{ trans('forum::threads.lock') }}</option>
                                                         <option value="unlock">{{ trans('forum::threads.unlock') }}</option>
                                                     @endif
-                                                    @if ($user->can('pinThreads', $category))
+                                                    @if ($user && $user->can('pinThreads', $category))
                                                         <option value="pin">{{ trans('forum::threads.pin') }}</option>
                                                         <option value="unpin">{{ trans('forum::threads.unpin') }}</option>
                                                     @endif
@@ -127,7 +127,7 @@
                 <div class="card my-3">
                     <div class="card-body">
                         {{ trans('forum::threads.none_found') }}
-                        @if($user->can('createThreads', $category))
+                        @if($user && $user->can('createThreads', $category))
                             <br>
                             <a href="{{ route('cf.thread.create', $category) }}">{{ trans('forum::threads.post_the_first') }}</a>
                         @endif
@@ -141,7 +141,7 @@
                 </div>
                 <div class="col col-xs-4 text-end">
                     @if ($category->accepts_threads)
-                        @if($user->can('createThreads', $category))
+                        @if($user && $user->can('createThreads', $category))
                             <a href="{{ route('cf.thread.create', $category) }}" class="btn btn-primary">{{ trans('forum::threads.new_thread') }}</a>
                         @endif
                     @endif
@@ -151,7 +151,7 @@
     </div>
 
     @if (! $threads->isEmpty())
-        @if ($user->can('markThreadsAsRead'))
+        @if ($user && $user->can('markThreadsAsRead'))
             <div class="text-center mt-3">
                 <button class="btn btn-primary px-5" data-open-modal="mark-threads-as-read">
                     <i data-feather="book"></i> {{ trans('forum::general.mark_read') }}
@@ -162,7 +162,7 @@
         @endif
     @endif
 
-    @if ($user->can('manageCategories'))
+    @if ($user && $user->can('manageCategories'))
         @include ('vendor.forum.category.modals.edit')
         @include ('vendor.forum.category.modals.delete')
     @endif

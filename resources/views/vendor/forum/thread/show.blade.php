@@ -6,7 +6,7 @@
             <h2 class="flex-grow-1">{{ $thread->title }}</h2>
 
             <div>
-                @if ($user->can('deleteThreads', $thread->category) && $user->can('delete', $thread))
+                @if ($user && $user->can('deleteThreads', $thread->category) && $user && $user->can('delete', $thread))
                     @if ($thread->trashed())
                         <a href="#" class="btn btn-danger mr-3 mb-2" data-open-modal="perma-delete-thread">
                             <i data-feather="trash"></i> {{ trans('forum::general.perma_delete') }}
@@ -17,19 +17,19 @@
                         </a>
                     @endif
                 @endif
-                @if ($thread->trashed() && $user->can('restoreThreads', $thread->category) && $user->can('restore', $thread))
+                @if ($thread->trashed() && $user && $user->can('restoreThreads', $thread->category) && $user && $user->can('restore', $thread))
                     <a href="#" class="btn btn-secondary mb-2" data-open-modal="restore-thread">
                         <i data-feather="refresh-cw"></i> {{ trans('forum::general.restore') }}
                     </a>
                 @endif
 
-                @if ($user->can('lockThreads', $category)
-                    || $user->can('pinThreads', $category)
-                    || $user->can('rename', $thread)
-                    || $user->can('moveThreadsFrom', $category))
+                @if ($user && $user->can('lockThreads', $category)
+                    || $user && $user->can('pinThreads', $category)
+                    || $user && $user->can('rename', $thread)
+                    || $user && $user->can('moveThreadsFrom', $category))
                     <div class="btn-group mb-2" role="group">
                         @if (! $thread->trashed())
-                            @if ($user->can('lockThreads', $category))
+                            @if ($user && $user->can('lockThreads', $category))
                                 @if ($thread->locked)
                                     <a href="#" class="btn btn-secondary" data-open-modal="unlock-thread">
                                         <i data-feather="unlock"></i> {{ trans('forum::threads.unlock') }}
@@ -40,7 +40,7 @@
                                     </a>
                                 @endif
                             @endif
-                            @if ($user->can('pinThreads', $category))
+                            @if ($user && $user->can('pinThreads', $category))
                                 @if ($thread->pinned)
                                     <a href="#" class="btn btn-secondary" data-open-modal="unpin-thread">
                                         <i data-feather="arrow-down"></i> {{ trans('forum::threads.unpin') }}
@@ -51,12 +51,12 @@
                                     </a>
                                 @endif
                             @endif
-                            @if ($user->can('rename', $thread))
+                            @if ($user && $user->can('rename', $thread))
                                 <a href="#" class="btn btn-secondary" data-open-modal="rename-thread">
                                     <i data-feather="edit-2"></i> {{ trans('forum::general.rename') }}
                                 </a>
                             @endif
-                            @if ($user->can('moveThreadsFrom', $category))
+                            @if ($user && $user->can('moveThreadsFrom', $category))
                                 <a href="#" class="btn btn-secondary" data-open-modal="move-thread">
                                     <i data-feather="corner-up-right"></i> {{ trans('forum::general.move') }}
                                 </a>
@@ -82,7 +82,7 @@
 
         <hr>
 
-        @if ((count($posts) > 1 || $posts->currentPage() > 1) && ($user->can('deletePosts', $thread) || $user->can('restorePosts', $thread)) && count($selectablePosts) > 0)
+        @if ((count($posts) > 1 || $posts->currentPage() > 1) && ($user && $user->can('deletePosts', $thread) || $user && $user->can('restorePosts', $thread)) && count($selectablePosts) > 0)
             <form :action="postActions[selectedPostAction]" method="POST">
                 @csrf
                 <input type="hidden" name="_method" :value="postActionMethods[selectedPostAction]" />
@@ -94,7 +94,7 @@
             </div>
             <div class="col-md-auto text-end">
                 @if (! $thread->trashed())
-                    @if ($user->can('reply', $thread))
+                    @if ($user && $user->can('reply', $thread))
                         <div class="btn-group" role="group">
                             <a href="{{ route('cf.post.create', $thread) }}" class="btn btn-primary">
                                 {{ trans('forum::general.new_reply') }}
@@ -108,7 +108,7 @@
             </div>
         </div>
 
-        @if ((count($posts) > 1 || $posts->currentPage() > 1) && ($user->can('deletePosts', $thread) || $user->can('restorePosts', $thread)) && count($selectablePosts) > 0)
+        @if ((count($posts) > 1 || $posts->currentPage() > 1) && ($user && $user->can('deletePosts', $thread) || $user && $user->can('restorePosts', $thread)) && count($selectablePosts) > 0)
             <div class="text-end pb-1">
                 <div class="form-check">
                     <label for="selectAllPosts">
@@ -123,7 +123,7 @@
             @include ('vendor.forum.post.partials.list', compact('post'))
         @endforeach
 
-        @if ((count($posts) > 1 || $posts->currentPage() > 1) && ($user->can('deletePosts', $thread) || $user->can('restorePosts', $thread)) && count($selectablePosts) > 0)
+        @if ((count($posts) > 1 || $posts->currentPage() > 1) && ($user && $user->can('deletePosts', $thread) || $user && $user->can('restorePosts', $thread)) && count($selectablePosts) > 0)
                 <div class="fixed-bottom-right pb-xs-0 pr-xs-0 pb-sm-3 pr-sm-3">
                     <transition name="fade">
                         <div class="card text-white bg-secondary shadow-sm" v-if="selectedPosts.length">
@@ -163,7 +163,7 @@
         {{ $posts->links('vendor.forum.pagination') }}
 
         @if (! $thread->trashed())
-            @if ($user->can('reply', $thread))
+            @if ($user && $user->can('reply', $thread))
                 <h3>{{ trans('forum::general.quick_reply') }}</h3>
                 <div id="quick-reply">
                     <form method="POST" action="{{ route('cf.post.store', $thread) }}">
@@ -182,7 +182,7 @@
         @endif
     </div>
 
-    @if ($thread->trashed() && $user->can('restoreThreads', $thread->category) && $user->can('restore', $thread))
+    @if ($thread->trashed() && $user && $user->can('restoreThreads', $thread->category) && $user && $user->can('restore', $thread))
         @component('vendor.forum.modal-form')
             @slot('key', 'restore-thread')
             @slot('title', '<i data-feather="refresh-cw" class="text-muted"></i>' . trans('forum::general.restore'))
@@ -197,7 +197,7 @@
         @endcomponent
     @endif
 
-    @if ($user->can('deleteThreads', $thread->category) && $user->can('delete', $thread))
+    @if ($user && $user->can('deleteThreads', $thread->category) && $user && $user->can('delete', $thread))
         @component('vendor.forum.modal-form')
             @slot('key', 'delete-thread')
             @slot('title', '<i data-feather="trash" class="text-muted"></i>' . trans('forum::threads.delete'))
@@ -239,7 +239,7 @@
     @endif
 
     @if (! $thread->trashed())
-        @if ($user->can('lockThreads', $category))
+        @if ($user && $user->can('lockThreads', $category))
             @if ($thread->locked)
                 @component('vendor.forum.modal-form')
                     @slot('key', 'unlock-thread')
@@ -268,7 +268,7 @@
                 @endcomponent
             @endif
         @endif
-        @if ($user->can('pinThreads', $category))
+        @if ($user && $user->can('pinThreads', $category))
             @if ($thread->pinned)
                 @component('vendor.forum.modal-form')
                     @slot('key', 'unpin-thread')
@@ -298,7 +298,7 @@
             @endif
         @endif
 
-        @if ($user->can('rename', $thread))
+        @if ($user && $user->can('rename', $thread))
             @component('vendor.forum.modal-form')
                 @slot('key', 'rename-thread')
                 @slot('title', '<i data-feather="edit-2" class="text-muted"></i> ' . trans('forum::general.rename'))
@@ -318,7 +318,7 @@
             @endcomponent
         @endif
 
-        @if ($user->can('moveThreadsFrom', $category))
+        @if ($user && $user->can('moveThreadsFrom', $category))
             @component('vendor.forum.modal-form')
                 @slot('key', 'move-thread')
                 @slot('title', '<i data-feather="corner-up-right" class="text-muted"></i> ' . trans('forum::general.move'))

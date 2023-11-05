@@ -6,8 +6,8 @@
             <span class="float-end">
                 <a href="{{ route('cf.thread.show', ['thread' => $thread, 'page' => ceil($post->sequence / $post->getPerPage())])."#post-{$post->sequence}" }}">#{{ $post->sequence }}</a>
                 @if ($post->sequence != 1)
-                    @if ($user->can('deletePosts', $post->thread))
-                        @if ($user->can('delete', $post))
+                    @if ($user && $user->can('deletePosts', $post->thread))
+                        @if ($user && $user->can('delete', $post))
                             <input type="checkbox" name="posts[]" :value="{{ $post->id }}" v-model="selectedPosts">
                         @endif
                     @endif
@@ -30,7 +30,7 @@
         @endif
 
         @if ($post->trashed())
-            @if ($user->can('viewTrashedPosts'))
+            @if ($user && $user->can('viewTrashedPosts'))
                 {!! Forum::render($post->content) !!}
                 <br>
             @endif
@@ -44,21 +44,21 @@
                 @if (! $post->trashed())
                     <a href="{{ route('cf.post.show', ['thread' => $thread->id, 'post' => $post->id]) }}" class="card-link text-muted">{{ trans('forum::general.permalink') }}</a>
                     @if ($post->sequence != 1)
-                        @if ($user->can('deletePosts', $post->thread))
-                            @if ($user->can('delete', $post))
+                        @if ($user && $user->can('deletePosts', $post->thread))
+                            @if ($user && $user->can('delete', $post))
                                 <a href="{{ route('cf.post.confirm-delete', ['thread' => $thread->id, 'post' => $post->id]) }}" class="card-link text-danger">{{ trans('forum::general.delete') }}</a>
                             @endif
                         @endif
                     @endif
-                    @if ($user->can('edit', $post))
+                    @if ($user && $user->can('edit', $post))
                         <a href="{{ route('cf.post.edit', ['thread' => $thread, 'post' => $post]) }}" class="card-link">{{ trans('forum::general.edit') }}</a>
                     @endif
-                    @if ($user->can('reply', $post->thread))
+                    @if ($user && $user->can('reply', $post->thread))
                         <a href="{{ route('cf.post.create', ['thread' => $post->thread, 'post' => $post]) }}" class="card-link">{{ trans('forum::general.reply') }}</a>
                     @endif
                 @else
-                    @if ($user->can('restorePosts', $post->thread))
-                        @if ($user->can('restore', $post))
+                    @if ($user && $user->can('restorePosts', $post->thread))
+                        @if ($user && $user->can('restore', $post))
                             <a href="{{ route('cf.post.confirm-restore', ['thread' => $post->thread, 'post' => $post]) }}" class="card-link">{{ trans('forum::general.restore') }}</a>
                         @endif
                     @endif
