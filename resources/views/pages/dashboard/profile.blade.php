@@ -104,7 +104,7 @@
                   }}"
                   id="logo"
                   class="rounded me-2 mb-1 mb-md-0"
-                  width="250"
+                  {{-- width="250" --}}
                   height="110"
                   alt="Logo Image"
                 />

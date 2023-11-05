@@ -24,7 +24,7 @@
 
         <h4 class="card-title mb-1">Company Login</h4>
 
-        <form class="auth-login-form mt-2" action="{{ route('admin.auth.login') }}" method="POST">
+        <form class="auth-login-form mt-2" action="{{ route('admin.auth.confirm.login') }}" method="POST">
           @csrf
           <div class="mb-1">
             <label for="login-email" class="form-label">Email</label>

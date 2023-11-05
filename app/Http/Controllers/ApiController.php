@@ -21,6 +21,7 @@ use App\Models\EmailTemplate;
 use App\Models\Api\ApiUser;
 use App\Models\NotificationRead;
 use App\Models\AdminupdateRead;
+use PragmaRX\Google2FAQRCode\Google2FA;
 
 class ApiController extends Controller
 {
@@ -637,5 +638,16 @@ class ApiController extends Controller
             ->update([
                 'is_read' => 1
             ]);
+    }
+
+    public function twofa_check(Request $request) {
+        $company = Company::find($request->input('company_id'));
+        $secretKey = $company->secret_2fa_key;
+        $google2fa = new Google2FA();
+        $valid = $google2fa->verifyKey($secretKey, $request->input('code'));
+
+        return [
+            'verified' => $valid
+        ];
     }
 }

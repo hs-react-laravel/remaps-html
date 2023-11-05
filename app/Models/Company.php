@@ -84,7 +84,8 @@ class Company extends Model
         'is_tc',
         'tc_pdf',
         'is_invoice_pdf',
-        'is_show_car_data'
+        'is_show_car_data',
+        'secret_2fa_key'
     ];
 
     public function users()

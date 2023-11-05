@@ -178,6 +178,8 @@ Route::get('/customer', function () {
 });
 Route::group(['middleware' => 'web', 'prefix'=>'admin'], function(){
 	Route::get('login', '\App\Http\Controllers\Auth\Admin\LoginController@showLoginForm')->name('admin.auth.show.login');
+    Route::post('confirm_login', '\App\Http\Controllers\Auth\Admin\LoginController@confirmLogin')->name('admin.auth.confirm.login');
+    Route::get('twofa', '\App\Http\Controllers\Auth\Admin\LoginController@twofa')->name('admin.auth.twofa');
 	Route::post('login', '\App\Http\Controllers\Auth\Admin\LoginController@login')->name('admin.auth.login');
 	Route::post('logout', '\App\Http\Controllers\Auth\Admin\LoginController@logout')->name('admin.auth.logout');
 	Route::get('password/reset', '\App\Http\Controllers\Auth\Admin\ForgotPasswordController@showLinkRequestForm')->name('admin.auth.show.password.reset');

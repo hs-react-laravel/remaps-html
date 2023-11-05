@@ -44,6 +44,7 @@ Route::get('/car-text-template', [ApiController::class, 'getCarTextTemplate'])->
 Route::get('/notifies', [ApiController::class, 'getNotifies'])->name('api.notifies');
 Route::get('/sidebar-counts', [ApiController::class, 'getSideBarCounts'])->name('api.sidebar.counts');
 Route::post('/read-admin-update', [ApiController::class, 'adminupdate_read_one'])->name('api.adminupdate.read');
+Route::post('/twofa-check', [ApiController::class, 'twofa_check'])->name('api.twofa.check');
 
 Route::post('login', [PassportAuthController::class, 'login']);
 

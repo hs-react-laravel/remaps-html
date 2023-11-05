@@ -9,6 +9,8 @@ use App\Models\Company;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\User;
+use PragmaRX\Google2FAQRCode\Google2FA;
+use Hash;
 
 class LoginController extends Controller
 {
@@ -67,7 +69,64 @@ class LoginController extends Controller
     {
         $this->redirectTo = '/admin/dashboard';
         session()->put('url', [ "intended" => "/admin/dashboard" ]);
+
         return view('auth.admin.login');
+    }
+
+    public function confirmLogin(Request $request)
+    {
+        $this->validateLogin($request);
+        if ($this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+            return $this->sendLockoutResponse($request);
+        }
+
+        $email = $request->get($this->username());
+        $password = $request->input('password');
+        $user = User::where($this->username(), $email)->where('company_id', $this->company->id)->first();
+
+        if (!empty($user)) {
+            if ($user->is_admin == 0) {
+                return redirect('admin/login')->with(['status'=>'error', 'error'=>__('auth.invalid_admin_privilege')]);
+            }
+			if ($user->is_active == 0) {
+				return redirect('admin/login')->with(['status'=>'error', 'error'=>__('Your account is not verified yet, Please wait or Contact to administration. ')]);
+			}
+            if (!Hash::check($password, $user->password)) {
+                return redirect('admin/login')->with(['status'=>'error', 'error'=>__('auth.failed')]);
+            }
+        } else {
+            return redirect('admin/login')->with(['status'=>'error', 'error'=>__('auth.failed')]);
+        }
+
+        session(['twofauser' => $user->id]);
+        session(['twofauserpw' => $password]);
+
+        return redirect()->route('admin.auth.twofa');
+    }
+
+    public function twofa(Request $request)
+    {
+        $user = User::find(session('twofauser'));
+        $email = $user->email;
+        $password = session('twofauserpw');
+        $company = $this->company;
+
+        $qrData = '';
+
+        if(!$company->secret_2fa_key) {
+            $google2fa = new Google2FA();
+            $secretKey = $google2fa->generateSecretKey();
+            $qrData = $google2fa->getQRCodeInline(
+                $this->company->name,
+                $this->company->main_email_address,
+                $secretKey
+            );
+            $company->secret_2fa_key = $secretKey;
+            $company->save();
+        }
+
+        return view('auth.admin.twofa', compact('email', 'password', 'user', 'qrData', 'company'));
     }
 
     /**
@@ -92,6 +151,13 @@ class LoginController extends Controller
 			if ($user->is_active == 0) {
 				return redirect('admin/login')->with(['status'=>'error', 'error'=>__('Your account is not verified yet, Please wait or Contact to administration. ')]);
 			}
+        }
+
+        $secretKey = $this->company->secret_2fa_key;
+        $google2fa = new Google2FA();
+        $valid = $google2fa->verifyKey($secretKey, $request->input('code'));
+        if (!$valid) {
+            return redirect()->route('admin.auth.twofa');
         }
 
         if ($this->attemptLogin($request)) {

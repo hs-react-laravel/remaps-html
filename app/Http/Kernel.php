@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         'check.onlystaff' => \App\Http\Middleware\CheckOnlyStaff::class,
         'check.customerstaff' => \App\Http\Middleware\CheckStaffCustomer::class,
         'check.common' => \App\Http\Middleware\CheckCommon::class,
+        '2fa' => \PragmaRX\Google2FALaravel\Middleware::class,
     ];
 }
