@@ -17,7 +17,7 @@ class Helper
         $company = Company::where('v2_domain_link', url(''))->first();
         $DefaultData = [
             'mainLayoutType' => 'vertical',
-            'theme' => 'dark',
+            'theme' => 'light',
             'sidebarCollapsed' => false,
             'navbarColor' => '',
             'horizontalMenuType' => 'floating',
@@ -34,15 +34,18 @@ class Helper
             'direction' => 'ltr',
         ];
 
-        $styleObj = Styling::where('company_id', $company->id)->first();
-        if ($styleObj) {
-            $data = (array)json_decode($styleObj->data);
-        } else {
-            $data = $DefaultData;
-            $newStyle = new Styling;
-            $newStyle->company_id = $company->id;
-            $newStyle->data = json_encode($DefaultData);
-            $newStyle->save();
+        $data = $DefaultData;
+        if ($company) {
+            $styleObj = Styling::where('company_id', $company->id)->first();
+            if ($styleObj) {
+                $data = (array)json_decode($styleObj->data);
+            } else {
+                $data = $DefaultData;
+                $newStyle = new Styling;
+                $newStyle->company_id = $company->id;
+                $newStyle->data = json_encode($DefaultData);
+                $newStyle->save();
+            }
         }
 
         // if any key missing of array from custom.php file it will be merge and set a default value from dataDefault array and store in data variable

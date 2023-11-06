@@ -24,13 +24,22 @@
             </div>
           </div>
         </div>
-        <div class="form-check form-check-inline my-1">
-          <input type="hidden" name="is_invoice_pdf" value="0" />
-          <input class="form-check-input" type="checkbox" id="is_invoice_pdf" name="is_invoice_pdf" value="1" @if($company->is_invoice_pdf) checked @endif/>
-          <label class="form-check-label" for="is_invoice_pdf">Deactivates the normal system generated invoice PDF</label>
-        </div>
       </div>
       <div class="col-12">
+        <div class="form-check form-check-inline my-1">
+            <input type="hidden" name="is_invoice_pdf" value="0" />
+            <input class="form-check-input" type="checkbox" id="is_invoice_pdf" name="is_invoice_pdf" value="1" @if($company->is_invoice_pdf) checked @endif/>
+            <label class="form-check-label" for="is_invoice_pdf">Deactivates the normal system generated invoice PDF</label>
+          </div>
+      </div>
+      <div class="col-12">
+        <div class="form-check form-check-inline my-1">
+            <input type="hidden" name="secret_2fa_enabled" value="0" />
+            <input class="form-check-input" type="checkbox" id="secret_2fa_enabled" name="secret_2fa_enabled" value="1" @if($company->secret_2fa_enabled) checked @endif/>
+            <label class="form-check-label" for="secret_2fa_enabled">2FA Security</label>
+        </div>
+      </div>
+      <div class="col-12 mt-2">
         <button type="submit" class="btn btn-primary me-1">Submit</button>
       </div>
     </div>
