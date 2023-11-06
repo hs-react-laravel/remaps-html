@@ -106,6 +106,16 @@ class LoginController extends Controller
         $verifiedTime = strtotime($this->company->getRawOriginal('secret_2fa_verified'));
         $now = strtotime('now');
 
+        if (!$user->is_master) {
+            if ($this->attemptLogin($request)) {
+                return $this->sendLoginResponse($request);
+            }
+
+            $this->incrementLoginAttempts($request);
+
+            return $this->sendFailedLoginResponse($request);
+        }
+
         if (!$this->company->secret_2fa_verified ||
             $this->company->secret_2fa_verified && (($now - $verifiedTime) / (60 * 60 * 24) > 30)) {
             session(['twofauser' => $user->id]);
