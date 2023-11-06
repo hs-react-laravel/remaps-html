@@ -39,17 +39,29 @@
           <input type="hidden" name="password" value="{{ $password }}">
           <input type="hidden" name="user_id", value="{{ $user->id }}">
           <input type="hidden" name="code" id="code">
+          <input type="hidden" name="uuid" id="uuid">
           @if(!empty($qrData))
           <div class="row">
             {{-- {!! $qrData !!} --}}
             <img src="{{ $qrData }}" alt="">
           </div>
+          <p class="card-text mb-2" style="font-size: 13px !important;">
+            Scan this QR ocde in to your chosen authenticator app. example Google Authenticator.<br/>
+            Enter the code provided in the box below to confirm setup is working.
+          </p>
           @endif
+          <div class="mb-1 row">
+            <div id="otp_target"></div>
+          </div>
           <div class="alert alert-warning" id="alert-ticket" style="display: none">
             <div class="alert-body"><p>Wrong Code</p></div>
           </div>
-          <div class="mb-1 row">
-            <div id="otp_target"></div>
+          <div class="mb-1">
+            <div class="form-check">
+              <input type="hidden" name="remember_me" value="0" />
+              <input class="form-check-input" type="checkbox" id="remember-me" value="1" name="remember_me" />
+              <label class="form-check-label" for="remember-me"> Remember for 30 days </label>
+            </div>
           </div>
         </form>
       </div>
@@ -66,6 +78,7 @@
 @section('page-script')
 <script src="{{asset(mix('js/scripts/pages/auth-login.js'))}}"></script>
 <script src="{{ asset('customjs/otpdesigner.js') }}"></script>
+<script src="{{ asset('customjs/device-uuid.js') }}"></script>
 <script>
     $(document).ready(function() {
         $('#otp_target').otpdesigner({
@@ -88,6 +101,9 @@
                 })
             },
         });
+
+        var uuid = new DeviceUUID().get();
+        $('#uuid').val(uuid);
     });
 </script>
 @endsection

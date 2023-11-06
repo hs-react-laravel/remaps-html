@@ -106,7 +106,7 @@ class LoginController extends Controller
         $verifiedTime = strtotime($this->company->getRawOriginal('secret_2fa_verified'));
         $now = strtotime('now');
 
-        if (!$user->is_master) {
+        if (!$user->company->secret_2fa_enabled) {
             if ($this->attemptLogin($request)) {
                 return $this->sendLoginResponse($request);
             }
@@ -116,7 +116,7 @@ class LoginController extends Controller
             return $this->sendFailedLoginResponse($request);
         }
 
-        if (!$this->company->secret_2fa_verified ||
+        if (!$this->company->secret_2fa_device ||
             $this->company->secret_2fa_verified && (($now - $verifiedTime) / (60 * 60 * 24) > 30)) {
             session(['twofauser' => $user->id]);
             session(['twofauserpw' => $password]);
@@ -145,8 +145,9 @@ class LoginController extends Controller
         if(!$company->secret_2fa_key) {
             $google2fa = new Google2FA();
             $secretKey = $google2fa->generateSecretKey();
+            $domain = preg_replace("(^https?://)", "", $this->company->v2_domain_link);
             $qrData = $google2fa->getQRCodeInline(
-                $this->company->name,
+                $domain,
                 $this->company->main_email_address,
                 $secretKey
             );
@@ -188,8 +189,13 @@ class LoginController extends Controller
             return redirect()->route('admin.auth.twofa');
         }
 
+
         if ($this->attemptLogin($request)) {
             $this->company->secret_2fa_verified = \Carbon\Carbon::now();
+            $rememberMe = $request->input('remember_me');
+            if ($rememberMe) {
+                $this->company->secret_2fa_device = $uuid = $request->input('uuid');
+            }
             $this->company->save();
             return $this->sendLoginResponse($request);
         }

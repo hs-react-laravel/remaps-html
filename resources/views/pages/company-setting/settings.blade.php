@@ -101,7 +101,7 @@
                 role="tab"
                 aria-controls="styling-fill"
                 aria-selected="@if($tab == 'styling') true @else false @endif"
-                >Preference</a>
+                >Login Page</a>
             </li>
             <li class="nav-item">
               <a
@@ -192,5 +192,9 @@
         style_background_img.src = URL.createObjectURL(file)
       }
     }
+    $('#secret_2fa_enabled').on('change', function(){
+        let val = $(this).is(":checked");
+        $('#alert-ticket').css('display', val ? 'block' : 'none');
+    })
   </script>
 @endsection

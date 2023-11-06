@@ -33,10 +33,19 @@
           </div>
       </div>
       <div class="col-12">
+        <h4 class="mt-1">Security</h4>
         <div class="form-check form-check-inline my-1">
             <input type="hidden" name="secret_2fa_enabled" value="0" />
             <input class="form-check-input" type="checkbox" id="secret_2fa_enabled" name="secret_2fa_enabled" value="1" @if($company->secret_2fa_enabled) checked @endif/>
             <label class="form-check-label" for="secret_2fa_enabled">2FA Security</label>
+        </div>
+        <div class="alert alert-warning" id="alert-ticket" style="display: {{ $company->secret_2fa_enabled ? 'block' : 'none'}}">
+            <div class="alert-body">
+                <p>
+                    After enabling this 2FA feature you will need a 2FA app of your choice to generate an access code before you are able to log in.
+                    <br/>for Example. Google Authenticator, Microsoft Authenticator
+                </p>
+            </div>
         </div>
       </div>
       <div class="col-12 mt-2">

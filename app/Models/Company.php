@@ -87,7 +87,8 @@ class Company extends Model
         'is_show_car_data',
         'secret_2fa_key',
         'secret_2fa_verified',
-        'secret_2fa_enabled'
+        'secret_2fa_enabled',
+        'secret_2fa_device'
     ];
 
     public function users()
