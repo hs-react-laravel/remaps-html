@@ -41,7 +41,8 @@
           <input type="hidden" name="code" id="code">
           @if(!empty($qrData))
           <div class="row">
-            {!! $qrData !!}
+            {{-- {!! $qrData !!} --}}
+            <img src="{{ $qrData }}" alt="">
           </div>
           @endif
           <div class="alert alert-warning" id="alert-ticket" style="display: none">
