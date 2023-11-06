@@ -31,7 +31,7 @@
               <th width="10%">Domain Link</th>
               <th width="10%">Total Customers</th>
               <th width="10%">Created At</th>
-              <th width="25%">Actions</th>
+              <th width="30%">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -113,6 +113,12 @@
                         title="{{ $u->owner && $u->owner->is_active == 1 ? 'Active' : 'Deactive' }}"
                         href="{{ route('companies.activate', ['id' => $u->id]) }}" >
                         <i data-feather="{{ $u->owner && $u->owner->is_active == 1 ? 'thumbs-down' : 'thumbs-up' }}"></i>
+                      </a>
+                      <a
+                        class="btn btn-icon btn-success"
+                        title="Reset 2FA Secret Key"
+                        href="{{ route('companies.reset.twofakey', ['id' => $u->id]) }}" >
+                        <i data-feather="key"></i>
                       </a>
                       <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $u->id }}" title="Delete"><i data-feather="trash-2"></i></a>
                       <form action="{{ route('companies.destroy', $u->id) }}" class="delete-form" method="POST" style="display:none">

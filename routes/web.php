@@ -224,6 +224,7 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::get('companies/{id}/trial', [CompanyController::class, 'trial'])->name('companies.trial');
     Route::post('companies/{id}/trial', [CompanyController::class, 'trial_post'])->name('companies.trial.post');
     Route::get('companies/{id}/reset-password-link', [CompanyController::class, 'resendPasswordResetLink'])->name('companies.reset-password');
+    Route::get('companies/{id}/reset-2fa-key', [CompanyController::class, 'reset_twofa_key'])->name('companies.reset.twofakey');
     Route::resource('packages', PackageController::class);
     Route::resource('slidermanagers', SliderManagerController::class);
     Route::resource('shopcategories', ShopCategoryController::class);

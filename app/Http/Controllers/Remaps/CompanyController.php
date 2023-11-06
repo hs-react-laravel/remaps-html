@@ -561,6 +561,14 @@ class CompanyController extends MasterController
          }
     }
 
+    public function reset_twofa_key(Request $request, $id) {
+        $company = Company::find($id);
+        $company->secret_2fa_key = NULL;
+        $company->secret_2fa_verified = NULL;
+        $company->save();
+        return redirect(route('companies.index'));
+    }
+
     public function setCompanyMailSender() {
         Config::set('mail.default', 'smtp');
         Config::set('mail.mailers.smtp.host', 'mail.remapdash.com');
