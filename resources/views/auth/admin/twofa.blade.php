@@ -56,6 +56,7 @@
           <div class="alert alert-warning" id="alert-ticket" style="display: none">
             <div class="alert-body"><p>Wrong Code</p></div>
           </div>
+          @if(empty($qrData))
           <div class="mb-1">
             <div class="form-check">
               <input type="hidden" name="remember_me" value="0" />
@@ -63,6 +64,7 @@
               <label class="form-check-label" for="remember-me"> Remember for 30 days </label>
             </div>
           </div>
+          @endif
         </form>
       </div>
     </div>
