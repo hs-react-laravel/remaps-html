@@ -108,6 +108,7 @@ Route::group(['domain' => 'remapdash.com'], function () {
 
 Route::group(['domain' => 'remapdash.com', 'prefix' => 'forum'], function () {
     Route::get('/', [CustomForumController::class, 'category_index'])->name('cf.category.index');
+    Route::get('/switch-from', [CustomForumController::class, 'switch'])->name('cf.switch');
     Route::get('/login', [CustomForumController::class, 'show_login'])->name('cf.login.show');
     Route::post('/login', [CustomForumController::class, 'login'])->name('cf.login');
     Route::post('/logout', [CustomForumController::class, 'logout'])->name('cf.logout');
@@ -196,6 +197,9 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboardAdmin'])->name('dashboard.admin');
     Route::get('/dashboard-email-reset', [DashboardController::class, 'dashboardAdminReset'])->name('dashboard.admin.email.reset');
     Route::get('/dashboard-api', [DashboardController::class, 'dashboardAdminApi'])->name('dashboard.admin.api');
+
+    Route::get('/switch-forum', [DashboardController::class, 'switch_forum'])->name('dashboard.admin.forum');
+
     Route::resource('fileservices', FileServiceController::class);
     Route::get('fileservices/{id}/download-original', [FileServiceController::class, 'download_original'])->name('fileservice.download.original');
     Route::get('fileservices/{id}/download-modified', [FileServiceController::class, 'download_modified'])->name('fileservice.download.modified');

@@ -33,6 +33,12 @@ class CustomForumController extends Controller
             return $next($request);
         });
     }
+    public function switch(Request $request) {
+        $email = $request->input('email');
+        if (!$email) {
+            return redirect()->route('cf.category.index');
+        }
+    }
     public function show_login() {
         return view('auth.forum.login');
     }

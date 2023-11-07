@@ -78,6 +78,13 @@
         </a>
       </li>
     @endif
+    @if ($role == "master")
+    <li class="nav-item d-none d-lg-block">
+        <a class="nav-link" href="{{ route('dashboard.admin.forum') }}">
+            <i class="ficon" data-feather="message-square"></i> Forum
+        </a>
+    </li>
+    @endif
     <li class="nav-item dropdown dropdown-language">
       <a class="nav-link dropdown-toggle" id="dropdown-flag" href="#" data-bs-toggle="dropdown" aria-haspopup="true">
         <i class="flag-icon flag-icon-us"></i>
@@ -128,8 +135,6 @@
         </a>
       </div>
     </li>
-    {{-- <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-style"><i class="ficon"
-          data-feather="{{ $configData['theme'] === 'dark' ? 'sun' : 'moon' }}"></i></a></li> --}}
     @if ($role == "customer")
 
 

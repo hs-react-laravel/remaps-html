@@ -326,4 +326,9 @@ class DashboardController extends MasterController
                 'is_read' => 1
             ]);
     }
+
+    public function switch_forum(Request $request) {
+        $email = $this->user->company->main_email_address;
+        return redirect(url('https://remapdash.com/forum/switch?email=' . $email));
+    }
 }
