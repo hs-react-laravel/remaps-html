@@ -19,6 +19,13 @@ class CompanySettingController extends MasterController
 
     public function store(Request $request) {
         try {
+            if ($request->has('secret_2fa_enabled') && $request->input('secret_2fa_enabled') == 0) {
+                $request->request->add([
+                    'secret_2fa_key' => NULL,
+                    'secret_2fa_verified' => NULL,
+                    'secret_2fa_device' => NULL,
+                ]);
+            }
             // upload file
             if ($request->file('upload_file')) {
                 $file = $request->file('upload_file');
