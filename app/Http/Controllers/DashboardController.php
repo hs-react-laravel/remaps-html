@@ -329,6 +329,6 @@ class DashboardController extends MasterController
 
     public function switch_forum(Request $request) {
         $email = $this->user->company->main_email_address;
-        return redirect(url('https://remapdash.com/forum/switch?email=' . $email));
+        return redirect(url('https://remapdash.com/forum/switch-from?email=' . $email));
     }
 }

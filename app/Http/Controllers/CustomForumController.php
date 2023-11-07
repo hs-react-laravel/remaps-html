@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\View as ViewFactory;
 use TeamTeaTime\Forum\Support\CategoryPrivacy;
 use TeamTeaTime\Forum\Events\UserViewingIndex;
+use App\Models\Company;
 use App\Models\ForumCategory;
 use TeamTeaTime\Forum\Models\Category;
 use TeamTeaTime\Forum\Models\Thread;
@@ -35,9 +36,14 @@ class CustomForumController extends Controller
     }
     public function switch(Request $request) {
         $email = $request->input('email');
-        if (!$email) {
-            return redirect()->route('cf.category.index');
+        if ($email) {
+            $company = Company::where('main_email_address', $email)->first();
+            if ($company) {
+                session(['forum_user' => $company->owner->id]);
+            }
         }
+
+        return redirect()->route('cf.category.index');
     }
     public function show_login() {
         return view('auth.forum.login');
