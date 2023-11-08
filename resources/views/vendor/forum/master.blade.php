@@ -217,9 +217,9 @@
                             </div>
                         </li>
                     @else
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link" href="{{ route('cf.login.show') }}">Log in</a>
-                        </li>
+                        </li> --}}
                     @endif
                 </ul>
             </div>

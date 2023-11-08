@@ -41,7 +41,7 @@
               @endif
               <th width="5%">{{__('locale.tb_header_FileService')}}</th>
               <th width="10%">{{__('locale.tb_header_Lastlogin')}}</th>
-              <th width="20%">{{__('locale.tb_header_Actions')}}</th>
+              <th width="25%">{{__('locale.tb_header_Actions')}}</th>
             </tr>
           </thead>
         </table>
