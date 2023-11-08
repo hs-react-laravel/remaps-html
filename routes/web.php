@@ -106,68 +106,68 @@ Route::group(['domain' => 'remapdash.com'], function () {
     Route::post('api-profile-edit', [FrontendCompanyController::class, 'api_edit_profile_save'])->name('frontend.api.profile.save');
 });
 
-Route::group(['domain' => 'remapdash.com', 'prefix' => 'forum'], function () {
-    Route::get('/', [CustomForumController::class, 'category_index'])->name('cf.category.index');
-    Route::get('/switch-from', [CustomForumController::class, 'switch'])->name('cf.switch');
-    Route::get('/login', [CustomForumController::class, 'show_login'])->name('cf.login.show');
-    Route::post('/login', [CustomForumController::class, 'login'])->name('cf.login');
-    Route::post('/logout', [CustomForumController::class, 'logout'])->name('cf.logout');
-    Route::get('/recent', [CustomForumController::class, 'thread_recent'])->name('cf.recent');
-    Route::get('/unread', [CustomForumController::class, 'thread_unread'])->name('cf.unread');
-    Route::patch('unread/mark-as-read', [CustomForumController::class, 'markAsRead'])->name('cf.unread.mark-as-read');
-    Route::get('/manage', [CustomForumController::class, 'category_manage'])->name('cf.category.manage');
-    Route::post('category/create', [CustomForumController::class, 'category_create'])->name('cf.category.create');
+// Route::group(['domain' => 'remapdash.com', 'prefix' => 'forum'], function () {
+//     Route::get('/', [CustomForumController::class, 'category_index'])->name('cf.category.index');
+//     Route::get('/switch-from', [CustomForumController::class, 'switch'])->name('cf.switch');
+//     Route::get('/login', [CustomForumController::class, 'show_login'])->name('cf.login.show');
+//     Route::post('/login', [CustomForumController::class, 'login'])->name('cf.login');
+//     Route::post('/logout', [CustomForumController::class, 'logout'])->name('cf.logout');
+//     Route::get('/recent', [CustomForumController::class, 'thread_recent'])->name('cf.recent');
+//     Route::get('/unread', [CustomForumController::class, 'thread_unread'])->name('cf.unread');
+//     Route::patch('unread/mark-as-read', [CustomForumController::class, 'markAsRead'])->name('cf.unread.mark-as-read');
+//     Route::get('/manage', [CustomForumController::class, 'category_manage'])->name('cf.category.manage');
+//     Route::post('category/create', [CustomForumController::class, 'category_create'])->name('cf.category.create');
 
-    Route::group(['prefix' => 'category'.'/{category}'], function () {
-        Route::get('/', [CustomForumController::class, 'category_show'])->name('cf.category.show');
-        Route::patch('/', [CustomForumController::class, 'category_update'])->name('cf.category.update');
-        Route::delete('/', [CustomForumController::class, 'category_delete'])->name('cf.category.delete');
+//     Route::group(['prefix' => 'category'.'/{category}'], function () {
+//         Route::get('/', [CustomForumController::class, 'category_show'])->name('cf.category.show');
+//         Route::patch('/', [CustomForumController::class, 'category_update'])->name('cf.category.update');
+//         Route::delete('/', [CustomForumController::class, 'category_delete'])->name('cf.category.delete');
 
-        Route::get('thread'.'/create', [CustomForumController::class, 'thread_create'])->name('cf.thread.create');
-        Route::post('thread'.'/create', [CustomForumController::class, 'thread_store'])->name('cf.thread.store');
-    });
+//         Route::get('thread'.'/create', [CustomForumController::class, 'thread_create'])->name('cf.thread.create');
+//         Route::post('thread'.'/create', [CustomForumController::class, 'thread_store'])->name('cf.thread.store');
+//     });
 
-    Route::group(['prefix' => 'thread'.'/{thread}'], function () {
-        Route::get('/', [CustomForumController::class, 'thread_show'])->name('cf.thread.show');
-        Route::get('post/{post}', [CustomForumController::class, 'post_show'])->name('cf.post.show');
+//     Route::group(['prefix' => 'thread'.'/{thread}'], function () {
+//         Route::get('/', [CustomForumController::class, 'thread_show'])->name('cf.thread.show');
+//         Route::get('post/{post}', [CustomForumController::class, 'post_show'])->name('cf.post.show');
 
-        Route::patch('/', [CustomForumController::class, 'thread_update'])->name('cf.thread.update');
-        Route::post('lock', [CustomForumController::class, 'thread_lock'])->name('cf.thread.lock');
-        Route::post('unlock', [CustomForumController::class, 'thread_unlock'])->name('cf.thread.unlock');
-        Route::post('pin', [CustomForumController::class, 'thread_pin'])->name('cf.thread.pin');
-        Route::post('unpin', [CustomForumController::class, 'thread_unpin'])->name('cf.thread.unpin');
-        Route::post('move', [CustomForumController::class, 'thread_move'])->name('cf.thread.move');
-        Route::post('restore', [CustomForumController::class, 'thread_restore'])->name('cf.thread.restore');
-        Route::post('rename', [CustomForumController::class, 'thread_rename'])->name('cf.thread.rename');
-        Route::delete('/', [CustomForumController::class, 'thread_delete'])->name('cf.thread.delete');
+//         Route::patch('/', [CustomForumController::class, 'thread_update'])->name('cf.thread.update');
+//         Route::post('lock', [CustomForumController::class, 'thread_lock'])->name('cf.thread.lock');
+//         Route::post('unlock', [CustomForumController::class, 'thread_unlock'])->name('cf.thread.unlock');
+//         Route::post('pin', [CustomForumController::class, 'thread_pin'])->name('cf.thread.pin');
+//         Route::post('unpin', [CustomForumController::class, 'thread_unpin'])->name('cf.thread.unpin');
+//         Route::post('move', [CustomForumController::class, 'thread_move'])->name('cf.thread.move');
+//         Route::post('restore', [CustomForumController::class, 'thread_restore'])->name('cf.thread.restore');
+//         Route::post('rename', [CustomForumController::class, 'thread_rename'])->name('cf.thread.rename');
+//         Route::delete('/', [CustomForumController::class, 'thread_delete'])->name('cf.thread.delete');
 
-        Route::get('reply', [CustomForumController::class, 'post_create'])->name('cf.post.create');
-        Route::post('reply', [CustomForumController::class, 'post_store'])->name('cf.post.store');
-        Route::get('post/{post}/edit', [CustomForumController::class, 'post_edit'])->name('cf.post.edit');
-        Route::patch('post/{post}', [CustomForumController::class, 'post_update'])->name('cf.post.update');
-        Route::get('post/{post}/delete', [CustomForumController::class, 'post_confirmDelete'])->name('cf.post.confirm-delete');
-        Route::get('post/{post}/restore', [CustomForumController::class, 'post_confirmRestore'])->name('cf.post.confirm-restore');
-        Route::delete('post/{post}', [CustomForumController::class, 'post_delete'])->name('cf.post.delete');
-        Route::post('post/{post}/restore', [CustomForumController::class, 'post_restore'])->name('cf.post.restore');
-    });
+//         Route::get('reply', [CustomForumController::class, 'post_create'])->name('cf.post.create');
+//         Route::post('reply', [CustomForumController::class, 'post_store'])->name('cf.post.store');
+//         Route::get('post/{post}/edit', [CustomForumController::class, 'post_edit'])->name('cf.post.edit');
+//         Route::patch('post/{post}', [CustomForumController::class, 'post_update'])->name('cf.post.update');
+//         Route::get('post/{post}/delete', [CustomForumController::class, 'post_confirmDelete'])->name('cf.post.confirm-delete');
+//         Route::get('post/{post}/restore', [CustomForumController::class, 'post_confirmRestore'])->name('cf.post.confirm-restore');
+//         Route::delete('post/{post}', [CustomForumController::class, 'post_delete'])->name('cf.post.delete');
+//         Route::post('post/{post}/restore', [CustomForumController::class, 'post_restore'])->name('cf.post.restore');
+//     });
 
-    Route::group(['prefix' => 'bulk', 'as' => 'cf.bulk.'], function () {
-        Route::post('category/manage', [CustomForumController::class, 'bulk_category_manage'])->name('category.manage');
-        Route::group(['prefix' => 'thread', 'as' => 'thread.'], function () {
-            Route::post('move', [CustomForumController::class, 'bulk_thread_move'])->name('move');
-            Route::post('lock', [CustomForumController::class, 'bulk_thread_lock'])->name('lock');
-            Route::post('unlock', [CustomForumController::class, 'bulk_thread_unlock'])->name('unlock');
-            Route::post('pin', [CustomForumController::class, 'bulk_thread_pin'])->name('pin');
-            Route::post('unpin', [CustomForumController::class, 'bulk_thread_unpin'])->name('unpin');
-            Route::delete('/', [CustomForumController::class, 'bulk_thread_delete'])->name('delete');
-            Route::post('restore', [CustomForumController::class, 'bulk_thread_restore'])->name('restore');
-        });
-        Route::group(['prefix' => 'post', 'as' => 'post.'], function () {
-            Route::delete('/', [CustomForumController::class, 'bulk_post_delete'])->name('delete');
-            Route::post('restore', [CustomForumController::class, 'bulk_post_restore'])->name('restore');
-        });
-    });
-});
+//     Route::group(['prefix' => 'bulk', 'as' => 'cf.bulk.'], function () {
+//         Route::post('category/manage', [CustomForumController::class, 'bulk_category_manage'])->name('category.manage');
+//         Route::group(['prefix' => 'thread', 'as' => 'thread.'], function () {
+//             Route::post('move', [CustomForumController::class, 'bulk_thread_move'])->name('move');
+//             Route::post('lock', [CustomForumController::class, 'bulk_thread_lock'])->name('lock');
+//             Route::post('unlock', [CustomForumController::class, 'bulk_thread_unlock'])->name('unlock');
+//             Route::post('pin', [CustomForumController::class, 'bulk_thread_pin'])->name('pin');
+//             Route::post('unpin', [CustomForumController::class, 'bulk_thread_unpin'])->name('unpin');
+//             Route::delete('/', [CustomForumController::class, 'bulk_thread_delete'])->name('delete');
+//             Route::post('restore', [CustomForumController::class, 'bulk_thread_restore'])->name('restore');
+//         });
+//         Route::group(['prefix' => 'post', 'as' => 'post.'], function () {
+//             Route::delete('/', [CustomForumController::class, 'bulk_post_delete'])->name('delete');
+//             Route::post('restore', [CustomForumController::class, 'bulk_post_restore'])->name('restore');
+//         });
+//     });
+// });
 
 Auth::routes();
 

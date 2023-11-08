@@ -100,6 +100,7 @@ return [
     'menu_Credits' => 'Credits',
     'menu_Orders' => 'Orders',
     'menu_Chats' => 'Chat',
+    'menu_Forum' => 'Forum',
     'menu_Transactions' => 'Transactions',
     'menu_Customers' => 'Customers',
     'menu_Staffs' => 'Staff',
