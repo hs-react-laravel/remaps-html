@@ -68,6 +68,9 @@ class LoginController extends Controller
             if ($user->is_staff == 1) {
                 return redirect()->route('login')->with(['status'=>'error', 'error'=>__('auth.invalid_user_privilege')]);
             }
+            if ($user->is_blocked == 1) {
+                return redirect()->route('login')->with(['status'=>'error', 'error'=> 'Blocked Account']);
+            }
         }
 
         if ($this->attemptLogin($request)) {
