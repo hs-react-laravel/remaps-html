@@ -52,7 +52,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'add_tax',
         'is_reserve_filename',
         'logo',
-        'is_verified'
+        'is_verified',
+        'is_blocked'
     ];
 
     /**

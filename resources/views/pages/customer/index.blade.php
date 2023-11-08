@@ -41,7 +41,7 @@
               @endif
               <th width="5%">{{__('locale.tb_header_FileService')}}</th>
               <th width="10%">{{__('locale.tb_header_Lastlogin')}}</th>
-              <th width="25%">{{__('locale.tb_header_Actions')}}</th>
+              <th width="30%">{{__('locale.tb_header_Actions')}}</th>
             </tr>
           </thead>
         </table>
@@ -86,6 +86,44 @@
     });
     if (swal_result.isConfirmed) {
       delete_form.submit();
+    }
+  }
+  async function onBlock(obj) {
+    var block_form = $(obj).closest('.td-actions').children('.block-form')
+    var swal_result = await Swal.fire({
+      title: 'Warning!',
+      text: 'Are you sure to block this customer?',
+      icon: 'warning',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-outline-danger ms-1'
+      },
+      showCancelButton: true,
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancel',
+      buttonsStyling: false
+    });
+    if (swal_result.isConfirmed) {
+        block_form.submit();
+    }
+  }
+  async function onUnBlock(obj) {
+    var block_form = $(obj).closest('.td-actions').children('.unblock-form')
+    var swal_result = await Swal.fire({
+      title: 'Warning!',
+      text: 'Are you sure to allow this customer?',
+      icon: 'warning',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-outline-danger ms-1'
+      },
+      showCancelButton: true,
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancel',
+      buttonsStyling: false
+    });
+    if (swal_result.isConfirmed) {
+        block_form.submit();
     }
   }
   var dt_ajax;
@@ -181,6 +219,18 @@
       }],
       lengthMenu: [[15, 25, 50, 1000], [15, 25, 50, 'All']],
       createdRow: function(row, data, index) {
+        var blockEle = `
+          <a class="btn btn-icon btn-danger" onclick="onBlock(this)" title="Block">
+            ${feather.icons['eye-off'].toSvg()}
+          </a>
+        `;
+        if (data['is_blocked']) {
+            var blockEle = `
+                <a class="btn btn-icon btn-success" onclick="onUnBlock(this)" title="Allow">
+                    ${feather.icons['eye'].toSvg()}
+                </a>
+            `;
+        }
         $('td', row).addClass('td-actions')
         @if ($user->company->reseller_id) $('td', row).eq(8).html(`
         @else ($user->company->reseller_id) $('td', row).eq(7).html(`
@@ -199,12 +249,18 @@
           </a>
           <a class="btn btn-icon btn-success" href="${data['route.rp']}" title="Send Password Reset Link">
             ${feather.icons['mail'].toSvg()}
-          </a>
+          </a>`+ blockEle +`
           <a class="btn btn-icon btn-danger" onclick="onDelete(this)" title="Delete">
             ${feather.icons['trash-2'].toSvg()}
           </a>
           <form action="${data['route.destroy']}" class="delete-form" method="POST" style="display:none">
             <input type="hidden" name="_method" value="DELETE">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+          </form>
+          <form action="${data['route.block']}" class="block-form" method="POST" style="display:none">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+          </form>
+          <form action="${data['route.unblock']}" class="unblock-form" method="POST" style="display:none">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
           </form>
         `);

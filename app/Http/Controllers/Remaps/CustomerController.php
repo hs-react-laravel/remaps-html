@@ -79,13 +79,16 @@ class CustomerController extends MasterController
                 'evc_tuning_price_group' => $entry->tuning_evc_price_group,
                 'fileservice_ct' => $entry->fileServicesCount,
                 'last_login' => $entry->lastLoginDiff,
+                'is_blocked' => $entry->is_blocked,
                 'actions' => '',
                 'route.edit' => route('customers.edit', ['customer' => $entry->id]), // edit route
                 'route.fs' => route('customer.fs', ['id' => $entry->id]), // file service route
                 'route.sa' => route('customer.sa', ['id' => $entry->id]), // switch account route
                 'route.tr' => route('customer.tr', ['id' => $entry->id]), // transaction route
                 'route.rp' => route('customer.rp', ['id' => $entry->id]), // transaction route
-                'route.destroy' => route('customers.destroy', $entry->id) // destroy route
+                'route.destroy' => route('customers.destroy', $entry->id), // destroy route
+                'route.block' => route('customer.block', $entry->id), // destroy route
+                'route.unblock' => route('customer.unblock', $entry->id), // destroy route
             ]);
         }
         $json_data = array(
@@ -323,5 +326,23 @@ class CustomerController extends MasterController
             session()->flash('error', __('admin.opps'));
         }
         return redirect(route('customers.index'));
+    }
+
+    public function block(Request $request, $id) {
+        $customer = User::find($id);
+        if ($customer) {
+            $customer->is_blocked = 1;
+            $customer->save();
+        }
+        return redirect()->back();
+    }
+
+    public function unblock(Request $request, $id) {
+        $customer = User::find($id);
+        if ($customer) {
+            $customer->is_blocked = 0;
+            $customer->save();
+        }
+        return redirect()->back();
     }
 }
