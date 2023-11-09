@@ -15,6 +15,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Mail\WelcomeCustomer;
+use App\Mail\CustomerRegisterPending;
 use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller
@@ -142,7 +143,12 @@ class RegisterController extends Controller
         }
 
         $token = app('auth.password.broker')->createToken($user);
-        Mail::to($user->email)->send(new WelcomeCustomer($user, $token));
+
+        if ($this->company->is_accept_new_customer) {
+            Mail::to($user->email)->send(new WelcomeCustomer($user, $token));
+        } else {
+            Mail::to($user->email)->send(new CustomerRegisterPending($user));
+        }
 
         return $request->wantsJson()
                     ? new JsonResponse([], 201)
