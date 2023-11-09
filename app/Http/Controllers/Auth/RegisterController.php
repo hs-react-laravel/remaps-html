@@ -76,7 +76,7 @@ class RegisterController extends Controller
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'business_name' =>  'required|max:255',
-            'email' => 'required|unique:users,email,NULL,id,company_id,'.$this->company->id,
+            'email' => 'required|unique:users,email,NULL,id,company_id,'.$this->company->id.',deleted_at,NULL',
             'password' => 'nullable|min:6',
             'password_confirmation' => 'nullable|required_with:password|min:6|max:20|same:password',
             'address_line_1' =>  'required|max:255',
