@@ -334,6 +334,7 @@ class CustomerController extends MasterController
             $customer->is_blocked = 1;
             $customer->save();
         }
+        $customer->delete();
         return redirect()->back();
     }
 
