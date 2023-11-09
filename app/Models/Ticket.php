@@ -41,7 +41,7 @@ class Ticket extends Model
     */
     public function sender()
     {
-        return $this->belongsTo('App\Models\User', 'sender_id');
+        return $this->belongsTo('App\Models\User', 'sender_id')->withTrashed();
     }
 
     /**
@@ -49,7 +49,7 @@ class Ticket extends Model
     */
     public function receiver()
     {
-        return $this->belongsTo('App\Models\User', 'receiver_id');
+        return $this->belongsTo('App\Models\User', 'receiver_id')->withTrashed();
     }
 
     public function staff()

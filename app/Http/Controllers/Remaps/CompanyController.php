@@ -569,6 +569,12 @@ class CompanyController extends MasterController
         return redirect(route('companies.index'));
     }
 
+    public function auto_accept(Request $request, $id) {
+        $company = Company::find($id);
+        $company->update($request->all());
+        return redirect()->back();
+    }
+
     public function setCompanyMailSender() {
         Config::set('mail.default', 'smtp');
         Config::set('mail.mailers.smtp.host', 'mail.remapdash.com');

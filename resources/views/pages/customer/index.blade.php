@@ -23,9 +23,19 @@
     <div class="card">
       <div class="card-header">
         <h4 class="card-title">{{__('locale.menu_Customers')}}</h4>
-        <a href="{{ route('customers.create') }}" class="btn btn-icon btn-primary">
-          <i data-feather="user-plus"></i>
-        </a>
+        <div>
+            <div class="form-check form-check-inline my-1">
+                <form id="aceept-form" class="form" action="{{ route('company.accept', ['id' => $company->id]) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="is_accept_new_customer" value="0" />
+                    <input class="form-check-input" type="checkbox" id="is_accept_new_customer" name="is_accept_new_customer" value="1" @if($company->is_accept_new_customer) checked @endif/>
+                    <label class="form-check-label" for="is_accept_new_customer">Automatically accept registrations</label>
+                </form>
+            </div>
+            <a href="{{ route('customers.create') }}" class="btn btn-icon btn-primary">
+            <i data-feather="user-plus"></i>
+            </a>
+        </div>
       </div>
       <div class="table-responsive m-1 mt-0">
         <table class="table table-data">
@@ -221,16 +231,19 @@
       createdRow: function(row, data, index) {
         var blockEle = `
           <a class="btn btn-icon btn-danger" onclick="onBlock(this)" title="Block">
-            ${feather.icons['eye-off'].toSvg()}
+            ${feather.icons['thumbs-down'].toSvg()}
           </a>
         `;
         if (data['is_blocked']) {
             var blockEle = `
                 <a class="btn btn-icon btn-success" onclick="onUnBlock(this)" title="Allow">
-                    ${feather.icons['eye'].toSvg()}
+                    ${feather.icons['thumbs-up'].toSvg()}
                 </a>
             `;
         }
+        @if($company->is_accept_new_customer)
+            blockEle = '';
+        @endif
         $('td', row).addClass('td-actions')
         @if ($user->company->reseller_id) $('td', row).eq(8).html(`
         @else ($user->company->reseller_id) $('td', row).eq(7).html(`
@@ -283,5 +296,8 @@
         dt_ajax.page(pageNum).draw('page')
     })
   })
+  $('#is_accept_new_customer').on('change', function() {
+      $('#aceept-form').submit();
+  });
 </script>
 @endsection

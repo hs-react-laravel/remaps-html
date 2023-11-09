@@ -197,13 +197,13 @@ class Helper
 
     public static function generateAvatarColor($id)
     {
-        $user = User::find($id);
+        $user = User::withTrashed()->find($id);
         return static::genColorCodeFromText($user ? $user->fullname : '');
     }
 
     public static function getInitialName($id)
     {
-        $user = User::find($id);
+        $user = User::withTrashed()->find($id);
         return $user ? mb_strtoupper(mb_substr($user->first_name, 0, 1) . mb_substr($user->last_name, 0, 1)) : '';
     }
 
