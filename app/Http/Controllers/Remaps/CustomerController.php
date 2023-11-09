@@ -50,7 +50,7 @@ class CustomerController extends MasterController
         $columnSortOrder = $order_arr[0]['dir']; // asc or desc
         $searchValue = $search_arr['value']; // Search value
 
-        if ($columnName == 'name') $columnName = 'first_name';
+        if ($columnName == 'name') $columnName = 'last_login';
         if ($columnName == 'company') $columnName = 'business_name';
         if ($columnName == 'tuning_price_group') $columnName = 'tuning_credit_group_id';
         if ($columnName == 'evc_tuning_price_group') $columnName = 'tuning_evc_credit_group_id';
