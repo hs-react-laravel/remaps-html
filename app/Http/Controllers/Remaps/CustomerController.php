@@ -344,7 +344,7 @@ class CustomerController extends MasterController
         if ($customer) {
             $customer->is_verified = 1;
             $customer->save();
-            $token = app('auth.password.broker')->createToken($user);
+            $token = app('auth.password.broker')->createToken($customer);
             Mail::to($customer->email)->send(new WelcomeCustomer($customer, $token));
         }
         return redirect()->back();
