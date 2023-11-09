@@ -134,6 +134,15 @@ class RegisterController extends Controller
     {
         $this->validator($request->all())->validate();
 
+        $blocked = User::withTrashed()
+            ->where('email', $request->input('email'))
+            ->where('is_blocked', 1)
+            ->first();
+
+        if ($blocked) {
+            return redirect()->route('register')->with(['status'=>'error', 'error'=> 'Blocked Account']);
+        }
+
         $user = $this->create($request->all());
 
         // event(new Registered($user));
