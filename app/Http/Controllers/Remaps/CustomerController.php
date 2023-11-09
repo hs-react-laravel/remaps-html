@@ -79,6 +79,7 @@ class CustomerController extends MasterController
                 'evc_tuning_price_group' => $entry->tuning_evc_price_group,
                 'fileservice_ct' => $entry->fileServicesCount,
                 'last_login' => $entry->lastLoginDiff,
+                'is_verified' => $entry->is_verified,
                 'is_blocked' => $entry->is_blocked,
                 'actions' => '',
                 'route.edit' => route('customers.edit', ['customer' => $entry->id]), // edit route
@@ -88,7 +89,7 @@ class CustomerController extends MasterController
                 'route.rp' => route('customer.rp', ['id' => $entry->id]), // transaction route
                 'route.destroy' => route('customers.destroy', $entry->id), // destroy route
                 'route.block' => route('customer.block', $entry->id), // destroy route
-                'route.unblock' => route('customer.unblock', $entry->id), // destroy route
+                'route.allow' => route('customer.allow', $entry->id), // destroy route
             ]);
         }
         $json_data = array(
@@ -333,8 +334,19 @@ class CustomerController extends MasterController
         if ($customer) {
             $customer->is_blocked = 1;
             $customer->save();
+            $customer->delete();
         }
-        $customer->delete();
+        return redirect()->back();
+    }
+
+    public function allow(Request $request, $id) {
+        $customer = User::find($id);
+        if ($customer) {
+            $customer->is_verified = 1;
+            $customer->save();
+            $token = app('auth.password.broker')->createToken($user);
+            Mail::to($customer->email)->send(new WelcomeCustomer($customer, $token));
+        }
         return redirect()->back();
     }
 

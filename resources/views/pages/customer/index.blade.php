@@ -117,7 +117,7 @@
         block_form.submit();
     }
   }
-  async function onUnBlock(obj) {
+  async function onAllow(obj) {
     var block_form = $(obj).closest('.td-actions').children('.unblock-form')
     var swal_result = await Swal.fire({
       title: 'Warning!',
@@ -229,20 +229,23 @@
       }],
       lengthMenu: [[15, 25, 50, 1000], [15, 25, 50, 'All']],
       createdRow: function(row, data, index) {
-        var blockEle = `
-          <a class="btn btn-icon btn-danger" onclick="onBlock(this)" title="Block">
-            ${feather.icons['thumbs-down'].toSvg()}
-          </a>
-        `;
-        if (data['is_blocked']) {
-            var blockEle = `
-                <a class="btn btn-icon btn-success" onclick="onUnBlock(this)" title="Allow">
-                    ${feather.icons['thumbs-up'].toSvg()}
+        var blockEle = '';
+        @if(!$company->is_accept_new_customer)
+            blockEle = `
+                <a class="btn btn-icon btn-danger" onclick="onBlock(this)" title="Block">
+                    ${feather.icons['thumbs-down'].toSvg()}
                 </a>
             `;
-        }
-        @if($company->is_accept_new_customer)
-            blockEle = '';
+            if (!data['is_verified']) {
+                blockEle = `
+                    <a class="btn btn-icon btn-success" onclick="onAllow(this)" title="Allow">
+                        ${feather.icons['thumbs-up'].toSvg()}
+                    </a>
+                    <a class="btn btn-icon btn-danger" onclick="onBlock(this)" title="Block">
+                        ${feather.icons['thumbs-down'].toSvg()}
+                    </a>
+                `;
+            }
         @endif
         $('td', row).addClass('td-actions')
         @if ($user->company->reseller_id) $('td', row).eq(8).html(`
@@ -273,7 +276,7 @@
           <form action="${data['route.block']}" class="block-form" method="POST" style="display:none">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
           </form>
-          <form action="${data['route.unblock']}" class="unblock-form" method="POST" style="display:none">
+          <form action="${data['route.allow']}" class="unblock-form" method="POST" style="display:none">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
           </form>
         `);

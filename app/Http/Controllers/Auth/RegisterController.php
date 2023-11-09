@@ -123,7 +123,7 @@ class RegisterController extends Controller
         $model->phone                   =   $data['phone'];
         $model->tools                   =   $data['tools'];
         $model->company_id              =   $company->id;
-        $model->is_verified             =   0;
+        $model->is_verified             =   $this->company->is_accept_new_customer ? 1 : 0;
 
 		$model->save();
 

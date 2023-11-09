@@ -262,6 +262,7 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::get('customers/{id}/switch-account',[CustomerController::class, 'switchAccount'])->name('customer.sa');
     Route::get('customers/{id}/reset-password',[CustomerController::class, 'resetPasswordLink'])->name('customer.rp');
     Route::post('customers/{id}/block',[CustomerController::class, 'block'])->name('customer.block');
+    Route::post('customers/{id}/allow',[CustomerController::class, 'allow'])->name('customer.allow');
     Route::post('customers/{id}/unblock',[CustomerController::class, 'unblock'])->name('customer.unblock');
     Route::post('customers/api', [CustomerController::class, 'api'])->name('customer.api');
 
