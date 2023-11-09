@@ -38,7 +38,8 @@ return [
         'shoporder-delivered'=>'Shop order is delivered',
         'car-data-text' => 'Car Data Description',
         'api-welcome-email' => 'API Customer welcome email',
-        'api-reset-email' => 'Reset api user password'
+        'api-reset-email' => 'Reset api user password',
+        'customer-pending' => 'Customer Registration is in pending'
     ],
 
     'currency_sign'=>'£',
