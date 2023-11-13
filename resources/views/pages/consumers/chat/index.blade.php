@@ -141,12 +141,28 @@
                 for(const [key, msgDateGroup] of Object.entries(result.message)) {
                     msgDateGroup.forEach(msgUserGroup => {
                         if (!msgUserGroup[0].to) {
+                            var avatar = `
+                                <div class="avatar" style="background-color: #${result.avatarC.color}">
+                                    <div class="avatar-content">${result.avatarC.name}</div>
+                                </div>
+                            `;
+                            if (result.avatarC.logo) {
+                                avatar = `
+                                    <img
+                                        src="{{ env('AZURE_STORAGE_URL').'uploads/' }}${result.avatarC.logo}"
+                                        id="logo"
+                                        class="mb-1 mb-md-0"
+                                        width="32"
+                                        height="32"
+                                        alt="Logo Image"
+                                        style="border-radius: 32px"
+                                    />
+                                `;
+                            }
                             msgHtml += `
                             <div class="chat chat-left">
                                 <div class="chat-avatar">
-                                    <div class="avatar" style="background-color: #${result.avatarC.color}">
-                                        <div class="avatar-content">${result.avatarC.name}</div>
-                                    </div>
+                                    `+ avatar +`
                                 </div>
                                 <div class="chat-body">
                                     ${msgUserGroup.map(msg =>
@@ -158,12 +174,28 @@
                             </div>
                             `
                         } else {
+                            var avatar = `
+                                <div class="avatar" style="background-color: #${result.avatarU.color}">
+                                    <div class="avatar-content">${result.avatarU.name}</div>
+                                </div>
+                            `;
+                            if (result.avatarU.logo) {
+                                avatar = `
+                                    <img
+                                        src="{{ env('AZURE_STORAGE_URL').'uploads/' }}${result.avatarU.logo}"
+                                        id="logo"
+                                        class="mb-1 mb-md-0"
+                                        width="32"
+                                        height="32"
+                                        alt="Logo Image"
+                                        style="border-radius: 32px"
+                                    />
+                                `;
+                            }
                             msgHtml += `
                             <div class="chat">
                                 <div class="chat-avatar">
-                                    <div class="avatar" style="background-color: #${result.avatarU.color}">
-                                        <div class="avatar-content">${result.avatarU.name}</div>
-                                    </div>
+                                    ` + avatar + `
                                 </div>
                                 <div class="chat-body">
                                     ${msgUserGroup.map(msg =>

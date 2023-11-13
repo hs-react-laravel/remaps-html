@@ -122,7 +122,7 @@
       <div class="sidebar-profile-toggle">
         <div class="avatar avatar-border">
           <div class="avatar" style="background-color: #{{ \App\Helpers\Helper::generateAvatarColor($company->owner->id) }}">
-            <div class="avatar-content">{{ \App\Helpers\Helper::getInitialNameCompany($company->id) }}</div>
+            <div class="avatar-content">{{ \App\Helpers\Helper::getInitialName($company->owner->id) }}</div>
           </div>
         </div>
       </div>

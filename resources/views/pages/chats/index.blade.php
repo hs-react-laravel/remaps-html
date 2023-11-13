@@ -196,13 +196,29 @@
                 let filterKey = $('#chat-search').val()
                 $(`.chat-application .chat-user-list-wrapper ul li.li-user`).remove();
                 result.m.forEach(user => {
+                    var avatar = `
+                        <span class="avatar" style="width:32px; height:32px">
+                            <div class="avatar" style="background-color: #${user.avatar.color}; width:32px; height:32px">
+                                <div class="avatar-content">${user.avatar.name}</div>
+                            </div>
+                        </span>
+                    `;
+                    if (user.logo) {
+                        avatar = `
+                            <img
+                                src="{{ env('AZURE_STORAGE_URL').'uploads/' }}${user.logo}"
+                                id="logo"
+                                class="mb-1 mb-md-0"
+                                width="32"
+                                height="32"
+                                alt="Logo Image"
+                                style="border-radius: 32px"
+                            />
+                        `
+                    }
                     $('.chat-list').append(
                         `<li class="li-user li-user-chat" style="align-items:center" data-id="${user.id}" data-type="chat">
-                            <span class="avatar" style="width:32px; height:32px">
-                                <div class="avatar" style="background-color: #${user.avatar.color}; width:32px; height:32px">
-                                    <div class="avatar-content">${user.avatar.name}</div>
-                                </div>
-                            </span>
+                            `+ avatar +`
                             <div class="chat-info flex-grow-1">
                             <h5 class="mb-0">${user.name}</h5>
                             <p class="card-text text-truncate">
@@ -217,13 +233,29 @@
                     )
                 });
                 result.c.forEach(user => {
-                    $('.contact-list').append(
-                    `<li class="li-user li-user-contact" style="align-items:center" data-type="contact" data-id="${user.id}">
+                    var avatar = `
                         <span class="avatar" style="width:32px; height:32px">
                             <div class="avatar" style="background-color: #${user.avatar.color}; width:32px; height:32px">
                                 <div class="avatar-content">${user.avatar.name}</div>
                             </div>
                         </span>
+                    `;
+                    if (user.logo) {
+                        avatar = `
+                            <img
+                                src="{{ env('AZURE_STORAGE_URL').'uploads/' }}${user.logo}"
+                                id="logo"
+                                class="mb-1 mb-md-0"
+                                width="32"
+                                height="32"
+                                alt="Logo Image"
+                                style="border-radius: 32px"
+                            />
+                        `
+                    }
+                    $('.contact-list').append(
+                    `<li class="li-user li-user-contact" style="align-items:center" data-type="contact" data-id="${user.id}">
+                        `+ avatar +`
                         <div class="chat-info">
                         <h5 class="mb-0">${user.name}</h5>
                         </div>
@@ -273,12 +305,28 @@
                 for(const [key, msgDateGroup] of Object.entries(result.message)) {
                     msgDateGroup.forEach(msgUserGroup => {
                         if (msgUserGroup[0].to) {
+                            var avatar = `
+                                <div class="avatar" style="background-color: #${result.avatarU.color}">
+                                    <div class="avatar-content">${result.avatarU.name}</div>
+                                </div>
+                            `;
+                            if (result.avatarU.logo) {
+                                avatar = `
+                                    <img
+                                        src="{{ env('AZURE_STORAGE_URL').'uploads/' }}${result.avatarU.logo}"
+                                        id="logo"
+                                        class="mb-1 mb-md-0"
+                                        width="32"
+                                        height="32"
+                                        alt="Logo Image"
+                                        style="border-radius: 32px"
+                                    />
+                                `;
+                            }
                             msgHtml += `
                             <div class="chat chat-left">
                                 <div class="chat-avatar">
-                                    <div class="avatar" style="background-color: #${result.avatarU.color}">
-                                        <div class="avatar-content">${result.avatarU.name}</div>
-                                    </div>
+                                    `+ avatar +`
                                 </div>
                                 <div class="chat-body">
                                     ${msgUserGroup.map(msg =>
@@ -290,12 +338,28 @@
                             </div>
                             `
                         } else {
+                            var avatar = `
+                                <div class="avatar" style="background-color: #${result.avatarC.color}">
+                                    <div class="avatar-content">${result.avatarC.name}</div>
+                                </div>
+                            `;
+                            if (result.avatarC.logo) {
+                                avatar = `
+                                    <img
+                                        src="{{ env('AZURE_STORAGE_URL').'uploads/' }}${result.avatarC.logo}"
+                                        id="logo"
+                                        class="mb-1 mb-md-0"
+                                        width="32"
+                                        height="32"
+                                        alt="Logo Image"
+                                        style="border-radius: 32px"
+                                    />
+                                `;
+                            }
                             msgHtml += `
                             <div class="chat">
                                 <div class="chat-avatar">
-                                    <div class="avatar" style="background-color: #${result.avatarC.color}">
-                                        <div class="avatar-content">${result.avatarC.name}</div>
-                                    </div>
+                                    `+ avatar +`
                                 </div>
                                 <div class="chat-body">
                                     ${msgUserGroup.map(msg =>

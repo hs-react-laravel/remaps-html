@@ -19,9 +19,22 @@
           {{ Form::model($entry, array('route' => array('tk.update', $entry->id), 'method' => 'PUT', 'enctype' => "multipart/form-data")) }}
             <div class="message-wrapper" id="scrollDiv">
               <div class="message-{{ $entry->sender_id == $user->id ? 'right' : 'left' }}">
-                <div class="avatar" style="background-color: #{{ \App\Helpers\Helper::generateAvatarColor($entry->sender_id) }}">
-                  <div class="avatar-content">{{ \App\Helpers\Helper::getInitialName($entry->sender_id) }}</div>
-                </div> <br>
+                @if ($entry->sender->logo)
+                    <img
+                        src="{{ env('AZURE_STORAGE_URL').'uploads/'.$entry->sender->logo }}"
+                        id="logo"
+                        class="mb-1 mb-md-0"
+                        width="32"
+                        height="32"
+                        alt="Logo Image"
+                        style="border-radius: 32px"
+                    />
+                @else
+                    <div class="avatar" style="background-color: #{{ \App\Helpers\Helper::generateAvatarColor($entry->sender_id) }}">
+                        <div class="avatar-content">{{ \App\Helpers\Helper::getInitialName($entry->sender_id) }}</div>
+                    </div>
+                @endif
+                <br>
                 <p class="badge bg-{{$entry->sender_id == $user->id ? 'primary' : 'danger'}} badge-custom">
                   {{ $entry->message }} <br>
                   @if ($entry->document)
@@ -37,9 +50,22 @@
               @foreach ($messages as $msg)
                 <div class="message-{{ $msg->sender_id == $user->id ? 'right' : 'left' }}">
                   @if ($msg->sender_id != $prev_id)
-                    <div class="avatar" style="background-color: #{{ \App\Helpers\Helper::generateAvatarColor($msg->sender_id) }}">
-                      <div class="avatar-content">{{ \App\Helpers\Helper::getInitialName($msg->sender_id) }}</div>
-                    </div> <br>
+                    @if ($msg->sender->logo)
+                        <img
+                            src="{{ env('AZURE_STORAGE_URL').'uploads/'.$msg->sender->logo }}"
+                            id="logo"
+                            class="mb-1 mb-md-0"
+                            width="32"
+                            height="32"
+                            alt="Logo Image"
+                            style="border-radius: 32px"
+                        />
+                    @else
+                        <div class="avatar" style="background-color: #{{ \App\Helpers\Helper::generateAvatarColor($msg->sender_id) }}">
+                            <div class="avatar-content">{{ \App\Helpers\Helper::getInitialName($msg->sender_id) }}</div>
+                        </div>
+                    @endif
+                    <br>
                   @endif
                   <p class="badge bg-{{$msg->sender_id == $user->id ? 'primary' : 'danger'}} badge-custom">
                     {{ $msg->message }} <br>

@@ -16,6 +16,7 @@ use App\Models\AdminupdateRead;
 use App\Models\Content;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class DashboardController extends MasterController
 {
@@ -266,9 +267,8 @@ class DashboardController extends MasterController
         if($request->hasFile('upload_file')){
             if($request->file('upload_file')->isValid()){
                 $file = $request->file('upload_file');
-                $filename = time() . '.' . 'jpg';
-                $file->move(storage_path('app/public/uploads/logo'), $filename);
-                $request->request->add(['logo' => $filename]);
+                $res = Storage::disk('azure')->put('logo', $file);
+                $request->request->add(['logo' => $res]);
             }
         }
         $this->user->update($request->all());

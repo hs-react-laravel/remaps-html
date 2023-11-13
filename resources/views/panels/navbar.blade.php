@@ -229,9 +229,21 @@
             {{ ucfirst($role) }}
           </span>
         </div>
-        <span class="avatar" style="background-color: #{{ \App\Helpers\Helper::generateAvatarColor($user->id) }}">
-          <div class="avatar-content">{{ \App\Helpers\Helper::getInitialName($user->id) }}</div>
-        </span>
+        @if ($user->logo)
+            <img
+                src="{{ env('AZURE_STORAGE_URL').'uploads/'.$user->logo }}"
+                id="logo"
+                class="mb-1 mb-md-0"
+                width="32"
+                height="32"
+                alt="Logo Image"
+                style="border-radius: 32px"
+            />
+        @else
+            <span class="avatar" style="background-color: #{{ \App\Helpers\Helper::generateAvatarColor($user->id) }}">
+                <div class="avatar-content">{{ \App\Helpers\Helper::getInitialName($user->id) }}</div>
+            </span>
+        @endif
       </a>
       <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">
         <h6 class="dropdown-header">

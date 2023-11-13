@@ -171,6 +171,7 @@ class ApiController extends Controller
                 'msg' => $lastMessage->message,
                 'date' => \Carbon\Carbon::parse($lastMessage->created_at)->diffForHumans(),
                 'count' => $unreadCt,
+                'logo' => $muser->logo,
                 'avatar' => [
                     'color' => Helper::generateAvatarColor($muser->id),
                     'name' => Helper::getInitialName($muser->id)
@@ -183,6 +184,7 @@ class ApiController extends Controller
             array_push($cUserRes, [
                 'id' => $cuser->id,
                 'name' => $cuser->first_name.' '.$cuser->last_name,
+                'logo' => $cuser->logo,
                 'avatar' => [
                     'color' => Helper::generateAvatarColor($cuser->id),
                     'name' => Helper::getInitialName($cuser->id)
@@ -237,11 +239,13 @@ class ApiController extends Controller
             'message' => $messageGroups,
             'avatarU' => [
                 'color' => Helper::generateAvatarColor($request->target),
-                'name' => Helper::getInitialName($request->target)
+                'name' => Helper::getInitialName($request->target),
+                'logo' => User::find($request->target)->logo
             ],
             'avatarC' => [
                 'color' => Helper::generateAvatarColor($company->owner->id),
-                'name' => Helper::getInitialNameCompany($request->company_id)
+                'name' => Helper::getInitialName($company->owner->id),
+                'logo' => User::find($company->owner->id)->logo
             ],
             'unreadCt' => $unreadCt
         ];
