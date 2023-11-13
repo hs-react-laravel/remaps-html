@@ -47,8 +47,8 @@
         <div class="w-100 justify-content-center mb-2">
           <img
             src="{{ $company->logo ?
-              asset('storage/uploads/logo/'.$company->logo) :
-              'https://via.placeholder.com/250x110.png?text=Logo+Here'
+                env('AZURE_STORAGE_URL').'uploads/'.$company->logo :
+                'https://via.placeholder.com/250x110.png?text=Logo+Here'
             }}"
             id="logo"
             class="rounded me-2 mb-1 mb-md-0 w-100"

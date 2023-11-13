@@ -6,7 +6,7 @@
       <ul class="nav navbar-nav">
         <li class="nav-item">
           <a class="navbar-brand" href="{{ url('/') }}">
-            <img src="{{ asset('storage/uploads/logo/'.$company->logo) }}" style="max-width: 100%; height: auto; border-radius: 5px"></a>
+            <img src="{{ env('AZURE_STORAGE_URL').'uploads/'.$company->logo }}" style="max-width: 100%; height: auto; border-radius: 5px"></a>
           </a>
         </li>
       </ul>

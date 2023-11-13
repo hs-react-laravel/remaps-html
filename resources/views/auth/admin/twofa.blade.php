@@ -28,7 +28,7 @@
     <div class="card mb-0">
       <div class="card-body">
         <a href="#" class="brand-logo">
-          <img src="{{ asset('storage/uploads/logo/'.$company->logo) }}" style="width: 100%; height: 100%; border-radius: 5px"></a>
+          <img src="{{ env('AZURE_STORAGE_URL').'uploads/'.$company->logo }}" style="width: 100%; height: 100%; border-radius: 5px"></a>
         </a>
 
         <h4 class="card-title mb-1">2FA Verification</h4>

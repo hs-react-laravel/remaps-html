@@ -141,9 +141,8 @@ class CompanyController extends MasterController
             if($request->hasFile('upload_file')){
                 if($request->file('upload_file')->isValid()){
                     $file = $request->file('upload_file');
-                    $filename = time() . '.' . $file->getClientOriginalExtension();
-                    $file->move(storage_path('app/public/uploads/logo'), $filename);
-                    $request->request->add(['logo' => $filename]);
+                    $res = Storage::disk('azure')->put('logo', $file);
+                    $request->request->add(['logo' => $res]);
                 }
             }
             $company = Company::create($request->all());
@@ -353,9 +352,8 @@ class CompanyController extends MasterController
             if($request->hasFile('upload_file')){
                 if($request->file('upload_file')->isValid()){
                     $file = $request->file('upload_file');
-                    $filename = time() . '.' . $file->getClientOriginalExtension();
-                    $file->move(storage_path('app/public/uploads/logo'), $filename);
-                    $request->request->add(['logo' => $filename]);
+                    $res = Storage::disk('azure')->put('logo', $file);
+                    $request->request->add(['logo' => $res]);
                 }
             }
             $tab = $request->tab;

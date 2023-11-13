@@ -7,6 +7,7 @@ use App\Http\Controllers\MasterController;
 use App\Http\Requests\CompanySettingRequest;
 use App\Models\Timezone;
 use App\Helpers\Helper;
+use Storage;
 
 class CompanySettingController extends MasterController
 {
@@ -29,9 +30,8 @@ class CompanySettingController extends MasterController
             // upload file
             if ($request->file('upload_file')) {
                 $file = $request->file('upload_file');
-                $filename = time() . '.' . $file->getClientOriginalExtension();
-                $file->move(storage_path('app/public/uploads/logo'), $filename);
-                $request->request->add(['logo' => $filename]);
+                $res = Storage::disk('azure')->put('logo', $file);
+                $request->request->add(['logo' => $res]);
             }
             if ($request->file('style_background_file')) {
                 $file = $request->file('style_background_file');

@@ -120,7 +120,7 @@
           <div class="d-flex flex-column flex-md-row">
             <img
               src="{{ $company->logo ?
-                asset('storage/uploads/logo/'.$company->logo) :
+                env('AZURE_STORAGE_URL').'uploads/'.$company->logo :
                 'https://via.placeholder.com/250x110.png?text=Logo+Here'
               }}"
               id="logo"

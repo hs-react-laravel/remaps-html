@@ -45,7 +45,7 @@
                 @if($user->logo)
                     <img src="{{ asset('storage/uploads/logo/'.$user->logo) }}" alt="" style="height:120px" />
                 @else
-                    <img src="{{ asset('storage/uploads/logo/'.$company->logo) }}" alt="" style="height:120px" />
+                    <img src="{{ env('AZURE_STORAGE_URL').'uploads/'.$company->logo }}" alt="" style="height:120px" />
                 @endif
             </td>
         </tr>
