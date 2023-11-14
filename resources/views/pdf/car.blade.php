@@ -43,7 +43,7 @@
             </td>
             <td valign="top" style="text-align: right">
                 @if($user->logo)
-                    <img src="{{ env('AZURE_STORAGE_URL').'uploads/'.$user->logo) }}" alt="" style="height:120px" />
+                    <img src="{{ env('AZURE_STORAGE_URL').'uploads/'.$user->logo }}" alt="" style="height:120px" />
                 @else
                     <img src="{{ env('AZURE_STORAGE_URL').'uploads/'.$company->logo }}" alt="" style="height:120px" />
                 @endif
