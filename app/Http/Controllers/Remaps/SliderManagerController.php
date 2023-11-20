@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Remaps;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\MasterController;
 use App\Http\Requests\SliderManagerRequest;
 use App\Models\SliderManager;
@@ -42,9 +43,8 @@ class SliderManagerController extends MasterController
     {
         if ($request->file('upload_file')) {
             $file = $request->file('upload_file');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(storage_path('app/public/uploads/logo'), $filename);
-            $request->request->add(['image' => $filename]);
+            $res = Storage::disk('azure')->put('logo', $file);
+            $request->request->add(['logo' => $res]);
         }
         SliderManager::create($request->all());
         return redirect(route('slidermanagers.index'));
