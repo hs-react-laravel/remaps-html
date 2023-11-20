@@ -43,7 +43,7 @@ class SliderManagerController extends MasterController
     {
         if ($request->file('upload_file')) {
             $file = $request->file('upload_file');
-            $res = Storage::disk('azure')->put('logo', $file);
+            $res = Storage::disk('azure')->put('sm', $file);
             $request->request->add(['logo' => $res]);
         }
         SliderManager::create($request->all());
