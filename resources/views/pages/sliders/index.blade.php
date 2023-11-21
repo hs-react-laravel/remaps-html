@@ -39,7 +39,7 @@
                 <tr>
                   <td>{{ $entry->title }}</td>
                   <td>{{ $entry->description }}</td>
-                  <td><img src='{{ env('AZURE_STORAGE_URL').'sm/'.$entry->image }}' width='100' height='100'></td>
+                  <td><img src='{{ env('AZURE_STORAGE_URL').$entry->image }}' width='100' height='100'></td>
                   <td class="td-actions" style="min-width: 150px;">
                     <a class="btn btn-icon btn-primary" href="{{ route('slidermanagers.edit', ['slidermanager' => $entry->id]) }}" title="Edit">
                       <i data-feather="edit"></i>
