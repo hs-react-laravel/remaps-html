@@ -44,7 +44,7 @@ class SliderManagerController extends MasterController
         if ($request->file('upload_file')) {
             $file = $request->file('upload_file');
             $res = Storage::disk('azure')->put('sm', $file);
-            $request->request->add(['logo' => $res]);
+            $request->request->add(['image' => $res]);
         }
         SliderManager::create($request->all());
         return redirect(route('slidermanagers.index'));
@@ -85,9 +85,8 @@ class SliderManagerController extends MasterController
     {
         if ($request->file('upload_file')) {
             $file = $request->file('upload_file');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(storage_path('app/public/uploads/logo'), $filename);
-            $request->request->add(['image' => $filename]);
+            $res = Storage::disk('azure')->put('sm', $file);
+            $request->request->add(['image' => $res]);
         }
         SliderManager::find($id)->update($request->all());
         return redirect(route('slidermanagers.index'));
