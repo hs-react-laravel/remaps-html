@@ -35,7 +35,7 @@
                   <h4 class="mb-1">Logo Image</h4>
                   <div class="d-flex flex-column flex-md-row">
                     <img
-                      src="{{ $entry->image ? '/storage/uploads/logo/'.$entry->image
+                      src="{{ $entry->image ? env('AZURE_STORAGE_URL').'uploads/'.$entry->image
                         : 'https://via.placeholder.com/250x110.png?text=Image+Here'}}"
                       id="logo"
                       class="rounded me-2 mb-1 mb-md-0"
