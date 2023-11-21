@@ -176,7 +176,7 @@
 									endif;*/
 								?>
 								@php
-									$logo = 'storage/uploads/logo/'.$val['logo'];
+									$logo = env('AZURE_STORAGE_URL').'uploads/'.$val['logo'];
 									$link =$val['v2_domain_link'];
 								@endphp
 								<tr>
