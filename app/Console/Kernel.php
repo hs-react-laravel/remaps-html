@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('minute:update')->everyMinute();
-        $schedule->command('cloudflare:reload')->daily();
+        // $schedule->command('cloudflare:reload')->daily();
     }
 
     /**
