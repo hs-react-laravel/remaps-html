@@ -198,7 +198,7 @@ class LoginController extends Controller
             $rememberMe = $request->input('remember_me');
             if ($rememberMe) {
                 return $this->sendLoginResponse($request)
-                    ->withCookie(cookie('reme', 'Days', 1));
+                    ->withCookie(cookie('reme', 1, 24 * 60 * 30));
             }
             return $this->sendLoginResponse($request);
         }
