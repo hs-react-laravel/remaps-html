@@ -116,7 +116,9 @@ class LoginController extends Controller
             return $this->sendFailedLoginResponse($request);
         }
 
-        if (!$this->company->secret_2fa_device ||
+        $cookieRemember = $request->cookie('reme');
+
+        if (!$cookieRemember ||
             $this->company->secret_2fa_verified && (($now - $verifiedTime) / (60 * 60 * 24) > 30)) {
             session(['twofauser' => $user->id]);
             session(['twofauserpw' => $password]);
@@ -192,11 +194,12 @@ class LoginController extends Controller
 
         if ($this->attemptLogin($request)) {
             $this->company->secret_2fa_verified = \Carbon\Carbon::now();
+            $this->company->save();
             $rememberMe = $request->input('remember_me');
             if ($rememberMe) {
-                $this->company->secret_2fa_device = $uuid = $request->input('uuid');
+                return $this->sendLoginResponse($request)
+                    ->withCookie(cookie('reme', 'Days', 1));
             }
-            $this->company->save();
             return $this->sendLoginResponse($request);
         }
 

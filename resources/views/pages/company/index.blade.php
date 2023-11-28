@@ -114,12 +114,20 @@
                         href="{{ route('companies.activate', ['id' => $u->id]) }}" >
                         <i data-feather="{{ $u->owner && $u->owner->is_active == 1 ? 'thumbs-down' : 'thumbs-up' }}"></i>
                       </a>
+                      @if($u->secret_2fa_enabled)
                       <a
                         class="btn btn-icon btn-success"
                         title="Reset 2FA Secret Key"
                         href="{{ route('companies.reset.twofakey', ['id' => $u->id]) }}" >
                         <i data-feather="key"></i>
                       </a>
+                      @else
+                      <a
+                        class="btn btn-icon btn-secondary"
+                        title="Reset 2FA Secret Key" >
+                        <i data-feather="key"></i>
+                      </a>
+                      @endif
                       <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $u->id }}" title="Delete"><i data-feather="trash-2"></i></a>
                       <form action="{{ route('companies.destroy', $u->id) }}" class="delete-form" method="POST" style="display:none">
                         <input type="hidden" name="_method" value="DELETE">
