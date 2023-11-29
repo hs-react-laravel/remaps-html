@@ -7,12 +7,10 @@
   <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-validation.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('css/base/pages/authentication.css')) }}">
   <style>
-      .fake-inputs {
-          margin-top: 0 !important;
-      }
-      .otp-fake-input {
-          margin: 0.5rem !important;
-          text-transform: uppercase;
+      .opt-input-box {
+          width: 40px;
+          height: 40px;
+          margin-right: 10px;
       }
   </style>
 @endsection
@@ -50,9 +48,18 @@
             Enter the code provided in the box below to confirm setup is working.
           </p>
           @endif
-          <div class="mb-1 row">
+          {{-- <div class="mb-1 row">
             <div id="otp_target"></div>
+          </div> --}}
+          <div class="otp-input d-flex mb-1 justify-content-center">
+            <input type="text" class="opt-input-box form-control">
+            <input type="text" class="opt-input-box form-control">
+            <input type="text" class="opt-input-box form-control">
+            <input type="text" class="opt-input-box form-control">
+            <input type="text" class="opt-input-box form-control">
+            <input type="text" class="opt-input-box form-control">
           </div>
+          <input type="hidden" id="result" name="code">
           <div class="alert alert-warning" id="alert-ticket" style="display: none">
             <div class="alert-body"><p>Wrong Code</p></div>
           </div>
@@ -65,6 +72,7 @@
             </div>
           </div>
           @endif
+          <button type="submit" class="btn {{ 'btn-'.substr($configData['navbarColor'], 3) }} w-100" tabindex="4">Verify</button>
         </form>
       </div>
     </div>
@@ -79,33 +87,11 @@
 
 @section('page-script')
 <script src="{{asset(mix('js/scripts/pages/auth-login.js'))}}"></script>
-<script src="{{ asset('customjs/otpdesigner.js') }}"></script>
+<script src="{{ asset('customjs/vanilla-otp.js') }}"></script>
 <script src="{{ asset('customjs/device-uuid.js') }}"></script>
 <script>
     $(document).ready(function() {
-        $('#otp_target').otpdesigner({
-            typingDone: function (code) {
-                $('#code').val(code);
-                $.ajax({
-                    type: 'POST',
-                    url: "{{ route('api.twofa.check') }}",
-                    data: {
-                        company_id: "{{ isset($company) ? $company->id : '' }}",
-                        code: code
-                    },
-                    success: function(result) {
-                        if (result.verified) {
-                            $('#twofa_form').submit();
-                        } else {
-                            $('#alert-ticket').css('display', 'block');
-                        }
-                    }
-                })
-            },
-        });
-
-        var uuid = new DeviceUUID().get();
-        $('#uuid').val(uuid);
+        let otp = new VanillaOTP('.otp-input', '#result');
     });
 </script>
 @endsection
