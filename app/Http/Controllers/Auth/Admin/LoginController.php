@@ -188,7 +188,7 @@ class LoginController extends Controller
         $google2fa = new Google2FA();
         $valid = $google2fa->verifyKey($secretKey, $request->input('code'));
         if (!$valid) {
-            return redirect()->route('admin.auth.twofa');
+            return redirect()->route('admin.auth.twofa')->with(['status'=>'error', 'error'=>'Invalid Code']);
         }
 
 
