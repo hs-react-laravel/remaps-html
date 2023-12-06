@@ -247,6 +247,9 @@ class FileServiceController extends MasterController
             if (File::exists($file)) {
                 $fileExt = File::extension($file);
                 $fileName = $fileService->displayable_id.'-modified.'.$fileExt;
+                if ($fileService->user->is_reserve_filename && !empty($fileService->remain_modified_file)) {
+                    $fileName = $fileService->remain_modified_file;
+                }
                 return response()->download($file, $fileName);
             }
         } catch (\Exception $ex) {

@@ -185,7 +185,7 @@
             <div class="row mb-1">
               <div class="col-12 mb-1">
                 <div style="margin-bottom: 2px">
-                  <label for="orginal_file" class="form-label">Modified file</label>
+                  <label for="orginal_file" class="form-label">Original file</label>
                   <div class="input-group" onclick="onUpload()">
                     <span class="input-group-text">Choose File</span>
                     <input
