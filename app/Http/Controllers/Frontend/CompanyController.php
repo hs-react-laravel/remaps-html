@@ -152,8 +152,6 @@ class CompanyController extends Controller
             Config::set('mail.from.name', $mainCompany['name']);
             Config::set('app.name', $mainCompany['name']);
 
-            $token = app('auth.password.broker')->createToken($user);
-
             try{
                 Mail::to($companyUser->email)->send(new CompanyEmailVerification($companyUser));
             }catch(\Exception $e){
