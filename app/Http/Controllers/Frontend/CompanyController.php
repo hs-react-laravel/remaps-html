@@ -155,7 +155,7 @@ class CompanyController extends Controller
             $token = app('auth.password.broker')->createToken($user);
 
             try{
-                Mail::to($companyUser->email)->send(new CompanyEmailVerification($companyUser, $token));
+                Mail::to($companyUser->email)->send(new CompanyEmailVerification($companyUser));
             }catch(\Exception $e){
             }
             return redirect()->route('thankyou')->with('Regististration received, Please wait for your application to be processed');
