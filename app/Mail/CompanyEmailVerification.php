@@ -46,7 +46,7 @@ class CompanyEmailVerification extends Mailable
 
             $company = \App\Models\Company::where('is_default', 1)->first(['logo']);
             $body = str_replace('##APP_LOGO', env('AZURE_STORAGE_URL').'uploads/'.$company->logo, $body);
-            // $body = str_replace('##LINK', $this->user->company->v2_domain_link.'/admin/password/reset/'.$this->token, $body);
+            $body = str_replace('##LINK', "https://remapdash.com/thankyou?cve=".$this->user->company->id);
 
             $body = str_replace('##USER_NAME', $this->user->full_name, $body);
 
