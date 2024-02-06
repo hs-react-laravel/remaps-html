@@ -39,7 +39,8 @@ return [
         'car-data-text' => 'Car Data Description',
         'api-welcome-email' => 'API Customer welcome email',
         'api-reset-email' => 'Reset api user password',
-        'customer-pending' => 'Customer Registration is in pending'
+        'customer-pending' => 'Customer Registration is in pending',
+        'company-verify-email' => 'Company Email Verification'
     ],
 
     'currency_sign'=>'£',

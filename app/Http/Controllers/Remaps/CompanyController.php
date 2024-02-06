@@ -26,7 +26,10 @@ class CompanyController extends MasterController
     {
         $this->check_master();
         $user = $this->user;
-        $entries = Company::where('id', '!=', $user->company->id)->orderBy('id', 'DESC')->paginate(20);
+        $entries = Company::where('id', '!=', $user->company->id)
+            ->whereHas('owner', function($query) use($user){
+                $query->where('is_verified', 1);
+            })->orderBy('id', 'DESC')->paginate(20);
         return view('pages.company.index', [
             'entries' => $entries
         ]);

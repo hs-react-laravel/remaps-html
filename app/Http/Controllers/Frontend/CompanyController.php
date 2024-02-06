@@ -9,6 +9,7 @@ use App\Http\Requests\CompanyRegisterFront;
 use App\Http\Controllers\Controller;
 use App\Mail\RegisterCompanyFront;
 use App\Mail\NewCompanyApply;
+use App\Mail\CompanyEmailVerification;
 
 use App\Models\Company;
 use App\Models\TuningCreditGroup;
@@ -105,6 +106,7 @@ class CompanyController extends Controller
 			 $companyUser->is_master = 0;
 			 $companyUser->is_admin = 1;
 			 $companyUser->is_active = 0;
+             $companyUser->is_verified = 0;
 			 $companyUser->save();
 
 			 $emailTemplates = \App\Models\EmailTemplate::where('company_id', 1)->whereIn('label', [
@@ -150,8 +152,10 @@ class CompanyController extends Controller
             Config::set('mail.from.name', $mainCompany['name']);
             Config::set('app.name', $mainCompany['name']);
 
+            $token = app('auth.password.broker')->createToken($user);
+
             try{
-                Mail::to($mainCompany['main_email_address'])->send(new NewCompanyApply($companyUser,$mainCompany));
+                Mail::to($companyUser->email)->send(new CompanyEmailVerification($companyUser, $token));
             }catch(\Exception $e){
             }
             return redirect()->route('thankyou')->with('Regististration received, Please wait for your application to be processed');
