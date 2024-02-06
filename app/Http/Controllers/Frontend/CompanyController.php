@@ -163,7 +163,13 @@ class CompanyController extends Controller
 
 	 }
 
-	public function thankyou(){
+	public function thankyou(Request $request){
+        if ($request->has('cve')) {
+            $company = Company::find($request->cve);
+            $company->owner->is_verified = 1;
+            $company->owner->save();
+        }
+
         $msg = 'Regististration received, Please wait for your application to be processed';
 		return view('Frontend.thankyou', compact('msg'));
 	}
