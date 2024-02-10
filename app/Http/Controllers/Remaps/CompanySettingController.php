@@ -97,6 +97,11 @@ class CompanySettingController extends MasterController
         } catch (\Exception $ex) {
             session()->flash('error', $ex->getMessage());
         }
+        if ($request->has('secret_2fa_enabled') && $request->input('secret_2fa_enabled') == 0) {
+            return redirect()->route('company.setting', [
+                'tab' => $request->tab
+            ])->withCookie(cookie('reme', 0, 24 * 60 * 30));
+        }
         return redirect()->route('company.setting', [
             'tab' => $request->tab
         ]);
