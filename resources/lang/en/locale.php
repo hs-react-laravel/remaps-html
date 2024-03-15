@@ -111,6 +111,7 @@ return [
     'menu_MySubscriptions' => 'My Subscriptions',
     'menu_CompanySettings' => 'Company Settings',
     'menu_BrowseSpecs' => 'Browse Tuning Specs',
+    'menu_Forum' => 'Forum',
     'menu_Notifications' => 'Notifications',
     'menu_Manage_Companies'=> 'Manage Companies',
     'menu_Packages'=> 'Packages',

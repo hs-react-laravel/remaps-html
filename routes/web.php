@@ -230,6 +230,9 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::get('companies/{id}/reset-password-link', [CompanyController::class, 'resendPasswordResetLink'])->name('companies.reset-password');
     Route::get('companies/{id}/reset-2fa-key', [CompanyController::class, 'reset_twofa_key'])->name('companies.reset.twofakey');
     Route::post('companies/{id}/auto-accept-customer', [CompanyController::class, 'auto_accept'])->name('company.accept');
+    Route::get('companies/{id}/enable-forum/{fid}', [CompanyController::class, 'enable_forum'])->name('companies.forum.enable');
+    Route::get('companies/{id}/disable-forum', [CompanyController::class, 'disable_forum'])->name('companies.forum.disable');
+
     Route::resource('packages', PackageController::class);
     Route::resource('slidermanagers', SliderManagerController::class);
     Route::resource('shopcategories', ShopCategoryController::class);

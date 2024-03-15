@@ -29,9 +29,9 @@
             <tr>
               <th width="10%">Name</th>
               <th width="10%">Domain Link</th>
-              <th width="10%">Total Customers</th>
+              <th width="5%">Total Customers</th>
               <th width="10%">Created At</th>
-              <th width="30%">Actions</th>
+              <th width="35%">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -126,6 +126,23 @@
                         class="btn btn-icon btn-secondary"
                         title="Reset 2FA Secret Key" >
                         <i data-feather="key"></i>
+                      </a>
+                      @endif
+                      @if($u->is_forum_enabled)
+                      <a
+                        class="btn btn-icon btn-secondary"
+                        title="Disable Forum Usage"
+                        href="{{ 'https://forum.remapdash.com/user_delete.php?id='.$u->forum_id.'&company='.$u->id }}"
+                      >
+                        <i data-feather="users"></i>
+                      </a>
+                      @else
+                      <a
+                        class="btn btn-icon btn-success"
+                        title="Enable Forum Usage"
+                        href="{{ 'https://forum.remapdash.com/user_add.php?email='.$u->main_email_address.'&company='.$u->id }}"
+                      >
+                        <i data-feather="users"></i>
                       </a>
                       @endif
                       <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $u->id }}" title="Delete"><i data-feather="trash-2"></i></a>

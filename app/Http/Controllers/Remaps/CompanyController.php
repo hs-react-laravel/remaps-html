@@ -576,6 +576,22 @@ class CompanyController extends MasterController
         return redirect()->back();
     }
 
+    public function enable_forum($id, $fid) {
+        $company = Company::find($id);
+        $company->is_forum_enabled = 1;
+        $company->forum_id = $fid;
+        $company->save();
+        return redirect(route('companies.index'));
+    }
+
+    public function disable_forum($id) {
+        $company = Company::find($id);
+        $company->is_forum_enabled = 0;
+        $company->forum_id = NULL;
+        $company->save();
+        return redirect(route('companies.index'));
+    }
+
     public function setCompanyMailSender() {
         Config::set('mail.default', 'smtp');
         Config::set('mail.mailers.smtp.host', 'mail.remapdash.com');

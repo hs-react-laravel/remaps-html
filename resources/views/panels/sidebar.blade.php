@@ -36,6 +36,13 @@ $configData = Helper::applClasses();
           </a>
         </li>
         @endif
+      @elseif($menu->name == 'menu_Forum')
+        <li class="nav-item {{ $custom_classes }}">
+            <a href="{{ $forumLink }}" class="d-flex align-items-center" target="_blank">
+            <i data-feather="{{ $menu->icon }}"></i>
+            <span class="menu-title text-truncate">Forum</span>
+            </a>
+        </li>
       @else
         @php
           $badgeClasses = "badge-tickets badge rounded-pill badge-glow ".($configData['navbarColor'] != '' ? $configData['navbarColor'] : 'bg-primary')." ms-auto";

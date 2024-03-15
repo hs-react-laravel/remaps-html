@@ -136,6 +136,12 @@
         "slug": "admin.cars.index"
     },
     {
+        "url": "",
+        "name": "menu_Forum",
+        "icon": "users",
+        "slug": ""
+    },
+    {
         "navheader": "Admin Functions",
         "slug": ""
     },

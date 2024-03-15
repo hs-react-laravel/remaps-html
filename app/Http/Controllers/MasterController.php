@@ -219,6 +219,9 @@ class MasterController extends BaseController
                     $shopGuide = Guide::where('message_id', 'shop_guide')->first();
                     if (!$shopGuide) $shopGuide = new Guide;
                     view()->share('shopGuide', $shopGuide);
+
+                    $forumLink = "https://forum.remapdash.com/user_login.php?user=" . $user->company->main_email_address;
+                    view()->share('forumLink', $forumLink);
                 }
             } catch (\Exception $ex) {
                 session()->flash('error', $ex->getMessage());

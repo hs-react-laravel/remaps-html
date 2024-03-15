@@ -89,7 +89,9 @@ class Company extends Model
         'secret_2fa_verified',
         'secret_2fa_enabled',
         'secret_2fa_device',
-        'is_accept_new_customer'
+        'is_accept_new_customer',
+        'is_forum_enabled',
+        'forum_id'
     ];
 
     public function users()
