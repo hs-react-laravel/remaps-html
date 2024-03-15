@@ -220,7 +220,12 @@ class MasterController extends BaseController
                     if (!$shopGuide) $shopGuide = new Guide;
                     view()->share('shopGuide', $shopGuide);
 
-                    $forumLink = "https://forum.remapdash.com/user_login.php?user=" . $user->company->main_email_address;
+                    $forumLink = "https://forum.remapdash.com/user_login.php?email=" . $user->company->main_email_address . '&password=' . $user->company->main_email_address;
+
+                    if ($user->is_master) {
+                        $forumLink = "https://forum.remapdash.com/user_login.php?email=root&password=r5k03X$6p";
+                    }
+
                     view()->share('forumLink', $forumLink);
                 }
             } catch (\Exception $ex) {
