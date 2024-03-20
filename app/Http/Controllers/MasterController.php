@@ -116,6 +116,13 @@ class MasterController extends BaseController
                     $horizontalMenuJson = file_get_contents(base_path('resources/data/menu-data/'.$horizontalMenu));
                     $horizontalMenuData = json_decode($horizontalMenuJson);
 
+                    if ($this->company->is_forum_enabled && $this->company->forum_id) {
+                        $evc_menu = new \stdClass();
+                        $evc_menu->name = "menu_Forum";
+                        $evc_menu->icon = "users";
+                        array_splice($verticalMenuData->menu, 15, 0, [$evc_menu]);
+                    }
+
                     if ($this->company->reseller_id && $this->user->is_admin) {
                         $evc_menu = new \stdClass();
                         $evc_menu->url = "admin/evc-tuning-credits";
