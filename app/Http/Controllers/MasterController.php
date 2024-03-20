@@ -117,10 +117,10 @@ class MasterController extends BaseController
                     $horizontalMenuData = json_decode($horizontalMenuJson);
 
                     if ($this->company->is_forum_enabled && $this->company->forum_id) {
-                        $evc_menu = new \stdClass();
-                        $evc_menu->name = "menu_Forum";
-                        $evc_menu->icon = "users";
-                        array_splice($verticalMenuData->menu, 15, 0, [$evc_menu]);
+                        $forum_menu = new \stdClass();
+                        $forum_menu->name = "menu_Forum";
+                        $forum_menu->icon = "users";
+                        array_splice($verticalMenuData->menu, 15, 0, [$forum_menu]);
                     }
 
                     if ($this->company->reseller_id && $this->user->is_admin) {
