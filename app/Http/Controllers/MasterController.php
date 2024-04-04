@@ -220,8 +220,8 @@ class MasterController extends BaseController
                     $styleObj = Styling::where('company_id', $this->company->id)->first();
                     if ($styleObj) {
                         $data = (array)json_decode($styleObj->data);
+                        view()->share('styling', $data);
                     }
-                    view()->share('styling', $data);
 
                     $shopGuide = Guide::where('message_id', 'shop_guide')->first();
                     if (!$shopGuide) $shopGuide = new Guide;
