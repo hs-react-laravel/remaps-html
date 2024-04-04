@@ -221,6 +221,27 @@ class MasterController extends BaseController
                     if ($styleObj) {
                         $data = (array)json_decode($styleObj->data);
                         view()->share('styling', $data);
+                    } else {
+                        $DefaultData = [
+                            'mainLayoutType' => 'vertical',
+                            'theme' => 'light',
+                            'sidebarCollapsed' => false,
+                            'navbarColor' => '',
+                            'horizontalMenuType' => 'floating',
+                            'verticalMenuNavbarType' => 'floating',
+                            'footerType' => 'static',
+                            'layoutWidth' => 'full',
+                            'showMenu' => true,
+                            'bodyClass' => '',
+                            'pageClass' => '',
+                            'pageHeader' => true,
+                            'contentLayout' => 'default',
+                            'blankPage' => false,
+                            'defaultLanguage' => 'en',
+                            'direction' => 'ltr',
+                        ];
+                        $data = $DefaultData;
+                        view()->share('styling', $data);
                     }
 
                     $shopGuide = Guide::where('message_id', 'shop_guide')->first();
