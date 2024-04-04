@@ -8,6 +8,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 use DB;
 
 use App\Models\Styling;
@@ -219,7 +220,7 @@ class MasterController extends BaseController
                     ];
                     $styleObj = Styling::where('company_id', $this->company->id)->first();
                     if ($this->company->id == 137) {
-                        dd($styleObj);
+                        Log::info(json_encode($styleObj));
                     }
                     if ($styleObj) {
                         $data = (array)json_decode($styleObj->data);
