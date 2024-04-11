@@ -168,16 +168,16 @@ class MasterController extends BaseController
                             array_push($verticalMenuData->menu, $shop_menu);
                         }
 
-                        if ($this->company->is_forum_enabled && $this->company->forum_id) {
-                            $forum_menu = new \stdClass();
-                            $forum_menu->name = "menu_Forum";
-                            $forum_menu->icon = "users";
-                            if ($user->is_master) {
-                                array_splice($verticalMenuData->menu, 15, 0, [$forum_menu]);
-                            } else {
-                                array_splice($verticalMenuData->menu, $this->company->is_open_shop ? 15 : 16, 0, $forum_menu);
-                            }
-                        }
+                        // if ($this->company->is_forum_enabled && $this->company->forum_id) {
+                        //     $forum_menu = new \stdClass();
+                        //     $forum_menu->name = "menu_Forum";
+                        //     $forum_menu->icon = "users";
+                        //     if ($user->is_master) {
+                        //         array_splice($verticalMenuData->menu, 15, 0, [$forum_menu]);
+                        //     } else {
+                        //         array_splice($verticalMenuData->menu, $this->company->is_open_shop ? 15 : 16, 0, $forum_menu);
+                        //     }
+                        // }
                     }
 
                     if ($this->role == 'staff') {
