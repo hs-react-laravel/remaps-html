@@ -175,7 +175,7 @@ class MasterController extends BaseController
                             if ($user->is_master) {
                                 array_splice($verticalMenuData->menu, 15, 0, [$forum_menu]);
                             } else {
-                                array_push($verticalMenuData->menu, $forum_menu);
+                                array_splice($verticalMenuData->menu, $this->company->is_open_shop ? 16 : 15, $forum_menu);
                             }
                         }
                     }
