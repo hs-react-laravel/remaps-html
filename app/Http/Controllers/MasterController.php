@@ -167,17 +167,6 @@ class MasterController extends BaseController
                             $shop_menu->slug = "shop.open";
                             array_push($verticalMenuData->menu, $shop_menu);
                         }
-
-                        // if ($this->company->is_forum_enabled && $this->company->forum_id) {
-                        //     $forum_menu = new \stdClass();
-                        //     $forum_menu->name = "menu_Forum";
-                        //     $forum_menu->icon = "users";
-                        //     if ($user->is_master) {
-                        //         array_splice($verticalMenuData->menu, 15, 0, [$forum_menu]);
-                        //     } else {
-                        //         array_splice($verticalMenuData->menu, $this->company->is_open_shop ? 15 : 16, 0, $forum_menu);
-                        //     }
-                        // }
                     }
 
                     if ($this->role == 'staff') {
@@ -255,6 +244,13 @@ class MasterController extends BaseController
                     $shopGuide = Guide::where('message_id', 'shop_guide')->first();
                     if (!$shopGuide) $shopGuide = new Guide;
                     view()->share('shopGuide', $shopGuide);
+
+                    if ($this->company->is_forum_enabled && $this->company->forum_id) {
+                        $forum_menu = new \stdClass();
+                        $forum_menu->name = "menu_Forum";
+                        $forum_menu->icon = "users";
+                        array_push($verticalMenuData->menu, $forum_menu);
+                    }
 
                     $forumLink = "https://forum.remapdash.com/user_login.php?email=" . $user->company->main_email_address . '&password=' . $user->company->main_email_address;
 
