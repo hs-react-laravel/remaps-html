@@ -245,7 +245,7 @@ class MasterController extends BaseController
                     if (!$shopGuide) $shopGuide = new Guide;
                     view()->share('shopGuide', $shopGuide);
 
-                    if ($this->company->is_forum_enabled && $this->company->forum_id) {
+                    if ($this->role == 'company' && $this->company->is_forum_enabled && $this->company->forum_id) {
                         $forum_menu = new \stdClass();
                         $forum_menu->name = "menu_Forum";
                         $forum_menu->icon = "users";
