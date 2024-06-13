@@ -11,6 +11,7 @@ use App\Models\Transaction;
 use App\Http\Controllers\MasterController;
 use App\Http\Requests\CustomerRequest;
 use App\Mail\WelcomeCustomer;
+use App\Models\TuningType;
 use Illuminate\Support\Facades\Mail;
 
 class CustomerController extends MasterController
@@ -135,8 +136,11 @@ class CustomerController extends MasterController
         $evcdefaultGroup = TuningCreditGroup::where('company_id', $this->company->id)
             ->where('group_type', 'evc')
             ->where('set_default_tier', 1)->first();
+        $tuningTypes = TuningType::where('company_id', $this->user->company_id)
+            ->orderBy('order_as', 'ASC')
+            ->pluck('label', 'id');
         $langs = config('constants.langs');
-        return view('pages.customer.create', compact('tuningGroups', 'langs', 'evcTuningGroups', 'defaultGroup', 'evcdefaultGroup'));
+        return view('pages.customer.create', compact('tuningGroups', 'langs', 'evcTuningGroups', 'defaultGroup', 'evcdefaultGroup', 'tuningTypes'));
     }
 
     /**

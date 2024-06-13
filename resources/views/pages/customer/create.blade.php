@@ -68,6 +68,17 @@
             </div>
             <div class="row mb-1">
               <div class="col-xl-4 col-md-6 col-12">
+                <label class="form-label" for="tuning_type_ids">Tuning types</label>
+                <select class="form-select" id="tuning_type_ids" name="tuning_type_ids" multiple="multiple">
+                  <option value=""> </option>
+                  @foreach ($tuningTypes as $id => $name)
+                    <option value="{{ $id }}">{{ $name }}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+            <div class="row mb-1">
+              <div class="col-xl-4 col-md-6 col-12">
                 <label class="form-label" for="lang">Language</label>
                 <select class="form-select" id="lang" name="lang">
                   @foreach ($langs as $abbr => $lang)

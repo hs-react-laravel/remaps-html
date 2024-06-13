@@ -23,7 +23,7 @@
                     </tr>
                     @if($company->address_line_2 != null)
                     <tr>
-                    <td style="font-family:Arial, Helvetica, sans-serif; font-size:13px; height:18px; color:#575757; ">{{ $user->is_admin ? $company->address_line_2 : $company->address_line_1 }}</td>
+                    <td style="font-family:Arial, Helvetica, sans-serif; font-size:13px; height:18px; color:#575757; ">{{ $user->is_admin ? $company->address_line_2 : $user->address_line_2 }}</td>
                     </tr>
                     @endif
                     @if($company->country != null)
