@@ -103,12 +103,11 @@ class CarBrowserController extends MasterController
 
             $template = EmailTemplate::where('company_id', $company->id)->where('label', 'car-data-text')->first(['subject', 'body']);
             $body = $template->body;
-            $body = str_replace('##COMPANY_NAME', $company->name, $body);
-
+            $body = str_replace('##CAR_MODEL', $car->title, $body);
             if ($user->is_admin) {
-                $body = str_replace('##CAR_MODEL', $car->title, $body);
+                $body = str_replace('##COMPANY_NAME', $company->name, $body);
             } else {
-                $body = str_replace('##CAR_MODEL', $user->business_name, $body);
+                $body = str_replace('##COMPANY_NAME', $user->business_name, $body);
             }
 
             $pdf->loadHtml(
