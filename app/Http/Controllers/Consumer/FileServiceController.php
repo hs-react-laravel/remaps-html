@@ -49,7 +49,10 @@ class FileServiceController extends MasterController
     public function create()
     {
         try {
-            $tuningTypes = TuningType::where('company_id', $this->user->company_id)->orderBy('order_as', 'ASC')->get();
+            $tuningTypes = $this->user->tuningTypes;
+            if (count($tuningTypes) == 0) {
+                $tuningTypes = TuningType::where('company_id', $this->user->company_id)->orderBy('order_as', 'ASC')->get();
+            }
             $tuningOptions = [];
             foreach($tuningTypes as $opt) {
                 $tuningOptions[$opt->id] = TuningType::find($opt->id)->tuningTypeOptions->pluck('label', 'id');

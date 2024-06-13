@@ -67,10 +67,9 @@
               @endif
             </div>
             <div class="row mb-1">
-              <div class="col-xl-4 col-md-6 col-12">
+              <div class="col-xl-8 col-md-8 col-12">
                 <label class="form-label" for="tuning_type_ids">Tuning types</label>
-                <select class="form-select" id="tuning_type_ids" name="tuning_type_ids" multiple="multiple">
-                  <option value=""> </option>
+                <select class="select2 form-select" id="tuning_type_ids" name="tuning_type_ids[]" multiple="multiple">
                   @foreach ($tuningTypes as $id => $name)
                     <option value="{{ $id }}">{{ $name }}</option>
                   @endforeach

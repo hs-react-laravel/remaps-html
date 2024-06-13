@@ -87,6 +87,10 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsTo('App\Models\TuningCreditGroup', 'tuning_evc_credit_group_id', 'id');
     }
+    public function tuningTypes()
+    {
+        return $this->belongsToMany('App\Models\TuningType', 'user_tuning_type', 'user_id', 'tuning_type_id');
+    }
     public function orders()
     {
         return $this->hasMany('App\Models\Order');

@@ -153,10 +153,11 @@ class CustomerController extends MasterController
     {
         try {
             $request->request->add(['company_id'=> $this->company->id]);
-            $user = User::create($request->all());
-            $token = app('auth.password.broker')->createToken($user);
+            $customer = User::create($request->all());
+            $token = app('auth.password.broker')->createToken($customer);
+            $customer->tuningTypes()->sync($request->tuning_type_ids);
 			try{
-                Mail::to($user->email)->send(new WelcomeCustomer($user, $token));
+                Mail::to($customer->email)->send(new WelcomeCustomer($customer, $token));
 			}catch(\Exception $e) {
                 session()->flash('error', $e->getMessage());
 			}
@@ -195,8 +196,12 @@ class CustomerController extends MasterController
             ->where('group_type', 'evc')
             ->orderBy('is_default', 'DESC')
             ->pluck('name', 'id');
+        $tuningTypes = TuningType::where('company_id', $this->user->company_id)
+            ->orderBy('order_as', 'ASC')
+            ->pluck('label', 'id');
+        $userTuningTypes = $customer->tuningTypes->pluck('id')->toArray();
         $langs = config('constants.langs');
-        return view('pages.customer.edit', compact('customer', 'langs', 'tuningGroups', 'evcTuningGroups'));
+        return view('pages.customer.edit', compact('customer', 'langs', 'tuningGroups', 'evcTuningGroups', 'tuningTypes', 'userTuningTypes'));
     }
 
     /**
@@ -209,7 +214,11 @@ class CustomerController extends MasterController
     public function update(CustomerRequest $request)
     {
         $id = $request->route('customer');
-        User::find($id)->update($request->all());
+        $customer = User::find($id);
+        if ($customer) {
+            $customer->tuningTypes()->sync($request->tuning_type_ids);
+            $customer->update($request->all());
+        }
         return redirect(route('customers.index'));
     }
 
