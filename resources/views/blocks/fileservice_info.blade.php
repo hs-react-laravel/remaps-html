@@ -30,11 +30,17 @@
           <th>Credits</th>
           @if ($fileService->tuningType)
             @php
-              $tuningTypeCredits = $fileService->tuningType->credits;
-              $tuningTypeOptionsCredits = $fileService->tuningTypeOptions()->sum('credits');
-              $credits = ($tuningTypeCredits+$tuningTypeOptionsCredits);
+                $tuningTypeGroup = $fileService->user->tuningTypeGroup;
+                if (!$tuningTypeGroup) {
+                    $tuningTypeGroup = $fileService->user->company->defaultTuningTypeGroup()->first();
+                }
+                $tuningTypeCredits = $tuningTypeGroup->getOneType($fileService->tuningType->id)->pivot->for_credit;
+                $tuningTypeOptions = $fileService->tuningTypeOptions;
+                foreach ($tuningTypeOptions as $to) {
+                    $tuningTypeCredits += $tuningTypeGroup->getOneOption($to->id)->pivot->for_credit;
+                }
             @endphp
-            <td>{{ number_format($credits, 2) }}</td>
+            <td>{{ number_format($tuningTypeCredits, 2) }}</td>
           @else
             <td>-</td>
           @endif

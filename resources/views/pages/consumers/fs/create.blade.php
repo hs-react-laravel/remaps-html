@@ -169,7 +169,7 @@
                 </div>
                 <label class="form-label" for="tuning_type_id">Tuning Type</label>
                 <select class="form-select" id="tuning_type_id" name="tuning_type_id" required>
-                  <option value="" data-price="0">Select Tuning Type</option>
+                  <option value="" data-price="0">-Select Tuning Type-</option>
                   @foreach ($tuningTypes as $opt)
                     <option value="{{ $opt->id }}" data-price="{{ $opt->credits }}">{{ $opt->label }}</option>
                   @endforeach
@@ -269,6 +269,7 @@
         url: `/api/tuning-type-options/${id}`,
         type: 'GET',
         data: {
+          user: '{{ $user->id }}',
           _token: '{{ csrf_token() }}',
         },
         dataType: 'JSON',

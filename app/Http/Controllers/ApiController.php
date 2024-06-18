@@ -21,13 +21,21 @@ use App\Models\EmailTemplate;
 use App\Models\Api\ApiUser;
 use App\Models\NotificationRead;
 use App\Models\AdminupdateRead;
+use App\Models\TuningTypeGroup;
 use PragmaRX\Google2FAQRCode\Google2FA;
 
 class ApiController extends Controller
 {
     //
-    public function tuning_type_options($id) {
-        return TuningType::find($id)->tuningTypeOptions()->orderBy('order_as')->get();
+    public function tuning_type_options(Request $request, $id) {
+        $user = User::find($request->user);
+        $res = TuningType::find($id)->tuningTypeOptions()->orderBy('order_as')->get();
+        $group = $user->tuningTypeGroup;
+        foreach ($res as $option) {
+            $groupOption = $group->getOneOption($option->id);
+            $option->credits = $groupOption->pivot->for_credit;
+        }
+        return $res;
     }
 
     public function car_query(Request $request)

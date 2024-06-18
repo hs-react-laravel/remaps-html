@@ -67,6 +67,19 @@
             </div>
             <div class="row mb-1">
               <div class="col-xl-4 col-md-6 col-12">
+                <label class="form-label" for="tuning_type_group_id">Tuning type group</label>
+                <select class="select2 form-select" id="tuning_type_group_id" name="tuning_type_group_id">
+                  <option value="{{ $tuningTypeDefaultGroup->id }}" @if(!$customer->tuning_type_group_id || $customer->tuning_type_group_id == $tuningTypeDefaultGroup->id) selected @endif>
+                    {{ $tuningTypeDefaultGroup->name }}
+                  </option>
+                  @foreach ($tuningTypeGroups as $id => $name)
+                    <option value="{{ $id }}" @if($customer->tuning_type_group_id == $id) selected @endif>{{ $name }}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+            <div class="row mb-1">
+              <div class="col-xl-4 col-md-6 col-12">
                 <label class="form-label" for="lang">Language</label>
                 <select class="form-select" id="lang" name="lang">
                   @foreach ($langs as $abbr => $lang)

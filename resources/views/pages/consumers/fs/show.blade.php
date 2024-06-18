@@ -70,11 +70,20 @@
                 <tr>
                   <th>Credits</th>
                     @php
-                      $tuningTypeCredits = $entry->tuningType->credits;
-                      $tuningTypeOptionsCredits = $entry->tuningTypeOptions()->sum('credits');
-                      $credits = ($tuningTypeCredits+$tuningTypeOptionsCredits);
+                      $tuningTypeGroup = $entry->user->tuningTypeGroup;
+                      if (!$tuningTypeGroup) {
+                            $tuningTypeGroup = $entry->user->company->defaultTuningTypeGroup()->first();
+                      }
+                      $tuningTypeCredits = $tuningTypeGroup->getOneType($entry->tuningType->id)->pivot->for_credit;
+                      $tuningTypeOptions = $entry->tuningTypeOptions;
+                      foreach ($tuningTypeOptions as $to) {
+                        $tuningTypeCredits += $tuningTypeGroup->getOneOption($to->id)->pivot->for_credit;
+                      }
+                    //   $tuningTypeCredits = $entry->tuningType->credits;
+                    //   $tuningTypeOptionsCredits = $entry->tuningTypeOptions()->sum('credits');
+                    //   $credits = ($tuningTypeCredits+$tuningTypeOptionsCredits);
                     @endphp
-                    <td>{{ number_format($credits, 2) }}</td>
+                    <td>{{ number_format($tuningTypeCredits, 2) }}</td>
                 </tr>
                 <tr>
                     <th>Original file</th>

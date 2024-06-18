@@ -7,6 +7,7 @@ use App\Http\Controllers\MasterController;
 use App\Http\Requests\TuningTypeRequest;
 use App\Models\TuningType;
 use App\Models\TuningTypeGroup;
+use App\Models\Company;
 
 class TuningTypeController extends MasterController
 {
@@ -267,5 +268,8 @@ class TuningTypeController extends MasterController
         ]);
         $default->tuningTypes()->sync($sync_types);
         $default->tuningTypeOptions()->sync($sync_options);
+
+        $company = Company::find($company_id);
+        $company->users()->update(['tuning_type_group_id' => $default->id]);
     }
 }

@@ -12,6 +12,7 @@ use App\Http\Controllers\MasterController;
 use App\Http\Requests\CustomerRequest;
 use App\Mail\WelcomeCustomer;
 use App\Models\TuningType;
+use App\Models\TuningTypeGroup;
 use Illuminate\Support\Facades\Mail;
 
 class CustomerController extends MasterController
@@ -198,8 +199,15 @@ class CustomerController extends MasterController
         $tuningTypes = TuningType::where('company_id', $this->user->company_id)
             ->orderBy('order_as', 'ASC')
             ->pluck('label', 'id');
+        $tuningTypeGroups = TuningTypeGroup::where('company_id', $this->user->company_id)
+            ->where('is_default', 0)
+            ->pluck('name', 'id');
+        $tuningTypeDefaultGroup = TuningTypeGroup::where('company_id', $this->user->company_id)
+            ->where('is_default', 1)
+            ->first();
+
         $langs = config('constants.langs');
-        return view('pages.customer.edit', compact('customer', 'langs', 'tuningGroups', 'evcTuningGroups', 'tuningTypes'));
+        return view('pages.customer.edit', compact('customer', 'langs', 'tuningGroups', 'evcTuningGroups', 'tuningTypes', 'tuningTypeGroups', 'tuningTypeDefaultGroup'));
     }
 
     /**

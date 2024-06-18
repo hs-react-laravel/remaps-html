@@ -49,10 +49,19 @@ class FileServiceController extends MasterController
     public function create()
     {
         try {
-            $tuningTypes = TuningType::where('company_id', $this->user->company_id)->orderBy('order_as', 'ASC')->get();
+            $tuningTypeGroup = $this->user->tuningTypeGroup;
+            if (!$tuningTypeGroup){
+                $tuningTypeGroup = $this->user->company->defaultTuningTypeGroup()->first();
+                $this->user->tuning_type_group_id = $tuningTypeGroup->id;
+                $this->user->save();
+            }
+
+            $tuningTypes = $tuningTypeGroup->tuningTypes()->orderBy('order_as', 'ASC')->get();
             $tuningOptions = [];
-            foreach($tuningTypes as $opt) {
-                $tuningOptions[$opt->id] = TuningType::find($opt->id)->tuningTypeOptions->pluck('label', 'id');
+            foreach($tuningTypes as $type) {
+                $groupType = $tuningTypeGroup->getOneType($type->id);
+                $type->credits = $groupType->pivot->for_credit;
+                $tuningOptions[$type->id] = TuningType::find($type->id)->tuningTypeOptions()->pluck('label', 'id');
             }
 
             // find minimum tuning credit tire
@@ -99,11 +108,16 @@ class FileServiceController extends MasterController
             $fileService = FileService::create($request->all());
             $fileService->save();
             // save tuning options and sum credits
-            $tuningTypeCredits = $fileService->tuningType->credits;
+            $tuningTypeGroup = $fileService->user->tuningTypeGroup;
+            $tuningTypeCredits = $tuningTypeGroup->getOneType($fileService->tuningType->id)->pivot->for_credit;
             if($request->has('tuning_type_options')){
                 $fileService->tuningTypeOptions()->sync($request->tuning_type_options);
-                $tuningTypeOptionsCredits = $fileService->tuningTypeOptions()->sum('credits');
-                $tuningTypeCredits = ($tuningTypeCredits + $tuningTypeOptionsCredits);
+                $tuningTypeOptions = $fileService->tuningTypeOptions;
+                foreach ($tuningTypeOptions as $to) {
+                    $tuningTypeCredits += $tuningTypeGroup->getOneOption($to->id)->pivot->for_credit;
+                }
+                // $tuningTypeOptionsCredits = $fileService->tuningTypeOptions()->sum('credits');
+                // $tuningTypeCredits = ($tuningTypeCredits + $tuningTypeOptionsCredits);
             }
             /* save user credits */
             $user = $fileService->user;
