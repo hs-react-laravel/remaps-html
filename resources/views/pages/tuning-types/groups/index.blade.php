@@ -19,11 +19,8 @@
       <div class="card-header">
         <h4 class="card-title">{{__('locale.menu_TuningTypes')}}</h4>
         <div>
-          <a href="{{ route('tuning-types.group.index') }}" class="btn btn-icon btn-primary">
-            Groups
-          </a>
-          <a href="{{ route('tuning-types.create') }}" class="btn btn-icon btn-primary">
-            New Tuning Type<i data-feather="plus"></i>
+          <a href="{{ route('tuning-types.group.create') }}" class="btn btn-icon btn-primary">
+            New Tuning Type Group<i data-feather="plus"></i>
           </a>
         </div>
       </div>
@@ -31,9 +28,8 @@
         <table class="table">
           <thead>
             <tr>
-              <th>{{__('locale.tb_header_Label')}}</th>
-              <th>{{__('locale.tb_header_Credits')}}</th>
-              <th>{{__('locale.tb_header_TuningOptions')}}</th>
+              <th>Group</th>
+              <th>Tuning Types</th>
               <th>{{__('locale.tb_header_Actions')}}</th>
             </tr>
           </thead>
@@ -41,30 +37,22 @@
             @if (count($entries) > 0)
               @foreach ($entries as $entry)
                 <tr>
-                  <td>{{ $entry->label }}</td>
-                  <td>{{ $entry->credits }}</td>
-                  <td>
-                    <a href="{{ route('options.index', ['id' => $entry->id]) }}">
-                      {{ $entry->tuningTypeOptions()->count() }} tuning options
-                    </a>
-                  </td>
+                  <td @if($entry->is_default) style="font-weight: bold" @endif>{{ $entry->name }}</td>
+                  <td>{{ $entry->tuningTypes()->count() }} Types</td>
                   <td class="td-actions">
-                    <a class="btn btn-icon btn-primary" href="{{ route('tuning-types.edit', ['tuning_type' => $entry->id]) }}" title="Edit">
+                    <a class="btn btn-icon btn-primary" href="{{ route('tuning-types.group.edit', ['id' => $entry->id]) }}" title="Edit">
                       <i data-feather="edit"></i>
                     </a>
-                    <a class="btn btn-icon btn-success" href="{{ route('tuning-types.sort-up', ['id' => $entry->id]) }}" title="Move Up">
-                      <i data-feather="arrow-up"></i>
+                    <a
+                      class="btn btn-icon @if($entry->is_default) btn-dark @else btn-success @endif"
+                      href="{{ route('tuning-types.group.default', ['id' => $entry->id]) }}" title="Set Default" >
+                      <i data-feather="check-circle"></i>
                     </a>
-                    <a class="btn btn-icon btn-success" href="{{ route('tuning-types.sort-down', ['id' => $entry->id]) }}" title="Move Down">
-                      <i data-feather="arrow-down"></i>
-                    </a>
-                    <a class="btn btn-icon btn-danger" onclick="onDelete(this)" title="Delete">
-                      <i data-feather="trash-2"></i>
-                    </a>
-                    <form action="{{ route('tuning-types.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
-                      <input type="hidden" name="_method" value="DELETE">
-                      <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    </form>
+                    <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}" title="Delete"><i data-feather="trash-2"></i></a>
+                  <form action="{{ route('tuning-types.group.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                  </form>
                   </td>
                 </tr>
               @endforeach

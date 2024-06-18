@@ -292,6 +292,15 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::get('tuning-types/{id}/options/{option}/up-sort', [TuningTypeOptionController::class, 'upSort'])->name('options.sort.up');
     Route::get('tuning-types/{id}/options/{option}/down-sort', [TuningTypeOptionController::class, 'downSort'])->name('options.sort.down');
 
+    Route::get('/create-default-tuningtype-group/{company_id}', [TuningTypeController::class, 'createDefaultGroup']);
+    Route::get('tuning-type-groups', [TuningTypeController::class, 'group_index'])->name('tuning-types.group.index');
+    Route::get('tuning-type-groups/create', [TuningTypeController::class, 'group_create'])->name('tuning-types.group.create');
+    Route::post('tuning-type-groups/store', [TuningTypeController::class, 'group_store'])->name('tuning-types.group.store');
+    Route::get('tuning-type-groups/{id}/edit', [TuningTypeController::class, 'group_edit'])->name('tuning-types.group.edit');
+    Route::post('tuning-type-groups/{id}/update', [TuningTypeController::class, 'group_update'])->name('tuning-types.group.update');
+    Route::get('tuning-type-groups/{id}/default', [TuningTypeController::class, 'group_default'])->name('tuning-types.group.default');
+    Route::delete('tuning-type-groups/{id}/destroy', [TuningTypeController::class, 'group_destroy'])->name('tuning-types.group.destroy');
+
     Route::resource('subscriptions', SubscriptionController::class);
     Route::get('subscriptions/{id}/payments', [SubscriptionController::class, 'payments'])->name('subscriptions.payments');
     Route::get('subscriptions/{id}/invoice', [SubscriptionController::class, 'invoice'])->name('subscriptions.invoice');

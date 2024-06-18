@@ -155,7 +155,6 @@ class CustomerController extends MasterController
             $request->request->add(['company_id'=> $this->company->id]);
             $customer = User::create($request->all());
             $token = app('auth.password.broker')->createToken($customer);
-            $customer->tuningTypes()->sync($request->tuning_type_ids);
 			try{
                 Mail::to($customer->email)->send(new WelcomeCustomer($customer, $token));
 			}catch(\Exception $e) {
@@ -199,9 +198,8 @@ class CustomerController extends MasterController
         $tuningTypes = TuningType::where('company_id', $this->user->company_id)
             ->orderBy('order_as', 'ASC')
             ->pluck('label', 'id');
-        $userTuningTypes = $customer->tuningTypes->pluck('id')->toArray();
         $langs = config('constants.langs');
-        return view('pages.customer.edit', compact('customer', 'langs', 'tuningGroups', 'evcTuningGroups', 'tuningTypes', 'userTuningTypes'));
+        return view('pages.customer.edit', compact('customer', 'langs', 'tuningGroups', 'evcTuningGroups', 'tuningTypes'));
     }
 
     /**
@@ -216,7 +214,6 @@ class CustomerController extends MasterController
         $id = $request->route('customer');
         $customer = User::find($id);
         if ($customer) {
-            $customer->tuningTypes()->sync($request->tuning_type_ids);
             $customer->update($request->all());
         }
         return redirect(route('customers.index'));

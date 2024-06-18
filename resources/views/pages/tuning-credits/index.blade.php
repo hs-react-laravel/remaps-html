@@ -60,7 +60,7 @@
             @if (count($entries) > 0)
               @foreach ($entries as $entry)
                 <tr>
-                  <td @if($entry->set_default_tier) style="font-weight: bold" @endif">{{ $entry->name }}</td>
+                  <td @if($entry->set_default_tier) style="font-weight: bold" @endif>{{ $entry->name }}</td>
                   @foreach ($tires as $tire)
                     @php
                       $groupCreditTire = $tire->tuningCreditGroups()->where('tuning_credit_group_id', $entry->id)->withPivot('from_credit', 'for_credit')->first();

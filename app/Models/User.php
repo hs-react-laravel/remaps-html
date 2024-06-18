@@ -22,6 +22,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $fillable = [
         'tuning_credit_group_id',
         'tuning_evc_credit_group_id',
+        'tuning_type_group_id',
         'company_id',
         'lang',
         'title',
@@ -78,10 +79,6 @@ class User extends Authenticatable implements MustVerifyEmail
     public function company()
     {
         return $this->belongsTo('App\Models\Company');
-    }
-    public function tuningCreditGroup()
-    {
-        return $this->belongsTo('App\Models\TuningCreditGroup');
     }
     public function tuningEVCCreditGroup()
     {
