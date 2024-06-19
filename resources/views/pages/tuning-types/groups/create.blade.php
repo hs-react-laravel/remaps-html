@@ -50,7 +50,7 @@
                 @foreach ($types as $t)
                   <div class="credits-container credits-container-{{ $t->id }}" style="display: none">
                     <div>
-                      <label class="form-label" for="credits">Tuning Type Credits</label>
+                      <label class="form-label">Tuning Type Credits</label>
                       <input type="number"
                         class="form-control"
                         id="credits_{{ $t->id }}"
@@ -58,17 +58,37 @@
                         value="{{ $t->credits }}" />
                     </div>
                     <hr/>
-                    <label class="form-label" for="credits">Options</label>
+                    <label class="form-label">Options</label>
+                    <div class="options-wrapper-{{ $t->id }}">
                     @foreach ($t->tuningTypeOptions as $to)
-                    <div>
-                      <label class="form-label" for="credits">{{ $to->label }}</label>
-                      <input type="number"
-                        class="form-control"
-                        id="credits_{{ $t->id }}_{{ $to->id }}"
-                        name="option_credits[{{ $t->id }}][{{ $to->id }}][for_credit]"
-                        value="{{ $to->credits }}" />
+                    <div class="option-credit-container">
+                      <label class="form-label">{{ $to->label }}</label>
+                      <div class="input-group">
+                        <input type="number"
+                          class="form-control"
+                          name="option_credits[{{ $t->id }}][{{ $to->id }}][for_credit]"
+                          value="{{ $to->credits }}" />
+                        <button
+                          type="button"
+                          class="btn btn-icon btn-danger remove-option"
+                          data-type="{{ $t->id }}"
+                          data-option="{{ $to->id }}"
+                          data-label="{{ $to->label }}"
+                          data-credit="{{ $to->credits }}">
+                            <i data-feather="trash-2"></i>
+                        </button>
+                      </div>
                     </div>
                     @endforeach
+                    </div>
+                    <hr />
+                    <div>
+                      <label class="form-label">Add Option</label>
+                      <div class="input-group">
+                        <select id="excludedOptions_{{ $t->id }}" class="form-select add-option-select"></select>
+                        <button type="button" class="btn btn-icon btn-success add-option"><i data-feather="plus"></i></button>
+                      </div>
+                    </div>
                   </div>
                 @endforeach
               </div>
@@ -80,6 +100,25 @@
       </div>
     </div>
   </form>
+
+  <div class="option-credit-container" id="clone_obj" style="display: none">
+    <label class="form-label option-label"></label>
+    <div class="input-group">
+      <input type="number"
+        class="form-control option-credit"
+        name=""
+        value="" />
+      <button
+        type="button"
+        class="btn btn-icon btn-danger remove-option"
+        data-type=""
+        data-option=""
+        data-label=""
+        data-credit="">
+          <i data-feather="trash-2"></i>
+      </button>
+    </div>
+  </div>
 </section>
 
 @endsection
@@ -92,8 +131,8 @@
   <!-- Page js files -->
   <script src="{{ asset(mix('js/scripts/forms/form-tooltip-valid.js'))}}"></script>
   <script src="{{ asset(mix('js/scripts/forms/form-select2.js')) }}"></script>
-  <script>
-      function onInclude() {
+<script>
+    function onInclude() {
         var selected = [];
         $( "#excludedTypes option:selected" ).each(function() {
             selected.push({ value: $(this).val(), text: $(this).text() });
@@ -106,9 +145,9 @@
             }));
         })
         $('.credits-container').hide();
-      }
-      function onExclude() {
-        var selected = [];
+    }
+    function onExclude() {
+    var selected = [];
         $( "#includedTypes option:selected" ).each(function() {
             selected.push({ value: $(this).val(), text: $(this).text() });
             $(this).remove();
@@ -120,18 +159,61 @@
             }));
         })
         $('.credits-container').hide();
-      }
-      function onSubmit() {
-          $('#includedTypes option').prop('selected', true);
-          $('#storeForm').submit();
-      }
-      $('#includedTypes').on('change', function() {
-          if (this.value) {
-              $('.credits-container').hide();
-              $('.credits-container-' + this.value).show();
-          } else {
+    }
+    function onSubmit() {
+        $('#includedTypes option').prop('selected', true);
+        $('#storeForm').submit();
+    }
+    $('#includedTypes').on('change', function() {
+        if (this.value) {
             $('.credits-container').hide();
-          }
-      });
-  </script>
+            $('.credits-container-' + this.value).show();
+        } else {
+        $('.credits-container').hide();
+        }
+    });
+    $('body').on('click', '.remove-option', function() {
+        var type = $(this).data('type');
+        var option = $(this).data('option');
+        var credit = $(this).data('credit');
+        var label = $(this).data('label');
+        $(this).closest('.option-credit-container').remove();
+        $('#excludedOptions_' + type).append($('<option>', {
+            value: option,
+            text : label,
+            data: {
+                type: type,
+                option: option,
+                credit: credit,
+                label: label
+            }
+        }));
+    })
+    $('body').on('click', '.add-option', function() {
+        var selectControl = $(this).closest('.input-group').children('.add-option-select');
+        var selectedOptionKey = Number($(selectControl).val());
+        if (!selectedOptionKey) return;
+        var info = {
+            type: $(selectControl).find(':selected').data('type'),
+            option: $(selectControl).find(':selected').data('option'),
+            label: $(selectControl).find(':selected').data('label'),
+            credit: $(selectControl).find(':selected').data('credit')
+        };
+        var newItem = $('#clone_obj').clone();
+        newItem.find('.option-label').html(info.label);
+        newItem.find('.option-credit')
+            .val(info.credit)
+            .attr('name', `option_credits[${info.type}][${info.option}][for_credit]`);
+        newItem.find('.remove-option')
+            .data('type', info.type)
+            .data('option', info.option)
+            .data('credit', info.credit)
+            .data('label', info.label);
+        newItem.css('display', 'block');
+        $(`.options-wrapper-${info.type}`).append(newItem);
+        $(`#excludedOptions_${info.type} option:selected`).each(function() {
+            $(this).remove();
+        });
+    });
+</script>
 @endsection

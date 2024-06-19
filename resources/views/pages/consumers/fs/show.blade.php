@@ -77,11 +77,9 @@
                       $tuningTypeCredits = $tuningTypeGroup->getOneType($entry->tuningType->id)->pivot->for_credit;
                       $tuningTypeOptions = $entry->tuningTypeOptions;
                       foreach ($tuningTypeOptions as $to) {
-                        $tuningTypeCredits += $tuningTypeGroup->getOneOption($to->id)->pivot->for_credit;
+                        $groupOption = $tuningTypeGroup->getOneOption($to->id);
+                        $tuningTypeCredits += $groupOption ? $groupOption->pivot->for_credit : $to->credits;
                       }
-                    //   $tuningTypeCredits = $entry->tuningType->credits;
-                    //   $tuningTypeOptionsCredits = $entry->tuningTypeOptions()->sum('credits');
-                    //   $credits = ($tuningTypeCredits+$tuningTypeOptionsCredits);
                     @endphp
                     <td>{{ number_format($tuningTypeCredits, 2) }}</td>
                 </tr>

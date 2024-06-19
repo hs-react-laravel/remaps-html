@@ -37,7 +37,8 @@
                 $tuningTypeCredits = $tuningTypeGroup->getOneType($fileService->tuningType->id)->pivot->for_credit;
                 $tuningTypeOptions = $fileService->tuningTypeOptions;
                 foreach ($tuningTypeOptions as $to) {
-                    $tuningTypeCredits += $tuningTypeGroup->getOneOption($to->id)->pivot->for_credit;
+                    $groupOption = $tuningTypeGroup->getOneOption($to->id);
+                    $tuningTypeCredits += $groupOption ? $groupOption->pivot->for_credit : $to->credits;
                 }
             @endphp
             <td>{{ number_format($tuningTypeCredits, 2) }}</td>

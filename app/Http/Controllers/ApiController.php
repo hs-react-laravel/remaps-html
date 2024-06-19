@@ -29,8 +29,13 @@ class ApiController extends Controller
     //
     public function tuning_type_options(Request $request, $id) {
         $user = User::find($request->user);
-        $res = TuningType::find($id)->tuningTypeOptions()->orderBy('order_as')->get();
         $group = $user->tuningTypeGroup;
+        $optionIDs = $group->tuningTypeOptions()->pluck('id')->toArray();
+        $res = TuningType::find($id)
+            ->tuningTypeOptions()
+            ->whereIn('id', $optionIDs)
+            ->orderBy('order_as')
+            ->get();
         foreach ($res as $option) {
             $groupOption = $group->getOneOption($option->id);
             $option->credits = $groupOption->pivot->for_credit;

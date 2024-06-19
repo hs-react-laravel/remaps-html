@@ -183,6 +183,13 @@ class TuningTypeController extends MasterController
         $types = TuningType::where('company_id', $this->company->id)->get();
         $inTypes = TuningType::where('company_id', $this->company->id)->whereIn('id', $includedTypeIDs)->get();
         $exTypes = TuningType::where('company_id', $this->company->id)->whereNotIn('id', $includedTypeIDs)->get();
+
+        $optionIDs = $group->tuningTypeOptions()->pluck('id')->toArray();
+        foreach($types as $t) {
+            $t->includedOptions = $t->tuningTypeOptions()->whereIn('id', $optionIDs)->get();
+            $t->excludedOptions = $t->tuningTypeOptions()->whereNotIn('id', $optionIDs)->get();
+        }
+
         return view('pages.tuning-types.groups.edit', [
             'types' => $types,
             'inTypes' => $inTypes,
