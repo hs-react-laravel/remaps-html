@@ -14,6 +14,7 @@ use App\Models\TuningCreditGroup;
 use App\Models\AdminUpdate;
 use App\Models\AdminupdateRead;
 use App\Models\Content;
+use App\Models\FileService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -330,5 +331,16 @@ class DashboardController extends MasterController
     public function switch_forum(Request $request) {
         $email = $this->user->company->main_email_address;
         return redirect(url('https://remapdash.com/forum/switch-from?email=' . $email));
+    }
+
+    public function fs_filecheck($id)
+    {
+        $company = Company::find($id);
+
+        $fs = FileService::whereHas('user', function($query) use($company){
+            $query->where('company_id', $company->id);
+        })->get();
+
+        dd($fs);
     }
 }

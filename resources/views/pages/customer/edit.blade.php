@@ -69,9 +69,12 @@
               <div class="col-xl-4 col-md-6 col-12">
                 <label class="form-label" for="tuning_type_group_id">Tuning type group</label>
                 <select class="select2 form-select" id="tuning_type_group_id" name="tuning_type_group_id">
+                  @if ($tuningTypeDefaultGroup)
                   <option value="{{ $tuningTypeDefaultGroup->id }}" @if(!$customer->tuning_type_group_id || $customer->tuning_type_group_id == $tuningTypeDefaultGroup->id) selected @endif>
                     {{ $tuningTypeDefaultGroup->name }}
                   </option>
+                  @endif
+
                   @foreach ($tuningTypeGroups as $id => $name)
                     <option value="{{ $id }}" @if($customer->tuning_type_group_id == $id) selected @endif>{{ $name }}</option>
                   @endforeach
