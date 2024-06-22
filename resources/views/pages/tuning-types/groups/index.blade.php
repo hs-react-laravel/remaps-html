@@ -43,11 +43,19 @@
                     <a class="btn btn-icon btn-primary" href="{{ route('tuning-types.group.edit', ['id' => $entry->id]) }}" title="Edit">
                       <i data-feather="edit"></i>
                     </a>
-                    <a
-                      class="btn btn-icon @if($entry->is_default) btn-dark @else btn-success @endif"
-                      href="{{ route('tuning-types.group.default', ['id' => $entry->id]) }}" title="Set Default" >
-                      <i data-feather="check-circle"></i>
-                    </a>
+                    @if ($entry->is_default)
+                      <a
+                        class="btn btn-icon btn-dark"
+                        title="Set Default" >
+                        <i data-feather="check-circle"></i>
+                      </a>
+                    @else
+                      <a
+                        class="btn btn-icon btn-success"
+                        href="{{ route('tuning-types.group.default', ['id' => $entry->id]) }}" title="Set Default" >
+                        <i data-feather="check-circle"></i>
+                      </a>
+                    @endif
                     <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}" title="Delete"><i data-feather="trash-2"></i></a>
                   <form action="{{ route('tuning-types.group.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
                     <input type="hidden" name="_method" value="DELETE">
