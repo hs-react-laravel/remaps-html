@@ -234,7 +234,7 @@ class TuningTypeController extends MasterController
         $group = TuningTypeGroup::find($id);
         if (!$group) return redirect(route('tuning-types.group.index'));
 
-        TuningTypeGroup::query()->update(['is_default' => 0]);
+        TuningTypeGroup::query()->where('company_id', $this->company->id)->update(['is_default' => 0]);
         $group->update(['is_default' => 1]);
 
         return redirect(route('tuning-types.group.index'));
