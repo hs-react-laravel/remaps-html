@@ -25,6 +25,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/tuning-type-options/{id}', [ApiController::class, 'tuning_type_options']);
 Route::post('/carquery', [ApiController::class, 'car_query'])->name('api.car.query');
+Route::post('/ukcarquery', [ApiController::class, 'uk_car_query'])->name('api.car.query.uk');
 Route::post('/carid', [ApiController::class, 'car_id'])->name('api.car.id');
 Route::post('/styling', [ApiController::class, 'change_style'])->name('api.style');
 Route::post('/read-shop-guide', [ApiController::class, 'readShopGuide'])->name('api.shop.readguide');

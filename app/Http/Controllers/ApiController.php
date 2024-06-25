@@ -671,4 +671,31 @@ class ApiController extends Controller
             'verified' => $valid
         ];
     }
+
+    public function uk_car_query(Request $request) {
+        $url = "https://driver-vehicle-licensing.api.gov.uk/vehicle-enquiry/v1/vehicles";
+
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+        $headers = array(
+           "x-api-key: du0EYdugUh10pkYuIbCyHa0VomA6vpgTas11S8Vz",
+           "Content-Type: application/json",
+        );
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+
+        $data = '{"registrationNumber": "' . $request->registrationNumber . '"}';
+
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+
+        //for debug only!
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+        $resp = curl_exec($curl);
+
+        return $resp;
+    }
 }

@@ -590,13 +590,19 @@ $('#engine').focus(function() {
 function onUKPlate() {
     $.ajax({
         type: 'POST',
-        url: 'https://driver-vehicle-licensing.api.gov.uk/vehicle-enquiry/v1/vehicles',
-        headers: {
-            'x-api-key': 'du0EYdugUh10pkYuIbCyHa0VomA6vpgTas11S8Vz',
-            'Content-Type': 'application/json'
-        },
+        url: "{{ route('api.car.query.uk') }}",
         data: {
             registrationNumber: $('#ukplate').val()
+        },
+        success: function(result) {
+            var obj = JSON.parse(result);
+            if (obj.errors) return;
+            var fuelType = obj.fuelType.charAt(0) + obj.fuelType.substring(1).toLowerCase();
+
+            $('#make').val(obj.make);
+            $('#engine_hp').val(obj.engineCapacity);
+            $('#fuel_type').val(fuelType).change();
+            $('#year').val(obj.year).change();
         }
     })
 }
