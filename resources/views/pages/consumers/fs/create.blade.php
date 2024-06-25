@@ -6,6 +6,44 @@
 @section('vendor-style')
   <!-- vendor css files -->
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
+  <style>
+    /*the container must be positioned relative:*/
+    .autocomplete {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .autocomplete-items {
+      position: absolute;
+      border: 1px solid #d4d4d4;
+      border-bottom: none;
+      border-top: none;
+      z-index: 99;
+      /*position the autocomplete items to be the same width as the container:*/
+      top: 100%;
+      left: 0;
+      right: 0;
+    }
+
+    .autocomplete-items div {
+      padding: 10px;
+      cursor: pointer;
+      background-color: #fff;
+      border-bottom: 1px solid #d4d4d4;
+    }
+
+    /*when hovering an item:*/
+    .autocomplete-items div:hover {
+      background-color: #e9e9e9;
+    }
+
+    /*when navigating through the items using the arrow keys:*/
+    .autocomplete-active {
+      background-color: DodgerBlue !important;
+      color: #ffffff;
+    }
+    </style>
 @endsection
 
 @section('content')
@@ -23,6 +61,19 @@
           <div class="card-body">
             <div class="row mb-1">
               <div class="col-xl-3 col-md-3 col-12">
+                <label class="form-label" for="make">UK Plate Number</label>
+                <div class="input-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="ukplate" />
+                  <button class="btn btn-primary" type="button" onclick="onUKPlate()"><i data-feather="search"></i></button>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-1">
+              <div class="col-xl-3 col-md-3 col-12">
+                <div class="autocomplete">
                 <label class="form-label" for="make">Make</label>
                 <input
                   type="text"
@@ -31,8 +82,10 @@
                   name="make"
                   required
                   value="{{ old('make') ?? null }}"/>
+                </div>
               </div>
               <div class="col-xl-3 col-md-3 col-12">
+                <div class="autocomplete">
                 <label class="form-label" for="model">Model</label>
                 <input
                   type="text"
@@ -41,8 +94,10 @@
                   name="model"
                   required
                   value="{{ old('model') ?? null }}" />
+                </div>
               </div>
               <div class="col-xl-3 col-md-3 col-12">
+                <div class="autocomplete">
                 <label class="form-label" for="generation">Generation</label>
                 <input
                   type="text"
@@ -51,11 +106,13 @@
                   name="generation"
                   required
                   value="{{ old('generation') ?? null }}" />
+                </div>
               </div>
             </div>
 
             <div class="row mb-1">
               <div class="col-xl-3 col-md-3 col-12">
+                <div class="autocomplete">
                 <label class="form-label" for="engine">Engine</label>
                 <input
                   type="text"
@@ -64,6 +121,7 @@
                   name="engine"
                   required
                   value="{{ old('engine') ?? null }}" />
+                </div>
               </div>
               <div class="col-xl-3 col-md-3 col-12">
                 <label class="form-label" for="ecu">ECU</label>
@@ -364,4 +422,184 @@
     });
   })
   </script>
+<script>
+function autocomplete(inp, arr) {
+  /*the autocomplete function takes two arguments,
+  the text field element and an array of possible autocompleted values:*/
+  var currentFocus;
+  /*execute a function when someone writes in the text field:*/
+  inp.addEventListener("input", function(e) {
+      var a, b, i, val = this.value;
+      /*close any already open lists of autocompleted values*/
+      closeAllLists();
+      if (!val) { return false;}
+      currentFocus = -1;
+      /*create a DIV element that will contain the items (values):*/
+      a = document.createElement("DIV");
+      a.setAttribute("id", this.id + "autocomplete-list");
+      a.setAttribute("class", "autocomplete-items");
+      /*append the DIV element as a child of the autocomplete container:*/
+      this.parentNode.appendChild(a);
+      /*for each item in the array...*/
+      for (i = 0; i < arr.length; i++) {
+        /*check if the item starts with the same letters as the text field value:*/
+        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+          /*create a DIV element for each matching element:*/
+          b = document.createElement("DIV");
+          /*make the matching letters bold:*/
+          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+          b.innerHTML += arr[i].substr(val.length);
+          /*insert a input field that will hold the current array item's value:*/
+          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+          /*execute a function when someone clicks on the item value (DIV element):*/
+          b.addEventListener("click", function(e) {
+              /*insert the value for the autocomplete text field:*/
+              inp.value = this.getElementsByTagName("input")[0].value;
+              /*close the list of autocompleted values,
+              (or any other open lists of autocompleted values:*/
+              closeAllLists();
+          });
+          a.appendChild(b);
+        }
+      }
+  });
+  /*execute a function presses a key on the keyboard:*/
+  inp.addEventListener("keydown", function(e) {
+      var x = document.getElementById(this.id + "autocomplete-list");
+      if (x) x = x.getElementsByTagName("div");
+      if (e.keyCode == 40) {
+        /*If the arrow DOWN key is pressed,
+        increase the currentFocus variable:*/
+        currentFocus++;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 38) { //up
+        /*If the arrow UP key is pressed,
+        decrease the currentFocus variable:*/
+        currentFocus--;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 13) {
+        /*If the ENTER key is pressed, prevent the form from being submitted,*/
+        e.preventDefault();
+        if (currentFocus > -1) {
+          /*and simulate a click on the "active" item:*/
+          if (x) x[currentFocus].click();
+        }
+      }
+  });
+  function addActive(x) {
+    /*a function to classify an item as "active":*/
+    if (!x) return false;
+    /*start by removing the "active" class on all items:*/
+    removeActive(x);
+    if (currentFocus >= x.length) currentFocus = 0;
+    if (currentFocus < 0) currentFocus = (x.length - 1);
+    /*add class "autocomplete-active":*/
+    x[currentFocus].classList.add("autocomplete-active");
+  }
+  function removeActive(x) {
+    /*a function to remove the "active" class from all autocomplete items:*/
+    for (var i = 0; i < x.length; i++) {
+      x[i].classList.remove("autocomplete-active");
+    }
+  }
+  function closeAllLists(elmnt) {
+    /*close all autocomplete lists in the document,
+    except the one passed as an argument:*/
+    var x = document.getElementsByClassName("autocomplete-items");
+    for (var i = 0; i < x.length; i++) {
+      if (elmnt != x[i] && elmnt != inp) {
+        x[i].parentNode.removeChild(x[i]);
+      }
+    }
+  }
+  /*execute a function when someone clicks in the document:*/
+  document.addEventListener("click", function (e) {
+      closeAllLists(e.target);
+  });
+}
+// make: $('#make').val(),
+// model: $('#model').val(),
+// generation: $('#generation').val(),
+// engine: $('#engine').val(),
+/*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
+// autocomplete(document.getElementById("make"), countries);
+
+$.ajax({
+    type: 'POST',
+    url: "{{ route('api.car.query') }}",
+    data: { },
+    success: function(result) {
+        console.log(result);
+        autocomplete(document.getElementById("make"), result);
+    }
+})
+$('#model').focus(function() {
+    var make = $('#make').val();
+    if (!make) return;
+    $.ajax({
+        type: 'POST',
+        url: "{{ route('api.car.query') }}",
+        data: {
+            make: make,
+        },
+        success: function(result) {
+            console.log(result);
+            autocomplete(document.getElementById("model"), result);
+        }
+    })
+});
+$('#generation').focus(function() {
+    var make = $('#make').val();
+    var model = $('#model').val();
+    if (!make || !model) return;
+    $.ajax({
+        type: 'POST',
+        url: "{{ route('api.car.query') }}",
+        data: {
+            make: make,
+            model: model
+        },
+        success: function(result) {
+            console.log(result);
+            autocomplete(document.getElementById("generation"), result);
+        }
+    })
+});
+$('#engine').focus(function() {
+    var make = $('#make').val();
+    var model = $('#model').val();
+    var generation = $('#generation').val();
+    if (!make || !model || !generation) return;
+    $.ajax({
+        type: 'POST',
+        url: "{{ route('api.car.query') }}",
+        data: {
+            make: make,
+            model: model,
+            generation: generation
+        },
+        success: function(result) {
+            console.log(result);
+            autocomplete(document.getElementById("engine"), result.map(r => r.engine_type));
+        }
+    })
+});
+
+function onUKPlate() {
+    $.ajax({
+        type: 'POST',
+        url: 'https://driver-vehicle-licensing.api.gov.uk/vehicle-enquiry/v1/vehicles',
+        headers: {
+            'x-api-key': 'du0EYdugUh10pkYuIbCyHa0VomA6vpgTas11S8Vz',
+            'Content-Type': 'application/json'
+        },
+        data: {
+            registrationNumber: $('#ukplate').val()
+        }
+    })
+}
+
+</script>
 @endsection

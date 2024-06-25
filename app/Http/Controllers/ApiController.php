@@ -45,6 +45,10 @@ class ApiController extends Controller
 
     public function car_query(Request $request)
     {
+        if ($request->make == '') {
+            $makes = Car::groupBy('brand')->pluck('brand');
+            return $makes;
+        }
         if ($request->model == '') {
             $models = Car::where('brand', $request->make)
                 ->groupBy('model')
