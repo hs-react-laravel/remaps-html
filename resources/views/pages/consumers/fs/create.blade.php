@@ -66,7 +66,8 @@
                   <input
                     type="text"
                     class="form-control"
-                    id="ukplate" />
+                    id="ukplate"
+                    style="font-family: charleswright; background: #E1CA3D; color: black;" />
                   <button class="btn btn-primary" type="button" onclick="onUKPlate()"><i data-feather="search"></i></button>
                 </div>
               </div>
