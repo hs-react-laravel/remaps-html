@@ -588,6 +588,10 @@ $('#engine').focus(function() {
     })
 });
 
+function makeLowercaseExcept1st(str) {
+    return str.charAt(0) + str.substring(1).toLowerCase();
+}
+
 function onUKPlate() {
     $.ajax({
         type: 'POST',
@@ -598,12 +602,13 @@ function onUKPlate() {
         success: function(result) {
             var obj = JSON.parse(result);
             if (obj.errors) return;
-            var fuelType = obj.fuelType.charAt(0) + obj.fuelType.substring(1).toLowerCase();
+            var make = makeLowercaseExcept1st(obj.make);
+            var fuelType = makeLowercaseExcept1st(obj.fuelType);
 
-            $('#make').val(obj.make);
+            $('#make').val(make);
             $('#engine_hp').val(obj.engineCapacity);
             $('#fuel_type').val(fuelType).change();
-            $('#year').val(obj.year).change();
+            $('#year').val(obj.yearOfManufacture).change();
         }
     })
 }
