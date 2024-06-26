@@ -311,3 +311,8 @@
 .chat-time-text-small {
     font-size: 10px;
 }
+
+@font-face {
+    font-family: charleswright;
+    src: url('front/fonts/CHARLESWRIGHT-BOLD.TTF')
+}

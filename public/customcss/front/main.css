@@ -37,11 +37,6 @@
     src: url('fonts/DaysOne-Regular.ttf')
 }
 
-@font-face {
-    font-family: charleswright;
-    src: url('fonts/CHARLESWRIGHT-BOLD.TTF')
-}
-
 @media (min-width: 1200px) {
     .container-form {
         width: 750px;

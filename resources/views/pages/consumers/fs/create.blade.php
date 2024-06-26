@@ -606,7 +606,7 @@ function onUKPlate() {
             var fuelType = makeLowercaseExcept1st(obj.fuelType);
 
             $('#make').val(make);
-            $('#engine_hp').val(obj.engineCapacity);
+            $('#engine').val(obj.engineCapacity);
             $('#fuel_type').val(fuelType).change();
             $('#year').val(obj.yearOfManufacture).change();
         }
