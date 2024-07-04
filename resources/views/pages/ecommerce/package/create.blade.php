@@ -59,7 +59,7 @@
                 <label class="form-label" for="body">Description</label>
                 <textarea
                   class="form-control ckeditor"
-                  id="body"
+                  id="description"
                   rows="20"
                   name="description"
                 ></textarea>
@@ -105,7 +105,7 @@
   <!-- Page js files -->
   <script src="{{ asset(mix('js/scripts/forms/form-tooltip-valid.js'))}}"></script>
   <script src="{{ asset(mix('js/scripts/forms/form-select2.js')) }}"></script>
-  <script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+  <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
   <script type="text/javascript">
     $(document).ready(function () {
       CKEDITOR.replace('body');

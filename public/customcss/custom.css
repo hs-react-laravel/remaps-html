@@ -316,3 +316,7 @@
     font-family: charleswright;
     src: url('front/fonts/CHARLESWRIGHT-BOLD.TTF')
 }
+
+.cke_notifications_area {
+    display: none !important;
+}

@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 class ShopProductController extends MasterController
 {
     private function getMaxProductCount($mode) {
-        $maxProductCt = 3;
+        $maxProductCt = 50;
         $isActive = $this->company->hasActiveShopSubscription($mode);
         if ($isActive) {
             $sub = $this->company->getActiveShopSubscription($mode);
