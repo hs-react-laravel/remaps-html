@@ -67,7 +67,7 @@
                     type="text"
                     class="form-control"
                     id="ukplate"
-                    style="font-family: charleswright; background: #E1CA3D; color: black;" />
+                    style="font-family: charleswright; background: #E1CA3D; color: black; text-transform: uppercase;" />
                   <button class="btn btn-primary" type="button" onclick="onUKPlate()"><i data-feather="search"></i></button>
                 </div>
               </div>

@@ -51,6 +51,7 @@ use App\Http\Controllers\Remaps\Api\ApiSubscriptionController;
 use App\Http\Controllers\Frontend\APIForgotPasswordController;
 use App\Http\Controllers\Frontend\APIResetPasswordController;
 use App\Http\Controllers\CustomForumController;
+use App\Http\Controllers\LandingController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -359,6 +360,7 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::post('adminupdates-bottom', [AdminUpdateController::class, 'bottom_post'])->name('adminupdates.bottom.save');
 
     Route::get('filecheck/{id}/fs', [DashboardController::class, 'fs_filecheck']);
+    Route::get('landing/test', [LandingController::class, 'test']);
 });
 Route::group(['prefix'=>'staff', 'middleware' => 'check.customerstaff'], function () {
     Route::get('stafffs/{id}/download-original', [StaffFileServiceController::class, 'download_original'])->name('stafffs.download.original');
