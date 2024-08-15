@@ -361,6 +361,8 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
 
     Route::get('filecheck/{id}/fs', [DashboardController::class, 'fs_filecheck']);
     Route::get('landing/test', [LandingController::class, 'test']);
+    Route::get('landing/team-grid', [LandingController::class, 'team_grid']);
+    Route::get('landing/page/{link}', [LandingController::class, 'page_link'])->name('landing.page.dynamic');
 });
 Route::group(['prefix'=>'staff', 'middleware' => 'check.customerstaff'], function () {
     Route::get('stafffs/{id}/download-original', [StaffFileServiceController::class, 'download_original'])->name('stafffs.download.original');

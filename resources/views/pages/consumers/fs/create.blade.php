@@ -60,7 +60,7 @@
           </div>
           <div class="card-body">
             <div class="row mb-1">
-              <div class="col-xl-3 col-md-3 col-12">
+              <div class="col-xl-2 col-md-3 col-12">
                 <label class="form-label" for="make">UK Plate Number</label>
                 <div class="input-group">
                   <input
