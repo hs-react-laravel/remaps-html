@@ -26,6 +26,7 @@ class MasterController extends BaseController
     protected $role;
     protected $is_evc;
     protected $tickets;
+    protected $root_password = "Luckylike)!)@$";
 
     protected function check_master() {
         if ($this->company->id != 1)
@@ -252,10 +253,13 @@ class MasterController extends BaseController
                         array_push($verticalMenuData->menu, $forum_menu);
                     }
 
-                    $forumLink = "https://forum.remapdash.com/user_login.php?email=" . $user->company->main_email_address . '&password=' . $user->company->main_email_address;
+                    $forumLink = "https://forum.remapdash.com/user_login.php?email="
+                        .$user->company->main_email_address
+                        .'&password='
+                        .$user->company->main_email_address;
 
                     if ($user->is_master) {
-                        $forumLink = "https://forum.remapdash.com/user_login.php?email=root&password=Luckylike)!)@$";
+                        $forumLink = "https://forum.remapdash.com/user_login.php?email=root&password=".$this->root_password;
                     }
 
                     view()->share('forumLink', $forumLink);
