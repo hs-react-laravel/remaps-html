@@ -121,10 +121,8 @@ class TicketController extends MasterController
                 Mail::to($user->email)->send(new TicketFileCreated($user,$ticket->subject));
                 session()->flash('message', __('admin.ticket_saved'));
             }catch(\Exception $e){
-                session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
-                if ($this->company->id == 88) {
-                    dd($e);
-                }
+                session()->flash('message', __('admin.ticket_saved'));
+                // session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
             }
         } else {
             $ticket->assign_id = $request->assign;
