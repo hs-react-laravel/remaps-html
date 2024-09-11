@@ -122,9 +122,6 @@ class TicketController extends MasterController
                 session()->flash('message', __('admin.ticket_saved'));
             }catch(\Exception $e){
                 session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
-                if ($this->company->id == 88) {
-                    dd($e);
-                }
             }
         } else {
             $ticket->assign_id = $request->assign;
