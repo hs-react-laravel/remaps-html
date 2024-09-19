@@ -458,7 +458,9 @@ class CompanyController extends MasterController
      */
     public function destroy($id)
     {
-        Company::find($id)->delete();
+        $company = Company::find($id);
+        $company->owner->delete();
+        $company->delete();
         return redirect(route('companies.index'));
     }
 

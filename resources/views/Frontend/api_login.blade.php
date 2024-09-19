@@ -128,7 +128,7 @@
             </div>
         </div>
         <div class="copyright_area">
-            Copyright © 2023 <a href="#">My Remaps</a>. All Rights Reserved
+            Copyright © 2024 <a href="#">My Remaps</a>. All Rights Reserved
         </div>
     </footer>
     <!-- Footer section -->
