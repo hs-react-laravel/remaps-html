@@ -148,7 +148,7 @@ class CompanyController extends Controller
             Config::set('mail.mailers.smtp.encryption', '');
             Config::set('mail.mailers.smtp.username', 'no-reply@remapdash.com');
             Config::set('mail.mailers.smtp.password', '5Cp38@gj2');
-            Config::set('mail.from.address', $mainCompany['mail_username']);
+            Config::set('mail.from.address', 'no-reply@remapdash.com');
             Config::set('mail.from.name', $mainCompany['name']);
             Config::set('app.name', $mainCompany['name']);
 

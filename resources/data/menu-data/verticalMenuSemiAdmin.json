@@ -1,0 +1,107 @@
+{
+  "menu": [
+    {
+      "navheader": "Company Functions",
+      "slug": ""
+    },
+    {
+        "url": "admin/dashboard",
+        "name": "menu_Dashboard",
+        "icon": "home",
+        "slug": "dashboard.admin"
+    },
+    {
+      "url": "admin/customers",
+      "name": "menu_Customers",
+      "icon": "users",
+      "slug": "customers.index"
+    },
+    {
+        "url": "admin/fileservices",
+        "name": "menu_FileServices",
+        "icon": "file",
+        "slug": "fileservices.index"
+    },
+    {
+        "url": "admin/tickets",
+        "name": "menu_SupportTickets",
+        "icon": "message-circle",
+        "slug": "tickets.index"
+    },
+    {
+        "url": "admin/email-templates",
+        "name": "menu_EmailTemplates",
+        "icon": "mail",
+        "slug": "email-templates.index"
+    },
+
+    {
+        "url": "admin/tuning-types",
+        "name": "menu_TuningTypes",
+        "icon": "columns",
+        "slug": "tuning-types.index"
+    },
+    {
+        "url": "admin/notifications",
+        "name": "menu_Notifications",
+        "icon": "bell",
+        "slug": "notifications.index"
+    },
+    {
+        "url": "admin/chats",
+        "name": "menu_Chats",
+        "icon": "message-square",
+        "slug": "chats.index"
+    },
+    {
+        "name": "menu_Shop",
+        "icon": "shopping-cart",
+        "url" : "",
+        "slug": "",
+        "submenu": [
+            {
+                "url": "admin/shopproducts",
+                "name": "menu_Shop_products",
+                "icon": "shopping-cart",
+                "slug": "shopproducts.index"
+            },
+            {
+                "url": "admin/shoporders",
+                "name": "menu_Customer_Shop_Order",
+                "icon": "shopping-bag",
+                "slug": "shoporders.index"
+            },
+            {
+                "url": "admin/shopcategories/create",
+                "name": "menu_Shop_categories",
+                "icon": "columns",
+                "slug": "shopcategories.create"
+            },
+            {
+                "url": "admin/shoppackages",
+                "name": "menu_Packages",
+                "icon": "package",
+                "slug": "shoppackages.index"
+            },
+            {
+                "url": "admin/shop/guide",
+                "name": "menu_Shop_guide",
+                "icon": "image",
+                "slug": "shop.guide"
+            }
+        ]
+    },
+    {
+        "url": "admin/cars",
+        "name": "menu_BrowseSpecs",
+        "icon": "search",
+        "slug": "admin.cars.index"
+    },
+    {
+        "url": "",
+        "name": "menu_Forum",
+        "icon": "users",
+        "slug": ""
+    }
+  ]
+}
