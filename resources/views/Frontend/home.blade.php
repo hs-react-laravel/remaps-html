@@ -59,30 +59,36 @@
             <div class="carousel-inner" role="listbox">
                 <!-- Item 1 -->
                 <div class="item slide1">
-                    <div class="row"><div class="container">
-                        <div class="col-md-9 text-left">
-                            <h3 data-animation="animated bounceInDown" class="">Your own full featured Remapping File Portal</h3>
-                            <h4 data-animation="animated bounceInUp" class="">All for one Low Monthly Price</h4>
-                         </div>
-                    </div></div>
+                    <div class="row">
+                        <div class="container">
+                            <div class="col-md-9 text-left">
+                                <h3 data-animation="animated bounceInDown" class="">Your own full featured Remapping File Portal</h3>
+                                <h4 data-animation="animated bounceInUp" class="">All for one Low Monthly Price</h4>
+                            </div>
+                        </div>
+                    </div>
                  </div>
                 <!-- Item 2 -->
                 <div class="item slide2">
-                    <div class="row"><div class="container">
-                        <div class="col-md-7 text-left">
-                            <h3 data-animation="animated bounceInDown" class="">No Hosting Fees to pay</h3>
-                            <h4 data-animation="animated bounceInUp" class="">Hosting, maintenance and support fees are Free!</h4>
-                         </div>
-                    </div></div>
+                    <div class="row">
+                        <div class="container">
+                            <div class="col-md-7 text-left">
+                                <h3 data-animation="animated bounceInDown" class="">No Hosting Fees to pay</h3>
+                                <h4 data-animation="animated bounceInUp" class="">Hosting, maintenance and support fees are Free!</h4>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- Item 3 -->
                 <div class="item slide3 active">
-                    <div class="row"><div class="container">
-                        <div class="col-md-7 text-left">
-                            <h3 data-animation="animated bounceInDown" class="">Simple and easy to use !</h3>
-                            <h4 data-animation="animated bounceInUp" class="animated bounceInUp">Makes your file service stress free and easy</h4>
-                         </div>
-                    </div></div>
+                    <div class="row">
+                        <div class="container">
+                            <div class="col-md-7 text-left">
+                                <h3 data-animation="animated bounceInDown" class="">Simple and easy to use !</h3>
+                                <h4 data-animation="animated bounceInUp" class="animated bounceInUp">Makes your file service stress free and easy</h4>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- End Wrapper for slides-->
