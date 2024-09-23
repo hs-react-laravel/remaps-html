@@ -156,6 +156,12 @@ class CompanyController extends Controller
                 Mail::to($companyUser->email)->send(new CompanyEmailVerification($companyUser));
             }catch(\Exception $e){
             }
+
+            try{
+                Mail::to($mainCompany->main_email_address)->send(new NewCompanyApply($companyUser));
+            }catch(\Exception $e){
+            }
+
             return redirect()->route('thankyou')->with('Regististration received, Please wait for your application to be processed');
 		}else{
 			return redirect()->back()->with('error', 'Unknown error occurred');
