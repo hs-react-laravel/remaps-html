@@ -94,6 +94,11 @@ class MasterController extends BaseController
                         $horizontalMenu = 'horizontalMenuStaff.json';
                         $role = 'staff';
                     }
+                    if ($this->user->is_semi_admin) {
+                        $verticalMenu = 'verticalMenuSemiAdmin.json';
+                        $horizontalMenu = 'horizontalMenuStaff.json';
+                        $role = 'staff';
+                    }
                     if ($this->user->is_admin) {
                         $verticalMenu = 'verticalMenuCompany.json';
                         $horizontalMenu = 'horizontalMenuCompany.json';
@@ -124,7 +129,6 @@ class MasterController extends BaseController
                         $evc_menu->name = "menu_EVCTuningCredit";
                         $evc_menu->icon = "dollar-sign";
                         $evc_menu->slug = "evc-tuning-credits.index";
-                        // dd($verticalMenuData->menu);
                         array_splice($verticalMenuData->menu[5]->submenu, 1, 0, [$evc_menu]);
                     }
 

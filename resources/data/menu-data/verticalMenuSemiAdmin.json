@@ -5,53 +5,52 @@
       "slug": ""
     },
     {
-        "url": "admin/dashboard",
+        "url": "staff/dashboard",
         "name": "menu_Dashboard",
         "icon": "home",
         "slug": "dashboard.admin"
     },
     {
-      "url": "admin/customers",
+      "url": "staff/dashboard",
       "name": "menu_Customers",
       "icon": "users",
       "slug": "customers.index"
     },
     {
-        "url": "admin/fileservices",
+        "url": "staff/stafffs",
         "name": "menu_FileServices",
         "icon": "file",
-        "slug": "fileservices.index"
+        "slug": "stafffs.index"
     },
     {
-        "url": "admin/tickets",
+        "url": "staff/stafftk",
         "name": "menu_SupportTickets",
         "icon": "message-circle",
-        "slug": "tickets.index"
+        "slug": "stafftk.index"
     },
     {
-        "url": "admin/email-templates",
-        "name": "menu_EmailTemplates",
-        "icon": "mail",
-        "slug": "email-templates.index"
-    },
-
-    {
-        "url": "admin/tuning-types",
+        "url": "staff/dashboard",
         "name": "menu_TuningTypes",
         "icon": "columns",
         "slug": "tuning-types.index"
     },
     {
-        "url": "admin/notifications",
+        "url": "staff/dashboard",
         "name": "menu_Notifications",
         "icon": "bell",
         "slug": "notifications.index"
     },
     {
-        "url": "admin/chats",
+        "url": "staff/chats",
         "name": "menu_Chats",
         "icon": "message-square",
         "slug": "chats.index"
+    },
+    {
+        "url": "staff/dashboard",
+        "name": "menu_BrowseSpecs",
+        "icon": "search",
+        "slug": "admin.cars.index"
     },
     {
         "name": "menu_Shop",
@@ -60,48 +59,30 @@
         "slug": "",
         "submenu": [
             {
-                "url": "admin/shopproducts",
+                "url": "staff/dashboard",
                 "name": "menu_Shop_products",
                 "icon": "shopping-cart",
                 "slug": "shopproducts.index"
             },
             {
-                "url": "admin/shoporders",
+                "url": "staff/dashboard",
                 "name": "menu_Customer_Shop_Order",
                 "icon": "shopping-bag",
                 "slug": "shoporders.index"
             },
             {
-                "url": "admin/shopcategories/create",
+                "url": "staff/dashboard",
                 "name": "menu_Shop_categories",
                 "icon": "columns",
                 "slug": "shopcategories.create"
             },
             {
-                "url": "admin/shoppackages",
-                "name": "menu_Packages",
-                "icon": "package",
-                "slug": "shoppackages.index"
-            },
-            {
-                "url": "admin/shop/guide",
-                "name": "menu_Shop_guide",
-                "icon": "image",
-                "slug": "shop.guide"
+                "url": "staff/dashboard",
+                "name": "dash_Subscription",
+                "icon": "award",
+                "slug": "shop.subscription.index"
             }
         ]
-    },
-    {
-        "url": "admin/cars",
-        "name": "menu_BrowseSpecs",
-        "icon": "search",
-        "slug": "admin.cars.index"
-    },
-    {
-        "url": "",
-        "name": "menu_Forum",
-        "icon": "users",
-        "slug": ""
     }
   ]
 }

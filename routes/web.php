@@ -41,9 +41,12 @@ use App\Http\Controllers\Remaps\Shop\ShopOrderController;
 use App\Http\Controllers\Remaps\Shop\ShopPackageController;
 use App\Http\Controllers\Remaps\Shop\ShopProductController;
 use App\Http\Controllers\Remaps\Shop\ShopSubscriptionController;
+
 use App\Http\Controllers\Staff\FileServiceController as StaffFileServiceController;
 use App\Http\Controllers\Staff\TicketController as StaffTicketController;
 use App\Http\Controllers\Staff\ChatController as StaffChatController;
+use App\Http\Controllers\Staff\CustomerController as StaffCustomerController;
+
 use App\Http\Controllers\Consumer\CustomerChatController;
 use App\Http\Controllers\Remaps\Api\ApiInterfaceController;
 use App\Http\Controllers\Remaps\Api\ApiUserController;
@@ -376,6 +379,22 @@ Route::group(['prefix'=>'staff', 'middleware' => 'check.customerstaff'], functio
     Route::post('edit-password', [DashboardController::class, 'edit_password_post'])->name('staff.password.edit.post');
 
     Route::get('chats', [StaffChatController::class, 'index'])->name('staff.chats.index');
+
+    Route::resource('customers', StaffCustomerController::class);
+    Route::get('customers/{id}/file-services',[StaffCustomerController::class, 'fileServices'])->name('staff.customer.fs');
+    Route::get('customers/{id}/transactions',[StaffCustomerController::class, 'transactions'])->name('staff.customer.tr');
+    Route::post('customers/{id}/transactions',[StaffCustomerController::class, 'transactions_post'])->name('staff.customer.tr.post');
+    Route::post('customers/{id}/transactions/evc',[StaffCustomerController::class, 'transactions_post_evc'])->name('staff.customer.tr.evc.post');
+    Route::get('customers/{id}/switch-account',[StaffCustomerController::class, 'switchAccount'])->name('staff.customer.sa');
+    Route::get('customers/{id}/reset-password',[StaffCustomerController::class, 'resetPasswordLink'])->name('staff.customer.rp');
+    Route::post('customers/{id}/block',[StaffCustomerController::class, 'block'])->name('staff.customer.block');
+    Route::post('customers/{id}/allow',[StaffCustomerController::class, 'allow'])->name('staff.customer.allow');
+    Route::post('customers/{id}/unblock',[StaffCustomerController::class, 'unblock'])->name('staff.customer.unblock');
+    Route::post('customers/api', [StaffCustomerController::class, 'api'])->name('staff.customer.api');
+
+    // Route::get('/cars', [CarBrowserController::class, 'index'])->name('cars.index');
+    // Route::post('/cars/category', [CarBrowserController::class, 'category'])->name('cars.category');
+    // Route::get('/cars/category', [CarBrowserController::class, 'category'])->name('cars.category');
 });
 Route::group(['middleware' => 'web', 'prefix'=>'staff'], function(){
 	Route::get('login', '\App\Http\Controllers\Auth\Staff\LoginController@showLoginForm')->name('staff.auth.show.login');

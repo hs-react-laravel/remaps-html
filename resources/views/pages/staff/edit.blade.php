@@ -21,6 +21,11 @@
             <h4 class="card-title">Edit staff</h4>
           </div>
           <div class="card-body">
+            <div class="form-check form-check-inline mb-1">
+              <input type="hidden" name="is_semi_admin" value="0" />
+              <input class="form-check-input" type="checkbox" id="is_semi_admin" name="is_semi_admin" value="1" @if($entry->is_semi_admin) checked @endif/>
+              <label class="form-check-label" for="is_semi_admin">Semi Admin</label>
+            </div>
             <div class="row mb-1">
               <div class="col-xl-4 col-md-6 col-12">
                 <label class="form-label" for="lang">Language</label>
@@ -54,8 +59,10 @@
                 <input type="text" class="form-control" id="email" name="email" value="{{ $entry->email }}" />
               </div>
             </div>
-            <button type="submit" class="btn btn-primary me-1">Submit</button>
-            <button type="button" class="btn btn-flat-secondary me-1" onclick="history.back(-1)">Cancel</button>
+            <div class="col-12 mt-1">
+              <button type="submit" class="btn btn-primary me-1">Submit</button>
+              <button type="button" class="btn btn-flat-secondary me-1" onclick="history.back(-1)">Cancel</button>
+            </div>
           </div>
         </div>
       </div>
