@@ -53,6 +53,9 @@ class TuningTypeOptionController extends MasterController
             'order_as' => TuningTypeOption::where('tuning_type_id',$tuningTypeId)->count()
         ]);
         TuningTypeOption::create($request->all());
+        if ($this->user->is_semi_admin) {
+            return redirect(route('staff.options.index', ['id' => $tuningTypeId]));
+        }
         return redirect(route('options.index', ['id' => $tuningTypeId]));
     }
 
@@ -93,6 +96,9 @@ class TuningTypeOptionController extends MasterController
     {
         $entry = TuningTypeOption::find($optionId);
         $entry->update($request->all());
+        if ($this->user->is_semi_admin) {
+            return redirect(route('staff.options.index', ['id' => $tuningTypeId]));
+        }
         return redirect(route('options.index', ['id' => $tuningTypeId]));
     }
 
@@ -106,6 +112,9 @@ class TuningTypeOptionController extends MasterController
     {
         $entry = TuningTypeOption::find($optionId);
         $entry->delete();
+        if ($this->user->is_semi_admin) {
+            return redirect(route('staff.options.index', ['id' => $tuningTypeId]));
+        }
         return redirect(route('options.index', ['id' => $tuningTypeId]));
     }
 
@@ -120,6 +129,9 @@ class TuningTypeOptionController extends MasterController
             $current->save();
             $upOne->save();
         }
+        if ($this->user->is_semi_admin) {
+            return redirect(route('staff.options.index', ['id' => $tuningTypeId]));
+        }
         return redirect(route('options.index', ['id' => $tuningTypeId]));
     }
     public function downSort($tuningTypeId, $optionId)
@@ -132,6 +144,9 @@ class TuningTypeOptionController extends MasterController
             $upOne->order_as = $currentOrder;
             $current->save();
             $upOne->save();
+        }
+        if ($this->user->is_semi_admin) {
+            return redirect(route('staff.options.index', ['id' => $tuningTypeId]));
         }
         return redirect(route('options.index', ['id' => $tuningTypeId]));
     }

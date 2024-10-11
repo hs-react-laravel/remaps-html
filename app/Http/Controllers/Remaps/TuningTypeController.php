@@ -48,6 +48,9 @@ class TuningTypeController extends MasterController
             'order_as' => TuningType::where('company_id', $this->company->id)->count() + 1,
         ]);
         TuningType::create($request->all());
+        if ($this->user->is_semi_admin) {
+            return redirect(route('staff.tuning-types.index'));
+        }
         return redirect(route('tuning-types.index'));
     }
 
@@ -85,6 +88,9 @@ class TuningTypeController extends MasterController
     {
         $entry = TuningType::find($request->route('tuning_type'));
         $entry->update($request->all());
+        if ($this->user->is_semi_admin) {
+            return redirect(route('staff.tuning-types.index'));
+        }
         return redirect(route('tuning-types.index'));
     }
 
@@ -97,6 +103,9 @@ class TuningTypeController extends MasterController
     public function destroy($id)
     {
         TuningType::find($id)->delete();
+        if ($this->user->is_semi_admin) {
+            return redirect(route('staff.tuning-types.index'));
+        }
         return redirect(route('tuning-types.index'));
     }
 
@@ -111,6 +120,9 @@ class TuningTypeController extends MasterController
             $current->save();
             $upOne->save();
         }
+        if ($this->user->is_semi_admin) {
+            return redirect(route('staff.tuning-types.index'));
+        }
         return redirect(route('tuning-types.index'));
     }
     public function downSort($id)
@@ -123,6 +135,9 @@ class TuningTypeController extends MasterController
             $upOne->order_as = $currentOrder;
             $current->save();
             $upOne->save();
+        }
+        if ($this->user->is_semi_admin) {
+            return redirect(route('staff.tuning-types.index'));
         }
         return redirect(route('tuning-types.index'));
     }
@@ -171,6 +186,9 @@ class TuningTypeController extends MasterController
         }
         $group->tuningTypeOptions()->sync($sync_options);
 
+        if ($this->user->is_semi_admin) {
+            return redirect(route('staff.tuning-types.index'));
+        }
         return redirect(route('tuning-types.group.index'));
     }
 
@@ -226,6 +244,9 @@ class TuningTypeController extends MasterController
         }
         $group->tuningTypeOptions()->sync($sync_options);
 
+        if ($this->user->is_semi_admin) {
+            return redirect(route('staff.tuning-types.index'));
+        }
         return redirect(route('tuning-types.group.index'));
     }
 
@@ -237,6 +258,9 @@ class TuningTypeController extends MasterController
         TuningTypeGroup::query()->where('company_id', $this->company->id)->update(['is_default' => 0]);
         $group->update(['is_default' => 1]);
 
+        if ($this->user->is_semi_admin) {
+            return redirect(route('staff.tuning-types.index'));
+        }
         return redirect(route('tuning-types.group.index'));
     }
 
@@ -249,6 +273,9 @@ class TuningTypeController extends MasterController
         $group->tuningTypeOptions()->sync([]);
         $group->delete();
 
+        if ($this->user->is_semi_admin) {
+            return redirect(route('staff.tuning-types.index'));
+        }
         return redirect(route('tuning-types.group.index'));
     }
 

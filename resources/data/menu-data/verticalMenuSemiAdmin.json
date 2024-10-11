@@ -11,10 +11,10 @@
         "slug": "dashboard.admin"
     },
     {
-      "url": "staff/dashboard",
+      "url": "staff/customers",
       "name": "menu_Customers",
       "icon": "users",
-      "slug": "customers.index"
+      "slug": "staff.customers.index"
     },
     {
         "url": "staff/stafffs",
@@ -29,10 +29,10 @@
         "slug": "stafftk.index"
     },
     {
-        "url": "staff/dashboard",
+        "url": "staff/tuning-types",
         "name": "menu_TuningTypes",
         "icon": "columns",
-        "slug": "tuning-types.index"
+        "slug": "staff.tuning-types.index"
     },
     {
         "url": "staff/dashboard",

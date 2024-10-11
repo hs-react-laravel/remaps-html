@@ -11,7 +11,11 @@
 @section('content')
 
 <section id="basic-input">
-  {{ Form::model($entry, array('route' => array('tuning-types.update', $entry->id), 'method' => 'PUT')) }}
+  @if ($user->is_admin)
+    {{ Form::model($entry, array('route' => array('tuning-types.update', $entry->id), 'method' => 'PUT')) }}
+  @elseif ($user->is_semi_admin)
+    {{ Form::model($entry, array('route' => array('staff.tuning-types.update', $entry->id), 'method' => 'PUT')) }}
+  @endif
     @csrf
     <div class="row">
       <div class="col-md-12">

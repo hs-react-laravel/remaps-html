@@ -9,9 +9,14 @@
 @endsection
 
 @section('content')
-
+@php
+  $route_prefix = "";
+  if ($user->is_semi_admin) {
+    $route_prefix = "staff.";
+  }
+@endphp
 <section id="basic-input">
-  <form action="{{ route('options.store', ['id' => $typeId]) }}" method="post">
+  <form action="{{ route($route_prefix.'options.store', ['id' => $typeId]) }}" method="post">
     @csrf
     <div class="row">
       <div class="col-md-12">

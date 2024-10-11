@@ -380,17 +380,35 @@ Route::group(['prefix'=>'staff', 'middleware' => 'check.customerstaff'], functio
 
     Route::get('chats', [StaffChatController::class, 'index'])->name('staff.chats.index');
 
-    Route::resource('customers', StaffCustomerController::class);
-    Route::get('customers/{id}/file-services',[StaffCustomerController::class, 'fileServices'])->name('staff.customer.fs');
-    Route::get('customers/{id}/transactions',[StaffCustomerController::class, 'transactions'])->name('staff.customer.tr');
-    Route::post('customers/{id}/transactions',[StaffCustomerController::class, 'transactions_post'])->name('staff.customer.tr.post');
-    Route::post('customers/{id}/transactions/evc',[StaffCustomerController::class, 'transactions_post_evc'])->name('staff.customer.tr.evc.post');
-    Route::get('customers/{id}/switch-account',[StaffCustomerController::class, 'switchAccount'])->name('staff.customer.sa');
-    Route::get('customers/{id}/reset-password',[StaffCustomerController::class, 'resetPasswordLink'])->name('staff.customer.rp');
-    Route::post('customers/{id}/block',[StaffCustomerController::class, 'block'])->name('staff.customer.block');
-    Route::post('customers/{id}/allow',[StaffCustomerController::class, 'allow'])->name('staff.customer.allow');
-    Route::post('customers/{id}/unblock',[StaffCustomerController::class, 'unblock'])->name('staff.customer.unblock');
-    Route::post('customers/api', [StaffCustomerController::class, 'api'])->name('staff.customer.api');
+    Route::name('staff.')->group(function () {
+        Route::resource('customers', StaffCustomerController::class);
+        Route::get('customers/{id}/file-services',[StaffCustomerController::class, 'fileServices'])->name('customer.fs');
+        Route::get('customers/{id}/transactions',[StaffCustomerController::class, 'transactions'])->name('customer.tr');
+        Route::post('customers/{id}/transactions',[StaffCustomerController::class, 'transactions_post'])->name('customer.tr.post');
+        Route::post('customers/{id}/transactions/evc',[StaffCustomerController::class, 'transactions_post_evc'])->name('customer.tr.evc.post');
+        Route::get('customers/{id}/switch-account',[StaffCustomerController::class, 'switchAccount'])->name('customer.sa');
+        Route::get('customers/{id}/reset-password',[StaffCustomerController::class, 'resetPasswordLink'])->name('customer.rp');
+        Route::post('customers/{id}/block',[StaffCustomerController::class, 'block'])->name('customer.block');
+        Route::post('customers/{id}/allow',[StaffCustomerController::class, 'allow'])->name('customer.allow');
+        Route::post('customers/{id}/unblock',[StaffCustomerController::class, 'unblock'])->name('customer.unblock');
+        Route::post('customers/api', [StaffCustomerController::class, 'api'])->name('customer.api');
+
+        Route::resource('tuning-types', TuningTypeController::class);
+        Route::get('tuning-types/{id}/up-sort', [TuningTypeController::class, 'upSort'])->name('tuning-types.sort-up');
+        Route::get('tuning-types/{id}/down-sort', [TuningTypeController::class, 'downSort'])->name('tuning-types.sort-down');
+
+        Route::resource('tuning-types/{id}/options', TuningTypeOptionController::class);
+        Route::get('tuning-types/{id}/options/{option}/up-sort', [TuningTypeOptionController::class, 'upSort'])->name('options.sort.up');
+        Route::get('tuning-types/{id}/options/{option}/down-sort', [TuningTypeOptionController::class, 'downSort'])->name('options.sort.down');
+
+        Route::get('tuning-type-groups', [TuningTypeController::class, 'group_index'])->name('tuning-types.group.index');
+        Route::get('tuning-type-groups/create', [TuningTypeController::class, 'group_create'])->name('tuning-types.group.create');
+        Route::post('tuning-type-groups/store', [TuningTypeController::class, 'group_store'])->name('tuning-types.group.store');
+        Route::get('tuning-type-groups/{id}/edit', [TuningTypeController::class, 'group_edit'])->name('tuning-types.group.edit');
+        Route::post('tuning-type-groups/{id}/update', [TuningTypeController::class, 'group_update'])->name('tuning-types.group.update');
+        Route::get('tuning-type-groups/{id}/default', [TuningTypeController::class, 'group_default'])->name('tuning-types.group.default');
+        Route::delete('tuning-type-groups/{id}/destroy', [TuningTypeController::class, 'group_destroy'])->name('tuning-types.group.destroy');
+    });
 
     // Route::get('/cars', [CarBrowserController::class, 'index'])->name('cars.index');
     // Route::post('/cars/category', [CarBrowserController::class, 'category'])->name('cars.category');

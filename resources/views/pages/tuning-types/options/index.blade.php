@@ -12,6 +12,13 @@
 @endsection
 
 @section('content')
+@php
+  $route_prefix = "";
+  if ($user->is_semi_admin) {
+    $route_prefix = "staff.";
+  }
+@endphp
+
 <!-- Basic Tables start -->
 <div class="row" id="basic-table">
   <div class="col-12">
@@ -19,10 +26,10 @@
       <div class="card-header">
         <h4 class="card-title">Tuning Type Options</h4>
         <div>
-          <a href="{{ route('tuning-types.index') }}" class="btn btn-icon btn-secondary">
+          <a href="{{ route($route_prefix.'tuning-types.index') }}" class="btn btn-icon btn-secondary">
             <i data-feather="arrow-left"></i>
           </a>
-          <a href="{{ route('options.create', ['id' => $typeId]) }}" class="btn btn-icon btn-primary">
+          <a href="{{ route($route_prefix.'options.create', ['id' => $typeId]) }}" class="btn btn-icon btn-primary">
             <i data-feather="plus"></i>
           </a>
         </div>
@@ -45,19 +52,19 @@
                   <td>{{ $entry->credits }}</td>
                   <td>{{ $entry->tooltip }}</td>
                   <td class="td-actions">
-                    <a class="btn btn-icon btn-primary" href="{{ route('options.edit', ['id' => $typeId, 'option' => $entry->id]) }}" title="Edit">
+                    <a class="btn btn-icon btn-primary" href="{{ route($route_prefix.'options.edit', ['id' => $typeId, 'option' => $entry->id]) }}" title="Edit">
                       <i data-feather="edit"></i>
                     </a>
-                    <a class="btn btn-icon btn-success" href="{{ route('options.sort.up', ['id' => $typeId, 'option' => $entry->id]) }}" title="Move Up">
+                    <a class="btn btn-icon btn-success" href="{{ route($route_prefix.'options.sort.up', ['id' => $typeId, 'option' => $entry->id]) }}" title="Move Up">
                       <i data-feather="arrow-up"></i>
                     </a>
-                    <a class="btn btn-icon btn-success" href="{{ route('options.sort.down', ['id' => $typeId, 'option' => $entry->id]) }}" title="Move Down">
+                    <a class="btn btn-icon btn-success" href="{{ route($route_prefix.'options.sort.down', ['id' => $typeId, 'option' => $entry->id]) }}" title="Move Down">
                       <i data-feather="arrow-down"></i>
                     </a>
                     <a class="btn btn-icon btn-danger" onclick="onDelete(this)" title="Delete">
                       <i data-feather="trash-2"></i>
                     </a>
-                    <form action="{{ route('options.destroy', ['id' => $typeId, 'option' => $entry->id]) }}" class="delete-form" method="POST" style="display:none">
+                    <form action="{{ route($route_prefix.'options.destroy', ['id' => $typeId, 'option' => $entry->id]) }}" class="delete-form" method="POST" style="display:none">
                       <input type="hidden" name="_method" value="DELETE">
                       <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     </form>

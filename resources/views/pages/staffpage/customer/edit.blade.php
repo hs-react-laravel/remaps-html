@@ -11,7 +11,7 @@
 @section('content')
 
 <section id="basic-input">
-    {{ Form::model($customer, array('route' => array('customers.update', $customer->id), 'method' => 'PUT')) }}
+    {{ Form::model($customer, array('route' => array('staff.customers.update', $customer->id), 'method' => 'PUT')) }}
     <div class="row">
       <div class="col-md-12">
         <div class="card">

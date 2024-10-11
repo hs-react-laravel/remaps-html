@@ -10,7 +10,12 @@
 @section('page-style')
   <link rel="stylesheet" href="{{asset(mix('css/base/plugins/extensions/ext-component-sweet-alerts.css'))}}">
 @endsection
-
+@php
+  $route_prefix = "";
+  if ($user->is_semi_admin) {
+    $route_prefix = "staff.";
+  }
+@endphp
 @section('content')
 <!-- Basic Tables start -->
 <div class="row" id="basic-table">
@@ -19,7 +24,7 @@
       <div class="card-header">
         <h4 class="card-title">{{__('locale.menu_TuningTypes')}}</h4>
         <div>
-          <a href="{{ route('tuning-types.group.create') }}" class="btn btn-icon btn-primary">
+          <a href="{{ route($route_prefix.'tuning-types.group.create') }}" class="btn btn-icon btn-primary">
             New Tuning Type Group<i data-feather="plus"></i>
           </a>
         </div>
@@ -40,7 +45,7 @@
                   <td @if($entry->is_default) style="font-weight: bold" @endif>{{ $entry->name }}</td>
                   <td>{{ $entry->tuningTypes()->count() }} Types</td>
                   <td class="td-actions">
-                    <a class="btn btn-icon btn-primary" href="{{ route('tuning-types.group.edit', ['id' => $entry->id]) }}" title="Edit">
+                    <a class="btn btn-icon btn-primary" href="{{ route($route_prefix.'tuning-types.group.edit', ['id' => $entry->id]) }}" title="Edit">
                       <i data-feather="edit"></i>
                     </a>
                     @if ($entry->is_default)
@@ -52,12 +57,12 @@
                     @else
                       <a
                         class="btn btn-icon btn-success"
-                        href="{{ route('tuning-types.group.default', ['id' => $entry->id]) }}" title="Set Default" >
+                        href="{{ route($route_prefix.'tuning-types.group.default', ['id' => $entry->id]) }}" title="Set Default" >
                         <i data-feather="check-circle"></i>
                       </a>
                     @endif
                     <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}" title="Delete"><i data-feather="trash-2"></i></a>
-                  <form action="{{ route('tuning-types.group.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
+                  <form action="{{ route($route_prefix.'tuning-types.group.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
                     <input type="hidden" name="_method" value="DELETE">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                   </form>

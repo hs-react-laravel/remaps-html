@@ -19,12 +19,21 @@
       <div class="card-header">
         <h4 class="card-title">{{__('locale.menu_TuningTypes')}}</h4>
         <div>
-          <a href="{{ route('tuning-types.group.index') }}" class="btn btn-icon btn-primary">
-            Groups
-          </a>
-          <a href="{{ route('tuning-types.create') }}" class="btn btn-icon btn-primary">
-            New Tuning Type<i data-feather="plus"></i>
-          </a>
+          @if ($user->is_admin)
+            <a href="{{ route('tuning-types.group.index') }}" class="btn btn-icon btn-primary">
+              Groups
+            </a>
+            <a href="{{ route('tuning-types.create') }}" class="btn btn-icon btn-primary">
+              New Tuning Type<i data-feather="plus"></i>
+            </a>
+          @elseif ($user->is_semi_admin)
+            <a href="{{ route('staff.tuning-types.group.index') }}" class="btn btn-icon btn-primary">
+              Groups
+            </a>
+            <a href="{{ route('staff.tuning-types.create') }}" class="btn btn-icon btn-primary">
+              New Tuning Type<i data-feather="plus"></i>
+            </a>
+          @endif
         </div>
       </div>
       <div class="table-responsive">
@@ -44,28 +53,55 @@
                   <td>{{ $entry->label }}</td>
                   <td>{{ $entry->credits }}</td>
                   <td>
+                    @if ($user->is_admin)
                     <a href="{{ route('options.index', ['id' => $entry->id]) }}">
                       {{ $entry->tuningTypeOptions()->count() }} tuning options
                     </a>
+                    @elseif ($user->is_semi_admin)
+                    <a href="{{ route('staff.options.index', ['id' => $entry->id]) }}">
+                      {{ $entry->tuningTypeOptions()->count() }} tuning options
+                    </a>
+                    @endif
                   </td>
-                  <td class="td-actions">
-                    <a class="btn btn-icon btn-primary" href="{{ route('tuning-types.edit', ['tuning_type' => $entry->id]) }}" title="Edit">
-                      <i data-feather="edit"></i>
-                    </a>
-                    <a class="btn btn-icon btn-success" href="{{ route('tuning-types.sort-up', ['id' => $entry->id]) }}" title="Move Up">
-                      <i data-feather="arrow-up"></i>
-                    </a>
-                    <a class="btn btn-icon btn-success" href="{{ route('tuning-types.sort-down', ['id' => $entry->id]) }}" title="Move Down">
-                      <i data-feather="arrow-down"></i>
-                    </a>
-                    <a class="btn btn-icon btn-danger" onclick="onDelete(this)" title="Delete">
-                      <i data-feather="trash-2"></i>
-                    </a>
-                    <form action="{{ route('tuning-types.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
-                      <input type="hidden" name="_method" value="DELETE">
-                      <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    </form>
-                  </td>
+                  @if ($user->is_admin)
+                    <td class="td-actions">
+                      <a class="btn btn-icon btn-primary" href="{{ route('tuning-types.edit', ['tuning_type' => $entry->id]) }}" title="Edit">
+                        <i data-feather="edit"></i>
+                      </a>
+                      <a class="btn btn-icon btn-success" href="{{ route('tuning-types.sort-up', ['id' => $entry->id]) }}" title="Move Up">
+                        <i data-feather="arrow-up"></i>
+                      </a>
+                      <a class="btn btn-icon btn-success" href="{{ route('tuning-types.sort-down', ['id' => $entry->id]) }}" title="Move Down">
+                        <i data-feather="arrow-down"></i>
+                      </a>
+                      <a class="btn btn-icon btn-danger" onclick="onDelete(this)" title="Delete">
+                        <i data-feather="trash-2"></i>
+                      </a>
+                      <form action="{{ route('tuning-types.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                      </form>
+                    </td>
+                  @elseif ($user->is_semi_admin)
+                    <td class="td-actions">
+                      <a class="btn btn-icon btn-primary" href="{{ route('staff.tuning-types.edit', ['tuning_type' => $entry->id]) }}" title="Edit">
+                        <i data-feather="edit"></i>
+                      </a>
+                      <a class="btn btn-icon btn-success" href="{{ route('staff.tuning-types.sort-up', ['id' => $entry->id]) }}" title="Move Up">
+                        <i data-feather="arrow-up"></i>
+                      </a>
+                      <a class="btn btn-icon btn-success" href="{{ route('staff.tuning-types.sort-down', ['id' => $entry->id]) }}" title="Move Down">
+                        <i data-feather="arrow-down"></i>
+                      </a>
+                      <a class="btn btn-icon btn-danger" onclick="onDelete(this)" title="Delete">
+                        <i data-feather="trash-2"></i>
+                      </a>
+                      <form action="{{ route('staff.tuning-types.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                      </form>
+                    </td>
+                  @endif
                 </tr>
               @endforeach
             @else

@@ -16,7 +16,7 @@ class TuningTypeRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::guard('master')->check() || Auth::guard('admin')->check();
+        return Auth::guard('master')->check() || Auth::guard('admin')->check() || Auth::guard('staff')->check();
     }
 
     /**
@@ -30,6 +30,9 @@ class TuningTypeRequest extends FormRequest
         $this->user = Auth::guard('admin')->user();
         if (Auth::guard('master')->check()) {
             $this->user = Auth::guard('master')->user();
+        }
+        if (Auth::guard('staff')->check()) {
+            $this->user = Auth::guard('staff')->user();
         }
 
         switch ($this->method()) {

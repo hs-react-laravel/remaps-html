@@ -11,7 +11,11 @@
 @section('content')
 
 <section id="basic-input">
-  <form action="{{ route('tuning-types.store') }}" method="post">
+  @if ($user->is_admin)
+    <form action="{{ route('tuning-types.store') }}" method="post">
+  @elseif ($user->is_semi_admin)
+    <form action="{{ route('staff.tuning-types.store') }}" method="post">
+  @endif
     @csrf
     <div class="row">
       <div class="col-md-12">

@@ -17,7 +17,7 @@ class CustomerRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::guard('master')->check() || Auth::guard('admin')->check();
+        return Auth::guard('master')->check() || Auth::guard('admin')->check() || Auth::guard('staff')->check();
     }
 
     /**
@@ -31,6 +31,9 @@ class CustomerRequest extends FormRequest
         $admin = Auth::guard('admin')->user();
         if (Auth::guard('master')->check()) {
             $admin = Auth::guard('master')->user();
+        }
+        if (Auth::guard('staff')->check()) {
+            $admin = Auth::guard('staff')->user();
         }
         switch ($this->method()) {
             case 'GET':{
