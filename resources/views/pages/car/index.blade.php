@@ -11,9 +11,17 @@
 @section('page-style')
   <link rel="stylesheet" href="{{asset(mix('css/base/plugins/extensions/ext-component-sweet-alerts.css'))}}">
 @endsection
-
+@php
+  $route_prefix = "";
+  if ($user->is_admin) {
+    $route_prefix = "admin.";
+  }
+  if ($user->is_semi_admin) {
+    $route_prefix = "staff.";
+  }
+@endphp
 @section('content')
-<form action="{{ Auth::guard('customer')->check() ? route('cars.category') : route('admin.cars.category') }}" method="post">
+<form action="{{ route($route_prefix.'cars.category')}}" method="post">
   @csrf
 <div class="row">
   <div class="col-12">

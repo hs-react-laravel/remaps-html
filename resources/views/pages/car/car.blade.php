@@ -1,7 +1,15 @@
 @extends('layouts/contentLayoutMaster')
 
 @section('title', 'Browse Specs')
-
+@php
+  $route_prefix = "";
+  if ($user->is_admin) {
+    $route_prefix = "admin.";
+  }
+  if ($user->is_semi_admin) {
+    $route_prefix = "staff.";
+  }
+@endphp
 @section('content')
 <style>
   .param-wrapper {
@@ -198,26 +206,26 @@
         <div class="row">
           @if(isset($make))
             <div class="card col-md-6 col-lg-3">
-              <a class="btn btn-dark" href="{{ Auth::guard('customer')->check() ? route('cars.category') : route('admin.cars.category') }}">Overview</a>
+              <a class="btn btn-dark" href="{{ route($route_prefix.'cars.category') }}">Overview</a>
             </div>
           @endif
           @if(isset($model))
             <div class="card col-md-6 col-lg-3">
-              <a class="btn btn-dark" href="{{ (Auth::guard('customer')->check() ? route('cars.category') : route('admin.cars.category')).'?make='.$make }}">
+              <a class="btn btn-dark" href="{{ route($route_prefix.'cars.category').'?make='.$make }}">
                 Back to {{ $make }}
               </a>
             </div>
           @endif
           @if(isset($generation))
             <div class="card col-md-6 col-lg-3">
-              <a class="btn btn-dark" href="{{ (Auth::guard('customer')->check() ? route('cars.category') : route('admin.cars.category')).'?make='.$make.'&model='.$model }}">
+              <a class="btn btn-dark" href="{{ route($route_prefix.'cars.category').'?make='.$make.'&model='.$model }}">
                 Back to {{ $model }}
               </a>
             </div>
           @endif
           @if(isset($engine))
             <div class="card col-md-6 col-lg-3">
-              <a class="btn btn-dark" href="{{ (Auth::guard('customer')->check() ? route('cars.category') : route('admin.cars.category')).'?make='.$make.'&model='.$model.'&generation='.$generation }}">
+              <a class="btn btn-dark" href="{{ route($route_prefix.'cars.category').'?make='.$make.'&model='.$model.'&generation='.$generation }}">
                 Back to {{ $generation }}
               </a>
             </div>

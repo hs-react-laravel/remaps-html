@@ -1,7 +1,15 @@
 @extends('layouts/contentLayoutMaster')
 
 @section('title', 'Browse Specs')
-
+@php
+  $route_prefix = "";
+  if ($user->is_admin) {
+    $route_prefix = "admin.";
+  }
+  if ($user->is_semi_admin) {
+    $route_prefix = "staff.";
+  }
+@endphp
 @section('content')
 <div class="row">
   <div class="col-12">
@@ -23,15 +31,15 @@
           @foreach($subitems as $si)
             <div class="card col-md-6 col-lg-3">
               @if($mode == 'make')
-                <a href="{{ (Auth::guard('customer')->check() ? route('cars.category') : route('admin.cars.category')).'?make='.$title.'&model='.$si }}" class="btn btn-primary">
+                <a href="{{ route($route_prefix.'cars.category').'?make='.$title.'&model='.$si }}" class="btn btn-primary">
                   {{ $si }}
                 </a>
               @elseif($mode == 'model')
-                <a href="{{ (Auth::guard('customer')->check() ? route('cars.category') : route('admin.cars.category')).'?make='.$brand.'&model='.$title.'&generation='.$si }}" class="btn btn-primary">
+                <a href="{{ route($route_prefix.'cars.category').'?make='.$brand.'&model='.$title.'&generation='.$si }}" class="btn btn-primary">
                   {{ $si }}
                 </a>
               @elseif($mode == 'generation')
-                <a href="{{ (Auth::guard('customer')->check() ? route('cars.category') : route('admin.cars.category')).'?make='.$brand.'&model='.$model.'&generation='.$title.'&engine='.$si->id }}" class="btn btn-primary">
+                <a href="{{ route($route_prefix.'cars.category').'?make='.$brand.'&model='.$model.'&generation='.$title.'&engine='.$si->id }}" class="btn btn-primary">
                   {{ $si->engine_type.' '.$si->std_bhp }}
                 </a>
               @endif
@@ -65,26 +73,26 @@
         <div class="row">
           @if(isset($make))
             <div class="card col-md-6 col-lg-3">
-              <a class="btn btn-dark" href="{{ (Auth::guard('customer')->check() ? route('cars.category') : route('admin.cars.category')) }}">Overview</a>
+              <a class="btn btn-dark" href="{{ route($route_prefix.'cars.category') }}">Overview</a>
             </div>
           @endif
           @if(!empty($_GET['model']))
             <div class="card col-md-6 col-lg-3">
-              <a class="btn btn-dark" href="{{ (Auth::guard('customer')->check() ? route('cars.category') : route('admin.cars.category')).'?make='.$_GET['make'] }}">
+              <a class="btn btn-dark" href="{{ route($route_prefix.'cars.category').'?make='.$_GET['make'] }}">
                 Back to {{ $_GET['make'] }}
               </a>
             </div>
           @endif
           @if(!empty($_GET['generation']))
             <div class="card col-md-6 col-lg-3">
-              <a class="btn btn-dark" href="{{ (Auth::guard('customer')->check() ? route('cars.category') : route('admin.cars.category')).'?make='.$_GET['make'].'&model='.$_GET['model'] }}">
+              <a class="btn btn-dark" href="{{ route($route_prefix.'cars.category').'?make='.$_GET['make'].'&model='.$_GET['model'] }}">
                 Back to {{ $_GET['model'] }}
               </a>
             </div>
           @endif
           @if(!empty($_GET['engine']))
             <div class="card col-md-6 col-lg-3">
-              <a class="btn btn-dark" href="{{ (Auth::guard('customer')->check() ? route('cars.category') : route('admin.cars.category')).'?make='.$_GET['make'].'&model='.$_GET['model'].'&generation='.$_GET['generation'] }}">
+              <a class="btn btn-dark" href="{{ route($route_prefix.'cars.category').'?make='.$_GET['make'].'&model='.$_GET['model'].'&generation='.$_GET['generation'] }}">
                 Back to {{ $_GET['generation'] }}
               </a>
             </div>

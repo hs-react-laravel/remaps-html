@@ -1,7 +1,15 @@
 @extends('layouts/contentLayoutMaster')
 
 @section('title', 'Browse Specs')
-
+@php
+  $route_prefix = "";
+  if ($user->is_admin) {
+    $route_prefix = "admin.";
+  }
+  if ($user->is_semi_admin) {
+    $route_prefix = "staff.";
+  }
+@endphp
 @section('content')
 <style>
   .brand-link:hover {
@@ -38,7 +46,7 @@
       <div class="card-body">
         <div class="row">
           @foreach($brands as $brand)
-              <a class="col-sm-4 col-md-2 col-xl-1 brand-link" href="{{ (Auth::guard('customer')->check() ? route('cars.category') : route('admin.cars.category')).'?make='.$brand['brand'] }}">
+              <a class="col-sm-4 col-md-2 col-xl-1 brand-link" href="{{ route($route_prefix.'cars.category').'?make='.$brand['brand'] }}">
                 <img src="{{ $brand['logo'] }}">
               </a>
           @endforeach

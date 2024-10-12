@@ -411,11 +411,11 @@ Route::group(['prefix'=>'staff', 'middleware' => 'check.customerstaff'], functio
 
         Route::resource('notifications', NotificationController::class);
         Route::post('notifications/api', [NotificationController::class, 'api'])->name('notification.api');
-    });
 
-    // Route::get('/cars', [CarBrowserController::class, 'index'])->name('cars.index');
-    // Route::post('/cars/category', [CarBrowserController::class, 'category'])->name('cars.category');
-    // Route::get('/cars/category', [CarBrowserController::class, 'category'])->name('cars.category');
+        Route::get('/cars', [CarBrowserController::class, 'index'])->name('cars.index');
+        Route::post('/cars/category', [CarBrowserController::class, 'category'])->name('cars.category');
+        Route::get('/cars/category', [CarBrowserController::class, 'category'])->name('cars.category');
+    });
 });
 Route::group(['middleware' => 'web', 'prefix'=>'staff'], function(){
 	Route::get('login', '\App\Http\Controllers\Auth\Staff\LoginController@showLoginForm')->name('staff.auth.show.login');

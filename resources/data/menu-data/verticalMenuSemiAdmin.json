@@ -47,10 +47,10 @@
         "slug": "chats.index"
     },
     {
-        "url": "staff/dashboard",
+        "url": "staff/cars",
         "name": "menu_BrowseSpecs",
         "icon": "search",
-        "slug": "admin.cars.index"
+        "slug": "staff.cars.index"
     },
     {
         "name": "menu_Shop",
