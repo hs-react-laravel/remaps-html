@@ -14,14 +14,19 @@
 @section('page-style')
   <link rel="stylesheet" href="{{asset(mix('css/base/plugins/extensions/ext-component-sweet-alerts.css'))}}">
 @endsection
-
+@php
+  $route_prefix = "";
+  if ($user->is_semi_admin) {
+    $route_prefix = "staff.";
+  }
+@endphp
 @section('content')
 <div class="row" id="basic-table">
   <div class="col-12">
     <div class="card">
       <div class="card-header">
         <h4 class="card-title">{{__('locale.menu_Notifications')}}</h4>
-        <a href="{{ route('notifications.create') }}" class="btn btn-icon btn-primary">
+        <a href="{{ route($route_prefix.'notifications.create') }}" class="btn btn-icon btn-primary">
           New Notification
         </a>
       </div>
@@ -134,7 +139,7 @@
           }
         ],
         ajax: {
-            url: "{{ route('notification.api') }}",
+            url: "{{ route($route_prefix.'notification.api') }}",
             headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },

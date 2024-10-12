@@ -207,6 +207,11 @@ class NotificationController extends MasterController
 
         $allCustomers = $this->users();
 
+        $route_prefix = "";
+        if ($user->is_semi_admin) {
+            $route_prefix = "staff.";
+        }
+
         foreach($entries as $entry) {
             $types = ['Important News', 'Updates', 'News', 'General Info'];
             $customerIDs = NotificationRead::where('notification_id', $entry->id)->pluck('user_id');
@@ -215,14 +220,15 @@ class NotificationController extends MasterController
             foreach($customers as $c) {
                 array_push($name_array, $c->full_name);
             }
+
             array_push($return_data, [
                 'subject' => $entry->subject,
                 'body' => $entry->body,
                 'to' => count($allCustomers) == count($customers) ? 'ALL' : implode(', ', $name_array),
                 'type' => $types[$entry->icon],
                 'actions' => '',
-                'route.edit' => route('notifications.edit', ['notification' => $entry->id]), // edit route
-                'route.destroy' => route('notifications.destroy', $entry->id) // destroy route
+                'route.edit' => route($route_prefix.'notifications.edit', ['notification' => $entry->id]), // edit route
+                'route.destroy' => route($route_prefix.'notifications.destroy', $entry->id) // destroy route
             ]);
         }
         $json_data = array(

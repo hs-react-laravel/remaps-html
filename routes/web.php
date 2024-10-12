@@ -408,6 +408,9 @@ Route::group(['prefix'=>'staff', 'middleware' => 'check.customerstaff'], functio
         Route::post('tuning-type-groups/{id}/update', [TuningTypeController::class, 'group_update'])->name('tuning-types.group.update');
         Route::get('tuning-type-groups/{id}/default', [TuningTypeController::class, 'group_default'])->name('tuning-types.group.default');
         Route::delete('tuning-type-groups/{id}/destroy', [TuningTypeController::class, 'group_destroy'])->name('tuning-types.group.destroy');
+
+        Route::resource('notifications', NotificationController::class);
+        Route::post('notifications/api', [NotificationController::class, 'api'])->name('notification.api');
     });
 
     // Route::get('/cars', [CarBrowserController::class, 'index'])->name('cars.index');

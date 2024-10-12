@@ -35,10 +35,10 @@
         "slug": "staff.tuning-types.index"
     },
     {
-        "url": "staff/dashboard",
+        "url": "staff/notifications",
         "name": "menu_Notifications",
         "icon": "bell",
-        "slug": "notifications.index"
+        "slug": "staff.notifications.index"
     },
     {
         "url": "staff/chats",
