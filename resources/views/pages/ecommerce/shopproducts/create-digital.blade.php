@@ -14,9 +14,14 @@
 @endsection
 
 @section('content')
-
+@php
+  $route_prefix = "";
+  if ($user->is_semi_admin) {
+    $route_prefix = "staff.";
+  }
+@endphp
 <section>
-  <form action="{{ route('shopproducts.digital.store') }}" method="post" enctype="multipart/form-data">
+  <form action="{{ route($route_prefix.'shopproducts.digital.store') }}" method="post" enctype="multipart/form-data">
     @csrf
     <div class="d-flex justify-content-between">
       <h4 class="card-title">Add a Product</h4>

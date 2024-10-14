@@ -68,6 +68,9 @@ class ShopProductController extends MasterController
     {
         $categoryTree = Helper::categoryTree($this->company->id, 'tool');
         if ($this->getMaxProductCount(1) <= $this->getCurrentProductCount(1) && !$this->user->is_master) {
+            if ($this->user->is_semi_admin) {
+                return redirect(route('staff.shopproducts.index'));
+            }
             return redirect()->route('shopproducts.index');
         }
         return view('pages.ecommerce.shopproducts.create')->with([
@@ -121,6 +124,9 @@ class ShopProductController extends MasterController
                     'price' => $shippingOptionValues[$i]
                 ]);
             }
+        }
+        if ($this->user->is_semi_admin) {
+            return redirect(route('staff.shopproducts.index'));
         }
         return redirect()->route('shopproducts.index');
     }
@@ -241,6 +247,9 @@ class ShopProductController extends MasterController
 
         // update main info
         $product->update($request->all());
+        if ($this->user->is_semi_admin) {
+            return redirect(route('staff.shopproducts.index'));
+        }
         return redirect()->route('shopproducts.index');
     }
 
@@ -253,6 +262,9 @@ class ShopProductController extends MasterController
             $sku->delete();
         }
         $product->delete();
+        if ($this->user->is_semi_admin) {
+            return redirect(route('staff.shopproducts.index'));
+        }
         return redirect()->route('shopproducts.index');
     }
 
@@ -278,6 +290,9 @@ class ShopProductController extends MasterController
     public function create_digital()
     {
         if ($this->getMaxProductCount(2) <= $this->getCurrentProductCount(2) && !$this->user->is_master) {
+            if ($this->user->is_semi_admin) {
+                return redirect()->route('staff.shopproducts.index', ['tab' => 'digital']);
+            }
             return redirect()->route('shopproducts.index', ['tab' => 'digital']);
         }
         $categoryTree = Helper::categoryTree($this->company->id, 'digital');
@@ -302,7 +317,9 @@ class ShopProductController extends MasterController
         $digital_info = ShopProductDigital::create($request->all());
         $product->digital_id = $digital_info->id;
         $product->save();
-
+        if ($this->user->is_semi_admin) {
+            return redirect()->route('staff.shopproducts.index', ['tab' => 'digital']);
+        }
         return redirect()->route('shopproducts.index', ['tab' => 'digital']);
     }
 
@@ -330,6 +347,9 @@ class ShopProductController extends MasterController
             $request->request->remove('document');
         }
         $digital_info->update($request->all());
+        if ($this->user->is_semi_admin) {
+            return redirect()->route('staff.shopproducts.index', ['tab' => 'digital']);
+        }
         return redirect()->route('shopproducts.index', ['tab' => 'digital']);
     }
 
@@ -342,6 +362,9 @@ class ShopProductController extends MasterController
         }
         $product->digital->delete();
         $product->delete();
+        if ($this->user->is_semi_admin) {
+            return redirect()->route('staff.shopproducts.index', ['tab' => 'digital']);
+        }
         return redirect()->route('shopproducts.index', ['tab' => 'digital']);
     }
 }

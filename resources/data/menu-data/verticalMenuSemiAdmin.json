@@ -59,28 +59,28 @@
         "slug": "",
         "submenu": [
             {
-                "url": "staff/dashboard",
+                "url": "staff/shopproducts",
                 "name": "menu_Shop_products",
                 "icon": "shopping-cart",
-                "slug": "shopproducts.index"
+                "slug": "staff.shopproducts.index"
             },
             {
-                "url": "staff/dashboard",
+                "url": "staff/shoporders",
                 "name": "menu_Customer_Shop_Order",
                 "icon": "shopping-bag",
-                "slug": "shoporders.index"
+                "slug": "staff.shoporders.index"
             },
             {
-                "url": "staff/dashboard",
+                "url": "staff/shopcategories/create",
                 "name": "menu_Shop_categories",
                 "icon": "columns",
-                "slug": "shopcategories.create"
+                "slug": "staff.shopcategories.create"
             },
             {
-                "url": "staff/dashboard",
-                "name": "dash_Subscription",
-                "icon": "award",
-                "slug": "shop.subscription.index"
+                "url": "staff/shoppackages",
+                "name": "menu_Packages",
+                "icon": "package",
+                "slug": "staff.shoppackages.index"
             }
         ]
     }

@@ -12,11 +12,16 @@
   <!-- Page css files -->
   <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/extensions/ext-component-tree.css')) }}">
 @endsection
-
+@php
+  $route_prefix = "";
+  if ($user->is_semi_admin) {
+    $route_prefix = "staff.";
+  }
+@endphp
 @section('content')
 
 <section>
-  {{ Form::model($product, array('route' => array('shopproducts.digital.update', $product->id), 'method' => 'PUT', 'enctype' => 'multipart/form-data')) }}
+  {{ Form::model($product, array('route' => array($route_prefix.'shopproducts.digital.update', $product->id), 'method' => 'PUT', 'enctype' => 'multipart/form-data')) }}
     @csrf
     <div class="d-flex justify-content-between">
       <h4 class="card-title">Edit Digital Product</h4>

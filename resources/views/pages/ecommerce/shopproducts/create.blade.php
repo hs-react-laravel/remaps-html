@@ -12,11 +12,16 @@
   <!-- Page css files -->
   <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/extensions/ext-component-tree.css')) }}">
 @endsection
-
+@php
+  $route_prefix = "";
+  if ($user->is_semi_admin) {
+    $route_prefix = "staff.";
+  }
+@endphp
 @section('content')
 
 <section>
-  <form action="{{ route('shopproducts.store') }}" method="post" enctype="multipart/form-data">
+  <form action="{{ route($route_prefix.'shopproducts.store') }}" method="post" enctype="multipart/form-data">
     @csrf
     <div class="d-flex justify-content-between">
       <h4 class="card-title">Add a Product</h4>

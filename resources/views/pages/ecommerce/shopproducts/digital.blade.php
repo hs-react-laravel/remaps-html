@@ -15,12 +15,12 @@
             <td>{{ $currencyCode.number_format($entry->price, 2) }}</td>
             <td class="td-actions">
               @if ($i < $maxProductCt || $user->is_master)
-              <a class="btn btn-icon btn-primary" href="{{ route('shopproducts.digital.edit', ['id' => $entry->id]) }}" title="Edit">
+              <a class="btn btn-icon btn-primary" href="{{ route($route_prefix.'shopproducts.digital.edit', ['id' => $entry->id]) }}" title="Edit">
                 <i data-feather="edit"></i>
               </a>
               @endif
               <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}" title="Delete"><i data-feather="trash-2"></i></a>
-              <form action="{{ route('shopproducts.digital.delete', $entry->id) }}" class="delete-form" method="POST" style="display:none">
+              <form action="{{ route($route_prefix.'shopproducts.digital.delete', $entry->id) }}" class="delete-form" method="POST" style="display:none">
                 <input type="hidden" name="_method" value="DELETE">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
               </form>

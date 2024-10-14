@@ -14,9 +14,14 @@
 @endsection
 
 @section('content')
-
+@php
+  $route_prefix = "";
+  if ($user->is_semi_admin) {
+    $route_prefix = "staff.";
+  }
+@endphp
 <section>
-  {{ Form::model($entry, array('route' => array('shopproducts.update', $entry->id), 'method' => 'PUT', 'enctype' => 'multipart/form-data')) }}
+  {{ Form::model($entry, array('route' => array($route_prefix.'shopproducts.update', $entry->id), 'method' => 'PUT', 'enctype' => 'multipart/form-data')) }}
     @csrf
     <div class="d-flex justify-content-between">
       <h4 class="card-title">Edit Product</h4>
@@ -457,7 +462,7 @@
           return xhr;
         },
         type: 'POST',
-        url: "{{ route('shopproducts.files.api') }}",
+        url: "{{ route($route_prefix.'shopproducts.files.api') }}",
         data: formData,
         contentType: false,
         cache: false,

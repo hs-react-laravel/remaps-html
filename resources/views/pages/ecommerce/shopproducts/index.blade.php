@@ -2,7 +2,12 @@
 @extends('layouts/contentLayoutMaster')
 
 @section('title', __('locale.menu_Shop_products'))
-
+@php
+  $route_prefix = "";
+  if ($user->is_semi_admin) {
+    $route_prefix = "staff.";
+  }
+@endphp
 @section('content')
 @php
   $tab = isset($_GET['tab']) ? $_GET['tab'] : 'tool';
@@ -27,7 +32,7 @@
         </div>
         @if ($entries->total() < $maxProductCt || $user->is_master)
         <div>
-          <a href="{{ $tab == 'tool' ? route('shopproducts.create') : route('shopproducts.digital.create') }}" class="btn btn-icon btn-primary">
+          <a href="{{ $tab == 'tool' ? route($route_prefix.'shopproducts.create') : route($route_prefix.'shopproducts.digital.create') }}" class="btn btn-icon btn-primary">
             <i data-feather="plus"></i>
           </a>
         </div>
@@ -49,10 +54,10 @@
 @section('page-script')
 <script>
   function onTool() {
-    window.location.href = "{{route('shopproducts.index', ['tab' => 'tool'])}}";
+    window.location.href = "{{route($route_prefix.'shopproducts.index', ['tab' => 'tool'])}}";
   }
   function onDigital() {
-    window.location.href = "{{route('shopproducts.index', ['tab' => 'digital'])}}";
+    window.location.href = "{{route($route_prefix.'shopproducts.index', ['tab' => 'digital'])}}";
   }
   async function onDelete(obj) {
     var delete_form = $(obj).closest('.td-actions').children('.delete-form')
@@ -92,7 +97,7 @@
     if (swalRes.isDismissed && swalRes.dismiss == 'cancel') {
       $.ajax({
         type: 'POST',
-        url: "{{ route('api.shop.readguide') }}",
+        url: "{{ route($route_prefix.'api.shop.readguide') }}",
         data: {
           id: '{{ $company->id }}'
         },

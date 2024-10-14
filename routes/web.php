@@ -239,6 +239,7 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
 
     Route::resource('packages', PackageController::class);
     Route::resource('slidermanagers', SliderManagerController::class);
+
     Route::resource('shopcategories', ShopCategoryController::class);
     Route::resource('shopproducts', ShopProductController::class);
     Route::get('shopproduct/digital/create', [ShopProductController::class, 'create_digital'])->name('shopproducts.digital.create');
@@ -415,6 +416,21 @@ Route::group(['prefix'=>'staff', 'middleware' => 'check.customerstaff'], functio
         Route::get('/cars', [CarBrowserController::class, 'index'])->name('cars.index');
         Route::post('/cars/category', [CarBrowserController::class, 'category'])->name('cars.category');
         Route::get('/cars/category', [CarBrowserController::class, 'category'])->name('cars.category');
+
+        Route::resource('shopcategories', ShopCategoryController::class);
+        Route::resource('shopproducts', ShopProductController::class);
+        Route::get('shopproduct/digital/create', [ShopProductController::class, 'create_digital'])->name('shopproducts.digital.create');
+        Route::post('shopproduct/digital/store', [ShopProductController::class, 'store_digital'])->name('shopproducts.digital.store');
+        Route::get('shopproduct/digital/{id}/edit', [ShopProductController::class, 'edit_digital'])->name('shopproducts.digital.edit');
+        Route::put('shopproduct/digital/{id}/update', [ShopProductController::class, 'update_digital'])->name('shopproducts.digital.update');
+        Route::delete('shopproduct/digital/{id}/delete', [ShopProductController::class, 'delete_digital'])->name('shopproducts.digital.delete');
+        Route::resource('shoporders', ShopOrderController::class);
+        Route::resource('shoppackages', ShopPackageController::class);
+        Route::post('shoporders/{id}/dispatch', [ShopOrderController::class, 'dispatched'])->name('shoporders.dispatch');
+        Route::post('shoporders/{id}/process', [ShopOrderController::class, 'process'])->name('shoporders.process');
+        Route::get('shoporders/{id}/refund', [ShopOrderController::class, 'refund'])->name('shoporders.refund');
+        Route::get('shoporders/{id}/complete', [ShopOrderController::class, 'completed'])->name('shoporders.complete');
+        Route::post('shopproducts/api/upload', [ShopProductController::class, 'uploadImageFile'])->name('shopproducts.files.api');
     });
 });
 Route::group(['middleware' => 'web', 'prefix'=>'staff'], function(){
