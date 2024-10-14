@@ -69,6 +69,9 @@ class ShopOrderController extends MasterController
         $order = ShopOrder::find($id);
         $order->status = 'delivered';
         $order->save();
+        if ($this->user->is_semi_admin) {
+            return redirect()->route('staff.shoporders.index');
+        }
         return redirect()->route('shoporders.index');
     }
 
@@ -111,9 +114,15 @@ class ShopOrderController extends MasterController
                     ]);
                 }
             }
+            if ($this->user->is_semi_admin) {
+                return redirect()->route('staff.shoporders.index');
+            }
             return redirect()->route('shoporders.index');
         } catch (\Exception $ex) {
             session()->flash('error', $ex->getMessage());
+            if ($this->user->is_semi_admin) {
+                return redirect()->route('staff.shoporders.index');
+            }
             return redirect()->route('shoporders.index');
         }
     }
@@ -124,6 +133,9 @@ class ShopOrderController extends MasterController
             'status' => 6
         ]);
         $order->update($request->all());
+        if ($this->user->is_semi_admin) {
+            return redirect()->route('staff.shoporders.index');
+        }
         return redirect()->route('shoporders.index');
     }
 
@@ -133,6 +145,9 @@ class ShopOrderController extends MasterController
             'status' => 7
         ]);
         $order->update($request->all());
+        if ($this->user->is_semi_admin) {
+            return redirect()->route('staff.shoporders.index');
+        }
         return redirect()->route('shoporders.index');
     }
 
@@ -141,6 +156,9 @@ class ShopOrderController extends MasterController
         $order->update([
             'status' => 8
         ]);
+        if ($this->user->is_semi_admin) {
+            return redirect()->route('staff.shoporders.index');
+        }
         return redirect()->route('shoporders.index');
     }
 
@@ -183,6 +201,9 @@ class ShopOrderController extends MasterController
             $item->delete();
         }
         $order->delete();
+        if ($this->user->is_semi_admin) {
+            return redirect()->route('staff.shoporders.index');
+        }
         return redirect()->route('shoporders.index');
     }
 }

@@ -2,7 +2,12 @@
 @extends('layouts/contentLayoutMaster')
 
 @section('title', __('locale.menu_Customer_Shop_Order'))
-
+@php
+  $route_prefix = "";
+  if ($user->is_semi_admin) {
+    $route_prefix = "staff.";
+  }
+@endphp
 @section('content')
 <!-- Basic Tables start -->
 <div class="row" id="basic-table">
@@ -31,14 +36,14 @@
                 <td>{{ config('constants.currency_signs')[$company->paypal_currency_code].' '.($e->amount + $e->tax + $e->shipPrice()) }}</td>
                 <td style="text-transform: uppercase">{{ $orderStatus[$e->status] }}</td>
                 <td class="td-actions">
-                  <a class="btn btn-icon btn-primary" href="{{ route('shoporders.show', ['shoporder' => $e->id]) }}">
+                  <a class="btn btn-icon btn-primary" href="{{ route($route_prefix.'shoporders.show', ['shoporder' => $e->id]) }}">
                     <i data-feather="eye"></i>
                   </a>
                   @if ($e->status < 4)
                   <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $e->id }}" title="Delete">
                     <i data-feather="trash-2"></i>
                   </a>
-                  <form action="{{ route('shoporders.destroy', $e->id) }}" class="delete-form" method="POST" style="display:none">
+                  <form action="{{ route($route_prefix.'shoporders.destroy', $e->id) }}" class="delete-form" method="POST" style="display:none">
                     <input type="hidden" name="_method" value="DELETE">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                   </form>
@@ -90,7 +95,7 @@
         if (swalRes.isDismissed && swalRes.dismiss == 'cancel') {
             $.ajax({
                 type: 'POST',
-                url: "{{ route('api.shop.readguide') }}",
+                url: "{{ route($route_prefix.'api.shop.readguide') }}",
                 data: {
                     id: '{{ $company->id }}'
                 },
@@ -135,7 +140,7 @@
       buttonsStyling: false
     });
     if (swal_result.isConfirmed) {
-      window.location.href = `/admin/shoporders/${id}/refund`
+      window.location.href = `/staff/shoporders/${id}/refund`
     }
   }
 </script>

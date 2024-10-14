@@ -22,11 +22,16 @@
   <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/pickers/form-flat-pickr.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/pickers/form-pickadate.css')) }}">
 @endsection
-
+@php
+  $route_prefix = "";
+  if ($user->is_semi_admin) {
+    $route_prefix = "staff.";
+  }
+@endphp
 @section('content')
 <div class="ecommerce-application">
   @if ($order->status == 7)
-    <a class="btn btn-primary" href="{{ route('shoporders.complete', ['id' => $order->id]) }}">Complete</a>
+    <a class="btn btn-primary" href="{{ route($route_prefix.'shoporders.complete', ['id' => $order->id]) }}">Complete</a>
   @endif
   <a class="btn btn-flat-secondary" onclick="history.back(-1)">Back</a>
   @if ($order->status == 4)
@@ -51,7 +56,7 @@
     </form>
   @endif
   @if ($order->status == 6)
-    <form action="{{ route('shoporders.dispatch', ['id' => $order->id]) }}" method="POST">
+    <form action="{{ route($route_prefix.'shoporders.dispatch', ['id' => $order->id]) }}" method="POST">
       @csrf
       <div class="col-md-12 col-xl-6">
         <div class="card">
