@@ -8,7 +8,7 @@
         "url": "staff/dashboard",
         "name": "menu_Dashboard",
         "icon": "home",
-        "slug": "dashboard.admin"
+        "slug": "dashboard.staff"
     },
     {
       "url": "staff/customers",
@@ -44,7 +44,7 @@
         "url": "staff/chats",
         "name": "menu_Chats",
         "icon": "message-square",
-        "slug": "chats.index"
+        "slug": "staff.chats.index"
     },
     {
         "url": "staff/cars",
@@ -75,12 +75,6 @@
                 "name": "menu_Shop_categories",
                 "icon": "columns",
                 "slug": "staff.shopcategories.create"
-            },
-            {
-                "url": "staff/shoppackages",
-                "name": "menu_Packages",
-                "icon": "package",
-                "slug": "staff.shoppackages.index"
             }
         ]
     }
