@@ -102,6 +102,10 @@ class Company extends Model
     {
         return $this->hasMany('App\Models\User')->where('is_staff', 1);
     }
+    public function semiadmins()
+    {
+        return $this->hasMany('App\Models\User')->where('is_staff', 1)->where('is_semi_admin', 1);
+    }
     public function owner()
     {
         return $this->hasOne('App\Models\User')->where('is_admin', 1);

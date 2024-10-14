@@ -142,6 +142,9 @@ class FileServiceController extends MasterController
             try{
                 if ($open_status != 2) {
                     Mail::to($this->company->owner->email)->send(new FileServiceCreated($fileService));
+                    foreach($this->company->semiadmins as $sa) {
+                        Mail::to($sa->email)->queue(new FileServiceCreated($fileService));
+                    }
                 }
                 if ($open_status == 1) {
                     Mail::to($user->email)->send(new FileServiceLimited($fileService));
@@ -306,6 +309,9 @@ class FileServiceController extends MasterController
         if($ticket->save()){
             try{
             	Mail::to($this->user->company->owner->email)->send(new TicketCreated($this->user, $jobDetails));
+                foreach($this->user->company->semiadmins as $sa) {
+                    Mail::to($sa->email)->queue(new TicketCreated($this->user, $jobDetails));
+                }
 			}catch(\Exception $e){
 				session()->flash('message', 'Error in SMTP: '.__('admin.opps'));
 			}

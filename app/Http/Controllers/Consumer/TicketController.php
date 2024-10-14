@@ -51,6 +51,9 @@ class TicketController extends MasterController
         $ticket = Ticket::create($request->all());
         try{
 			Mail::to($this->user->company->owner->email)->send(new TicketCreated($this->user,$request->all()['subject']));
+            foreach($this->user->company->semiadmins as $sa) {
+                Mail::to($sa->email)->queue(new TicketCreated($this->user,$request->all()['subject']));
+            }
 		}catch(\Exception $e){
 			session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
 		}
