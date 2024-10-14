@@ -13,7 +13,12 @@
 @endsection
 
 @section('content')
-
+@php
+  $route_prefix = "";
+  if ($user->is_semi_admin) {
+    $route_prefix = "staff.";
+  }
+@endphp
 <section class="context-drag-drop-tree">
   <div class="row">
     <!-- Drag & Drop Tree -->
@@ -97,7 +102,7 @@
         const firstNode = dragDrop.jstree().get_node(nodeIDs[0]);
         $.ajax({
           type: 'POST',
-          url: "{{ route('api.shop.movecategory') }}",
+          url: "{{ route($route_prefix.'api.shop.movecategory') }}",
           data: {
             parent_category: obj.data.origin._model.data[nodeIDs[0]].parent,
             ids: obj.data.nodes
@@ -120,7 +125,7 @@
       if (!value) return
       $.ajax({
         type: 'POST',
-        url: "{{ route('api.shop.createcategory') }}",
+        url: "{{ route($route_prefix.'api.shop.createcategory') }}",
         data: {
           company_id: '{{ $company->id }}',
           parent_category: selectedNode.id,
@@ -149,7 +154,7 @@
       if (swal_result.isConfirmed) {
         $.ajax({
           type: 'POST',
-          url: "{{ route('api.shop.deletecategory') }}",
+          url: "{{ route($route_prefix.'api.shop.deletecategory') }}",
           data: {
             company_id: '{{ $company->id }}',
             id: selectedNode.id

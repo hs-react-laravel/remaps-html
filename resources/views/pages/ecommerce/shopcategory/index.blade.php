@@ -2,7 +2,12 @@
 @extends('layouts/contentLayoutMaster')
 
 @section('title', __('locale.menu_Shop_categories'))
-
+@php
+  $route_prefix = "";
+  if ($user->is_semi_admin) {
+    $route_prefix = "staff.";
+  }
+@endphp
 @section('content')
 <!-- Basic Tables start -->
 <div class="row" id="basic-table">
@@ -10,7 +15,7 @@
     <div class="card">
       <div class="card-header">
         <h4 class="card-title">{{__('locale.menu_Shop_categories')}}</h4>
-        <a href="{{ route('shopcategories.create') }}" class="btn btn-icon btn-primary">
+        <a href="{{ route($route_prefix.'shopcategories.create') }}" class="btn btn-icon btn-primary">
           New Category
         </a>
       </div>
@@ -28,11 +33,11 @@
               <tr>
                   <td>{{ $entry->name }}</td>
                   <td class="td-actions">
-                    <a class="btn btn-icon btn-primary" href="{{ route('shopcategories.edit', ['shopcategory' => $entry->id]) }}" title="Edit">
+                    <a class="btn btn-icon btn-primary" href="{{ route($route_prefix.'shopcategories.edit', ['shopcategory' => $entry->id]) }}" title="Edit">
                       <i data-feather="edit"></i>
                     </a>
                     <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}" title="Delete"><i data-feather="trash-2"></i></a>
-                    <form action="{{ route('shopcategories.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
+                    <form action="{{ route($route_prefix.'shopcategories.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
                       <input type="hidden" name="_method" value="DELETE">
                       <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     </form>
@@ -77,7 +82,7 @@
         if (swalRes.isDismissed && swalRes.dismiss == 'cancel') {
             $.ajax({
                 type: 'POST',
-                url: "{{ route('api.shop.readguide') }}",
+                url: "{{ route($route_prefix.'api.shop.readguide') }}",
                 data: {
                     id: '{{ $company->id }}'
                 },

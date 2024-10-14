@@ -9,9 +9,14 @@
 @endsection
 
 @section('content')
-
+@php
+  $route_prefix = "";
+  if ($user->is_semi_admin) {
+    $route_prefix = "staff.";
+  }
+@endphp
 <section>
-  {{ Form::model($entry, array('route' => array('shopcategories.update', $entry->id), 'method' => 'PUT')) }}
+  {{ Form::model($entry, array('route' => array($route_prefix.'shopcategories.update', $entry->id), 'method' => 'PUT')) }}
     @csrf
     <div class="row">
       <div class="col-md-12">

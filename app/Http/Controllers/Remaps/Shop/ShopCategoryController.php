@@ -45,6 +45,9 @@ class ShopCategoryController extends MasterController
             'company_id' => $this->company->id
         ]);
         ShopCategory::create($request->all());
+        if ($this->user->is_semi_admin) {
+            return redirect()->route('staff.shopcategories.index');
+        }
         return redirect()->route('shopcategories.index');
     }
 
@@ -84,6 +87,9 @@ class ShopCategoryController extends MasterController
     {
         $sc = ShopCategory::find($id);
         $sc->update($request->all());
+        if ($this->user->is_semi_admin) {
+            return redirect()->route('staff.shopcategories.index');
+        }
         return redirect()->route('shopcategories.index');
     }
 
@@ -96,6 +102,9 @@ class ShopCategoryController extends MasterController
     public function destroy($id)
     {
         ShopCategory::find($id)->delete();
+        if ($this->user->is_semi_admin) {
+            return redirect()->route('staff.shopcategories.index');
+        }
         return redirect()->route('shopcategories.index');
     }
 }
