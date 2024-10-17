@@ -74,11 +74,14 @@
                       if (!$tuningTypeGroup) {
                             $tuningTypeGroup = $entry->user->company->defaultTuningTypeGroup()->first();
                       }
-                      $tuningTypeCredits = $tuningTypeGroup->getOneType($entry->tuningType->id)->pivot->for_credit;
-                      $tuningTypeOptions = $entry->tuningTypeOptions;
-                      foreach ($tuningTypeOptions as $to) {
-                        $groupOption = $tuningTypeGroup->getOneOption($to->id);
-                        $tuningTypeCredits += $groupOption ? $groupOption->pivot->for_credit : $to->credits;
+                      $tuningTypeCredits = 0;
+                      if ($entry->tuningType) {
+                        $tuningTypeCredits = $tuningTypeGroup->getOneType($entry->tuningType->id)->pivot->for_credit;
+                        $tuningTypeOptions = $entry->tuningTypeOptions;
+                        foreach ($tuningTypeOptions as $to) {
+                            $groupOption = $tuningTypeGroup->getOneOption($to->id);
+                            $tuningTypeCredits += $groupOption ? $groupOption->pivot->for_credit : $to->credits;
+                        }
                       }
                     @endphp
                     <td>{{ number_format($tuningTypeCredits, 2) }}</td>
