@@ -11,7 +11,7 @@ class TuningTypeGroup extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'company_id', 'name', 'is_default', 'group_type', 'set_default_tier'
+        'company_id', 'name', 'is_default', 'is_system_default', 'group_type', 'set_default_tier'
     ];
 
     public function tuningTypes()

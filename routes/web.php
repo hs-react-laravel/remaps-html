@@ -297,7 +297,7 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::get('tuning-types/{id}/options/{option}/up-sort', [TuningTypeOptionController::class, 'upSort'])->name('options.sort.up');
     Route::get('tuning-types/{id}/options/{option}/down-sort', [TuningTypeOptionController::class, 'downSort'])->name('options.sort.down');
 
-    // Route::get('/create-default-tuningtype-group/{company_id}', [TuningTypeController::class, 'createDefaultGroup']);
+    Route::get('/create-default-tuningtype-group/{company_id}', [TuningTypeController::class, 'createDefaultGroup']);
     Route::get('tuning-type-groups', [TuningTypeController::class, 'group_index'])->name('tuning-types.group.index');
     Route::get('tuning-type-groups/create', [TuningTypeController::class, 'group_create'])->name('tuning-types.group.create');
     Route::post('tuning-type-groups/store', [TuningTypeController::class, 'group_store'])->name('tuning-types.group.store');

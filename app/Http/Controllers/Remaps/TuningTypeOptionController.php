@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\MasterController;
 use App\Http\Requests\TuningTypeOptionRequest;
 use App\Models\TuningTypeOption;
+use App\Models\TuningTypeGroup;
 
 class TuningTypeOptionController extends MasterController
 {
@@ -52,7 +53,9 @@ class TuningTypeOptionController extends MasterController
             'tuning_type_id'=> $tuningTypeId,
             'order_as' => TuningTypeOption::where('tuning_type_id',$tuningTypeId)->count()
         ]);
-        TuningTypeOption::create($request->all());
+        $new_option = TuningTypeOption::create($request->all());
+        $system_default_group = TuningTypeGroup::where('company_id', $this->company->id)->where('is_system_default', 1)->first();
+        $system_default_group->tuningTypeOptions()->attach($new_option->id, ['for_credit' => $new_option->credits]);
         if ($this->user->is_semi_admin) {
             return redirect(route('staff.options.index', ['id' => $tuningTypeId]));
         }
@@ -96,6 +99,9 @@ class TuningTypeOptionController extends MasterController
     {
         $entry = TuningTypeOption::find($optionId);
         $entry->update($request->all());
+        $system_default_group = TuningTypeGroup::where('company_id', $this->company->id)->where('is_system_default', 1)->first();
+        $system_default_group->tuningTypeOptions()->detach($entry->id);
+        $system_default_group->tuningTypeOptions()->attach($entry->id, ['for_credit' => $entry->credits]);
         if ($this->user->is_semi_admin) {
             return redirect(route('staff.options.index', ['id' => $tuningTypeId]));
         }
@@ -111,6 +117,8 @@ class TuningTypeOptionController extends MasterController
     public function destroy($tuningTypeId, $optionId)
     {
         $entry = TuningTypeOption::find($optionId);
+        $system_default_group = TuningTypeGroup::where('company_id', $this->company->id)->where('is_system_default', 1)->first();
+        $system_default_group->tuningTypeOptions()->detach($entry->id);
         $entry->delete();
         if ($this->user->is_semi_admin) {
             return redirect(route('staff.options.index', ['id' => $tuningTypeId]));

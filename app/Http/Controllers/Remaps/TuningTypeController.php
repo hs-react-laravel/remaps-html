@@ -47,7 +47,11 @@ class TuningTypeController extends MasterController
             'company_id'=> $this->company->id,
             'order_as' => TuningType::where('company_id', $this->company->id)->count() + 1,
         ]);
-        TuningType::create($request->all());
+        $new_tuning_type = TuningType::create($request->all());
+
+        $system_default_group = TuningTypeGroup::where('company_id', $this->company->id)->where('is_system_default', 1)->first();
+        $system_default_group->tuningTypes()->attach($new_tuning_type->id, ['for_credit' => $new_tuning_type->credits]);
+
         if ($this->user->is_semi_admin) {
             return redirect(route('staff.tuning-types.index'));
         }
@@ -88,6 +92,11 @@ class TuningTypeController extends MasterController
     {
         $entry = TuningType::find($request->route('tuning_type'));
         $entry->update($request->all());
+
+        $system_default_group = TuningTypeGroup::where('company_id', $this->company->id)->where('is_system_default', 1)->first();
+        $system_default_group->tuningTypes()->detach($entry->id);
+        $system_default_group->tuningTypes()->attach($entry->id, ['for_credit' => $entry->credits]);
+
         if ($this->user->is_semi_admin) {
             return redirect(route('staff.tuning-types.index'));
         }
@@ -102,7 +111,10 @@ class TuningTypeController extends MasterController
      */
     public function destroy($id)
     {
-        TuningType::find($id)->delete();
+        $entry = TuningType::find($id);
+        $system_default_group = TuningTypeGroup::where('company_id', $this->company->id)->where('is_system_default', 1)->first();
+        $system_default_group->tuningTypes()->detach($entry->id);
+        $entry->delete();
         if ($this->user->is_semi_admin) {
             return redirect(route('staff.tuning-types.index'));
         }
@@ -269,9 +281,25 @@ class TuningTypeController extends MasterController
         $group = TuningTypeGroup::find($id);
         if (!$group) return redirect(route('tuning-types.group.index'));
 
+        if ($group->is_default) {
+            $system_default_group = TuningTypeGroup::where('company_id', $this->company->id)
+                ->where('is_system_default', 1)->first();
+            $system_default_group->update([
+                'is_default' => 1
+            ]);
+        }
+
         $group->tuningTypes()->sync([]);
         $group->tuningTypeOptions()->sync([]);
         $group->delete();
+
+        $group_count = TuningTypeGroup::where('company_id', $this->company->id)->count();
+        if ($group_count == 1) {
+            $last_group = TuningTypeGroup::where('company_id', $this->company->id)->first();
+            $last_group->update([
+                'is_default' => 1
+            ]);
+        }
 
         if ($this->user->is_semi_admin) {
             return redirect(route('staff.tuning-types.index'));
@@ -297,13 +325,13 @@ class TuningTypeController extends MasterController
 
         $default = TuningTypeGroup::create([
             'company_id' => $company_id,
-            'name' => "Default",
-            'is_default' => 1
+            'name' => "System Default",
+            'is_system_default' => 1
         ]);
         $default->tuningTypes()->sync($sync_types);
         $default->tuningTypeOptions()->sync($sync_options);
 
-        $company = Company::find($company_id);
-        $company->users()->update(['tuning_type_group_id' => $default->id]);
+        // $company = Company::find($company_id);
+        // $company->users()->update(['tuning_type_group_id' => $default->id]);
     }
 }
