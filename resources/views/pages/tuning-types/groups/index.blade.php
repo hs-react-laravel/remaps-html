@@ -45,11 +45,11 @@
                   <td @if($entry->is_default) style="font-weight: bold" @endif>{{ $entry->name }}</td>
                   <td>{{ $entry->tuningTypes()->count() }} Types</td>
                   <td class="td-actions">
-                    {{-- @if (!$entry->is_system_default) --}}
+                    @if (!$entry->is_system_default)
                       <a class="btn btn-icon btn-primary" href="{{ route($route_prefix.'tuning-types.group.edit', ['id' => $entry->id]) }}" title="Edit">
                         <i data-feather="edit"></i>
                       </a>
-                    {{-- @endif --}}
+                    @endif
                     @if ($entry->is_default)
                       <a
                         class="btn btn-icon btn-dark"
