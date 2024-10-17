@@ -61,7 +61,7 @@
                 </tr>
                 <tr>
                   <th>Tuning type</th>
-                  <td>{{ $entry->tuningType->label }}</td>
+                  <td>{{ $entry->tuningType ? $entry->tuningType->label : '' }}</td>
                 </tr>
                 <tr>
                     <th>Tuning options</th>
