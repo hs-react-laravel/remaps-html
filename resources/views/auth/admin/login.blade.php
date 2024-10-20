@@ -70,6 +70,11 @@
             <p><a href="{{ route('staff.auth.show.login') }}"><span>Login as Staff</span></a></p>
           </div>
           <button class="btn {{ 'btn-'.substr($configData['navbarColor'], 3) }} w-100" tabindex="4">Sign in</button>
+          <div class="mt-1">
+            <p>
+              By accessing this service you agree to <a href="{{ asset('pdf/Remapdash T&C.pdf') }}" target="_blank" rel="noopener noreferrer">RemapDash terms and conditions</a>
+            </p>
+          </div>
         </form>
 
       </div>
