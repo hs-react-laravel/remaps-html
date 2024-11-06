@@ -12,9 +12,9 @@
 
 <section id="basic-input">
   @if ($group_type == 'normal')
-  {{ Form::model($entry, array('route' => array('tuning-credits.update', $entry->id), 'method' => 'PUT')) }}
+  {{ html()->form($entry, 'PUT', route('tuning-credits.update', ['tuning_credit' => $entry->id]))->open() }}
   @else
-  {{ Form::model($entry, array('route' => array('evc-tuning-credits.update', $entry->id), 'method' => 'PUT')) }}
+  {{ html()->form($entry, 'PUT', route('evc-tuning-credits.update', ['tuning_credit' => $entry->id]))->open() }}
   @endif
     @csrf
     <div class="row">
@@ -51,7 +51,7 @@
         </div>
       </div>
     </div>
-  {{ Form::close() }}
+  {{ html()->form()->close() }}
 </section>
 
 @endsection

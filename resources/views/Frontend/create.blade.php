@@ -20,7 +20,7 @@
     <script src="customjs/front/jquery.contact.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
     <script src="https://kit.fontawesome.com/0daacdc723.js" crossorigin="anonymous"></script>
-    <style type="text/css">.fancybox-margin{margin-right:17px;}</style></head>
+    <style type="text/css">.fancybox-margin{margin-right:17px;} .domain-suffix{width:150px;}</style></head>
 
     <body>
     <!-- header section -->
@@ -80,79 +80,70 @@
 
                 <div class="box-body">
                    <a  class="btn btn-primary my-4" href="/">Back</a>
-					{!! Form::open(array('route' => ('pay.with.paypal.main'), 'method' => 'POST', 'autocomplete' => "off")) !!}
+                    {!! html()->form('POST')->route('pay.with.paypal.main')->autocomplete(false)->open() !!}
 
 						<div class="form-group">
-						  {!! Form::label('name', 'Company Name') !!}
-						  {!! Form::text('name', '', ['class' => 'form-control', 'placeholder'=>'Company Name']) !!}
+                            {!! html()->label('Company Name', 'name') !!}
+                            {!! html()->text('name')->class(['form-control'])->placeholder('Company Name') !!}
 						</div>
 
 						<div class="form-group">
-						  {!! Form::label('main_email_address', 'Email Address') !!}
-						  {!! Form::text('main_email_address', '', ['class' => 'form-control', 'placeholder'=>'Email Address']) !!}
+                            {!! html()->label('Email Address', 'main_email_address') !!}
+                            {!! html()->text('main_email_address')->class(['form-control'])->placeholder('Email Address') !!}
 						</div>
 
 						<div class="form-group">
-						  {!! Form::label('password', 'Password') !!}
-						  {!! Form::password('password', ['class' => 'form-control', 'placeholder'=>'Password']) !!}
+                            {!! html()->label('Password', 'password') !!}
+                            {!! html()->password('password')->class(['form-control'])->placeholder('Password') !!}
 						</div>
 
 						<div class="form-group">
-						  {!! Form::label('password_confirmation', 'Confirm Password') !!}
-						  {!! Form::password('password_confirmation', ['class' => 'form-control', 'placeholder'=>'Confirm Password']) !!}
+                            {!! html()->label('Confirm Password', 'password_confirmation') !!}
+                            {!! html()->text('password_confirmation')->class(['form-control'])->placeholder('Confirm Password') !!}
 						</div>
 
 						@if($_GET['domain'] == 'regular')
 						<div class="form-group">
-						  {!! Form::label('domain_prefix', 'Choose your preferred subdomain (yourname.remapdash.com)') !!}
-						  <div style="display: flex">
-						  {!! Form::text('domain_prefix', '', ['class' => 'form-control', 'id' => 'domain_prefix', 'placeholder'=>'Eg: yourname']) !!}
-						  {!! Form::text('domain_suffix', '.remapdash.com', ['class' => 'form-control', 'readonly' => 'true', 'style' => 'width: 150px;']) !!}
-						  </div>
+                            {!! html()->label('Choose your preferred subdomain (yourname.remapdash.com)', 'domain_prefix') !!}
+                            <div style="display: flex">
+                            {!! html()->text('domain_prefix')->attribute('id', 'domain_prefix')->class(['form-control'])->placeholder('Eg: yourname') !!}
+                            {!! html()->text('domain_suffix', '.remapdash.com')->class(['form-control', 'domain-suffix'])->isReadonly(true) !!}
+                            </div>
 						</div>
 						@endif
 						@if($_GET['domain'] == 'own')
 						<div class="form-group">
-							{!! Form::label('own_domain', 'Choose your own domain') !!}
-							{!! Form::text('own_domain', '', ['class' => 'form-control', 'id' => 'own_domain', 'placeholder'=>'Full FQDN inc https://']) !!}
-							{!! Form::label('domain', 'This allows you to have the portal service appear on your own domain name. for example. https://yourdomain.com (or) subdomain,') !!}
-							{!! Form::label('own_domain', 'example https://portal.yourdomain.com, if you already have a company website a subdomain is the best option.') !!}
-							{!! Form::label('own_domain', 'In order for this to work our support team will ask for you to make some changes to your DNS records
-							to be pointed to our servers') !!}
+                            {!! html()->label('Choose your own domain', 'own_domain') !!}
+                            {!! html()->text('own_domain')->class(['form-control'])->placeholder('Full FQDN inc https://') !!}
+                            {!! html()->label('This allows you to have the portal service appear on your own domain name. for example. https://yourdomain.com (or) subdomain,', 'domain') !!}
+                            {!! html()->label('example https://portal.yourdomain.com, if you already have a company website a subdomain is the best option.', 'own_domain') !!}
+                            {!! html()->label('In order for this to work our support team will ask for you to make some changes to your DNS records
+							to be pointed to our servers', 'own_domain') !!}
 						</div>
 						@endif
 
 						<div class="form-group">
-						  {!! Form::label('address_line_1', 'Address line 1') !!}
-						  {!! Form::text('address_line_1', '', ['class' => 'form-control', 'placeholder'=>'Address line 1']) !!}
+                            {!! html()->label('Address line 1', 'address_line_1') !!}
+                            {!! html()->text('address_line_1')->class(['form-control'])->placeholder('Address line 1') !!}
 						</div>
 
 						<div class="form-group">
-						  {!! Form::label('address_line_2', 'Address line 2') !!}
-						  {!! Form::text('address_line_2', '', ['class' => 'form-control', 'placeholder'=>'Address line 2']) !!}
+                            {!! html()->label('Address line 2', 'address_line_2') !!}
+                            {!! html()->text('address_line_2')->class(['form-control'])->placeholder('Address line 2') !!}
 						</div>
 
 						<div class="form-group">
-						  {!! Form::label('town', 'Town') !!}
-						  {!! Form::text('town', '', ['class' => 'form-control', 'placeholder'=>'Town']) !!}
+                            {!! html()->label('Town', 'town') !!}
+                            {!! html()->text('town')->class(['form-control'])->placeholder('Town') !!}
 						</div>
 
 						<div class="form-group">
-						  {!! Form::label('country', 'Country') !!}
-						  {!! Form::text('country', '', ['class' => 'form-control', 'placeholder'=>'Country']) !!}
+                            {!! html()->label('Country', 'country') !!}
+                            {!! html()->text('country')->class(['form-control'])->placeholder('Country') !!}
 						</div>
 
-						{{-- <div class="form-group">
-						  {!! Form::label('vat_number', 'VAT Number (optional)') !!}
-						  {!! Form::text('vat_number', '', ['class' => 'form-control', 'placeholder'=>'VAT Number']) !!}
-						</div> --}}
-
 						<div class="form-group">
-							@php /*
-								{!! Form::hidden('package_id', $packageID) !!}
-								{!! Form::hidden('amount', $packageAmount) !!}
-							*/ @endphp
-							{!! Form::hidden('v2_domain_link', '', ['id' => 'v2_domain_link']) !!}
+                            {!! html()->hidden('v2_domain_link', '')->attribute('id', 'v2_domain_link') !!}
 						</div>
 
 						<div class="form-group">
@@ -165,7 +156,7 @@
 						<button id="btnSubmit" class="btn btn-success view-btn" type="submit">Submit</button>
 
 
-					{!! Form::close() !!}
+					{!! html()->form()->close() !!}
 
 
                 </div>

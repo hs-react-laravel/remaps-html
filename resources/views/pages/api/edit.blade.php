@@ -11,7 +11,7 @@
 @section('content')
 
 <section id="basic-input">
-  {{ Form::model($entry, array('route' => array('admin.api.package.post'), 'method' => 'POST')) }}
+  {{ html()->form('POST')->route('admin.api.package.post')->open() }}
   @csrf
   <input type="hidden" name="pkg_id" value="{{ $entry->id }}">
     <div class="row">
@@ -65,7 +65,7 @@
         </div>
       </div>
     </div>
-  {{ Form::close() }}
+  {{ html()->form()->close() }}
 </section>
 
 @endsection

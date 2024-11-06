@@ -16,7 +16,7 @@
         </div>
         <div class="card-body">
           <hr>
-          {{ Form::model($entry, array('route' => array('tk.update', $entry->id), 'method' => 'PUT', 'enctype' => "multipart/form-data")) }}
+          {{ html()->form($entry, 'PUT', route('tk.update', ['tk' => $entry->id]))->acceptsFiles()->open() }}
             <div class="message-wrapper" id="scrollDiv">
               <div class="message-{{ $entry->sender_id == $user->id ? 'right' : 'left' }}">
                 @if ($entry->sender->logo)
@@ -134,7 +134,7 @@
             <div class="col-12">
               <button type="submit" class="btn btn-primary me-1">Send</button>
             </div>
-          {{ Form::close() }}
+          {{ html()->form()->close() }}
         </div>
       </div>
       @include('blocks.customer_info')
@@ -143,9 +143,9 @@
       @include('blocks.fileservice_info')
       @include('blocks.car_info')
     </div>
-    {{ Form::open(array('id' => 'uploadForm', 'method' => 'POST', 'enctype' => 'multipart/form-data')) }}
+    {{ html()->form('POST')->attribute('id', 'uploadForm')->acceptsFiles()->open() }}
       <input type="file" name="file" id="hidden_upload" style="display: none" />
-    {{ Form::close() }}
+    {{ html()->form()->close() }}
   </div>
 </section>
 <!-- Basic Vertical form layout section end -->

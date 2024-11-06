@@ -43,8 +43,8 @@
           </ul>
 
           {{ $entry->id
-            ? Form::model($entry, array('route' => array('companies.update', $entry->id), 'method' => 'PUT', 'enctype' => 'multipart/form-data'))
-            : Form::model($entry, array('route' => array('companies.store', $entry->id), 'method' => 'POST', 'enctype' => 'multipart/form-data')) }}
+            html()->form($entry, 'PUT')->route('companies.update', ['company' => $entry->id])->acceptsFiles()->open()
+            : html()->form('POST')->route('companies.store')->acceptsFiles()->open() }}
             <input type="hidden" name="tab" value="{{$tab}}" />
             @csrf
           <!-- Tab panes -->
@@ -58,7 +58,7 @@
             @include('pages.company.tabs.paypal')
             @include('pages.company.tabs.stripe')
           </div>
-          {{ Form::close() }}
+          {{ html()->form()->close() }}
         </div>
       </div>
     </div>

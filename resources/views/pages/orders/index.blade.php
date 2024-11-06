@@ -69,10 +69,10 @@
               @endif
           </tbody>
         </table>
-        {{ Form::open(array('id' => 'uploadForm', 'route' => 'api.order.upload', 'method' => 'POST', 'enctype' => 'multipart/form-data')) }}
+        {{ html()->form('POST', route('api.order.upload'))->attribute('id', 'uploadForm')->acceptsFiles()->open() }}
           <input type="file" name="file" id="hidden_upload" style="display: none" />
           <input type="hidden" name="order" id="order_id" />
-        {{ Form::close() }}
+        {{ html()->form()->close() }}
       </div>
     </div>
     {{ $entries->links() }}

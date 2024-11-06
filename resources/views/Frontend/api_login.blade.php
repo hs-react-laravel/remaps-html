@@ -80,21 +80,21 @@
 
                 <div class="box-body">
                     <h4 class="wow fadeInDown animated" style="color: #fec400">Login to API User Dashboard</h4>
-					{!! Form::open(array('route' => ('frontend.api.login.post'), 'method' => 'POST', 'autocomplete' => "off")) !!}
+					{!! html()->form('POST')->route('frontend.api.login.post')->autocomplete(false)->open() !!}
                         <div class="form-group">
-                            {!! Form::label('email', 'Email') !!}
-                            {!! Form::text('email', '', ['class' => 'form-control', 'placeholder'=>'Email']) !!}
+                            {!! html()->label('Email', 'email') !!}
+                            {!! html()->text('email')->class(['form-control'])->placeholder('Email') !!}
                         </div>
                         <div class="form-group">
-                            {!! Form::label('new_password', 'Password') !!}
-                            {!! Form::password('new_password', ['class' => 'form-control', 'placeholder'=>'Password']) !!}
+                            {!! html()->label('Password', 'new_password') !!}
+                            {!! html()->password('new_password')->class(['form-control'])->placeholder('Password') !!}
                         </div>
 						<div class="form-group">
 							<div id="error"></div>
 						</div>
                         <p><a class="custom-link" href="{{ route('frontend.api.forgot') }}">Forgot password?</a></p>
 						<button id="btnSubmit" class="btn btn-success view-btn" type="submit">Sign in</button>
-					{!! Form::close() !!}
+					{!! html()->form()->close() !!}
                 </div>
             </div>
             <p>New on our API? <a class="custom-link" href="{{ route('frontend.api.reg') }}">Create an account</a></p>

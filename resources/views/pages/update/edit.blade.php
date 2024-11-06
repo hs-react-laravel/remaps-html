@@ -11,7 +11,7 @@
 @section('content')
 
 <section id="basic-input">
-{{ Form::model($entry, array('route' => array('adminupdates.update', $entry->id), 'method' => 'PUT')) }}
+{{ html()->form($entry, 'PUT', route('adminupdates.update', 'adminupdate' => $entry->id))->open() }}
     <div class="row">
       <div class="col-md-12">
         <div class="card">
@@ -54,7 +54,7 @@
         </div>
       </div>
     </div>
-{{ Form::close() }}
+{{ html()->form()->close() }}
 </section>
 
 @endsection

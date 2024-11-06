@@ -80,16 +80,16 @@
 
                 <div class="box-body">
                     <h4 class="wow fadeInDown animated" style="color: #fec400">Forgot Password</h4>
-					{!! Form::open(array('route' => ('frontend.api.password.email'), 'method' => 'POST', 'autocomplete' => "off")) !!}
+                    {!! html()->form('POST')->route('frontend.api.password.email')->autocomplete('false')->open() !!}
                         <div class="form-group">
-                            {!! Form::label('email', 'Email') !!}
-                            {!! Form::text('email', '', ['class' => 'form-control', 'placeholder'=>'Email']) !!}
+                            {!! html()->label('Email', 'email') !!}
+                            {!! html()->text('email')->class(['form-control'])->placeholder('Email') !!}
                         </div>
 						<div class="form-group">
 							<div id="error"></div>
 						</div>
 						<button id="btnSubmit" class="btn btn-success view-btn" type="submit">Send Reset Link</button>
-					{!! Form::close() !!}
+					{!! html()->form()->close() !!}
                 </div>
             </div>
 			<p>If you need any help, please contact to <a class="custom-link" href="mailto:support@remapdash.com">support@remapdash.com</a></p>

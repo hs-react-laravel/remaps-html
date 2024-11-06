@@ -23,9 +23,9 @@
       @include('blocks.fileservice_info')
       @include('blocks.car_info')
     </div>
-    {{ Form::open(array('id' => 'uploadForm', 'method' => 'POST', 'enctype' => 'multipart/form-data')) }}
+    {{ html()->form('POST')->attribute('id', 'uploadForm')->acceptsFiles()->open() }}
       <input type="file" name="file" id="hidden_upload" style="display: none" />
-    {{ Form::close() }}
+    {{ html()->form()->close() }}
   </div>
 </section>
 

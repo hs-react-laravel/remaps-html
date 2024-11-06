@@ -11,7 +11,7 @@
 @section('content')
 
 <section id="basic-input">
-    {{ Form::model($customer, array('route' => array('staff.customers.update', $customer->id), 'method' => 'PUT')) }}
+    {{ html()->form($customer, 'PUT', route('staff.customers.update', ['customer' => $customer->id]))->acceptsFiles()->open() }}
     <div class="row">
       <div class="col-md-12">
         <div class="card">
@@ -172,7 +172,7 @@
       </div>
     </div>
 
-  {{ Form::close() }}
+  {{ html()->form()->close() }}
 </section>
 
 @endsection

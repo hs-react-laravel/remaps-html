@@ -12,7 +12,7 @@
           <h4 class="card-title">Process the file service</h4>
         </div>
         <div class="card-body">
-          {{ Form::model($fileService, array('route' => array('fileservices.update', $fileService->id), 'method' => 'PUT', 'enctype' => 'multipart/form-data')) }}
+          {{ html()->form($fileService, 'PUT', route('fileservices.update', ['fileservice' => $fileService->id]))->acceptsFiles()->open() }}
             <div class="row">
               <div class="col-12">
                 <div class="mb-1">
@@ -102,10 +102,10 @@
             </div>
             <button id="fs-save" type="submit" class="btn btn-primary me-1">Save</button>
             <button type="button" class="btn btn-flat-secondary me-1" onclick="history.back(-1)">Cancel</button>
-          {{ Form::close() }}
-          {{ Form::open(array('id' => 'uploadForm', 'route' => 'fileservices.api.upload', 'method' => 'POST', 'enctype' => 'multipart/form-data')) }}
+          {{ html()->form()->close() }}
+          {{ html()->form('POST', route('fileservices.api.upload'))->attribute('id', 'uploadForm')->acceptsFiles()->open() }}
             <input type="file" name="file" id="hidden_upload" style="display: none" />
-          {{ Form::close() }}
+          {{ html()->form()->close() }}
         </div>
       </div>
       @include('blocks.customer_info')

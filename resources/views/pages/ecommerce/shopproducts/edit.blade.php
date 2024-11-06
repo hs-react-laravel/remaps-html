@@ -21,7 +21,7 @@
   }
 @endphp
 <section>
-  {{ Form::model($entry, array('route' => array($route_prefix.'shopproducts.update', $entry->id), 'method' => 'PUT', 'enctype' => 'multipart/form-data')) }}
+  {{ html()->form($entry, 'PUT', route('shopproducts.update', ['shopproduct' => $entry->id]))->acceptsFiles()->open() }}
     @csrf
     <div class="d-flex justify-content-between">
       <h4 class="card-title">Edit Product</h4>
@@ -294,7 +294,7 @@
       <button type="submit" class="btn btn-primary me-1">Save</button>
       <button type="button" class="btn btn-flat-secondary me-1" onclick="history.back(-1)">Discard</button>
     </div>
-  {{ Form::close() }}
+  {{ html()->form()->close() }}
 </section>
 
 @endsection

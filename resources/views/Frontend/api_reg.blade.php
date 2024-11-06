@@ -79,46 +79,45 @@
 
                 <div class="box-body">
                     <h4 class="wow fadeInDown animated" style="color: #fec400">Tuning Data API</h4>
-					{!! Form::open(array('route' => ('frontend.api.register'), 'method' => 'POST', 'autocomplete' => "off")) !!}
-
+                    {!! html()->form('POST')->route('frontend.api.register')->autocomplete('false')->open() !!}
 						<div class="form-group">
-						    {!! Form::label('first_name', 'First Name') !!}
-						    {!! Form::text('first_name', '', ['class' => 'form-control', 'placeholder'=>'First Name']) !!}
+                            {!! html()->label('First Name', 'first_name') !!}
+                            {!! html()->text('first_name')->class(['form-control'])->placeholder('First Name') !!}
 						</div>
 
 						<div class="form-group">
-                            {!! Form::label('last_name', 'Last Name') !!}
-                            {!! Form::text('last_name', '', ['class' => 'form-control', 'placeholder'=>'Last Name']) !!}
+                            {!! html()->label('Last Name', 'last_name') !!}
+                            {!! html()->text('last_name')->class(['form-control'])->placeholder('Last Name') !!}
                         </div>
 
                         <div class="form-group">
-                            {!! Form::label('email', 'Email') !!}
-                            {!! Form::text('email', '', ['class' => 'form-control', 'placeholder'=>'Email']) !!}
+                            {!! html()->label('Email', 'email') !!}
+                            {!! html()->text('email')->class(['form-control'])->placeholder('Email') !!}
                         </div>
 
                         <div class="form-group">
-                            {!! Form::label('password', 'Password') !!}
-                            {!! Form::password('password', ['class' => 'form-control', 'placeholder'=>'Password']) !!}
+                            {!! html()->label('Password', 'password') !!}
+                            {!! html()->password('password')->class(['form-control'])->placeholder('Password') !!}
                         </div>
 
                         <div class="form-group">
-                            {!! Form::label('password_confirmation', 'Password Confirmation') !!}
-                            {!! Form::password('password_confirmation', ['class' => 'form-control', 'placeholder'=>'Password Confirmation']) !!}
+                            {!! html()->label('Password Confirmation', 'password_confirmation') !!}
+                            {!! html()->password('password_confirmation')->class(['form-control'])->placeholder('Password Confirmation') !!}
                         </div>
 
                         <div class="form-group">
-                            {!! Form::label('phone', 'Phone') !!}
-                            {!! Form::text('phone', '', ['class' => 'form-control', 'placeholder'=>'Phone']) !!}
+                            {!! html()->label('Phone', 'phone') !!}
+                            {!! html()->text('phone')->class(['form-control'])->placeholder('Phone') !!}
                         </div>
 
                         <div class="form-group">
-                            {!! Form::label('company', 'Company') !!}
-                            {!! Form::text('company', '', ['class' => 'form-control', 'placeholder'=>'Company']) !!}
+                            {!! html()->label('Company', 'company') !!}
+                            {!! html()->text('company')->class(['form-control'])->placeholder('Company') !!}
                         </div>
 
                         <div class="form-group">
-                            {!! Form::label('domain', 'Domain') !!}
-                            {!! Form::text('domain', '', ['class' => 'form-control', 'placeholder'=>'https://abc.com']) !!}
+                            {!! html()->label('Domain', 'domain') !!}
+                            {!! html()->text('domain')->class(['form-control'])->placeholder('https://abc.com') !!}
                         </div>
 
 						<div class="form-group">
@@ -127,7 +126,7 @@
 						<button id="btnSubmit" class="btn btn-success view-btn" type="submit">Submit</button>
 
 
-					{!! Form::close() !!}
+					{!! html()->form()->close() !!}
 
 
                 </div>

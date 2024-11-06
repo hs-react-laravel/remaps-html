@@ -80,37 +80,37 @@
 
                 <div class="box-body">
                     <h4 class="wow fadeInDown animated" style="color: #fec400">Edit your profile</h4>
-					{!! Form::open(array('route' => ('frontend.api.profile.save'), 'method' => 'POST', 'autocomplete' => "off")) !!}
+                    {!! html()->form('POST')->route('frontend.api.profile.save')->autocomplete(false)->open() !!}
                         <div class="form-group">
-                            {!! Form::label('first_name', 'First Name') !!}
-                            {!! Form::text('first_name', $user->first_name, ['class' => 'form-control', 'placeholder' => 'First Name']) !!}
+                            {!! html()->label('First Name', 'first_name') !!}
+                            {!! html()->text('first_name', $user->first_name)->class(['form-control'])->placeholder('First Name') !!}
                         </div>
 
                         <div class="form-group">
-                            {!! Form::label('last_name', 'Last Name') !!}
-                            {!! Form::text('last_name', $user->last_name, ['class' => 'form-control', 'placeholder' => 'Last Name']) !!}
+                            {!! html()->label('Last Name', 'last_name') !!}
+                            {!! html()->text('last_name', $user->last_name)->class(['form-control'])->placeholder('Last Name') !!}
                         </div>
 
                         <div class="form-group">
-                            {!! Form::label('phone', 'Phone') !!}
-                            {!! Form::text('phone', $user->phone, ['class' => 'form-control', 'placeholder' => 'Phone']) !!}
+                            {!! html()->label('Phone', 'phone') !!}
+                            {!! html()->text('phone', $user->phone)->class(['form-control'])->placeholder('Phone') !!}
                         </div>
 
                         <div class="form-group">
-                            {!! Form::label('company', 'Company') !!}
-                            {!! Form::text('company', $user->company, ['class' => 'form-control', 'placeholder' => 'Company']) !!}
+                            {!! html()->label('Company', 'company') !!}
+                            {!! html()->text('company', $user->company)->class(['form-control'])->placeholder('Company') !!}
                         </div>
 
                         <div class="form-group">
-                            {!! Form::label('domain', 'Domain') !!}
-                            {!! Form::text('domain', $user->domain, ['class' => 'form-control', 'placeholder'=>'https://abc.com']) !!}
+                            {!! html()->label('Domain', 'domain') !!}
+                            {!! html()->text('domain', $user->domain)->class(['form-control'])->placeholder('https://abc.com') !!}
                         </div>
 
 						<div class="form-group">
 							<div id="error"></div>
 						</div>
 						<button id="btnSubmit" class="btn btn-success view-btn" type="submit">Update</button>
-					{!! Form::close() !!}
+					{!! html()->form()->close() !!}
                 </div>
             </div>
 			<p>If you need any help, please contact to <a class="custom-link" href="mailto:support@remapdash.com">support@remapdash.com</a></p>

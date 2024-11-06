@@ -202,7 +202,7 @@
 
       <div id="step-address" class="content" role="tabpanel" aria-labelledby="step-address-trigger">
         @if (isset($order))
-          {{ Form::model($order, array('route' => array('customer.shop.order.address', $order ? $order->id : ''), 'method' => 'POST', 'id' => "checkout-address", 'class' => "list-view product-checkout")) }}
+          {{ html()->form($order, 'PUT')->route('customer.shop.order.ship', ['id' => $order ? $order->id : ''])->attribute('id', 'checkout-address')->class(['list-view', 'product-checkout'])->open() }}
             <div class="card">
               <div class="card-header flex-column align-items-start">
                 <h4 class="card-title">Ship Address</h4>
@@ -330,14 +330,14 @@
                 </div>
               </div>
             </div>
-          {{ Form::close() }}
+          {{ html()->form()->close() }}
         @endif
 
       </div>
 
       <div id="step-shipping" class="content" role="tabpanel" aria-labelledby="step-shipping-trigger">
         @if (isset($order))
-        {{ Form::model($order, array('route' => array('customer.shop.order.ship', $order ? $order->id : ''), 'method' => 'POST', 'id' => "checkout-shipment", 'class' => "list-view product-checkout")) }}
+        {{ html()->form($order, 'PUT')->route('customer.shop.order.ship', ['id' => $order ? $order->id : ''])->attribute('id', 'checkout-shipment')->class(['list-view', 'product-checkout'])->open() }}
           @csrf
           <div class="checkout-items">
             @foreach ($order->items as $item)
@@ -417,7 +417,7 @@
             </div>
 
           </div>
-        {{ Form::close() }}
+        {{ html()->form()->close() }}
         @endif
       </div>
 

@@ -298,9 +298,9 @@
     </div>
 
   </form>
-  {{ Form::open(array('id' => 'uploadForm', 'route' => 'fileservices.api.upload', 'method' => 'POST', 'enctype' => 'multipart/form-data')) }}
+  {{ html()->form('POST')->route('fileservices.api.upload')->attribute('id', 'uploadForm')->acceptsFiles()->open() }}
     <input type="file" name="file" id="hidden_upload" style="display: none" />
-  {{ Form::close() }}
+  {{ html()->form()->close() }}
 </section>
 
 @endsection

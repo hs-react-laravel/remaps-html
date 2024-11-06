@@ -80,22 +80,22 @@
 
                 <div class="box-body">
                     <h4 class="wow fadeInDown animated" style="color: #fec400">Reset Your Password</h4>
-					{!! Form::open(array('route' => ('frontend.api.forgot.reset'), 'method' => 'POST', 'autocomplete' => "off")) !!}
+                    {!! html()->form('POST')->route('frontend.api.forgot.reset')->autocomplete('false')->open() !!}
                         <input type="hidden" name="email" value="{{ $email }}">
                         <input type="hidden" name="token" value="{{ $token }}">
                         <div class="form-group">
-                            {!! Form::label('password', 'Password') !!}
-                            {!! Form::password('password', ['class' => 'form-control', 'placeholder'=>'Password']) !!}
+                            {!! html()->label('Password', 'password') !!}
+                            {!! html()->password('password')->class(['form-control'])->placeholder('Password') !!}
                         </div>
                         <div class="form-group">
-                            {!! Form::label('password_confirmation', 'Password Confirmation') !!}
-                            {!! Form::password('password_confirmation', ['class' => 'form-control', 'placeholder'=>'Password Confirmation']) !!}
+                            {!! html()->label('Password Confirmation', 'password_confirmation') !!}
+                            {!! html()->password('password_confirmation')->class(['form-control'])->placeholder('Password Confirmation') !!}
                         </div>
 						<div class="form-group">
 							<div id="error"></div>
 						</div>
 						<button id="btnSubmit" class="btn btn-success view-btn" type="submit">Reset Password</button>
-					{!! Form::close() !!}
+					{!! html()->form()->close() !!}
                 </div>
             </div>
 			<p>If you need any help, please contact to <a class="custom-link" href="mailto:support@remapdash.com">support@remapdash.com</a></p>

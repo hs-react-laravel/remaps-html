@@ -185,7 +185,7 @@
                         <div class="card mb-4">
                             <div class="card-header"><h5 class="mb-0">Information Text</h5></div>
                             <div class="card-body">
-                                {!! Form::open(array('route' => ('frontend.api.template.save'), 'method' => 'POST')) !!}
+                                {!! html()->form('POST')->route('frontend.api.template.save')->open() !!}
                                 <div style="margin-bottom: 10px">
                                     <input type="hidden" name="id" value="{{ $apiUser->id }}">
                                     <a style="cursor: pointer" onclick="onPasteTemplate()">Paste default template</a>
@@ -197,7 +197,7 @@
                                     name="body"
                                 >{{ $body }}</textarea>
                                 <button id="btnSubmit" class="btn btn-success view-btn" style="margin-top: 20px;" type="submit">Save</button>
-                                {!! Form::close() !!}
+                                {!! html()->form()->close() !!}
                             </div>
                         </div>
                    </div>

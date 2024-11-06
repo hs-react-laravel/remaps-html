@@ -11,7 +11,7 @@
 @section('content')
 
 <section id="basic-input">
-    {{ Form::model($entry, array('route' => array('apiusers.update', $entry->id), 'method' => 'PUT')) }}
+    {{ html()->form($entry, 'PUT')->route('apiusers.update', ['apiuser' => $entry->id])->open() }}
     @csrf
     <div class="row">
       <div class="col-md-12">
@@ -77,7 +77,7 @@
       </div>
     </div>
 
-    {{ Form::close() }}
+    {{ html()->form()->close() }}
 </section>
 
 @endsection
