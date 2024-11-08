@@ -16,7 +16,7 @@
         </div>
         <div class="card-body">
           <hr>
-          {{ html()->form($entry, 'PUT')->route('tickets.update', ['ticket' => $entry->id])->acceptsFiles()->open() }}
+          {{ html()->form('PUT')->route('tickets.update', ['ticket' => $entry->id])->acceptsFiles()->open() }}
             <div class="message-wrapper" id="scrollDiv">
               <div class="message-{{ $entry->sender_id == $user->id ? 'right' : 'left' }}">
                 @if ($entry->sender->logo)

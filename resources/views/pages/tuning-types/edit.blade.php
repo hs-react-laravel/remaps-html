@@ -12,9 +12,9 @@
 
 <section id="basic-input">
   @if ($user->is_admin)
-    {{ html()->form($entry, 'PUT')->route('tuning-types.update', ['tuning_type' => $entry->id])->open() }}
+    {{ html()->form('PUT')->route('tuning-types.update', ['tuning_type' => $entry->id])->open() }}
   @elseif ($user->is_semi_admin)
-    {{ html()->form($entry, 'PUT')->route('staff.tuning-types.update', ['tuning_type' => $entry->id])->open() }}
+    {{ html()->form('PUT')->route('staff.tuning-types.update', ['tuning_type' => $entry->id])->open() }}
   @endif
     @csrf
     <div class="row">

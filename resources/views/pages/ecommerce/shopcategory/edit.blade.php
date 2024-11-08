@@ -16,7 +16,7 @@
   }
 @endphp
 <section>
-  {{ html()->form($entry, 'PUT')->route($route_prefix.'shopcategories.update', ['shopcategory' => $entry->id])->acceptsFiles()->open() }}
+  {{ html()->form('PUT')->route($route_prefix.'shopcategories.update', ['shopcategory' => $entry->id])->acceptsFiles()->open() }}
     @csrf
     <div class="row">
       <div class="col-md-12">

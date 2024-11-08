@@ -11,7 +11,7 @@
 @section('content')
 
 <section id="basic-input">
-    {{ html()->form($customer, 'PUT')->route('customers.update', ['customer' => $customer->id])->open() }}
+    {{ html()->form('PUT')->route('customers.update', ['customer' => $customer->id])->open() }}
     <div class="row">
       <div class="col-md-12">
         <div class="card">

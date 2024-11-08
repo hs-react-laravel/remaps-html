@@ -11,7 +11,7 @@
 @section('content')
 
 <section id="basic-input">
-  {{ html()->form($entry, 'PUT')->route('shoppackages.update', ['shoppackage' => $entry->id])->open() }}
+  {{ html()->form('PUT')->route('shoppackages.update', ['shoppackage' => $entry->id])->open() }}
     <div class="row">
       <div class="col-md-12">
         <div class="card">

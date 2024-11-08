@@ -11,7 +11,7 @@
 @section('content')
 
 <section id="basic-input">
-    {{ html()->form($entry, 'PUT')->route('apiusers.update', ['apiuser' => $entry->id])->open() }}
+    {{ html()->form('PUT')->route('apiusers.update', ['apiuser' => $entry->id])->open() }}
     @csrf
     <div class="row">
       <div class="col-md-12">

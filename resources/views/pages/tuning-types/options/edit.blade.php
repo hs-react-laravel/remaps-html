@@ -16,7 +16,7 @@
   }
 @endphp
 <section id="basic-input">
-  {{ html()->form($entry, 'PUT')->route($route_prefix.'options.update', ['id' => $typeId, 'option' => $entry->id])->open() }}
+  {{ html()->form('PUT')->route($route_prefix.'options.update', ['id' => $typeId, 'option' => $entry->id])->open() }}
     @csrf
     <div class="row">
       <div class="col-md-12">

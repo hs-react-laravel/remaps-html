@@ -202,7 +202,7 @@
 
       <div id="step-address" class="content" role="tabpanel" aria-labelledby="step-address-trigger">
         @if (isset($order))
-          {{ html()->form($order, 'PUT')->route('customer.shop.order.ship', ['id' => $order ? $order->id : ''])->attribute('id', 'checkout-address')->class(['list-view', 'product-checkout'])->open() }}
+          {{ html()->form('PUT')->route('customer.shop.order.ship', ['id' => $order ? $order->id : ''])->attribute('id', 'checkout-address')->class(['list-view', 'product-checkout'])->open() }}
             <div class="card">
               <div class="card-header flex-column align-items-start">
                 <h4 class="card-title">Ship Address</h4>
@@ -337,7 +337,7 @@
 
       <div id="step-shipping" class="content" role="tabpanel" aria-labelledby="step-shipping-trigger">
         @if (isset($order))
-        {{ html()->form($order, 'PUT')->route('customer.shop.order.ship', ['id' => $order ? $order->id : ''])->attribute('id', 'checkout-shipment')->class(['list-view', 'product-checkout'])->open() }}
+        {{ html()->form('PUT')->route('customer.shop.order.ship', ['id' => $order ? $order->id : ''])->attribute('id', 'checkout-shipment')->class(['list-view', 'product-checkout'])->open() }}
           @csrf
           <div class="checkout-items">
             @foreach ($order->items as $item)

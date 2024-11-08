@@ -12,7 +12,7 @@
           <h4 class="card-title">Process the file service</h4>
         </div>
         <div class="card-body">
-          {{ html()->form($fileService, 'PUT')->route('fileservices.update', ['fileservice' => $fileService->id])->acceptsFiles()->open() }}
+          {{ html()->form('PUT')->route('fileservices.update', ['fileservice' => $fileService->id])->acceptsFiles()->open() }}
             <div class="row">
               <div class="col-12">
                 <div class="mb-1">

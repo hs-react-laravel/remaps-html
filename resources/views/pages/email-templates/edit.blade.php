@@ -4,7 +4,7 @@
 
 @section('content')
 <section>
-  {{ html()->form($entry, 'PUT')->route('email-templates.update', ['email_template' => $entry->id])->open() }}
+  {{ html()->form('PUT')->route('email-templates.update', ['email_template' => $entry->id])->open() }}
   <div class="row">
     <div class="col-md-12">
       <div class="card">

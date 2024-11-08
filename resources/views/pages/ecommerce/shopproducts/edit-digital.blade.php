@@ -21,7 +21,7 @@
 @section('content')
 
 <section>
-  {{ html()->form($product, 'PUT')->route($route_prefix.'shopproducts.digital.update', ['id' => $product->id])->acceptsFiles()->open() }}
+  {{ html()->form('PUT')->route($route_prefix.'shopproducts.digital.update', ['id' => $product->id])->acceptsFiles()->open() }}
     @csrf
     <div class="d-flex justify-content-between">
       <h4 class="card-title">Edit Digital Product</h4>

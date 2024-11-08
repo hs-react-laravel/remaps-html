@@ -43,7 +43,7 @@
           </ul>
 
           {{ $entry->id
-            html()->form($entry, 'PUT')->route('companies.update', ['company' => $entry->id])->acceptsFiles()->open()
+            html()->form('PUT')->route('companies.update', ['company' => $entry->id])->acceptsFiles()->open()
             : html()->form('POST')->route('companies.store')->acceptsFiles()->open() }}
             <input type="hidden" name="tab" value="{{$tab}}" />
             @csrf
