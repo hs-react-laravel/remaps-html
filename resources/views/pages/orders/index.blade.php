@@ -69,7 +69,7 @@
               @endif
           </tbody>
         </table>
-        {{ html()->form('POST', route('api.order.upload'))->attribute('id', 'uploadForm')->acceptsFiles()->open() }}
+        {{ html()->form('POST')->route('api.order.upload')->attribute('id', 'uploadForm')->acceptsFiles()->open() }}
           <input type="file" name="file" id="hidden_upload" style="display: none" />
           <input type="hidden" name="order" id="order_id" />
         {{ html()->form()->close() }}

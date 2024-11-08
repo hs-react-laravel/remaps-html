@@ -16,7 +16,7 @@
   }
 @endphp
 <section id="basic-input">
-    {{ html()->form($data, 'PUT', route($route_prefix.'notifications.update', ['notification' => $data->id]))->open() }}
+    {{ html()->form($data, 'PUT')->route($route_prefix.'notifications.update', ['notification' => $data->id])->open() }}
     @csrf
     <div class="row">
       <div class="col-md-6">

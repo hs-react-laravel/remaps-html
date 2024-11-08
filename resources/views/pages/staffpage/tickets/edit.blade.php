@@ -16,7 +16,7 @@
         </div>
         <div class="card-body">
           <hr>
-          {{ html()->form($entry, 'PUT', route('stafftk.update', ['stafftk' => $entry->id]))->acceptsFiles()->open() }}
+          {{ html()->form($entry, 'PUT')->route('stafftk.update', ['stafftk' => $entry->id])->acceptsFiles()->open() }}
             <div class="message-wrapper">
               <div class="message-{{ $entry->sender_id == $user->id ? 'right' : 'left' }}">
                 <div class="avatar" style="background-color: #{{ \App\Helpers\Helper::generateAvatarColor($entry->sender_id) }}">

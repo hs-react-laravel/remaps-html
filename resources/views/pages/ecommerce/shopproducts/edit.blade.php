@@ -21,7 +21,7 @@
   }
 @endphp
 <section>
-  {{ html()->form($entry, 'PUT', route('shopproducts.update', ['shopproduct' => $entry->id]))->acceptsFiles()->open() }}
+  {{ html()->form($entry, 'PUT')->route('shopproducts.update', ['shopproduct' => $entry->id])->acceptsFiles()->open() }}
     @csrf
     <div class="d-flex justify-content-between">
       <h4 class="card-title">Edit Product</h4>
