@@ -233,6 +233,7 @@
                       data-sitekey="6LfxQ0ojAAAAAHCyLcqjeiUodaELsckXOuwZqv-Y"
                       data-callback="onSubmit"
                       style="float: right;">Submit</button>
+                    {{-- <button class="btn {{ 'btn-'.substr($configData['navbarColor'], 3) }} w-100" onclick="onSubmit('')">Sign in</button> --}}
                   </div>
                 </div>
                 <p class="text-center">

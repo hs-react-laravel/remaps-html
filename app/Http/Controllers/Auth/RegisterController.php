@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Mail\WelcomeCustomer;
 use App\Mail\CustomerRegisterPending;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\Rule;
 
 class RegisterController extends Controller
 {
@@ -72,11 +73,15 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        $company = $this->company;
         return Validator::make($data, [
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'business_name' =>  'required|max:255',
-            'email' => 'required|unique:users,email,NULL,id,company_id,'.$this->company->id.',deleted_at,NULL',
+            // 'email' => 'required|unique:users,email,NULL,id,company_id,'.$this->company->id.',deleted_at,NULL',
+            'email' => ['required', 'string', 'email', 'max:191',Rule::unique('users')->where(function ($query) use ($company) {
+                return $query->where('company_id', $company->id)->where('deleted_at', NULL);
+            })],
             'password' => 'nullable|min:6',
             'password_confirmation' => 'nullable|required_with:password|min:6|max:20|same:password',
             'address_line_1' =>  'required|max:255',
