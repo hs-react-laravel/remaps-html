@@ -158,7 +158,7 @@ class CompanyController extends Controller
             }
 
             try{
-                Mail::to($mainCompany->main_email_address)->send(new NewCompanyApply($companyUser));
+                Mail::to($mainCompany['main_email_address'])->send(new NewCompanyApply($companyUser));
             }catch(\Exception $e){
             }
 
