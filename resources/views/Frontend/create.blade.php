@@ -99,7 +99,7 @@
 
 						<div class="form-group">
                             {!! html()->label('Confirm Password', 'password_confirmation') !!}
-                            {!! html()->text('password_confirmation')->class(['form-control'])->placeholder('Confirm Password') !!}
+                            {!! html()->password('password_confirmation')->class(['form-control'])->placeholder('Confirm Password') !!}
 						</div>
 
 						@if($_GET['domain'] == 'regular')
