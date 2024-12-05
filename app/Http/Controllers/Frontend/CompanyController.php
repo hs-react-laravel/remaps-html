@@ -17,6 +17,7 @@ use App\Models\Package;
 use App\Models\TuningType;
 use App\Models\TuningTypeOption;
 use App\Models\TuningTypeGroup;
+use App\Models\TuningCreditTire;
 use PayPal\Auth\OAuthTokenCredential;
 use PayPal\Api\PaymentExecution;
 use PayPal\Api\RedirectUrls;
@@ -180,6 +181,43 @@ class CompanyController extends Controller
             ]);
             $default->tuningTypes()->sync($sync_types);
             $default->tuningTypeOptions()->sync($sync_options);
+            // default credit tires
+            $sampleTCT1 = TuningCreditTire::create([
+                'company_id'=> $company->id,
+                'amount' => 1,
+                'group_type' => 'normal'
+            ]);
+            $sampleTCT2 = TuningCreditTire::create([
+                'company_id'=> $company->id,
+                'amount' => 2,
+                'group_type' => 'normal'
+            ]);
+            $sampleTCT10 = TuningCreditTire::create([
+                'company_id'=> $company->id,
+                'amount' => 10,
+                'group_type' => 'normal'
+            ]);
+            // default credit group
+            $sampleTCG = TuningCreditGroup::create([
+                'company_id'=> $company->id,
+                'group_type' => 'normal',
+                'name' => 'Sample Group',
+                'is_default' => 1
+            ]);
+            $credit_tires = [];
+            $credit_tires[$sampleTCT1->id] = [
+                'from_credit' => 50,
+                'for_credit' => 50
+            ];
+            $credit_tires[$sampleTCT2->id] = [
+                'from_credit' => 100,
+                'for_credit' => 100
+            ];
+            $credit_tires[$sampleTCT10->id] = [
+                'from_credit' => 500,
+                'for_credit' => 400
+            ];
+            $sampleTCG->tuningCreditTires()->sync($credit_tires);
 
             $mainCompany = Company::where('id', '1')->first()->toArray();
 
