@@ -14,6 +14,9 @@ use App\Mail\CompanyEmailVerification;
 use App\Models\Company;
 use App\Models\TuningCreditGroup;
 use App\Models\Package;
+use App\Models\TuningType;
+use App\Models\TuningTypeOption;
+use App\Models\TuningTypeGroup;
 use PayPal\Auth\OAuthTokenCredential;
 use PayPal\Api\PaymentExecution;
 use PayPal\Api\RedirectUrls;
@@ -133,6 +136,7 @@ class CompanyController extends Controller
                 'shoporder-delivered',
                 'car-data-text'
             ])->get();
+            // default email templates
             if($emailTemplates->count() > 0){
                 foreach($emailTemplates as $emailTemplate){
                     $userTemplate = $emailTemplate->replicate();
@@ -140,6 +144,43 @@ class CompanyController extends Controller
                     $userTemplate->save();
                 }
             }
+            // default tuning type
+            $sampleTT = TuningType::create([
+                'company_id'=> $company->id,
+                'label' => 'Sample Tuning Type',
+                'credits' => 1,
+                'order_as' => TuningType::where('company_id', $company->id)->count() + 1,
+            ]);
+            // default tuning type option
+            $sampleTTO = TuningTypeOption::create([
+                'tuning_type_id'=> $sampleTT->id,
+                'label' => 'Sample Option',
+                'tooltip' => 'This is a sample one',
+                'credits' => 0.33,
+                'order_as' => TuningTypeOption::where('tuning_type_id', $sampleTT->id)->count()
+            ]);
+            // system default tuning type group
+            $types = TuningType::where('company_id', $company->id)->get();
+            $sync_types = [];
+            $sync_options = [];
+            foreach ($types as $t) {
+                $sync_types[$t->id]['for_credit'] = $t->credits;
+                $typeOptions = $t->tuningTypeOptions()->select('id', 'credits')->get();
+                foreach ($typeOptions as $to) {
+                    $sync_options[$to->id] = [
+                        'for_credit' => $to->credits
+                    ];
+                }
+            }
+
+            $default = TuningTypeGroup::create([
+                'company_id' => $company->id,
+                'name' => "System Default",
+                'is_system_default' => 1
+            ]);
+            $default->tuningTypes()->sync($sync_types);
+            $default->tuningTypeOptions()->sync($sync_options);
+
             $mainCompany = Company::where('id', '1')->first()->toArray();
 
             Config::set('mail.default', 'smtp');
