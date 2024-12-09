@@ -177,7 +177,8 @@ class CompanyController extends Controller
             $default = TuningTypeGroup::create([
                 'company_id' => $company->id,
                 'name' => "System Default",
-                'is_system_default' => 1
+                'is_system_default' => 1,
+                'is_default' => 1
             ]);
             $default->tuningTypes()->sync($sync_types);
             $default->tuningTypeOptions()->sync($sync_options);
