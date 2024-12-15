@@ -91,7 +91,9 @@ class Company extends Model
         'secret_2fa_device',
         'is_accept_new_customer',
         'is_forum_enabled',
-        'forum_id'
+        'forum_id',
+        'is_bank_enabled',
+        'bank_info'
     ];
 
     public function users()

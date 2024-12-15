@@ -15,7 +15,18 @@ class Order extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'transaction_id', 'invoice_id', 'document', 'vat_number', 'vat_percentage', 'tax_amount', 'amount', 'description', 'status', 'displayable_id'
+        'user_id',
+        'transaction_id',
+        'invoice_id',
+        'document',
+        'vat_number',
+        'vat_percentage',
+        'tax_amount',
+        'amount',
+        'description',
+        'status',
+        'displayable_id',
+        'payment_gateway'
     ];
 
 

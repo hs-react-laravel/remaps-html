@@ -103,6 +103,7 @@ return [
 
     'order_status'=>[
         'completed'=>'Completed',
+        'pending'=>'Pending',
         'cancelled'=>'Pending',
     ],
 

@@ -58,6 +58,20 @@
                 Stripe
               </button>
               @endif
+              @if ($user->company->is_bank_enabled && $user->company->bank_info)
+              <button
+                type="button"
+                class="btn btn-outline-success me-1 mt-1"
+                data-bs-toggle="modal"
+                data-bs-target="#showBankInfo"
+                data-group="{{ $tuningCreditGroup->id }}"
+                data-tire="{{ $tire->id }}"
+                data-amount="{{ $total_amount }}"
+                data-tireamt="{{ $tire->amount }}"
+                onclick="onBankButton(this)">
+                Bank Transfer
+              </button>
+              @endif
               <form action="{{ route('consumer.buy-credits.handle') }}" method="POST" class="paypal-form">
                 @csrf
                 <input type="hidden" name="group_id" value="{{ $tuningCreditGroup->id }}">
@@ -132,6 +146,7 @@
 
 </section>
 @include('content/_partials/_modals/modal-add-new-cc')
+@include('content/_partials/_modals/modal-bank-info')
 @endsection
 
 @section('page-script')
@@ -151,6 +166,16 @@
     var tire = $(obj).data('tire');
     $('#cardValidation input[name=group_id]').val(group);
     $('#cardValidation input[name=tire_id]').val(tire);
+  }
+  function onBankButton(obj) {
+    var group = $(obj).data('group');
+    var tire = $(obj).data('tire');
+    var amount = $(obj).data('amount');
+    var tireamt = $(obj).data('tireamt');
+    $('#bankConfirmation input[name=group_id]').val(group);
+    $('#bankConfirmation input[name=tire_id]').val(tire);
+    $('#showBankInfo span[name=tire_amount]').html(amount);
+    $('#showBankInfo span[name=tire_tireamt]').html(tireamt);
   }
   $('#cardValidation').bind('submit', function(e) {
     var $form = $('#cardValidation');

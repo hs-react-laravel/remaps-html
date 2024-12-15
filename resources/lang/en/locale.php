@@ -38,6 +38,7 @@ return [
     'tb_header_OrderDate' => 'Order date',
     'tb_header_Date' => 'Date',
     'tb_header_Amount' => 'Amount',
+    'tb_header_PaymentGateway' => 'Payment Method',
     'tb_header_Options' => 'Options',
     'tb_Customer' => 'Customer',
     'tb_header_Credits' => 'Credits',

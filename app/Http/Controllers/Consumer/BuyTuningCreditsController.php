@@ -179,6 +179,7 @@ class BuyTuningCreditsController extends MasterController
             $order->description = $transaction['description'];
             $order->status = config('constants.order_status.completed');
             $order->displayable_id = $displableId;
+            $order->payment_gateway = "Paypal";
             $order->save();
 
             // /* save transaction */
@@ -268,6 +269,7 @@ class BuyTuningCreditsController extends MasterController
             $order->description = $result->description;
             $order->status = config('constants.order_status.completed');
             $order->displayable_id = $displableId;
+            $order->payment_gateway = "Stripe";
             $order->save();
 
             /* save transaction */
@@ -287,6 +289,47 @@ class BuyTuningCreditsController extends MasterController
                 return redirect(route('consumer.buy-credits'));
             }
             // \Alert::error(__('customer.payment_failed'))->flash();
+        }catch(\Exception $e){
+            session()->flash('error', $e->getMessage());
+        }
+        return redirect(route('consumer.buy-credits'));
+    }
+
+    public function bankPost(Request $request) {
+        try {
+            $user = $this->user;
+            $tuningCreditGroup = TuningCreditGroup::find($request->group_id);
+            $groupCreditTires  = $user->tuningCreditGroup->tuningCreditTires()->withPivot('from_credit', 'for_credit')->wherePivot('from_credit', '!=', 0.00);
+            if (!$groupCreditTires) {
+                $groupCreditTires  = $user->tuningEVCCreditGroup->tuningCreditTires()->withPivot('from_credit', 'for_credit')->wherePivot('from_credit', '!=', 0.00);
+            }
+            $tire = $groupCreditTires->where('id', $request->tire_id)->first();
+
+            $isVatCalculation = ($this->company->vat_number != null) && ($this->company->vat_percentage != null) && ($this->user->add_tax);
+            $vat_percentage = $isVatCalculation ? $this->company->vat_percentage : 0;
+            $tax = $tire->pivot->for_credit * $vat_percentage / 100;
+
+            $total_amount = $tire->pivot->for_credit + $tax;
+
+            $displableId = \App\Models\Order::wherehas('user', function($query) use($user){
+                $query->where('company_id', $user->company_id);
+            })->max('displayable_id');
+
+            $displableId++;
+            /* save order */
+            $order = new \App\Models\Order();
+            $order->user_id = $this->user->id;
+            $order->transaction_id = $request->group_id;
+            $order->invoice_id = $request->tire_id;
+            $order->vat_number = $this->company->vat_number;
+            $order->vat_percentage = $this->company->vat_percentage;
+            $order->tax_amount = $tax;
+            $order->amount = $total_amount;
+            $order->description = $tuningCreditGroup->name.'('.$tire->amount.' credits)';
+            $order->status = "Pending";
+            $order->displayable_id = $displableId;
+            $order->payment_gateway = "Bank";
+            $order->save();
         }catch(\Exception $e){
             session()->flash('error', $e->getMessage());
         }

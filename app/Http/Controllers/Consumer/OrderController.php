@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Consumer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\MasterController;
 use App\Models\Order;
+use App\Models\User;
 use Dompdf\Dompdf;
 use Illuminate\Support\Facades\File;
 
@@ -122,5 +123,67 @@ class OrderController extends MasterController
             session()->flash('error', $ex->getMessage());
             return redirect(url('customer/od'));
         }
+    }
+
+    public function api(Request $request) {
+        $draw = $request->get('draw');
+        $start = $request->get('start');
+        $rowperpage = $request->get('length');
+
+        $columnIndex_arr = $request->get('order');
+        $columnName_arr = $request->get('columns');
+        $order_arr = $request->get('order');
+        $search_arr = $request->get('search');
+
+        $columnIndex = $columnIndex_arr[0]['column']; // Column index
+        $columnName = $columnName_arr[$columnIndex]['data']; // Column name
+        $columnSortOrder = $order_arr[0]['dir']; // asc or desc
+        $searchValue = $search_arr['value']; // Search value
+
+        $company = $this->company;
+        $user = User::find($request->id);
+        $query = Order::where('user_id', $user->id);
+        $totalRecords = $query->count();
+
+        if ($request->start_date && $request->end_date) {
+            $query = $query->whereBetween('created_at', [$request->start_date.' 00:00:00', $request->end_date.' 23:59:59']);
+        }
+        $query = $query->where(function($query) use ($searchValue) {
+            $query->where('transaction_id', 'LIKE', '%'.$searchValue.'%');
+            $query->orWhere('invoice_id', 'LIKE', '%'.$searchValue.'%');
+            $query->orWhere('description', 'LIKE', '%'.$searchValue.'%');
+            $query->orWhere('payment_gateway', 'LIKE', '%'.$searchValue.'%');
+        });
+
+        $totalRecordswithFilter = $query->count();
+
+        $entries = $query->orderBy($columnName, $columnSortOrder)->skip($start)->take($rowperpage)->get();
+
+        $return_data = [];
+        foreach($entries as $entry) {
+            array_push($return_data, [
+                'id' => $entry->id,
+                'created_at' => $entry->created_at,
+                'customer_company' => $entry->customer_company,
+                'amount' => config('constants.currency_signs')[$company->paypal_currency_code].' '.$entry->amount_with_sign,
+                'payment_gateway' => $entry->payment_gateway,
+                'status' => $entry->status,
+                'displayable_id' => $entry->displayable_id,
+                'actions' => '',
+                'route.invoice' => route('customer.order.invoice', ['id' => $entry->id]),
+                'route.download' => route('customer.order.download', ['id' => $entry->id]),
+                'bank_pending' => $company->is_bank_enabled && $entry->payment_gateway == "Bank" && $entry->status == "Pending",
+                'invoice_pdf' => $company->is_invoice_pdf,
+                'invoice_pdf_exist' => $entry->document
+            ]);
+        }
+        $json_data = array(
+            'draw' => intval($draw),
+            'iTotalRecords' => $totalRecords,
+            'iTotalDisplayRecords' => $totalRecordswithFilter,
+            'data' => $return_data
+        );
+
+        return response()->json($json_data);
     }
 }

@@ -261,6 +261,8 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::resource('orders', OrderController::class);
     Route::get('orders/{id}/invoice', [OrderController::class, 'invoice'])->name('order.invoice');
     Route::get('orders/{id}/download', [OrderController::class, 'download'])->name('order.download');
+    Route::get('orders/{id}/complete', [OrderController::class, 'complete'])->name('order.complete');
+    Route::post('orders/api', [OrderController::class, 'api'])->name('order.api');
 
     Route::resource('customers', CustomerController::class);
     Route::get('customers/{id}/file-services',[CustomerController::class, 'fileServices'])->name('customer.fs');
@@ -478,12 +480,14 @@ Route::group(['middleware' => 'auth:customer', 'prefix'=>'customer'], function (
     Route::post('tk/api/upload', [TKController::class, 'uploadTicketFile'])->name('tk.api.upload');
 
     Route::resource('od', ODController::class);
+    Route::post('od/api', [ODController::class, 'api'])->name('od.api');
     Route::resource('tr', TRController::class);
     Route::get('/buy-credits', [BuyTuningCreditsController::class, 'index'])->name('consumer.buy-credits');
     Route::post('/buy-credits/handle', [BuyTuningCreditsController::class, 'handlePayment'])->name('consumer.buy-credits.handle');
     Route::get('/buy-credits/cancel', [BuyTuningCreditsController::class, 'paymentCancel'])->name('consumer.buy-credits.cancel');
     Route::get('/buy-credits/success', [BuyTuningCreditsController::class, 'paymentSuccess'])->name('consumer.buy-credits.success');
     Route::post('/buy-credits/stripe-post', [BuyTuningCreditsController::class, 'stripePost'])->name('consumer.buy-credits.stripe-post');
+    Route::post('/buy-credits/bank-post', [BuyTuningCreditsController::class, 'bankPost'])->name('consumer.buy-credits.bank-post');
     Route::get('orders/{id}/invoice', [ODController::class, 'invoice'])->name('customer.order.invoice');
     Route::get('orders/{id}/download', [ODController::class, 'download'])->name('customer.order.download');
     // Main Page Route

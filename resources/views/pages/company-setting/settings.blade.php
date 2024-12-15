@@ -153,6 +153,9 @@
     @if (!$company->open_check)
       $('#oh_form').hide();
     @endif
+    @if (!$company->is_bank_enabled)
+      $('#bi_area').hide();
+    @endif
     $('#timezone-select').select2({
       dropdownAutoWidth: true,
       width: '100%',
@@ -164,6 +167,14 @@
         $('#oh_form').show();
       } else {
         $('#oh_form').hide();
+      }
+    })
+    $('#is_bank_enabled').on('change', function(){
+      let val = $(this).is(":checked");
+      if (val) {
+        $('#bi_area').show();
+      } else {
+        $('#bi_area').hide();
       }
     })
     $('.input-close').on('change', function(){

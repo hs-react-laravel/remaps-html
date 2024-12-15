@@ -223,7 +223,7 @@
       }],
       order: [[0, 'desc']],
       createdRow: function(row, data, index) {
-        $('td', row).addClass('td-actions')
+        $('td', row).eq(5).addClass('td-actions')
         $('td', row).eq(5).html(`
           <a class="btn btn-icon btn-primary" href="${data['route.edit']}" title="Edit">
             ${feather.icons['edit'].toSvg()}

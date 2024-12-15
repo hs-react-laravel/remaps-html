@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Remaps;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\MasterController;
+use App\Models\User;
 use App\Models\Order;
 use Dompdf\Dompdf;
 use Illuminate\Support\Facades\File;
@@ -121,7 +122,102 @@ class OrderController extends MasterController
             }
         } catch (\Exception $ex) {
             session()->flash('error', $ex->getMessage());
-            return redirect(route('fileservices.index'));
+            return redirect(url('admin/orders'));
         }
+    }
+    public function complete($id) {
+        try {
+            $order = Order::find($id);
+            $user = $order->user;
+
+            $tuningCreditGroup = \App\Models\TuningCreditGroup::find($order->transaction_id);
+            $groupCreditTires  = $user->tuningCreditGroup->tuningCreditTires()->withPivot('from_credit', 'for_credit')->wherePivot('from_credit', '!=', 0.00);
+            if (!$groupCreditTires) {
+                $groupCreditTires  = $user->tuningEVCCreditGroup->tuningCreditTires()->withPivot('from_credit', 'for_credit')->wherePivot('from_credit', '!=', 0.00);
+            }
+            $tire = $groupCreditTires->where('id', $order->invoice_id)->first();
+
+            $totalCredits = ($user->tuning_credits + $tire->amount);
+            $user->tuning_credits = $totalCredits;
+            $user->save();
+
+            $transaction = new \App\Models\Transaction();
+            $transaction->user_id = $user->id;
+            $transaction->credits = number_format($tire->amount, 2);
+            $transaction->description = "Tuning credits purchase";
+            $transaction->status = config('constants.transaction_status.completed');
+            $transaction->save();
+
+            $order->status = config('constants.order_status.completed');
+            $order->save();
+        } catch (\Exception $ex) {
+            session()->flash('error', $ex->getMessage());
+        }
+        return redirect(url('admin/orders'));
+    }
+
+    public function api(Request $request) {
+        $draw = $request->get('draw');
+        $start = $request->get('start');
+        $rowperpage = $request->get('length');
+
+        $columnIndex_arr = $request->get('order');
+        $columnName_arr = $request->get('columns');
+        $order_arr = $request->get('order');
+        $search_arr = $request->get('search');
+
+        $columnIndex = $columnIndex_arr[0]['column']; // Column index
+        $columnName = $columnName_arr[$columnIndex]['data']; // Column name
+        $columnSortOrder = $order_arr[0]['dir']; // asc or desc
+        $searchValue = $search_arr['value']; // Search value
+
+        $company = $this->company;
+        $user = $this->user;
+        $query = Order::whereHas('user', function($query) use($user) {
+            $query->where('company_id', $user->company_id);
+        });
+        $totalRecords = $query->count();
+
+        if ($request->start_date && $request->end_date) {
+            $query = $query->whereBetween('created_at', [$request->start_date.' 00:00:00', $request->end_date.' 23:59:59']);
+        }
+        $query = $query->where(function($query) use ($searchValue) {
+            $query->where('transaction_id', 'LIKE', '%'.$searchValue.'%');
+            $query->orWhere('invoice_id', 'LIKE', '%'.$searchValue.'%');
+            $query->orWhere('description', 'LIKE', '%'.$searchValue.'%');
+            $query->orWhere('payment_gateway', 'LIKE', '%'.$searchValue.'%');
+        });
+
+        $totalRecordswithFilter = $query->count();
+
+        $entries = $query->orderBy($columnName, $columnSortOrder)->skip($start)->take($rowperpage)->get();
+
+        $return_data = [];
+        foreach($entries as $entry) {
+            array_push($return_data, [
+                'id' => $entry->id,
+                'created_at' => $entry->created_at,
+                'customer_company' => $entry->customer_company,
+                'amount' => config('constants.currency_signs')[$company->paypal_currency_code].' '.$entry->amount_with_sign,
+                'payment_gateway' => $entry->payment_gateway,
+                'status' => $entry->status,
+                'displayable_id' => $entry->displayable_id,
+                'actions' => '',
+                'route.invoice' => route('order.invoice', ['id' => $entry->id]),
+                'route.complete' => route('order.complete', ['id' => $entry->id]),
+                'route.download' => route('order.download', ['id' => $entry->id]),
+                'bank_pending' => $company->is_bank_enabled && $entry->payment_gateway == "Bank" && $entry->status == "Pending",
+                'invoice_pdf' => $company->is_invoice_pdf,
+                'invoice_pdf_exist' => $entry->document
+            ]);
+        }
+        $json_data = array(
+            'draw' => intval($draw),
+            'iTotalRecords' => $totalRecords,
+            'iTotalDisplayRecords' => $totalRecordswithFilter,
+            'data' => $return_data
+        );
+
+        return response()->json($json_data);
     }
 }

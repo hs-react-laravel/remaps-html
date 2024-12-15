@@ -162,7 +162,7 @@
               <td height="5" align="right"></td>
               </tr>
             <tr>
-              <td align="right" style="font-size:17px; font-family:Arial, Helvetica, sans-serif; height:22px">{{ $order->id }} </td>
+              <td align="right" style="font-size:17px; font-family:Arial, Helvetica, sans-serif; height:22px">{{ $order->displayable_id }} </td>
               </tr>
             <tr>
               <td>&nbsp;</td>
