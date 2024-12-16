@@ -51,7 +51,7 @@ class BankTransferComplete extends Mailable
 
             $body = str_replace('##APP_NAME', $company->name, $body);
             $body = str_replace('##APP_LOGO', env('AZURE_STORAGE_URL').'uploads/'.$company->logo, $body);
-            $body = str_replace('##USER_NAME', $company->owner->full_name, $body);
+            $body = str_replace('##USER_NAME', $this->order->user->full_name, $body);
             $body = str_replace('##CREDIT_COUNT', $this->credits, $body);
 
             $this->subject($subject)
