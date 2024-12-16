@@ -40,7 +40,10 @@ return [
         'api-welcome-email' => 'API Customer welcome email',
         'api-reset-email' => 'Reset api user password',
         'customer-pending' => 'Customer Registration is in pending',
-        'company-verify-email' => 'Company Email Verification'
+        'company-verify-email' => 'Company Email Verification',
+        'bank-transfer-set' => 'Bank Transfer is set',
+        'bank-transfer-notify-admin' => 'Made new Bank Transfer from customer',
+        'bank-transfer-completed' => 'Bank Transfer is confirmed'
     ],
 
     'currency_sign'=>'£',

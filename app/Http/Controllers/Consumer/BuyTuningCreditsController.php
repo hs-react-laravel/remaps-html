@@ -12,6 +12,9 @@ use PayPalCheckoutSdk\Orders\OrdersCreateRequest;
 use PayPalCheckoutSdk\Orders\OrdersCaptureRequest;
 use Stripe\StripeClient;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\BankTransferStart;
+use App\Mail\BankTransferNotify;
 
 class BuyTuningCreditsController extends MasterController
 {
@@ -330,6 +333,19 @@ class BuyTuningCreditsController extends MasterController
             $order->displayable_id = $displableId;
             $order->payment_gateway = "Bank";
             $order->save();
+
+            try{
+                Mail::to($user->email)->send(new BankTransferStart($order));
+            }catch(\Exception $e){
+                session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
+            }
+
+            try{
+                Mail::to($this->company->owner->email)->send(new BankTransferNotify($order));
+            }catch(\Exception $e){
+                session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
+            }
+
         }catch(\Exception $e){
             session()->flash('error', $e->getMessage());
         }
