@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Models\Order;
 use Dompdf\Dompdf;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\BankTransferComplete;
 
 class OrderController extends MasterController
 {
@@ -150,6 +152,12 @@ class OrderController extends MasterController
 
             $order->status = config('constants.order_status.completed');
             $order->save();
+
+            try{
+                Mail::to($user->email)->send(new BankTransferComplete($order, $tire->amount));
+            }catch(\Exception $e){
+                session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
+            }
         } catch (\Exception $ex) {
             session()->flash('error', $ex->getMessage());
         }
