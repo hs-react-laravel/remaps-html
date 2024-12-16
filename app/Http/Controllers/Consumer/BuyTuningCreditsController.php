@@ -335,13 +335,13 @@ class BuyTuningCreditsController extends MasterController
             $order->save();
 
             try{
-                Mail::to($user->email)->send(new BankTransferStart($order));
+                Mail::to($user->email)->send(new BankTransferStart($order, $tire->amount));
             }catch(\Exception $e){
                 session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
             }
 
             try{
-                Mail::to($this->company->owner->email)->send(new BankTransferNotify($order));
+                Mail::to($this->company->owner->email)->send(new BankTransferNotify($order, $tire->amount));
             }catch(\Exception $e){
                 session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
             }
