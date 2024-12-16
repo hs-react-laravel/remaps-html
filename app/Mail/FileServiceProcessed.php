@@ -44,7 +44,7 @@ class FileServiceProcessed extends Mailable
             $body = $emailTemplate->body;
 
             $body = str_replace('##APP_NAME', $this->fileService->user->company->name, $body);
-            $body = str_replace('##APP_LOGO', asset('storage/uploads/logo/'. $this->fileService->user->company->logo), $body);
+            $body = str_replace('##APP_LOGO', env('AZURE_STORAGE_URL').'uploads/'.$this->fileService->user->company->logo, $body);
             $body = str_replace('##LINK', $this->fileService->user->company->v2_domain_link.'/customer/file-service', $body);
             $body = str_replace('##CUSTOMER_NAME', $this->fileService->user->full_name, $body);
             $body = str_replace('##CAR_NAME', $this->fileService->car, $body);

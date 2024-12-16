@@ -49,7 +49,7 @@ class BillingSubscriptionCancelled extends Mailable
             $body = $emailTemplate->body;
 
             $body = str_replace('##APP_NAME', $masterCompany->name, $body);
-            $body = str_replace('##APP_LOGO', asset('storage/uploads/logo/'. $masterCompany->logo), $body);
+            $body = str_replace('##APP_LOGO', env('AZURE_STORAGE_URL').'uploads/'.$company->logo, $body);
             $body = str_replace('##COMPANY_NAME', $this->subscription->user->company->name, $body);
             $body = str_replace('##PLAN_ID', $this->subscription->pay_agreement_id, $body);
 
