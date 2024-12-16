@@ -52,7 +52,7 @@ class BankTransferStart extends Mailable
             $body = str_replace('##APP_NAME', $company->name, $body);
             $body = str_replace('##APP_LOGO', asset('storage/uploads/logo/'. $company->logo), $body);
             $body = str_replace('##USER_NAME', $this->order->user->full_name, $body);
-            $body = str_replace('##CREDIT_COUNT', $this->credits, $body);
+            $body = str_replace('##CREDIT_COUNT', $currencyCode.$this->credits, $body);
             $body = str_replace('##AMOUNT', $this->order->amount, $body);
             $body = str_replace('##BANK_INFO', $company->bank_info, $body);
 
