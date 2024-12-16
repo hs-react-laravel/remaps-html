@@ -204,7 +204,7 @@ class OrderController extends MasterController
         foreach($entries as $entry) {
             array_push($return_data, [
                 'id' => $entry->id,
-                'created_at' => $entry->created_at,
+                'created_at' => $entry->updated_at,
                 'customer_company' => $entry->customer_company,
                 'amount' => config('constants.currency_signs')[$company->paypal_currency_code].' '.$entry->amount_with_sign,
                 'payment_gateway' => $entry->payment_gateway,
