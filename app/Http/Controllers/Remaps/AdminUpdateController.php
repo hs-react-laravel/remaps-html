@@ -20,7 +20,7 @@ class AdminUpdateController extends MasterController
     public function index()
     {
         //
-        $entries = AdminUpdate::paginate(10);
+        $entries = AdminUpdate::orderBy('created_at', 'DESC')->paginate(10);
         return view('pages.update.index')->with(compact('entries'));
     }
 
