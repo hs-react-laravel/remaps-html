@@ -634,7 +634,7 @@ class ApiController extends Controller
         $user = User::find(request()->userid);
         $notifies = array_filter($user->notifies()->distinct()->get()->toArray(), function($obj) use($user){
             $readObj = NotificationRead::where('notification_id', $obj['id'])->where('user_id', $user->id)->first();
-            if ($readObj->is_read == 1) {
+            if ($readObj && $readObj->is_read == 1) {
                 return false;
             }
             return true;
