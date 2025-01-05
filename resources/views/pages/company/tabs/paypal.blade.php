@@ -39,7 +39,7 @@
         </select>
       </div>
     </div>
-    <div class="row mb-1">
+    {{-- <div class="row mb-1">
       <div class="col-xl-4 col-md-6">
         <label class="form-label" for="stripe_key">Stripe key<small class="text-muted">(optional)</small></label>
         <input
@@ -50,7 +50,7 @@
           name="stripe_key"
           value="{{ $entry->stripe_key }}" />
       </div>
-    </div>
+    </div> --}}
     <div class="col-12">
       <button type="submit" class="btn btn-primary me-1">Submit</button>
     </div>
