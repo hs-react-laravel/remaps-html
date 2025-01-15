@@ -204,6 +204,7 @@ class CompanyController extends Controller
                 'group_type' => 'normal',
                 'name' => 'Sample Group',
                 'is_default' => 1,
+                'set_default_tier' => 1,
                 'is_system_default' => 1
             ]);
             $credit_tires = [];
