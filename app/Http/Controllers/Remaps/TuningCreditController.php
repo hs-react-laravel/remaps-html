@@ -121,6 +121,13 @@ class TuningCreditController extends MasterController
     public function destroy($id)
     {
         $tuningCreditGroup = TuningCreditGroup::find($id);
+        if ($tuningCreditGroup->set_default_tier) {
+            $system_default_group = TuningCreditGroup::where('company_id', $this->company->id)
+                ->where('is_system_default', 1)->first();
+            $system_default_group->update([
+                'set_default_tier' => 1
+            ]);
+        }
         $tuningCreditGroup->delete();
         return redirect(route('tuning-credits.index'));
     }
