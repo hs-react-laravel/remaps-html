@@ -91,7 +91,9 @@
                         <i data-feather="check-circle"></i>
                       </a>
                     @endif
+                    @if (!$entry->is_system_default)
                     <a class="btn btn-icon btn-danger" onclick="onDelete(this)" data-id="{{ $entry->id }}" title="Delete"><i data-feather="trash-2"></i></a>
+                    @endif
                     <form action="{{ route('tuning-credits.destroy', $entry->id) }}" class="delete-form" method="POST" style="display:none">
                       <input type="hidden" name="_method" value="DELETE">
                       <input type="hidden" name="_token" value="{{ csrf_token() }}">

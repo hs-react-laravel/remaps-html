@@ -3303,7 +3303,15 @@ li {
   position: relative;
   text-align: center;
 }
-.main-slider h1 {
+.main-slider h3 {
+  color: #fff;
+  z-index: 3;
+}
+.main-slider h4 {
+  color: #fff;
+  z-index: 3;
+}
+.main-slider h3 {
   position: relative;
   display: block;
   font-size: 100px;
@@ -3313,10 +3321,10 @@ li {
   z-index: 3;
   padding: 30px 0 0;
 }
-.main-slider h1 .selected {
+.main-slider h3 .selected {
   position: relative;
 }
-.main-slider h1 .selected:after {
+.main-slider h3 .selected:after {
   position: absolute;
   left: -22px;
   top: 12px;
@@ -3325,7 +3333,7 @@ li {
   background-image: url(../images/icons/icon-circle2.png);
   content: "";
 }
-.main-slider h1 .selected:before {
+.main-slider h3 .selected:before {
   position: absolute;
   left: 10px;
   top: -10px;
@@ -3336,37 +3344,37 @@ li {
   content: "";
 }
 @media (max-width: 1399.98px) {
-  .main-slider h1 {
+  .main-slider h3 {
     font-size: 80px;
     padding-top: 0;
   }
-  .main-slider h1 .selected::before,
-  .main-slider h1 .selected:after {
+  .main-slider h3 .selected::before,
+  .main-slider h3 .selected:after {
     display: none;
   }
 }
 @media (max-width: 991.98px) {
-  .main-slider h1 {
+  .main-slider h3 {
     font-size: 72px;
   }
 }
 @media (max-width: 767.98px) {
-  .main-slider h1 {
+  .main-slider h3 {
     font-size: 64px;
   }
 }
 @media (max-width: 575.98px) {
-  .main-slider h1 {
+  .main-slider h3 {
     font-size: 52px;
   }
 }
 @media only screen and (max-width: 576px) {
-  .main-slider h1 {
+  .main-slider h3 {
     font-size: 46px;
   }
 }
 @media only screen and (max-width: 424px) {
-  .main-slider h1 {
+  .main-slider h3 {
     font-size: 36px;
   }
 }

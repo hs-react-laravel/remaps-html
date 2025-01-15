@@ -117,6 +117,7 @@ return [
     'menu_Manage_Companies'=> 'Manage Companies',
     'menu_Packages'=> 'Packages',
     'menu_Slider_Manager'=> 'Slider Manager',
+    'menu_Frontend_Manager'=> 'Frontend Manager',
     'menu_Admin_Update'=> 'Updates for Companies',
     'menu_Shop'=> 'Shop',
     'menu_Shop_categories'=> 'Categories',

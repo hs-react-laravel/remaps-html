@@ -203,7 +203,8 @@ class CompanyController extends Controller
                 'company_id'=> $company->id,
                 'group_type' => 'normal',
                 'name' => 'Sample Group',
-                'is_default' => 1
+                'is_default' => 1,
+                'is_system_default' => 1
             ]);
             $credit_tires = [];
             $credit_tires[$sampleTCT1->id] = [
