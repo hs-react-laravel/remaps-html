@@ -67,7 +67,6 @@ class TuningCreditController extends MasterController
 
     public function createDefaultGroup($company_id)
     {
-        $company_id = $this->user->company_id;
         $tires = TuningCreditTire::where('company_id', $company_id)
             ->where('group_type', 'normal')
             ->orderBy('amount', 'ASC')
