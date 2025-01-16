@@ -280,6 +280,7 @@ Route::group(['prefix'=>'admin', 'middleware' => 'check.company'], function () {
     Route::post('notifications/api', [NotificationController::class, 'api'])->name('notification.api');
 
     Route::resource('tuning-credits', TuningCreditController::class);
+    Route::get('/create-default-tuningcredit-group/{company_id}', [TuningCreditController::class, 'createDefaultGroup']);
     Route::get('tuning-credits/{id}/default', [TuningCreditController::class, 'set_default'])->name('tuning-credits.default');
     Route::delete('tuning-tires/{id}/delete', [TuningCreditController::class, 'delete_tire'])->name('tuning-tires.destroy');
     Route::get('tuning-tires/create', [TuningCreditController::class, 'add_tire'])->name('tuning-tires.create');

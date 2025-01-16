@@ -55,12 +55,37 @@ class TuningCreditController extends MasterController
      */
     public function store(TuningCreditGroupRequest $request)
     {
+        dd($request);
         $request->request->add(['company_id'=> $this->company->id]);
         $request->request->add(['group_type'=> 'normal']);
         $tuningCreditGroup = TuningCreditGroup::create($request->all());
         if($request->has('credit_tires')){
             $tuningCreditGroup->tuningCreditTires()->sync($request->credit_tires);
         }
+        return redirect(route('tuning-credits.index'));
+    }
+
+    public function createDefaultGroup($company_id)
+    {
+        $company_id = $this->user->company_id;
+        $tires = TuningCreditTire::where('company_id', $company_id)
+            ->where('group_type', 'normal')
+            ->orderBy('amount', 'ASC')
+            ->get();
+        $sync = [];
+        foreach ($tires as $to) {
+            $sync[$to->id] = [
+                'from_credit' => $to->amount,
+                'for_credit' => $to->amount
+            ];
+        }
+        $default = TuningCreditGroup::create([
+            'company_id' => $company_id,
+            'name' => "System Default",
+            'group_type' => 'normal',
+            'is_system_default' => 1
+        ]);
+        $default->tuningCreditTires()->sync($sync);
         return redirect(route('tuning-credits.index'));
     }
 
