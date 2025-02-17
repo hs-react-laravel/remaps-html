@@ -281,6 +281,7 @@ class SubscriptionController extends MasterController
         $user = User::where("id",$subscription->user_id)->first();
         if($subscription->is_trial == 1){
             $subscription->status = 'Suspended';
+            $subscription->is_immediate = 1;
             if($subscription->save()){
 				// \Alert::success(__('admin.company_cancelled_subscription'))->flash();
 			}else{
@@ -312,6 +313,7 @@ class SubscriptionController extends MasterController
                 curl_close($curl);
 
                 $subscription->status = 'Suspended';
+                $subscription->is_immediate = 1;
                 if($subscription->save()){
                     // \Alert::success(__('admin.company_cancelled_subscription'))->flash();
                 }else{

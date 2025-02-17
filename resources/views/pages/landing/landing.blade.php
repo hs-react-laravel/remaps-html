@@ -194,11 +194,11 @@
 		<div class="banner-carousel owl-carousel owl-theme default-navs">
 			<!-- Slide Item -->
 			<div class="slide-item">
-				<div class="bg-image" style="background-image: url(/landing/images/main-slider/2.jpg);"></div>
+				<div class="bg-image" style="background-image: url(/landing/images/main-slider/1.jpg);"></div>
 				<div class="auto-container">
 					<div class="content-box">
-						<h3 data-animation="animated bounceInDown" class="">Your own full featured Remapping File Portal</h3>
-						<h4 data-animation="animated bounceInUp" class="">All for one Low Monthly Price</h4>
+                        <h1 class="title animate-1">Your own full<br/> featured Remapping<br/> File Portal</h1>
+                        <h3 class="animate-1" style="color: white">All for one Low Monthly Price</h3>
 					</div>
 				</div>
 			</div>
@@ -208,10 +208,19 @@
 				<div class="bg-image" style="background-image: url(/landing/images/main-slider/2.jpg);"></div>
 				<div class="auto-container">
 					<div class="content-box">
-						<h1 class="title animate-1">Shaping the <br>Perfect Solution <br>for your business</h1>
-						<div class="btn-box animate-2">
-							<a href="page-about.html" class="theme-btn btn-style-one hover-light"><span class="btn-title">Discover more</span></a>
-						</div>
+						<h1 class="title animate-1">No Hosting Fees to pay</h1>
+                        <h3 class="animate-1" style="color: white">Hosting, maintenance and support fees are Free!</h3>
+					</div>
+				</div>
+			</div>
+
+            <!-- Slide Item -->
+			<div class="slide-item">
+				<div class="bg-image" style="background-image: url(/landing/images/main-slider/3.jpg);"></div>
+				<div class="auto-container">
+					<div class="content-box">
+						<h1 class="title animate-1">Simple and easy to use!</h1>
+                        <h3 class="animate-1" style="color: white">Makes your file service stress free and easy</h3>
 					</div>
 				</div>
 			</div>
@@ -226,7 +235,7 @@
 		<div class="auto-container">
 			<div class="sec-title text-center light">
 				<span class="sub-title">our services</span>
-				<h2>Explore what services <br>we’re offering</h2>
+				<h2>HOW IT WORKS</h2>
 			</div>
 
 			<div class="row">
@@ -237,11 +246,11 @@
 							<figure class="image"><img src="{{asset('landing/images/resource/service2-1.jpg')}}" alt=""></figure>
 						</div>
 						<div class="title-box">
-							<h5 class="title"><a href="page-service-details.html">Website <br>Development</a></h5>
+							<h5 class="title"><a href="page-service-details.html">Select<br/> your package</a></h5>
 						</div>
 						<div class="content-box">
 							<i class="icon flaticon-digital-services"></i>
-							<div class="text">Digital agency is an high test for business website work</div>
+							<div class="text">Choose from monthly, yearly payments</div>
 						</div>
 					</div>
 				</div>
@@ -253,11 +262,11 @@
 							<figure class="image"><img src="{{asset('landing/images/resource/service2-2.jpg')}}" alt=""></figure>
 						</div>
 						<div class="title-box">
-							<h5 class="title"><a href="page-service-details.html">Graphic <br>designing</a></h5>
+							<h5 class="title"><a href="page-service-details.html">Enter <br> your basic details</a></h5>
 						</div>
 						<div class="content-box">
 							<i class="icon flaticon-graphic-design"></i>
-							<div class="text">Digital agency is an high test for business website work</div>
+							<div class="text">Fill in your company details which prefills your file panel</div>
 						</div>
 					</div>
 				</div>
@@ -269,11 +278,11 @@
 							<figure class="image"><img src="{{asset('landing/images/resource/service2-3.jpg')}}" alt=""></figure>
 						</div>
 						<div class="title-box">
-							<h5 class="title"><a href="page-service-details.html">Digital <br>marketing</a></h5>
+							<h5 class="title"><a href="page-service-details.html">Pay</a></h5>
 						</div>
 						<div class="content-box">
 							<i class="icon flaticon-technology"></i>
-							<div class="text">Digital agency is an high test for business website work</div>
+							<div class="text">Make your payment and you are up and running in minutes</div>
 						</div>
 					</div>
 				</div>
@@ -286,19 +295,15 @@
 	<div class="marquee-section">
 		<div class="marquee">
 			<div class="marquee-group">
-				<div class="text">*Transofrm ideas into reality</div>
-				<div class="text">*INSPIRED WITH CREATIVITY</div>
-				<div class="text">*Design & development craft</div>
-				<div class="text">*unlock the potential</div>
-				<div class="text">*Transofrm ideas into reality</div>
+				<div class="text">*All for one Low Monthly Price</div>
+				<div class="text">*Free Hosting, maintenance and support</div>
+				<div class="text">*Makes your file service stress free and easy</div>
 			</div>
 
 			<div aria-hidden="true" class="marquee-group">
-				<div class="text">*Transofrm ideas into reality</div>
-				<div class="text">*INSPIRED WITH CREATIVITY</div>
-				<div class="text">*Design & development craft</div>
-				<div class="text">*unlock the potential</div>
-				<div class="text">*Transofrm ideas into reality</div>
+				<div class="text">*All for one Low Monthly Price</div>
+				<div class="text">*Free Hosting, maintenance and support</div>
+				<div class="text">*Makes your file service stress free and easy</div>
 			</div>
 		</div>
 	</div>
@@ -982,7 +987,7 @@
 						<div class="widget newsletter-widget">
 							<h5 class="widget-title">Newsletter</h5>
 							<div class="widget-content">
-								<div class="text">Subsrcibe for our latest resources</div>
+								<div class="text">Subscribe for our latest resources</div>
 								<div class="subscribe-form">
 									<form method="post" action="#">
 										<div class="form-group">
