@@ -42,15 +42,16 @@ class BillingSubscriptionCancelled extends Mailable
 
         if($emailTemplate){
             $masterCompany = \App\Models\Company::where('is_default', 1)->first(['name', 'logo']);
+            $company = $this->subscription->user->company;
 
             $subject = $emailTemplate->subject;
-            $subject = str_replace('##COMPANY_NAME', $this->subscription->user->company->name, $subject);
+            $subject = str_replace('##COMPANY_NAME', $company->name, $subject);
 
             $body = $emailTemplate->body;
 
             $body = str_replace('##APP_NAME', $masterCompany->name, $body);
-            $body = str_replace('##APP_LOGO', env('AZURE_STORAGE_URL').'uploads/'.$company->logo, $body);
-            $body = str_replace('##COMPANY_NAME', $this->subscription->user->company->name, $body);
+            $body = str_replace('##APP_LOGO', env('AZURE_STORAGE_URL').'uploads/'.$masterCompany->logo, $body);
+            $body = str_replace('##COMPANY_NAME', $company->name, $body);
             $body = str_replace('##PLAN_ID', $this->subscription->pay_agreement_id, $body);
 
             $lastPayment = $this->subscription->subscriptionPayments()->orderBY('id', 'DESC')->first();

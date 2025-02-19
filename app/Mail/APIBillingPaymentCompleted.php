@@ -44,6 +44,7 @@ class APIBillingPaymentCompleted extends Mailable
             $masterCompany = \App\Models\Company::where('is_default', 1)->first(['name', 'logo']);
 
             $body = $emailTemplate->body;
+            $subject = $emailTemplate->subject;
 
             $body = str_replace('##APP_NAME', $masterCompany->name, $body);
             $body = str_replace('##APP_LOGO', env('AZURE_STORAGE_URL').'uploads/'.$masterCompany->logo, $body);
