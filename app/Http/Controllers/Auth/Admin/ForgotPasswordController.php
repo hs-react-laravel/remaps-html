@@ -40,11 +40,16 @@ class ForgotPasswordController extends Controller
             abort(400, 'No such domain('.url("").') is registerd with system. Please contact to webmaster.');
         }
         Config::set('mail.default', 'smtp');
-        Config::set('mail.mailers.smtp.host', 'mail.remapdash.com');
+        // Config::set('mail.mailers.smtp.host', 'mail.remapdash.com');
+        // Config::set('mail.mailers.smtp.port', 25);
+        // // Config::set('mail.mailers.smtp.encryption', 'ssl');
+        // Config::set('mail.mailers.smtp.username', 'no-reply@remapdash.com');
+        // Config::set('mail.mailers.smtp.password', '5Cp38@gj2');
+        // Config::set('mail.from.address', 'no-reply@remapdash.com');
+        Config::set('mail.mailers.smtp.host', 'in-v3.mailjet.com');
         Config::set('mail.mailers.smtp.port', 25);
-        // Config::set('mail.mailers.smtp.encryption', 'ssl');
-        Config::set('mail.mailers.smtp.username', 'no-reply@remapdash.com');
-        Config::set('mail.mailers.smtp.password', '5Cp38@gj2');
+        Config::set('mail.mailers.smtp.username', 'd86a17d84377846288bcfafaa4db273d');
+        Config::set('mail.mailers.smtp.password', '775c2c8d1577005606504df9ddb381f4');
         Config::set('mail.from.address', 'no-reply@remapdash.com');
         Config::set('mail.from.name', $this->company->name);
         Config::set('app.name', $this->company->name);
