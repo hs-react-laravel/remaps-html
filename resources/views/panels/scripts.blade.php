@@ -87,8 +87,52 @@
     $(document).ready(function($) {
       setInterval(() => {
         fetchCounts()
+        fetchFlags()
       }, 5 * 1000);
     })
+    @endif
+
+    @if(isset($role) && ($role == 'company' || $role == 'master'))
+    var emailFlags = [];
+    function fetchFlags() {
+        $.ajax({
+            type: 'GET',
+            url: "{{ route('api.notifies.email') }}",
+            data: {
+                userid: '{{ $user->id }}'
+            },
+            success: function(notifies) {
+                notifies = Object.keys(notifies).map(key => notifies[key]);
+                var newNotifies = notifies.map(x => x.id).filter(x => !emailFlags.includes(x));
+                emailFlags = emailFlags.concat(newNotifies);
+                const showNotifies = notifies.filter(x => newNotifies.includes(x.id));
+                for (const n of showNotifies) {
+                    toastr.warning(
+                        "Reason: " + n.description,
+                        "An error occurred whiling sending email",
+                        {
+                            closeButton : true,
+                            tapToDismiss : false,
+                            timeOut: 0,
+                            extendedTimeOut: 0,
+                            escapeHtml: false,
+                            onHidden: function() {
+                                $.ajax({
+                                    url: '{{ route("api.notifies.email.read") }}',
+                                    type: 'POST',
+                                    data: {
+                                        _token: '{{ csrf_token() }}',
+                                        id: n.id
+                                    },
+                                    dataType: 'JSON'
+                                });
+                            }
+                        }
+                    );
+                }
+            }
+        });
+    }
     @endif
 
     @if(isset($role) && $role == 'customer')

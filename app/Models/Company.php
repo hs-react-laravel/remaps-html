@@ -116,6 +116,10 @@ class Company extends Model
     {
         return $this->belongsToMany(AdminUpdate::class, 'adminupdate_reads', 'company_id', 'adminupdate_id');
     }
+    public function emailFlags()
+    {
+        return $this->hasMany('App\Models\EmailFlag')->where('is_email_failed', 1);
+    }
     public function tickets()
     {
         $receiverIDs = $this->staffs->pluck('id')->toArray();

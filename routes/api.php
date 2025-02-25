@@ -43,6 +43,8 @@ Route::post('shop/category/move', [ApiController::class, 'updateParentShopCatego
 Route::post('/order/upload-invoice', [ApiController::class, 'uploadInvoicePdf'])->name('api.order.upload');
 Route::get('/car-text-template', [ApiController::class, 'getCarTextTemplate'])->name('api.info.car-text');
 Route::get('/notifies', [ApiController::class, 'getNotifies'])->name('api.notifies');
+Route::get('/email-notifies', [ApiController::class, 'getEmailNotifies'])->name('api.notifies.email');
+Route::post('/read-email-notifies', [ApiController::class, 'readEmailNotify'])->name('api.notifies.email.read');
 Route::get('/sidebar-counts', [ApiController::class, 'getSideBarCounts'])->name('api.sidebar.counts');
 Route::post('/read-admin-update', [ApiController::class, 'adminupdate_read_one'])->name('api.adminupdate.read');
 Route::post('/twofa-check', [ApiController::class, 'twofa_check'])->name('api.twofa.check');

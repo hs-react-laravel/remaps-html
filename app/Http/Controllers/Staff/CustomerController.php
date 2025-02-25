@@ -14,6 +14,7 @@ use App\Mail\WelcomeCustomer;
 use App\Models\TuningType;
 use App\Models\TuningTypeGroup;
 use Illuminate\Support\Facades\Mail;
+use App\Jobs\SendMail;
 
 class CustomerController extends MasterController
 {
@@ -108,7 +109,9 @@ class CustomerController extends MasterController
         try{
             $user = User::find($id);
             $token = app('auth.password.broker')->createToken($user);
-            Mail::to($user->email)->send(new WelcomeCustomer($user, $token));
+            $mailJob = new SendMail($user->email, new WelcomeCustomer($user, $token));
+            SendMail::dispatch($mailJob);
+            // Mail::to($user->email)->send(new WelcomeCustomer($user, $token));
         }catch(\Exception $e){
             session()->flash('error', __('admin.opps'));
         }

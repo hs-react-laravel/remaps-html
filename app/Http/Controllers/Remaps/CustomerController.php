@@ -4,16 +4,19 @@ namespace App\Http\Controllers\Remaps;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\MasterController;
+use App\Http\Requests\CustomerRequest;
 use App\Models\User;
 use App\Models\FileService;
 use App\Models\TuningCreditGroup;
 use App\Models\Transaction;
-use App\Http\Controllers\MasterController;
-use App\Http\Requests\CustomerRequest;
-use App\Mail\WelcomeCustomer;
 use App\Models\TuningType;
 use App\Models\TuningTypeGroup;
-use Illuminate\Support\Facades\Mail;
+use App\Mail\WelcomeCustomer;
+use App\Jobs\SendMail;
+
 
 class CustomerController extends MasterController
 {
@@ -108,8 +111,11 @@ class CustomerController extends MasterController
         try{
             $user = User::find($id);
             $token = app('auth.password.broker')->createToken($user);
-            Mail::to($user->email)->send(new WelcomeCustomer($user, $token));
+            // $mailJob = new SendMail($user->email, new WelcomeCustomer($user, $token));
+            SendMail::dispatch($user->email, new WelcomeCustomer($user, $token), $this->company, 'Send Reset Password Link');
+            // Mail::to($user->email)->send(new WelcomeCustomer($user, $token));
         }catch(\Exception $e){
+            Log::info($e->getMessage());
             session()->flash('error', __('admin.opps'));
         }
         return redirect()->back();

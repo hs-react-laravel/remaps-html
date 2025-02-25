@@ -22,6 +22,7 @@ use App\Models\Api\ApiUser;
 use App\Models\NotificationRead;
 use App\Models\AdminupdateRead;
 use App\Models\TuningTypeGroup;
+use App\Models\EmailFlag;
 use PragmaRX\Google2FAQRCode\Google2FA;
 
 class ApiController extends Controller
@@ -646,6 +647,21 @@ class ApiController extends Controller
             return true;
         });
         return $notifies;
+    }
+
+    public function getEmailNotifies() {
+        $user = User::find(request()->userid);
+        if (is_null($user)) {
+            return false;
+        }
+        $emailFlags = $user->company->emailFlags;
+        return $emailFlags;
+    }
+
+    public function readEmailNotify(Request $request) {
+        EmailFlag::find($request->id)->update([
+            'is_email_failed' => 0
+        ]);
     }
 
     public function getSideBarCounts() {
