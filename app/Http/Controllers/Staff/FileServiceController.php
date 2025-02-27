@@ -13,6 +13,7 @@ use App\Mail\FileServiceProcessed;
 use App\Mail\TicketFileCreated;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
+use App\Jobs\SendMail;
 
 class FileServiceController extends MasterController
 {
@@ -98,7 +99,7 @@ class FileServiceController extends MasterController
                 $request->request->add(['status' => 'W']);
             } else {
                 try{
-					Mail::to($fs->user->email)->send(new FileServiceModified($fs));
+                    SendMail::dispatch($fs->user->email, new FileServiceModified($fs), $this->company, 'Update File Service');
 				}catch(\Exception $e){
 					session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
 				}
@@ -159,7 +160,7 @@ class FileServiceController extends MasterController
                     $fileName = $fileService->remain_orginal_file;
                 }
                 try{
-                    Mail::to($fileService->user->email)->send(new FileServiceProcessed($fileService));
+                    SendMail::dispatch($fileService->user->email, new FileServiceProcessed($fileService), $this->company, 'Download original file');
                 }catch(\Exception $e){
                     session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
                 }
@@ -231,7 +232,7 @@ class FileServiceController extends MasterController
         $user = User::find($ticket->receiver_id);
         if ($ticket->save()) {
             try{
-            	Mail::to($user->email)->send(new TicketFileCreated($user, $jobDetails));
+                SendMail::dispatch($user->email, new TicketFileCreated($user, $jobDetails), $this->company, 'Create ticket');
 			}catch(\Exception $e){
 				session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
 			}
