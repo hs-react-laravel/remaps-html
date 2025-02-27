@@ -6,6 +6,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 use App\Models\EmailFlag;
 
 class SendMail implements ShouldQueue
@@ -47,6 +48,7 @@ class SendMail implements ShouldQueue
         try {
             Mail::to($this->email)->send($this->instance);
         } catch(\Exception $e){
+            Log::info($e->getMessage());
             $ef = new EmailFlag;
             $ef->company_id = $this->owner->id;
             $ef->is_email_failed = 1;
