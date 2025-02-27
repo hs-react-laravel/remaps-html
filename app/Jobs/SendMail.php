@@ -34,6 +34,16 @@ class SendMail implements ShouldQueue
      */
     public function handle(): void
     {
+        if ($this->owner->mail_host && $this->owner->mail_port
+            && $this->owner->mail_username && $this->owner->mail_password) {
+            Config::set('mail.default', $this->owner->mail_driver);
+            Config::set('mail.mailers.smtp.host', $this->owner->mail_host);
+            Config::set('mail.mailers.smtp.port', $this->owner->mail_port);
+            Config::set('mail.mailers.smtp.encryption', $this->owner->mail_encryption);
+            Config::set('mail.mailers.smtp.username', $this->owner->mail_username);
+            Config::set('mail.mailers.smtp.password', $this->owner->mail_password);
+            Config::set('mail.from.address',$this->owner->mail_username);
+        }
         try {
             Mail::to($this->email)->send($this->instance);
         } catch(\Exception $e){
