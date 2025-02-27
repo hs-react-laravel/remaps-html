@@ -4,10 +4,11 @@
 
 @section('content')
 <section>
-  <form action="{{ $post_link }}" method="post" enctype="multipart/form-data">
+  {{-- <form action="{{ $post_link }}" method="post" enctype="multipart/form-data"> --}}
+  {{ html()->form('PUT', $post_link)->acceptsFiles()->open() }}
   @csrf
   <input type="hidden" name="user_id" value="{{ $user->id }}">
-  <input type="hidden" name="_method" value="put" />
+  {{-- <input type="hidden" name="_method" value="put" /> --}}
   <div class="row">
     <div class="col-md-9">
       <div class="card">
@@ -132,7 +133,8 @@
       </div>
     </div>
   </div>
-  </form>
+  {{-- </form> --}}
+  {{ html()->form()->close() }}
 </section>
 @endsection
 @section('page-script')
