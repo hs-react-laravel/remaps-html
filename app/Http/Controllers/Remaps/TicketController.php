@@ -10,6 +10,7 @@ use App\Models\FileService;
 use App\Models\User;
 use App\Mail\TicketFileCreated;
 use Carbon\Carbon;
+use App\Jobs\SendMail;
 
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\File;
@@ -118,7 +119,7 @@ class TicketController extends MasterController
 
             $user = User::find($new_ticket->receiver_id);
             try{
-                Mail::to($user->email)->send(new TicketFileCreated($user,$ticket->subject));
+                SendMail::dispatch($user->email, new TicketFileCreated($user, $ticket->subject), $this->company, 'Update Ticket');
                 session()->flash('message', __('admin.ticket_saved'));
             }catch(\Exception $e){
                 session()->flash('error', 'Error in SMTP: '.__('admin.opps'));

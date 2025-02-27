@@ -8,6 +8,7 @@ use App\Http\Requests\StaffRequest;
 use App\Mail\WelcomeCustomer;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
+use App\Jobs\SendMail;
 
 class StaffController extends MasterController
 {
@@ -61,7 +62,7 @@ class StaffController extends MasterController
             $user = User::create($request->all());
             $token = app('auth.password.broker')->createToken($user);
 			try{
-                Mail::to($user->email)->send(new WelcomeCustomer($user, $token));
+                SendMail::dispatch($user->email, new WelcomeCustomer($user, $token), $this->company, 'Create a new staff');
 			}catch(\Exception $e) {
                 session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
 			}

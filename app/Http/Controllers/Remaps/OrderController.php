@@ -10,6 +10,7 @@ use Dompdf\Dompdf;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\BankTransferComplete;
+use App\Jobs\SendMail;
 
 class OrderController extends MasterController
 {
@@ -154,7 +155,7 @@ class OrderController extends MasterController
             $order->save();
 
             try{
-                Mail::to($user->email)->send(new BankTransferComplete($order, $tire->amount));
+                SendMail::dispatch($user->email, new BankTransferComplete($order, $tire->amount), $this->company, 'Bank Transfer Completed');
             }catch(\Exception $e){
                 session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
             }
