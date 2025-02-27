@@ -50,6 +50,7 @@ class SendMail implements ShouldQueue
             Mail::to($this->email)->send($this->instance);
         } catch(\Exception $e){
             Log::info($e->getMessage());
+            Log::info("Background mailing error");
             $ef = new EmailFlag;
             $ef->company_id = $this->owner->id;
             $ef->is_email_failed = 1;
