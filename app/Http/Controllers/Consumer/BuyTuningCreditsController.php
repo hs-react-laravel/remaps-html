@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\BankTransferStart;
 use App\Mail\BankTransferNotify;
+use App\Jobs\SendMail;
 
 class BuyTuningCreditsController extends MasterController
 {
@@ -335,13 +336,13 @@ class BuyTuningCreditsController extends MasterController
             $order->save();
 
             try{
-                Mail::to($user->email)->send(new BankTransferStart($order, $tire->amount));
+                SendMail::dispatch($user->email, new BankTransferStart($order, $tire->amount), $this->company, 'Bank Transfer Start');
             }catch(\Exception $e){
                 session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
             }
 
             try{
-                Mail::to($this->company->owner->email)->send(new BankTransferNotify($order, $tire->amount));
+                SendMail::dispatch($this->company->owner->email, new BankTransferNotify($order, $tire->amount), $this->company, 'Bank Transfer Notify');
             }catch(\Exception $e){
                 session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
             }

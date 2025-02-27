@@ -12,6 +12,7 @@ use App\Models\Ticket;
 use App\Models\FileService;
 use App\Mail\TicketCreated;
 use App\Mail\TicketReply;
+use App\Jobs\SendMail;
 
 class TicketController extends MasterController
 {
@@ -50,9 +51,9 @@ class TicketController extends MasterController
         ]);
         $ticket = Ticket::create($request->all());
         try{
-			Mail::to($this->user->company->owner->email)->send(new TicketCreated($this->user,$request->all()['subject']));
+            SendMail::dispatch($this->user->company->owner->email, new TicketCreated($this->user,$request->all()['subject']), $this->company, 'Create Ticket');
             foreach($this->user->company->semiadmins as $sa) {
-                Mail::to($sa->email)->queue(new TicketCreated($this->user,$request->all()['subject']));
+                SendMail::dispatch($sa->email, new TicketCreated($this->user,$request->all()['subject']), $this->company, 'Create Ticket');
             }
 		}catch(\Exception $e){
 			session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
@@ -128,7 +129,7 @@ class TicketController extends MasterController
         }
 
         try{
-            Mail::to($mailing)->send(new TicketReply($this->user,$ticket->subject));
+            SendMail::dispatch($mailing, new TicketReply($this->user,$ticket->subject), $this->company, 'Update Ticket');
         }catch(\Exception $e){
             session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
         }

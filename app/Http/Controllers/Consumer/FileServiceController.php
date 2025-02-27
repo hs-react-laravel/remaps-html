@@ -19,6 +19,7 @@ use App\Models\Ticket;
 use App\Models\User;
 use App\Models\Timezone;
 use App\Models\TuningCreditTire;
+use App\Jobs\SendMail;
 
 class FileServiceController extends MasterController
 {
@@ -141,13 +142,13 @@ class FileServiceController extends MasterController
             $transaction->save();
             try{
                 if ($open_status != 2) {
-                    Mail::to($this->company->owner->email)->send(new FileServiceCreated($fileService));
+                    SendMail::dispatch($this->company->owner->email, new FileServiceCreated($fileService), $this->company, 'File Service Created');
                     foreach($this->company->semiadmins as $sa) {
-                        Mail::to($sa->email)->queue(new FileServiceCreated($fileService));
+                        SendMail::dispatch($sa->email, new FileServiceCreated($fileService), $this->company, 'File Service Created');
                     }
                 }
                 if ($open_status == 1) {
-                    Mail::to($user->email)->send(new FileServiceLimited($fileService));
+                    SendMail::dispatch($user->email, new FileServiceLimited($fileService), $this->company, 'File Service Limited');
                 }
             }catch(\Exception $ex){
                 session()->flash('error', $ex->getMessage());
@@ -308,9 +309,9 @@ class FileServiceController extends MasterController
         $jobDetails = $fileService->make.' '.$fileService->model.' '.$fileService->generation;
         if($ticket->save()){
             try{
-            	Mail::to($this->user->company->owner->email)->send(new TicketCreated($this->user, $jobDetails));
+                SendMail::dispatch($this->user->company->owner->email, new TicketCreated($this->user, $jobDetails), $this->company, 'Create Ticket');
                 foreach($this->user->company->semiadmins as $sa) {
-                    Mail::to($sa->email)->queue(new TicketCreated($this->user, $jobDetails));
+                    SendMail::dispatch($sa->email, new TicketCreated($this->user, $jobDetails), $this->company, 'Create Ticket');
                 }
 			}catch(\Exception $e){
 				session()->flash('message', 'Error in SMTP: '.__('admin.opps'));
