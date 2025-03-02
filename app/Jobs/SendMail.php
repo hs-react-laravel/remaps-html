@@ -49,12 +49,10 @@ class SendMail implements ShouldQueue
         try {
             Mail::to($this->email)->send($this->instance);
         } catch(\Exception $e){
-            Log::info($e->getMessage());
-            Log::info("Background mailing error");
             $ef = new EmailFlag;
             $ef->company_id = $this->owner->id;
             $ef->is_email_failed = 1;
-            $ef->description = $this->desc;
+            $ef->description = $e->getMessage();
             $ef->save();
             $this->fail();
         }
