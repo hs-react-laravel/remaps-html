@@ -41,13 +41,12 @@ class APIForgotPasswordController extends Controller
         $this->middleware('guest:apiusers');
         $this->company = \App\Models\Company::where('is_default', 1)->first();
 
-        Config::set('mail.default', 'smtp');
-        Config::set('mail.mailers.smtp.host', 'mail.remapdash.com');
-        Config::set('mail.mailers.smtp.port', 25);
-        // Config::set('mail.mailers.smtp.encryption', 'ssl');
-        Config::set('mail.mailers.smtp.username', 'no-reply@remapdash.com');
-        Config::set('mail.mailers.smtp.password', '5Cp38@gj2');
-        Config::set('mail.from.address', 'no-reply@remapdash.com');
+        Config::set('mail.default', $this->company->mail_driver);
+        Config::set('mail.mailers.smtp.host', $this->company->mail_host);
+        Config::set('mail.mailers.smtp.port', $this->company->mail_port);
+        Config::set('mail.mailers.smtp.encryption', $this->company->mail_encryption);
+        Config::set('mail.mailers.smtp.username', $this->company->mail_username);
+        Config::set('mail.mailers.smtp.password', $this->company->mail_password);
         Config::set('mail.from.name', $this->company->name);
         Config::set('app.name', $this->company->name);
         Config::set('app.url', "https://remapdash.com");

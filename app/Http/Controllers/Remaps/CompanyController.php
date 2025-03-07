@@ -597,12 +597,13 @@ class CompanyController extends MasterController
     }
 
     public function setCompanyMailSender() {
-        Config::set('mail.default', 'smtp');
-        Config::set('mail.mailers.smtp.host', 'mail.remapdash.com');
-        Config::set('mail.mailers.smtp.port', 25);
-        Config::set('mail.mailers.smtp.encryption', '');
-        Config::set('mail.mailers.smtp.username', 'no-reply@remapdash.com');
-        Config::set('mail.mailers.smtp.password', '5Cp38@gj2');
-        Config::set('mail.from.address', 'no-reply@remapdash.com');
+        $master = Company::where('is_default', 1)->first();
+        Config::set('mail.default', $master->mail_driver);
+        Config::set('mail.mailers.smtp.host', $master->mail_host);
+        Config::set('mail.mailers.smtp.port', $master->mail_port);
+        Config::set('mail.mailers.smtp.encryption', $master->mail_encryption);
+        Config::set('mail.mailers.smtp.username', $master->mail_username);
+        Config::set('mail.mailers.smtp.password', $master->mail_password);
+        Config::set('mail.from.address', $master->main_email_address);
     }
 }
