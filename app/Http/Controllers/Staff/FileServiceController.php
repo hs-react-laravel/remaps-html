@@ -99,7 +99,8 @@ class FileServiceController extends MasterController
                 $request->request->add(['status' => 'W']);
             } else {
                 try{
-                    SendMail::dispatch($fs->user->email, new FileServiceModified($fs), $this->company, 'Update File Service');
+                    // SendMail::dispatch($fs->user->email, new FileServiceModified($fs), $this->company, 'Update File Service');
+                    Mail::to($fs->user->email)->send(new FileServiceModified($fs));
 				}catch(\Exception $e){
 					session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
 				}
@@ -160,7 +161,8 @@ class FileServiceController extends MasterController
                     $fileName = $fileService->remain_orginal_file;
                 }
                 try{
-                    SendMail::dispatch($fileService->user->email, new FileServiceProcessed($fileService), $this->company, 'Download original file');
+                    // SendMail::dispatch($fileService->user->email, new FileServiceProcessed($fileService), $this->company, 'Download original file');
+                    Mail::to($fileService->user->email)->send(new FileServiceProcessed($fileService));
                 }catch(\Exception $e){
                     session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
                 }
@@ -232,7 +234,8 @@ class FileServiceController extends MasterController
         $user = User::find($ticket->receiver_id);
         if ($ticket->save()) {
             try{
-                SendMail::dispatch($user->email, new TicketFileCreated($user, $jobDetails), $this->company, 'Create ticket');
+                // SendMail::dispatch($user->email, new TicketFileCreated($user, $jobDetails), $this->company, 'Create ticket');
+                Mail::to($user->email)->send(new TicketFileCreated($user, $jobDetails));
 			}catch(\Exception $e){
 				session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
 			}

@@ -155,7 +155,8 @@ class OrderController extends MasterController
             $order->save();
 
             try{
-                SendMail::dispatch($user->email, new BankTransferComplete($order, $tire->amount), $this->company, 'Bank Transfer Completed');
+                // SendMail::dispatch($user->email, new BankTransferComplete($order, $tire->amount), $this->company, 'Bank Transfer Completed');
+                Mail::to($user->email)->send(new BankTransferComplete($order, $tire->amount));
             }catch(\Exception $e){
                 session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
             }

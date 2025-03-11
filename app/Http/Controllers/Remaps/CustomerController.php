@@ -111,7 +111,8 @@ class CustomerController extends MasterController
         try{
             $user = User::find($id);
             $token = app('auth.password.broker')->createToken($user);
-            SendMail::dispatch($user->email, new WelcomeCustomer($user, $token), $this->company, 'Send Reset Password Link');
+            // SendMail::dispatch($user->email, new WelcomeCustomer($user, $token), $this->company, 'Send Reset Password Link');
+            Mail::to($user->email)->send(new WelcomeCustomer($user, $token));
         }catch(\Exception $e){
             Log::info($e->getMessage());
             session()->flash('error', __('admin.opps'));
@@ -161,7 +162,8 @@ class CustomerController extends MasterController
             $customer = User::create($request->all());
             $token = app('auth.password.broker')->createToken($customer);
 			try{
-                SendMail::dispatch($customer->email, new WelcomeCustomer($customer, $token), $this->company, 'Create a new customer');
+                // SendMail::dispatch($customer->email, new WelcomeCustomer($customer, $token), $this->company, 'Create a new customer');
+                Mail::to($customer->email)->send(new WelcomeCustomer($customer, $token));
 			}catch(\Exception $e) {
                 session()->flash('error', $e->getMessage());
 			}
@@ -367,7 +369,8 @@ class CustomerController extends MasterController
             $customer->is_verified = 1;
             $customer->save();
             $token = app('auth.password.broker')->createToken($customer);
-            SendMail::dispatch($customer->email, new WelcomeCustomer($customer, $token), $this->company, 'Verify customer');
+            // SendMail::dispatch($customer->email, new WelcomeCustomer($customer, $token), $this->company, 'Verify customer');
+            Mail::to($customer->email)->send(new WelcomeCustomer($customer, $token));
         }
         return redirect()->back();
     }
