@@ -70,7 +70,7 @@ class SendMail implements ShouldQueue
 
             $mailer->send($mailable);
 
-            Mail::to($this->email)->send($this->instance);
+            // Mail::to($this->email)->send($this->instance);
         } catch(\Exception $e){
             $ef = new EmailFlag;
             $ef->company_id = $this->owner->id;
