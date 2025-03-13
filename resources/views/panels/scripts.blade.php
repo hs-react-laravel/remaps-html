@@ -107,28 +107,53 @@
                 emailFlags = emailFlags.concat(newNotifies);
                 const showNotifies = notifies.filter(x => newNotifies.includes(x.id));
                 for (const n of showNotifies) {
-                    toastr.warning(
-                        "Reason: " + n.description,
-                        "An error occurred whiling sending email",
-                        {
-                            closeButton : true,
-                            tapToDismiss : false,
-                            timeOut: 0,
-                            extendedTimeOut: 0,
-                            escapeHtml: false,
-                            onHidden: function() {
-                                $.ajax({
-                                    url: '{{ route("api.notifies.email.read") }}',
-                                    type: 'POST',
-                                    data: {
-                                        _token: '{{ csrf_token() }}',
-                                        id: n.id
-                                    },
-                                    dataType: 'JSON'
-                                });
+                    if (n.is_email_failed == 1) {
+                        toastr.warning(
+                            "Reason: " + n.description,
+                            "An error occurred whiling sending email",
+                            {
+                                closeButton : true,
+                                tapToDismiss : false,
+                                timeOut: 0,
+                                extendedTimeOut: 0,
+                                escapeHtml: false,
+                                onHidden: function() {
+                                    $.ajax({
+                                        url: '{{ route("api.notifies.email.read") }}',
+                                        type: 'POST',
+                                        data: {
+                                            _token: '{{ csrf_token() }}',
+                                            id: n.id
+                                        },
+                                        dataType: 'JSON'
+                                    });
+                                }
                             }
-                        }
-                    );
+                        );
+                    } else if (n.is_email_failed == 2) {
+                        toastr.message(
+                            n.description,
+                            "Mail has been sent successfully",
+                            {
+                                closeButton : true,
+                                tapToDismiss : false,
+                                timeOut: 0,
+                                extendedTimeOut: 0,
+                                escapeHtml: false,
+                                onHidden: function() {
+                                    $.ajax({
+                                        url: '{{ route("api.notifies.email.read") }}',
+                                        type: 'POST',
+                                        data: {
+                                            _token: '{{ csrf_token() }}',
+                                            id: n.id
+                                        },
+                                        dataType: 'JSON'
+                                    });
+                                }
+                            }
+                        );
+                    }
                 }
             }
         });

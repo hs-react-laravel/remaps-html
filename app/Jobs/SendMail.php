@@ -39,16 +39,6 @@ class SendMail implements ShouldQueue
      */
     public function handle(): void
     {
-        // if ($this->owner->mail_host && $this->owner->mail_port
-        //     && $this->owner->mail_username && $this->owner->mail_password) {
-        //     Config::set('mail.default', $this->owner->mail_driver);
-        //     Config::set('mail.mailers.smtp.host', $this->owner->mail_host);
-        //     Config::set('mail.mailers.smtp.port', $this->owner->mail_port);
-        //     Config::set('mail.mailers.smtp.encryption', $this->owner->mail_encryption);
-        //     Config::set('mail.mailers.smtp.username', $this->owner->mail_username);
-        //     Config::set('mail.mailers.smtp.password', $this->owner->mail_password);
-        //     Config::set('mail.from.address',$this->owner->mail_username);
-        // }
         try {
             $transport = new EsmtpTransport(
                 $this->owner->mail_host,
@@ -69,6 +59,12 @@ class SendMail implements ShouldQueue
                 ->html($html);
 
             $mailer->send($mailable);
+
+            $ef = new EmailFlag;
+            $ef->company_id = $this->owner->id;
+            $ef->is_email_failed = 2;
+            $ef->description = $this->desc;
+            $ef->save();
         } catch(\Exception $e){
             $ef = new EmailFlag;
             $ef->company_id = $this->owner->id;
