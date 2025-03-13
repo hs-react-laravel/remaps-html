@@ -69,13 +69,11 @@ class SendMail implements ShouldQueue
                 ->html($html);
 
             $mailer->send($mailable);
-
-            // Mail::to($this->email)->send($this->instance);
         } catch(\Exception $e){
             $ef = new EmailFlag;
             $ef->company_id = $this->owner->id;
             $ef->is_email_failed = 1;
-            $ef->description = $this->owner->mail_host;
+            $ef->description = $e->getMessage();
             $ef->save();
             $this->fail();
         }
