@@ -131,7 +131,7 @@
                             }
                         );
                     } else if (n.is_email_failed == 2) {
-                        toastr.message(
+                        toastr.success(
                             n.description,
                             "Mail has been sent successfully",
                             {
