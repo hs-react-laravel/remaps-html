@@ -75,7 +75,7 @@ class MasterController extends BaseController
                         Config::set('mail.from.address',$this->company->mail_username);
                     } else {
                         Config::set('mail.default', 'smtp');
-                        Config::set('mail.mailers.smtp.host', 'mail.remapdash.com');
+                        Config::set('mail.mailers.smtp.host', 'remapdash.com');
                         Config::set('mail.mailers.smtp.port', 25);
                         Config::set('mail.mailers.smtp.encryption', '');
                         Config::set('mail.mailers.smtp.username', 'no-reply@remapdash.com');
