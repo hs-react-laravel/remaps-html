@@ -64,7 +64,7 @@ class SendMail implements ShouldQueue
 
             $mailable = (new Email())
                 ->from($this->owner->mail_username)
-                ->bcc($this->email)
+                ->to($this->email)
                 ->subject($this->instance->subject)
                 ->html($html);
 

@@ -111,7 +111,7 @@ class CustomerController extends MasterController
         try{
             $user = User::find($id);
             $token = app('auth.password.broker')->createToken($user);
-            // SendMail::dispatch($user->email, new WelcomeCustomer($user, $token), $this->company, 'Send Reset Password Link');
+            SendMail::dispatch($user->email, new WelcomeCustomer($user, $token), $this->company, 'Send Reset Password Link');
             // Mail::to($user->email)->send(new WelcomeCustomer($user, $token));
         }catch(\Exception $e){
             Log::info($e->getMessage());
