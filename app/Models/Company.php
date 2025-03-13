@@ -118,7 +118,7 @@ class Company extends Model
     }
     public function emailFlags()
     {
-        return $this->hasMany('App\Models\EmailFlag')->where('is_email_failed', 1);
+        return $this->hasMany('App\Models\EmailFlag')->where('is_email_failed', '!=', 1);
     }
     public function tickets()
     {
