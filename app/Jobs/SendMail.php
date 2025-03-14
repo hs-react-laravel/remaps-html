@@ -52,13 +52,6 @@ class SendMail implements ShouldQueue
                 $this->owner->mail_password,
                 $this->owner->mail_port
             ));
-            // $transport = new EsmtpTransport(
-            //     $this->owner->mail_host,
-            //     $this->owner->mail_port,
-            //     $this->owner->mail_encryption ? true : null
-            // );
-            // $transport->setUsername($this->owner->mail_username);
-            // $transport->setPassword($this->owner->mail_password);
 
             $mailer = new Mailer($transport);
 
