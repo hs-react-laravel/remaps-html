@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Config;
 use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
+use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransportFactory;
+use Symfony\Component\Mailer\Transport\Dsn;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mime\Email;
 use App\Models\EmailFlag;
@@ -40,13 +42,23 @@ class SendMail implements ShouldQueue
     public function handle(): void
     {
         try {
-            $transport = new EsmtpTransport(
+            $factory = new EsmtpTransportFactory();
+            $transport = $factory->create(new Dsn(
+                ! empty($this->owner->mail_encryption) && $this->owner->mail_encryption === 'tls'
+                    ? (($this->owner->mail_port == 465) ? 'smtps' : 'smtp')
+                    : '',
                 $this->owner->mail_host,
-                $this->owner->mail_port,
-                $this->owner->mail_encryption ? true : null
-            );
-            $transport->setUsername($this->owner->mail_username);
-            $transport->setPassword($this->owner->mail_password);
+                $this->owner->mail_username,
+                $this->owner->mail_password,
+                $this->owner->mail_port
+            ));
+            // $transport = new EsmtpTransport(
+            //     $this->owner->mail_host,
+            //     $this->owner->mail_port,
+            //     $this->owner->mail_encryption ? true : null
+            // );
+            // $transport->setUsername($this->owner->mail_username);
+            // $transport->setPassword($this->owner->mail_password);
 
             $mailer = new Mailer($transport);
 
