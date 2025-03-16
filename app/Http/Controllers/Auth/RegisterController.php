@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Config;
 use App\Models\TuningCreditGroup;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
