@@ -158,10 +158,37 @@ class RegisterController extends Controller
 
         $token = app('auth.password.broker')->createToken($user);
 
-        if ($this->company->is_accept_new_customer) {
-            Mail::to($user->email)->send(new WelcomeCustomer($user, $token));
+        if ($this->company->mail_host && $this->company->mail_port
+            && $this->company->mail_username && $this->company->mail_password) {
+            Config::set('mail.default', $this->company->mail_driver);
+            Config::set('mail.mailers.smtp.host', $this->company->mail_host);
+            Config::set('mail.mailers.smtp.port', $this->company->mail_port);
+            Config::set('mail.mailers.smtp.encryption', $this->company->mail_encryption);
+            Config::set('mail.mailers.smtp.username', $this->company->mail_username);
+            Config::set('mail.mailers.smtp.password', $this->company->mail_password);
+            Config::set('mail.from.address',$this->company->mail_username);
         } else {
-            Mail::to($user->email)->send(new CustomerRegisterPending($user));
+            Config::set('mail.default', 'smtp');
+            Config::set('mail.mailers.smtp.host', 'remapdash.com');
+            Config::set('mail.mailers.smtp.port', 25);
+            Config::set('mail.mailers.smtp.encryption', '');
+            Config::set('mail.mailers.smtp.username', 'no-reply@remapdash.com');
+            Config::set('mail.mailers.smtp.password', '5Cp38@gj2');
+            Config::set('mail.from.address', 'no-reply@remapdash.com');
+        }
+
+        Config::set('mail.from.name', $this->company->name);
+        Config::set('app.name', $this->company->name);
+
+        try {
+            if ($this->company->is_accept_new_customer) {
+                Mail::to($user->email)->send(new WelcomeCustomer($user, $token));
+            } else {
+                Mail::to($user->email)->send(new CustomerRegisterPending($user));
+            }
+        }catch(\Exception $e){
+            Log::info($e->getMessage());
+            session()->flash('error', __('admin.opps'));
         }
 
         return $request->wantsJson()
