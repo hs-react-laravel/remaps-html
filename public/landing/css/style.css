@@ -13522,3 +13522,12 @@ table.tbl-shopping-cart > tfoot > tr > th {
 .footer-bottom .copyright-text a:hover {
   color: #fff;
 }
+
+.img-block {
+    max-width: 640px;
+    max-height: 480px;
+    flex: 2;
+}
+.content-block {
+    flex: 1;
+}

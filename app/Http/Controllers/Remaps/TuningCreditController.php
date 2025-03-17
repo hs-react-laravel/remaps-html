@@ -55,7 +55,6 @@ class TuningCreditController extends MasterController
      */
     public function store(TuningCreditGroupRequest $request)
     {
-        dd($request);
         $request->request->add(['company_id'=> $this->company->id]);
         $request->request->add(['group_type'=> 'normal']);
         $tuningCreditGroup = TuningCreditGroup::create($request->all());

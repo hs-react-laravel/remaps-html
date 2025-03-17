@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\MasterController;
+use App\Models\SliderManager;
+use App\Models\Package;
+use App\Models\Api\ApiPackage;
 use Illuminate\Http\Request;
 
 class LandingController extends MasterController
@@ -17,6 +20,10 @@ class LandingController extends MasterController
     }
 
     public function page_link(Request $request, $link) {
-        return view('pages.landing.'.$link);
+        $packages = [];
+		$packages = Package::all()->toArray();
+		$slider = SliderManager::all()->toArray();
+        $apiPackage = ApiPackage::first();
+        return view('pages.landing.'.$link, compact('slider','packages'));
     }
 }

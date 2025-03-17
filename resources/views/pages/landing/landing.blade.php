@@ -6,6 +6,8 @@
 <!-- Stylesheets -->
 <link href="{{ asset('landing/css/bootstrap.min.css')}}" rel="stylesheet">
 <link href="{{ asset('landing/css/style.css')}}" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset('customcss/front/owl.carousel.min.css')}}">
+{{-- <link rel="stylesheet" href="{{ asset('customcss/front/main.css')}}"> --}}
 
 <link rel="shortcut icon" href="{{asset('landing/images/favicon.png')}}" type="image/x-icon">
 <link rel="icon" href="{{asset('landing/images/favicon.png')}}" type="image/x-icon">
@@ -288,6 +290,36 @@
 				</div>
 			</div>
 		</div>
+        <div class="banner-slider-outer" style="background: black">
+            <div class="container">
+            <div class="owl-carousel banner-silder">
+            @if (!empty($slider))
+                @foreach($slider as $slide)
+                <div class="">
+                    <div class="d-flex align-items-center slider-caption main-slider-item">
+                    @if($slide['image'])
+                    <div class="img-block">
+                        <img class="main-slider-img" src="{{ 'https://remapdashforumstore.blob.core.windows.net/'.'uploads/'. $slide['image'] }}" alt="banner">
+                    </div>
+                    @endif
+                    <div class="content-block p-2">
+                        <p>{{ $slide['title'] }}</p>
+                        <p>{{ $slide['description'] }}</p>
+                        @if($slide['button_text'])
+                        <div class="btn-outer">
+                            <a  href="{{ $slide['button_link'] }}" class="view-btn">{{ $slide['button_text'] }}</a>
+                        </div>
+                        @endif
+                    </div>
+                    </div>
+                </div>
+                @endforeach
+                @endif
+
+                </div>
+
+            </div>
+        </div>
 	</section>
 	<!--End services-section -->
 
@@ -324,12 +356,13 @@
 					<div class="content-column col-xl-6 col-lg-7 col-md-12 col-sm-12 order-2 wow fadeInRight" data-wow-delay="600ms">
 						<div class="inner-column">
 							<div class="sec-title">
-								<span class="sub-title">Welcome to Agency</span>
-								<h2>Leading the best digital agency in town</h2>
-								<div class="text">There are many variations of simply free text passages of available but the majority have suffered alteration in some form, by injected hum randomised words which don't slightly.</div>
+								<span class="sub-title">About our company</span>
+								<h2>Leading the best</h2>
+								<div class="text">Remapdash.com is a remapping file comparison site which brings together some of Europe's most experienced tuning companies all under one roof.</div>
+                                <div class="text">Discover which tuning company suits your needs and register directly on their file portal. Its Quick, Simple to use and hassle free.</div>
 							</div>
 
-							<div class="row">
+							{{-- <div class="row">
 								<div class="info-box col-lg-6 col-md-6">
 									<div class="inner">
 										<h5 class="title"><i class="icon fa fa-circle-arrow-right"></i> Digital marketing</h5>
@@ -343,7 +376,7 @@
 										<div class="text">Knowledge of technologies rules better than anyone</div>
 									</div>
 								</div>
-							</div>
+							</div> --}}
 
 
 							<!--Skills-->
@@ -355,9 +388,9 @@
 									</div>
 									<div class="skill-bar">
 										<div class="bar-inner">
-											<div class="bar progress-line" data-width="77">
+											<div class="bar progress-line" data-width="100">
 												<div class="skill-percentage">
-													<div class="count-box"><span class="count-text" data-speed="3000" data-stop="77">0</span>%</div>
+													<div class="count-box"><span class="count-text" data-speed="3000" data-stop="100">0</span>%</div>
 												</div>
 											</div>
 										</div>
@@ -365,9 +398,9 @@
 								</div>
 							</div>
 
-							<div class="bottom-box">
+							{{-- <div class="bottom-box">
 								<a href="page-about.html" class="theme-btn btn-style-one hvr-dark"><span class="btn-title">Discover more</span></a>
-							</div>
+							</div> --}}
 						</div>
 					</div>
 
@@ -381,7 +414,7 @@
 								<div class="exp-box">
 									<div class="inner">
 										<i class="icon flaticon-promotion"></i>
-										<span class="count">38+</span>
+										<span class="count">50+</span>
 										<h6 class="title">Work Experience</h6>
 									</div>
 								</div>
@@ -477,17 +510,23 @@
 				<div class="content-column col-lg-6 col-md-12">
 					<div class="inner-column wow fadeInRight">
 						<div class="sec-title">
-							<i class="sub-title">Why choose us</i>
-							<h2>Building a design easy for business</h2>
+							<i class="sub-title">CORE FEATURES</i>
+							<h2>Designed for Remapping Resellers</h2>
 						</div>
 						<div class="row">
 							<div class="info-box col-lg-6 col-md-6">
 								<div class="inner">
 									<div class="title-box">
 										<i class="icon flaticon-laptop"></i>
-										<h5 class="title">Web <br>growths</h5>
+										<h5 class="title">CUSTOMISABLE</h5>
 									</div>
-									<div class="text">Good knowledge becuase you done something many times.</div>
+									<div class="text">
+                                        Email notifications<br>
+                                        Choose your currency<br>
+                                        Colour themes & logo upload<br>
+                                        Customisable Email Delivery<br>
+                                        Even Host on your own domain*<br>
+                                        Mobile Friendly</div>
 								</div>
 							</div>
 							<div class="info-box col-lg-6 col-md-6">
@@ -765,7 +804,7 @@
 	<!-- End Team Section -->
 
 	<!-- Clients Section -->
-	<section class="clients-section">
+	{{-- <section class="clients-section">
 		<div class="auto-container">
 			<!-- Sponsors Outer -->
 			<div class="sponsors-outer">
@@ -779,7 +818,7 @@
 				</ul>
 			</div>
 		</div>
-	</section>
+	</section> --}}
 	<!--End Clients Section -->
 
 	<!-- Contact Section Two -->
@@ -833,7 +872,7 @@
 	<!-- End Contact Section Two -->
 
 	 <!-- News Section Two -->
-	<section class="news-section">
+	{{-- <section class="news-section">
 		<div class="auto-container">
 			<div class="sec-title text-center">
 				<span class="sub-title">From the Blog</span>
@@ -896,15 +935,15 @@
 				</div>
 			</div>
 		</div>
-	</section>
+	</section> --}}
 	<!--End News Section -->
 
 	<!-- Map Section-->
-	<section class="map-section">
+	{{-- <section class="map-section">
 		<iframe class="map"
 			src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=1%20Grafton%20Street,%20Dublin,%20Ireland+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed">
 		</iframe>
-	</section>
+	</section> --}}
 	<!--End Map Section-->
 
 	<!-- Main Footer -->
@@ -983,7 +1022,7 @@
 					</div>
 
 					<!-- Footer COlumn -->
-					<div class="footer-column col-xl-3 col-lg-4 col-md-6 col-sm-12">
+					{{-- <div class="footer-column col-xl-3 col-lg-4 col-md-6 col-sm-12">
 						<div class="widget newsletter-widget">
 							<h5 class="widget-title">Newsletter</h5>
 							<div class="widget-content">
@@ -1000,7 +1039,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</div> --}}
 				</div>
 			</div>
 		</div>
@@ -1008,7 +1047,7 @@
 		<!--  Footer Bottom -->
 		<div class="footer-bottom">
 			<div class="auto-container">
-				<div class="copyright-text">© Copyright 2024 by <a href="#"> Company.com</a></div>
+				<div class="copyright-text">© Copyright 2025 by <a href="#"> Remapdash.com</a></div>
 			</div>
 		</div>
 	</footer>
@@ -1029,5 +1068,28 @@
 <script src="{{ asset('landing/js/select2.min.js') }}"></script>
 <script src="{{ asset('landing/js/owl.js') }}"></script>
 <script src="{{ asset('landing/js/script.js') }}"></script>
+<script src="{{ asset('customjs/front/owl.carousel.min.js')}}"></script>
+<script>
+        var owl = $('.banner-silder');
+        owl.owlCarousel({
+            items:1,
+            loop:true,
+            autoplayTimeout:1000,
+            autoplayHoverPause:true,
+            margin:0,
+            autoPlay:false,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                600: {
+                    items: 1
+                },
+                1000: {
+                    items: 1
+                }
+            }
+        });
+    </script>
 </body>
 </html>
