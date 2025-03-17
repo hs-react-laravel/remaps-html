@@ -24,6 +24,6 @@ class LandingController extends MasterController
 		$packages = Package::all()->toArray();
 		$slider = SliderManager::all()->toArray();
         $apiPackage = ApiPackage::first();
-        return view('pages.landing.'.$link, compact('slider','packages'));
+        return view('pages.landing.'.$link, compact('slider','packages', 'apiPackage'));
     }
 }

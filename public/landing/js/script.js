@@ -104,8 +104,8 @@ var THEMEMASCOT = {};
       autoplay: true,
       autoplayTimeout: 10000,
       navText: [
-        '<span class="fa fa-long-arrow-alt-left"></span>',
-        '<span class="fa fa-long-arrow-alt-right"></span>',
+        '<span class="fas fa-long-arrow-alt-left"></span>',
+        '<span class="fas fa-long-arrow-alt-right"></span>',
       ],
       responsive: { 0: { items: 1 }, 600: { items: 1 }, 1024: { items: 1 } },
     });

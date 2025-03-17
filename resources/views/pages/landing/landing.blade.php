@@ -11,6 +11,7 @@
 
 <link rel="shortcut icon" href="{{asset('landing/images/favicon.png')}}" type="image/x-icon">
 <link rel="icon" href="{{asset('landing/images/favicon.png')}}" type="image/x-icon">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
 <!-- Responsive -->
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,7 +19,25 @@
 <!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script><![endif]-->
 <!--[if lt IE 9]><script src="js/respond.js"></script><![endif]-->
 </head>
-
+<style>
+    .section-header {
+        text-align: center;
+    }
+    .col-md-offset-1 {
+        margin-left: 8.33333333%;
+    }
+    .col-md-offset-3 {
+        margin-left: 25%;
+    }
+    .data-section {
+        padding: 80px 0;
+    }
+    .long-table {
+        box-shadow: 0 10px 60px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e1e2e7;
+        padding: 20px 10px;
+    }
+</style>
 <body>
 
 <div class="page-wrapper">
@@ -34,21 +53,7 @@
 				<div class="top-left">
 					<!-- Info List -->
 					<ul class="list-style-one">
-						<li><i class="fa fa-envelope"></i> <a href="/cdn-cgi/l/email-protection#8fe1eaeaebe7eae3ffcfece0e2ffeee1f6a1ece0e2"><span class="__cf_email__" data-cfemail="87e9e2e2e3efe2ebf7c7e4e8eaf7e6e9fea9e4e8ea">[email&#160;protected]</span></a></li>
-						<li><i class="fa fa-map-marker"></i> 88 Broklyn Golden Street. New York</li>
-					</ul>
-				</div>
-				<div class="top-right">
-					<ul class="useful-links">
-						<li><a href="#">Help</a></li>
-						<li><a href="#">Support</a></li>
-						<li><a href="#">Contact</a></li>
-					</ul>
-					<ul class="social-icon-one">
-						<li><a href="#"><span class="fab fa-twitter"></span></a></li>
-						<li><a href="#"><span class="fab fa-facebook-square"></span></a></li>
-						<li><a href="#"><span class="fab fa-pinterest-p"></span></a></li>
-						<li><a href="#"><span class="fab fa-instagram"></span></a></li>
+						<li><i class="fa fa-envelope"></i> <a href="mailto:sales@remapdash.com">sales@remapdash.com</a></li>
 					</ul>
 				</div>
 			</div>
@@ -59,7 +64,11 @@
 			<!-- Main box -->
 			<div class="main-box">
 				<div class="logo-box">
-					<div class="logo"><a href="index.html"><img src="{{asset('landing/images/logo.png')}}" alt="" title="Tronis"></a></div>
+					<div class="logo">
+                        <a class="logo" href="/" style="font-family: daysone; font-size: 28px;">
+                            <span style="color: white;">REMAP</span><span style="color: #BB6133;">DASH</span>
+                        </a>
+                    </div>
 				</div>
 
 				<!--Nav Box-->
@@ -80,14 +89,14 @@
 
 				<div class="outer-box">
 					<!-- Header Search -->
-					<button class="ui-btn ui-btn search-btn">
+					{{-- <button class="ui-btn ui-btn search-btn">
 						<span class="icon lnr lnr-icon-search"></span>
-					</button>
+					</button> --}}
 
-					<a href="tel:+92(8800)9806" class="info-btn">
-						<i class="icon lnr-icon-phone-handset"></i>
+					<a href="skype:chris-asaprint?chat" class="info-btn">
+						<i class="icon fa fa-skype"></i>
 						<small>Call Anytime</small>
-						+92 (8800) - 9850
+						chris-asaprint
 					</a>
 					<!-- Mobile Nav toggler -->
 					<div class="mobile-nav-toggler"><span class="icon lnr-icon-bars"></span></div>
@@ -102,7 +111,11 @@
 			<!--Here Menu Will Come Automatically Via Javascript / Same Menu as in Header-->
 			<nav class="menu-box">
 				<div class="upper-box">
-					<div class="nav-logo"><a href="index.html"><img src="{{asset('landing/images/logo.png')}}" alt="" title=""></a></div>
+					<div class="nav-logo">
+                        <a class="logo" href="/" style="font-family: daysone; font-size: 28px; margin-top: -10px">
+                            <span style="color: white;">REMAP</span><span style="color: BB6133;">DASH</span>
+                        </a>
+                    </div>
 					<div class="close-btn"><i class="icon fa fa-times"></i></div>
 				</div>
 
@@ -168,7 +181,9 @@
 				<div class="inner-container">
 					<!--Logo-->
 					<div class="logo">
-						<a href="index.html" title=""><img src="{{asset('landing/images/logo-2.png')}}" alt="" title=""></a>
+						<a class="logo" href="/" style="font-family: daysone; font-size: 28px;">
+                            <span style="color: black;">REMAP</span><span style="color: #BB6133;">DASH</span>
+                        </a>
 					</div>
 
 					<!--Right Col-->
@@ -192,7 +207,7 @@
 	<!--End Main Header -->
 
 	<!-- Banner Section -->
-	<section class="banner-section">
+	<section class="banner-section" id="home">
 		<div class="banner-carousel owl-carousel owl-theme default-navs">
 			<!-- Slide Item -->
 			<div class="slide-item">
@@ -231,7 +246,7 @@
 	<!-- End Banner Section -->
 
 	<!-- Services Section Two-->
-	<section class="services-section-two">
+	<section class="services-section-two" id="howitworks">
 		<div class="bg bg-pattern-12"></div>
 
 		<div class="auto-container">
@@ -290,7 +305,7 @@
 				</div>
 			</div>
 		</div>
-        <div class="banner-slider-outer" style="background: black">
+        <div class="banner-slider-outer" style="background: black; margin-top: 20px;">
             <div class="container">
             <div class="owl-carousel banner-silder">
             @if (!empty($slider))
@@ -303,7 +318,7 @@
                     </div>
                     @endif
                     <div class="content-block p-2">
-                        <p>{{ $slide['title'] }}</p>
+                        <p style="font-size: 28px;">{{ $slide['title'] }}</p>
                         <p>{{ $slide['description'] }}</p>
                         @if($slide['button_text'])
                         <div class="btn-outer">
@@ -342,7 +357,7 @@
 	<!-- End Marquee Section -->
 
 	<!-- About Section Two -->
-	<section class="about-section-two">
+	<section class="about-section-two" id="about">
 		<div class="anim-icons">
 			<span class="icon icon-line4"></span>
 			<span class="icon icon-line5"></span>
@@ -427,79 +442,54 @@
 	</section>
 	<!--Emd About Section Two -->
 
-	<!-- Projects Section -->
-	<section class="projects-section pt-0">
-		<div class="auto-container">
-			<div class="sec-title text-center">
-				<span class="sub-title">our portfolio</span>
-				<h2>Explore our new recently <br>completed projects.</h2>
-			</div>
+    @php
+        $totlPackages = count($packages);
+        $classDiv = 'col-md-4';
+        if($totlPackages%2 ==0){
+            $classDiv = 'col-md-6';
+        }
+    @endphp
 
-			<div class="outer-box">
-				<div class="row">
-					<!-- Project Block -->
-					<div class=" project-block col-lg-3 col-md-6 col-sm-12 wow fadeInUp">
-						<div class="inner-box">
-							<div class="image-box">
-								<figure class="image"><a href="page-project-details.html"><img src="{{asset('landing/images/resource/project-1.jpg')}}" alt=""></a></figure>
-							</div>
-							<div class="content-box">
-								<a href="page-project-details.html" class="icon"><i class="fa fa-long-arrow-alt-right"></i></a>
-								<span class="cat">Development</span>
-								<h4 class="title"><a href="page-project-details.html" title="">Marketing webdesign</a></h4>
-							</div>
-						</div>
-					</div>
-
-					<!-- Project Block -->
-					<div class=" project-block col-lg-3 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay="300ms">
-						<div class="inner-box">
-							<div class="image-box">
-								<figure class="image"><a href="page-project-details.html"><img src="{{asset('landing/images/resource/project-2.jpg')}}" alt=""></a></figure>
-							</div>
-							<div class="content-box">
-								<a href="page-project-details.html" class="icon"><i class="fa fa-long-arrow-alt-right"></i></a>
-								<span class="cat">Development</span>
-								<h4 class="title"><a href="page-project-details.html" title="">Marketing webdesign</a></h4>
-							</div>
-						</div>
-					</div>
-
-					<!-- Project Block -->
-					<div class=" project-block col-lg-3 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay="600ms">
-						<div class="inner-box">
-							<div class="image-box">
-								<figure class="image"><a href="page-project-details.html"><img src="{{asset('landing/images/resource/project-3.jpg')}}" alt=""></a></figure>
-							</div>
-							<div class="content-box">
-								<a href="page-project-details.html" class="icon"><i class="fa fa-long-arrow-alt-right"></i></a>
-								<span class="cat">Development</span>
-								<h4 class="title"><a href="page-project-details.html" title="">Marketing webdesign</a></h4>
-							</div>
-						</div>
-					</div>
-
-					<!-- Project Block -->
-					<div class=" project-block col-lg-3 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay="900ms">
-						<div class="inner-box">
-							<div class="image-box">
-								<figure class="image"><a href="page-project-details.html"><img src="{{asset('landing/images/resource/project-4.jpg')}}" alt=""></a></figure>
-							</div>
-							<div class="content-box">
-								<a href="page-project-details.html" class="icon"><i class="fa fa-long-arrow-alt-right"></i></a>
-								<span class="cat">Development</span>
-								<h4 class="title"><a href="page-project-details.html" title="">Marketing webdesign</a></h4>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!--End projects-section-->
+    <section id="price">
+        <div id="pricing5" data-section="pricing-5" class="data-section">
+            <div class="container">
+             <div class="section-header">
+                    <h2 class="wow fadeInDown animated">Price</h2>
+                    <p class="wow fadeInDown animated">TUNING PORTAL PRICES</p>
+                </div>
+                 <div class="row col-md-10 col-md-offset-1">
+                    @foreach($packages as $val)
+					    <div class="@php echo $classDiv @endphp">
+                            <div class="table long-table text-center">
+                                <h3 class="editContent">{{ $val['name'] }}</h3>
+                                <h2 class="editContent">£ {{ $val['amount'] }}</h2>
+                                {!! $val['description'] !!}
+                                <a href="/register-account?domain={{strpos($val['name'], 'own') !== false ? 'own' : 'regular'}}" class="theme-btn btn-style-one" name="submit-form"><span class="btn-title">Register</span></a>
+                            </div>
+                        </div>
+                    @endforeach
+                 </div>
+            </div>
+        </div>
+        <div id="pricing5" data-section="pricing-5" class="data-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="wow fadeInDown animated">Data API</h2>
+                </div>
+                <div class="row col-md-6 col-md-offset-3">
+                    <div class="table long-table text-center">
+                        <h3 class="editContent">{{ $apiPackage->name }}</h3>
+                        <h2 class="editContent">£ {{ $apiPackage->amount }}</h2>
+                        {!! $apiPackage->description !!}
+                        <a href="{{ route('frontend.api.intro') }}" class="theme-btn btn-style-one" name="submit-form"><span class="btn-title">Register</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
 	<!-- Why Choose Us Two -->
-	<section class="why-choose-us-two">
+	<section class="why-choose-us-two" id="features">
 		<div class="anim-icons">
 			<span class="icon icon-arrow1"></span>
 		</div>
@@ -512,12 +502,15 @@
 						<div class="sec-title">
 							<i class="sub-title">CORE FEATURES</i>
 							<h2>Designed for Remapping Resellers</h2>
+                            <p>
+                                We consulted remapping masters with active slave networks and file service requirements and built this portal specifically to help the day to day processing of jobs from remapping professionals
+                            </p>
 						</div>
 						<div class="row">
 							<div class="info-box col-lg-6 col-md-6">
 								<div class="inner">
 									<div class="title-box">
-										<i class="icon flaticon-laptop"></i>
+										<i class="icon flaticon-graphic-design"></i>
 										<h5 class="title">CUSTOMISABLE</h5>
 									</div>
 									<div class="text">
@@ -532,28 +525,45 @@
 							<div class="info-box col-lg-6 col-md-6">
 								<div class="inner">
 									<div class="title-box">
-										<i class="icon flaticon-graphic-design"></i>
-										<h5 class="title">Digital <br>solutions</h5>
+										<i class="icon flaticon-bank"></i>
+										<h5 class="title">BILLING</h5>
 									</div>
-									<div class="text">Good knowledge becuase you done something many times.</div>
+									<div class="text">
+                                        No "per file charges"<br>
+                                        PAYG - No contract<br>
+                                        Automatic client invoicing<br>
+                                        VAT or not<br>
+                                        PayPal Payment Handling<br>
+                                        Easy Reporting<br>
+                                    </div>
 								</div>
 							</div>
 							<div class="info-box col-lg-6 col-md-6">
 								<div class="inner">
 									<div class="title-box">
 										<i class="icon flaticon-health-check"></i>
-										<h5 class="title">Best <br>consultancy</h5>
+										<h5 class="title">SUPPORT</h5>
 									</div>
-									<div class="text">Good knowledge becuase you done something many times.</div>
+									<div class="text">
+                                        Built in ticket support
+                                        Chat screen
+                                        File attaching
+                                        Mobile Support
+                                    </div>
 								</div>
 							</div>
 							<div class="info-box col-lg-6 col-md-6">
 								<div class="inner">
 									<div class="title-box">
-										<i class="icon flaticon-teaching"></i>
-										<h5 class="title">Expert <br>developers</h5>
+										<i class="icon flaticon-visitor"></i>
+										<h5 class="title">SECURITY</h5>
 									</div>
-									<div class="text">Good knowledge becuase you done something many times.</div>
+									<div class="text">
+                                        Secure SSL Encryption
+                                        All files are encrypted
+                                        2gb of storage included
+                                        Extra storage available
+                                    </div>
 								</div>
 							</div>
 						</div>
@@ -566,8 +576,8 @@
 						<div class="image-box">
 							<figure class="image anim-overlay"><img src="{{asset('landing/images/resource/why-us2.jpg')}}" alt=""></figure>
 							<div class="content-box">
-								<div class="text">We’re bringing latest business innovation in to the digital world</div>
-								<div class="caption">Top quality marketing solutions</div>
+								<div class="text">Quick, Simple to use and hassle free.</div>
+								<div class="caption">Top quality solutions</div>
 							</div>
 						</div>
 					</div>
@@ -730,97 +740,6 @@
 	</section>
 	<!-- End Testimonial Section Two -->
 
-	 <!-- Team Section -->
-	<section class="team-section pb-0">
-		<div class="auto-container">
-			<div class="sec-title text-center">
-				<span class="sub-title">meet our team members</span>
-				<h2>Meet the professional team <br>behind the success</h2>
-			</div>
-
-			<div class="row">
-				<!-- Team block -->
-				<div class="team-block-two col-lg-4 col-md-6 col-sm-12 wow fadeInUp">
-					<div class="inner-box">
-						<div class="info-box">
-							<h4 class="name"><a href="page-team-details.html">Mike hardson</a></h4>
-							<span class="designation">designer</span>
-						</div>
-						<div class="image-box">
-							<figure class="image"><a href="#"><img src="{{asset('landing/images/resource/team-1.jpg')}}" alt=""></a></figure>
-							<div class="social-links">
-								<a href="#"><i class="fab fa-twitter"></i></a>
-								<a href="#"><i class="fab fa-facebook-f"></i></a>
-								<a href="#"><i class="fab fa-pinterest-p"></i></a>
-								<a href="#"><i class="fab fa-instagram"></i></a>
-							</div>
-							<span class="share-icon fa fa-share-alt"></span>
-						</div>
-					</div>
-				</div>
-
-				<!-- Team block -->
-				<div class="team-block-two col-lg-4 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay="400ms">
-					<div class="inner-box">
-						<div class="info-box">
-							<h4 class="name"><a href="page-team-details.html">Kevin martin</a></h4>
-							<span class="designation">designer</span>
-						</div>
-						<div class="image-box">
-							<figure class="image"><a href="#"><img src="{{asset('landing/images/resource/team-2.jpg')}}" alt=""></a></figure>
-							<div class="social-links">
-								<a href="#"><i class="fab fa-twitter"></i></a>
-								<a href="#"><i class="fab fa-facebook-f"></i></a>
-								<a href="#"><i class="fab fa-pinterest-p"></i></a>
-								<a href="#"><i class="fab fa-instagram"></i></a>
-							</div>
-							<span class="share-icon fa fa-plus"></span>
-						</div>
-					</div>
-				</div>
-
-				<!-- Team block -->
-				<div class="team-block-two col-lg-4 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay="800ms">
-					<div class="inner-box">
-						<div class="info-box">
-							<h4 class="name"><a href="page-team-details.html">Christine eve</a></h4>
-							<span class="designation">designer</span>
-						</div>
-						<div class="image-box">
-							<figure class="image"><a href="#"><img src="{{asset('landing/images/resource/team-3.jpg')}}" alt=""></a></figure>
-							<div class="social-links">
-								<a href="#"><i class="fab fa-twitter"></i></a>
-								<a href="#"><i class="fab fa-facebook-f"></i></a>
-								<a href="#"><i class="fab fa-pinterest-p"></i></a>
-								<a href="#"><i class="fab fa-instagram"></i></a>
-							</div>
-							<span class="share-icon fa fa-plus"></span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- End Team Section -->
-
-	<!-- Clients Section -->
-	{{-- <section class="clients-section">
-		<div class="auto-container">
-			<!-- Sponsors Outer -->
-			<div class="sponsors-outer">
-				<!--clients carousel-->
-				<ul class="clients-carousel owl-carousel owl-theme">
-					<li class="client-block"> <a href="#"><img src="{{asset('landing/images/clients/1.png')}}" alt=""></a> </li>
-					<li class="client-block"> <a href="#"><img src="{{asset('landing/images/clients/1.png')}}" alt=""></a> </li>
-					<li class="client-block"> <a href="#"><img src="{{asset('landing/images/clients/1.png')}}" alt=""></a> </li>
-					<li class="client-block"> <a href="#"><img src="{{asset('landing/images/clients/1.png')}}" alt=""></a> </li>
-					<li class="client-block"> <a href="#"><img src="{{asset('landing/images/clients/1.png')}}" alt=""></a> </li>
-				</ul>
-			</div>
-		</div>
-	</section> --}}
-	<!--End Clients Section -->
-
 	<!-- Contact Section Two -->
 	<section class="contact-section-two">
 		<div class="bg bg-pattern-11"></div>
@@ -871,81 +790,6 @@
 	</section>
 	<!-- End Contact Section Two -->
 
-	 <!-- News Section Two -->
-	{{-- <section class="news-section">
-		<div class="auto-container">
-			<div class="sec-title text-center">
-				<span class="sub-title">From the Blog</span>
-				<h2>Checkout latest news <br> updates & articles</h2>
-			</div>
-
-			<div class="row">
-				<!-- News Block -->
-				<div class="news-block col-lg-4 col-md-6 col-sm-12 wow fadeInUp">
-					<div class="inner-box">
-						<div class="image-box">
-							<figure class="image"><a href="#"><img src="{{asset('landing/images/resource/news-1.jpg')}}" alt=""></a></figure>
-						</div>
-						<div class="content-box">
-							<span class="date">20 April</span>
-							<ul class="post-info">
-								<li><i class="fa fa-user-circle"></i> by Admin</li>
-								<li><i class="fa fa-comments"></i> 2 Comments</li>
-							</ul>
-							<h4 class="title"><a href="#">Five ways that can develop your business website</a></h4>
-							<a href="#" class="read-more">Read More <i class="fa fa-long-arrow-alt-right"></i></a>
-						</div>
-					</div>
-				</div>
-
-				<!-- News Block -->
-				<div class="news-block col-lg-4 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay="300ms">
-					<div class="inner-box">
-						<div class="image-box">
-							<figure class="image"><a href="#"><img src="{{asset('landing/images/resource/news-2.jpg')}}" alt=""></a></figure>
-						</div>
-						<div class="content-box">
-							<span class="date">20 April</span>
-							<ul class="post-info">
-								<li><i class="fa fa-user-circle"></i> by Admin</li>
-								<li><i class="fa fa-comments"></i> 2 Comments</li>
-							</ul>
-							<h4 class="title"><a href="#">Five ways that can develop your business website</a></h4>
-							<a href="#" class="read-more">Read More <i class="fa fa-long-arrow-alt-right"></i></a>
-						</div>
-					</div>
-				</div>
-
-				<!-- News Block -->
-				<div class="news-block col-lg-4 col-md-6 col-sm-12 wow fadeInUp">
-					<div class="inner-box">
-						<div class="image-box">
-							<figure class="image"><a href="#"><img src="{{asset('landing/images/resource/news-3.jpg')}}" alt=""></a></figure>
-						</div>
-						<div class="content-box">
-							<span class="date">20 April</span>
-							<ul class="post-info">
-								<li><i class="fa fa-user-circle"></i> by Admin</li>
-								<li><i class="fa fa-comments"></i> 2 Comments</li>
-							</ul>
-							<h4 class="title"><a href="#">Five ways that can develop your business website</a></h4>
-							<a href="#" class="read-more">Read More <i class="fa fa-long-arrow-alt-right"></i></a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section> --}}
-	<!--End News Section -->
-
-	<!-- Map Section-->
-	{{-- <section class="map-section">
-		<iframe class="map"
-			src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=1%20Grafton%20Street,%20Dublin,%20Ireland+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed">
-		</iframe>
-	</section> --}}
-	<!--End Map Section-->
-
 	<!-- Main Footer -->
 	<footer class="main-footer">
 		<div class="bg bg-pattern-6"></div>
@@ -956,9 +800,9 @@
 					<!-- Contact info Block -->
 					<div class="contact-info-block col-lg-4 col-md-6">
 						<div class="inner">
-							<i class="icon fa fa-phone-square"></i>
+							<i class="icon fa fa-skype"></i>
 							<span class="sub-title">Call Anytime</span>
-							<div class="text"><a href="tel:+92(8800)48720">+92 (8800) -89 8630</a></div>
+							<div class="text"><a href="skype:chris-asaprint?chat">chris-asaprint</a></div>
 						</div>
 					</div>
 					<!-- Contact info Block -->
@@ -966,15 +810,15 @@
 						<div class="inner">
 							<i class="icon fa fa-envelope"></i>
 							<span class="sub-title">Send Email</span>
-							<div class="text"><a href="/cdn-cgi/l/email-protection#dab4bfbfbeb2bfb6aa9ab9b5b7aabbb4a3f4b9b5b7"><span class="__cf_email__" data-cfemail="422c2727262a272e3202212d2f32232c3b6c212d2f">[email&#160;protected]</span></a></div>
+							<div class="text"><a href="mailto:sales@remapdash.com">sales@remapdash.com</a></div>
 						</div>
 					</div>
 					<!-- Contact info Block -->
 					<div class="contact-info-block col-lg-4 col-md-6">
 						<div class="inner">
-							<i class="icon fa fa-map-marker"></i>
-							<span class="sub-title">Addres</span>
-							<div class="text">30 Broklyn Golden Street. USA</div>
+							<i class="icon fa fa-facebook"></i>
+							<span class="sub-title">Social Media</span>
+							<div class="text"><a href="https://www.facebook.com/remappingfileportal">Remapping File Portal</a></div>
 						</div>
 					</div>
 				</div>
@@ -989,57 +833,20 @@
 					<div class="footer-column col-xl-5 col-lg-4 col-md-12">
 						<div class="footer-widget about-widget">
 							<div class="widget-content">
-								<div class="logo"><a href="#"> <img src="{{asset('landing/images/logo.png')}}" alt=""></a></div>
-								<div class="text">Welcome to our digital agency. Lorem ipsum simply free text dolor sited amet cons cing elit.</div>
+								<div class="logo">
+                                    <a class="logo" href="/" style="font-family: daysone; font-size: 28px;">
+                                        <span style="color: white;">REMAP</span><span style="color: #BB6133;">DASH</span>
+                                    </a>
+                                </div>
+								<div class="text">Welcome to our agency.</div>
 								<ul class="social-icon-two">
-									<li><a href="#"><i class="fab fa-twitter"></i></a></li>
-									<li><a href="#"><i class="fab fa-facebook"></i></a></li>
-									<li><a href="#"><i class="fab fa-pinterest"></i></a></li>
-									<li><a href="#"><i class="fab fa-instagram"></i></a></li>
+									<li><a href="skype:chris-asaprint?chat"><i class="fa fa-skype"></i></a></li>
+									<li><a href="mailto:sales@remapdash.com"><i class="fa fa-envelope"></i></a></li>
+									<li><a href="https://www.facebook.com/remappingfileportal"><i class="fa fa-facebook"></i></a></li>
 								</ul>
 							</div>
 						</div>
 					</div>
-
-					<!-- Footer COlumn -->
-					<div class="footer-column col-xl-4 col-lg-4 col-md-6">
-						<div class="widget links-widget">
-							<h5 class="widget-title">Explore</h5>
-							<div class="widget-content">
-								<ul class="user-links two-column">
-									<li><a href="#">Meet Our Team</a></li>
-									<li><a href="#">About</a></li>
-									<li><a href="#">What We Do</a></li>
-									<li><a href="#">Support</a></li>
-									<li><a href="#">Latest News</a></li>
-									<li><a href="#">New Projects</a></li>
-									<li><a href="#">Contact</a></li>
-									<li><a href="#">Shop</a></li>
-									<li><a href="#">Faqs</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-
-					<!-- Footer COlumn -->
-					{{-- <div class="footer-column col-xl-3 col-lg-4 col-md-6 col-sm-12">
-						<div class="widget newsletter-widget">
-							<h5 class="widget-title">Newsletter</h5>
-							<div class="widget-content">
-								<div class="text">Subscribe for our latest resources</div>
-								<div class="subscribe-form">
-									<form method="post" action="#">
-										<div class="form-group">
-											<input type="email" name="email" class="email" value="" placeholder="Email Address" required="">
-										</div>
-										<div class="form-group">
-											<button type="button" class="theme-btn btn-style-one hover-light"><span class="btn-title">Subscribe</span></button>
-										</div>
-									</form>
-								</div>
-							</div>
-						</div>
-					</div> --}}
 				</div>
 			</div>
 		</div>
@@ -1077,7 +884,7 @@
             autoplayTimeout:1000,
             autoplayHoverPause:true,
             margin:0,
-            autoPlay:false,
+            autoPlay: true,
             responsive: {
                 0: {
                     items: 1

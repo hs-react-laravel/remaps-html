@@ -13531,3 +13531,7 @@ table.tbl-shopping-cart > tfoot > tr > th {
 .content-block {
     flex: 1;
 }
+@font-face {
+    font-family: daysone;
+    src: url('../fonts/DaysOne-Regular.ttf')
+}
