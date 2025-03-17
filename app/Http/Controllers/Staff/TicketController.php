@@ -119,8 +119,8 @@ class TicketController extends MasterController
 
             $user = User::find($new_ticket->receiver_id);
             try{
-                // SendMail::dispatch($user->email, new TicketFileCreated($user,$ticket->subject), $this->company, 'Update ticket');
-                Mail::to($user->email)->send(new TicketFileCreated($user,$ticket->subject));
+                SendMail::dispatch($user->email, new TicketFileCreated($user,$ticket->subject), $this->company, 'Update ticket');
+                // Mail::to($user->email)->send(new TicketFileCreated($user,$ticket->subject));
             }catch(\Exception $e){
                 session()->flash('message', __('admin.ticket_saved'));
             }

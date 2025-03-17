@@ -205,8 +205,8 @@ class CompanyController extends MasterController
 						$token = app('auth.password.broker')->createToken($companyUser);
                         $this->setCompanyMailSender();
 						try{
-                            // SendMail::dispatch($companyUser->email, new WelcomeCustomer($companyUser, $token), $this->company, 'Create a new customer');
-                            Mail::to($companyUser->emai)->send(new WelcomeCustomer($companyUser, $token));
+                            SendMail::dispatch($companyUser->email, new WelcomeCustomer($companyUser, $token), $this->company, 'Create a new customer');
+                            // Mail::to($companyUser->emai)->send(new WelcomeCustomer($companyUser, $token));
 						}catch(\Exception $e) {
                             session()->flash('error', $e->getMessage());
 						}
@@ -420,8 +420,8 @@ class CompanyController extends MasterController
                         $token = app('auth.password.broker')->createToken($companyUser);
                         $this->setCompanyMailSender();
                         try{
-                            // SendMail::dispatch($companyUser->email, new WelcomeCustomer($companyUser, $token), $this->company, 'Create a new customer');
-                            Mail::to($companyUser->email)->send(new WelcomeCustomer($companyUser, $token));
+                            SendMail::dispatch($companyUser->email, new WelcomeCustomer($companyUser, $token), $this->company, 'Create a new customer');
+                            // Mail::to($companyUser->email)->send(new WelcomeCustomer($companyUser, $token));
                         }catch(\Exception $e){
                             session()->flash('error', $e->getMessage());
                         }
@@ -483,8 +483,8 @@ class CompanyController extends MasterController
             session()->flash('message', 'Comapny has been activated successfully.');
             $this->setCompanyMailSender();
 			try{
-                // SendMail::dispatch($companyUser->email, new CompanyActivateEmail($companyUser, $token), $this->company, 'Activate Company');
-                Mail::to($companyUser->email)->send(new CompanyActivateEmail($companyUser, $token));
+                SendMail::dispatch($companyUser->email, new CompanyActivateEmail($companyUser, $token), $this->company, 'Activate Company');
+                // Mail::to($companyUser->email)->send(new CompanyActivateEmail($companyUser, $token));
 			}catch(\Exception $e){
                 // dd($e);
                 session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
@@ -500,8 +500,8 @@ class CompanyController extends MasterController
         try {
             $user = $company->owner;
             $token = app('auth.password.broker')->createToken($user);
-            // SendMail::dispatch($user->email, new WelcomeCustomer($user, $token), $this->company, 'Send reset password link');
-            Mail::to($user->email)->send(new WelcomeCustomer($user, $token));
+            SendMail::dispatch($user->email, new WelcomeCustomer($user, $token), $this->company, 'Send reset password link');
+            // Mail::to($user->email)->send(new WelcomeCustomer($user, $token));
             session()->flash('message', __('admin.password_reset_link_send'));
         } catch(\Exception $e){
             session()->flash('error', 'Error in SMTP: '.__('admin.opps'));

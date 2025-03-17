@@ -142,16 +142,16 @@ class FileServiceController extends MasterController
             $transaction->save();
             try{
                 if ($open_status != 2) {
-                    // SendMail::dispatch($this->company->owner->email, new FileServiceCreated($fileService), $this->company, 'File Service Created');
-                    Mail::to($this->company->owner->email)->send(new FileServiceCreated($fileService));
+                    SendMail::dispatch($this->company->owner->email, new FileServiceCreated($fileService), $this->company, 'File Service Created');
+                    // Mail::to($this->company->owner->email)->send(new FileServiceCreated($fileService));
                     foreach($this->company->semiadmins as $sa) {
-                        // SendMail::dispatch($sa->email, new FileServiceCreated($fileService), $this->company, 'File Service Created');
-                        Mail::to($sa->email)->send(new FileServiceCreated($fileService));
+                        SendMail::dispatch($sa->email, new FileServiceCreated($fileService), $this->company, 'File Service Created');
+                        // Mail::to($sa->email)->send(new FileServiceCreated($fileService));
                     }
                 }
                 if ($open_status == 1) {
-                    // SendMail::dispatch($user->email, new FileServiceLimited($fileService), $this->company, 'File Service Limited');
-                    Mail::to($user->email)->send(new FileServiceLimited($fileService));
+                    SendMail::dispatch($user->email, new FileServiceLimited($fileService), $this->company, 'File Service Limited');
+                    // Mail::to($user->email)->send(new FileServiceLimited($fileService));
                 }
             }catch(\Exception $ex){
                 session()->flash('error', $ex->getMessage());
@@ -312,11 +312,11 @@ class FileServiceController extends MasterController
         $jobDetails = $fileService->make.' '.$fileService->model.' '.$fileService->generation;
         if($ticket->save()){
             try{
-                // SendMail::dispatch($this->user->company->owner->email, new TicketCreated($this->user, $jobDetails), $this->company, 'Create Ticket');
-                Mail::to($this->user->company->owner->email)->send(new TicketCreated($this->user, $jobDetails));
+                SendMail::dispatch($this->user->company->owner->email, new TicketCreated($this->user, $jobDetails), $this->company, 'Create Ticket');
+                // Mail::to($this->user->company->owner->email)->send(new TicketCreated($this->user, $jobDetails));
                 foreach($this->user->company->semiadmins as $sa) {
-                    // SendMail::dispatch($sa->email, new TicketCreated($this->user, $jobDetails), $this->company, 'Create Ticket');
-                    Mail::to($sa->email)->send(new TicketCreated($this->user, $jobDetails));
+                    SendMail::dispatch($sa->email, new TicketCreated($this->user, $jobDetails), $this->company, 'Create Ticket');
+                    // Mail::to($sa->email)->send(new TicketCreated($this->user, $jobDetails));
                 }
 			}catch(\Exception $e){
 				session()->flash('message', 'Error in SMTP: '.__('admin.opps'));

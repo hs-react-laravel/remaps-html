@@ -62,8 +62,8 @@ class StaffController extends MasterController
             $user = User::create($request->all());
             $token = app('auth.password.broker')->createToken($user);
 			try{
-                // SendMail::dispatch($user->email, new WelcomeCustomer($user, $token), $this->company, 'Create a new staff');
-                Mail::to($user->email)->send(new WelcomeCustomer($user, $token));
+                SendMail::dispatch($user->email, new WelcomeCustomer($user, $token), $this->company, 'Create a new staff');
+                // Mail::to($user->email)->send(new WelcomeCustomer($user, $token));
 			}catch(\Exception $e) {
                 session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
 			}

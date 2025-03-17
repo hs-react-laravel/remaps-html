@@ -51,11 +51,11 @@ class TicketController extends MasterController
         ]);
         $ticket = Ticket::create($request->all());
         try{
-            // SendMail::dispatch($this->user->company->owner->email, new TicketCreated($this->user,$request->all()['subject']), $this->company, 'Create Ticket');
-            Mail::to($this->user->company->owner->email)->send(new TicketCreated($this->user,$request->all()['subject']));
+            SendMail::dispatch($this->user->company->owner->email, new TicketCreated($this->user,$request->all()['subject']), $this->company, 'Create Ticket');
+            // Mail::to($this->user->company->owner->email)->send(new TicketCreated($this->user,$request->all()['subject']));
             foreach($this->user->company->semiadmins as $sa) {
-                // SendMail::dispatch($sa->email, new TicketCreated($this->user,$request->all()['subject']), $this->company, 'Create Ticket');
-                Mail::to($sa->email)->send(new TicketCreated($this->user,$request->all()['subject']));
+                SendMail::dispatch($sa->email, new TicketCreated($this->user,$request->all()['subject']), $this->company, 'Create Ticket');
+                // Mail::to($sa->email)->send(new TicketCreated($this->user,$request->all()['subject']));
             }
 		}catch(\Exception $e){
 			session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
@@ -131,8 +131,8 @@ class TicketController extends MasterController
         }
 
         try{
-            // SendMail::dispatch($mailing, new TicketReply($this->user,$ticket->subject), $this->company, 'Update Ticket');
-            Mail::to($mailing)->send(new TicketReply($this->user,$ticket->subject));
+            SendMail::dispatch($mailing, new TicketReply($this->user,$ticket->subject), $this->company, 'Update Ticket');
+            // Mail::to($mailing)->send(new TicketReply($this->user,$ticket->subject));
         }catch(\Exception $e){
             session()->flash('error', 'Error in SMTP: '.__('admin.opps'));
         }
