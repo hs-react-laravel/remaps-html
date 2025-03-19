@@ -67,7 +67,7 @@ class SendMail implements ShouldQueue
 
             $ef = new EmailFlag;
             $ef->company_id = $this->owner->id;
-            $ef->is_email_failed = 2;
+            $ef->is_email_failed = 0;
             $ef->description = $this->desc;
             $ef->save();
         } catch(\Exception $e){

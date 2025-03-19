@@ -130,29 +130,6 @@
                                 }
                             }
                         );
-                    } else if (n.is_email_failed == 2) {
-                        toastr.success(
-                            n.description,
-                            "Mail has been sent successfully",
-                            {
-                                closeButton : true,
-                                tapToDismiss : false,
-                                timeOut: 0,
-                                extendedTimeOut: 0,
-                                escapeHtml: false,
-                                onHidden: function() {
-                                    $.ajax({
-                                        url: '{{ route("api.notifies.email.read") }}',
-                                        type: 'POST',
-                                        data: {
-                                            _token: '{{ csrf_token() }}',
-                                            id: n.id
-                                        },
-                                        dataType: 'JSON'
-                                    });
-                                }
-                            }
-                        );
                     }
                 }
             }
