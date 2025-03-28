@@ -44,6 +44,39 @@ class ResetPasswordController extends Controller
         view()->share('company', $this->company);
     }
 
+    public function reset(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required|email|exists:users,email',
+            'company_id' => 'required|exists:companies,id',
+            'password' => 'required|string|confirmed|min:8',
+        ]);
+
+        // Here we will attempt to reset the user's password. If it is successful we
+        // will update the password on an actual user model and persist it to the
+        // database. Otherwise we will parse the error and return the response.
+        // $response = $this->broker()->reset(
+        //     $this->credentials($request), function ($user, $password) {
+        //         $this->resetPassword($user, $password);
+        //     }
+        // );
+
+        $resetStatus = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'company_id', 'token'),
+            function ($user) use ($request) {
+                $user->password = bcrypt($request->password);
+                $user->save();
+            }
+        );
+
+        // If the password was successfully reset, we will redirect the user back to
+        // the application's home authenticated view. If there is an error we can
+        // redirect them back to where they came from with their error message.
+        return $response == Password::PASSWORD_RESET
+                    ? $this->sendResetResponse($request, $resetStatus)
+                    : $this->sendResetFailedResponse($request, $resetStatus);
+    }
+
     public function broker() {
         return Password::broker('customers');
     }
