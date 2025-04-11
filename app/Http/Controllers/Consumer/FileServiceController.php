@@ -178,8 +178,13 @@ class FileServiceController extends MasterController
 
             $today_start = date('Y-m-d ').$company->$daymark_from.':00';
             $today_end = date('Y-m-d ').$company->$daymark_to.':00';
-            $utc_from = Carbon::parse(new \DateTime($today_start, new \DateTimeZone($tz->name)))->tz('UTC')->format('Hi');
-            $utc_to = Carbon::parse(new \DateTime($today_end, new \DateTimeZone($tz->name)))->tz('UTC')->format('Hi');
+            try {
+                $utc_from = Carbon::parse(new \DateTime($today_start, new \DateTimeZone($tz->name)))->tz('UTC')->format('Hi');
+                $utc_to = Carbon::parse(new \DateTime($today_end, new \DateTimeZone($tz->name)))->tz('UTC')->format('Hi');
+            } catch (\Exception $ex) {
+                return -1;
+            }
+            
             if ($company->$daymark_from && $utc_from > date('Hi')
                 || $company->$daymark_to && $utc_to < date('Hi')) {
                 $open_status = $company->notify_check == 0 ? 1 : 2;
