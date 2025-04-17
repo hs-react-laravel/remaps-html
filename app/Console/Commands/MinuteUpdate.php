@@ -49,26 +49,30 @@ class MinuteUpdate extends Command
         $this->info(count($entries));
         foreach($entries as $entry) {
             $company = $entry->user->company;
-            $timezone = $company->timezone;
-            $tz = Timezone::find($timezone ?? 1);
+            try {
+                $timezone = $company->timezone;
+                $tz = Timezone::find($timezone ?? 1);
 
-            $day = lcfirst(date('l'));
-            $daymark_from = substr($day, 0, 3).'_from';
-            $today_start = date('Y-m-d ').$company->$daymark_from.':00';
+                $day = lcfirst(date('l'));
+                $daymark_from = substr($day, 0, 3).'_from';
+                $today_start = date('Y-m-d ').$company->$daymark_from.':00';
 
-            $utc_from = Carbon::parse(new \DateTime($today_start, new \DateTimeZone($tz->name)))->tz('UTC')->format('Y-m-d H:i:s');
-            $now = date('Y-m-d H:i:s');
-            $entry_time = Carbon::parse(new \DateTime($entry->created_at))->format('Y-m-d H:i:s');
-            if ($now >= $utc_from) {
-                if ($company->open_check) {
-                    if ($company->$daymark_from && $today_start >= $entry_time) {
+                $utc_from = Carbon::parse(new \DateTime($today_start, new \DateTimeZone($tz->name)))->tz('UTC')->format('Y-m-d H:i:s');
+                $now = date('Y-m-d H:i:s');
+                $entry_time = Carbon::parse(new \DateTime($entry->created_at))->format('Y-m-d H:i:s');
+                if ($now >= $utc_from) {
+                    if ($company->open_check) {
+                        if ($company->$daymark_from && $today_start >= $entry_time) {
+                            $entry->update(['status' => 'O']);
+                            $this->line('found on checking company');
+                        }
+                    } else {
                         $entry->update(['status' => 'O']);
-                        $this->line('found on checking company');
+                        $this->line('found on non-checking company');
                     }
-                } else {
-                    $entry->update(['status' => 'O']);
-                    $this->line('found on non-checking company');
                 }
+            }catch(\Exception $e){
+                continue;
             }
         }
 
