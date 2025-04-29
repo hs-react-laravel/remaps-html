@@ -1,6 +1,6 @@
 @extends('Frontend.layouts.master')
 @section('title')
-    Home
+  Welcome Remapdash
 @endsection
 
 @section('css')

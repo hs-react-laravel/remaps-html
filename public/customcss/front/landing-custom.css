@@ -45,4 +45,16 @@ a:hover, a:focus {
   background-color: #18191c;
 }
 
+.form-group{
+  margin-bottom: 10px;
+}
+.form-control {
+  border-radius: 0;
+  box-shadow: none;
+  height: 45px;
+}
+
+.section.auth-section {
+  background-color: #18191c;
+}
 
