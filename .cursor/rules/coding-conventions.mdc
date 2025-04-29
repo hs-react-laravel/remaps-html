@@ -1,0 +1,25 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+## naming convention
+
+### case 1: value name is with two words: 
+first character of first word is lower-case
+first character of second word is upper-case
+[e.g.] userName: this value consists of user + name. the value name should be userName
+
+### case 2: API url is two words: 
+first word and second word should be consisted of '_' 
+[e.g.] /user/add_name
+normally use '_' but other case might use '-'
+
+## comment mark
+when I comment description for specific function, commend with start:  '=== <', end: '=== />'
+
+## coding style
+
+### tabsize
+tab size should be 2
+
