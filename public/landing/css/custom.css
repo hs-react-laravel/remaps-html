@@ -1,0 +1,24 @@
+/* ==========================================================================
+	$intro
+========================================================================== */
+.intro {
+  background:  -moz-linear-gradient(rgba(46, 45, 47, 0.74), rgba(7, 7, 7, 0.65)),url(../front/images/intro.jpg);
+  background:  -webkit-linear-gradient(rgba(46, 45, 47, 0.74), rgba(7, 7, 7, 0.65)),url(../front/images/intro.jpg);
+  background:  -ms-linear-gradient(rgba(46, 45, 47, 0.74), rgba(7, 7, 7, 0.65)),url(../front/images/intro.jpg);
+  background:  linear-gradient(rgba(46, 45, 47, 0.74), rgba(7, 7, 7, 0.65)),url(../front/images/intro.jpg);
+  position: relative;
+  z-index: 1;
+  background-position: bottom center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+.intro h3 {
+  color: #fec400;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+.intro p {
+  color: #a9a9a9;
+  font-weight: 400;
+  font-size: 16px;
+}
