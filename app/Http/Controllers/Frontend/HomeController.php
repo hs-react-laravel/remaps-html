@@ -24,4 +24,11 @@ class HomeController extends Controller
 		return view('Frontend.home',compact('slider','packages', 'apiPackage'));
 	}
 
+	public function home2() {
+		$packages = [];
+		$packages = Package::all()->toArray();
+		$slider = SliderManager::all()->toArray();
+        $apiPackage = ApiPackage::first();
+		return view('Frontend.home2',compact('slider','packages', 'apiPackage'));
+	}
 }

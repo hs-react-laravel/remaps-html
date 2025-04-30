@@ -176,139 +176,7 @@
 	</div>
 	<!-- End Marquee Section -->
 
-  <!-- About Section Two -->
-	<section class="about-section-two" id="about">
-		<div class="anim-icons">
-			<span class="icon icon-line4"></span>
-			<span class="icon icon-line5"></span>
-			<span class="icon icon-arrow1 bounce-x"></span>
-			<span class="icon icon-speaker zoom-one"></span>
-		</div>
-		<div class="auto-container">
-			<div class="outer-box">
-				<div class="row">
-					<!-- Content Column -->
-					<div class="content-column col-xl-6 col-lg-7 col-md-12 col-sm-12 order-2 wow fadeInRight" data-wow-delay="600ms">
-						<div class="inner-column">
-							<div class="sec-title">
-								<span class="sub-title">About our company</span>
-								<h2>Leading the best</h2>
-								<div class="text">Remapdash.com is a remapping file comparison site which brings together some of Europe's most experienced tuning companies all under one roof.</div>
-                                <div class="text">Discover which tuning company suits your needs and register directly on their file portal. Its Quick, Simple to use and hassle free.</div>
-							</div>
-
-							{{-- <div class="row">
-								<div class="info-box col-lg-6 col-md-6">
-									<div class="inner">
-										<h5 class="title"><i class="icon fa fa-circle-arrow-right"></i> Digital marketing</h5>
-										<div class="text">Knowledge of technologies rules better than anyone</div>
-									</div>
-								</div>
-
-								<div class="info-box col-lg-6 col-md-6">
-									<div class="inner">
-										<h5 class="title"><i class="icon fa fa-circle-arrow-right"></i> Quality results</h5>
-										<div class="text">Knowledge of technologies rules better than anyone</div>
-									</div>
-								</div>
-							</div> --}}
-
-
-							<!--Skills-->
-							<div class="skills">
-								<!--Skill Item-->
-								<div class="skill-item">
-									<div class="skill-header">
-										<h5 class="skill-title">Marketing</h5>
-									</div>
-									<div class="skill-bar">
-										<div class="bar-inner">
-											<div class="bar progress-line" data-width="100">
-												<div class="skill-percentage">
-													<div class="count-box"><span class="count-text" data-speed="3000" data-stop="100">0</span>%</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							{{-- <div class="bottom-box">
-								<a href="page-about.html" class="theme-btn btn-style-one hvr-dark"><span class="btn-title">Discover more</span></a>
-							</div> --}}
-						</div>
-					</div>
-
-					<!-- Image Column -->
-					<div class="image-column col-xl-6 col-lg-5 col-md-12 col-sm-12">
-						<div class="inner-column wow fadeInLeft">
-							<div class="image-box">
-								<span class="icon-dots2"></span>
-								<figure class="image-1 overlay-anim wow fadeInUp"><img src="{{asset('landing/images/resource/about2-1.jpg')}}" alt=""></figure>
-								<figure class="image-2 overlay-anim wow fadeInRight"><img src="{{asset('landing/images/resource/about2-2.jpg')}}" alt=""></figure>
-								<div class="exp-box">
-									<div class="inner">
-										<i class="icon flaticon-promotion"></i>
-										<span class="count">50+</span>
-										<h6 class="title">Work Experience</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!--Emd About Section Two -->
-
-  @php
-    $totlPackages = count($packages);
-    $classDiv = 'col-md-4';
-    if($totlPackages%2 ==0){
-      $classDiv = 'col-md-6';
-    }
-  @endphp
-
-  <section id="price">
-    <div id="pricing5" data-section="pricing-5" class="data-section">
-      <div class="container">
-        <div class="section-header">
-          <h2 class="wow fadeInDown animated">Price</h2>
-          <p class="wow fadeInDown animated">TUNING PORTAL PRICES</p>
-        </div>
-        <div class="row col-md-10 col-md-offset-1">
-          @foreach($packages as $val)
-          <div class="@php echo $classDiv @endphp">
-            <div class="table long-table text-center">
-              <h3 class="editContent">{{ $val['name'] }}</h3>
-              <h2 class="editContent">£ {{ $val['amount'] }}</h2>
-              {!! $val['description'] !!}
-              <a href="/register-account?domain={{strpos($val['name'], 'own') !== false ? 'own' : 'regular'}}" class="theme-btn btn-style-one" name="submit-form"><span class="btn-title">Register</span></a>
-            </div>
-          </div>
-          @endforeach
-        </div>
-      </div>
-    </div>
-    <div id="pricing5" data-section="pricing-5" class="data-section">
-      <div class="container">
-        <div class="section-header">
-            <h2 class="wow fadeInDown animated">Data API</h2>
-        </div>
-        <div class="row col-md-6 col-md-offset-3">
-          <div class="table long-table text-center">
-              <h3 class="editContent">{{ $apiPackage->name }}</h3>
-              <h2 class="editContent">£ {{ $apiPackage->amount }}</h2>
-              {!! $apiPackage->description !!}
-              <a href="{{ route('frontend.api.intro') }}" class="theme-btn btn-style-one" name="submit-form"><span class="btn-title">Register</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-    <!-- Why Choose Us Two -->
+  <!-- Why Choose Us Two -->
 	<section class="why-choose-us-two" id="features">
 		<div class="anim-icons">
 			<span class="icon icon-arrow1"></span>
@@ -406,6 +274,140 @@
 		</div>
 	</section>
 	<!-- End Why Choose Us Two -->
+
+  
+
+  @php
+    $totlPackages = count($packages);
+    $classDiv = 'col-md-4';
+    if($totlPackages%2 ==0){
+      $classDiv = 'col-md-6';
+    }
+  @endphp
+
+  <section id="price">
+    <div id="pricing5" data-section="pricing-5" class="data-section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="wow fadeInDown animated">Price</h2>
+          <p class="wow fadeInDown animated">TUNING PORTAL PRICES</p>
+        </div>
+        <div class="row col-md-10 col-md-offset-1">
+          @foreach($packages as $val)
+          <div class="@php echo $classDiv @endphp">
+            <div class="table long-table text-center">
+              <h3 class="editContent">{{ $val['name'] }}</h3>
+              <h2 class="editContent">£ {{ $val['amount'] }}</h2>
+              {!! $val['description'] !!}
+              <a href="/register-account?domain={{strpos($val['name'], 'own') !== false ? 'own' : 'regular'}}" class="theme-btn btn-style-one" name="submit-form"><span class="btn-title">Register</span></a>
+            </div>
+          </div>
+          @endforeach
+        </div>
+      </div>
+    </div>
+    <div id="pricing5" data-section="pricing-5" class="data-section">
+      <div class="container">
+        <div class="section-header">
+            <h2 class="wow fadeInDown animated">Data API</h2>
+        </div>
+        <div class="row col-md-6 col-md-offset-3">
+          <div class="table long-table text-center">
+              <h3 class="editContent">{{ $apiPackage->name }}</h3>
+              <h2 class="editContent">£ {{ $apiPackage->amount }}</h2>
+              {!! $apiPackage->description !!}
+              <a href="{{ route('frontend.api.intro') }}" class="theme-btn btn-style-one" name="submit-form"><span class="btn-title">Register</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section Two -->
+	<section class="about-section-two" id="about">
+		<div class="anim-icons">
+			<span class="icon icon-line4"></span>
+			<span class="icon icon-line5"></span>
+			<span class="icon icon-arrow1 bounce-x"></span>
+			<span class="icon icon-speaker zoom-one"></span>
+		</div>
+		<div class="auto-container">
+			<div class="outer-box">
+				<div class="row">
+					<!-- Content Column -->
+					<div class="content-column col-xl-6 col-lg-7 col-md-12 col-sm-12 order-2 wow fadeInRight" data-wow-delay="600ms">
+						<div class="inner-column">
+							<div class="sec-title">
+								<span class="sub-title">About our company</span>
+								<h2>Leading the best</h2>
+								<div class="text">Remapdash.com is a remapping file comparison site which brings together some of Europe's most experienced tuning companies all under one roof.</div>
+                                <div class="text">Discover which tuning company suits your needs and register directly on their file portal. Its Quick, Simple to use and hassle free.</div>
+							</div>
+
+							{{-- <div class="row">
+								<div class="info-box col-lg-6 col-md-6">
+									<div class="inner">
+										<h5 class="title"><i class="icon fa fa-circle-arrow-right"></i> Digital marketing</h5>
+										<div class="text">Knowledge of technologies rules better than anyone</div>
+									</div>
+								</div>
+
+								<div class="info-box col-lg-6 col-md-6">
+									<div class="inner">
+										<h5 class="title"><i class="icon fa fa-circle-arrow-right"></i> Quality results</h5>
+										<div class="text">Knowledge of technologies rules better than anyone</div>
+									</div>
+								</div>
+							</div> --}}
+
+
+							<!--Skills-->
+							<div class="skills">
+								<!--Skill Item-->
+								<div class="skill-item">
+									<div class="skill-header">
+										<h5 class="skill-title">Marketing</h5>
+									</div>
+									<div class="skill-bar">
+										<div class="bar-inner">
+											<div class="bar progress-line" data-width="100">
+												<div class="skill-percentage">
+													<div class="count-box"><span class="count-text" data-speed="3000" data-stop="100">0</span>%</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							{{-- <div class="bottom-box">
+								<a href="page-about.html" class="theme-btn btn-style-one hvr-dark"><span class="btn-title">Discover more</span></a>
+							</div> --}}
+						</div>
+					</div>
+
+					<!-- Image Column -->
+					<div class="image-column col-xl-6 col-lg-5 col-md-12 col-sm-12">
+						<div class="inner-column wow fadeInLeft">
+							<div class="image-box">
+								<span class="icon-dots2"></span>
+								<figure class="image-1 overlay-anim wow fadeInUp"><img src="{{asset('landing/images/resource/about2-1.jpg')}}" alt=""></figure>
+								<figure class="image-2 overlay-anim wow fadeInRight"><img src="{{asset('landing/images/resource/about2-2.jpg')}}" alt=""></figure>
+								<div class="exp-box">
+									<div class="inner">
+										<i class="icon flaticon-promotion"></i>
+										<span class="count">50+</span>
+										<h6 class="title">Work Experience</h6>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!--Emd About Section Two -->
 
 	<!-- Testimonial Section Two -->
 	<section class="testimonial-section-two">

@@ -3,6 +3,16 @@
   Welcome Remapdash
 @endsection
 
+@section('css')
+<style type="text/css">
+  .fancybox-margin{margin-right:17px;}
+
+  .container-form{
+    width: 750px;
+  }
+</style>
+@endsection
+
 @section('content')
 <section class="section auth-section">
   <div class="container container-form">
@@ -107,7 +117,7 @@
           <div class="form-group">
             <div id="error"></div>
           </div>
-          <button id="btnSubmit" class="btn btn-success view-btn" type="submit">Submit</button>
+          <button id="btnSubmit" class="btn btn-success view-btn" style="margin-bottom: 10px; margin-top: 20px;" type="submit">Submit</button>
 
           {!! html()->form()->close() !!}
         </div>
