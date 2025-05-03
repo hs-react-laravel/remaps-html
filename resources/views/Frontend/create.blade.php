@@ -128,7 +128,7 @@
 </section>
 @endsection
 
-@section('script')
+@section('scripts')
 <script>
   var owl = $('.banner-silder');
   owl.owlCarousel({

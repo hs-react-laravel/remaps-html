@@ -274,7 +274,7 @@
 </section>
 @endsection
 
-@section('script')
+@section('scripts')
 <script>
   $(function() {
     $('body').scrollTop(1);
