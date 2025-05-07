@@ -230,7 +230,7 @@
                     <button
                       type="submit"
                       class="btn {{ 'btn-'.substr($configData['navbarColor'], 3) }} g-recaptcha"
-                      data-sitekey="{{env('SITE_KEY')}}"
+                      data-sitekey="6LfKOTArAAAAAOViC1elvhMNULm_WQoLrKe4cAK2"
                       data-callback="onSubmit"
                       style="float: right;">Submit</button>
                     {{-- <button class="btn {{ 'btn-'.substr($configData['navbarColor'], 3) }} w-100" onclick="onSubmit('')">Sign in</button> --}}
