@@ -47,7 +47,7 @@
         <div class="w-100 justify-content-center mb-2">
           <img
             src="{{ $company->logo ?
-                env('AZURE_STORAGE_URL').'uploads/'.$company->logo :
+                Storage::disk('azure')->url($company->logo) :
                 'https://via.placeholder.com/250x110.png?text=Logo+Here'
             }}"
             id="logo"

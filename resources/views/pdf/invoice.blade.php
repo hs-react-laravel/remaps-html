@@ -12,7 +12,7 @@
           <td valign="top">
 
             @if($company->logo)
-              <img src="{{ env('AZURE_STORAGE_URL').'uploads/'.$company->logo }}" alt="" style="width:280px" />
+              <img src="{{ Storage::disk('azure')->url($company->logo) }}" alt="" style="width:280px" />
             @endif
           </td>
           <td align="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">

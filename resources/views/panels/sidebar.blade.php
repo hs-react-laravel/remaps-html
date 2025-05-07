@@ -6,7 +6,7 @@ $configData = Helper::applClasses();
   }} menu-accordion menu-shadow" data-scroll-to-active="true">
   <div class="navbar-header mt-1" style="height: 10rem; display: flex; align-items: center; justify-content:center;">
     <a href="{{ $user->is_admin ? route('dashboard.admin') : route('dashboard.customer') }}">
-    <img src="{{ env('AZURE_STORAGE_URL').'uploads/'.$company->logo }}" style="width: 100%; max-height: 140px; border-radius: 5px"></a>
+    <img src="{{ Storage::disk('azure')->url($company->logo) }}" style="width: 100%; max-height: 140px; border-radius: 5px"></a>
   </div>
   <div class="shadow-bottom"></div>
   <div class="main-menu-content" style="height: calc(100% - 11rem) !important">
