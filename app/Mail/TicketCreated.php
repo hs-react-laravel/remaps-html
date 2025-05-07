@@ -8,7 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
-
+use Illuminate\Support\Facades\Storage;
 class TicketCreated extends Mailable
 {
     use Queueable, SerializesModels;
@@ -49,7 +49,7 @@ class TicketCreated extends Mailable
 			$subject = str_replace('##CUSTOMER_NAME', ucwords($this->user->first_name.' '.$this->user->last_name), $subject);
 
             $body = str_replace('##APP_NAME', $this->user->company->name, $body);
-            $body = str_replace('##APP_LOGO', env('AZURE_STORAGE_URL').'uploads/'.$this->user->company->logo, $body);
+            $body = str_replace('##APP_LOGO', Storage::disk('azure')->url($this->user->company->logo), $body);
 			$body = str_replace('##CUSTOMER_NAME', ucwords($this->user->first_name.' '.$this->user->last_name), $body);
 			$body = str_replace('##MESSAGE', ucfirst($this->jobDetail), $body);
             $this->subject($subject)

@@ -8,7 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
-
+use Illuminate\Support\Facades\Storage;
 class FileServiceCreated extends Mailable
 {
     use Queueable, SerializesModels;
@@ -44,7 +44,7 @@ class FileServiceCreated extends Mailable
             $body = $emailTemplate->body;
 
             $body = str_replace('##APP_NAME', $this->fileService->user->company->name, $body);
-            $body = str_replace('##APP_LOGO', env('AZURE_STORAGE_URL').'uploads/'.$this->fileService->user->company->logo, $body);
+            $body = str_replace('##APP_LOGO', Storage::disk('azure')->url($this->fileService->user->company->logo), $body);
             $body = str_replace('##LINK', $this->fileService->user->company->v2_domain_link.'/admin/file-service', $body);
             $body = str_replace('##CUSTOMER_NAME', $this->fileService->user->full_name, $body);
             $body = str_replace('##CAR_NAME', $this->fileService->car, $body);

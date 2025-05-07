@@ -21,7 +21,7 @@
               <div class="message-{{ $entry->sender_id == $user->id ? 'right' : 'left' }}">
                 @if ($entry->sender->logo)
                     <img
-                        src="{{ env('AZURE_STORAGE_URL').'uploads/'.$entry->sender->logo }}"
+                        src="{{ Storage::disk('azure')->url($entry->sender->logo) }}"
                         id="logo"
                         class="mb-1 mb-md-0"
                         width="32"
@@ -52,7 +52,7 @@
                   @if ($msg->sender_id != $prev_id)
                     @if ($msg->sender->logo)
                         <img
-                            src="{{ env('AZURE_STORAGE_URL').'uploads/'.$msg->sender->logo }}"
+                            src="{{ Storage::disk('azure')->url($msg->sender->logo) }}"
                             id="logo"
                             class="mb-1 mb-md-0"
                             width="32"

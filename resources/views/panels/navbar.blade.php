@@ -231,7 +231,7 @@
         </div>
         @if ($user->logo)
             <img
-                src="{{ env('AZURE_STORAGE_URL').'uploads/'.$user->logo }}"
+                src="{{ Storage::disk('azure')->url($user->logo) }}"
                 id="logo"
                 class="mb-1 mb-md-0"
                 width="32"

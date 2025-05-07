@@ -8,6 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Storage;
 
 class BillingSubscriptionCancelled extends Mailable
 {
@@ -50,7 +51,7 @@ class BillingSubscriptionCancelled extends Mailable
             $body = $emailTemplate->body;
 
             $body = str_replace('##APP_NAME', $masterCompany->name, $body);
-            $body = str_replace('##APP_LOGO', env('AZURE_STORAGE_URL').'uploads/'.$masterCompany->logo, $body);
+            $body = str_replace('##APP_LOGO', Storage::disk('azure')->url($masterCompany->logo), $body);
             $body = str_replace('##COMPANY_NAME', $company->name, $body);
             $body = str_replace('##PLAN_ID', $this->subscription->pay_agreement_id, $body);
 

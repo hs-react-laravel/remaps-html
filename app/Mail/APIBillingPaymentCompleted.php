@@ -8,6 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Storage;
 
 class APIBillingPaymentCompleted extends Mailable
 {
@@ -47,7 +48,7 @@ class APIBillingPaymentCompleted extends Mailable
             $subject = $emailTemplate->subject;
 
             $body = str_replace('##APP_NAME', $masterCompany->name, $body);
-            $body = str_replace('##APP_LOGO', env('AZURE_STORAGE_URL').'uploads/'.$masterCompany->logo, $body);
+            $body = str_replace('##APP_LOGO', Storage::disk('azure')->url($masterCompany->logo), $body);
             $body = str_replace('##USER_NAME', $this->subscription->user->fullname, $body);
             $body = str_replace('##AGREEMENT_ID', $this->subscription->pay_agreement_id, $body);
 

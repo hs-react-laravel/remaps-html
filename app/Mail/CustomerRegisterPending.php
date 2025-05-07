@@ -8,6 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Storage;
 
 class CustomerRegisterPending extends Mailable
 {
@@ -45,7 +46,7 @@ class CustomerRegisterPending extends Mailable
             $subject = $emailTemplate->subject;
             $body = $emailTemplate->body;
 
-            $body = str_replace('##APP_LOGO', env('AZURE_STORAGE_URL').'uploads/'.$this->user->company->logo, $body);
+            $body = str_replace('##APP_LOGO', Storage::disk('azure')->url($this->user->company->logo), $body);
             $body = str_replace('##APP_NAME', $this->user->company->name, $body);
             $body = str_replace('##USER_NAME', $this->user->full_name, $body);
 

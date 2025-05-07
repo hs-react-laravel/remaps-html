@@ -8,6 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Storage;
 
 class CompanyActivateEmail extends Mailable
 {
@@ -55,10 +56,10 @@ class CompanyActivateEmail extends Mailable
 
             if($this->user->is_admin){
                 $company = \App\Models\Company::where('is_default', 1)->first(['logo']);
-                $body = str_replace('##APP_LOGO', env('AZURE_STORAGE_URL').'uploads/'.$company->logo, $body);
+                $body = str_replace('##APP_LOGO', Storage::disk('azure')->url($company->logo), $body);
                 $body = str_replace('##LINK', $this->user->company->v2_domain_link.'/admin/password/reset/'.$this->token, $body);
             }else{
-                $body = str_replace('##APP_LOGO', env('AZURE_STORAGE_URL').'uploads/'.$this->user->company->logo, $body);
+                $body = str_replace('##APP_LOGO', Storage::disk('azure')->url($this->user->company->logo), $body);
                 $body = str_replace('##LINK', $this->user->company->v2_domain_link.'/password/reset/'.$this->token, $body);
             }
             $body = str_replace('##USER_NAME', $this->user->full_name, $body);

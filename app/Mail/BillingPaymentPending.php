@@ -8,6 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Storage;
 
 class BillingPaymentPending extends Mailable
 {
@@ -49,7 +50,7 @@ class BillingPaymentPending extends Mailable
             $body = $emailTemplate->body;
 
             $body = str_replace('##APP_NAME', $masterCompany->name, $body);
-            $body = str_replace('##APP_LOGO', env('AZURE_STORAGE_URL').'uploads/'.$company->logo, $body);
+            $body = str_replace('##APP_LOGO', Storage::disk('azure')->url($masterCompany->logo), $body);
             $body = str_replace('##COMPANY_NAME', $this->subscription->user->company->name, $body);
             $body = str_replace('##AGREEMENT_ID', $this->subscription->pay_agreement_id, $body);
 

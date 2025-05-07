@@ -159,7 +159,7 @@
                  <div class="d-flex align-items-center slider-caption main-slider-item">
                  @if($slide['image'])
                    <div class="img-block">
-                       <img class="main-slider-img" src="{{ env('AZURE_STORAGE_URL').'uploads/'. $slide['image'] }}" alt="banner">
+                       <img class="main-slider-img" src="{{ Storage::disk('azure')->url($slide['image']) }}" alt="banner">
                    </div>
                  @endif
                    <div class="content-block p-2">

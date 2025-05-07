@@ -137,7 +137,7 @@
                 endif;*/
               ?>
               @php
-                $logo = env('AZURE_STORAGE_URL').'uploads/'.$val['logo'];
+                $logo = Storage::disk('azure')->url($val['logo']);
                 $link =$val['v2_domain_link'];
               @endphp
               <tr>

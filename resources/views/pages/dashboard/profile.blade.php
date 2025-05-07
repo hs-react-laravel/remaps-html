@@ -100,7 +100,7 @@
               <div class="d-flex flex-column flex-md-row">
                 <img
                   src="{{ $user->logo ?
-                    env('AZURE_STORAGE_URL').'uploads/'.$user->logo :
+                    Storage::disk('azure')->url($user->logo) :
                     'https://via.placeholder.com/250x110.png?text=Logo+Here'
                   }}"
                   id="logo"

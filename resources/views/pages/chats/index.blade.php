@@ -206,7 +206,7 @@
                     if (user.logo) {
                         avatar = `
                             <img
-                                src="{{ env('AZURE_STORAGE_URL').'uploads/' }}${user.logo}"
+                                src="{{ Storage::disk('azure')->url('') }}${user.logo}"
                                 id="logo"
                                 class="mb-1 mb-md-0"
                                 width="32"
@@ -243,7 +243,7 @@
                     if (user.logo) {
                         avatar = `
                             <img
-                                src="{{ env('AZURE_STORAGE_URL').'uploads/' }}${user.logo}"
+                                src="{{ Storage::disk('azure')->url('') }}${user.logo}"
                                 id="logo"
                                 class="mb-1 mb-md-0"
                                 width="32"
@@ -313,7 +313,7 @@
                             if (result.avatarU.logo) {
                                 avatar = `
                                     <img
-                                        src="{{ env('AZURE_STORAGE_URL').'uploads/' }}${result.avatarU.logo}"
+                                        src="{{ Storage::disk('azure')->url('') }}${result.avatarU.logo}"
                                         id="logo"
                                         class="mb-1 mb-md-0"
                                         width="32"
@@ -346,7 +346,7 @@
                             if (result.avatarC.logo) {
                                 avatar = `
                                     <img
-                                        src="{{ env('AZURE_STORAGE_URL').'uploads/' }}${result.avatarC.logo}"
+                                        src="{{ Storage::disk('azure')->url('') }}${result.avatarC.logo}"
                                         id="logo"
                                         class="mb-1 mb-md-0"
                                         width="32"

@@ -8,6 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Storage;
 
 class BankTransferNotify extends Mailable
 {
@@ -50,7 +51,7 @@ class BankTransferNotify extends Mailable
             $currencyCode = config('constants.currency_signs')[$company->paypal_currency_code];
 
             $body = str_replace('##APP_NAME', $company->name, $body);
-            $body = str_replace('##APP_LOGO', env('AZURE_STORAGE_URL').'uploads/'.$company->logo, $body);
+            $body = str_replace('##APP_LOGO', Storage::disk('azure')->url($company->logo), $body);
             $body = str_replace('##USER_NAME', $company->owner->full_name, $body);
             $body = str_replace('##CREDIT_COUNT', $this->credits, $body);
             $body = str_replace('##AMOUNT', $currencyCode.$this->order->amount, $body);
