@@ -107,7 +107,7 @@
           <br />
           <button
             class="btn {{ 'btn-'.substr($configData['navbarColor'], 3) }} w-100 g-recaptcha"
-            data-sitekey="6LfKOTArAAAAAOViC1elvhMNULm_WQoLrKe4cAK2"
+            data-sitekey="{{env('SITE_KEY')}}"
             tabindex="4"
             data-callback="onSubmit"
           >Sign in</button>

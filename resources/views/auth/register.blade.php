@@ -54,7 +54,7 @@
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header">
-                  <h4 class="card-title">Register</h4>
+                  <h4 class="card-title">Register1</h4>
                 </div>
                 <div class="card-body">
                   <div class="row mb-1">
@@ -230,7 +230,7 @@
                     <button
                       type="submit"
                       class="btn {{ 'btn-'.substr($configData['navbarColor'], 3) }} g-recaptcha"
-                      data-sitekey="6LfxQ0ojAAAAAHCyLcqjeiUodaELsckXOuwZqv-Y"
+                      data-sitekey="{{env('SITE_KEY')}}"
                       data-callback="onSubmit"
                       style="float: right;">Submit</button>
                     {{-- <button class="btn {{ 'btn-'.substr($configData['navbarColor'], 3) }} w-100" onclick="onSubmit('')">Sign in</button> --}}
