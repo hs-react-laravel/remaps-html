@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Log;
 class PleskService
 {
     protected $client;
-    protected $username;
-    protected $password;
+    protected $apiKey;
+    protected $base_url;
     protected $targetIp;
 
     public function __construct()
@@ -19,44 +19,51 @@ class PleskService
             'verify' => false,
         ]);
 
-        $this->username = config('plesk.username');
-        $this->password = config('plesk.password');
+        $this->apiKey = config('plesk.api_key');
+        $this->base_url = config('plesk.base_url');
         $this->targetIp = config('plesk.target_ip');
-
-        Log::info('plesk.base_url: '.config('plesk.base_url')); 
-        Log::info('plesk.username: '.config('plesk.username'));
-        Log::info('plesk.password: '.config('plesk.password'));
-        Log::info('plesk.target_ip: '.config('plesk.target_ip'));
     }
 
-    public function addDomain(string $domain): string
+    // https://support.plesk.com/hc/en-us/articles/12377451966359-How-to-create-a-domain-subdomain-alias-in-Plesk
+    public function addDomain($domain, $ip, $ftpUser, $ftpPass): string
     {
-      $targetIp = $this->targetIp;
-        $xml = <<<XML
-<?xml version="1.0" encoding="UTF-8"?>
-<packet version="1.6.3.0">
-  <webspace>
+      $client = new Client();
+
+    $xml = <<<XML
+<packet>
+  <site>
     <add>
       <gen_setup>
         <name>{$domain}</name>
-        <ip_address>{$targetIp}</ip_address>
+        <webspace-id>45</webspace-id>
       </gen_setup>
       <hosting>
-        <none/>
+        <vrt_hst>
+          <property>
+            <name>www_root</name>
+            <value>apt.remapdash.com/public</value>
+          </property>
+        </vrt_hst>
       </hosting>
     </add>
-  </webspace>
+  </site>
 </packet>
 XML;
 
-        $response = $this->client->post('enterprise/control/agent.php', [
-            'headers' => [
-                'Content-Type' => 'text/xml',
-            ],
-            'auth' => [$this->username, $this->password],
-            'body' => $xml,
-        ]);
 
-        return $response->getBody()->getContents();
+  Log::info('plesk.base_url: '.$this->base_url); 
+  Log::info('plesk.api_key: '.$this->apiKey);
+  Log::info('plesk.target_ip: '.$this->targetIp);
+  
+    $response = $client->post($this->base_url . '/enterprise/control/agent.php', [
+        'headers' => [
+            'Content-Type' => 'text/xml',
+            'KEY' => $this->apiKey,
+        ],
+        'body' => $xml,
+        'verify' => false, 
+    ]);
+
+    return $response->getBody()->getContents();
     }
 }

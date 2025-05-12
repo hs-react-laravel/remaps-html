@@ -37,6 +37,10 @@ class CompanyController extends MasterController
       // Log::info('result');
       // Log::info($result);
       // set up DNS A record for the domain========================== />
+      $pleskService = new PleskService();
+      $result = $pleskService->addDomain('tenssengineer1231.com', '217.40.29.235', 'admin', 'admin');
+      Log::info('result');
+      Log::info($result);
         $this->check_master();
         $user = $this->user;
         $entries = Company::where('id', '!=', $user->company->id)
