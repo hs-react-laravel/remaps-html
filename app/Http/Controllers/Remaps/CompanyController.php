@@ -29,18 +29,13 @@ class CompanyController extends MasterController
      */
     public function index()
     {
-
-
-      // set up DNS A record for the domain==========================<
-      // $pleskRestService = new PleskRestService();
-      // $result = $pleskRestService->addDomain('tenssengineer12.com', '217.40.29.235');
+      // add domain to plesk ============================================= <
+      // $pleskService = new PleskService();
+      // $result = $pleskService->addDomain('tenssengineer1231.com', '217.40.29.235', 'admin', 'admin');
       // Log::info('result');
       // Log::info($result);
-      // set up DNS A record for the domain========================== />
-      $pleskService = new PleskService();
-      $result = $pleskService->addDomain('tenssengineer1231.com', '217.40.29.235', 'admin', 'admin');
-      Log::info('result');
-      Log::info($result);
+      // add domain to plesk ============================================= />
+
         $this->check_master();
         $user = $this->user;
         $entries = Company::where('id', '!=', $user->company->id)
@@ -678,121 +673,4 @@ class CompanyController extends MasterController
         }
     }
 
-
-    public function setupDNSARecord($domain) {
-        try {
-            $pleskUri = env('PLESK_URI', 'https://apthosting.uk:8443');
-            $pleskUsername = env('PLESK_USERNAME');
-            $pleskPassword = env('PLESK_PASSWORD');
-            $targetIp = env('TARGET_IP', '217.40.29.235');
-
-            Log::info('Starting DNS A record setup for domain: ' . $domain);
-            Log::info('Plesk URI: ' . $pleskUri);
-            Log::info('Target IP: ' . $targetIp);
-
-            if (!$pleskUsername || !$pleskPassword) {
-                throw new \Exception('Plesk credentials are not configured');
-            }
-
-            // First check if domain exists in Plesk
-            $checkDomainXml = '<?xml version="1.0" encoding="UTF-8"?>
-<packet>
-  <site>
-    <get>
-      <filter>
-        <name>' . htmlspecialchars($domain) . '</name>
-      </filter>
-    </get>
-  </site>
-</packet>';
-
-            $client = new \GuzzleHttp\Client([
-                'base_uri' => $pleskUri,
-                'auth' => [$pleskUsername, $pleskPassword],
-                'verify' => false,
-                'timeout' => 30,
-                'http_errors' => false,
-            ]);
-
-            // Check if domain exists
-            $checkResponse = $client->request('POST', 'enterprise/control/agent.php', [
-                'body' => $checkDomainXml,
-                'headers' => [
-                    'Content-Type' => 'text/xml',
-                ],
-            ]);
-
-            $checkResult = simplexml_load_string($checkResponse->getBody());
-            if ($checkResult === false || !isset($checkResult->site->get->result)) {
-                throw new \Exception('Failed to check domain existence in Plesk');
-            }
-
-            if (empty($checkResult->site->get->result)) {
-                throw new \Exception('Domain ' . $domain . ' does not exist in Plesk');
-            }
-
-            // Add DNS A record
-            $xmlPayload = '<?xml version="1.0" encoding="UTF-8"?>
-<packet>
-  <dns>
-    <add_rec>
-      <site-name>' . htmlspecialchars($domain) . '</site-name>
-      <type>A</type>
-      <value>' . htmlspecialchars($targetIp) . '</value>
-      <ttl>3600</ttl>
-    </add_rec>
-  </dns>
-</packet>';
-
-            $response = $client->request('POST', 'enterprise/control/agent.php', [
-                'body' => $xmlPayload,
-                'headers' => [
-                    'Content-Type' => 'text/xml',
-                ],
-            ]);
-
-            $responseBody = $response->getBody();
-            Log::info('Plesk API Response: ' . $responseBody);
-
-            if ($response->getStatusCode() !== 200) {
-                throw new \Exception('Failed to add DNS record. Status: ' . $response->getStatusCode() . ', Response: ' . $responseBody);
-            }
-
-            // Verify DNS record was added
-            $verifyXml = '<?xml version="1.0" encoding="UTF-8"?>
-<packet>
-  <dns>
-    <get_rec>
-      <filter>
-        <site-name>' . htmlspecialchars($domain) . '</site-name>
-        <type>A</type>
-      </filter>
-    </get_rec>
-  </dns>
-</packet>';
-
-            $verifyResponse = $client->request('POST', 'enterprise/control/agent.php', [
-                'body' => $verifyXml,
-                'headers' => [
-                    'Content-Type' => 'text/xml',
-                ],
-            ]);
-
-            $verifyResult = simplexml_load_string($verifyResponse->getBody());
-            if ($verifyResult === false || !isset($verifyResult->dns->get_rec->result)) {
-                throw new \Exception('Failed to verify DNS record addition');
-            }
-
-            if (empty($verifyResult->dns->get_rec->result)) {
-                throw new \Exception('DNS A record was not added successfully');
-            }
-
-            Log::info('DNS A record added and verified successfully for domain: ' . $domain);
-            return true;
-
-        } catch (\Exception $e) {
-            Log::error('Failed to setup DNS A record: ' . $e->getMessage());
-            throw $e;
-        }
-    }
 }

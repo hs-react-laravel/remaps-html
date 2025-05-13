@@ -24,8 +24,15 @@ class PleskService
         $this->targetIp = config('plesk.target_ip');
     }
 
+    /**
+     * get access token from plesk
+     * plesk bin secret_key -c -ip-address 192.200.115.226 -description "Admin access token"
+     * curl -kLi -H "Content-Type: text/xml" -H "KEY: xxxx-xxxx" -H "HTTP_PRETTY_PRINT: TRUE"  -d "@D:\\api.rpc" https://apthosting.uk:8443/enterprise/control/agent.php
+     * 
+     * 
+     */
     // https://support.plesk.com/hc/en-us/articles/12377451966359-How-to-create-a-domain-subdomain-alias-in-Plesk
-    public function addDomain($domain, $ip, $ftpUser, $ftpPass): string
+    public function addDomain($domain): string
     {
       $client = new Client();
 
@@ -49,7 +56,6 @@ class PleskService
   </site>
 </packet>
 XML;
-
 
   Log::info('plesk.base_url: '.$this->base_url); 
   Log::info('plesk.api_key: '.$this->apiKey);

@@ -43,7 +43,7 @@
 
         <div class="box-body">
           <a  class="btn btn-primary my-4" href="/">Back</a>
-          {!! html()->form('POST')->route('pay.with.paypal.main')->autocomplete(false)->open() !!}
+          {!! html()->form('POST')->route('pay.with.paypal.main')->acceptsFiles()->autocomplete(false)->open() !!}
 
           <div class="form-group">
             {!! html()->label('Company Name', 'name') !!}
@@ -111,6 +111,33 @@
           </div>
 
           <div class="form-group">
+            {!! html()->label('Company Logo', 'logo') !!}
+            <!-- <input type="file" name="logo" id="logo" class="form-control" accept="image/*">
+            <div id="logo-preview-wrapper" style="margin-top:10px; display:none;">
+              <img id="logo-preview" src="#" alt="Logo Preview" style="max-width: 200px; max-height: 120px; border:1px solid #ddd; padding:4px; background:#fff;" />
+            </div> -->
+
+            <div class="border rounded p-1">
+              <div class="d-flex flex-column flex-md-row">
+                <img
+                  src="/images/logo/company_logo_250x110.png"
+                  id="logo"
+                  class="rounded me-2 mb-1 mb-md-0"
+                  width="250"
+                  height="110"
+                  alt="Blog Featured Image"
+                  style="width: 250px; height: 110px;"
+                />
+                <div class="featured-info d-flex align-items-center">
+                  <div class="d-inline-block">
+                    <input class="form-control" type="file" id="imageLogo" name="upload_file" accept="image/*" style="width: 430px;" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
             <div class="g-recaptcha" data-sitekey="{{env('SITE_KEY')}}" ></div>
           </div>
 
@@ -159,5 +186,17 @@
   $('#own_domain').change(function () {
       $('#v2_domain_link').val($(this).val());
   })
+
+  // Logo image preview
+  document.getElementById('imageLogo').addEventListener('change', function(event) {
+    const [file] = event.target.files;
+    const logo = document.getElementById('logo');
+    if (file) {
+      logo.src = URL.createObjectURL(file);
+    } else {
+      logo.src = '#';
+    }
+  });
+
 </script>
 @endsection

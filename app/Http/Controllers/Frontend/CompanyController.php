@@ -44,6 +44,9 @@ use App\Models\Api\ApiUserReg;
 use App\Models\Api\ApiPackage;
 use App\Models\Api\ApiSubscription;
 use Illuminate\Support\Str;
+use App\Services\PleskService;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class CompanyController extends Controller
 {
@@ -84,6 +87,26 @@ class CompanyController extends Controller
 
          if ($request->has('own_domain')) {
             $company->v2_domain_link = $request->own_domain;
+            $urlWithDomain = $request->own_domain;
+            $domainHost = parse_url($urlWithDomain, PHP_URL_HOST);
+            $pleskService = new PleskService();
+            $responseDomain = $pleskService->addDomain($domainHost);
+
+            $responseXml = new \SimpleXMLElement($responseDomain);
+            $status = (string) $responseXml->webspace->add->result->status;
+
+            
+
+            if ($status === 'ok') {
+                $company->v2_domain_link = $urlWithDomain;
+            } else {
+                $errText = (string) $responseXml->webspace->add->result->errtext;
+                Log::info('=======================> add domain error ======================= >');
+                Log::info($errText);
+                Log::info('=======================> add domain error ======================= />');
+
+                return redirect()->back()->with('error', $errText);
+            }
          } else {
             $company->v2_domain_link = 'https://'.$request->v2_domain_link;
          }
@@ -92,6 +115,16 @@ class CompanyController extends Controller
 		 $company->town = $request->town;
 		 $company->country = $request->country;
 		 $company->vat_number = $request->vat_number;
+
+      // Handle logo upload
+      if($request->hasFile('upload_file')){
+        if($request->file('upload_file')->isValid()){
+            $file = $request->file('upload_file');
+            $res = Storage::disk('azure')->put('logo', $file);
+            Log::info($res);
+            $company->logo = $res;
+        }
+      }
 
 		 if($company->save()){
 		  	 $companyUser = new \App\Models\User();
