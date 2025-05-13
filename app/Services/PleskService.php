@@ -60,6 +60,7 @@ XML;
   Log::info('plesk.base_url: '.$this->base_url); 
   Log::info('plesk.api_key: '.$this->apiKey);
   Log::info('plesk.target_ip: '.$this->targetIp);
+  Log::info('domain: '.$domain);
   
     $response = $client->post($this->base_url . '/enterprise/control/agent.php', [
         'headers' => [
@@ -70,6 +71,8 @@ XML;
         'verify' => false, 
     ]);
 
-    return $response->getBody()->getContents();
+    $xmlResponse = $response->getBody()->getContents();
+    Log::info('response: '.$xmlResponse);
+    return $xmlResponse;
     }
 }

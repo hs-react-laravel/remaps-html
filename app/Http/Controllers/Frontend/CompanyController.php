@@ -92,15 +92,30 @@ class CompanyController extends Controller
             $pleskService = new PleskService();
             $responseDomain = $pleskService->addDomain($domainHost);
 
-            $responseXml = new \SimpleXMLElement($responseDomain);
-            $status = (string) $responseXml->webspace->add->result->status;
+            if (empty($responseDomain)) {
+                Log::error('Plesk response is empty!');
+                return redirect()->back()->with('error', 'no response from plesk');
+            }
+            libxml_use_internal_errors(true);
+            $responseXml = simplexml_load_string($responseDomain);
+            if ($responseXml === false) {
+                $errors = libxml_get_errors();
+                $errorMessage = "XML Parse Error: ";
+                foreach ($errors as $error) {
+                    $errorMessage .= trim($error->message) . ' ';
+                }
+                Log::error('XML Parse Error: ' . $errorMessage);
+                return redirect()->back()->with('error', $errorMessage);
+            }
+            Log::info('responseXml: '.$responseXml->asXML());
+            $status = (string) $responseXml->site->add->result->status;
 
-            
+            Log::info('status: '.$status);
 
             if ($status === 'ok') {
                 $company->v2_domain_link = $urlWithDomain;
             } else {
-                $errText = (string) $responseXml->webspace->add->result->errtext;
+                $errText = (string) $responseXml->site->add->result->errtext;
                 Log::info('=======================> add domain error ======================= >');
                 Log::info($errText);
                 Log::info('=======================> add domain error ======================= />');
