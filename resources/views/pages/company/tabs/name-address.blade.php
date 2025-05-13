@@ -101,7 +101,7 @@
             <img
               src="{{ $entry->logo ?
                 Storage::disk('azure')->url($entry->logo) :
-                'https://via.placeholder.com/250x110.png?text=Logo+Here'
+                asset('landing/images/default-logo.png')
               }}"
               id="logo"
               class="rounded me-2 mb-1 mb-md-0"
