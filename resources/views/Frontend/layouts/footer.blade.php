@@ -44,7 +44,7 @@
 							<div class="widget-content">
 								<div class="logo">
                                     <a class="logo" href="/" style="font-family: daysone; font-size: 28px;">
-                                        <span style="color: white;">REMAP</span><span style="color: #BB6133;">DASH</span>
+                                        <img src="{{ asset('landing/images/logo.jpg') }}" alt="Logo" style="width: 200px; height: auto;">
                                     </a>
                                 </div>
 								<div class="text">Welcome to our agency.</div>

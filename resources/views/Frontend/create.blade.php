@@ -120,7 +120,7 @@
             <div class="border rounded p-1">
               <div class="d-flex flex-column flex-md-row">
                 <img
-                  src="/images/logo/company_logo_250x110.png"
+                  src="{{ asset('landing/images/company_logo_250x110.png') }}"
                   id="logo"
                   class="rounded me-2 mb-1 mb-md-0"
                   width="250"

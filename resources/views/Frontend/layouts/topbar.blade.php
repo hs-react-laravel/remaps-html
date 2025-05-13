@@ -19,7 +19,8 @@
 				<div class="logo-box">
 					<div class="logo">
                         <a class="logo" href="/" style="font-family: daysone; font-size: 28px;">
-                            <span style="color: white;">REMAP</span><span style="color: #BB6133;">DASH</span>
+                            <!-- <span style="color: white;">REMAP</span><span style="color: #BB6133;">DASH</span> -->
+                            <img src="{{ asset('landing/images/logo.jpg') }}" alt="Logo" style="width: 200px; height: auto;">
                         </a>
                     </div>
 				</div>
@@ -66,7 +67,8 @@
 				<div class="upper-box">
 					<div class="nav-logo">
                         <a class="logo" href="/" style="font-family: daysone; font-size: 28px; margin-top: -10px">
-                            <span style="color: white;">REMAP</span><span style="color: BB6133;">DASH</span>
+                            <!-- <span style="color: white;">REMAP</span><span style="color: BB6133;">DASH</span> -->
+                            <img src="{{ asset('landing/images/logo.jpg') }}" alt="Logo" style="width: 200px; height: auto;">
                         </a>
                     </div>
 					<div class="close-btn"><i class="icon fa fa-times"></i></div>
@@ -135,7 +137,8 @@
 					<!--Logo-->
 					<div class="logo">
 						<a class="logo" href="/" style="font-family: daysone; font-size: 28px;">
-                            <span style="color: black;">REMAP</span><span style="color: #BB6133;">DASH</span>
+                            <!-- <span style="color: black;">REMAP</span><span style="color: #BB6133;">DASH</span> -->
+                            <img src="{{ asset('landing/images/logo.jpg') }}" alt="Logo" style="height: auto;">
                         </a>
 					</div>
 
