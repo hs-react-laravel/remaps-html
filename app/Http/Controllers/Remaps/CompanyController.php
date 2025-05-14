@@ -29,12 +29,6 @@ class CompanyController extends MasterController
      */
     public function index()
     {
-      // add domain to plesk ============================================= <
-      // $pleskService = new PleskService();
-      // $result = $pleskService->addDomain('tenssengineer1231.com', '217.40.29.235', 'admin', 'admin');
-      // Log::info('result');
-      // Log::info($result);
-      // add domain to plesk ============================================= />
 
         $this->check_master();
         $user = $this->user;
@@ -159,6 +153,41 @@ class CompanyController extends MasterController
                     $res = Storage::disk('azure')->put('logo', $file);
                     $request->request->add(['logo' => $res]);
                 }
+            }
+            $urlWithDomain = $request->v2_domain_link;
+            $domainHost = parse_url($urlWithDomain, PHP_URL_HOST);
+            $pleskService = new PleskService();
+            $responseDomain = $pleskService->addDomain($domainHost);
+
+            if (empty($responseDomain)) {
+                Log::error('Plesk response is empty!');
+                return redirect()->back()->with('error', 'no response from plesk');
+            }
+            libxml_use_internal_errors(true);
+            $responseXml = simplexml_load_string($responseDomain);
+            if ($responseXml === false) {
+                $errors = libxml_get_errors();
+                $errorMessage = "XML Parse Error: ";
+                foreach ($errors as $error) {
+                    $errorMessage .= trim($error->message) . ' ';
+                }
+                Log::error('XML Parse Error: ' . $errorMessage);
+                return redirect()->back()->with('error', $errorMessage);
+            }
+            Log::info('responseXml: '.$responseXml->asXML());
+            $status = (string) $responseXml->site->add->result->status;
+
+            Log::info('status: '.$status);
+
+            if ($status === 'ok') {
+                $request->request->add(['v2_domain_link' => $urlWithDomain]);
+            } else {
+                $errText = (string) $responseXml->site->add->result->errtext;
+                Log::info('=======================> add domain error ======================= >');
+                Log::info($errText);
+                Log::info('=======================> add domain error ======================= />');
+
+                return redirect()->back()->with('error', $errText);
             }
             $company = Company::create($request->all());
             if($company->owner == NULL){
