@@ -100,7 +100,9 @@
               </td>
             </tr>
             <tr>
-              <td>&nbsp;</td>
+              @if($user->vat_number != null)
+              <td style="font-family:Arial, Helvetica, sans-serif; font-size:13px; height:22px; color:#575757; text-align: right; ">VAT: {{ $user->vat_number }}</td>
+              @endif
               </tr>
             <tr>
               <td>&nbsp;</td>
