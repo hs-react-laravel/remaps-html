@@ -77,8 +77,19 @@ class SubscriptionController extends MasterController
         $options->setIsRemoteEnabled(true);
         $pdf->setOptions($options);
         $masterCompany = \App\Models\Company::where('is_default', 1)->first();
+        $myCompany = \App\Models\Company::where('id', $subscription_payment->subscription->user->company_id)->first();
+        $me = \App\Models\User::where('id', $subscription_payment->subscription->user_id)->first();
+        $subscription = \App\Models\Subscription::where('id', $subscription_payment->subscription_id)->first();
+        $startDate = \Carbon\Carbon::parse($subscription->start_date)->format('F Y');
+        $paymentReasonMsg = 'Montly tuing portal subscription for '.$startDate;
         $pdf->loadHtml(
-            view('pdf.subscription_invoice')->with(['subscription_payment'=>$subscription_payment, 'company'=>$masterCompany, 'user'=>$this->user])->render()
+            view('pdf.subscription_invoice')->with([
+              'subscription_payment'=>$subscription_payment,
+              'company'=>$masterCompany,
+              'me'=>$me,
+              'myCompany'=>$myCompany,
+              'paymentReasonMsg'=>$paymentReasonMsg
+            ])->render()
         );
         $pdf->setPaper('A4', 'landscape');
         $pdf->render();

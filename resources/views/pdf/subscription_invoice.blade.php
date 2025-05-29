@@ -86,30 +86,43 @@
               </tr>
             <tr>
                 <td style="font-size:15px; font-family:Arial, Helvetica, sans-serif; height:22px">
-                    <strong>{{ $user->full_name }}</strong>
+                  {{ $me->business_name }}
                 </td>
             </tr>
             <tr>
               <td style="font-size:15px; font-family:Arial, Helvetica, sans-serif; height:22px">
-                  {{ $user->address_line_1 }}
-              </td>
-              </tr>
-            <tr>
-              <td style="font-size:15px; font-family:Arial, Helvetica, sans-serif; height:22px">
-                  {{ $user->county }}
+                  {{ $me->address_line_1 }}
               </td>
             </tr>
             <tr>
-              @if($user->vat_number != null)
-              <td style="font-family:Arial, Helvetica, sans-serif; font-size:13px; height:22px; color:#575757; text-align: right; ">VAT: {{ $user->vat_number }}</td>
-              @endif
-              </tr>
+              <td style="font-size:15px; font-family:Arial, Helvetica, sans-serif; height:22px">
+                  {{ $me->town }}
+              </td>
+            </tr>
+            <tr>
+              <td style="font-size:15px; font-family:Arial, Helvetica, sans-serif; height:22px">
+                  {{ $me->county }}
+              </td>
+            </tr>
+
+            @if($myCompany->vat_number != null)
+            <tr>
+              <td style="font-size:15px; font-family:Arial, Helvetica, sans-serif;height:22px">
+                VAT: {{ $myCompany->vat_number }}
+              </td>
+            </tr>
+            @endif
             <tr>
               <td>&nbsp;</td>
-              </tr>
+            </tr>
+            <tr>
+              <td style="font-size:15px; font-family:Arial, Helvetica, sans-serif; height:22px">
+                {{ $paymentReasonMsg }}
+              </td>
+            </tr>
             <tr>
               <td>&nbsp;</td>
-              </tr>
+            </tr>
             </table></td>
           <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
             <tr>
