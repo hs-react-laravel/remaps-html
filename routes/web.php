@@ -67,7 +67,7 @@ use App\Http\Controllers\LandingController;
 */
 
 // Remaps
-Route::group(['domain' => 'remapdash.com'], function () {
+Route::group(['domain' => 'remapdash.local'], function () {
     Route::get('/', [HomeController::class, 'index'])->name('innerhome');
     Route::get('home2', [HomeController::class, 'home2'])->name('innerhome2');
 	Route::get('compare-prices', [FrontendCompanyController::class, 'companies'])->name('frontend.companies');
@@ -75,9 +75,11 @@ Route::group(['domain' => 'remapdash.com'], function () {
 	Route::get('thankyou', [FrontendCompanyController::class, 'thankyou'])->name('thankyou');
 
 	// route for post request
-	Route::post('paypal', [FrontendCompanyController::class, 'postPaymentWithpaypal'])->name('pay.with.paypal.main');
+	Route::post('register-company-with-paypal', [FrontendCompanyController::class, 'submitRegisterCompanyWithPaypal'])->name('register.company.with.paypal');
+	Route::post('register-company/excute-subscription', [FrontendCompanyController::class, 'excuteSubscriptionRegisterCompany'])->name('excute.subscription.register.company');
+
 	// route for check status responce
-	Route::get('paypal', [FrontendCompanyController::class, 'getPaymentStatus'])->name('paypal.payment.status.main');
+	// Route::get('paypal', [FrontendCompanyController::class, 'getPaymentStatus'])->name('paypal.payment.status.main');
 
 	Route::get('paypal/subscribe/execute', [FrontendCompanyController::class, 'executeSubscription'])->name('paypal.execute.subscription');
 	Route::get('paypal/subscribe/{package}', [FrontendCompanyController::class, 'subscribeSubscription'])->name('paypal.subscribe.subscription');
@@ -98,7 +100,7 @@ Route::group(['domain' => 'remapdash.com'], function () {
     Route::get('api-logout', [FrontendCompanyController::class, 'api_logout'])->name('frontend.api.logout');
 
     Route::get('api-sub/{token}', [FrontendCompanyController::class, 'api_subscription'])->name('frontend.api.sub');
-    Route::get('api/execute', [FrontendCompanyController::class, 'executeSubscription'])->name('frontend.subscription.execute');
+    Route::get('api/execute', [FrontendCompanyController::class, 'executeApiSubscription'])->name('frontend.api.subscription.execute');
 
     Route::get('api-dashboard', [FrontendCompanyController::class, 'api_dashboard'])->name('frontend.api.dashboard');
 

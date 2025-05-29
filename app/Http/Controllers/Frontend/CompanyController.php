@@ -47,6 +47,7 @@ use Illuminate\Support\Str;
 use App\Services\PleskService;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Svg\Tag\Rect;
 
 class CompanyController extends Controller
 {
@@ -73,232 +74,359 @@ class CompanyController extends Controller
 		return view('Frontend.create',compact('company'));
     }
 
-	/**
-     * Store a details of payment with paypal.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+  public function submitRegisterCompanyWithPaypal(CompanyRegisterFront $request){
+    // 1. save company register data to session
+    session(['company_register_data' => $request->all()]);
 
-	 public function postPaymentWithpaypal(CompanyRegisterFront $request){
-		 $company = new \App\Models\Company();
-		 $company->name = $request->name;
-		 $company->main_email_address = $request->main_email_address;
+    $package = $request->has('own_domain') ? Package::find(20) : Package::find(19);
 
-         if ($request->has('own_domain')) {
-            $company->v2_domain_link = $request->own_domain;
-            $urlWithDomain = $request->own_domain;
-            $domainHost = parse_url($urlWithDomain, PHP_URL_HOST);
-            $pleskService = new PleskService();
-            $responseDomain = $pleskService->addDomain($domainHost);
+    // 2. create paypal subscription
 
-            if (empty($responseDomain)) {
-                Log::error('Plesk response is empty!');
-                return redirect()->back()->with('error', 'no response from plesk');
+
+    $planId = $package->pay_plan_id;
+    $accessToken = $this->getAccessToken();
+
+    $startDate = '';
+    switch ($package->billing_interval) {
+        case 'Day':
+            $startDate = \Carbon\Carbon::now()->addDay()->format('Y-m-d\TH:i:s\Z');
+            break;
+        case 'Week':
+            $startDate = \Carbon\Carbon::now()->addWeek()->format('Y-m-d\TH:i:s\Z');
+            break;
+        case 'Month':
+            $startDate = \Carbon\Carbon::now()->addMonth()->format('Y-m-d\TH:i:s\Z');
+            break;
+        case 'Year':
+            $startDate = \Carbon\Carbon::now()->addYear()->format('Y-m-d\TH:i:s\Z');
+            break;
+        default:
+            $startDate = \Carbon\Carbon::now()->addMinutes(5)->format('Y-m-d\TH:i:s\Z');
+            break;
+    }
+
+    $headers = array(
+      'Accept: application/json',
+      'Authorization: '."Bearer ". $accessToken,
+      'PayPal-Request-Id: '."SUBSCRIPTION-".$startDate,
+      'Prefer: return=representation',
+      'Content-Type: application/json',
+    );
+    
+    $data = [
+        'plan_id' => $planId,
+        'subscriber' => [
+            'name' => [
+                'given_name' => $request->name,
+                'surname' => $request->name
+            ],
+            'email_address' => $request->main_email_address
+        ],
+        'application_context' => [
+          'brand_name' => 'Tuning Service Subscription',
+          'locale' => 'en-UK',
+          'shipping_preference' => 'SET_PROVIDED_ADDRESS',
+          'user_action' => 'SUBSCRIBE_NOW',
+          'payment_method' => array(
+              'payer_selected' => 'PAYPAL',
+              'payee_preferred' => 'IMMEDIATE_PAYMENT_REQUIRED',
+          ),
+          'return_url' => route('excute.subscription.register.company?success=true'),
+          'cancel_url' => route('excute.subscription.register.company?success=false'),
+        ]
+    ];
+
+    $url = "https://api.paypal.com/v1/billing/subscriptions";
+    // $url = "https://api-m.sandbox.paypal.com/v1/billing/subscriptions";
+    $curl = curl_init($url);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_POST, true);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+    $resp = curl_exec($curl);
+    curl_close($curl);
+
+    $respObj = json_decode($resp, true);
+
+    // 3. redirect to approve_url
+    if (isset($respObj['links'])) {
+        foreach ($respObj['links'] as $link) {
+            if ($link['rel'] === 'approve') {
+                return redirect()->away($link['href']);
             }
-            libxml_use_internal_errors(true);
-            $responseXml = simplexml_load_string($responseDomain);
-            if ($responseXml === false) {
-                $errors = libxml_get_errors();
-                $errorMessage = "XML Parse Error: ";
-                foreach ($errors as $error) {
-                    $errorMessage .= trim($error->message) . ' ';
-                }
-                Log::error('XML Parse Error: ' . $errorMessage);
-                return redirect()->back()->with('error', $errorMessage);
-            }
-            Log::info('responseXml: '.$responseXml->asXML());
-            $status = (string) $responseXml->site->add->result->status;
-
-            Log::info('status: '.$status);
-
-            if ($status === 'ok') {
-                $company->v2_domain_link = $urlWithDomain;
-            } else {
-                $errText = (string) $responseXml->site->add->result->errtext;
-                Log::info('=======================> add domain error ======================= >');
-                Log::info($errText);
-                Log::info('=======================> add domain error ======================= />');
-
-                return redirect()->back()->with('error', $errText);
-            }
-         } else {
-            $company->v2_domain_link = 'https://'.$request->v2_domain_link;
-         }
-		 $company->address_line_1 = $request->address_line_1;
-		 $company->address_line_2 = $request->address_line_2;
-		 $company->town = $request->town;
-		 $company->country = $request->country;
-		 $company->vat_number = $request->vat_number;
-
-      // Handle logo upload
-      if($request->hasFile('upload_file')){
-        if($request->file('upload_file')->isValid()){
-            $file = $request->file('upload_file');
-            $res = Storage::disk('azure')->put('logo', $file);
-            Log::info($res);
-            $company->logo = $res;
         }
+    }
+    // if failed, handle error
+    return redirect()->back()->with('error', 'PayPal subscription creation failed.');
+  }
+
+  public function excuteSubscriptionRegisterCompany(Request $request){
+    if ($request->has('success') && $request->query('success') == 'true') {
+      $companyRegisterData = session('company_register_data');
+
+      // ========================== create company ========================== < 
+      $company = new \App\Models\Company();
+      $company->name = $companyRegisterData->name;
+      $company->main_email_address = $companyRegisterData->main_email_address;
+
+      if ($companyRegisterData->has('own_domain')) {
+        $company->v2_domain_link = $companyRegisterData->own_domain;
+        $urlWithDomain = $companyRegisterData->own_domain;
+
+        // ========================== add domain to plesk automatically ========================== <
+        $domainHost = parse_url($urlWithDomain, PHP_URL_HOST);
+        $pleskService = new PleskService();
+        $responseDomain = $pleskService->addDomain($domainHost);
+        if (empty($responseDomain)) {
+          Log::error('Plesk response is empty!');
+          return redirect()->back()->with('error', 'no response from plesk');
+        }
+        libxml_use_internal_errors(true);
+        $responseXml = simplexml_load_string($responseDomain);
+        if ($responseXml === false) {
+          $errors = libxml_get_errors();
+          $errorMessage = "XML Parse Error: ";
+          foreach ($errors as $error) {
+              $errorMessage .= trim($error->message) . ' ';
+          }
+          Log::error('XML Parse Error: ' . $errorMessage);
+          return redirect()->back()->with('error', $errorMessage);
+        }
+        $status = (string) $responseXml->site->add->result->status;
+        if ($status === 'ok') {
+          $company->v2_domain_link = $urlWithDomain;
+        } else {
+          $errText = (string) $responseXml->site->add->result->errtext;
+          Log::info('====== add domain error ====== >');
+          Log::info($errText);
+          return redirect()->back()->with('error', $errText);
+        }
+        // ========================== add domain to plesk automatically ========================== />
+      } else {
+        $company->v2_domain_link = 'https://'.$companyRegisterData->v2_domain_link;
       }
 
-		 if($company->save()){
-		  	 $companyUser = new \App\Models\User();
-			 $companyUser->company_id = $company->id;
-			 $companyUser->tuning_credit_group_id = Null;
-			 $companyUser->first_name =  $request->name;
-			 $companyUser->last_name = $request->name;
-			 $companyUser->lang = 'en';
-			 $companyUser->email = $request->main_email_address;
-			 $companyUser->password =  Hash::make($request->password);
-			 $companyUser->business_name =  $request->name;
-			 $companyUser->address_line_1 =  $request->address_line_1;
-			 $companyUser->address_line_2 =  $request->address_line_2;
-			 $companyUser->county =  $request->country;
-			 $companyUser->town =  $request->town;
-			 $companyUser->is_master = 0;
-			 $companyUser->is_admin = 1;
-			 $companyUser->is_active = 0;
-             $companyUser->is_verified = 0;
-			 $companyUser->save();
+      $company->address_line_1 = $companyRegisterData->address_line_1;
+      $company->address_line_2 = $companyRegisterData->address_line_2;
+      $company->town = $companyRegisterData->town;
+      $company->country = $companyRegisterData->country;
+      $company->vat_number = $companyRegisterData->vat_number;
 
-			 $emailTemplates = \App\Models\EmailTemplate::where('company_id', 1)->whereIn('label', [
-                'customer-welcome-email',
-                'file-service-opened-email',
-                'new-file-service-created-email',
-                'file-service-modified-email',
-                'file-service-processed-email',
-                'new-subscription-email',
-                'subscription-cancelled',
-                'payment-completed',
-                'payment-denied',
-                'payment-pending',
-                'new-ticket-created',
-                'new-file-ticket-created',
-                'reply-to-your-ticket',
-                'customer-activate-email',
-                'new-company-apply',
-                'file-service-upload-limited',
-                'staff-job-assigned',
-                'new-notification',
-                'shoporder-processed',
-                'shoporder-dispatched',
-                'shoporder-delivered',
-                'car-data-text'
-            ])->get();
-            // default email templates
-            if($emailTemplates->count() > 0){
-                foreach($emailTemplates as $emailTemplate){
-                    $userTemplate = $emailTemplate->replicate();
-                    $userTemplate->company_id = $company->id;
-                    $userTemplate->save();
-                }
-            }
-            // default tuning type
-            $sampleTT = TuningType::create([
-                'company_id'=> $company->id,
-                'label' => 'Sample Tuning Type',
-                'credits' => 1,
-                'order_as' => TuningType::where('company_id', $company->id)->count() + 1,
-            ]);
-            // default tuning type option
-            $sampleTTO = TuningTypeOption::create([
-                'tuning_type_id'=> $sampleTT->id,
-                'label' => 'Sample Option',
-                'tooltip' => 'This is a sample one',
-                'credits' => 0.33,
-                'order_as' => TuningTypeOption::where('tuning_type_id', $sampleTT->id)->count()
-            ]);
-            // system default tuning type group
-            $types = TuningType::where('company_id', $company->id)->get();
-            $sync_types = [];
-            $sync_options = [];
-            foreach ($types as $t) {
-                $sync_types[$t->id]['for_credit'] = $t->credits;
-                $typeOptions = $t->tuningTypeOptions()->select('id', 'credits')->get();
-                foreach ($typeOptions as $to) {
-                    $sync_options[$to->id] = [
-                        'for_credit' => $to->credits
-                    ];
-                }
-            }
+      if($companyRegisterData->hasFile('upload_file')){ // Handle logo upload
+        if($companyRegisterData->file('upload_file')->isValid()){
+          $file = $companyRegisterData->file('upload_file');
+          $res = Storage::disk('azure')->put('logo', $file);
+          $company->logo = $res;
+        }
+      }
+      // ========================== create company ========================== />
 
-            $default = TuningTypeGroup::create([
-                'company_id' => $company->id,
-                'name' => "System Default",
-                'is_system_default' => 1,
-                'is_default' => 1
-            ]);
-            $default->tuningTypes()->sync($sync_types);
-            $default->tuningTypeOptions()->sync($sync_options);
-            // default credit tires
-            $sampleTCT1 = TuningCreditTire::create([
-                'company_id'=> $company->id,
-                'amount' => 1,
-                'group_type' => 'normal'
-            ]);
-            $sampleTCT2 = TuningCreditTire::create([
-                'company_id'=> $company->id,
-                'amount' => 2,
-                'group_type' => 'normal'
-            ]);
-            $sampleTCT10 = TuningCreditTire::create([
-                'company_id'=> $company->id,
-                'amount' => 10,
-                'group_type' => 'normal'
-            ]);
-            // default credit group
-            $sampleTCG = TuningCreditGroup::create([
-                'company_id'=> $company->id,
-                'group_type' => 'normal',
-                'name' => 'Sample Group',
-                'is_default' => 1,
-                'set_default_tier' => 1,
-                'is_system_default' => 1
-            ]);
-            $credit_tires = [];
-            $credit_tires[$sampleTCT1->id] = [
-                'from_credit' => 50,
-                'for_credit' => 50
-            ];
-            $credit_tires[$sampleTCT2->id] = [
-                'from_credit' => 100,
-                'for_credit' => 100
-            ];
-            $credit_tires[$sampleTCT10->id] = [
-                'from_credit' => 500,
-                'for_credit' => 400
-            ];
-            $sampleTCG->tuningCreditTires()->sync($credit_tires);
+      if($company->save()){
+        // ========================== create user ========================== <
+        $companyUser = new \App\Models\User();
+        $companyUser->company_id = $company->id;
+        $companyUser->tuning_credit_group_id = Null;
+        $companyUser->first_name =  $companyRegisterData->name;
+        $companyUser->last_name = $companyRegisterData->name;
+        $companyUser->lang = 'en';
+        $companyUser->email = $companyRegisterData->main_email_address;
+        $companyUser->password =  Hash::make($companyRegisterData->password);
+        $companyUser->business_name =  $companyRegisterData->name;
+        $companyUser->address_line_1 =  $companyRegisterData->address_line_1;
+        $companyUser->address_line_2 =  $companyRegisterData->address_line_2;
+        $companyUser->county =  $companyRegisterData->country;
+        $companyUser->town =  $companyRegisterData->town;
+        $companyUser->is_master = 0;
+        $companyUser->is_admin = 1;
+        $companyUser->is_active = 0;
+        $companyUser->is_verified = 0;
+        $companyUser->save();
+        // ========================== create user ========================== />
 
-            $mainCompany = Company::where('id', '1')->first()->toArray();
+        // ========================== save subscription detail ========================== <
+        $id = $request->subscription_id;
+        $url = "https://api.paypal.com/v1/billing/subscriptions/{$id}";
+        // $url = "https://api-m.sandbox.paypal.com/v1/billing/subscriptions/{$id}";
 
-            Config::set('mail.default', $mainCompany['mail_driver']);
-            Config::set('mail.mailers.smtp.host', $mainCompany['mail_host']);
-            Config::set('mail.mailers.smtp.port', $mainCompany['mail_port']);
-            Config::set('mail.mailers.smtp.encryption', $mainCompany['mail_encryption']);
-            Config::set('mail.mailers.smtp.username', $mainCompany['mail_username']);
-            Config::set('mail.mailers.smtp.password', $mainCompany['mail_password']);
-            Config::set('mail.from.address', $mainCompany['main_email_address']);
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_HTTPGET, true);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
-            Config::set('mail.from.name', $mainCompany['name']);
-            Config::set('app.name', $mainCompany['name']);
+        $headers = array(
+            'Accept: application/json',
+            'Authorization: '."Bearer ". $this->getAccessToken(),
+            'Prefer: return=representation',
+            'Content-Type: application/json',
+        );
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 
-            try{
-                Mail::to($companyUser->email)->send(new CompanyEmailVerification($companyUser));
-            }catch(\Exception $e){
-            }
+        $resp = curl_exec($curl);
+        curl_close($curl);
 
-            try{
-                Mail::to($mainCompany['main_email_address'])->send(new NewCompanyApply($companyUser, $mainCompany));
-            }catch(\Exception $e){
-            }
+        $subscriptionDetail = json_decode($resp);
 
-            return redirect()->route('thankyou')->with('Regististration received, Please wait for your application to be processed');
-		}else{
-			return redirect()->back()->with('error', 'Unknown error occurred');
-		}
+        $company = \App\Models\Company::where('is_default', 1)->first();
+        $currencySymbol = \App\Helpers\Helper::getCurrencySymbol($company->paypal_currency_code);
 
-	 }
+        try {
+            // Execute agreement
+            $subscription = new \App\Models\Subscription();
+            $subscription->user_id = $companyUser->id;
+            $subscription->pay_agreement_id = $id;
+            $subscription->description = 'Amount: '.$currencySymbol.round($subscriptionDetail->billing_info->last_payment->amount->value);
+            $subscription->start_date = \Carbon\Carbon::parse($subscriptionDetail->start_time)->format('Y-m-d H:i:s');
+            $subscription->status = $subscriptionDetail->status;
+            $subscription->save();
+            // \Alert::success(__('admin.company_subscribed'))->flash();
+        } catch (\Exception $ex) {
+            // \Alert::error($ex->getMessage())->flash();
+        }
+        // ========================== save subscription detail ========================== />
+
+        $emailTemplates = \App\Models\EmailTemplate::where('company_id', 1)->whereIn('label', [
+          'customer-welcome-email',
+          'file-service-opened-email',
+          'new-file-service-created-email',
+          'file-service-modified-email',
+          'file-service-processed-email',
+          'new-subscription-email',
+          'subscription-cancelled',
+          'payment-completed',
+          'payment-denied',
+          'payment-pending',
+          'new-ticket-created',
+          'new-file-ticket-created',
+          'reply-to-your-ticket',
+          'customer-activate-email',
+          'new-company-apply',
+          'file-service-upload-limited',
+          'staff-job-assigned',
+          'new-notification',
+          'shoporder-processed',
+          'shoporder-dispatched',
+          'shoporder-delivered',
+          'car-data-text'
+        ])->get();
+        // default email templates
+        if($emailTemplates->count() > 0){
+          foreach($emailTemplates as $emailTemplate){
+            $userTemplate = $emailTemplate->replicate();
+            $userTemplate->company_id = $company->id;
+            $userTemplate->save();
+          }
+        }
+
+        // default tuning type
+        $sampleTT = TuningType::create([
+          'company_id'=> $company->id,
+          'label' => 'Sample Tuning Type',
+          'credits' => 1,
+          'order_as' => TuningType::where('company_id', $company->id)->count() + 1,
+        ]);
+        // default tuning type option
+        $sampleTTO = TuningTypeOption::create([
+          'tuning_type_id'=> $sampleTT->id,
+          'label' => 'Sample Option',
+          'tooltip' => 'This is a sample one',
+          'credits' => 0.33,
+          'order_as' => TuningTypeOption::where('tuning_type_id', $sampleTT->id)->count()
+        ]);
+        // system default tuning type group
+        $types = TuningType::where('company_id', $company->id)->get();
+        $sync_types = [];
+        $sync_options = [];
+        foreach ($types as $t) {
+          $sync_types[$t->id]['for_credit'] = $t->credits;
+          $typeOptions = $t->tuningTypeOptions()->select('id', 'credits')->get();
+          foreach ($typeOptions as $to) {
+              $sync_options[$to->id] = [
+                  'for_credit' => $to->credits
+              ];
+          }
+        }
+
+        $default = TuningTypeGroup::create([
+          'company_id' => $company->id,
+          'name' => "System Default",
+          'is_system_default' => 1,
+          'is_default' => 1
+        ]);
+        $default->tuningTypes()->sync($sync_types);
+        $default->tuningTypeOptions()->sync($sync_options);
+        // default credit tires
+        $sampleTCT1 = TuningCreditTire::create([
+          'company_id'=> $company->id,
+          'amount' => 1,
+          'group_type' => 'normal'
+        ]);
+        $sampleTCT2 = TuningCreditTire::create([
+          'company_id'=> $company->id,
+          'amount' => 2,
+          'group_type' => 'normal'
+        ]);
+        $sampleTCT10 = TuningCreditTire::create([
+          'company_id'=> $company->id,
+          'amount' => 10,
+          'group_type' => 'normal'
+        ]);
+        // default credit group
+        $sampleTCG = TuningCreditGroup::create([
+          'company_id'=> $company->id,
+          'group_type' => 'normal',
+          'name' => 'Sample Group',
+          'is_default' => 1,
+          'set_default_tier' => 1,
+          'is_system_default' => 1
+        ]);
+        $credit_tires = [];
+        $credit_tires[$sampleTCT1->id] = [
+          'from_credit' => 50,
+          'for_credit' => 50
+        ];
+        $credit_tires[$sampleTCT2->id] = [
+          'from_credit' => 100,
+          'for_credit' => 100
+        ];
+        $credit_tires[$sampleTCT10->id] = [
+          'from_credit' => 500,
+          'for_credit' => 400
+        ];
+        $sampleTCG->tuningCreditTires()->sync($credit_tires);
+        $mainCompany = Company::where('id', '1')->first()->toArray();
+        Config::set('mail.default', $mainCompany['mail_driver']);
+        Config::set('mail.mailers.smtp.host', $mainCompany['mail_host']);
+        Config::set('mail.mailers.smtp.port', $mainCompany['mail_port']);
+        Config::set('mail.mailers.smtp.encryption', $mainCompany['mail_encryption']);
+        Config::set('mail.mailers.smtp.username', $mainCompany['mail_username']);
+        Config::set('mail.mailers.smtp.password', $mainCompany['mail_password']);
+        Config::set('mail.from.address', $mainCompany['main_email_address']);
+        Config::set('mail.from.name', $mainCompany['name']);
+        Config::set('app.name', $mainCompany['name']);
+
+        try{
+          Mail::to($companyUser->email)->send(new CompanyEmailVerification($companyUser));
+        }catch(\Exception $e){
+        }
+
+        try{
+          Mail::to($mainCompany['main_email_address'])->send(new NewCompanyApply($companyUser, $mainCompany));
+        }catch(\Exception $e){
+        }
+
+        return redirect()->route('thankyou')->with('Regististration received, Please wait for your application to be processed');
+      } else{
+        return redirect()->route('register-account')->with('error', 'paypal subscription creation failed');
+      }
+    }
+    else {
+      return redirect()->route('register-account')->with('error', 'PayPal subscription creation failed.');
+    }
+  }
 
 	public function thankyou(Request $request){
         if ($request->has('cve')) {
@@ -515,8 +643,8 @@ class CompanyController extends Controller
                     'payer_selected' => 'PAYPAL',
                     'payee_preferred' => 'IMMEDIATE_PAYMENT_REQUIRED',
                 ),
-                'return_url' => route('frontend.subscription.execute').'?success=true&apiuser='.$apiUser->id,
-                'cancel_url' => route('frontend.subscription.execute').'?success=false&apiuser='.$apiUser->id,
+                'return_url' => route('frontend.api.subscription.execute').'?success=true&apiuser='.$apiUser->id,
+                'cancel_url' => route('frontend.api.subscription.execute').'?success=false&apiuser='.$apiUser->id,
             )
         );
 
@@ -533,7 +661,7 @@ class CompanyController extends Controller
         return redirect()->away($respObj->links[0]->href);
     }
 
-    public function executeSubscription (Request $request) {
+    public function executeApiSubscription (Request $request) {
         if ($request->has('success') && $request->query('success') == 'true') {
             $id = $request->subscription_id;
             $url = "https://api.paypal.com/v1/billing/subscriptions/{$id}";
