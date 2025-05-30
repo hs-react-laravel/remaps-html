@@ -116,11 +116,6 @@
               <td>&nbsp;</td>
             </tr>
             <tr>
-              <td style="font-size:15px; font-family:Arial, Helvetica, sans-serif; height:22px">
-                {{ $paymentReasonMsg }}
-              </td>
-            </tr>
-            <tr>
               <td>&nbsp;</td>
             </tr>
             </table></td>
@@ -194,22 +189,31 @@
       <td>&nbsp;</td>
       </tr>
    <tr>
-                    <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
-                      <tr>
-                        <td width="35%" style="font-size:17px; font-family:Arial, Helvetica, sans-serif; height:25px; background:#e4e4e4; padding:10px"><strong>Last Payment Date</strong></td>
-                        <td width="17%" align="left" style="font-size:17px; font-family:Arial, Helvetica, sans-serif; height:25px; background:#e4e4e4; padding:10px"><strong>Next Payment Date</strong></td>
-                        <td width="31%" align="left" style="font-size:17px; font-family:Arial, Helvetica, sans-serif; height:25px; background:#e4e4e4; padding:10px"><strong>Last Payment Amount</strong></td>
-                        <td width="17%" align="right" style="font-size:17px; font-family:Arial, Helvetica, sans-serif; height:25px; background:#e4e4e4; padding:10px"><strong>Payment Failed Count</strong></td>
-                      </tr>
-                      <tr>
-                        <td style="font-size:17px; font-family:Arial, Helvetica, sans-serif; height:25px;padding:10px; border-bottom:solid 2px #aaaaaa">{{ $subscription_payment->last_payment_date }}</td>
-                         <td align="left" style="font-size:17px; font-family:Arial, Helvetica, sans-serif; height:25px;padding:10px; border-bottom:solid 2px #aaaaaa">{{ $subscription_payment->next_billing_date }}</td>
-                        <td align="left" style="font-size:17px; font-family:Arial, Helvetica, sans-serif; height:25px; padding:10px; border-bottom:solid 2px #aaaaaa"> {{ $subscription_payment->last_payment_amount}}</td>
-                        <td align="right" style="font-size:17px; font-family:Arial, Helvetica, sans-serif; height:25px; padding:10px; border-bottom:solid 2px #aaaaaa">{{ $subscription_payment->failed_payment_count }}</td>
-                      </tr>
-                    </table></td>
+    <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="26%" style="font-size:17px; font-family:Arial, Helvetica, sans-serif; height:25px; background:#e4e4e4; padding:10px"><strong>Last Payment Date</strong></td>
+        <td width="26%" align="left" style="font-size:17px; font-family:Arial, Helvetica, sans-serif; height:25px; background:#e4e4e4; padding:10px"><strong>Next Payment Date</strong></td>
+        <td width="31%" align="left" style="font-size:17px; font-family:Arial, Helvetica, sans-serif; height:25px; background:#e4e4e4; padding:10px"><strong>Last Payment Amount</strong></td>
+        <td width="17%" align="right" style="font-size:17px; font-family:Arial, Helvetica, sans-serif; height:25px; background:#e4e4e4; padding:10px"><strong>Payment Failed Count</strong></td>
       </tr>
-
+      <tr>
+        <td style="font-size:17px; font-family:Arial, Helvetica, sans-serif; height:25px;padding:10px; border-bottom:solid 2px #aaaaaa">{{ $subscription_payment->last_payment_date }}</td>
+        <td align="left" style="font-size:17px; font-family:Arial, Helvetica, sans-serif; height:25px;padding:10px; border-bottom:solid 2px #aaaaaa">{{ $subscription_payment->next_billing_date }}</td>
+        <td align="left" style="font-size:17px; font-family:Arial, Helvetica, sans-serif; height:25px; padding:10px; border-bottom:solid 2px #aaaaaa"> {{ $subscription_payment->last_payment_amount}}</td>
+        <td align="right" style="font-size:17px; font-family:Arial, Helvetica, sans-serif; height:25px; padding:10px; border-bottom:solid 2px #aaaaaa">{{ $subscription_payment->failed_payment_count }}</td>
+      </tr>
+    </table></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="font-size:16px; font-family:Arial, Helvetica, sans-serif; height:22px">
+        <strong>{{ $paymentReasonMsg }}</strong>
+        <br>
+        <strong>{{ $paymentAmount }} GBP</strong>
+      </td>
+    </tr>
     <tr>
       <td>&nbsp;</td>
     </tr>

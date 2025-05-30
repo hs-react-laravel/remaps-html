@@ -79,15 +79,18 @@ class SubscriptionController extends MasterController
         $masterCompany = \App\Models\Company::where('is_default', 1)->first();
         $myCompany = \App\Models\Company::where('id', $subscription_payment->subscription->user->company_id)->first();
         $me = \App\Models\User::where('id', $subscription_payment->subscription->user_id)->first();
-        $startDate = \Carbon\Carbon::parse($subscription_payment->last_payment_date)->format('F Y');
-        $paymentReasonMsg = 'Montly tuing portal subscription for '.$startDate;
+        $startDate = \Carbon\Carbon::parse($subscription_payment->last_payment_date)->format('F');
+        $paymentReasonMsg = 'Monthly Tuning portal subscription for '.$startDate.'.';
+        $paymentAmount = $subscription_payment->last_payment_amount;
+
         $pdf->loadHtml(
             view('pdf.subscription_invoice')->with([
               'subscription_payment'=>$subscription_payment,
               'company'=>$masterCompany,
               'me'=>$me,
               'myCompany'=>$myCompany,
-              'paymentReasonMsg'=>$paymentReasonMsg
+              'paymentReasonMsg'=>$paymentReasonMsg,
+              'paymentAmount'=>$paymentAmount
             ])->render()
         );
         $pdf->setPaper('A4', 'landscape');

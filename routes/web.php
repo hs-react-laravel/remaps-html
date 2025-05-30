@@ -67,7 +67,7 @@ use App\Http\Controllers\LandingController;
 */
 
 // Remaps
-Route::group(['domain' => 'remapdash.local'], function () {
+Route::group(['domain' => 'remapdash.com'], function () {
     Route::get('/', [HomeController::class, 'index'])->name('innerhome');
     Route::get('home2', [HomeController::class, 'home2'])->name('innerhome2');
 	Route::get('compare-prices', [FrontendCompanyController::class, 'companies'])->name('frontend.companies');
