@@ -9,9 +9,9 @@
 					<!-- Contact info Block -->
 					<div class="contact-info-block col-lg-4 col-md-6">
 						<div class="inner">
-							<i class="icon fa fa-skype"></i>
+							<i class="icon fa-brands fa-telegram"></i>
 							<span class="sub-title">Call Anytime</span>
-							<div class="text"><a href="skype:chris-asaprint?chat">chris-asaprint</a></div>
+							<div class="text"><a href="https://t.me/Remapdash">chris_asaprint</a></div>
 						</div>
 					</div>
 					<!-- Contact info Block -->
@@ -19,7 +19,7 @@
 						<div class="inner">
 							<i class="icon fa fa-envelope"></i>
 							<span class="sub-title">Send Email</span>
-							<div class="text"><a href="mailto:sales@remapdash.com">sales@remapdash.com</a></div>
+							<div class="text">sales@remapdash.com</div>
 						</div>
 					</div>
 					<!-- Contact info Block -->
@@ -49,8 +49,7 @@
                                 </div>
 								<div class="text">Welcome to our agency.</div>
 								<ul class="social-icon-two">
-									<li><a href="skype:chris-asaprint?chat"><i class="fa fa-skype"></i></a></li>
-									<li><a href="mailto:sales@remapdash.com"><i class="fa fa-envelope"></i></a></li>
+									<li><a href="https://t.me/Remapdash"><i class="fa-brands fa-telegram"></i></a></li>
 									<li><a href="https://www.facebook.com/remappingfileportal"><i class="fa fa-facebook"></i></a></li>
 								</ul>
 							</div>

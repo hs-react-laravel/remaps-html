@@ -289,14 +289,15 @@
     <div id="pricing5" data-section="pricing-5" class="data-section">
       <div class="container">
         <div class="section-header">
-          <h2 class="wow fadeInDown animated">Price</h2>
+          <h2 class="wow fadeInDown animated">Buy Now</h2>
           <p class="wow fadeInDown animated">TUNING PORTAL PRICES</p>
         </div>
         <div class="row col-md-10 col-md-offset-1">
           <div class="@php echo $classDiv @endphp">
             <div class="table long-table text-center">
               <h3 class="editContent">Monthly on our Subdomain</h3>
-              <h5 class="editContent">Setup fee is £150</h5>
+              <h5 class="editContent">£59 Per Month</h5>
+              <p style="font-size: large;">Setup fee is £150</p>
               <ul>
                 <li>Pay us NO commision per file</li>
                 <li>Free E commerce shop. (Sell tools)</li>
@@ -323,7 +324,8 @@
           <div class="@php echo $classDiv @endphp">
             <div class="table long-table text-center">
               <h3 class="editContent">Monthly on own Domain</h3>
-              <h5 class="editContent">Setup fee is £150</h5>
+              <h5 class="editContent">£59 Per Month</h5>
+              <p style="font-size: large;">Setup fee is £150</p>
               <ul>
                 <li>Host on your own domain or subdomain.</li>
                 <li>Free E commerce to sell tools</li>
