@@ -12,6 +12,7 @@ use App\Mail\NewCompanyApply;
 use App\Mail\CompanyEmailVerification;
 
 use App\Models\Company;
+use App\Models\CompanyReg;
 use App\Models\TuningCreditGroup;
 use App\Models\Package;
 use App\Models\TuningType;
@@ -52,6 +53,43 @@ use Svg\Tag\Rect;
 class CompanyController extends Controller
 {
 
+  protected $base_url_sandbox = "https://api-m.sandbox.paypal.com";
+  protected $base_url_production = "https://api.paypal.com";
+  protected $environment;
+
+  public function __construct()
+  {
+    // $this->environment = 'development'; // development
+    $this->environment = 'production'; // production
+  }
+
+  public function getAccessToken() {
+    $ch = curl_init();
+
+    $company = \App\Models\Company::where('is_default', 1)->first();
+    if(!$company) return;
+
+    $clientId = $this->environment == 'development' ? $company->paypal_client_id_development : $company->paypal_client_id;
+    $secret = $this->environment == 'development' ? $company->paypal_secret_development : $company->paypal_secret;
+
+    $base_url = $this->environment == 'development' ? $this->base_url_sandbox : $this->base_url_production;
+    $api_url = $base_url."/v1/oauth2/token";
+
+    curl_setopt($ch, CURLOPT_URL, $api_url);
+    curl_setopt($ch, CURLOPT_HEADER, false);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_USERPWD, $clientId.":".$secret);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, "grant_type=client_credentials");
+
+    $result = curl_exec($ch);
+    curl_close($ch);
+
+    $json = json_decode($result);
+    return $json->access_token;
+  }
+
 	public function companies(Request $request){
 		$qry = $request->all();
 		if(!empty($qry) && isset($qry['keyword']) && isset($qry['sort'])  ){
@@ -63,26 +101,33 @@ class CompanyController extends Controller
 		return view('Frontend.companies',compact('companies'));
 	}
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
+  /**
+   * Show the form for creating a new resource.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function create(){
 		$company = Company::all();
 		return view('Frontend.create',compact('company'));
-    }
+  }
 
   public function submitRegisterCompanyWithPaypal(CompanyRegisterFront $request){
-    // 1. save company register data to session
-    session(['company_register_data' => $request->all()]);
+    // 1. save company register data to CompanyReg table
+    if($request->hasFile('upload_file')){ // Handle logo upload
+      if($request->file('upload_file')->isValid()){
+        $file = $request->file('upload_file');
+        $logo = Storage::disk('azure')->put('logo', $file);
+        $request->merge(['logo' => $logo]);
+      }
+    }
 
-    $package = $request->has('own_domain') ? Package::find(20) : Package::find(19);
+    $companyReg = new \App\Models\CompanyReg();
+    $companyReg->fill($request->all());
+    $companyReg->save();
+
+    $package = $this->environment == 'development'? Package::find(22): Package::find(21);
 
     // 2. create paypal subscription
-
-
     $planId = $package->pay_plan_id;
     $accessToken = $this->getAccessToken();
 
@@ -131,13 +176,13 @@ class CompanyController extends Controller
               'payer_selected' => 'PAYPAL',
               'payee_preferred' => 'IMMEDIATE_PAYMENT_REQUIRED',
           ),
-          'return_url' => route('excute.subscription.register.company?success=true'),
-          'cancel_url' => route('excute.subscription.register.company?success=false'),
+          'return_url' => route('excute.subscription.register.company', ['success' => 'true', 'company_reg_id' => $companyReg->id]),
+          'cancel_url' => route('excute.subscription.register.company', ['success' => 'false', 'company_reg_id' => $companyReg->id]),
         ]
     ];
 
-    $url = "https://api.paypal.com/v1/billing/subscriptions";
-    // $url = "https://api-m.sandbox.paypal.com/v1/billing/subscriptions";
+    $base_url = $this->environment == 'development' ? $this->base_url_sandbox : $this->base_url_production;
+    $url = $base_url."/v1/billing/subscriptions";
     $curl = curl_init($url);
     curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
     curl_setopt($curl, CURLOPT_URL, $url);
@@ -151,6 +196,8 @@ class CompanyController extends Controller
     curl_close($curl);
 
     $respObj = json_decode($resp, true);
+    Log::info('====== paypal response ====== >');
+    Log::info($respObj);
 
     // 3. redirect to approve_url
     if (isset($respObj['links'])) {
@@ -166,46 +213,50 @@ class CompanyController extends Controller
 
   public function excuteSubscriptionRegisterCompany(Request $request){
     if ($request->has('success') && $request->query('success') == 'true') {
-      $companyRegisterData = session('company_register_data');
+      $companyRegisterData = CompanyReg::find($request->query('company_reg_id'));
 
-      // ========================== create company ========================== < 
+      // ======================================= create company ======================================= < 
       $company = new \App\Models\Company();
       $company->name = $companyRegisterData->name;
       $company->main_email_address = $companyRegisterData->main_email_address;
 
-      if ($companyRegisterData->has('own_domain')) {
+      if ($companyRegisterData->own_domain !== null && $companyRegisterData->own_domain !== '') {
         $company->v2_domain_link = $companyRegisterData->own_domain;
         $urlWithDomain = $companyRegisterData->own_domain;
 
-        // ========================== add domain to plesk automatically ========================== <
-        $domainHost = parse_url($urlWithDomain, PHP_URL_HOST);
-        $pleskService = new PleskService();
-        $responseDomain = $pleskService->addDomain($domainHost);
-        if (empty($responseDomain)) {
-          Log::error('Plesk response is empty!');
-          return redirect()->back()->with('error', 'no response from plesk');
-        }
-        libxml_use_internal_errors(true);
-        $responseXml = simplexml_load_string($responseDomain);
-        if ($responseXml === false) {
-          $errors = libxml_get_errors();
-          $errorMessage = "XML Parse Error: ";
-          foreach ($errors as $error) {
-              $errorMessage .= trim($error->message) . ' ';
-          }
-          Log::error('XML Parse Error: ' . $errorMessage);
-          return redirect()->back()->with('error', $errorMessage);
-        }
-        $status = (string) $responseXml->site->add->result->status;
-        if ($status === 'ok') {
+        if($this->environment == 'development'){
           $company->v2_domain_link = $urlWithDomain;
         } else {
-          $errText = (string) $responseXml->site->add->result->errtext;
-          Log::info('====== add domain error ====== >');
-          Log::info($errText);
-          return redirect()->back()->with('error', $errText);
+        // ============ add domain to plesk automatically ============ <
+          $domainHost = parse_url($urlWithDomain, PHP_URL_HOST);
+          $pleskService = new PleskService();
+          $responseDomain = $pleskService->addDomain($domainHost);
+          if (empty($responseDomain)) {
+            Log::error('Plesk response is empty!');
+            return redirect()->back()->with('error', 'no response from plesk');
+          }
+          libxml_use_internal_errors(true);
+          $responseXml = simplexml_load_string($responseDomain);
+          if ($responseXml === false) {
+            $errors = libxml_get_errors();
+            $errorMessage = "XML Parse Error: ";
+            foreach ($errors as $error) {
+                $errorMessage .= trim($error->message) . ' ';
+            }
+            Log::error('XML Parse Error: ' . $errorMessage);
+            return redirect()->back()->with('error', $errorMessage);
+          }
+          $status = (string) $responseXml->site->add->result->status;
+          if ($status === 'ok') {
+            $company->v2_domain_link = $urlWithDomain;
+          } else {
+            $errText = (string) $responseXml->site->add->result->errtext;
+            Log::info('====== add domain error ====== >');
+            Log::info($errText);
+            return redirect()->back()->with('error', $errText);
+          }
+          // ============ add domain to plesk automatically ============ />
         }
-        // ========================== add domain to plesk automatically ========================== />
       } else {
         $company->v2_domain_link = 'https://'.$companyRegisterData->v2_domain_link;
       }
@@ -215,18 +266,11 @@ class CompanyController extends Controller
       $company->town = $companyRegisterData->town;
       $company->country = $companyRegisterData->country;
       $company->vat_number = $companyRegisterData->vat_number;
-
-      if($companyRegisterData->hasFile('upload_file')){ // Handle logo upload
-        if($companyRegisterData->file('upload_file')->isValid()){
-          $file = $companyRegisterData->file('upload_file');
-          $res = Storage::disk('azure')->put('logo', $file);
-          $company->logo = $res;
-        }
-      }
-      // ========================== create company ========================== />
+      $company->logo = $companyRegisterData->logo;
+      // ======================================= create company ======================================= />
 
       if($company->save()){
-        // ========================== create user ========================== <
+        // ======================================= create user ======================================= <
         $companyUser = new \App\Models\User();
         $companyUser->company_id = $company->id;
         $companyUser->tuning_credit_group_id = Null;
@@ -245,12 +289,12 @@ class CompanyController extends Controller
         $companyUser->is_active = 0;
         $companyUser->is_verified = 0;
         $companyUser->save();
-        // ========================== create user ========================== />
+        // ======================================= create user ======================================= />
 
-        // ========================== save subscription detail ========================== <
+        // ======================================= save subscription detail ======================================= <
         $id = $request->subscription_id;
-        $url = "https://api.paypal.com/v1/billing/subscriptions/{$id}";
-        // $url = "https://api-m.sandbox.paypal.com/v1/billing/subscriptions/{$id}";
+        $base_url = $this->environment == 'development' ? $this->base_url_sandbox : $this->base_url_production;
+        $url = $base_url."/v1/billing/subscriptions/{$id}";
 
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -266,6 +310,9 @@ class CompanyController extends Controller
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 
         $resp = curl_exec($curl);
+        Log::info('====== paypal response ====== >');
+        Log::info($resp);
+        
         curl_close($curl);
 
         $subscriptionDetail = json_decode($resp);
@@ -286,7 +333,7 @@ class CompanyController extends Controller
         } catch (\Exception $ex) {
             // \Alert::error($ex->getMessage())->flash();
         }
-        // ========================== save subscription detail ========================== />
+        // ======================================= save subscription detail ======================================= />
 
         $emailTemplates = \App\Models\EmailTemplate::where('company_id', 1)->whereIn('label', [
           'customer-welcome-email',
@@ -408,23 +455,26 @@ class CompanyController extends Controller
         Config::set('mail.from.name', $mainCompany['name']);
         Config::set('app.name', $mainCompany['name']);
 
-        try{
-          Mail::to($companyUser->email)->send(new CompanyEmailVerification($companyUser));
-        }catch(\Exception $e){
-        }
+        if($this->environment == 'production'){
+          try{
+            Mail::to($companyUser->email)->send(new CompanyEmailVerification($companyUser));
+          }catch(\Exception $e){
+            Log::error('Mail send failed: ' . $e->getMessage());
+          }
 
-        try{
-          Mail::to($mainCompany['main_email_address'])->send(new NewCompanyApply($companyUser, $mainCompany));
-        }catch(\Exception $e){
+          try{
+            Mail::to($mainCompany['main_email_address'])->send(new NewCompanyApply($companyUser, $mainCompany));
+          }catch(\Exception $e){
+            Log::error('Mail send failed: ' . $e->getMessage());
+          }
         }
-
         return redirect()->route('thankyou')->with('Regististration received, Please wait for your application to be processed');
       } else{
-        return redirect()->route('register-account')->with('error', 'paypal subscription creation failed');
+        return redirect()->route('register-account.create')->with('error', 'paypal subscription creation failed');
       }
     }
     else {
-      return redirect()->route('register-account')->with('error', 'PayPal subscription creation failed.');
+      return redirect()->route('register-account.create')->with('error', 'PayPal subscription creation failed.');
     }
   }
 
@@ -717,35 +767,5 @@ class CompanyController extends Controller
             // \Alert::error(__('admin.company_not_subscribed'))->flash();
         }
         return redirect()->route('frontend.api.dashboard');
-    }
-
-    public function getAccessToken() {
-        $ch = curl_init();
-
-        $company = \App\Models\Company::where('is_default', 1)->first();
-        if(!$company) return;
-
-        $clientId = $company->paypal_client_id;
-        $secret = $company->paypal_secret;
-
-        // $clientId = "AdibmcjffSYZR9TSS5DuKIQpnf80KfY-3pBGd30JKz2Ar1xHIipwijo4eZOJvbDCFpfmOBItDqZoiHmM";
-        // $secret = "EEPRF__DLqvkwnnpi2Hi3paQ-9SZFRqypUH-u0fr4zAzvv7hWtz1bJHF0CEwvrvZpHyLeKSTO_FwAeO_";
-
-        $api_url = "https://api.paypal.com/v1/oauth2/token";
-        // $api_url = "https://api-m.sandbox.paypal.com/v1/oauth2/token";
-
-        curl_setopt($ch, CURLOPT_URL, $api_url);
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_USERPWD, $clientId.":".$secret);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, "grant_type=client_credentials");
-
-        $result = curl_exec($ch);
-        curl_close($ch);
-
-        $json = json_decode($result);
-        return $json->access_token;
     }
 }

@@ -293,16 +293,62 @@
           <p class="wow fadeInDown animated">TUNING PORTAL PRICES</p>
         </div>
         <div class="row col-md-10 col-md-offset-1">
-          @foreach($packages as $val)
           <div class="@php echo $classDiv @endphp">
             <div class="table long-table text-center">
-              <h3 class="editContent">{{ $val['name'] }}</h3>
-              <h2 class="editContent">£ {{ $val['amount'] }}</h2>
-              {!! $val['description'] !!}
-              <a href="/register-account?domain={{strpos($val['name'], 'own') !== false ? 'own' : 'regular'}}" class="theme-btn btn-style-one" name="submit-form"><span class="btn-title">Register</span></a>
+              <h3 class="editContent">Standard Monthly</h3>
+              <h5 class="editContent">Setup fee is £150</h5>
+              <ul>
+                <li>Pay us NO commision per file</li>
+                <li>Free E commerce shop. (Sell tools)</li>
+                <li>Makes Job Mangement Simple</li>
+                <li>Designed by tuners for tuners</li>
+                <li>Encrypted Secure File&nbsp;Storage</li>
+                <li>Your own personal Firewall</li>
+                <li>Full&nbsp;featured Remapping File&nbsp;Shop</li>
+                <li>Multi Language</li>
+                <li>EVC Reseller Official Support</li>
+                <li>PayPal and Stripe Credit Handling</li>
+                <li>Integrated support ticket system</li>
+                <li>Instant messaging to customers</li>
+                <li>Email notifications when file is ready</li>
+                <li>Automatic invoicing to customers</li>
+                <li>Multiple Currencies, Euro, GBP and more</li>
+                <li>FREE LISTING ON&nbsp; MARKETPLACE</li>
+              </ul>
+              <p><cite>Subscribers are funding our development, let us now if you have any ideas&nbsp;</cite></p>
+
+              <a href="/register-account?domain=regular" class="theme-btn btn-style-one" name="submit-form"><span class="btn-title">Register</span></a>
             </div>
           </div>
-          @endforeach
+          <div class="@php echo $classDiv @endphp">
+            <div class="table long-table text-center">
+              <h3 class="editContent">Monthly on own Domain</h3>
+              <h5 class="editContent">Setup fee is £150</h5>
+              <ul>
+                <li>Host on your own domain or subdomain.</li>
+                <li>Free E commerce to sell tools</li>
+                <li>Includes email&nbsp;&amp; web hosting for your main domain</li>
+                <li>Pay us NO commision per file processed</li>
+                <li>Makes Job Mangement Simple</li>
+                <li>Designed by tuners for tuners</li>
+                <li>Encrypted Secure File&nbsp;Storage</li>
+                <li>Your own personal Firewall</li>
+                <li>Full&nbsp;featured Remapping File&nbsp;Shop</li>
+                <li>Multi Language</li>
+                <li>EVC Reseller Official Support</li>
+                <li>PayPal and Stripe Credit Handling</li>
+                <li>Integrated support ticket system</li>
+                <li>Instant messaging to customers</li>
+                <li>Email notifications when file is ready</li>
+                <li>Automatic invoicing to customers</li>
+                <li>Multiple Currencies, Euro, GBP and more</li>
+                <li>FREE LISTING ON&nbsp; MARKETPLACE</li>
+              </ul>
+
+              <p><cite>Subscribers are funding our development, let us now if you have any ideas</cite></p>
+              <a href="/register-account?domain=own" class="theme-btn btn-style-one" name="submit-form"><span class="btn-title">Register</span></a>
+            </div>
+          </div>
         </div>
       </div>
     </div>

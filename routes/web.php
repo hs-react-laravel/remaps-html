@@ -76,7 +76,7 @@ Route::group(['domain' => 'remapdash.com'], function () {
 
 	// route for post request
 	Route::post('register-company-with-paypal', [FrontendCompanyController::class, 'submitRegisterCompanyWithPaypal'])->name('register.company.with.paypal');
-	Route::post('register-company/excute-subscription', [FrontendCompanyController::class, 'excuteSubscriptionRegisterCompany'])->name('excute.subscription.register.company');
+	Route::get('register-company/excute-subscription', [FrontendCompanyController::class, 'excuteSubscriptionRegisterCompany'])->name('excute.subscription.register.company');
 
 	// route for check status responce
 	// Route::get('paypal', [FrontendCompanyController::class, 'getPaymentStatus'])->name('paypal.payment.status.main');

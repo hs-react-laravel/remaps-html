@@ -156,6 +156,8 @@ class CompanyController extends MasterController
             }
             $urlWithDomain = $request->v2_domain_link;
             $domainHost = parse_url($urlWithDomain, PHP_URL_HOST);
+
+            // ================ add domain to plesk automatically ================ < 
             $pleskService = new PleskService();
             $responseDomain = $pleskService->addDomain($domainHost);
 
@@ -183,12 +185,14 @@ class CompanyController extends MasterController
                 $request->request->add(['v2_domain_link' => $urlWithDomain]);
             } else {
                 $errText = (string) $responseXml->site->add->result->errtext;
-                Log::info('=======================> add domain error ======================= >');
+                Log::info('====== add domain error ====== >');
                 Log::info($errText);
-                Log::info('=======================> add domain error ======================= />');
+                Log::info('====== add domain error ====== />');
 
                 return redirect()->back()->with('error', $errText);
             }
+            // ================ add domain to plesk automatically ================ />
+
             $company = Company::create($request->all());
             if($company->owner == NULL){
                 if($company->name && $company->main_email_address && $company->address_line_1 && $company->town && $company->country && $company->v2_domain_link) {

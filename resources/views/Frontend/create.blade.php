@@ -43,7 +43,7 @@
 
         <div class="box-body">
           <a  class="btn btn-primary my-4" href="/">Back</a>
-          {!! html()->form('POST')->route('pay.with.paypal.main')->acceptsFiles()->autocomplete(false)->open() !!}
+          {!! html()->form('POST')->route('register.company.with.paypal')->acceptsFiles()->autocomplete(false)->open() !!}
 
           <div class="form-group">
             {!! html()->label('Company Name', 'name') !!}

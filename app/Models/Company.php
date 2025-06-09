@@ -43,6 +43,8 @@ class Company extends Model
         'paypal_mode',
         'paypal_client_id',
         'paypal_secret',
+        'paypal_client_id_development',
+        'paypal_secret_development',
         'paypal_currency_code',
         'mail_sent',
         'is_final_step_filled',
