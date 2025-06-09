@@ -325,7 +325,8 @@ class CompanyController extends Controller
             $subscription = new \App\Models\Subscription();
             $subscription->user_id = $companyUser->id;
             $subscription->pay_agreement_id = $id;
-            $subscription->description = 'Amount: '.$currencySymbol.round($subscriptionDetail->billing_info->last_payment->amount->value);
+            // $subscription->description = 'Amount: '.$currencySymbol.round($subscriptionDetail->billing_info->last_payment->amount->value);
+            $subscription->description = 'Set up fee (£150) + Monthly subscription (£59)';
             $subscription->start_date = \Carbon\Carbon::parse($subscriptionDetail->start_time)->format('Y-m-d H:i:s');
             $subscription->status = $subscriptionDetail->status;
             $subscription->save();

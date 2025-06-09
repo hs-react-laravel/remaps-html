@@ -295,7 +295,7 @@
         <div class="row col-md-10 col-md-offset-1">
           <div class="@php echo $classDiv @endphp">
             <div class="table long-table text-center">
-              <h3 class="editContent">Standard Monthly</h3>
+              <h3 class="editContent">Monthly on our Subdomain</h3>
               <h5 class="editContent">Setup fee is £150</h5>
               <ul>
                 <li>Pay us NO commision per file</li>
